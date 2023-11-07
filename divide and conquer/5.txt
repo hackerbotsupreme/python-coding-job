@@ -1,0 +1,105 @@
+Advanced master theorem for divide and conquer recurrences
+
+Difficulty Level : Easy
+Last Updated : 28 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Master Theorem is used to determine running time of algorithms (divide and conquer algorithms) in terms of asymptotic notations. 
+Consider a problem that is solved using recursion. 
+ 
+
+function f(input x size n)
+if(n < k)
+solve x directly and return 
+else
+divide x into a subproblems of size n/b
+call f recursively to solve each subproblem
+Combine the results of all sub-problems
+The above algorithm divides the problem into a subproblems, each of size n/b and solve them recursively to compute the problem and the extra work done for problem is given by f(n), i.e., the time to create the subproblems and combine their results in the above procedure. 
+
+So, according to master theorem the runtime of the above algorithm can be expressed as: 
+ 
+
+T(n) = aT(n/b) + f(n)   
+where n = size of the problem 
+a = number of subproblems in the recursion and a >= 1 
+n/b = size of each subproblem 
+f(n) = cost of work done outside the recursive calls like dividing into subproblems and cost of combining them to get the solution. 
+
+Not all recurrence relations can be solved with the use of the master theorem i.e. if 
+ 
+
+T(n) is not monotone, ex: T(n) = sin n
+f(n) is not a polynomial, ex: T(n) = 2T(n/2) + 2n
+This theorem is an advance version of master theorem that can be used to determine running time of divide and conquer algorithms if the recurrence is of the following form :- 
+
+ 
+
+
+
+Formula to calculate runtime of divide and conquer algorithms
+
+where n = size of the problem 
+a = number of subproblems in the recursion and a >= 1 
+n/b = size of each subproblem 
+b > 1, k >= 0 and p is a real number. 
+
+Then, 
+ 
+
+if a > bk, then T(n) = θ(nlogba)
+if a = bk, then 
+(a) if p > -1, then T(n) = θ(nlogba logp+1n) 
+(b) if p = -1, then T(n) = θ(nlogba loglogn) 
+(c) if p < -1, then T(n) = θ(nlogba) 
+ 
+if a < bk, then 
+(a) if p >= 0, then T(n) = θ(nk logpn) 
+(b) if p < 0, then T(n) = θ(nk) 
+ 
+Time Complexity Analysis – 
+ 
+
+Example-1: Binary Search – T(n) = T(n/2) + O(1) 
+a = 1, b = 2, k = 0 and p = 0 
+bk = 1. So, a = bk and p > -1 [Case 2.(a)] 
+T(n) = θ(nlogba logp+1n) 
+T(n) = θ(logn)
+Example-2: Merge Sort – T(n) = 2T(n/2) + O(n) 
+a = 2, b = 2, k = 1, p = 0 
+bk = 2. So, a = bk and p > -1 [Case 2.(a)] 
+T(n) = θ(nlogba logp+1n) 
+T(n) = θ(nlogn)
+Example-3: T(n) = 3T(n/2) + n2 
+a = 3, b = 2, k = 2, p = 0 
+bk = 4. So, a < bk and p = 0 [Case 3.(a)] 
+T(n) = θ(nk logpn) 
+T(n) = θ(n2) 
+ 
+
+Example-4: T(n) = 3T(n/2) + log2n 
+a = 3, b = 2, k = 0, p = 2 
+bk = 1. So, a > bk [Case 1] 
+T(n) = θ(nlogba ) 
+T(n) = θ(nlog23) 
+ 
+
+Example-5: T(n) = 2T(n/2) + nlog2n 
+a = 2, b = 2, k = 1, p = 2 
+bk = 2. So, a = bk [Case 2.(a)] 
+T(n) = θ(nlogbalogp+1n ) 
+T(n) = θ(nlog22log3n) 
+T(n) = θ(nlog3n) 
+ 
+
+Example-6: T(n) = 2nT(n/2) + nn 
+This recurrence can’t be solved using above method since function is not of form T(n) = aT(n/b) + θ(nk logpn) 
+ 
+GATE Practice questions – 
+ 
+
+GATE-CS-2017 (Set 2) | Question 56
+GATE IT 2008 | Question 42

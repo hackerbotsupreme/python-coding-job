@@ -1,0 +1,158 @@
+Unbounded Binary Search Example (Find the point where a monotonically increasing function becomes positive first time)
+
+Difficulty Level : Easy
+Last Updated : 12 Oct, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given a function ‘int f(unsigned int x)’ which takes a non-negative integer ‘x’ as input and returns an integer as output. The function is monotonically increasing with respect to the value of x, i.e., the value of f(x+1) is greater than f(x) for every input x. Find the value ‘n’ where f() becomes positive for the first time. Since f() is monotonically increasing, values of f(n+1), f(n+2),… must be positive and values of f(n-2), f(n-3), … must be negative. 
+Find n in O(logn) time, you may assume that f(x) can be evaluated in O(1) time for any input x. 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to start from i equals to 0 and one by one calculate the value of f(i) for 1, 2, 3, 4 … etc until we find a positive f(i). This works but takes O(n) time.
+Can we apply Binary Search to find n in O(Logn) time? We can’t directly apply Binary Search as we don’t have an upper limit or high index. The idea is to do repeated doubling until we find a positive value, i.e., check values of f() for following values until f(i) becomes positive.
+
+  f(0) 
+  f(1)
+  f(2)
+  f(4)
+  f(8)
+  f(16)
+  f(32)
+  ....
+  ....
+  f(high)
+Let 'high' be the value of i when f() becomes positive for first time.
+Can we apply Binary Search to find n after finding ‘high’? We can apply Binary Search now, we can use ‘high/2’ as low and ‘high’ as high indexes in binary search. The result n must lie between ‘high/2’ and ‘high’.
+The number of steps for finding ‘high’ is O(Logn). So we can find ‘high’ in O(Logn) time. What about the time taken by Binary Search between high/2 and high? The value of ‘high’ must be less than 2*n. The number of elements between high/2 and high must be O(n). Therefore, the time complexity of Binary Search is O(Logn) and the overall time complexity is 2*O(Logn) which is O(Logn). 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program for Unbound Binary search.
+ 
+# Let's take an example function as
+# f(x) = x^2 - 10*x - 20
+# Note that f(x) can be any monotonically
+# increasing function
+def f(x):
+    return (x * x - 10 * x - 20)
+ 
+# Returns the value x where above function
+# f() becomes positive first time.
+def findFirstPositive() :
+     
+    # When first value itself is positive
+    if (f(0) > 0):
+        return 0
+ 
+    # Find 'high' for binary search
+    # by repeated doubling
+    i = 1
+    while (f(i) <= 0) :
+        i = i * 2
+ 
+    # Call binary search
+    return binarySearch(i/2, i)
+ 
+# Searches first positive value of
+# f(i) where low <= i <= high
+def binarySearch(low, high):
+    if (high >= low) :
+         
+        # mid = (low + high)/2
+        mid = low + (high - low)/2; 
+ 
+        # If f(mid) is greater than 0
+        # and one of the following two
+        # conditions is true:
+        # a) mid is equal to low
+        # b) f(mid-1) is negative
+        if (f(mid) > 0 and (mid == low or f(mid-1) <= 0)) :
+            return mid;
+ 
+        # If f(mid) is smaller than or equal to 0
+        if (f(mid) <= 0) :
+            return binarySearch((mid + 1), high)
+        else : # f(mid) > 0
+            return binarySearch(low, (mid -1))
+     
+    # Return -1 if there is no positive
+    # value in given range
+    return -1;
+ 
+# Driver Code
+print ("The value n where f() becomes "+
+      "positive first is ", findFirstPositive());
+ 
+# This code is contributed by rishabh_jain
+C#
+PHP
+Javascript
+Output : 
+
+
+The value n where f() becomes positive first is 12
+Time Complexity: O(logn)
+Auxiliary Space: O(logn)
+
+
+
+
+
+Like
+37
+Previous
+Fibonacci Search
+Next
+Sublist Search (Search a linked list in another list)
+Related Articles
+1.
+Meta Binary Search | One-Sided Binary Search
+2.
+Binary Search for Rational Numbers without using floating point arithmetic
+3.
+Best First Search (Informed Search)
+4.
+Find minimum value to assign all array elements so that array product becomes greater
+5.
+Linear Search vs Binary Search
+6.
+Why is Binary Search preferred over Ternary Search?
+7.
+Interpolation search vs Binary search
+8.
+Remove minimum elements from the array such that 2*min becomes more than max
+9.
+Minimize value of a in series a, a/b^1, a/b^2, a/b^3, ..., a/b^n such that sum of initial non-zero terms becomes at least S
+10.
+Find the maximum element in an array which is first increasing and then decreasing
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Sam007
+rathbhupendra
+vaibhavrabadiya117
+simmytarika5
+phasing17
+Article Tags :
+Binary Search
+Divide and Conquer
+Searching
+Practice Tags :
+Binary Search
+Divide and Conquer
+Searching

@@ -1,0 +1,264 @@
+Square root of an integer
+
+Difficulty Level : Easy
+Last Updated : 15 Sep, 2022
+Read
+Discuss(150+)
+Courses
+Practice
+Video
+Given an integer X, find its square root. If X is not a perfect square, then return floor(√x).
+
+Examples : 
+
+Input: x = 4
+Output: 2
+Explanation: The square root of 4 is 2.
+
+Input: x = 11
+Output: 3
+Explanation:  The square root of 11 lies in between 3 and 4 so floor of the square root is 3.
+
+Recommended Problem
+Square root of a number
+Searching
+Mathematical
++2 more
+VMWare
+Flipkart
++3 more
+Solve Problem
+Submission count: 1.3L
+Naive Approach: To find the floor of the square root, try with all-natural numbers starting from 1. Continue incrementing the number until the square of that number is greater than the given number.
+
+Follow the steps below to implement the above idea
+
+Create a variable (counter) i and take care of some base cases, (i.e when the given number is 0 or 1).
+Run a loop until i*i <= n, where n is the given number. Increment i by 1.
+The floor of the square root of the number is i – 1
+Below is the implementation of the above approach:
+
+
+
+C++
+C
+Java
+Python3
+# Python3 program to find floor(sqrt(x)
+ 
+# Returns floor of square root of x
+ 
+ 
+def floorSqrt(x):
+ 
+    # Base cases
+    if (x == 0 or x == 1):
+        return x
+ 
+    # Starting from 1, try all numbers until
+    # i*i is greater than or equal to x.
+    i = 1
+    result = 1
+    while (result <= x):
+ 
+        i += 1
+        result = i * i
+ 
+    return i - 1
+ 
+ 
+# Driver Code
+x = 11
+print(floorSqrt(x))
+ 
+# This code is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output
+3
+Complexity Analysis: 
+
+Time Complexity: O(√X). Only one traversal of the solution is needed, so the time complexity is O(√X).
+Auxiliary Space: O(1).
+Thanks, Fattepur Mahesh for suggesting this solution. 
+
+Square root an integer using Binary search:
+The idea is to find the largest integer i whose square is less than or equal to the given number. The values of i * i is monotonically increasing, so the problem can be solved using binary search.
+
+Below is the implementation of the above idea: 
+
+Base cases for the given problem are when the given number is 0 or 1, then return X;
+Create some variables, for storing the lower bound say l = 0, and for upper bound r = X / 2 (i.e, The floor of the square root of x cannot be more than x/2 when x > 1).
+Run a loop until l <= r, the search space vanishes
+Check if the square of mid (mid = (l + r)/2 ) is less than or equal to X, If yes then search for a larger value in the second half of the search space, i.e l = mid + 1, update ans = mid
+Else if the square of mid is more than X then search for a smaller value in the first half of the search space, i.e r = mid – 1
+Finally, Return the ans
+Below is the implementation of the above approach:
+
+
+C++
+C
+Java
+Python3
+# Python 3 program to find floor(sqrt(x)
+ 
+# Returns floor of square root of x
+ 
+ 
+def floorSqrt(x):
+ 
+    # Base cases
+    if (x == 0 or x == 1):
+        return x
+ 
+    # Do Binary Search for floor(sqrt(x))
+    start = 1
+    end = x//2
+    while (start <= end):
+        mid = (start + end) // 2
+ 
+        # If x is a perfect square
+        if (mid*mid == x):
+            return mid
+ 
+        # Since we need floor, we update
+        # answer when mid*mid is smaller
+        # than x, and move closer to sqrt(x)
+        if (mid * mid < x):
+            start = mid + 1
+            ans = mid
+ 
+        else:
+ 
+            # If mid*mid is greater than x
+            end = mid-1
+ 
+    return ans
+ 
+ 
+# driver code
+x = 11
+print(floorSqrt(x))
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+3
+Complexity Analysis: 
+
+Time Complexity: O(log(X)). 
+Auxiliary Space: O(1).
+Thanks to Gaurav Ahirwar for suggesting the above method.
+
+Square root an integer using built-in functions:
+Below is the implementation for finding the square root using the built-in function. 
+
+C++
+C
+Java
+Python3
+def countSquares(x):
+    sqrt = x**0.5
+    result = int(sqrt)
+    return result
+ 
+ 
+x = 9
+print(countSquares(x))
+C#
+Javascript
+Output
+3
+Time Complexity: O(log(X))
+Auxiliary Space: O(1)
+
+There can be many ways to solve this problem. For example, the Babylonian Method is one way.
+
+
+
+
+
+Like
+119
+Previous
+Babylonian method for square root
+Next
+Find square root of number upto given precision using binary search
+Related Articles
+1.
+Digital Root (repeated digital sum) of square of an integer using Digital root of the given integer
+2.
+Largest integer upto N having greatest prime factor greater than its square root
+3.
+Check if a number is perfect square without finding square root
+4.
+Smallest root of the equation x^2 + s(x)*x - n = 0, where s(x) is the sum of digits of root x.
+5.
+Digital Root (repeated digital sum) of the given large integer
+6.
+Babylonian method for square root
+7.
+Euler's criterion (Check if square root under modulo p exists)
+8.
+Find Square Root under Modulo p | Set 1 (When p is in form of 4*i + 3)
+9.
+Find Square Root under Modulo p | Set 2 (Shanks Tonelli algorithm)
+10.
+Fast method to calculate inverse square root of a floating point number in IEEE 754 format
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+FarhanSheik
+yhgupta
+andrew1234
+pulamolusaimohan
+swamipatil158
+_saurabh_jaiswal
+amit aggrawal
+surajrawat307
+arorakashish0911
+saurabh1990aror
+ibrezm1
+aakashpanda2000
+Rajput-Ji
+movshov
+nitish0798
+lalithkumarg20
+dsoumi125
+laxmigangarajula03
+pushpeshrajdx01
+sagartomar9927
+phasing17
+harendrakumar123
+Article Tags :
+Accolite
+Amazon
+Binary Search
+Microsoft
+Ola Cabs
+Snapdeal
+Divide and Conquer
+Mathematical
+Practice Tags :
+Accolite
+Amazon
+Microsoft
+Ola Cabs
+Snapdeal
+Binary Search
+Divide and Conquer
+Mathematical
+Improve Article
+Report Issue

@@ -1,0 +1,195 @@
+Find the number of zeroes
+
+Difficulty Level : Easy
+Last Updated : 21 Nov, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s. Count the number of zeroes in the given array.
+Examples : 
+
+Input: arr[] = {1, 1, 1, 1, 0, 0}
+Output: 2
+
+Input: arr[] = {1, 0, 0, 0, 0}
+Output: 4
+
+Input: arr[] = {0, 0, 0}
+Output: 3
+
+Input: arr[] = {1, 1, 1, 1}
+Output: 0
+Recommended Problem
+Count the Zeros
+Arrays
+Searching
++2 more
+Amazon
+Yahoo
+Solve Problem
+Submission count: 85.4K
+Approach 1: A simple solution is to traverse the input array. As soon as we find a 0, we return n – index of first 0. Here n is number of elements in input array. Time complexity of this solution would be O(n).
+
+Implementation of above approach is below:
+
+C++
+Java
+Python3
+class GFG :
+    @staticmethod
+    def  firstzeroindex( arr,  n) :
+        i = 0
+        while (i < n) :
+            if (arr[i] == 0) :
+                return i
+            i += 1
+        return -1
+    @staticmethod
+    def main( args) :
+        arr = [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0]
+        n = len(arr)
+        x = GFG.firstzeroindex(arr, n)
+        if (x == -1) :
+            print("Count of zero is 0")
+        else :
+            print("count of zero is ", end ="")
+            print(n - x)
+     
+ 
+if __name__=="__main__":
+    GFG.main([])
+     
+    # This code is contributed by aadityaburujwale.
+C#
+Javascript
+Output
+count of zero is 6
+Time complexity: O(n) where n is size of arr.
+
+Approach 2: Since the input array is sorted, we can use Binary Search to find the first occurrence of 0. Once we have index of first element, we can return count as n – index of first zero.
+
+Implementation:
+
+
+
+C
+C++
+Java
+Python3
+# A divide and conquer solution to
+# find count of zeroes in an array
+# where all 1s are present before all 0s
+ 
+# if 0 is present in arr[] then returns
+# the index of FIRST occurrence of 0 in
+# arr[low..high], otherwise returns -1
+def firstZero(arr, low, high):
+ 
+    if (high >= low):
+     
+        # Check if mid element is first 0
+        mid = low + int((high - low) / 2)
+        if (( mid == 0 or arr[mid-1] == 1)
+                      and arr[mid] == 0):
+            return mid
+         
+        # If mid element is not 0
+        if (arr[mid] == 1):
+            return firstZero(arr, (mid + 1), high)
+             
+        # If mid element is 0, but not first 0
+        else:
+            return firstZero(arr, low, (mid - 1))
+     
+    return -1
+ 
+# A wrapper over recursive
+# function firstZero()
+def countZeroes(arr, n):
+ 
+    # Find index of first zero in given array
+    first = firstZero(arr, 0, n - 1)
+ 
+    # If 0 is not present at all, return 0
+    if (first == -1):
+        return 0
+ 
+    return (n - first)
+ 
+# Driver Code
+arr = [1, 1, 1, 0, 0, 0, 0, 0]
+n = len(arr)
+print("Count of zeroes is",
+        countZeroes(arr, n))
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+Count of zeroes is 5
+Time Complexity: O(Logn) where n is number of elements in arr[].
+
+Auxiliary Space: O(logn)
+
+
+
+
+
+Like
+38
+Next
+Count number of occurrences (or frequency) in a sorted array
+Related Articles
+1.
+Find zeroes to be flipped so that number of consecutive 1's is maximized
+2.
+Find ratio of zeroes, positive numbers and negative numbers in the Array
+3.
+Smallest number with at least n trailing zeroes in factorial
+4.
+Move all zeroes to end of array using List Comprehension in Python
+5.
+Move all zeroes to end of array | Set-2 (Using single traversal)
+6.
+Move all zeroes to end of array using Two-Pointers
+7.
+C++ Program to Move all zeroes to end of array
+8.
+Java Program to Move all zeroes to end of array
+9.
+Python3 Program to Move all zeroes to end of array
+10.
+Php Program to Move all zeroes to end of array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+SoumikMondal
+GauravRajput1
+shaheeneallamaiqbal
+hardikkoriintern
+abhijeet19403
+polymatir3j
+aadityapburujwale
+sourabhdalal0001
+Article Tags :
+Yahoo
+Arrays
+Divide and Conquer
+Searching
+Practice Tags :
+Yahoo
+Arrays
+Divide and Conquer
+Searching

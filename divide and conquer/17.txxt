@@ -1,0 +1,351 @@
+Find the Rotation Count in Rotated Sorted array
+
+Difficulty Level : Easy
+Last Updated : 02 Jan, 2023
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+Given an array arr[] of size N having distinct numbers sorted in increasing order and the array has been right rotated (i.e, the last element will be cyclically shifted to the starting position of the array) k number of times, the task is to find the value of k.
+
+Examples:  
+
+Input: arr[] = {15, 18, 2, 3, 6, 12}
+Output: 2
+Explanation: Initial array must be {2, 3, 6, 12, 15, 18}. 
+We get the given array after rotating the initial array twice.
+
+Input: arr[] = {7, 9, 11, 12, 5}
+Output: 4
+
+Input: arr[] = {7, 9, 11, 12, 15};
+Output: 0
+
+Recommended Problem
+Rotation
+Arrays
+Searching
++2 more
+Flipkart
+Amazon
++1 more
+Solve Problem
+Submission count: 1.1L
+Approach 1 (Using linear search): This problem can be solved using linear search.
+
+If we take a closer look at examples, we can notice that the number of rotations is equal to the index of the minimum element. A simple linear solution is to find the minimum element and returns its index. 
+
+
+
+Illustration:
+
+Consider the array arr[]={15, 18, 2, 3, 6, 12};
+Initially minimum = 15, min_index = 0
+
+At i = 1: min = 15, min_index = 0
+At i = 2: min = min(2, 15) = 2, min_index = 2
+At i = 3: min = 2, min_index = 2
+At i = 4: min = 2, min_index = 2
+At i = 5: min = 2, min_index = 2
+
+The array is rotated twice to the right
+
+Follow the steps mentioned below to implement the idea:
+
+Initialize two variables to store the minimum value and the index of that value.
+Traverse the array from start to the end:
+Find the minimum value and index where the minimum value is stored.
+Return the index of the minimum value.
+Below is the code implementation of the above idea. 
+
+
+C++
+C
+Java
+Python3
+# Python3 program to find number
+# of rotations in a sorted and
+# rotated array.
+ 
+# Returns count of rotations for
+# an array which is first sorted
+# in ascending order, then rotated
+def countRotations(arr, n):
+ 
+    # We basically find index
+    # of minimum element
+    min = arr[0]
+    min_index = 0
+    for i in range(0, n):
+     
+        if (min > arr[i]):
+         
+            min = arr[i]
+            min_index = i
+         
+    return min_index;
+ 
+ 
+# Driver code
+arr = [15, 18, 2, 3, 6, 12]
+n = len(arr)
+print(countRotations(arr, n))
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(N) 
+Auxiliary Space: O(1) 
+
+Another Approach: (Using Linear Search):
+
+The idea is to first check if the array is rotated 0 times, then return the index when the element is greater than the next element.
+
+Follow the steps mentioned below to implement the idea:
+
+Check if the array is rotated:
+Traverse the array from 0 till N:
+Return index + 1,  when the current element is greater than the next element.
+Else return 0.
+Below is the code implementation of the above idea. 
+
+C++
+Java
+Python3
+def countRotations(arr, n):
+    # Check is array is rotated
+    if (arr[0] > arr[n - 1]):
+ 
+        # Traverse the array
+        for i in range(0, n):
+ 
+            # Index where element is greater
+            # than the next element
+            if (arr[i] > arr[i + 1]):
+                return i + 1
+ 
+    # Array is not rotated
+    return 0
+ 
+# Driver code
+arr = [15, 18, 2, 3, 6, 12]
+n = len(arr)
+print(countRotations(arr, n))
+ 
+# This code is contributed by karandeep1234
+C#
+Javascript
+Output
+2
+Time Complexity: O(N) 
+Auxiliary Space: O(1) 
+
+Approach 2: (Efficient Using Binary Search) 
+
+A better approach would be to perform binary searching, in place of linear search to find the position of the smallest element in the array.
+
+Follow the steps mentioned below to implement the idea: 
+
+The minimum element is the only element whose previous is greater than it. If there is no previous element, then there is no rotation (the first element is minimum). 
+Check this condition for the middle element by comparing it with the (mid-1)th and (mid+1)th elements.
+If the minimum element is not at the middle (neither mid nor mid + 1), then 
+If the middle element is smaller than the last element, then the minimum element lies in the left half
+Else minimum element lies in the right half.
+Illustration:
+
+Let the array be arr[]={15, 18, 2, 3, 6, 12}
+low = 0 , high = 5.
+            =>  mid = 2
+            =>  arr[mid]=2 , arr[mid-1] > arr[mid] , hence condition is matched
+            =>  The required index = mid = 2
+
+So the element is  found at index 2.
+
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Binary Search based Python3
+# program to find number of
+# rotations in a sorted and
+# rotated array.
+ 
+# Returns count of rotations for
+# an array which is first sorted
+# in ascending order, then rotated
+ 
+def countRotations(arr, n):
+    start = 0
+    end = n-1
+ 
+    # Finding the index of minimum of the array
+    # index of min would be equal to number to rotation
+    while start<=end:
+        mid = start+(end-start)//2
+         
+        # Calculating the previous(prev)
+        # and next(nex) index of mid
+        prev = (mid-1+n)%n
+        nex = (mid+1)%n
+ 
+        # Checking if mid is minimum
+        if arr[mid]<arr[prev]\
+           and arr[mid]<=arr[nex]:
+          return mid
+       
+        # if not selecting the unsorted part of array
+        elif arr[mid]<arr[start]: end = mid-1
+        elif arr[mid]>arr[end]: start = mid+1
+        else: return 0
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [15, 18, 2, 3, 6, 12]
+    N = len(arr)
+    print(countRotations(arr, N))
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(log N) 
+Auxiliary Space: O(log N)  [this is the space of recursion stack]
+
+Iterative Code (Binary Search):
+
+C++
+Java
+Python3
+# Returns count of rotations for an array which
+# is first sorted in ascending order, then rotated
+ 
+# Observation: We have to return index of the smallest element
+ 
+ 
+def countRotations(arr, n):
+ 
+    low = 0
+    high = n - 1
+    while(low <= high):
+ 
+        # if first element is mid or
+        # last element is mid
+        # then simply use modulo
+        # so it never goes out of bound.
+        mid = low + ((high - low) // 2)
+        prev = (mid - 1 + n) % n
+        next = (mid + 1) % n
+ 
+        if(arr[mid] <= arr[prev]
+           and arr[mid] <= arr[next]):
+            return mid
+        elif (arr[mid] <= arr[high]):
+            high = mid - 1
+        elif (arr[mid] >= arr[low]):
+            low = mid + 1
+    return 0
+ 
+# Driver code
+ 
+ 
+arr = [15, 18, 2, 3, 6, 12]
+n = len(arr)
+print(countRotations(arr, n))
+ 
+# This code is contributed by shinjanpatra.
+C#
+Javascript
+Output
+2
+Time Complexity: O(log N)
+Auxiliary Space: O(1), since no extra space has been taken.
+
+This article is contributed by Rakesh Kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+192
+Previous
+Maximum sum of i*arr[i] among all rotations of a given array
+Next
+Find the Minimum element in a Sorted and Rotated Array
+Related Articles
+1.
+Circularly Sorted Array (Sorted and Rotated Array)
+2.
+Count elements less than or equal to a given value in a sorted rotated array
+3.
+Count of Pairs with given sum in Rotated Sorted Array
+4.
+Find if there is a pair with a given sum in the rotated sorted Array
+5.
+C Program for Given a sorted and rotated array, find if there is a pair with a given sum
+6.
+C++ Program for Given a sorted and rotated array, find if there is a pair with a given sum
+7.
+Java Program for Given a sorted and rotated array, find if there is a pair with a given sum
+8.
+Find the Minimum element in a Sorted and Rotated Array
+9.
+Count rotations in sorted and rotated linked list
+10.
+C++ Program to Count rotations in sorted and rotated linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+komal27
+jit_t
+rajeshtva
+code_hunt
+surbhityagi15
+dishamangla9255
+simmytarika5
+jaiswalshruti1102
+kavitarawat1
+shinjanpatra
+RishabhPrabhu
+vrushinparmar
+adityakumar129
+_saurabh_jaiswal
+aniruddhaj3l0
+harendrakumar123
+rishavmahyry2
+pratik16082001
+satishkale17
+dhanshriborse561
+aadityapburujwale
+karandeep1234
+adityamaharshi21
+Article Tags :
+ABCO
+Amazon
+Binary Search
+rotation
+Arrays
+Divide and Conquer
+Practice Tags :
+ABCO
+Amazon
+Arrays
+Binary Search
+Divide and Conquer

@@ -1,0 +1,245 @@
+Allocate minimum number of pages
+
+Difficulty Level : Hard
+Last Updated : 11 Jan, 2023
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given a number of pages in N different books and M students. The books are arranged in ascending order of the number of pages. Every student is assigned to read some consecutive books. The task is to assign books in such a way that the maximum number of pages assigned to a student is minimum. 
+
+Example : 
+
+Input : pages[] = {12, 34, 67, 90} , m = 2
+Output : 113
+Explanation: There are 2 number of students. Books can be distributed in following fashion : 
+1) [12] and [34, 67, 90]
+Max number of pages is allocated to student ‘2’ with 34 + 67 + 90 = 191 pages
+2) [12, 34] and [67, 90] Max number of pages is allocated to student ‘2’ with 67 + 90 = 157 pages 
+3) [12, 34, 67] and [90] Max number of pages is allocated to student ‘1’ with 12 + 34 + 67 = 113 pages
+
+Of the 3 cases, Option 3 has the minimum pages = 113.
+
+Recommended Problem
+Allocate minimum number of pages
+Searching
+Divide and Conquer
++1 more
+Infosys
+Amazon
++3 more
+Solve Problem
+Submission count: 1.1L
+Approach: A Binary Search method for solving the book allocation problem:
+
+Case 1: When no valid answer exists.
+
+If the number of students is greater than the number of books (i.e, M > N), In this case at least 1 student will be left to which no book has been assigned.
+
+
+
+Case 2: When a valid answer exists.
+
+The maximum possible answer could be when there is only one student. So, all the book will be assigned to him and the result would be the sum of pages of all the books.
+
+The minimum possible answer could be when number of student is equal to the number of book (i.e, M == N) , In this case all the students will get at most one book. So, the result would be the maximum number of pages among them (i.e, maximum(pages[])).
+
+Hence, we can apply binary search in this given range and each time we can consider the mid value as the maximum limit of pages one can get. And check for the limit if answer is valid then update the limit accordingly.
+
+Below is the implementation of the above idea:
+
+Initialise the start to maximum(pages[]) and end = sum of pages[],
+Do while start <= end
+Calculate the mid and check if mid number of pages can assign any student by satisfying the given condition such that all students will get at least one book. Follow the steps to check for validity.
+Initialise the studentsRequired = 1 and curr_sum = 0 for sum of consecutive pages of book
+Iterate over all books or say pages[]
+Add the pages to curr_sum and check curr_sum > curr_min then increment the count of studentRequired by 1.
+Check if the studentRequired > M, return false.
+Return true.
+If mid is valid then, update the result and move the end = mid – 1
+Otherwise, move the start = mid + 1
+Finally, return the result.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program for optimal allocation of pages
+ 
+# Utility function to check if
+# current minimum value is feasible or not.
+ 
+ 
+def isPossible(arr, n, m, curr_min):
+    studentsRequired = 1
+    curr_sum = 0
+ 
+    # iterate over all books
+    for i in range(n):
+ 
+        # check if current number of pages are
+        # greater than curr_min that means
+        # we will get the result after
+        # mid no. of pages
+        if (arr[i] > curr_min):
+            return False
+ 
+        # count how many students are required
+        # to distribute curr_min pages
+        if (curr_sum + arr[i] > curr_min):
+ 
+            # increment student count
+            studentsRequired += 1
+ 
+            # update curr_sum
+            curr_sum = arr[i]
+ 
+            # if students required becomes greater
+            # than given no. of students, return False
+            if (studentsRequired > m):
+                return False
+ 
+        # else update curr_sum
+        else:
+            curr_sum += arr[i]
+ 
+    return True
+ 
+# function to find minimum pages
+ 
+ 
+def findPages(arr, n, m):
+ 
+    sum = 0
+ 
+    # return -1 if no. of books is
+    # less than no. of students
+    if (n < m):
+        return -1
+ 
+    # Count total number of pages
+    for i in range(n):
+        sum += arr[i]
+ 
+    # initialize start as 0 pages and
+    # end as total pages
+    start, end = 0, sum
+    result = 10**9
+ 
+    # traverse until start <= end
+    while (start <= end):
+ 
+        # check if it is possible to distribute
+        # books by using mid as current minimum
+        mid = (start + end) // 2
+        if (isPossible(arr, n, m, mid)):
+ 
+            # update result to current distribution
+              # as it's the best we have found till now.
+            result = mid
+ 
+            # as we are finding minimum and books
+            # are sorted so reduce end = mid -1
+            # that means
+            end = mid - 1
+ 
+        else:
+            # if not possible means pages should be
+            # increased so update start = mid + 1
+            start = mid + 1
+ 
+    # at-last return minimum no. of pages
+    return result
+ 
+# Driver Code
+ 
+ 
+# Number of pages in books
+arr = [12, 34, 67, 90]
+n = len(arr)
+m = 2   # No. of students
+ 
+print("Minimum number of pages = ",
+      findPages(arr, n, m))
+ 
+# This code is contributed by Mohit Kumar
+C#
+PHP
+Javascript
+Output
+Minimum number of pages = 113
+Time Complexity: O(N*log(N)), Where N is the total number of pages in the book.
+Auxiliary Space: O(1)
+
+This article is contributed by Sahil Chhabra (akku). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+198
+Previous
+The painter's partition problem using Binary Search
+Next
+Collect all coins in minimum number of steps
+Related Articles
+1.
+Maximum and minimum of an array using minimum number of comparisons
+2.
+Split array into minimum number of subsets with every element of a subset divisible by its minimum
+3.
+Second minimum element using minimum comparisons
+4.
+Minimum distance between the maximum and minimum element of a given Array
+5.
+Minimum number of swaps required for arranging pairs adjacent to each other
+6.
+Collect all coins in minimum number of steps
+7.
+Search an element in an unsorted array using minimum number of comparisons
+8.
+Paper Cut into Minimum Number of Squares | Set 2
+9.
+Minimum number of points to be removed to get remaining points on one side of axis
+10.
+Minimum number N such that total set bits of all numbers from 1 to N is at-least X
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Sach_Code
+mohit kumar 29
+patel2127
+smack
+pushpeshrajdx01
+adityakumar129
+anshulpro27
+harendrakumar123
+meetbanthia0304
+agarwalvaibhav6265
+vinayedula
+prasanna1995
+Article Tags :
+Binary Search
+Google
+Divide and Conquer
+Searching
+Practice Tags :
+Google
+Binary Search
+Divide and Conquer
+Searching
+Improve Article
+Report Issue

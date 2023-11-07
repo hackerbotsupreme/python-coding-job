@@ -1,0 +1,618 @@
+K-th Element of Two Sorted Arrays
+
+Difficulty Level : Hard
+Last Updated : 06 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given two sorted arrays of size m and n respectively, you are tasked with finding the element that would be at the k’th position of the final sorted array.
+
+Examples: 
+
+Input : Array 1 - 2 3 6 7 9
+        Array 2 - 1 4 8 10
+        k = 5
+Output : 6
+Explanation: The final sorted array would be -
+1, 2, 3, 4, 6, 7, 8, 9, 10
+The 5th element of this array is 6.
+
+Input : Array 1 - 100 112 256 349 770
+        Array 2 - 72 86 113 119 265 445 892
+        k = 7
+Output : 256
+Explanation: Final sorted array is -
+72, 86, 100, 112, 113, 119, 256, 265, 349, 445, 770, 892
+7th element of this array is 256.
+Recommended Problem
+K-th element of two sorted Arrays
+Arrays
+Divide and Conquer
++2 more
+Flipkart
+Microsoft
+Solve Problem
+Submission count: 1.4L
+Basic Approach 
+Since we are given two sorted arrays, we can use the merging technique to get the final merged array. From this, we simply go to the k’th index. 
+
+C++
+Java
+Python3
+# Program to find kth element
+# from two sorted arrays
+ 
+ 
+def kth(arr1, arr2, m, n, k):
+ 
+    sorted1 = [0] * (m + n)
+    i = 0
+    j = 0
+    d = 0
+    while (i < m and j < n):
+ 
+        if (arr1[i] < arr2[j]):
+            sorted1[d] = arr1[i]
+            i += 1
+        else:
+            sorted1[d] = arr2[j]
+            j += 1
+        d += 1
+ 
+    while (i < m):
+        sorted1[d] = arr1[i]
+        d += 1
+        i += 1
+    while (j < n):
+        sorted1[d] = arr2[j]
+        d += 1
+        j += 1
+    return sorted1[k - 1]
+ 
+ 
+# Driver code
+arr1 = [2, 3, 6, 7, 9]
+arr2 = [1, 4, 8, 10]
+k = 5
+print(kth(arr1, arr2, 5, 4, k))
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+6
+Time Complexity: O(n) 
+Auxiliary Space : O(m + n) 
+
+Space Optimized Version of above approach: We can avoid the use of extra array.
+
+C++
+Java
+Python3
+# Python3 Program to find kth element
+# from two sorted arrays
+ 
+def find(A, B, m, n, k_req):   
+    i, j, k = 0, 0, 0
+ 
+    # Keep taking smaller of the current
+    # elements of two sorted arrays and
+    # keep incrementing k
+    while i < len(A) and j < len(B):
+        if A[i] < B[j]:
+            k += 1
+            if k == k_req:
+                return A[i]
+            i += 1
+        else:
+            k += 1
+            if k == k_req:
+                return B[j]       
+            j += 1
+ 
+    # If array B[] is completely traversed
+    while i < len(A):
+        k += 1
+        if k == k_req:
+                return A[i]
+        i += 1
+ 
+ 
+    # If array A[] is completely traversed
+    while j < len(B):
+        k += 1
+        if k == k_req:
+                return B[j]
+        j += 1
+ 
+# driver code
+A = [2, 3, 6, 7, 9]
+B = [1, 4, 8, 10]
+k = 5;
+print(find(A, B, 5, 4, k))
+# time complexity of O(k)
+C#
+Javascript
+Output
+6
+Time Complexity: O(k) 
+Auxiliary Space: O(1)
+
+Divide And Conquer Approach 1:
+While the previous method works, can we make our algorithm more efficient? The answer is yes. By using a divide and conquer approach, similar to the one used in binary search, we can attempt to find the k’th element in a more efficient way.
+
+Compare the middle elements of arrays arr1 and arr2, let us call these indices mid1 and mid2 respectively. Let us assume arr1[mid1] > arr2[mid2], then clearly the elements after mid2 cannot be the required element. Set the last element of arr2 to be arr2[mid2].
+In this way, define a new subproblem with half the size of one of the arrays.
+
+C++
+Python3
+# Python program to find k-th element from two sorted arrays
+def kth(arr1, arr2, n, m, k):
+ 
+    if n == 1 or m == 1:
+        if m == 1:
+            arr2, arr1 = arr1, arr2
+            m = n
+        if k == 1:
+            return min(arr1[0], arr2[0])
+        elif k == m + 1:
+            return max(arr1[0], arr2[0])
+        else:
+            if arr2[k - 1] < arr1[0]:
+                return arr2[k - 1]
+            else:
+                return max(arr1[0], arr2[k - 2])
+ 
+    mid1 = (n - 1)//2
+    mid2 = (m - 1)//2
+ 
+    if mid1+mid2+1 < k:
+        if arr1[mid1] < arr2[mid2]:
+            return kth(arr1[mid1 + 1:], arr2, n - mid1 - 1, m, k - mid1 - 1)
+        else:
+            return kth(arr1, arr2[mid2 + 1:], n, m - mid2 - 1, k - mid2 - 1)
+    else:
+        if arr1[mid1] < arr2[mid2]:
+            return kth(arr1, arr2[:mid2 + 1], n, mid2 + 1, k)
+        else:
+            return kth(arr1[:mid1 + 1], arr2, mid1 + 1, m, k)
+ 
+ 
+if __name__ == "__main__":
+    arr1 = [2, 3, 6, 7, 9]
+    arr2 = [1, 4, 8, 10]
+    k = 5
+    print(kth(arr1, arr2, 5, 4, k))
+ 
+# This code is contributed by harshitkap00r
+Output
+6
+Note that in the above code, k is 0 indexed, which means if we want a k that’s 1 indexed, we have to subtract 1 when passing it to the function. 
+Time Complexity: O(log n + log m)
+Auxiliary Space: O(logn + logm)
+
+Divide And Conquer Approach 2:
+While the above implementation is very efficient, we can still get away with making it more efficient. Instead of dividing the array into segments of n / 2 and m / 2 and then recursing, we can divide them both by k / 2 and recurse.
+
+
+The below implementation displays this. 
+
+Explanation:
+Instead of comparing the middle element of the arrays,
+we compare the k / 2nd element.
+Let arr1 and arr2 be the arrays.
+Now, if arr1[k / 2]  arr1[1]
+
+New subproblem:
+Array 1 - 6 7 9
+Array 2 - 1 4 8 10
+k = 5 - 2 = 3
+
+floor(k / 2) = 1
+arr1[1] = 6
+arr2[1] = 1
+arr1[1] > arr2[1]
+
+New subproblem:
+Array 1 - 6 7 9
+Array 2 - 4 8 10
+k = 3 - 1 = 2
+
+floor(k / 2) = 1
+arr1[1] = 6
+arr2[1] = 4
+arr1[1] > arr2[1]
+
+New subproblem:
+Array 1 - 6 7 9
+Array 2 - 8 10
+k = 2 - 1 = 1
+
+Now, we directly compare first elements,
+since k = 1. 
+arr1[1] < arr2[1]
+Hence, arr1[1] = 6 is the answer.
+C++
+Java
+Python3
+# Python3 program to find kth element from
+# two sorted arrays
+def kth(arr1, arr2, m, n, k, st1 = 0, st2 = 0):
+     
+    # In case we have reached end of array 1
+    if (st1 == m):
+        return arr2[st2 + k - 1]
+ 
+    # In case we have reached end of array 2
+    if (st2 == n):
+        return arr1[st1 + k - 1]
+ 
+    # k should never reach 0 or exceed sizes
+    # of arrays
+    if (k == 0 or k > (m - st1) + (n - st2)):
+        return -1
+         
+    # Compare first elements of arrays and return
+    if (k == 1):
+        if(arr1[st1] < arr2[st2]):
+            return arr1[st1]
+        else:
+            return arr2[st2]
+ 
+    curr = int(k / 2)
+ 
+    # Size of array 1 is less than k / 2
+    if(curr - 1 >= m - st1):
+ 
+        # Last element of array 1 is not kth
+        # We can directly return the (k - m)th
+        # element in array 2
+        if (arr1[m - 1] < arr2[st2 + curr - 1]):
+            return arr2[st2 + (k - (m - st1) - 1)]
+        else:
+            return kth(arr1, arr2, m, n,
+                       k - curr, st1, st2 + curr)
+ 
+    # Size of array 2 is less than k / 2
+    if (curr - 1 >= n - st2):
+        if (arr2[n - 1] < arr1[st1 + curr - 1]):
+            return arr1[st1 + (k - (n - st2) - 1)]
+        else:
+            return kth(arr1, arr2, m, n,
+                       k - curr,st1 + curr, st2)
+    else:
+         
+        # Normal comparison, move starting index
+        # of one array k / 2 to the right
+        if (arr1[curr + st1 - 1] < arr2[curr + st2 - 1]):
+            return kth(arr1, arr2, m, n, k - curr,
+                       st1 + curr, st2)
+        else:
+            return kth(arr1, arr2, m, n, k - curr,
+                       st1, st2 + curr)
+ 
+# Driver code
+arr1 = [ 2, 3, 6, 7, 9 ]
+arr2 = [ 1, 4, 8, 10 ]
+k = 5
+ 
+print(kth(arr1, arr2, 5, 4, k))
+ 
+# This code is contributed by avanitrachhadiya2155
+C#
+Javascript
+Output
+6
+Time Complexity: O(log k)
+Auxiliary Space: O(logk)
+
+Now, k can take a maximum value of m + n. This means that log k can be in the worst case, log(m + n). Logm + logn = log(mn) by properties of logarithms, and when m, n > 2, log(m + n) < log(mn). Thus this algorithm slightly outperforms the previous algorithm. Also, see another simple implemented log k approach suggested by Raj Kumar.
+
+C++
+Java
+Python3
+# Python3 Program to find kth element from two
+# sorted arrays. Time Complexity: O(log k)
+def kth(arr1, m, arr2, n, k):
+     
+    if (k > (m + n) or k < 1):
+        return -1
+     
+    # Let m <= n
+    if (m > n):
+        return kth(arr2, n, arr1, m, k)
+     
+    # Check if arr1 is empty returning
+    # k-th element of arr2
+    if (m == 0):
+        return arr2[k - 1]
+     
+    # Check if k = 1 return minimum of
+    # first two elements of both
+    # arrays
+    if (k == 1):
+        return min(arr1[0], arr2[0])
+         
+    # Now the divide and conquer part
+    i = min(m, k // 2)
+    j = min(n, k // 2)
+     
+    if (arr1[i - 1] > arr2[j - 1]):
+         
+        # Now we need to find only
+        # k-j th element since we
+        # have found out the lowest j
+        return kth(arr1, m, arr2[j:], n - j, k - j)
+    else:
+         
+        # Now we need to find only
+        # k-i th element since we
+        # have found out the lowest i
+        return kth(arr1[i:], m - i, arr2, n, k - i)
+ 
+# Driver code
+arr1 = [ 2, 3, 6, 7, 9 ]
+arr2 = [ 1, 4, 8, 10 ]
+m = len(arr1)
+n = len(arr2)
+k = 5
+ 
+ans = kth(arr1, m, arr2, n, k)
+ 
+if (ans == -1):
+    print("Invalid query")
+else:
+    print(ans)
+ 
+# This code is contributed by Shubham Singh
+C#
+Javascript
+Output
+6
+Time Complexity:O(log k)
+Auxiliary Space: O(log k)
+
+Another Approach: (Using Min Heap)
+
+Push the elements of both arrays to a priority queue (min-heap).
+Pop-out k-1 elements from the front.
+Element at the front of the priority queue is the required answer.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python Program to find kth element
+# from two sorted arrays
+ 
+# Function to find K-th min
+def kth(a , b , n , m , k):
+ 
+    # Declaring a min heap
+    pq = [];
+ 
+    # Pushing elements for
+    # array a to min-heap
+    for i in range(n):
+        pq.append(a[i]);
+ 
+    # Pushing elements for
+    # array b to min-heap
+    for i in range(m):
+        pq.append(b[i]);
+ 
+    pq = sorted(pq, reverse = True)
+     
+    # Popping-out K-1 elements
+    while (k > 1):
+        k -= 1;
+        pq.pop();
+    return pq.pop();
+ 
+# Driver Code
+arr1 = [ 2, 3, 6, 7, 9 ];
+arr2 = [ 1, 4, 8, 10 ];
+k = 5;
+print(kth(arr1, arr2, 5, 4, k));
+ 
+# This code is contributed by Saurabh Jaiswal
+C#
+Javascript
+Output
+6
+Time Complexity: O(N*logN)
+Auxiliary Space: O(m+n)
+
+Another Approach : (Using Upper Bound STL)
+
+Given two sorted arrays of size m and n respectively, you are tasked with finding the element that would be at the k’th position of the final sorted array.
+
+Examples :
+
+Input : Array 1 – 2 3 6 7 9
+
+          Array 2 – 1 4 8 10
+
+          k = 5
+
+Output : 6
+
+Explanation: The final sorted array would be –
+
+1, 2, 3, 4, 6, 7, 8, 9, 10
+
+The 5th element of this array is 6, The 1st element of this array is 1. The thing to notice here is upper_bound(6) gives 5, upper_bound(4) gives 4 that is number of element equal to or less than the number we are giving as input to upper_bound().
+
+Here is another example
+
+Input : Array 1 – 100 112 256 349 770
+
+      Array 2 – 72 86 113 119 265 445 892
+
+      k = 7
+
+Output : 256
+
+Explanation: Final sorted array is –
+
+72, 86, 100, 112, 113, 119, 256, 265, 349, 445, 770, 892
+
+7th element of this array is 256.
+
+Observation required :
+
+The simplest method to solve this question is using upper_bound to check what is the position of a element in the sorted array. The upper_bound function return the pointer to element which is greater than the element we searched.
+
+So to find the kth element we need to just find the element whose upper_bound() is 4. So again now we now what upper_bound() gives us we need 1 last observation to solve this question. If we have been given 2 arrays, We just need to the sum of upper_bound for the 2 arrays
+
+Input : Array 1 – 2 3 6 7 9
+
+     Array 2 – 1 4 8 10
+
+     k = 5
+
+Value of upper_bound for value(6) in array1 is 3 and for array 2 is 2. This give us a total of 5. which is the answer.
+
+Algorithm :
+
+We take a mid between [L,R] using the formula mid = (L+R)/2.
+Check if the middle can be the kth element using upper_bound() function
+Find the sum of upper_bound() for both the arrays and if the sum is >= K, It’s a possible value of kth element.
+If sum is >= K then we assign R = mid – 1.
+else if sum <k then the current mid is too small and we assign L = mid+1.
+Repeat from top
+Return the smallest value found.
+Here is the implementation for the optimized method :
+
+C++
+Java
+Python3
+# Python program to find the kth element
+maxN = 10**10 # the maximum value in the array possible.
+ 
+def upperBound(a, low, high, element):
+    while(low < high):
+        middle = low + (high - low)//2
+        if(a[middle] > element):
+            high = middle
+        else:
+            low = middle + 1
+    return low
+ 
+def kthElement(arr1, arr2, n, m, k):
+    left = 1
+    right = maxN # The range of where ans can lie.
+    ans = 10**15 # We have to find min of all
+    # the ans so take .
+     
+    # using binary search to check all possible values of
+    # kth element
+    while (left <= right):
+        mid = (left + right) // 2
+        up_cnt = upperBound(arr1,0, n, mid)
+        up_cnt += upperBound(arr2, 0, m, mid)
+         
+        if (up_cnt >= k):
+            ans = min(ans, mid) # find the min of all answers.
+            right= mid - 1 # Try to find a smaller answer.
+        else:
+            left = mid + 1 # Current mid is too small so
+            # shift right.
+    return ans
+ 
+# Driver code
+# Example 1
+n = 5
+m = 7
+k = 7
+arr1 = [100, 112, 256, 349, 770]
+arr2 = [72, 86, 113, 119, 265, 445, 892]
+print(kthElement(arr1, arr2, n, m, k))
+ 
+# This code is contributed by Shubham Singh
+C#
+Javascript
+Output
+256
+Time Complexity : O( Log( maxN ).log( N+M ) )
+Auxiliary Space : O( 1 )
+
+This article is contributed by Aditya Kamath. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Floor in a Sorted Array
+Next
+Find the only repeating element in a sorted array of size n
+Related Articles
+1.
+Generate all possible sorted arrays from alternate elements of two given sorted arrays
+2.
+Check if two sorted arrays can be merged to form a sorted array with no adjacent pair from the same array
+3.
+Kth smallest number in array formed by product of any two elements from two arrays
+4.
+Find the Kth smallest element in the sorted generated array
+5.
+Kth Smallest Element in a sorted array formed by reversing subarrays from a random index
+6.
+Kth smallest element in a row-wise and column-wise sorted 2D array
+7.
+Python Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+8.
+Javascript Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+9.
+C++ Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+10.
+Java Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+Mithun Kumar
+29AjayKumar
+princiraj1992
+gfg_sal_gfg
+Vivekkumar Singh
+Majorssn
+sreejithsankar55
+RohitOberoi
+avanitrachhadiya2155
+yashbeersingh42
+neeruap2001
+rag2127
+harshitkap00r
+umadevi9616
+kumarsamaksha
+dharanendralv23
+GauravRajput1
+SHUBHAMSINGH10
+abhishek0719kadiyan
+_saurabh_jaiswal
+polymatir3j
+shubham007_here
+Article Tags :
+Amazon
+Binary Search
+Flipkart
+Arrays
+Divide and Conquer
+Practice Tags :
+Amazon
+Flipkart
+Arrays
+Binary Search

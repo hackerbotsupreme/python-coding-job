@@ -1,0 +1,398 @@
+Find frequency of each element in a limited range array in less than O(n) time
+
+Difficulty Level : Medium
+Last Updated : 12 Sep, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given a sorted array arr[] of positive integers, the task is to find the frequency for each element in the array. Assume all elements in the array are less than some constant M
+
+Note: Do this without traversing the complete array. i.e. expected time complexity is less than O(n)
+
+Examples: 
+
+Input: arr[] = [1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10]
+Output: 
+Element 1 occurs 3 times
+Element 2 occurs 1 times
+Element 3 occurs 2 times
+Element 5 occurs 2 times
+Element 8 occurs 3 times
+Element 9 occurs 2 times
+Element 10 occurs 1 times
+ 
+
+
+Input: arr[] = [2, 2, 6, 6, 7, 7, 7, 11] 
+Output: 
+Element 2 occurs 2 times
+Element 6 occurs 2 times
+Element 7 occurs 3 times
+Element 11 occurs 1 times
+
+Frequency of each element in a limited range array using linear search:
+To solve the problem follow the below idea:
+
+Traverse the input array and increment the frequency of the element if the current element and the previous element are the same, otherwise reset the frequency and print the element and its frequency
+
+
+
+Follow the given steps to solve the problem: 
+
+Initialize frequency to 1 and index to 1.
+Traverse the array from the index position and check if the current element is equal to the previous element.
+If yes, increment the frequency and index and repeat step 2. Otherwise, print the element and its frequency and repeat step 2.
+At last(corner case), print the last element and its frequency.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# python3 program to count number of occurrences of
+# each element in the array in O(n) time and O(1) space
+ 
+ 
+def findFrequencies(ele, n):
+ 
+    freq = 1
+    idx = 1
+    element = ele[0]
+    while (idx < n):
+ 
+        # check if the current element is equal to
+        # previous element.
+        if (ele[idx - 1] == ele[idx]):
+            freq += 1
+            idx += 1
+ 
+        else:
+            print(element, " ", freq)
+            element = ele[idx]
+            idx += 1
+ 
+            # reset the frequency
+            freq = 1
+ 
+    # print the last element and its frequency
+    print(element, " ", freq)
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+    print("---frequencies in a sorted array----")
+    arr = [10, 20, 30, 30, 30, 40, 50, 50, 50, 50, 70]
+    n = len(arr)
+ 
+    # Function call
+    findFrequencies(arr, n)
+ 
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Output
+---frequencies in a sorted array----
+10 1
+20 1
+30 3
+40 1
+50 4
+70 1
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Frequency of each element in a limited range array using Hash-Map:
+To solve the problem follow the below idea:
+
+The idea is to traverse the input array and for each distinct element of the array, store its frequency in a HashMap, and finally print the HashMap.
+
+Follow the given steps to solve the problem: 
+
+Create a HashMap to map the frequency to the element, i.e to store the element-frequency pair.
+Traverse the array from start to end.
+For each element in the array update the frequency, i.e hm[array[i]]++
+Traverse the HashMap and print the element frequency pair
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to count number of occurrences of
+# each element in the array #include <iostream>
+ 
+# It prints number of
+# occurrences of each element in the array.
+ 
+ 
+def findFrequency(arr, n):
+ 
+    # HashMap to store frequencies
+    mp = {}
+ 
+    # traverse the array
+    for i in range(n):
+ 
+        # update the frequency
+        if arr[i] not in mp:
+            mp[arr[i]] = 0
+        mp[arr[i]] += 1
+ 
+    # traverse the hashmap
+    for i in mp:
+        print("Element", i, "occurs", mp[i], "times")
+ 
+ 
+# Driver function
+if __name__ == "__main__":
+    arr = [1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10]
+    n = len(arr)
+ 
+    findFrequency(arr, n)
+ 
+# This code is contributed by shubhamsingh10
+C#
+Javascript
+Output
+Element 10 occurs 1 times
+Element 2 occurs 1 times
+Element 9 occurs 2 times
+Element 1 occurs 3 times
+Element 8 occurs 3 times
+Element 3 occurs 2 times
+Element 5 occurs 2 times
+Time Complexity: O(N), only one traversal of the array is needed.
+Auxiliary Space: O(N), to store the elements in the HashMap O(N) extra space is needed.
+
+Frequency of each element in a limited range array using binary search:
+The problem can be solved in less than O(n) time if all its elements are sorted, i.e. if similar elements exist in the array then the elements are in a contiguous subarray or it can be said that if the ends of a subarray are the same then all the elements inside the subarray are equal. So the count of that element is the size of the subarray and all the elements of that subarray need not be counted. 
+ 
+
+Follow the given steps to solve the problem: 
+
+Create a HashMap (hm) to store the frequency of elements.
+Create a recursive function that accepts an array and size.
+Check if the first element of the array is equal to the last element. If equal then all the elements are the same and update the frequency by hm[array[0]+=size
+Else divide the array into two equal halves and call the function recursively for both halves.
+Traverse the hashmap and print the element frequency pair.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python 3 program to count number of occurrences of
+# each element in the array in less than O(n) time
+ 
+# A recursive function to count number of occurrences
+# for each element in the array without traversing
+# the whole array
+ 
+ 
+def findFrequencyUtil(arr, low, high, freq):
+ 
+    # If element at index low is equal to element
+    # at index high in the array
+    if (arr[low] == arr[high]):
+ 
+        # increment the frequency of the element
+        # by count of elements between high and low
+        freq[arr[low]] += high - low + 1
+ 
+    else:
+ 
+        # Find mid and recurse for left
+        # and right subarray
+        mid = int((low + high) / 2)
+        findFrequencyUtil(arr, low, mid, freq)
+        findFrequencyUtil(arr, mid + 1, high, freq)
+ 
+# A wrapper over recursive function
+# findFrequencyUtil(). It print number of
+# occurrences of each element in the array.
+ 
+ 
+def findFrequency(arr, n):
+ 
+    # create a empty vector to store frequencies
+    # and initialize it by 0. Size of vector is
+    # maximum value (which is last value in sorted
+    # array) plus 1.
+    freq = [0 for i in range(n - 1 + 1)]
+ 
+    # Fill the vector with frequency
+    findFrequencyUtil(arr, 0, n - 1, freq)
+ 
+    # Print the frequencies
+    for i in range(0, arr[n - 1] + 1, 1):
+        if (freq[i] != 0):
+            print("Element", i, "occurs",
+                  freq[i], "times")
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [1, 1, 1, 2, 3, 3, 5,
+           5, 8, 8, 8, 9, 9, 10]
+    n = len(arr)
+ 
+    # Function call
+    findFrequency(arr, n)
+ 
+# This code is contributed by
+# Surendra_Gangwar
+C#
+Javascript
+Output
+Element 1 occurs 3 times
+Element 2 occurs 1 times
+Element 3 occurs 2 times
+Element 5 occurs 2 times
+Element 8 occurs 3 times
+Element 9 occurs 2 times
+Element 10 occurs 1 times
+Time Complexity: O(m log N). Where m is the number of distinct elements in the array of size N. Since m <= M (a constant) (elements are in a limited range), the time complexity of this solution is O(log N)
+Auxiliary Space: O(N). To store the elements in the HashMap O(n) extra space is needed.
+
+Frequency of each element in a limited range array using the input array as a Hash-Map:
+In this method, we use the same array as the hash map by modifying its content:
+
+Dry run of this approach:
+
+Input: arr = { 1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10 };
+
+Step 1: Subtract 1 from each element of the array
+arr  = {0 ,0 ,0 ,1 ,2 ,2 ,4 ,4 ,7 ,7 ,7 ,8 ,8 ,9 }
+
+Step 2: Add n to the index at which the current array element points.
+for example :- 
+when i=0, arr[arr[0]%n] = 0 adding n to the arr[0], arr[0] =  14;
+when i=1, arr[arr[1]%n] = 14 adding n to arr[0] ,arr[0] = 28;
+Similarly finding the modified array in the same way we will get array as  
+arr = {42 ,14 ,28 ,1 ,30, 2, 4, 46, 35, 21, 7, 8, 8, 9}
+
+Step 3: Now in step 2 if you have noticed we added the n value to the index at which a particular element points to. So if we have more than one time have a element that point to the same index then in that case the division of the modified number with the n gives us the frequency of the number. 
+for example 
+at i=0; arr[0] =42; arr[0] / n = 3 it means that 0  appeared three times in the modified array as you can see in the arr of step 1.
+at i=1; arr[1] =14; arr[1]/14 = 1 it means that 1 appeared once in the modified array as you can see in the arr of step 1 .
+and similarly for other values we can calculate.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Javascript program to count number of occurrences of
+# each element in the array
+ 
+# It prints number of
+# occurrences of each element in the array.
+ 
+ 
+def findFrequency(input, n):
+    for i in range(n):
+        input[i] -= 1
+ 
+    for i in range(n):
+        input[input[i] % n] += n
+ 
+    for i in range(n):
+        if input[i] // n:
+            print("Element", i + 1, "occurs", input[i] // n, "times")
+ 
+        # change element back to original value
+        input[i] = input[i] % n + 1
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+    arr = [1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10]
+    n = len(arr)
+ 
+    # Function call
+    findFrequency(arr, n)
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+Element 1 occurs 3 times
+Element 2 occurs 1 times
+Element 3 occurs 2 times
+Element 5 occurs 2 times
+Element 8 occurs 3 times
+Element 9 occurs 2 times
+Element 10 occurs 1 times
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+https://youtu.be/B2hI-QPoisk 
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+22
+Next
+Count frequencies of all elements in array in O(1) extra space and O(n) time
+Related Articles
+1.
+For each A[i] find smallest subset with all elements less than A[i] sum more than B[i]
+2.
+Find even occurring elements in an array of limited range
+3.
+Find duplicates in a given array when elements are not limited to a range
+4.
+Find the missing number in a sorted array of limited range
+5.
+Find Prime number just less than and just greater each element of given Array
+6.
+Smallest element repeated exactly ‘k’ times (not limited to small range)
+7.
+For each element in 1st array count elements less than or equal to it in 2nd array
+8.
+For each element in 1st array count elements less than or equal to it in 2nd array | Set 2
+9.
+Largest Subset with sum less than each Array element
+10.
+Maximum product from array such that frequency sum of all repeating elements in product is less than or equal to 2 * k
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SURENDRA_GANGWAR
+29AjayKumar
+princi singh
+andrew1234
+SHUBHAMSINGH10
+ukasp
+avanitrachhadiya2155
+rag2127
+patel2127
+satyaramanaidu
+anushikasethh
+shivanisinghss2110
+adityakumar129
+shikhasingrajput
+_saurabh_jaiswal
+phasing17
+yadavd
+pushpeshrajdx01
+surinderdawra388
+janardansthox
+Article Tags :
+Arrays
+Divide and Conquer
+Practice Tags :
+Arrays
+Divide and Conquer

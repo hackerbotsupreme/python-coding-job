@@ -1,0 +1,187 @@
+Check for Majority Element in a sorted array
+
+Difficulty Level : Easy
+Last Updated : 22 Dec, 2022
+Read
+Discuss(250+)
+Courses
+Practice
+Video
+Given an array arr of N elements,  A majority element in an array arr of size N is an element that appears more than N/2 times in the array. The task is to write a function say isMajority() that takes an array (arr[] ), array’s size (n) and a number to be searched (x) as parameters and returns true if x is a majority element (present more than n/2 times).
+
+Examples: 
+
+Input: arr[] = {1, 2, 3, 3, 3, 3, 10}, x = 3
+Output: True (x appears more than n/2 times in the given array)
+
+Input: arr[] = {1, 1, 2, 4, 4, 4, 6, 6}, x = 4
+Output: False (x doesn't appear more than n/2 times in the given array)
+
+Input: arr[] = {1, 1, 1, 2, 2}, x = 1
+Output: True (x appears more than n/2 times in the given array)
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution. 
+ 
+METHOD 1 (Using Linear Search): Linearly search for the first occurrence of the element, once you find it (let at index i), check element at index i + n/2. If element is present at i+n/2 then return 1 else return 0.
+
+C++
+C
+Java
+Python3
+'''Python3 Program to check for majority element in a sorted array'''
+ 
+def isMajority(arr, n, x):
+    # get last index according to n (even or odd) */
+    last_index = (n//2 + 1) if n % 2 == 0 else (n//2)
+ 
+    # search for first occurrence of x in arr[]*/
+    for i in range(last_index):
+        # check if x is present and is present more than n / 2 times */
+        if arr[i] == x and arr[i + n//2] == x:
+            return 1
+ 
+# Driver program to check above function */
+arr = [1, 2, 3, 4, 4, 4, 4]
+n = len(arr)
+x = 4
+if (isMajority(arr, n, x)):
+    print ("% d appears more than % d times in arr[]"
+                                            %(x, n//2))
+else:
+    print ("% d does not appear more than % d times in arr[]"
+                                                    %(x, n//2))
+ 
+ 
+# This code is contributed by shreyanshi_arun.
+C#
+PHP
+Javascript
+Output
+4 appears more than 3 times in arr[]
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+METHOD 2 (Using Binary Search): Use binary search methodology to find the first occurrence of the given number. The criteria for binary search is important here. 
+
+C++
+C
+Java
+Python3
+'''Python3 Program to check for majority element in a sorted array'''
+ 
+# This function returns true if the x is present more than n / 2
+# times in arr[] of size n */
+def isMajority(arr, n, x):
+     
+    # Find the index of first occurrence of x in arr[] */
+    i = _binarySearch(arr, 0, n-1, x)
+ 
+    # If element is not present at all, return false*/
+    if i == -1:
+        return False
+ 
+    # check if the element is present more than n / 2 times */
+    if ((i + n//2) <= (n -1)) and arr[i + n//2] == x:
+        return True
+    else:
+        return False
+ 
+# If x is present in arr[low...high] then returns the index of
+# first occurrence of x, otherwise returns -1 */
+def _binarySearch(arr, low, high, x):
+    if high >= low:
+        mid = (low + high)//2 # low + (high - low)//2;
+ 
+        ''' Check if arr[mid] is the first occurrence of x.
+            arr[mid] is first occurrence if x is one of the following
+            is true:
+            (i) mid == 0 and arr[mid] == x
+            (ii) arr[mid-1] < x and arr[mid] == x'''
+         
+        if (mid == 0 or x > arr[mid-1]) and (arr[mid] == x):
+            return mid
+        elif x > arr[mid]:
+            return _binarySearch(arr, (mid + 1), high, x)
+        else:
+            return _binarySearch(arr, low, (mid -1), x)
+    return -1
+ 
+ 
+# Driver program to check above functions */
+arr = [1, 2, 3, 3, 3, 3, 10]
+n = len(arr)
+x = 3
+if (isMajority(arr, n, x)):
+    print ("% d appears more than % d times in arr[]"
+                                            % (x, n//2))
+else:
+    print ("% d does not appear more than % d times in arr[]"
+                                                    % (x, n//2))
+ 
+# This code is contributed by shreyanshi_arun.
+C#
+Javascript
+Output
+3 appears more than 3 times in arr[]
+Time Complexity: O(log n)
+Auxiliary Space: O(1)
+
+Algorithmic Paradigm: Divide and Conquer
+
+
+
+Like
+Previous
+Find the smallest and second smallest elements in an array
+Next
+Maximum and minimum of an array using minimum number of comparisons
+Related Articles
+1.
+Python3 Program for Check for Majority Element in a sorted array
+2.
+C Program to Check for Majority Element in a sorted array
+3.
+C++ Program to Check for Majority Element in a sorted array
+4.
+Java Program for Check for Majority Element in a sorted array
+5.
+C# Program to Check for Majority Element in a sorted array
+6.
+Javascript Program to Check Majority Element in a sorted array
+7.
+Check if an array has a majority element
+8.
+Majority element in a circular array of 0's and 1's
+9.
+Minimum length of subarray in given Ternary Array having 0 as the majority element
+10.
+Find majority element using Hashing
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+_np_
+ukasp
+aashish1995
+shivanisinghss2110
+rameshtravel07
+suresh07
+divyeshrabadiya07
+rohitsingh07052
+hardikkoriintern
+abhrajyoti00
+Article Tags :
+Binary Search
+Arrays
+Divide and Conquer
+Practice Tags :
+Arrays
+Binary Search
+Divide and Conquer

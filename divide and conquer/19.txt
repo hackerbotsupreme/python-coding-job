@@ -1,0 +1,445 @@
+Median of two sorted arrays of same size
+
+Difficulty Level : Hard
+Last Updated : 30 Jan, 2023
+Read
+Discuss(360+)
+Courses
+Practice
+Video
+ 
+There are 2 sorted arrays A and B of size n each. Write an algorithm to find the median of the array obtained after merging the above 2 arrays(i.e. array of length 2n). The complexity should be O(log(n))
+
+median-of-two-arrays
+
+Note: Since the size of the set for which we are looking for the median is even (2n), we need to take the average of the middle two numbers and return the floor of the average.
+
+Method 1 (Simply count while Merging) 
+
+Use the merge procedure of merge sort. Keep track of count while comparing elements of two arrays. If count becomes n(For 2n elements), we have reached the median. Take the average of the elements at indexes n-1 and n in the merged array. See the below implementation. 
+
+C++
+C
+Java
+Python3
+# A Simple Merge based O(n) Python 3 solution
+# to find median of two sorted lists
+ 
+# This function returns median of ar1[] and ar2[].
+# Assumptions in this function:
+# Both ar1[] and ar2[] are sorted arrays
+# Both have n elements
+def getMedian( ar1, ar2 , n):
+    i = 0 # Current index of i/p list ar1[]
+     
+    j = 0 # Current index of i/p list ar2[]
+     
+    m1 = -1
+    m2 = -1
+     
+    # Since there are 2n elements, median
+    # will be average of elements at index
+    # n-1 and n in the array obtained after
+    # merging ar1 and ar2
+    count = 0
+    while count < n + 1:
+        count += 1
+         
+        # Below is to handle case where all
+        # elements of ar1[] are smaller than
+        # smallest(or first) element of ar2[]
+        if i == n:
+            m1 = m2
+            m2 = ar2[0]
+            break
+         
+        # Below is to handle case where all
+        # elements of ar2[] are smaller than
+        # smallest(or first) element of ar1[]
+        elif j == n:
+            m1 = m2
+            m2 = ar1[0]
+            break
+        # equals sign because if two
+        # arrays have some common elements
+        if ar1[i] <= ar2[j]:
+            m1 = m2 # Store the prev median
+            m2 = ar1[i]
+            i += 1
+        else:
+            m1 = m2 # Store the prev median
+            m2 = ar2[j]
+            j += 1
+    return (m1 + m2)/2
+ 
+# Driver code to test above function
+ar1 = [1, 12, 15, 26, 38]
+ar2 = [2, 13, 17, 30, 45]
+n1 = len(ar1)
+n2 = len(ar2)
+if n1 == n2:
+    print("Median is ", getMedian(ar1, ar2, n1))
+else:
+    print("Doesn't work for arrays of unequal size")
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+Median is 4.5
+ 
+Complete Interview Preparation - GFG
+
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Method 2 (By comparing the medians of two arrays) 
+
+This method works by first getting medians of the two sorted arrays and then comparing them.
+Let ar1 and ar2 be the input arrays. 
+
+Algorithm :  
+
+1) Calculate the medians m1 and m2 of the input arrays ar1[] 
+   and ar2[] respectively.
+2) If m1 and m2 both are equal then we are done.
+     return m1 (or m2)
+3) If m1 is greater than m2, then median is present in one 
+   of the below two subarrays.
+    a)  From first element of ar1 to m1 (ar1[0...|_n/2_|])
+    b)  From m2 to last element of ar2  (ar2[|_n/2_|...n-1])
+4) If m2 is greater than m1, then median is present in one    
+   of the below two subarrays.
+   a)  From m1 to last element of ar1  (ar1[|_n/2_|...n-1])
+   b)  From first element of ar2 to m2 (ar2[0...|_n/2_|])
+5) Repeat the above process until size of both the subarrays 
+   becomes 2.
+6) If size of the two arrays is 2 then use below formula to get 
+  the median.
+    Median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+Examples :  
+
+   ar1[] = {1, 12, 15, 26, 38}
+   ar2[] = {2, 13, 17, 30, 45}
+For above two arrays m1 = 15 and m2 = 17
+For the above ar1[] and ar2[], m1 is smaller than m2. So median is present in one of the following two subarrays. 
+
+   [15, 26, 38] and [2, 13, 17]
+Let us repeat the process for above two subarrays:  
+
+    m1 = 26 m2 = 13.
+m1 is greater than m2. So the subarrays become  
+
+  [15, 26] and [13, 17]
+Now size is 2, so median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+                       = (max(15, 13) + min(26, 17))/2 
+                       = (15 + 17)/2
+                       = 16
+Implementation : 
+
+C
+C++
+Java
+Python
+# using divide and conquer we divide
+# the 2 arrays accordingly recursively
+# till we get two elements in each
+# array, hence then we calculate median
+ 
+#condition len(arr1)=len(arr2)=n
+def getMedian(arr1, arr2, n):
+     
+    # there is no element in any array
+    if n == 0:
+        return -1
+         
+    # 1 element in each => median of
+    # sorted arr made of two arrays will   
+    elif n == 1:
+        # be sum of both elements by 2
+        return (arr1[0]+arr2[0])/2
+         
+    # Eg. [1,4] , [6,10] => [1, 4, 6, 10]
+    # median = (6+4)/2   
+    elif n == 2:
+        # which implies median = (max(arr1[0],
+        # arr2[0])+min(arr1[1],arr2[1]))/2
+        return (max(arr1[0], arr2[0]) +
+                min(arr1[1], arr2[1])) / 2
+     
+    else:
+        #calculating medians    
+        m1 = median(arr1, n)
+        m2 = median(arr2, n)
+         
+        # then the elements at median
+        # position must be between the
+        # greater median and the first
+        # element of respective array and
+        # between the other median and
+        # the last element in its respective array.
+        if m1 > m2:
+             
+            if n % 2 == 0:
+                return getMedian(arr1[:int(n / 2) + 1],
+                        arr2[int(n / 2) - 1:], int(n / 2) + 1)
+            else:
+                return getMedian(arr1[:int(n / 2) + 1],
+                        arr2[int(n / 2):], int(n / 2) + 1)
+         
+        else:
+            if n % 2 == 0:
+                return getMedian(arr1[int(n / 2 - 1):],
+                        arr2[:int(n / 2 + 1)], int(n / 2) + 1)
+            else:
+                return getMedian(arr1[int(n / 2):],
+                        arr2[0:int(n / 2) + 1], int(n / 2) + 1)
+ 
+ # function to find median of array
+def median(arr, n):
+    if n % 2 == 0:
+        return (arr[int(n / 2)] +
+                arr[int(n / 2) - 1]) / 2
+    else:
+        return arr[int(n/2)]
+ 
+     
+# Driver code
+arr1 = [1, 2, 3, 6]
+arr2 = [4, 6, 8, 10]
+n = len(arr1)
+print(int(getMedian(arr1,arr2,n)))
+ 
+# This code is contributed by
+# baby_gog9800
+C#
+Javascript
+Output
+Median is 5
+Time Complexity: O(logn) 
+Auxiliary Space: O(logn)
+
+Algorithmic Paradigm: Divide and Conquer 
+
+Method 3 (By Merging two arrays w/o extra space)
+
+This method works by merging two arrays without extra space and then sorting them.
+
+Algorithm : 
+
+1) Merge the two input arrays ar1[] and ar2[].
+2) Sort ar1[] and ar2[] respectively.
+3) The median will be the last element of ar1[] + the first
+   element of ar2[] divided by 2. [(ar1[n-1] + ar2[0])/2].
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program for above approach
+ 
+# function to return median of the arrays
+# both are sorted & of same size
+def getMedian(ar1, ar2, n):
+    i, j = n - 1, 0
+ 
+    # while loop to swap all smaller numbers to arr1
+    while(ar1[i] > ar2[j] and i > -1 and j < n):
+        ar1[i], ar2[j] = ar2[j], ar1[i]
+        i -= 1
+        j += 1
+ 
+    ar1.sort()
+    ar2.sort()
+ 
+    return (ar1[-1] + ar2[0]) >> 1
+ 
+ 
+# Driver program
+if __name__ == '__main__':
+    ar1 = [1, 12, 15, 26, 38]
+    ar2 = [2, 13, 17, 30, 45]
+ 
+    n1, n2 = len(ar1), len(ar2)
+ 
+    if(n1 == n2):
+        print('Median is', getMedian(ar1, ar2, n1))
+    else:
+        print("Doesn't work for arrays of unequal size")
+ 
+# This code is contributed by saitejagampala
+C#
+Javascript
+Output
+Median is 16
+Time Complexity: O(nlogn)
+Auxiliary Space: O(1)
+
+ 
+Method 4 (Using binary search)
+
+This method can also be used for arrays of different sizes.
+
+Algorithm:
+
+We can find the kth element by using binary search on whole range of constraints of elements.
+
+Initialize ans = 0.0
+Intiialize low = -10^9, high = 10^9 and pos = n
+Run a loop while(low <= high):
+Calculate mid = (low + (high – low)>>1)
+Find total elements less or equal to mid in the given arrays
+If the count is less or equal to pos
+Update low = mid + 1
+Else high = mid – 1
+Store low in ans, i.e., ans = low.
+Again follow step3 with pos as n – 1
+Return (sum + low * 1.0)/2
+Below is the implementation of the above approach:
+
+C++
+Java
+C#
+Python
+# Calculate the number of elements less than or equal to mid in the given arrays
+def count_less_than_or_equal_to_mid(mid, arrays):
+    count = 0
+    for array in arrays:
+        count += len([x for x in array if x <= mid])
+    return count
+ 
+def find_kth_element(arrays, n):
+    ans = 0.0
+    low = -1e9
+    high = 1e9
+    pos = n
+ 
+    # Binary search to find the kth element
+    while low <= high:
+        mid = low + (high - low) // 2
+        count = count_less_than_or_equal_to_mid(mid, arrays)
+        if count <= pos:
+            low = mid + 1
+        else:
+            high = mid - 1
+ 
+    ans = low
+ 
+    # Update pos and repeat the binary search to find the (n-1)th element
+    pos = n - 1
+    low = -1e9
+    high = 1e9
+    while low <= high:
+        mid = low + (high - low) // 2
+        count = count_less_than_or_equal_to_mid(mid, arrays)
+        if count <= pos:
+            low = mid + 1
+        else:
+            high = mid - 1
+ 
+    ans += low
+ 
+    # Return the average of the two elements
+    return (ans / 2.0)
+ 
+# Test with some arrays
+arrays = [[1, 4, 5, 6, 10], [2, 3, 4, 5, 7]]
+n = 5
+print("Median in", find_kth_element(arrays, n)) 
+ 
+#code is contributed by khushboogoyal499
+Output
+Median is 4.5
+Time Complexity: O(log n)2
+Auxiliary Space: O(1)
+
+Median of two sorted arrays of different sizes
+
+Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.
+
+
+
+Like
+Previous
+Collections.binarySearch() in Java with Examples
+Next
+Two elements whose sum is closest to zero
+Related Articles
+1.
+Check if two sorted arrays can be merged to form a sorted array with no adjacent pair from the same array
+2.
+Generate all possible sorted arrays from alternate elements of two given sorted arrays
+3.
+Median of two sorted arrays of different sizes | Set 1 (Linear)
+4.
+Median of two sorted arrays with different sizes in O(log(min(n, m)))
+5.
+Median of two sorted Arrays of different sizes
+6.
+Find Median for each Array element by excluding the index at which Median is calculated
+7.
+Minimize sum of product of same-indexed elements of two arrays by reversing a subarray of one of the two arrays
+8.
+Count elements of same value placed at same indices of two given arrays
+9.
+Bitwise XOR of same indexed array elements after rearranging an array to make XOR of same indexed elements of two arrays equal
+10.
+Maximize median of Array formed by adding elements of two other Arrays
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SaumyaBhatnagar
+jit_t
+nitin mittal
+Shivi_Aggarwal
+prerna saini
+lilkucfer
+Harshita Chaudhary
+MohammadOmar
+GauravRajput1
+benjam1n
+manupathria
+saitejagampala
+aashish1995
+rrrtnx
+2435shivkant
+vaibhavrabadiya117
+avanitrachhadiya2155
+subhammahato348
+souravmahato348
+deepthiinduri
+Code_r
+sanyamjain10168
+believer411
+puriabhijit000
+sritharun4477
+sourabhdalal0001
+surajrasr7277
+Article Tags :
+Accolite
+Amazon
+D-E-Shaw
+FactSet
+median-finding
+Samsung
+statistical-algorithms
+Arrays
+Divide and Conquer
+Mathematical
+Searching
+Practice Tags :
+Accolite
+Amazon
+D-E-Shaw
+FactSet
+Samsung

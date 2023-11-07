@@ -1,0 +1,676 @@
+Median of two sorted Arrays of different sizes
+
+Difficulty Level : Expert
+Last Updated : 25 Jan, 2023
+Read
+Discuss(150+)
+Courses
+Practice
+Video
+Given two sorted arrays, a[] and b[], the task is to find the median of these sorted arrays, where N is the number of elements in the first array, and M is the number of elements in the second array. 
+
+This is an extension of median of two sorted arrays of equal size problem. Here we handle arrays of unequal size also.
+
+Examples: 
+
+Input: a[] = {-5, 3, 6, 12, 15}, b[] = {-12, -10, -6, -3, 4, 10}
+Output: The median is 3.
+Explanation: The merged array is: ar3[] = {-12, -10, -6, -5 , -3, 3, 4, 6, 10, 12, 15}.
+So the median of the merged array is 3
+
+Input: a[] = {2, 3, 5, 8}, b[] = {10, 12, 14, 16, 18, 20}
+Output: The median is 11.
+Explanation : The merged array is: ar3[] = {2, 3, 5, 8, 10, 12, 14, 16, 18, 20}
+If the number of the elements are even. So there are two middle elements.
+Take the average between the two: (10 + 12) / 2 = 11.
+
+Recommended Problem
+Median of 2 Sorted Arrays of Different Sizes
+Arrays
+Searching
++2 more
+Amazon
+Microsoft
++2 more
+Solve Problem
+Submission count: 55.1K
+The idea is to merge them into third array and there are two cases:
+
+Case 1: If the length of the third array is odd, then the median is at (length)/2th index in the array obtained after merging both the arrays.
+Case 2: If the length of the third array is even, then the median will be the average of elements at index ((length)/2 ) and ((length)/2 – 1) in the array obtained after merging both arrays.
+Illustration:
+
+
+
+arr1[] = { -5, 3, 6, 12, 15 } , arr2[] = { -12, -10, -6, -3, 4, 10 }
+
+After merging them in a third array : arr3[] = { -5, 3, 6, 12, 15, -12, -10, -6, -3, 4, 10}
+Sort arr3[ ] = { -12, -10, -6, -5, -3, 3, 4, 6, 10, 12, 15 }
+As the length of arr3 is odd, so the median is 3
+Follow the steps below to solve the problem:
+
+Merge the two given arrays into one array.
+Then sort the third(merged) array
+If the length of the third array is even then: 
+Divide the length of array by 2. Return (arr[value]  + arr[value – 1] / 2).
+If the length of the third array is odd then: 
+Divide the length of the array by 2 and round that value and return the arr[value] 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program for the above approach
+def Solution(arr):
+ 
+    n = len(arr)
+ 
+    # If length of array is even
+    if n % 2 == 0:
+        z = n // 2
+        e = arr[z]
+        q = arr[z - 1]
+        ans = (e + q) / 2
+        return ans
+         
+    # If length of array is odd
+    else:
+        z = n // 2
+        ans = arr[z]
+        return ans
+ 
+# Driver code
+if __name__ == "__main__":
+     
+    arr1 = [ -5, 3, 6, 12, 15 ]
+    arr2 = [ -12, -10, -6, -3, 4, 10 ]
+ 
+    # Concatenating the two arrays
+    arr3 = arr1 + arr2
+ 
+    # Sorting the resultant array
+    arr3.sort()
+ 
+    print("Median = ", Solution(arr3))
+     
+# This code is contributed by kush11
+C#
+Javascript
+Output
+Median = 3
+Time Complexity: O((N + M) Log (N + M)), Time required to sort the array of size N + M
+Auxiliary Space: O(N + M), Creating a new array of size N+M.
+
+Median of two sorted arrays of different sizes by Merging Arrays efficiently:
+The given arrays are sorted, so merge the sorted arrays in an efficient way and keep the count of elements inserted in the output array or printed form. So when the elements in the output array are half the original size of the given array print the element as a median element. There are two cases: 
+
+Case 1: M+N is odd, the median is at (M+N)/2th index in the array obtained after merging both the arrays.
+Case 2: M+N is even, the median will be the average of elements at index ((M+N)/2 – 1) and (M+N)/2 in the array obtained after merging both the arrays
+Illustration:
+
+Given two array ar1[ ]= { 900 } and ar2[ ] = { 5, 8, 10, 20 } , n => Size of ar1 = 1 and m => Size of ar2 = 4
+
+Loop will run from 0 till 2. 
+First iteration : { 900 }  { 5, 8, 10, 20 } , m1 = 5 
+Second iteration : { 900 }  { 5, 8, 10, 20 }, m1 = 8
+Third iteration : { 900 }  { 5, 8, 10, 20 }, m1 = 10
+As size of ar1 + ar2 = odd , hence we return m1 = 10 as the median
+Follow the steps below to solve the problem:
+
+Given two arrays are sorted. So they can be merged in O(m+n) time. Create a variable count to have a count of elements in the output array.
+If value of (M+N) is odd, then there is only one median else the median is the average of elements at index (M+N)/2 and ((M+N)/2 – 1).
+To merge both arrays, keep two indices i and j initially assigned to 0. Compare the ith index of 1st array and jth index of the second, increase the index of the smallest element and increase the count.
+Store (M+N)/2 and (M+N)/2-1 in two variables.
+Check if the count reached (M+N) / 2. If (M+N) is odd return m1. If even return (m1+m2)/2.
+ 
+Complete Interview Preparation - GFG
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Simple Merge based O(n) solution to find
+# median of two sorted arrays
+ 
+""" This function returns median of ar1[] and ar2[].
+Assumption in this function:
+Both ar1[] and ar2[] are sorted arrays """
+ 
+ 
+def getMedian(ar1, ar2, n, m):
+ 
+    i = 0  # Current index of input array ar1[]
+    j = 0  # Current index of input array ar2[]
+    m1, m2 = -1, -1
+    for count in range(((n + m) // 2) + 1):
+        if(i != n and j != m):
+            if ar1[i] > ar2[j]:
+                m1 = ar2[j]
+                j += 1
+            else:
+                m1 = ar1[i]
+                i += 1
+        elif(i < n):
+            m1 = ar1[i]
+            i += 1
+            # for case when j<m,
+        else:
+            m1 = ar2[j]
+            j += 1
+           # return m1 if it's length odd else return (m1+m2)//2
+    return m1 if (n + m) % 2 == 1 else (m1 + m2) // 2
+ 
+ 
+# Driver code
+ar1 = [900]
+ar2 = [5, 8, 10, 20]
+ 
+n1 = len(ar1)
+n2 = len(ar2)
+print(getMedian(ar1, ar2, n1, n2))
+ 
+# This code is contributed by divyesh072019
+C#
+Javascript
+Output
+10
+Time Complexity: O(M + N). To merge both arrays O(M+N) time is needed.
+Auxiliary Space: O(1). No extra space is required.
+
+Median of two sorted arrays of different sizes using Recursion:
+The idea is simple, calculate the median of both arrays and discard one-half of each array. This approach takes into consideration the size of the arrays. The smaller-sized array is considered the first array in the parameter.
+
+Illustration :
+
+Let’s take an example to understand this
+Input :arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+           brr[] = { 11, 12, 13, 14, 15, 16, 17, 18, 19 }
+
+Recursive call 1:
+smaller array[] = 1 2 3 4 5 6 7 8 9 10, mid = 5
+larger array[] = 11 12 13 14 15 16 17 18 19 , mid = 15
+
+5 < 15
+Discard first half of the first array and second half of the second array
+
+Recursive call 2:
+smaller array[] = 11 12 13 14 15, mid = 13
+larger array[] = 5 6 7 8 9 10, mid = 7
+
+7 < 13
+Discard first half of the second array and second half of the first array
+
+Recursive call 3:
+smaller array[] = 11 12 13 , mid = 12
+larger array[] = 7 8 9 10 , mid = 8
+
+8 < 12
+Discard first half of the second array and second half of the first array
+
+Recursive call 4:
+smaller array[] = 11 12
+larger array[] = 8 9 10
+
+Size of the smaller array is 2 and the size of the larger array is odd
+so, the median will be the median of max( 11, 8), 9, min( 10, 12)
+that is 9, 10, 11, so the median is 10.
+
+Output:10.000000
+
+Some corner cases:
+
+If the size of the smaller array is 0. Return the median of a larger array.
+if the size of the smaller array is 1. 
+The size of the larger array is also 1. Return the median of two elements.
+If the size of the larger array is odd. Then after adding the element from the 2nd array, it will be even so the median will be an average of two mid elements. 
+So the element from the smaller array will affect the median if and only if it lies between (M/2 – 1)th and (M/2 + 1)th element of the larger array. 
+So, find the median in between the four elements, the element of the smaller array and (M/2)th, (M/2 – 1)th, (M/2 + 1)th element of a larger array
+Similarly, if size is even, then check for the median of three elements, the element of the smaller array and (M/2)th, (M/2 – 1)th element of a larger array
+If the size of the smaller array is 2 
+If the larger array also has two elements, find the median of four elements.
+If the larger array has an odd number of elements, then the median will be one of the following 3 elements 
+The middle element of the larger array
+Max of the second element of smaller array and element just before the middle, i.e M/2-1th element in a bigger array
+Min of the first element of smaller array and element 
+just after the middle in the bigger array, i.e M/2 + 1th element in the bigger array
+If the larger array has an even number of elements, then the median will be one of the following 4 elements 
+The middle two elements of the larger array
+Max of the first element of smaller array and element just before the first middle element in the bigger array, i.e M/2 – 2nd element
+Min of the second element of smaller array and element just after the second middle in the bigger array, M/2 + 1th element
+Follow the steps below to solve the problem:
+
+Create a recursive function that takes two arrays and the sizes of both arrays.
+Take care of the base cases for the size of arrays less than 2. (previously discussed in Approach).Note: The first array is always the smaller array.
+Find the middle elements of both arrays. i.e element at (n – 1)/2 and (m – 1)/2 of first and second array respectively. Compare both elements.
+If the middle element of the smaller array is less than the middle element of the larger array then the first half of the smaller array is bound to lie strictly in the first half of the merged array. It can also be stated that there is an element in the first half of the larger array and the second half of the smaller array which is the median. So, reduce the search space to the first half of the larger array and the second half of the smaller array.
+Similarly, If the middle element of the smaller array is greater than the middle element of the larger array then reduce the search space to the first half of the smaller array and the second half of the larger array.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python3 program to find median of two sorted arrays of
+# unequal sizes
+ 
+# A utility function to find median of two integers
+ 
+ 
+def MO2(a, b):
+    return (a + b) / 2
+ 
+# A utility function to find median of three integers
+ 
+ 
+def MO3(a, b, c):
+ 
+    return a + b + c - max(a, max(b, c)) - min(a, min(b, c))
+ 
+# A utility function to find a median of four integers
+ 
+ 
+def MO4(a, b, c, d):
+    Max = max(a, max(b, max(c, d)))
+    Min = min(a, min(b, min(c, d)))
+    return (a + b + c + d - Max - Min) / 2
+ 
+# Utility function to find median of single array
+ 
+ 
+def medianSingle(arr, n):
+    if (n == 0):
+        return -1
+    if (n % 2 == 0):
+        return (arr[n / 2] + arr[n / 2 - 1]) / 2
+    return arr[n / 2]
+ 
+# This function assumes that N is smaller than or equal to M
+# This function returns -1 if both arrays are empty
+ 
+ 
+def findMedianUtil(A, N, B, M):
+ 
+    # If smaller array is empty, return median from second array
+    if (N == 0):
+        return medianSingle(B, M)
+ 
+    # If the smaller array has only one element
+    if (N == 1):
+ 
+        # Case 1: If the larger array also has one element,
+        # simply call MO2()
+        if (M == 1):
+            return MO2(A[0], B[0])
+ 
+        # Case 2: If the larger array has odd number of elements,
+        # then consider the middle 3 elements of larger array and
+        # the only element of smaller array. Take few examples
+        # like following
+        # A = {9}, B[] = {5, 8, 10, 20, 30} and
+        # A[] = {1}, B[] = {5, 8, 10, 20, 30}
+        if (M & 1 != 0):
+            return MO2(B[M / 2], MO3(A[0], B[M / 2 - 1], B[M / 2 + 1]))
+ 
+        # Case 3: If the larger array has even number of element,
+        # then median will be one of the following 3 elements
+        # ... The middle two elements of larger array
+        # ... The only element of smaller array
+        return MO3(B[M // 2], B[M // 2 - 1], A[0])
+ 
+    # If the smaller array has two elements
+    elif (N == 2):
+ 
+        # Case 4: If the larger array also has two elements,
+        # simply call MO4()
+        if (M == 2):
+            return MO4(A[0], A[1], B[0], B[1])
+ 
+        # Case 5: If the larger array has odd number of elements,
+        # then median will be one of the following 3 elements
+        # 1. Middle element of larger array
+        # 2. Max of first element of smaller array and element
+        # just before the middle in bigger array
+        # 3. Min of second element of smaller array and element
+        # just after the middle in bigger array
+        if (M & 1 != 0):
+            return MO3(B[M / 2], max(A[0], B[M / 2 - 1]), min(A[1], B[M / 2 + 1]))
+ 
+        # Case 6: If the larger array has even number of elements,
+        # then median will be one of the following 4 elements
+        # 1) & 2) The middle two elements of larger array
+        # 3) Max of first element of smaller array and element
+        # just before the first middle element in bigger array
+        # 4. Min of second element of smaller array and element
+        # just after the second middle in bigger array
+        return MO4(B[M / 2], B[M / 2 - 1], max(A[0], B[M / 2 - 2]), min(A[1], B[M / 2 + 1]))
+ 
+    idxA = (N - 1) / 2
+    idxB = (M - 1) / 2
+ 
+    ''' if A[idxA] <= B[idxB], then median must exist in
+        A[idxA....] and B[....idxB] '''
+    if (A[idxA] <= B[idxB]):
+        return findMedianUtil(A + idxA, N / 2 + 1, B, M - idxA)
+ 
+    ''' if A[idxA] > B[idxB], then median must exist in
+    A[...idxA] and B[idxB....] '''
+    return findMedianUtil(A, N / 2 + 1, B + idxA, M - idxA)
+ 
+# A wrapper function around findMedianUtil(). This function
+# makes sure that smaller array is passed as first argument
+# to findMedianUtil
+ 
+ 
+def findMedian(A, N, B, M):
+ 
+    if (N > M):
+        return findMedianUtil(B, M, A, N)
+    return findMedianUtil(A, N, B, M)
+ 
+ 
+# Driver code
+A = [900]
+B = [5, 8, 10, 20]
+ 
+N = len(A)
+M = len(B)
+ 
+print(findMedian(A, N, B, M))
+ 
+# This code is contributed by divyesh072019
+C#
+PHP
+Javascript
+Output
+10.000000
+Time Complexity: O(min(log M, log N)). In each step, one-half of each array is discarded. So the algorithm takes O(min(log M, log N)) time to reach the median value.
+Auxiliary Space: O(1). No extra space is required.
+
+Median of two sorted arrays of different sizes using Binary Search:
+The given two arrays are sorted, so we can utilize the ability of Binary Search to divide the array and find the median. Median means the point at which the whole array is divided into two parts. Hence since the two arrays are not merged so to get the median we require merging which is costly. Hence instead of merging, we will use a modified binary search algorithm to efficiently find the median.
+
+Illustration:
+
+ A[ ] = { -5, 3, 6, 12, 15 }, n = 5  &  B[ ] = { -12, -10, -6, -3, 4, 10} , m = 6
+
+realmidinmergedarray = 6. 
+start = 0 and end = 5 => mid = 2
+leftAsize = 2 and leftBsize = 4
+leftA = 3
+leftB = -3
+rightA = 6
+rightB = 4
+ A[ ] = { -5, 3, 6, 12, 15 } &  B[ ] = { -12, -10, -6, -3, 4, 10} 
+As leftA <= rightB and leftB <= rightA, so the condition holds and 3 is returned as the median
+Follow the steps below to solve the problem:
+
+If we would have merged the two arrays, the median is the point that will divide the sorted merged array into two equal parts. So the actual median point in the merged array would have been (M+N+1)/2;
+We divide A[] and B[] into two parts. We will find the mid value and divide the first array A[] into two parts and simultaneously choose only those elements from left of B[] array such that the sum of the count of elements in the left part of both A[] and B[] will result in the left part of the merged array. 
+ Now we have 4 variables indicating four values two from array A[] and two from array B[].
+leftA -> Rightmost element in left part of A.
+leftb -> Rightmost element in left part of B
+rightA -> Leftmost element in right part of A
+rightB -> Leftmost element in right part of B
+Hence to confirm that the partition was correct we have to check if leftA<=rightB and leftB<=rightA. This is the case when the sum of two parts of A and B results in the left part of the merged array.
+ If the condition fails we have to find another midpoint in A and then left part in B[]. 
+If we find leftA > rightB. means we have to decrease the size of A’s partition and shift to lesser value in A[]. 
+So update the right pointer of to mid-1 else we will increase the left pointer to mid+1. 
+Repeat the above steps with new partitions till we get the answers.
+If leftA ≤ rightB and leftB ≤ rightA, then we get the correct partition and our answer depends on the total size of the merged array (i.e. M+N). If (M+N) is even we take max(leftA, leftB) and min(rightA, rightB), add them and divide by 2 to get our answer, else we will just return the maximum of leftA and leftB.
+Below is the implementation of the above problem:
+
+C++
+Java
+Python3
+class Solution:
+ 
+    # Method to find median
+    def Median(self, A, B):
+ 
+          # Assumption both A and B cannot be empty
+        n = len(A)
+        m = len(B)
+        if (n > m):
+            return self.Median(B, A)  # Swapping to make A smaller
+ 
+        start = 0
+        end = n
+        realmidinmergedarray = (n + m + 1) // 2
+ 
+        while (start <= end):
+            mid = (start + end) // 2
+            leftAsize = mid
+            leftBsize = realmidinmergedarray - mid
+ 
+            # checking overflow of indices
+            leftA = A[leftAsize - 1] if (leftAsize > 0) else float('-inf')
+            leftB = B[leftBsize - 1] if (leftBsize > 0) else float('-inf')
+            rightA = A[leftAsize] if (leftAsize < n) else float('inf')
+            rightB = B[leftBsize] if (leftBsize < m) else float('inf')
+ 
+            # if correct partition is done
+            if leftA <= rightB and leftB <= rightA:
+                if ((m + n) % 2 == 0):
+                    return (max(leftA, leftB) + min(rightA, rightB)) / 2.0
+                return max(leftA, leftB)
+ 
+            elif (leftA > rightB):
+                end = mid - 1
+            else:
+                start = mid + 1
+ 
+ 
+# Driver code
+ans = Solution()
+arr1 = [-5, 3, 6, 12, 15]
+arr2 = [-12, -10, -6, -3, 4, 10]
+print("Median of the two arrays is")
+print(ans.Median(arr1, arr2))
+ 
+# This code is contributed by Arpan
+C#
+Javascript
+Output
+Median of the two arrays are
+3
+Time Complexity: O(min(log M, log N)): Since binary search is being applied on the smaller of the 2 arrays
+Auxiliary Space: O(1)
+
+Median of two sorted arrays of different sizes using Priority Queue: 
+In this Approach we have used Priority Queue (min Heap) to find out the median. The Idea is simple Just push the elements into a single Priority Queue from both arrays . Now we have to find median from priority queue by performing a simple traversal through it upto median.
+
+Illustration:
+
+A[ ]={-2,3,4,5} ,n=4 & B[ ]={-4,-1,7,8,9},m=5
+
+Step 1:
+
+//Adding elements to priority queue(pq) from array A 
+
+pq.push(-2)
+
+pq.push(3)
+
+pq.push(4)
+
+pq.push(5)
+
+After adding array A elements to priority queue it will look as pq={-2,3,4,5}
+
+Step 2:
+
+//Adding elements to priority queue(pq) from array B
+
+pq.push(-4)
+
+pq.push(-1)
+
+pq.push(7)
+
+pq.push(8)
+
+pq.push(9)
+
+After adding array B elements to priority queue it will look as pq={-4,-2,-1,3,4,5,7,8,9}
+
+Step 3:
+
+ //Now we have to find median from Priority Queue 
+
+Now initialize a count=-1
+
+under Loop increment count to 1 at each pop
+
+check ;
+
+ if n+m is odd then traverse priority queue upto (n+m)/2 by poping element by element i.e count==(n+m)/2 then display median as pq.top()
+
+if n+m is even then traverse priority queue upto  (n+m)/2 && ((n+m)/2)-1 i.e count ==(n+m)/2 and count==((n+m)/2)-1 maintain both top values of priority queue
+
+In this case the median is 4
+
+Below is the implementation of the above problem:
+
+C++
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Method to find median
+double Median(vector<int>& A, vector<int>& B)
+{
+    int i;
+    int n=A.size();
+    int m=B.size();
+     //initializing Priority Queue (Min Heap)
+     priority_queue <int, vector<int>, greater<int>> pq;  
+        //pushing array A values to priority Queue
+        for(i=0;i<n;i++)
+            pq.push(A[i]);
+        //pushing array B values to priority Queue
+        for(i=0;i<m;i++)
+            pq.push(B[i]);
+        int check=n+m;
+        double count=-1;
+        double mid1,mid2;
+        while(!pq.empty())
+        {
+            count++;
+          //returning mid value if combined length(n+m) is odd
+            if(check%2!=0&&count==check/2)
+            {
+                double ans=pq.top();
+                return ans;
+            }
+          //maintaining mid1 value if combined length(n+m) is even
+          //where we need to maintain both mid values in case of even combined length
+            if(check%2==0&&count==(check/2)-1)
+                mid1=pq.top();
+          //now returning the mid2 value with previous maintained mid1 value by 2
+            if(check%2==0&&count==check/2)
+            {
+                mid2=pq.top();
+                double ans=(mid1+mid2)/2;
+                return ans;
+            }  
+            pq.pop();
+        }
+        return 0.00000;
+}
+ 
+// Driver code
+int main()
+{
+    vector<int> arr1 = {-2,3,4,5};
+    vector<int> arr2 = { -4,-1,7,8,9 };
+    cout << "Median of the two arrays are" << endl;
+    cout << Median(arr1, arr2);
+    return 0;
+}
+Output
+Median of the two arrays are
+4
+Time Complexity: O(max(N, M)*log(max(N, M))): Since the priority queue is implemented from two arrays
+Auxiliary Space: O(N+M): for storing two array values in the priority queue
+
+
+
+
+
+Like
+244
+Previous
+Find the maximum element in an array which is first increasing and then decreasing
+Next
+Find k closest elements to a given value
+Related Articles
+1.
+Median of two sorted arrays of different sizes | Set 1 (Linear)
+2.
+Median of two sorted arrays with different sizes in O(log(min(n, m)))
+3.
+Merge K sorted arrays of different sizes | ( Divide and Conquer Approach )
+4.
+Median of two sorted arrays of same size
+5.
+Find Median for each Array element by excluding the index at which Median is calculated
+6.
+Maximize median of Array formed by adding elements of two other Arrays
+7.
+Finding Median in a Sorted Linked List
+8.
+C++ Program to Find median in row wise sorted matrix
+9.
+Java Program to Find median in row wise sorted matrix
+10.
+Python Program to Find median in row wise sorted matrix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+pratil
+Raj Bansal
+AkshAyMore2
+rathbhupendra
+ankush_953
+andrew1234
+Akanksha_Rai
+rahulqp1298
+ysinghal555
+princi singh
+divyeshrabadiya07
+divyesh072019
+manastole01
+saipraveenm99
+mukesh07
+SoumikMondal
+vilajaxmyai
+kush11
+avanitrachhadiya2155
+SHUBHAMSINGH10
+harshkumarchoudhary144
+hritikrommie
+ruhelaa48
+namanbansal4
+arpansheetal
+lokeshpotta20
+rajesh999
+anuragncp
+architgwl2000
+suyebansari
+sagartomar9927
+ishank0106
+vinayedula
+arorakashish0911
+sagar0719kumar
+Article Tags :
+Binary Search
+median-finding
+statistical-algorit

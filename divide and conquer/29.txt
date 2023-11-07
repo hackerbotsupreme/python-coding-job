@@ -1,0 +1,170 @@
+Search in a Row-wise and Column-wise Sorted 2D Array using Divide and Conquer algorithm
+
+Difficulty Level : Hard
+Last Updated : 02 Jun, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given an n x n matrix, where every row and column is sorted in increasing order. Given a key, how to decide whether this key is in the matrix. 
+A linear time complexity is discussed in the previous post. This problem can also be a very good example for divide and conquer algorithms. Following is divide and conquer algorithm.
+1) Find the middle element. 
+2) If middle element is same as key return. 
+3) If middle element is lesser than key then 
+….3a) search submatrix on lower side of middle element 
+….3b) Search submatrix on right hand side.of middle element 
+4) If middle element is greater than key then 
+….4a) search vertical submatrix on left side of middle element 
+….4b) search submatrix on right hand side.
+ 
+
+DaCMat3
+
+Following implementation of above algorithm. 
+ 
+
+C++
+Java
+Python3
+# Python3 program for implementation of
+# divide and conquer algorithm to find
+# a given key in a row-wise and column-wise
+# sorted 2D array a divide and conquer method
+# to search a given key in mat in rows from
+# fromRow to toRow and columns from fromCol to
+# toCol
+def search(mat, fromRow, toRow, fromCol, toCol, key):
+ 
+    # Find middle and compare with middle
+    i = fromRow + (toRow - fromRow) // 2;
+    j = fromCol + (toCol - fromCol) // 2;
+    if (mat[i][j] == key): # If key is present at middle
+        print("Found " , key , " at " , i , " " , j);
+    else:
+ 
+        # right-up quarter of matrix is searched in all cases.
+        # Provided it is different from current call
+        if (i != toRow or j != fromCol):
+            search(mat, fromRow, i, j, toCol, key);
+ 
+        # Special case for iteration with 1*2 matrix
+        # mat[i][j] and mat[i][j+1] are only two elements.
+        # So just check second element
+        if (fromRow == toRow and fromCol + 1 == toCol):
+            if (mat[fromRow][toCol] == key):
+                print("Found " , key , " at " , fromRow , " " , toCol);
+ 
+        # If middle key is lesser then search lower horizontal
+        # matrix and right hand side matrix
+        if (mat[i][j] < key):
+ 
+            # search lower horizontal if such matrix exists
+            if (i + 1 <= toRow):
+                search(mat, i + 1, toRow, fromCol, toCol, key);
+ 
+        # If middle key is greater then search left vertical
+        # matrix and right hand side matrix
+        else:
+             
+            # search left vertical if such matrix exists
+            if (j - 1 >= fromCol):
+                search(mat, fromRow, toRow, fromCol, j - 1, key);
+ 
+# Driver code
+if __name__ == '__main__':
+    mat = [[ 10, 20, 30, 40],
+           [15, 25, 35, 45],
+           [27, 29, 37, 48],
+           [32, 33, 39, 50]];
+    rowcount = 4; colCount = 4; key = 50;
+    for i in range(rowcount):
+        for j in range(colCount):
+            search(mat, 0, rowcount - 1, 0, colCount - 1, mat[i][j]);
+ 
+# This code is contributed by 29AjayKumar
+C#
+Javascript
+Output:  
+
+
+Found 10 at 0 0
+Found 20 at 0 1
+Found 30 at 0 2
+Found 40 at 0 3
+Found 15 at 1 0
+Found 25 at 1 1
+Found 35 at 1 2
+Found 45 at 1 3
+Found 27 at 2 0
+Found 29 at 2 1
+Found 37 at 2 2
+Found 48 at 2 3
+Found 32 at 3 0
+Found 33 at 3 1
+Found 39 at 3 2
+Found 50 at 3 3
+Time complexity: 
+We are given a n*n matrix, the algorithm can be seen as recurring for 3 matrices of size n/2 x n/2. Following is recurrence for time complexity 
+
+ T(n) = 3T(n/2) + O(1) 
+The solution of recurrence is O(n1.58) using Master Method. 
+But the actual implementation calls for one submatrix of size n x n/2 or n/2 x n, and other submatrix of size n/2 x n/2.
+This article is contributed by Kaushik Lele. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+28
+Previous
+Find the number of zeroes
+Next
+Program for Tower of Hanoi Algorithm
+Related Articles
+1.
+Karatsuba algorithm for fast multiplication using Divide and Conquer algorithm
+2.
+Introduction to Divide and Conquer Algorithm - Data Structure and Algorithm Tutorials
+3.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+4.
+Merge K sorted arrays | Set 3 ( Using Divide and Conquer Approach )
+5.
+Tiling Problem using Divide and Conquer algorithm
+6.
+The Skyline Problem using Divide and Conquer algorithm
+7.
+Longest Common Prefix using Divide and Conquer Algorithm
+8.
+Convex Hull using Divide and Conquer Algorithm
+9.
+Maximum Subarray Sum using Divide and Conquer algorithm
+10.
+Closest Pair of Points using Divide and Conquer algorithm
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+Rajput-Ji
+umadevi9616
+Article Tags :
+Divide and Conquer
+Practice Tags :
+Divide and Conquer
+Improve Article
+Report Issue

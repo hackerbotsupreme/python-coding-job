@@ -1,0 +1,409 @@
+Binary Search
+
+Difficulty Level : Easy
+Last Updated : 12 Jan, 2023
+Read
+Discuss(210+)
+Courses
+Practice
+Video
+ Problem: Given a sorted array arr[] of n elements, write a function to search a given element x in arr[] and return the index of x in the array. Consider array is 0 base index.
+
+Examples: 
+
+Input: arr[] = {10, 20, 30, 50, 60, 80, 110, 130, 140, 170}, x = 110
+Output: 6
+Explanation: Element x is present at index 6. 
+
+Input: arr[] = {10, 20, 30, 40, 60, 110, 120, 130, 170}, x = 175
+Output: -1
+Explanation: Element x is not present in arr[].
+
+Linear Search Approach: A simple approach is to do a linear search. The time complexity of the Linear search is O(n). Another approach to perform the same task is using Binary Search.  
+
+Binary Search Approach: 
+
+Binary Search is a searching algorithm used in a sorted array by repeatedly dividing the search interval in half. The idea of binary search is to use the information that the array is sorted and reduce the time complexity to O(Log n). 
+
+
+
+Binary Search Algorithm: The basic steps to perform Binary Search are:
+
+Sort the array in ascending order.
+Set the low index to the first element of the array and the high index to the last element.
+Set the middle index to the average of the low and high indices.
+If the element at the middle index is the target element, return the middle index.
+If the target element is less than the element at the middle index, set the high index to the middle index – 1.
+If the target element is greater than the element at the middle index, set the low index to the middle index + 1.
+Repeat steps 3-6 until the element is found or it is clear that the element is not present in the array.
+ 
+Binary Search Algorithm can be implemented in the following two ways
+
+Iterative Method
+Recursive Method
+1. Iteration Method
+
+    binarySearch(arr, x, low, high)
+        repeat till low = high
+               mid = (low + high)/2
+                   if (x == arr[mid])
+                   return mid
+   
+                   else if (x > arr[mid]) // x is on the right side
+                       low = mid + 1
+   
+                   else                  // x is on the left side
+                       high = mid - 1
+2. Recursive Method (The recursive method follows the divide and conquer approach)
+
+    binarySearch(arr, x, low, high)
+           if low > high
+               return False 
+   
+           else
+               mid = (low + high) / 2 
+                   if x == arr[mid]
+                   return mid
+       
+               else if x > arr[mid]        // x is on the right side
+                   return binarySearch(arr, x, mid + 1, high)
+               
+               else                        // x is on the left side
+                   return binarySearch(arr, x, low, mid - 1) 
+Illustration of Binary Search Algorithm: 
+
+
+Example of Binary Search Algorithm
+
+Recommended Problem
+Binary Search
+Arrays
+Searching
++3 more
+Infosys
+Oracle
++6 more
+Solve Problem
+Submission count: 3L
+Complete Interview Preparation - GFG
+
+Step-by-step Binary Search Algorithm: We basically ignore half of the elements just after one comparison.
+
+Compare x with the middle element.
+If x matches with the middle element, we return the mid index.
+Else If x is greater than the mid element, then x can only lie in the right half subarray after the mid element. So we recur for the right half.
+Else (x is smaller) recur for the left half.
+Recursive implementation of Binary Search:
+
+C++
+C
+Java
+Python3
+# Python3 Program for recursive binary search.
+ 
+# Returns index of x in arr if present, else -1
+ 
+ 
+def binarySearch(arr, l, r, x):
+ 
+    # Check base case
+    if r >= l:
+ 
+        mid = l + (r - l) // 2
+ 
+        # If element is present at the middle itself
+        if arr[mid] == x:
+            return mid
+ 
+        # If element is smaller than mid, then it
+        # can only be present in left subarray
+        elif arr[mid] > x:
+            return binarySearch(arr, l, mid-1, x)
+ 
+        # Else the element can only be present
+        # in right subarray
+        else:
+            return binarySearch(arr, mid + 1, r, x)
+ 
+    else:
+        # Element is not present in the array
+        return -1
+ 
+ 
+# Driver Code
+arr = [2, 3, 4, 10, 40]
+x = 10
+ 
+# Function call
+result = binarySearch(arr, 0, len(arr)-1, x)
+ 
+if result != -1:
+    print("Element is present at index % d" % result)
+else:
+    print("Element is not present in array")
+C#
+PHP
+Javascript
+Output
+Element is present at index 3
+Time Complexity: O(log n)
+Auxiliary Space: O(log n)
+
+Another Iterative Approach to Binary Search
+
+C++
+Java
+Python3
+def binarySearch(v, To_Find):
+    lo = 0
+    hi = len(v) - 1
+ 
+    # This below check covers all cases , so need to check
+    # for mid=lo-(hi-lo)/2
+    while hi - lo > 1:
+        mid = (hi + lo) // 2
+        if v[mid] < To_Find:
+            lo = mid + 1
+        else:
+            hi = mid
+ 
+    if v[lo] == To_Find:
+        print("Found At Index", lo)
+    elif v[hi] == To_Find:
+        print("Found At Index", hi)
+    else:
+        print("Not Found")
+ 
+ 
+if __name__ == '__main__':
+    v = [1, 3, 4, 5, 6]
+ 
+    To_Find = 1
+    binarySearch(v, To_Find)
+ 
+    To_Find = 6
+    binarySearch(v, To_Find)
+ 
+    To_Find = 10
+    binarySearch(v, To_Find)
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output
+Found At Index 0
+Found At Index 4
+Not Found
+Time Complexity: O (log n)
+Auxiliary Space: O (1)
+
+Iterative implementation of Binary Search 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 code to implement iterative Binary
+# Search.
+ 
+# It returns location of x in given array arr
+# if present, else returns -1
+ 
+ 
+def binarySearch(arr, l, r, x):
+ 
+    while l <= r:
+ 
+        mid = l + (r - l) // 2
+ 
+        # Check if x is present at mid
+        if arr[mid] == x:
+            return mid
+ 
+        # If x is greater, ignore left half
+        elif arr[mid] < x:
+            l = mid + 1
+ 
+        # If x is smaller, ignore right half
+        else:
+            r = mid - 1
+ 
+    # If we reach here, then the element
+    # was not present
+    return -1
+ 
+ 
+# Driver Code
+arr = [2, 3, 4, 10, 40]
+x = 10
+ 
+# Function call
+result = binarySearch(arr, 0, len(arr)-1, x)
+ 
+if result != -1:
+    print("Element is present at index % d" % result)
+else:
+    print("Element is not present in array")
+C#
+PHP
+Javascript
+Output
+Element is present at index 3
+Time Complexity: O(log n)
+Auxiliary Space: O(1)
+
+Algorithmic Paradigm: Decrease and Conquer.
+
+Note: Here we are using 
+
+int mid = low + (high – low)/2;
+
+Maybe, you wonder why we are calculating the middle index this way, we can simply add the lower and higher index and divide it by 2.
+
+int mid = (low + high)/2;
+
+But if we calculate the middle index like this means our code is not 100% correct, it contains bugs.
+
+That is, it fails for larger values of int variables low and high. Specifically, it fails if the sum of low and high is greater than the maximum positive int value(231 – 1 ).
+
+The sum overflows to a negative value and the value stays negative when divided by 2. 
+In java, it throws ArrayIndexOutOfBoundException.
+
+int mid = low + (high – low)/2;
+
+So it’s better to use it like this. This bug applies equally to merge sort and other divide and conquer algorithms.
+
+
+
+Advantages of Binary Search:
+Binary search is faster than linear search, especially for large arrays. As the size of the array increases, the time it takes to perform a linear search increases linearly, while the time it takes to perform a binary search increases logarithmically.
+Binary search is more efficient than other searching algorithms that have a similar time complexity, such as interpolation search or exponential search.
+Binary search is relatively simple to implement and easy to understand, making it a good choice for many applications.
+Binary search can be used on both sorted arrays and sorted linked lists, making it a flexible algorithm.
+Binary search is well-suited for searching large datasets that are stored in external memory, such as on a hard drive or in the cloud.
+Binary search can be used as a building block for more complex algorithms, such as those used in computer graphics and machine learning.
+Drawbacks of Binary Search:
+We require the array to be sorted. If the array is not sorted, we must first sort it before performing the search. This adds an additional O(n log n) time complexity for the sorting step, which can make binary search less efficient for very small arrays.
+Binary search requires that the array being searched be stored in contiguous memory locations. This can be a problem if the array is too large to fit in memory, or if the array is stored on external memory such as a hard drive or in the cloud.
+Binary search requires that the elements of the array be comparable, meaning that they must be able to be ordered. This can be a problem if the elements of the array are not naturally ordered, or if the ordering is not well-defined.
+Binary search can be less efficient than other algorithms, such as hash tables, for searching very large datasets that do not fit in memory.
+Applications of Binary search:
+Searching in machine learning: Binary search can be used as a building block for more complex algorithms used in machine learning, such as algorithms for training neural networks or finding the optimal hyperparameters for a model.
+Commonly used in Competitive Programming.
+Can be used for searching in computer graphics. Binary search can be used as a building block for more complex algorithms used in computer graphics, such as algorithms for ray tracing or texture mapping.
+Can be used for searching a database. Binary search can be used to efficiently search a database of records, such as a customer database or a product catalog.
+When to use Binary Search:
+When searching a large dataset as it has a time complexity of O(log n), which means that it is much faster than linear search.
+When the dataset is sorted.
+When data is stored in contiguous memory.
+Data does not have a complex structure or relationships.
+Summary:
+Binary search is an efficient algorithm for finding an element within a sorted array.
+The time complexity of binary search is O(log n).
+One of the main drawbacks of binary search is that the array must be sorted.
+Useful algorithm for building more complex algorithms in computer graphics and machine learning.
+GeeksforGeeks Courses:
+ 
+1. Language Foundation Courses [C++ / JAVA / Python ] 
+Learn any programming language from scratch and understand all its fundamentals concepts for a strong programming foundation in the easiest possible manner with help of GeeksforGeeks Language Foundation Courses – Java Foundation | Python Foundation | C++ Foundation
+2. Geeks Classes Live 
+Get interview-centric live online classes on Data Structure and Algorithms from any geographical location to learn and master DSA concepts for enhancing your problem-solving & programming skills and to crack the interview of any product-based company – Geeks Classes: Live Session
+3. Complete Interview Preparation 
+Get fulfilled all your interview preparation needs at a single place with the Complete Interview Preparation Course that provides you all the required stuff to prepare for any product-based, service-based, or start-up company at the most affordable prices.
+4. DSA Self Paced 
+Start learning Data Structures and Algorithms to prepare for the interviews of top IT giants like Microsoft, Amazon, Adobe, etc. with DSA Self-Paced Course where you will get to learn and master DSA from basic to advanced level and that too at your own pace and convenience.
+5. Company Specific Courses – Amazon, Microsoft, TCS & Wipro 
+Crack the interview of any product-based giant company by specifically preparing with the questions that these companies usually ask in their coding interview round. Refer GeeksforGeeks Company Specific Courses: Amazon SDE Test Series, etc. 
+
+
+
+
+
+Like
+856
+Previous
+Linear Search Algorithm
+Next
+Ternary Search
+Related Articles
+1.
+Meta Binary Search | One-Sided Binary Search
+2.
+Linear Search vs Binary Search
+3.
+Why is Binary Search preferred over Ternary Search?
+4.
+Interpolation search vs Binary search
+5.
+Best First Search (Informed Search)
+6.
+Repeatedly search an element by doubling it after every successful search
+7.
+Is Sentinel Linear Search better than normal Linear Search?
+8.
+Sublist Search (Search a linked list in another list)
+9.
+Sort elements by frequency using Binary Search Tree
+10.
+Unbounded Binary Search Example (Find the point where a monotonically increasing function becomes positive first time)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+RishabhPrabhu
+DhruvJain6
+pallav945
+moraliser
+rohitsingh07052
+hritikrommie
+simranarora5sos
+kashishsoda
+rshuklabbb
+davidgatea21
+sweetyty
+Rajput-Ji
+sagar0719kumar
+kirankumarambati
+susobhanakhuli
+amit0440
+_shinchancode
+raj2002
+aditiyadav20102001
+akashish__
+tapeshdua420
+sumitgumber28
+sawickiaxi9
+shreyasnaphad
+Article Tags :
+Accenture
+Binary Search
+Infosys
+Oracle
+Qualcomm
+SAP Labs
+TCS
+Wipro
+Divide and Conquer
+Searching
+Practice Tags :
+Accenture
+Infosys
+Oracle
+Qualcomm
+SAP Labs
+TCS
+Wipro
+Binary Search
+Divide and Conquer
+Searching
+Improve Article
+Report Issue
