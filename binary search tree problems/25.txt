@@ -1,0 +1,168 @@
+Transform a BST to greater sum tree
+
+Difficulty Level : Medium
+Last Updated : 06 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a BST, transform it into a greater sum tree where each node contains the sum of all nodes greater than that node.
+
+sumBST
+
+We strongly recommend minimizing the browser and try this yourself first.
+
+Method 1 (Naïve): 
+
+This method doesn’t require the tree to be a BST. Following are the steps. 
+
+Traverse node by node(Inorder, preorder, etc.) 
+For each node find all the nodes greater than that of the current node, sum the values. Store all these sums. 
+Replace each node value with their corresponding sum by traversing in the same order as in Step 1.
+This takes O(n2) Time Complexity.
+
+Method 2 (Using only one traversal):
+
+By leveraging the fact that the tree is a BST, we can find an O(n) solution. The idea is to traverse BST in reverse inorder. Reverse inorder traversal of a BST gives us keys in decreasing order. Before visiting a node, we visit all greater nodes of that node. While traversing we keep track of the sum of keys which is the sum of all the keys greater than the key of the current node. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to transform a BST to sum tree
+ 
+class Node:
+    def __init__(self, x):
+        self.data = x
+        self.left = None
+        self.right = None
+ 
+# Recursive function to transform a BST to sum tree.
+# This function traverses the tree in reverse inorder so
+# that we have visited all greater key nodes of the currently
+# visited node
+def transformTreeUtil(root):
+   
+   # Base case
+   if (root == None):
+        return
+ 
+   # Recur for right subtree
+   transformTreeUtil(root.right)
+ 
+   # Update sum
+   global sum
+   sum = sum + root.data
+ 
+   # Store old sum in current node
+   root.data = sum - root.data
+ 
+   # Recur for left subtree
+   transformTreeUtil(root.left)
+ 
+# A wrapper over transformTreeUtil()
+def transformTree(root):
+ 
+    # sum = 0 #Initialize sum
+    transformTreeUtil(root)
+ 
+# A utility function to prindorder traversal of a
+# binary tree
+def printInorder(root):
+    if (root == None):
+        return
+ 
+    printInorder(root.left)
+    print(root.data, end = " ")
+    printInorder(root.right)
+ 
+# Driver Program to test above functions
+if __name__ == '__main__':
+ 
+    sum=0
+    root = Node(11)
+    root.left = Node(2)
+    root.right = Node(29)
+    root.left.left = Node(1)
+    root.left.right = Node(7)
+    root.right.left = Node(15)
+    root.right.right = Node(40)
+    root.right.right.left = Node(35)
+ 
+    print("Inorder Traversal of given tree")
+    printInorder(root)
+ 
+    transformTree(root)
+ 
+    print("\nInorder Traversal of transformed tree")
+    printInorder(root)
+ 
+    # This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+Inorder Traversal of given tree
+1 2 7 11 15 29 35 40 
+
+Inorder Traversal of transformed tree
+139 137 130 119 104 75 40 0 
+Time Complexity: O(n)  where n is the number of nodes in given Binary Tree, as it does a simple traversal of the tree.
+Auxiliary Space: O(h) where h is the height of given Binary Tree due to Recursion
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Merge two BSTs with limited extra space
+Next
+Construct all possible BSTs for keys 1 to N
+Related Articles
+1.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+2.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+3.
+K'th Largest Element in BST when modification to BST is not allowed
+4.
+Convert a normal BST to Balanced BST
+5.
+Two nodes of a BST are swapped, correct the BST
+6.
+Find k-th smallest element in BST (Order Statistics in BST)
+7.
+Add all greater values to every node in a given BST
+8.
+Smallest number in BST which is greater than or equal to N
+9.
+BST to a Tree with sum of all smaller keys
+10.
+Find the largest BST subtree in a given Binary Tree | Set 3
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+uchiha1101
+avanitrachhadiya2155
+unknown2108
+ab2127
+polymatir3j
+hardikkoriintern
+yashagarwal2852002
+Article Tags :
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

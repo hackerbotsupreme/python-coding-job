@@ -1,0 +1,331 @@
+Binary Search Tree | Set 1 (Search and Insertion)
+
+Difficulty Level : Easy
+Last Updated : 02 Jan, 2023
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+What is Binary Search Tree?
+A binary Search Tree is a node-based binary tree data structure which has the following properties:  
+
+The left subtree of a node contains only nodes with keys lesser than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+The left and right subtree each must also be a binary search tree. 
+There must be no duplicate nodes.
+200px-Binary_search_tree.svg
+
+The above properties of the Binary Search Tree provide an ordering among keys so that the operations like search, minimum and maximum can be done fast. If there is no order, then we may have to compare every key to search for a given key.
+
+Recommended Problem
+Insert a node in a BST
+Binary Search Tree
+Design-Pattern
++1 more
+Paytm
+Accolite
++3 more
+Solve Problem
+Submission count: 91.4K
+How to search a key in given Binary Tree?
+For searching a value, if we had a sorted array we could have performed a binary search. Let’s say we want to search a number in the array, in binary search, we first define the complete list as our search space, the number can exist only within the search space. Now we compare the number to be searched or the element to be searched with the middle element (median) of the search space and if the record being searched is less than the middle element, we go searching in the left half, else we go searching in the right half, in case of equality we have found the element. In binary search, we start with ‘n’ elements in search space and if the mid element is not the element that we are looking for, we reduce the search space to ‘n/2’ we keep reducing the search space until we either find the record that we are looking for or we get to only one element in search space and be done with this whole reduction. 
+
+Search operations in binary search trees will be very similar. Let’s say we want to search for the number, we start at the root, and then we compare the value to be searched with the value of the root, if it’s equal we are done with the search if it’s smaller we know that we need to go to the left subtree because in a binary search tree all the elements in the left subtree are smaller and all the elements in the right subtree are larger. Searching an element in the binary search tree is basically this traversal, at each step we go either left or right and at each step we discard one of the sub-trees. If the tree is balanced (we call a tree balanced if for all nodes the difference between the heights of left and right subtrees is not greater than one) we start with a search space of ‘n’ nodes and as we discard one of the sub-trees, we discard ‘n/2’ nodes so our search space gets reduced to ‘n/2’. In the next step, we reduce the search space to ‘n/4’ and we repeat until we find the element or our search space is reduced to only one node. The search here is also a binary search hence the name; Binary Search Tree.
+
+Recommended PracticeSearch a node in BSTTry It!
+Implementation:
+
+C++
+Java
+Python
+# A utility function to search a given key in BST
+def search(root,key):
+     
+    # Base Cases: root is null or key is present at root
+    if root is None or root.val == key:
+        return root
+ 
+    # Key is greater than root's key
+    if root.val < key:
+        return search(root.right,key)
+   
+    # Key is smaller than root's key
+    return search(root.left,key)
+ 
+# This code is contributed by Bhavya Jain
+C#
+Javascript
+Time complexity: O(h), where h is the height of the BST.
+Space complexity: O(h), where h is the height of the BST. This is because the maximum amount of space needed to store the recursion stack would be h.
+
+Illustration to search 6 in below tree: 
+
+Start from the root. 
+Compare the searching element with root, if less than root, then recursively call left subtree, else recursively call right subtree. 
+If the element to search is found anywhere, return true, else return false. 
+ 
+bstsearch
+
+Insertion of a key :
+
+A new key is always inserted at the leaf. We start searching for a key from the root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node. 
+
+         100                               100
+
+        /   \        Insert 40            /    \
+
+      20     500    ———>          20     500 
+
+     /  \                              /  \  
+
+    10   30                           10   30
+
+                                              \   
+
+                                              40
+
+Implementation:
+
+C++
+C
+Java
+Python
+# Python program to demonstrate
+# insert operation in binary search tree
+ 
+# A utility class that represents
+# an individual node in a BST
+ 
+ 
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+ 
+# A utility function to insert
+# a new node with the given key
+ 
+ 
+def insert(root, key):
+    if root is None:
+        return Node(key)
+    else:
+        if root.val == key:
+            return root
+        elif root.val < key:
+            root.right = insert(root.right, key)
+        else:
+            root.left = insert(root.left, key)
+    return root
+ 
+# A utility function to do inorder tree traversal
+ 
+ 
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.val)
+        inorder(root.right)
+ 
+ 
+# Driver program to test the above functions
+# Let us create the following BST
+#    50
+#  /     \
+# 30     70
+#  / \ / \
+# 20 40 60 80
+ 
+r = Node(50)
+r = insert(r, 30)
+r = insert(r, 20)
+r = insert(r, 40)
+r = insert(r, 70)
+r = insert(r, 60)
+r = insert(r, 80)
+ 
+# Print inoder traversal of the BST
+inorder(r)
+C#
+Javascript
+Output
+20
+30
+40
+50
+60
+70
+80
+Illustration to insert 2 in the below tree: 
+
+ Start from the root. 
+Compare the inserting element with the root, if less than the root, then recursively call the left subtree, else recursively call the right subtree. 
+After reaching the end, just insert that node at left(if less than current) or else right. 
+ 
+bstsearch
+
+Time Complexity: The worst-case time complexity of search and insert operations is O(h) where h is the height of the Binary Search Tree. In the worst case, we may have to travel from the root to the deepest leaf node. The height of a skewed tree may become n and the time complexity of the search and insert operation may become O(n). 
+Auxiliary Space: O(1)
+
+Implementation: Insertion using the loop.
+
+C++
+Java
+Python3
+class GFG:
+    @staticmethod
+    def main(args):
+        tree = BST()
+        tree.insert(30)
+        tree.insert(50)
+        tree.insert(15)
+        tree.insert(20)
+        tree.insert(10)
+        tree.insert(40)
+        tree.insert(60)
+        tree.inorder()
+ 
+ 
+class Node:
+    left = None
+    val = 0
+    right = None
+ 
+    def __init__(self, val):
+        self.val = val
+ 
+ 
+class BST:
+    root = None
+ 
+    def insert(self, key):
+        node = Node(key)
+        if (self.root == None):
+            self.root = node
+            return
+        prev = None
+        temp = self.root
+        while (temp != None):
+            if (temp.val > key):
+                prev = temp
+                temp = temp.left
+            elif(temp.val < key):
+                prev = temp
+                temp = temp.right
+        if (prev.val > key):
+            prev.left = node
+        else:
+            prev.right = node
+ 
+    def inorder(self):
+        temp = self.root
+        stack = []
+        while (temp != None or not (len(stack) == 0)):
+            if (temp != None):
+                stack.append(temp)
+                temp = temp.left
+            else:
+                temp = stack.pop()
+                print(str(temp.val) + " ", end="")
+                temp = temp.right
+ 
+ 
+if __name__ == "__main__":
+    GFG.main([])
+ 
+    # This code is contributed by rastogik346.
+C#
+Javascript
+Output
+10 15 20 30 40 50 60 
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+ 
+Some Interesting Facts:  
+
+Inorder traversal of BST always produces sorted output.
+We can construct a BST with only Preorder or Postorder or Level Order traversal. Note that we can always get inorder traversal by sorting the only given traversal.
+Number of unique BSTs with n distinct keys is Catalan Number
+Related Links: 
+
+Binary Search Tree Delete Operation
+Quiz on Binary Search Tree
+Coding practice on BST
+All Articles on BST
+
+
+Like
+Previous
+Introduction to Binary Search Tree - Data Structure and Algorithm Tutorials
+Next
+Deletion in Binary Search Tree
+Related Articles
+1.
+Binary Tree to Binary Search Tree Conversion using STL set
+2.
+Difference between Binary Tree and Binary Search Tree
+3.
+Threaded Binary Tree | Insertion
+4.
+Binary Tree to Binary Search Tree Conversion
+5.
+Difference between Binary Search Tree and AVL Tree
+6.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+7.
+Check if a binary tree is subtree of another binary tree | Set 2
+8.
+Insertion in an AVL Tree
+9.
+Insertion in Red-Black Tree
+10.
+C Program for Red Black Tree Insertion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+pkthapa
+decoder_
+GauravRajput1
+KaranSachy
+aashish1995
+Captain_JackSparrow
+itsnihalkhan
+rrrtnx
+geekyquentin
+boratuncel
+Rajput-Ji
+sweetyty
+nehakumariintern
+rastogik346
+hardikkoriintern
+arpanbasu1412
+harendrakumar123
+tapeshdua420
+surwaseshrikant1729
+adityamaharshi21
+ishankhandelwals
+factworx4i2
+surajrasr7277
+Article Tags :
+Amazon
+Linkedin
+Microsoft
+Samsung
+Binary Search Tree
+Practice Tags :
+Amazon
+Linkedin
+Microsoft
+Samsung
+Binary Search Tree

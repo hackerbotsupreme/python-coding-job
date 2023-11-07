@@ -1,0 +1,76 @@
+Applications of BST
+
+Difficulty Level : Easy
+Last Updated : 21 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+ Binary Search Tree (BST) is a data structure that is commonly used to implement efficient searching, insertion, and deletion operations. The key feature of a BST is that it is a binary tree, where each node has at most two child nodes, and the value of each node is greater than all the values in its left subtree and less than all the values in its right subtree. This means that the left subtree of a node contains values that are smaller than the node’s value, and the right subtree contains values that are larger. Due to this property, BSTs allow for efficient searching by repeatedly dividing the search space in half, which makes it an important data structure in computer science and many other fields.
+
+The left subtree of a node contains only nodes with keys lesser than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+The left and right subtree each must also be a binary search tree. There must be no duplicate nodes.
+200px-Binary_search_tree.svg A BST supports operations like search, insert, delete, floor, ceil, greater, smaller, etc in O(h) time where h is height of the BST. To keep height less, self balancing BSTs (like AVL and Red Black Trees) are used in practice. These Self-Balancing BSTs maintain the height as O(Log n). Therefore all of the above mentioned operations become O(Log n). Together with these, BST also allows sorted order traversal of data in O(n) time.
+
+A Self-Balancing Binary Search Tree is used to maintain sorted stream of data. For example, suppose we are getting online orders placed and we want to maintain the live data (in RAM) in sorted order of prices. For example, we wish to know number of items purchased at cost below a given cost at any moment. Or we wish to know number of items purchased at higher cost than given cost.
+A Self-Balancing Binary Search Tree is used to implement doubly ended priority queue. With a Binary Heap, we can either implement a priority queue with support of extractMin() or with extractMax(). If we wish to support both the operations, we use a Self-Balancing Binary Search Tree to do both in O(Log n)
+There are many more algorithm problems where a Self-Balancing BST is the best suited data structure, like count smaller elements on right, Smallest Greater Element on Right Side, etc.
+One of the most common use cases of BSTs is searching for a particular element in the tree.
+ A BST can be used to sort a large dataset. By inserting the elements of the dataset into a BST and then performing an in-order traversal, the elements will be returned in sorted order.
+Used in Database indexing.
+BSTs can be used to implement symbol tables, which are used to store data such as variable and function names in a programming language. 
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+15
+Previous
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+Next
+Number of edges in mirror image of Complete binary tree
+Related Articles
+1.
+K'th Largest Element in BST when modification to BST is not allowed
+2.
+Convert a normal BST to Balanced BST
+3.
+Two nodes of a BST are swapped, correct the BST
+4.
+Find k-th smallest element in BST (Order Statistics in BST)
+5.
+Find the largest BST subtree in a given Binary Tree | Set 3
+6.
+Sorted order printing of a given array that represents a BST
+7.
+Sorted Array to Balanced BST
+8.
+K'th smallest element in BST using O(1) Extra Space
+9.
+Check if each internal node of a BST has exactly one child
+10.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+kartik
+@kartik
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rahul Sharma 15
+shreyasnaphad
+Article Tags :
+Self-Balancing-BST
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

@@ -1,0 +1,482 @@
+Count pairs from two BSTs whose sum is equal to a given value x
+
+Difficulty Level : Medium
+Last Updated : 28 Nov, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given two BSTs containing n1 and n2 distinct nodes respectively. Given a value x. The problem is to count all pairs from both the BSTs whose sum is equal to x.
+
+Examples: 
+
+Input : BST 1:    5        
+                /   \      
+               3     7      
+              / \   / \    
+             2  4  6   8   
+
+        BST 2:    10        
+                /   \      
+               6     15      
+              / \   /  \    
+             3  8  11  18
+        x = 16
+    
+Output : 3
+The pairs are:
+(5, 11), (6, 10) and (8, 8)
+Recommended Problem
+Brothers From Different Roots
+Traversal
+Binary Search Tree
++2 more
+Solve Problem
+Submission count: 24.9K
+Method 1: For each node value a in BST 1, search the value (x – a) in BST 2. If value found then increment the count. For searching a value in BST, refer this post. 
+Time complexity: O(n1 * h2), here n1 is number of nodes in first BST and h2 is height of second BST.
+
+Method 2: Traverse BST 1 from smallest value to node to largest. This can be achieved with the help of iterative inorder traversal. Traverse BST 2 from largest value node to smallest. This can be achieved with the help of reverse inorder traversal. Perform these two traversals simultaneously. Sum up the corresponding node’s value from both the BSTs at a particular instance of traversals. If sum == x, then increment count. If x > sum, then move to the inorder successor of the current node of BST 1, else move to the inorder predecessor of the current node of BST 2. Perform these operations until either of the two traversals gets completed.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 implementation to count pairs
+# from two BSTs whose sum is equal to a
+# given  value x
+ 
+# Structure of a node of BST
+class getNode:
+     
+    def __init__(self, data):
+         
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to count pairs from two BSTs
+# whose sum is equal to a given value x
+def countPairs(root1, root2, x):
+     
+    # If either of the tree is empty
+    if (root1 == None or root2 == None):
+        return 0
+ 
+    # Stack 'st1' used for the inorder
+    # traversal of BST 1
+    # stack 'st2' used for the reverse
+    # inorder traversal of BST 2
+    st1 = []
+    st2 = []
+ 
+    count = 3
+ 
+    # The loop will break when either
+    # of two traversals gets completed
+    while (1):
+         
+        # To find next node in inorder
+        # traversal of BST 1
+        while (root1 != None):
+            st1.append(root1)
+            root1 = root1.left
+ 
+        # To find next node in reverse
+        # inorder traversal of BST 2
+        while (root2 != None):
+            st2.append(root2)
+            root2 = root2.right
+ 
+        # If either gets empty then corresponding
+        # tree traversal is completed
+        if (len(st1) or len(st2)):
+            break
+ 
+        top1 = st1[len(st1) - 1]
+        top2 = st2[len(st2) - 1]
+ 
+        # If the sum of the node's is equal to 'x'
+        if ((top1.data + top2.data) == x):
+             
+            # Increment count
+            count += 1
+ 
+            # Pop nodes from the respective stacks
+            st1.remove(st1[len(st1) - 1])
+            st2.remove(st2[len(st2) - 1])
+ 
+            # Insert next possible node in the
+            # respective stacks
+            root1 = top1.right
+            root2 = top2.left
+ 
+        # Move to next possible node in the
+        # inorder traversal of BST 1
+        elif ((top1.data + top2.data) < x):
+            st1.remove(st1[len(st1) - 1])
+            root1 = top1.right
+ 
+        # Move to next possible node in the
+        # reverse inorder traversal of BST 2
+        else:
+            st2.remove(st2[len(st2) - 1])
+            root2 = top2.left
+ 
+    # Required count of pairs
+    return count
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    # Formation of BST 1
+    '''      5
+           /   \ 
+          3     7
+         / \   / \
+        2   4 6   8
+    '''
+    root1 = getNode(5) 
+    root1.left = getNode(3)
+    root1.right = getNode(7)
+    root1.left.left = getNode(2)
+    root1.left.right = getNode(4)
+    root1.right.left = getNode(6)
+    root1.right.right = getNode(8)
+ 
+    # Formation of BST 2
+    '''    10 
+         /   \
+        6     15
+       / \   /  \ 
+      3  8  11  18
+    '''
+    root2 = getNode(10)
+    root2.left = getNode(6)
+    root2.right = getNode(15)
+    root2.left.left = getNode(3)
+    root2.left.right = getNode(8)
+    root2.right.left = getNode(11)
+    root2.right.right = getNode(18)
+ 
+    x = 16
+     
+    print("Pairs = ", countPairs(root1, root2, x))
+ 
+# This code is contributed by bgangwar59
+C#
+Javascript
+Output
+Pairs = 3
+Time Complexity: O(n1 + n2) 
+Auxiliary Space: O(h1 + h2), Where h1 is height of first tree and h2 is height of second tree
+
+
+
+Method 3 : 
+
+Recursive approach to solving this question.
+Traverse the BST1 and for each node find the diff i.e. (x – root1.data) in BST2 and increment the count.
+Implementation:
+
+C++
+Java
+Python3
+# Python implementation to count pairs from two
+# BSTs whose sum is equal to a given  value x
+ 
+# structure of a node of BST
+class Node:
+     
+    # constructor
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+root1,root2 = None,None
+   
+# def to count pairs from two BSTs
+# whose sum is equal to a given value x
+pairCount = 0
+def traverseTree(root1,  root2, sum):
+ 
+    if (root1 == None or root2 == None):
+        return
+    traverseTree(root1.left, root2, sum)
+    traverseTree(root1.right, root2, sum)
+    diff = sum - root1.data
+    findPairs(root2, diff)
+ 
+def findPairs(root2 , diff):
+ 
+    global pairCount
+     
+    if (root2 == None):
+        return
+ 
+    if (diff > root2.data) :
+        findPairs(root2.right, diff)
+    else :
+        findPairs(root2.left, diff)
+    if (root2.data == diff):
+        pairCount += 1
+ 
+def countPairs(root1, root2, sum):
+    global pairCount
+ 
+    traverseTree(root1, root2, sum)
+    return pairCount
+ 
+# Driver program to test above
+ 
+# formation of BST 1
+root1 = Node(5)     
+root1.left = Node(3)  
+root1.right = Node(7)
+root1.left.left = Node(2)
+root1.left.right = Node(4)  
+root1.right.left = Node(6)
+root1.right.right = Node(8)
+ 
+# formation of BST 2
+root2 = Node(10)   
+root2.left = Node(6)   
+root2.right = Node(15)
+root2.left.left = Node(3)
+root2.left.right = Node(8)  
+root2.right.left = Node(11)
+root2.right.right = Node(18)
+ 
+x = 16
+print(f"Pairs = {countPairs(root1, root2, x)}")
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Pairs = 3
+Time Complexity: O(n1 * n2), As for every node in the BST1 we need to traverse the BST2 and check if it is equal to diff or not.
+Auxiliary Space: O(h1 + h2), Here h1 is the height of BST1 and h2 is the height of the BST2.
+
+Method 4 : Using BinarySearch Tree Iterator ( A more general way of doing this )
+
+Create two class one as BSTIterator1 and other as BSTIterator2. These two class corresponds to inOrder and reverse inOrder traversal respectively.
+
+Each class will have three methods:
+
+hasNext : will return true when traversal is not yet completed
+next : will move the pointer to the next node
+peek : will return current node in the traversal
+After creating two such classes, simple run the iterator while both have next node and find the sum. If sum == x, increment the next pointer of iterator1 and iterator2 and if sum > x ,increment the next pointer of iterator2 else increment the next pointer of iterator1 i.e when sum < x.
+
+Implementation:
+
+C++
+Java
+Python3
+class Node:
+    data = 0
+    left = None
+    right = None
+ 
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+         
+# inorder successor iterator
+class BSTIterator1:
+    s1 = []
+    root1 = None
+    hasPeeked = False
+ 
+    def __init__(self, root):
+        self.root1 = root
+ 
+    def hasNext(self):
+        if (not (len(self.s1) == 0) or self.root1 != None):
+            return True
+        return False
+ 
+    def peek(self):
+        if (not self.hasNext()):
+            return None
+        while (self.root1 != None):
+            self.s1.append(self.root1)
+            self.root1 = self.root1.left
+            self.hasPeeked = True
+        return self.s1[-1]
+ 
+    def next(self):
+        if (not self.hasNext()):
+            return -1
+        if (not self.hasPeeked):
+            self.peek()
+        self.hasPeeked = False
+        self.root1 = self.s1.pop()
+        temp = self.root1
+        self.root1 = self.root1.right
+        return temp.data
+       
+# inorder predecessor iterator
+class BSTIterator2:
+    s1 = []
+    root1 = None
+    hasPeeked = False
+ 
+    def __init__(self, root):
+        self.root1 = root
+ 
+    def hasNext(self):
+        if (not (len(self.s1) == 0) or self.root1 != None):
+            return True
+        return False
+ 
+    def peek(self):
+        if (not self.hasNext()):
+            return None
+        while (self.root1 != None):
+            self.s1.append(self.root1)
+            self.root1 = self.root1.right
+            self.hasPeeked = True
+        return self.s1[-1]
+ 
+    def next(self):
+        if (not self.hasNext()):
+            return -1
+        if (not self.hasPeeked):
+            self.peek()
+        self.hasPeeked = False
+        self.root1 = self.s1.pop()
+        temp = self.root1
+        self.root1 = self.root1.left
+        return temp.data
+ 
+class GfG:
+    @staticmethod
+    def countPairs(r1,  r2,  x):
+        it1 = BSTIterator1(r1)
+        it2 = BSTIterator2(r2)
+        count = 0
+        while (it1.hasNext() and it2.hasNext()):
+            n1 = it1.peek()
+            n2 = it2.peek()
+            sum = n1.data + n2.data
+            if (sum == x):
+                count += 1
+                it1.next()
+                it2.next()
+            elif(sum > x):
+                it2.next()
+            else:
+                it1.next()
+        return count
+       
+    # Driver program to test above
+    @staticmethod
+    def main(args):
+        root1 = None
+        root2 = None
+         
+        # formation of BST 1
+        root1 = Node(5)
+        #                     5
+        root1.left = Node(3)
+        #           /   \
+        root1.right = Node(7)
+        #         3     7
+        root1.left.left = Node(2)
+        #    / \   / \
+        root1.left.right = Node(4)
+        #  2   4 6   8
+        root1.right.left = Node(6)
+        root1.right.right = Node(8)
+        # formation of BST 2
+        root2 = Node(10)
+        #                   10
+        root2.left = Node(6)
+        #           /   \
+        root2.right = Node(15)
+        #        6     15
+        root2.left.left = Node(3)
+        #    / \   /  \
+        root2.left.right = Node(8)
+        #  3  8  11  18
+        root2.right.left = Node(11)
+        root2.right.right = Node(18)
+        x = 16
+        print("Pairs = " + str(GfG.countPairs(root1, root2, x)))
+ 
+if __name__ == "__main__":
+    GfG.main([])
+ 
+# This code is contributed by mukulsomukesh
+C#
+Output
+Pairs = 3
+Time Complexity: O(n1 + n2)
+Auxiliary Space: O(h1 + h2), Where h1 is height of first tree and h2 is height of second tree
+
+
+
+
+
+Like
+60
+Next
+Find median of BST
+Related Articles
+1.
+Print all pairs from two BSTs whose sum is greater than the given value
+2.
+Nodes from given two BSTs with sum equal to X
+3.
+Find pairs with given sum such that pair elements lie in different BSTs
+4.
+Split a BST into two balanced BSTs based on a value K
+5.
+Count of BSTs having N nodes and maximum depth equal to H
+6.
+Check if two given key sequences construct same BSTs
+7.
+Generate two BSTs from the given array such that maximum height among them is minimum
+8.
+Merge two BSTs with limited extra space
+9.
+Check if two BSTs contain same set of elements
+10.
+Merge two BSTs with constant extra space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+bgangwar59
+sky8214
+sujitpanda
+gabaa406
+devaxdu
+Rajput-Ji
+shinjanpatra
+mukulsomukesh
+hardikkoriintern
+tapeshdua420
+abhijeet19403
+Article Tags :
+Traversal
+Binary Search Tree
+Practice Tags :
+Binary Search Tree
+Traversal
+Improve Article
+Report Issue

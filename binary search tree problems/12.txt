@@ -1,0 +1,226 @@
+Binary Tree to Binary Search Tree Conversion
+
+Difficulty Level : Medium
+Last Updated : 17 Jun, 2022
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+Given a Binary Tree, convert it to a Binary Search Tree. The conversion must be done in such a way that keeps the original structure of Binary Tree. 
+
+Examples
+
+Example 1
+Input:
+          10
+         /  \
+        2    7
+       / \
+      8   4
+Output:
+          8
+         /  \
+        4    10
+       / \
+      2   7
+
+
+Example 2
+Input:
+          10
+         /  \
+        30   15
+       /      \
+      20       5
+Output:
+          15
+         /  \
+       10    20
+       /      \
+      5        30
+Solution:
+
+Following is a 3 step solution for converting Binary tree to Binary Search Tree.
+
+Create a temp array arr[] that stores inorder traversal of the tree. This step takes O(n) time.
+Sort the temp array arr[]. Time complexity of this step depends upon the sorting algorithm. In the following implementation, Quick Sort is used which takes (n^2) time. This can be done in O(nLogn) time using Heap Sort or Merge Sort.
+Again do inorder traversal of tree and copy array elements to tree nodes one by one. This step takes O(n) time.
+Following is the implementation of the above approach. The main function to convert is highlighted in the following code.
+
+Implementation:
+
+C++
+C
+Java
+Python3
+# Program to convert binary tree to BST
+ 
+# A binary tree node
+class Node:
+     
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Helper function to store the inorder traversal of a tree
+def storeInorder(root, inorder):
+     
+    # Base Case
+    if root is None:
+        return
+     
+    # First store the left subtree
+    storeInorder(root.left, inorder)
+     
+    # Copy the root's data
+    inorder.append(root.data)
+ 
+    # Finally store the right subtree
+    storeInorder(root.right, inorder)
+ 
+# A helper function to count nodes in a binary tree
+def countNodes(root):
+    if root is None:
+        return 0
+ 
+    return countNodes(root.left) + countNodes(root.right) + 1
+ 
+# Helper function that copies contents of sorted array
+# to Binary tree
+def arrayToBST(arr, root):
+ 
+    # Base Case
+    if root is None:
+        return
+     
+    # First update the left subtree
+    arrayToBST(arr, root.left)
+ 
+    # now update root's data delete the value from array
+    root.data = arr[0]
+    arr.pop(0)
+ 
+    # Finally update the right subtree
+    arrayToBST(arr, root.right)
+ 
+# This function converts a given binary tree to BST
+def binaryTreeToBST(root):
+     
+    # Base Case: Tree is empty
+    if root is None:
+        return
+     
+    # Count the number of nodes in Binary Tree so that
+    # we know the size of temporary array to be created
+    n = countNodes(root)
+ 
+    # Create the temp array and store the inorder traversal
+    # of tree
+    arr = []
+    storeInorder(root, arr)
+     
+    # Sort the array
+    arr.sort()
+ 
+    # copy array elements back to binary tree
+    arrayToBST(arr, root)
+ 
+# Print the inorder traversal of the tree
+def printInorder(root):
+    if root is None:
+        return
+    printInorder(root.left)
+    print (root.data,end=" ")
+    printInorder(root.right)
+ 
+# Driver program to test above function
+root = Node(10)
+root.left = Node(30)
+root.right = Node(15)
+root.left.left = Node(20)
+root.right.right = Node(5)
+ 
+# Convert binary tree to BST
+binaryTreeToBST(root)
+ 
+print ("Following is the inorder traversal of the converted BST")
+printInorder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Following is the inorder traversal of the converted BST
+5 10 15 20 30
+Complexity Analysis:
+
+Time Complexity: O(nlogn). This is the complexity of the sorting algorithm which we are using after first in-order traversal, rest of the operations take place in linear time.
+Auxiliary Space: O(n). Use of data structure ‘array’ to store in-order traversal.
+We will be covering another method for this problem which converts the tree using O(height of the tree) extra space.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Construct BST from given preorder traversal | Set 1
+Next
+Binary Tree to Binary Search Tree Conversion using STL set
+Related Articles
+1.
+Binary Tree to Binary Search Tree Conversion using STL set
+2.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+3.
+Search N elements in an unbalanced Binary Search Tree in O(N * logM) time
+4.
+Binary Search Tree | Set 1 (Search and Insertion)
+5.
+Minimum swap required to convert binary tree to binary search tree
+6.
+Difference between Binary Tree and Binary Search Tree
+7.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+8.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+9.
+Difference between Binary Search Tree and AVL Tree
+10.
+Count the Number of Binary Search Trees present in a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+bidibaaz123
+Akanksha_Rai
+simmytarika5
+adityapande88
+decode2207
+avanitrachhadiya2155
+anikakapoor
+shivanisinghss2110
+amartyaghoshgfg
+jainlovely450
+hardikkoriintern
+Article Tags :
+Amazon
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+Binary Search Tree
+Tree
+Report Issue

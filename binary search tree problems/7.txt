@@ -1,0 +1,496 @@
+Deletion in Binary Search Tree
+
+Difficulty Level : Medium
+Last Updated : 26 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+We have discussed BST search and insert operations. In this post, the delete operation is discussed. When we delete a node, three possibilities arise. 
+
+1) Node to be deleted is the leaf: Simply remove it from the tree. 
+
+              50                                      50
+            /     \         delete(20)          /   \
+         30      70       ———>      30     70 
+         /  \    /  \                                \     /  \ 
+     20   40  60   80                        40  60   80
+
+2) Node to be deleted has only one child: Copy the child to the node and delete the child 
+
+              50                                   50
+           /     \         delete(30)        /   \
+        30      70       ———>    40     70 
+           \    /  \                                    /  \ 
+         40  60   80                            60   80
+
+3) Node to be deleted has two children: Find inorder successor of the node. Copy contents of the inorder successor to the node and delete the inorder successor.
+
+Note: Inorder predecessor can also be used. 
+
+
+
+              50                                    60
+           /     \          delete(50)        /   \
+        40      70       ———>     40    70 
+                 /  \                                      \ 
+              60   80                                   80
+
+Note: Inorder successor is needed only when the right child is not empty. In this particular case, in-order successor can be obtained by finding the minimum value in the right child of the node.
+
+Recommended Problem
+Delete a node from BST
+Binary Search Tree
+Data Structures
+Accolite
+Amazon
++3 more
+Solve Problem
+Submission count: 84.4K
+Follow the below steps to solve the problem:
+
+If the root is NULL, then return root (Base case)
+If the key is less than the root’s value, then set root->left = deleteNode(root->left, key)
+If the key is greater than the root’s value, then set root->right = deleteNode(root->right, key)
+Else check
+If the root is a leaf node then return null
+else if it has only the left child, then return the left child
+else if it has only the right child, then return the right child
+else set the value of root as of its inorder successor and recur to delete the node with the value of the inorder successor
+Return
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to demonstrate delete operation
+# in binary search tree
+ 
+# A Binary Tree Node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+ 
+# A utility function to do inorder traversal of BST
+def inorder(root):
+    if root is not None:
+        inorder(root.left)
+        print(root.key, end=" ")
+        inorder(root.right)
+ 
+ 
+# A utility function to insert a
+# new node with given key in BST
+def insert(node, key):
+ 
+    # If the tree is empty, return a new node
+    if node is None:
+        return Node(key)
+ 
+    # Otherwise recur down the tree
+    if key < node.key:
+        node.left = insert(node.left, key)
+    else:
+        node.right = insert(node.right, key)
+ 
+    # return the (unchanged) node pointer
+    return node
+ 
+# Given a non-empty binary
+# search tree, return the node
+# with minimum key value
+# found in that tree. Note that the
+# entire tree does not need to be searched
+ 
+ 
+def minValueNode(node):
+    current = node
+ 
+    # loop down to find the leftmost leaf
+    while(current.left is not None):
+        current = current.left
+ 
+    return current
+ 
+# Given a binary search tree and a key, this function
+# delete the key and returns the new root
+ 
+ 
+def deleteNode(root, key):
+ 
+    # Base Case
+    if root is None:
+        return root
+ 
+    # If the key to be deleted
+    # is smaller than the root's
+    # key then it lies in  left subtree
+    if key < root.key:
+        root.left = deleteNode(root.left, key)
+ 
+    # If the kye to be delete
+    # is greater than the root's key
+    # then it lies in right subtree
+    elif(key > root.key):
+        root.right = deleteNode(root.right, key)
+ 
+    # If key is same as root's key, then this is the node
+    # to be deleted
+    else:
+ 
+        # Node with only one child or no child
+        if root.left is None:
+            temp = root.right
+            root = None
+            return temp
+ 
+        elif root.right is None:
+            temp = root.left
+            root = None
+            return temp
+ 
+        # Node with two children:
+        # Get the inorder successor
+        # (smallest in the right subtree)
+        temp = minValueNode(root.right)
+ 
+        # Copy the inorder successor's
+        # content to this node
+        root.key = temp.key
+ 
+        # Delete the inorder successor
+        root.right = deleteNode(root.right, temp.key)
+ 
+    return root
+ 
+ 
+# Driver code
+""" Let us create following BST
+              50
+           /     \
+          30      70
+         /  \    /  \
+       20   40  60   80 """
+ 
+root = None
+root = insert(root, 50)
+root = insert(root, 30)
+root = insert(root, 20)
+root = insert(root, 40)
+root = insert(root, 70)
+root = insert(root, 60)
+root = insert(root, 80)
+ 
+print("Inorder traversal of the given tree")
+inorder(root)
+ 
+print("\nDelete 20")
+root = deleteNode(root, 20)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+print("\nDelete 30")
+root = deleteNode(root, 30)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+print("\nDelete 50")
+root = deleteNode(root, 50)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Inorder traversal of the given tree 
+20304050607080
+Delete 20
+Inorder traversal of the modified tree 
+304050607080
+Delete 30
+Inorder traversal of the modified tree 
+4050607080
+Delete 50
+Inorder traversal of the modified tree 
+40607080
+Illustration: 
+
+bst-delete
+
+ 
+
+bst-delete2
+
+Time Complexity: O(log N)
+Auxiliary Space: O(log N), Space used for recursion stack
+
+Note: Above approach can be optimized for two children case : 
+
+We recursively call delete() for the successor in the above recursive code. We can avoid recursive calls by keeping track of the parent node of the successor so that we can simply remove the successor by making the child of a parent NULL. We know that the successor would always be a leaf node.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to implement
+# optimized delete in BST.
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+# A utility function to do
+# inorder traversal of BST
+ 
+ 
+def inorder(root):
+    if root is not None:
+        inorder(root.left)
+        print(root.key, end=" ")
+        inorder(root.right)
+ 
+# A utility function to insert a
+# new node with given key in BST
+ 
+ 
+def insert(node, key):
+ 
+    # If the tree is empty,
+    # return a new node
+    if node is None:
+        return Node(key)
+ 
+    # Otherwise recur down the tree
+    if key < node.key:
+        node.left = insert(node.left, key)
+    else:
+        node.right = insert(node.right, key)
+ 
+    # return the (unchanged) node pointer
+    return node
+ 
+ 
+# Given a binary search tree
+# and a key, this function
+# delete the key and returns the new root
+def deleteNode(root, key):
+ 
+    # Base Case
+    if root is None:
+        return root
+ 
+    # Recursive calls for ancestors of
+    # node to be deleted
+    if key < root.key:
+        root.left = deleteNode(root.left, key)
+        return root
+ 
+    elif(key > root.key):
+        root.right = deleteNode(root.right, key)
+        return root
+ 
+    # We reach here when root is the node
+    # to be deleted.
+ 
+    # If root node is a leaf node
+ 
+    if root.left is None and root.right is None:
+        return None
+ 
+    # If one of the children is empty
+ 
+    if root.left is None:
+        temp = root.right
+        root = None
+        return temp
+ 
+    elif root.right is None:
+        temp = root.left
+        root = None
+        return temp
+ 
+    # If both children exist
+ 
+    succParent = root
+ 
+    # Find Successor
+ 
+    succ = root.right
+ 
+    while succ.left != None:
+        succParent = succ
+        succ = succ.left
+ 
+    # Delete successor.Since successor
+    # is always left child of its parent
+    # we can safely make successor's right
+    # right child as left of its parent.
+    # If there is no succ, then assign
+    # succ->right to succParent->right
+    if succParent != root:
+        succParent.left = succ.right
+    else:
+        succParent.right = succ.right
+ 
+    # Copy Successor Data to root
+ 
+    root.key = succ.key
+ 
+    return root
+ 
+ 
+# Driver code
+""" Let us create following BST
+              50
+           /     \
+          30      70
+         /  \    /  \
+       20   40  60   80 """
+ 
+root = None
+root = insert(root, 50)
+root = insert(root, 30)
+root = insert(root, 20)
+root = insert(root, 40)
+root = insert(root, 70)
+root = insert(root, 60)
+root = insert(root, 80)
+ 
+print("Inorder traversal of the given tree")
+inorder(root)
+ 
+print("\n\nDelete 20")
+root = deleteNode(root, 20)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+print("\n\nDelete 30")
+root = deleteNode(root, 30)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+print("\n\nDelete 50")
+root = deleteNode(root, 50)
+print("Inorder traversal of the modified tree")
+inorder(root)
+ 
+# This code is contributed by Shivam Bhat (shivambhat45)
+C#
+Javascript
+Output
+Inorder traversal of the given tree 
+20 30 40 50 60 70 80 
+
+Delete 20
+Inorder traversal of the modified tree 
+30 40 50 60 70 80 
+
+Delete 30
+Inorder traversal of the modified tree 
+40 50 60 70 80 
+
+Delete 50
+Inorder traversal of the modified tree 
+40 60 70 80 
+Time Complexity: O(h) ,where h is the height of the BST. 
+Auxiliary Space: O(1).
+
+Thanks to wolffgang010 for suggesting the above optimization.
+
+Related Links: 
+
+Binary Search Tree Introduction, Search and Insert
+Quiz on Binary Search Tree
+Coding practice on BST
+All Articles on BST
+
+
+
+
+Like
+280
+Previous
+Binary Search Tree | Set 1 (Search and Insertion)
+Next
+Advantages of BST over Hash Table
+Related Articles
+1.
+Threaded Binary Search Tree | Deletion
+2.
+Binary Tree to Binary Search Tree Conversion
+3.
+Binary Tree to Binary Search Tree Conversion using STL set
+4.
+Difference between Binary Tree and Binary Search Tree
+5.
+Binary Search Tree | Set 1 (Search and Insertion)
+6.
+Deletion in an AVL Tree
+7.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+8.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+9.
+Difference between Binary Search Tree and AVL Tree
+10.
+Count the Number of Binary Search Trees present in a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Manoj Kumar 20
+wolffgang010
+princiraj1992
+Sarvesh Ranjan
+harispartacus0
+shivanisinghss2110
+j9rex
+shivambhat45
+agarwalr327
+imran khan 1
+adityapande88
+liocat
+avanitrachhadiya2155
+sagartomar9927
+amartyaghoshgfg
+Rajput-Ji
+hardikkoriintern
+janardansthox
+surajrasr7277
+Article Tags :
+Accolite
+Amazon
+Qualcomm
+Samsung
+Binary Search Tree
+Practice Tags :
+Accolite
+Amazon
+Qualcomm
+Samsung
+Binary Search Tree
+Improve Article
+Report Issue

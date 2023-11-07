@@ -1,0 +1,346 @@
+Sum of k smallest elements in BST
+
+Difficulty Level : Medium
+Last Updated : 25 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given Binary Search Tree. The task is to find sum of all elements smaller than and equal to Kth smallest element.
+
+Examples: 
+
+Input :  K = 3
+              8
+            /   \
+           7     10
+         /      /   \
+        2      9     13
+Output : 17
+Explanation : Kth smallest element is 8 so sum of all
+              element smaller than or equal to 8 are
+              2 + 7 + 8
+
+Input : K = 5
+           8
+         /   \
+        5    11
+      /  \
+     2    7
+      \
+       3
+Output :  25
+Recommended Problem
+Sum of k smallest elements in BST
+Binary Search Tree
+Data Structures
+Amazon
+Solve Problem
+Submission count: 23.5K
+Method 1 (Does not changes BST node structure): The idea is to traverse BST in inorder traversal. Note that Inorder traversal of BST accesses elements in sorted (or increasing) order. While traversing, we keep track of count of visited Nodes and keep adding Nodes until the count becomes k. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find Sum Of All
+# Elements smaller than or equal to
+# Kth Smallest Element In BST
+ 
+INT_MAX = 2147483647
+ 
+# Binary Tree Node
+""" utility that allocates a newNode
+with the given key """
+class createNode:
+ 
+    # Construct to create a newNode
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# A utility function to insert a new
+# Node with given key in BST and also
+# maintain lcount ,Sum
+def insert(root, key) :
+ 
+    # If the tree is empty, return a new Node
+    if (root == None) :
+        return createNode(key)
+ 
+    # Otherwise, recur down the tree
+    if (root.data > key) :
+        root.left = insert(root.left, key)
+ 
+    else if (root.data < key):
+        root.right = insert(root.right, key)
+ 
+    # return the (unchanged) Node pointer
+    return root
+ 
+# function return sum of all element smaller
+# than and equal to Kth smallest element
+def ksmallestElementSumRec(root, k, count) :
+ 
+    # Base cases
+    if (root == None) :
+        return 0
+    if (count[0] > k[0]) :
+        return 0
+ 
+    # Compute sum of elements in left subtree
+    res = ksmallestElementSumRec(root.left, k, count)
+    if (count[0] >= k[0]) :
+        return res
+ 
+    # Add root's data
+    res += root.data
+ 
+    # Add current Node
+    count[0] += 1
+    if (count[0] >= k[0]) :
+        return res
+ 
+    # If count is less than k, return
+    # right subtree Nodes
+    return res + ksmallestElementSumRec(root.right,
+                                        k, count)
+ 
+# Wrapper over ksmallestElementSumRec()
+def ksmallestElementSum(root, k):
+    count = [0]
+    return ksmallestElementSumRec(root, k, count)
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    """ 20
+        / \
+    8 22
+    / \
+    4 12
+        / \
+        10 14
+        """
+    root = None
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 4)
+    root = insert(root, 12)
+    root = insert(root, 10)
+    root = insert(root, 14)
+    root = insert(root, 22)
+     
+    k = [3]
+    print(ksmallestElementSum(root, k))
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+22
+Time complexity: O(k)
+Auxiliary Space: O(h), where h is the height of the tree
+  
+Method 2 (Efficient and changes structure of BST):
+
+We can find the required sum in O(h) time where h is height of BST. Idea is similar to Kth-th smallest element in BST . Here we use augmented tree data structure to solve this problem efficiently in O(h) time [ h is height of BST ] .
+
+Algorithm : 
+
+BST Node contain to extra fields : Lcount , Sum
+
+For each Node of BST
+lCount : store how many left child it has
+Sum     : store sum of all left child it has
+
+Find Kth smallest element
+[ temp_sum store sum of all element less than equal to K ]
+
+ksmallestElementSumRec(root, K, temp_sum)
+
+  IF root -> lCount == K + 1
+      temp_sum += root->data + root->sum;
+      break;
+  ELSE
+     IF k > root->lCount   // Goto right sub-tree
+        temp_sum += root->data + root-> sum;
+        ksmallestElementSumRec(root->right, K-root->lcount+1, temp_sum)
+     ELSE
+        // Goto left sun-tree
+        ksmallestElementSumRec( root->left, K, temp_sum)
+Below is implementation of above algo : 
+
+C++
+Java
+Python3
+# Python3 program to find Sum Of All Elements
+# smaller than or equal t Kth Smallest Element In BST
+ 
+# utility function new Node of BST
+class createNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.lCount = 0
+        self.Sum = 0
+        self.left = None
+        self.right = None
+ 
+# A utility function to insert a new Node with
+# given key in BST and also maintain lcount ,Sum
+def insert(root, key):
+     
+    # If the tree is empty, return a new Node
+    if root == None:
+        return createNode(key)
+ 
+    # Otherwise, recur down the tree
+    if root.data > key:
+         
+        # increment lCount of current Node
+        root.lCount += 1
+ 
+        # increment current Node sum by
+        # adding key into it
+        root.Sum += key
+ 
+        root.left= insert(root.left , key)
+    else if root.data < key:
+        root.right= insert (root.right , key)
+ 
+    # return the (unchanged) Node pointer
+    return root
+ 
+# function return sum of all element smaller
+# than and equal to Kth smallest element
+def ksmallestElementSumRec(root, k , temp_sum):
+    if root == None:
+        return
+ 
+    # if we fount k smallest element
+    # then break the function
+    if (root.lCount + 1) == k:
+        temp_sum[0] += root.data + root.Sum
+        return
+ 
+    else if k > root.lCount:
+         
+        # store sum of all element smaller
+        # than current root ;
+        temp_sum[0] += root.data + root.Sum
+ 
+        # decremented k and call right sub-tree
+        k = k -( root.lCount + 1)
+        ksmallestElementSumRec(root.right,
+                               k, temp_sum)
+    else: # call left sub-tree
+        ksmallestElementSumRec(root.left,
+                               k, temp_sum)
+ 
+# Wrapper over ksmallestElementSumRec()
+def ksmallestElementSum(root, k):
+    Sum = [0]
+    ksmallestElementSumRec(root, k, Sum)
+    return Sum[0]
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # 20
+    # / \
+    # 8     22
+    # / \
+    #4     12
+    #     / \
+    # 10 14
+    #    
+    root = None
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 4)
+    root = insert(root, 12)
+    root = insert(root, 10)
+    root = insert(root, 14)
+    root = insert(root, 22)
+ 
+    k = 3
+    print(ksmallestElementSum(root, k))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+22
+Time Complexity: O(h) where h is height of tree. 
+
+Auxiliary Space: O(1)
+
+Playlist : Trees | Data Structures & Algorithms | Programming Tutorials | GeeksforGeeks
+
+ This article is contributed by Nishant Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Remove all leaf nodes from the binary search tree
+Next
+Inorder Successor in Binary Search Tree
+Related Articles
+1.
+Find k-th smallest element in BST (Order Statistics in BST)
+2.
+K'th Largest Element in BST when modification to BST is not allowed
+3.
+Convert a normal BST to Balanced BST
+4.
+Two nodes of a BST are swapped, correct the BST
+5.
+K'th smallest element in BST using O(1) Extra Space
+6.
+Smallest number in BST which is greater than or equal to N
+7.
+Sum of k largest elements in BST
+8.
+Find the smallest and second smallest elements in an array
+9.
+Number of elements smaller than root using preorder traversal of a BST
+10.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+SHUBHAMSINGH10
+aashish1995
+GauravRajput1
+todaysgaurav
+rdtank
+surinderdawra388
+simmytarika5
+kothavvsaakash
+hardikkoriintern
+rishavpgl4
+akhilcool
+ajaymakvana
+Article Tags :
+Amazon
+Order-Statistics
+Binary Search Tree
+Practice Tags :
+Amazon
+Binary Search Tree

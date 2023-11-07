@@ -1,0 +1,249 @@
+Find a pair with given sum in BST
+
+Difficulty Level : Medium
+Last Updated : 30 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a BST and a sum, find if there is a pair with the given sum.
+
+Example:
+
+Input: sum = 28, given BST
+
+
+
+Output: Pair is found (16, 12)
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution
+Pair with given sum using Hashing
+The idea is based on Hashing. We traverse binary search tree by inorder way and insert node’s value into a set. Also check for any node, difference between given sum and node’s value in set, if it is found then pair exists otherwise it doesn’t exist. 
+
+Follow the steps mentioned below to implement the idea:
+
+Traverse the tree, while traversing store the value of a node in the set
+If for a current node with value x, there exists a y for which x + y = sum then check it using set and return the pair.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find a pair with
+# given sum using hashing
+import sys
+import math
+ 
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def insert(root, data):
+    if root is None:
+        return Node(data)
+    if(data < root.data):
+        root.left = insert(root.left, data)
+    if(data > root.data):
+        root.right = insert(root.right, data)
+    return root
+ 
+ 
+def findPairUtil(root, summ, unsorted_set):
+    if root is None:
+        return False
+    if findPairUtil(root.left, summ, unsorted_set):
+        return True
+    if unsorted_set and (summ-root.data) in unsorted_set:
+        print("Pair is Found ({},{})".format(summ-root.data, root.data))
+        return True
+    else:
+        unsorted_set.add(root.data)
+ 
+    return findPairUtil(root.right, summ, unsorted_set)
+ 
+ 
+def findPair(root, summ):
+    unsorted_set = set()
+    if(not findPairUtil(root, summ, unsorted_set)):
+        print("Pair do not exist!")
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    root = None
+    root = insert(root, 15)
+    root = insert(root, 10)
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 12)
+    root = insert(root, 16)
+    root = insert(root, 25)
+    root = insert(root, 10)
+    summ = 28
+    findPair(root, summ)
+ 
+# This code is contributed by Vikash Kumar 37
+C#
+Javascript
+Output
+Pair is found (12, 16)
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Pair with a given sum using Two pointers
+Key Idea:
+
+The main idea is to find the Inorder Traversal of the BST and store it in a vector. We know that Inorder tarversal of BST will be in sorted order.Now we will Apply Two pointers Technique to find that whether there exist two elements in the vector that sums up to the given value.
+
+Algorithm:
+
+1. First find the Inorder traversal of the Given BST and store it in a vector  (Let v).
+
+2. Take two pointers i and j. Keep i at the start of v and j at the end of the v.  
+
+   Now, if sum of elements at the ith index and jth index is greater that the given element then decrement j, 
+
+   if sum of elements at the ith index and jth index is less that the given element then increment i,
+
+    else, these two elements are our required answer. 
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+ 
+def NewNode(data):
+    temp = TreeNode(data)
+    return temp
+ 
+def insert(root, key):
+    if root is None:
+        return NewNode(key)
+    if key < root.val:
+        root.left = insert(root.left, key)
+    else:
+        root.right = insert(root.right, key)
+    return root
+ 
+def inorder(root, v):
+    if root is None:
+        return
+    inorder(root.left, v)
+    v.append(root.val)
+    inorder(root.right, v)
+ 
+def findTarget(root, k):
+    v = []
+    inorder(root, v)
+    n = len(v)
+    i = 0
+    j = n - 1
+    while j > i:
+        if v[i] + v[j] == k:
+            return (v[i], v[j
+    ])
+        elif v[i] + v[j] > k:
+            j -= 1
+        else:
+            i += 1
+    return (-1, -1)
+ 
+if __name__ == '__main__':
+    root = None
+    root = insert(root, 15)
+    root = insert(root, 10)
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 12)
+    root = insert(root, 16)
+    root = insert(root, 25)
+    root = insert(root, 10)
+ 
+    k = 28
+ 
+    a = findTarget(root, k)
+    print(a[0], a[1])
+C#
+Output
+8 20
+Time Complexity: O(n) (n = number of nodes)
+
+Auxiliary Space: O(n)
+
+    
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+K'th smallest element in BST using O(1) Extra Space
+Next
+Lowest Common Ancestor in a Binary Search Tree.
+Related Articles
+1.
+Find a pair with given sum in a Balanced BST
+2.
+Find k-th smallest element in BST (Order Statistics in BST)
+3.
+Pair with a given sum in BST | Set 2
+4.
+K'th Largest Element in BST when modification to BST is not allowed
+5.
+Convert a normal BST to Balanced BST
+6.
+Two nodes of a BST are swapped, correct the BST
+7.
+Pair with minimum absolute difference in BST
+8.
+Pair with given product | Set 1 (Find if any pair exists)
+9.
+Find minimum Diameter BST having Sum equal to target K
+10.
+Sum of cousin nodes of a given node in a BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+aditya1011
+@aditya1011
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Vikash Kumar 37
+princiraj1992
+Rajput-Ji
+rishabhjain259
+rutvik_56
+technophpfij
+hardikkoriintern
+garvitpr1hev
+singh73
+karandeep1234
+surajrasr7277
+factworx4i2
+Article Tags :
+Amazon
+Binary Search Tree
+Hash
+Practice Tags :
+Amazon
+Binary Search Tree
+Hash

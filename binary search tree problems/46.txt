@@ -1,0 +1,276 @@
+Convert BST into a Min-Heap without using array
+
+Difficulty Level : Hard
+Last Updated : 01 Jul, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a Binary Search Tree, convert it into a Min-Heap containing the same elements in O(n) time. Do this in-place. 
+
+Input: Binary Search Tree
+        8
+     /    \
+    4      12
+  /  \     /  \
+ 2    6   10  14
+
+
+Output - Min Heap
+       2
+     /    \
+   4        6
+ /  \     /   \
+8    10  12   14
+[Or any other tree that follows Min Heap
+ properties and has same keys]
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+If we are allowed to use extra space, we can perform inorder traversal of the tree and store the keys in an auxiliary array. As we’re doing inorder traversal on a BST, array will be sorted. Finally, we construct a complete binary tree from the sorted array. We construct the binary tree level by level and from left to right by taking next minimum element from sorted array. The constructed binary tree will be a min-Heap. This solution works in O(n) time, but is not in-place.
+
+How to do it in-place? 
+The idea is to convert the binary search tree into a sorted linked list first. We can do this by traversing the BST in inorder fashion. We add nodes at the beginning of current linked list and update head of the list using pointer to head pointer. Since we insert at the beginning, to maintain sorted order, we first traverse the right subtree before the left subtree. i.e. do a reverse inorder traversal.
+
+Finally we convert the sorted linked list into a min-Heap by setting the left and right pointers appropriately. We can do this by doing a Level order traversal of the partially built Min-Heap Tree using queue and traversing the linked list at the same time. At every step, we take the parent node from queue, make next two nodes of linked list as children of the parent node, and enqueue the next two nodes to queue. As the linked list is sorted, the min-heap property is maintained.
+
+Below is the implementation of above idea:
+
+C++
+Java
+Python3
+# Python3 program to construct all unique
+# BSTs for keys from 1 to n
+ 
+# Binary Tree Node
+""" A utility function to create a
+new BST node """
+class newNode:
+ 
+    # Construct to create a newNode
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Utility function to print Min-heap
+# level by level
+def printLevelOrder(root):
+     
+    # Base Case
+    if (root == None):
+        return
+ 
+    # Create an empty queue for level
+    # order traversal
+    q = []
+    q.append(root)
+ 
+    while (len(q)):
+        nodeCount = len(q)
+        while (nodeCount > 0) :
+         
+            node = q[0]
+            print(node.data, end = " " )
+            q.pop(0)
+            if (node.left) :
+                q.append(node.left)
+            if (node.right) :
+                q.append(node.right)
+            nodeCount -= 1
+        print()
+ 
+# A simple recursive function to convert a
+# given Binary Search tree to Sorted Linked
+# List root     -. Root of Binary Search Tree
+def BSTToSortedLL(root, head_ref):
+ 
+    # Base cases
+    if(root == None) :
+        return
+ 
+    # Recursively convert right subtree
+    BSTToSortedLL(root.right, head_ref)
+ 
+    # insert root into linked list
+    root.right = head_ref[0]
+ 
+    # Change left pointer of previous
+    # head to point to None
+    if (head_ref[0] != None):
+        (head_ref[0]).left = None
+ 
+    # Change head of linked list
+    head_ref[0] = root
+ 
+    # Recursively convert left subtree
+    BSTToSortedLL(root.left, head_ref)
+ 
+# Function to convert a sorted Linked
+# List to Min-Heap.
+# root -. root[0] of Min-Heap
+# head -. Pointer to head node of
+#          sorted linked list
+def SortedLLToMinHeap( root, head) :
+ 
+    # Base Case
+    if (head == None) :
+        return
+ 
+    # queue to store the parent nodes
+    q = []
+ 
+    # The first node is always the
+    # root node
+    root[0] = head[0]
+ 
+    # advance the pointer to the next node
+    head[0] = head[0].right
+ 
+    # set right child to None
+    root[0].right = None
+ 
+    # add first node to the queue
+    q.append(root[0])
+ 
+    # run until the end of linked list
+    # is reached
+    while (head[0] != None) :
+     
+        # Take the parent node from the q
+        # and remove it from q
+        parent = q[0]
+        q.pop(0)
+ 
+        # Take next two nodes from the linked
+        # list and Add them as children of the
+        # current parent node. Also in push them
+        # into the queue so that they will be
+        # parents to the future nodes
+        leftChild = head[0]
+        head[0] = head[0].right     # advance linked list to next node
+        leftChild.right = None # set its right child to None
+        q.append(leftChild)
+ 
+        # Assign the left child of parent
+        parent.left = leftChild
+ 
+        if (head) :
+            rightChild = head[0]
+            head[0] = head[0].right # advance linked list to next node
+            rightChild.right = None # set its right child to None
+            q.append(rightChild)
+ 
+            # Assign the right child of parent
+            parent.right = rightChild
+ 
+# Function to convert BST into a Min-Heap
+# without using any extra space
+def BSTToMinHeap(root):
+ 
+    # head of Linked List
+    head = [None]
+ 
+    # Convert a given BST to Sorted Linked List
+    BSTToSortedLL(root, head)
+     
+    # set root as None
+    root = [None]
+ 
+    # Convert Sorted Linked List to Min-Heap
+    SortedLLToMinHeap(root, head)
+    return root
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    """ Constructing below tree
+                8
+            / \
+            4     12
+        / \ / \
+        2 6 10 14
+    """
+    root = newNode(8)
+    root.left = newNode(4)
+    root.right = newNode(12)
+    root.right.left = newNode(10)
+    root.right.right = newNode(14)
+    root.left.left = newNode(2)
+    root.left.right = newNode(6)
+ 
+    root = BSTToMinHeap(root)
+     
+    """ Output - Min Heap
+                2
+            / \
+            4     6
+        / \ / \
+        8 10 12 14
+    """
+    printLevelOrder(*root)
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+2 
+4 6 
+8 10 12 14 
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+BST to a Tree with sum of all smaller keys
+Next
+Convert BST to Min Heap
+Related Articles
+1.
+Convert a normal BST to Balanced BST
+2.
+K'th Largest Element in BST when modification to BST is not allowed
+3.
+Two nodes of a BST are swapped, correct the BST
+4.
+Find k-th smallest element in BST (Order Statistics in BST)
+5.
+Split a BST into two balanced BSTs based on a value K
+6.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+7.
+Convert BST to Min Heap
+8.
+Convert BST to Max Heap
+9.
+Convert a Binary Tree to BST by left shifting digits of node values
+10.
+Inversion count in Array Using Self-Balancing BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+andrew1234
+Rushikesh Deshpande
+aashish1995
+rutvik_56
+surinderdawra388
+simmytarika5
+geekygirl2001
+hardikkoriintern
+Article Tags :
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

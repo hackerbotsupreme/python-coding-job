@@ -1,0 +1,49 @@
+Learn Data Structures and Algorithms | DSA Tutorial
+Last Updated : 05 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+What is DSA?
+The term DSA stands for Data Structures and Algorithms. As the name itself suggests, it is a combination of two separate yet interrelated topics – Data Structure and Algorithms.
+
+
+Introduction to Data Structures and Algorithms (DSA)
+
+Topics
+
+What is DSA?
+What is Data Structure?
+What are Algorithms?
+How to learn Data Structures and Algorithms (DSA) from scratch
+Learn about Complexities
+Learn Data Structure
+Array
+String
+Linked List
+Matrix/Grid
+Stack
+Queue
+Heap
+Hash
+Tree Data Structures
+Binary Tree
+Binary Search Tree
+Other Tree Data Structures
+Graph Data Structure
+Learn Algorithms
+Searching Algorithm
+Sorting Algorithm
+Divide and Conquer Algorithm
+Greedy Mehtodology
+Recursion
+Backtracking Algorithm
+Dynamic Programming
+Pattern Searching
+Mathematical Algorithms
+Geometric Algorithms
+Bitwise Algorithms
+Randomized Algorithms
+Branch and Bound Algorithm
+Practice problems on DSA

@@ -1,0 +1,213 @@
+Add all greater values to every node in a given BST
+
+Difficulty Level : Medium
+Last Updated : 21 Jun, 2022
+Read
+Discuss(60)
+Courses
+Practice
+Video
+Given a Binary Search Tree (BST), modify it so that all greater values in the given BST are added to every node. For example, consider the following BST.
+
+              50
+           /      \
+         30        70
+        /   \      /  \
+      20    40    60   80 
+
+The above tree should be modified to following 
+
+              260
+           /      \
+         330        150
+        /   \       /  \
+      350   300    210   80
+Recommended Problem
+Add all greater values to every node in a BST
+Binary Search Tree
+Tree
++1 more
+Amazon
+Solve Problem
+Submission count: 30K
+A simple method for solving this is to find the sum of all greater values for every node. This method would take O(n^2) time.
+
+The method discussed in this article uses the technique of reverse in-order tree traversal of BST which optimizes the problem to be solved in a single traversal. 
+
+Approach: In this problem as we could notice that the largest node would remain the same. The value of 2nd largest node = value of largest + value of second largest node. Similarly, the value of nth largest node will be the sum of the n-th node and value of (n-1)th largest node after modification. So if we traverse the tree in descending order and simultaneously update the sum value at every step while adding the value to the root node, the problem would be solved. 
+
+So to traverse the BST in descending order we use reverse in-order traversal of BST. This takes a global variable sum which is updated at every node and once the root node is reached it is added to the value of root node and value of the root node is updated.
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program to add all greater values
+# in every node of BST
+ 
+# A utility function to create a
+# new BST node
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Recursive function to add all greater
+# values in every node
+def modifyBSTUtil(root, Sum):
+     
+    # Base Case
+    if root == None:
+        return
+ 
+    # Recur for right subtree
+    modifyBSTUtil(root.right, Sum)
+ 
+    # Now Sum[0] has sum of nodes in right
+    # subtree, add root.data to sum and
+    # update root.data
+    Sum[0] = Sum[0] + root.data
+    root.data = Sum[0]
+ 
+    # Recur for left subtree
+    modifyBSTUtil(root.left, Sum)
+ 
+# A wrapper over modifyBSTUtil()
+def modifyBST(root):
+    Sum = [0]
+    modifyBSTUtil(root, Sum)
+ 
+# A utility function to do inorder
+# traversal of BST
+def inorder(root):
+    if root != None:
+        inorder(root.left)
+        print(root.data, end =" ")
+        inorder(root.right)
+ 
+# A utility function to insert a new node
+# with given data in BST
+def insert(node, data):
+     
+    # If the tree is empty, return a new node
+    if node == None:
+        return newNode(data)
+ 
+    # Otherwise, recur down the tree
+    if data <= node.data:
+        node.left = insert(node.left, data)
+    else:
+        node.right = insert(node.right, data)
+ 
+    # return the (unchanged) node pointer
+    return node
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Let us create following BST
+    # 50
+    #     /     \
+    # 30     70
+    #     / \ / \
+    # 20 40 60 80
+    root = None
+    root = insert(root, 50)
+    insert(root, 30)
+    insert(root, 20)
+    insert(root, 40)
+    insert(root, 70)
+    insert(root, 60)
+    insert(root, 80)
+ 
+    modifyBST(root)
+ 
+    # print inorder traversal of the
+    # modified BST
+    inorder(root)
+     
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+350 330 300 260 210 150 80 
+Complexity Analysis: 
+
+
+
+Time Complexity: O(n). 
+As this problem uses an in-order tree traversal technique
+Auxiliary Space: O(1). 
+As no data structure has been used for storing values.
+
+
+
+
+Like
+35
+Next
+Remove BST keys outside the given range
+Related Articles
+1.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+2.
+Sum of all nodes with smaller values at a distance K from a given node in a BST
+3.
+Implementing a BST where every node stores the maximum number of nodes in the path till any leaf
+4.
+K'th Largest Element in BST when modification to BST is not allowed
+5.
+Convert a normal BST to Balanced BST
+6.
+Two nodes of a BST are swapped, correct the BST
+7.
+Find k-th smallest element in BST (Order Statistics in BST)
+8.
+Convert a Binary Tree to BST by left shifting digits of node values
+9.
+Smallest number in BST which is greater than or equal to N
+10.
+Smallest number in BST which is greater than or equal to N ( Iterative Approach)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+rathbhupendra
+bidibaaz123
+anikakapoor
+GauravRajput1
+adnanirshad158
+hardikkoriintern
+Article Tags :
+Amazon
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+Binary Search Tree
+Tree
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Complete Test Series Course
+Prepare for Amazon & other Product Based Companies
+View Details
+
+Master Data Science & ML
+View Details
+
+DSA- Live Classes

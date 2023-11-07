@@ -1,0 +1,132 @@
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+
+Difficulty Level : Medium
+Last Updated : 30 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given Preorder traversal of a Binary Search Tree. Then the task is to print leaf nodes of the Binary Search Tree from the given preorder.
+
+Examples : 
+
+Input : preorder[] = {890, 325, 290, 530, 965};
+Output : 290 530 965
+
+Tree represented is,
+      890
+     /   \
+  325    965
+  /  \
+290   530
+
+Input :  preorder[] = { 3, 2, 4 };
+Output : 2 4
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+In this post, a simple recursive solution is discussed. The idea is to use two min and max variables and taking i (index in input array), the index for given preorder array, and recursively creating root node and correspondingly checking if left and right are existing or not. This method returns boolean variable, and if both left and right are false it simply means that left and right are null hence it must be a leaf node so print it right there and return back true as root at that index existed.
+
+Implementation:
+
+C++
+Java
+Python3
+# Recursive Python program to find leaf
+# nodes from given preorder traversal
+ 
+# Print the leaf node from
+# the given preorder of BST.
+def isLeaf(pre, i, n, Min, Max):
+    if i[0] >= n:
+        return False
+     
+    if pre[i[0]] > Min and pre[i[0]] < Max:
+        i[0] += 1
+         
+        left = isLeaf(pre, i, n, Min,
+                      pre[i[0] - 1])
+        right = isLeaf(pre, i, n,
+                       pre[i[0] - 1], Max)
+         
+        if left == False and right == False:
+            print(pre[i[0] - 1], end = " ")
+             
+        return True
+    return False
+ 
+def printLeaves(preorder, n):
+    i = [0]
+    INT_MIN, INT_MAX = -999999999999, 999999999999
+    isLeaf(preorder, i, n, INT_MIN, INT_MAX)
+ 
+# Driver code
+if __name__ == '__main__':
+    preorder = [890, 325, 290, 530, 965]
+    n = len(preorder)
+    printLeaves(preorder, n)
+     
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+290 530 965 
+Time Complexity: O(N), As we are traversing the BST only once.
+Auxiliary Space: O(h), here h is the height of the BST and the extra space is used in the recursion call stack.
+
+
+
+
+
+Like
+5
+Previous
+Maximum spiral sum in Binary Tree
+Next
+Modify a binary tree to get preorder traversal using right pointers only
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Sum of Bitwise AND of the sum of all leaf and non-leaf nodes for each level of a Binary Tree
+3.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+4.
+Print the longest leaf to leaf path in a Binary tree
+5.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+6.
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+7.
+Preorder Traversal of N-ary Tree Without Recursion
+8.
+Construct XOR tree by Given leaf nodes of Perfect Binary Tree
+9.
+Create Balanced Binary Tree using its Leaf Nodes without using extra space
+10.
+Construct a Tree whose sum of nodes of all the root to leaf path is not divisible by the count of nodes in that path
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+vishal22091998
+@vishal22091998
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+PranchalKatiyar
+Rajput-Ji
+princiraj1992
+divyeshrabadiya07
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Recursion
+Tree
+Practice Tags :
+Recursion
+Tree

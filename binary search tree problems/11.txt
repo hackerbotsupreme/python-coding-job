@@ -1,0 +1,408 @@
+A program to check if a Binary Tree is BST or not
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(600+)
+Courses
+Practice
+Video
+A binary search tree (BST) is a node-based binary tree data structure that has the following properties. 
+
+The left subtree of a node contains only nodes with keys less than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+Both the left and right subtrees must also be binary search trees.
+Each node (item in the tree) has a distinct key.
+Change
+BST
+
+Recommended Problem
+Check for BST
+Binary Search Tree
+Tree
++1 more
+VMWare
+Flipkart
++19 more
+Solve Problem
+Submission count: 4.1L
+Naive Approach:
+
+The idea is to for each node, check if max value in left subtree is smaller than the node and min value in right subtree greater than the node. 
+
+Follow the below steps to solve the problem:
+
+If the current node is null then return true
+If the value of the left child of the node is greater than or equal to the current node then return false
+If the value of the right child of the node is less than or equal to the current node then return false
+If the left subtree or the right subtree is not a BST then return false
+Else return true
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to check if a binary tree is bst or not
+# A binary tree node has data, pointer to left child
+# and a pointer to right child
+class Node:
+ 
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+def maxValue(node):
+    if node is None:
+        return 0;
+     
+    leftMax = maxValue(node.left)
+    rightMax = maxValue(node.right)
+     
+    value = 0;
+    if leftMax > rightMax:
+        value = leftMax
+    else:
+        value = rightMax
+     
+    if value < node.data:
+        value = node.data
+     
+    return value
+     
+def minValue(node):
+    if node is None:
+        return 1000000000
+     
+    leftMax = minValue(node.left)
+    rightMax = minValue(node.right)
+     
+    value = 0
+    if leftMax < rightMax:
+        value = leftMax
+    else:
+        value = rightMax
+     
+    if value > node.data:
+        value = node.data
+     
+    return value
+ 
+# Returns true if a binary tree is a binary search tree
+def isBST(node):
+    if node is None:
+        return True
+     
+    # false if the max of the left is > than us
+    if(node.left is not None and maxValue(node.left) > node.data):
+        return False
+     
+    # false if the min of the right is <= than us
+    if(node.right is not None and minValue(node.right) < node.data):
+        return False
+     
+    #false if, recursively, the left or right is not a BST
+    if(isBST(node.left) is False or isBST(node.right) is False):
+        return False
+     
+    # passing all that, it's a BST
+    return True
+ 
+# Driver code
+if __name__ == "__main__":
+  root = Node(4)
+  root.left = Node(2)
+  root.right = Node(5)
+  # root.right.left = Node(7)
+  root.left.left = Node(1)
+  root.left.right = Node(3)
+ 
+  # Function call
+  if isBST(root) is True:
+      print("Is BST")
+  else:
+      print("Not a BST")
+ 
+# This code is contributed by Yash Agarwal(yashagarwal2852002)
+C#
+Javascript
+Output
+Is BST
+Note: It is assumed that you have helper functions minValue() and maxValue() that return the min or max int value from a non-empty tree
+
+
+
+Time Complexity: O(N2), As we visit every node just once and our helper method also takes O(N) time, so overall time complexity becomes O(N) * O(N) = O(N2)
+Auxiliary Space: O(H), Where H is the height of the binary tree, and the extra space is used due to the function call stack.
+
+Approach (Efficient):
+The idea is to write a utility helper function isBSTUtil(struct node* node, int min, int max) that traverses down the tree keeping track of the narrowing min and max allowed values as it goes, looking at each node only once. The initial values for min and max should be INT_MIN and INT_MAX — they narrow from there. 
+
+Note: This method is not applicable if there are duplicate elements with the value INT_MIN or INT_MAX.
+
+Follow the below steps to solve the problem:
+
+Call the isBstUtil function for the root node and set the minimum value as INT_MIN and the maximum value as INT_MAX
+If the current node is NULL then return true
+If the value of the node is less than the minimum value possible or greater than the maximum value possible then return false
+Call the same function for the left and the right subtree and narrow down the minimum and maximum values for these calls accordingly
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python3
+# Python program to check if a binary tree is bst or not
+ 
+INT_MAX = 4294967296
+INT_MIN = -4294967296
+ 
+# A binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+# Returns true if the given tree is a binary search tree
+# (efficient version)
+def isBST(node):
+    return (isBSTUtil(node, INT_MIN, INT_MAX))
+ 
+# Returns true if the given tree is a BST and its values
+# >= min and <= max
+ 
+ 
+def isBSTUtil(node, mini, maxi):
+ 
+    # An empty tree is BST
+    if node is None:
+        return True
+ 
+    # False if this node violates min/max constraint
+    if node.data < mini or node.data > maxi:
+        return False
+ 
+    # Otherwise check the subtrees recursively
+    # tightening the min or max constraint
+    return (isBSTUtil(node.left, mini, node.data - 1) and
+            isBSTUtil(node.right, node.data+1, maxi))
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+  root = Node(4)
+  root.left = Node(2)
+  root.right = Node(5)
+  root.left.left = Node(1)
+  root.left.right = Node(3)
+ 
+  # Function call
+  if (isBST(root)):
+      print("Is BST")
+  else:
+      print("Not a BST")
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Is BST
+Time Complexity: O(N), Where N is the number of nodes in the tree
+Auxiliary Space: O(1), if Function Call Stack size is not considered, otherwise O(H) where H is the height of the tree
+
+Check whether the binary tree is BST or not using inorder traversal:
+The idea is to use Inorder traversal of a binary search tree generates output, sorted in ascending order. So generate inorder traversal of the  given binary tree and check if the values are sorted or not
+
+Follow the below steps to solve the problem:
+
+Do In-Order Traversal of the given tree and store the result in a temp array. 
+This method assumes that there are no duplicate values in the tree
+Check if the temp array is sorted in ascending order, if it is, then the tree is BST.
+Note: We can avoid the use of an Auxiliary Array. While doing In-Order traversal, we can keep track of previously visited nodes. If the value of the currently visited node is less than the previous value, then the tree is not BST.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to check
+# if a given tree is BST.
+import math
+ 
+# A binary tree node has data,
+# pointer to left child and
+# a pointer to right child
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def isBSTUtil(root, prev):
+ 
+    # traverse the tree in inorder fashion
+    # and keep track of prev node
+    if (root != None):
+        if (isBSTUtil(root.left, prev) == True):
+            return False
+ 
+        # Allows only distinct valued nodes
+        if (prev != None and
+                root.data <= prev.data):
+            return False
+ 
+        prev = root
+        return isBSTUtil(root.right, prev)
+ 
+    return True
+ 
+ 
+def isBST(root):
+    prev = None
+    return isBSTUtil(root, prev)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    root = Node(3)
+    root.left = Node(2)
+    root.right = Node(5)
+    root.right.left = Node(1)
+    root.right.right = Node(4)
+ 
+    # Function call
+    if (isBST(root) == None):
+        print("Is BST")
+    else:
+        print("Not a BST")
+ 
+# This code is contributed by Srathore
+C#
+Javascript
+Output
+Not a BST
+Time Complexity: O(N), Where N is the number of nodes in the tree
+Auxiliary Space: O(H), Here H is the height of the tree and the extra space is used due to the function call stack. 
+
+Please write comments if you find any bug in the above programs/algorithms or other ways to solve the same problem.
+
+
+
+
+
+Like
+302
+Previous
+Construct all possible BSTs for keys 1 to N
+Next
+Find the node with minimum value in a Binary Search Tree
+Related Articles
+1.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+2.
+K'th Largest Element in BST when modification to BST is not allowed
+3.
+Iterative approach to check if a Binary Tree is BST or not
+4.
+Check if a Binary Tree (not BST) has duplicate values
+5.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+6.
+Check whether a given binary tree is skewed binary tree or not?
+7.
+Check whether a binary tree is a full binary tree or not
+8.
+Convert a normal BST to Balanced BST
+9.
+Two nodes of a BST are swapped, correct the BST
+10.
+Find k-th smallest element in BST (Order Statistics in BST)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shweta44
+ChandrahasAbburi
+shrikanth13
+SHUBHAMSINGH10
+rathbhupendra
+andrew1234
+29AjayKumar
+Rajput-Ji
+sapnasingh4991
+rwells1703
+Abhijeet Kumar Srivastava
+abdul kadir olia
+rag2127
+avanitrachhadiya2155
+rameshtravel07
+unknown2108
+divyeshrabadiya07
+surinderdawra388
+angajala
+akshitsaxenaa09
+amartyaghoshgfg
+adnanirshad158
+simmytarika5
+abhijeet19403
+aashutoshparoha
+janardansthox
+sweetyty
+harendrakumar123
+simranarora5sos
+ishank0106
+luvjadaun786
+lokeshmvs21
+aanchalagarwal1401
+yashagarwal2852002
+Article Tags :
+Accolite
+Adobe
+Amazon
+Boomerang Commerce
+FactSet
+GreyOrange
+MakeMyTrip
+Microsoft
+OYO Rooms
+Qualcomm
+Snapdeal
+VMWare
+Walmart
+Wooker
+Binary Search Tree
+Tree
+Practice Tags :
+Accolite
+Adobe
+Amazon
+Boomerang Commerce
+FactSet
+GreyOrange
+MakeMyTrip
+Microsoft
+OYO Rooms
+Qualcomm
+Snapdeal
+VMWare
+Walmart
+Wooker
+Binary Search Tree
+Tree
+Improve Article
+Report Issue

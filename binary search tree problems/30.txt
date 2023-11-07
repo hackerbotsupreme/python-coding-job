@@ -1,0 +1,277 @@
+Find k-th smallest element in BST (Order Statistics in BST)
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(390+)
+Courses
+Practice
+Video
+Given the root of a binary search tree and K as input, find Kth smallest element in BST. 
+For example, in the following BST, if k = 3, then the output should be 10, and if k = 5, then the output should be 14.
+
+
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Method 1: Using Inorder Traversal (O(n) time and O(h) auxiliary space) 
+
+The Inorder Traversal of a BST traverses the nodes in increasing order. So the idea is to traverse the tree in Inorder. While traversing, keep track of the count of the nodes visited. If the count becomes k, print the node. 
+
+C++
+C
+Java
+Python3
+# A simple inorder traversal based Python3
+# program to find k-th smallest element
+# in a BST.
+ 
+# A BST node
+ 
+ 
+class Node:
+ 
+    def __init__(self, key):
+ 
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# Recursive function to insert an key into BST
+ 
+ 
+def insert(root, x):
+ 
+    if (root == None):
+        return Node(x)
+    if (x < root.data):
+        root.left = insert(root.left, x)
+    elif (x > root.data):
+        root.right = insert(root.right, x)
+    return root
+ 
+# Function to find k'th largest element
+# in BST. Here count denotes the number
+# of nodes processed so far
+ 
+ 
+def kthSmallest(root):
+ 
+    global k
+ 
+    # Base case
+    if (root == None):
+        return None
+ 
+    # Search in left subtree
+    left = kthSmallest(root.left)
+ 
+    # If k'th smallest is found in
+    # left subtree, return it
+    if (left != None):
+        return left
+ 
+    # If current element is k'th
+    # smallest, return it
+    k -= 1
+    if (k == 0):
+        return root
+ 
+    # Else search in right subtree
+    return kthSmallest(root.right)
+ 
+# Function to find k'th largest element in BST
+ 
+ 
+def printKthSmallest(root):
+ 
+    res = kthSmallest(root)
+ 
+    if (res == None):
+        print("There are less than k nodes in the BST")
+    else:
+        print("K-th Smallest Element is ", res.data)
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    root = None
+    keys = [20, 8, 22, 4, 12, 10, 14]
+ 
+    for x in keys:
+        root = insert(root, x)
+ 
+    k = 3
+ 
+    printKthSmallest(root)
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output: 
+K-th Smallest Element is 10
+ 
+
+Time complexity: O(h) where h is the height of the tree.
+Auxiliary Space: O(h)
+
+We can optimize space using Morris Traversal. Please refer K’th smallest element in BST using O(1) Extra Space for details.
+
+Method 2: Augmented Tree Data Structure (O(h) Time Complexity and O(h) auxiliary space)
+
+The idea is to maintain the rank of each node. We can keep track of elements in the left subtree of every node while building the tree. Since we need the K-th smallest element, we can maintain the number of elements of the left subtree in every node.
+Assume that the root is having ‘lCount’ nodes in its left subtree. If K = lCount + 1, root is K-th node. If K < lCount + 1, we will continue our search (recursion) for the Kth smallest element in the left subtree of root. If K > lCount + 1, we continue our search in the right subtree for the (K – lCount – 1)-th smallest element. Note that we need the count of elements in the left subtree only.
+
+C++
+C
+Java
+Python3
+# A simple inorder traversal based Python3
+# program to find k-th smallest element in a BST.
+ 
+# A BST node
+class newNode:
+     
+    def __init__(self, x):
+         
+        self.data = x
+        self.left = None
+        self.right = None
+        self.lCount = 0
+ 
+# Recursive function to insert
+# an key into BST
+def insert(root, x):
+     
+    if (root == None):
+        return newNode(x)
+ 
+    # If a node is inserted in left subtree,
+    # then lCount of this node is increased.
+    # For simplicity, we are assuming that
+    # all keys (tried to be inserted) are
+    # distinct.
+    if (x < root.data):
+        root.left = insert(root.left, x)
+        root.lCount += 1
+ 
+    elif (x > root.data):
+        root.right = insert(root.right, x);
+         
+    return root
+ 
+# Function to find k'th largest element
+# in BST. Here count denotes the number
+# of nodes processed so far
+def kthSmallest(root, k):
+     
+    # Base case
+    if (root == None):
+        return None
+         
+    count = root.lCount + 1
+     
+    if (count == k):
+        return root
+ 
+    if (count > k):
+        return kthSmallest(root.left, k)
+ 
+    # Else search in right subtree
+    return kthSmallest(root.right, k - count)
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    root = None
+    keys = [ 20, 8, 22, 4, 12, 10, 14 ]
+ 
+    for x in keys:
+        root = insert(root, x)
+ 
+    k = 4
+    res = kthSmallest(root, k)
+     
+    if (res == None):
+        print("There are less than k nodes in the BST")
+    else:
+        print("K-th Smallest Element is", res.data)
+         
+# This code is contributed by bgangwar59
+C#
+Javascript
+Output: 
+K-th Smallest Element is 12
+ 
+
+Time complexity: O(h) where h is the height of the tree.
+Auxiliary Space: O(h)
+
+
+
+Like
+Previous
+K'th smallest element in BST using O(1) Extra Space
+Next
+K'th Largest Element in BST when modification to BST is not allowed
+Related Articles
+1.
+K'th Largest Element in BST when modification to BST is not allowed
+2.
+Python Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+3.
+Javascript Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+4.
+C++ Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+5.
+Java Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+6.
+Swap Kth node from beginning with Kth node from end in a Linked List
+7.
+Kth Smallest element in a Perfect Binary Search Tree
+8.
+Kth smallest element from an array of intervals
+9.
+Kth smallest element in a row-wise and column-wise sorted 2D array
+10.
+Kth smallest or largest element in unsorted Array using Counting Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Dheerain Jain
+Akanksha_Rai
+jaydipdushi
+RICHIK BHATTACHARJEE
+kushalvm
+GauravRajput1
+bgangwar59
+mohit kumar 29
+aashish1995
+unknown2108
+divyeshrabadiya07
+simmytarika5
+debayanbiswas31
+adityakumar129
+hardikkoriintern
+vivekmaddheshiya205
+akshaytripathi19410
+Article Tags :
+Accolite
+Amazon
+Google
+Order-Statistics
+Binary Search Tree
+Practice Tags :
+Accolite
+Amazon
+Google
+Binary Search Tree
+Report Issue

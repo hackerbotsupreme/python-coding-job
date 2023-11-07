@@ -1,0 +1,14 @@
+Learn Algorithms
+Searching Algorithm
+Sorting Algorithm
+Divide and Conquer Algorithm
+Greedy Mehtodology
+Recursion
+Backtracking Algorithm
+Dynamic Programming
+Pattern Searching
+Mathematical Algorithms
+Geometric Algorithms
+Bitwise Algorithms
+Randomized Algorithms
+Branch and Bound Algorithm

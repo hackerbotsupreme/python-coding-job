@@ -1,0 +1,195 @@
+Second largest element in BST
+
+Difficulty Level : Easy
+Last Updated : 17 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Search Tree(BST), find the second largest element. 
+Examples: 
+ 
+
+Input: Root of below BST
+    10
+   /
+  5
+
+Output:  5
+
+
+Input: Root of below BST
+        10
+      /   \
+    5      20
+             \ 
+              30 
+
+Output:  20
+Source: Microsoft Interview
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is similar to below post. 
+K’th Largest Element in BST when modification to BST is not allowed
+The second largest element is second last element in inorder traversal and second element in reverse inorder traversal. We traverse given Binary Search Tree in reverse inorder and keep track of counts of nodes visited. Once the count becomes 2, we print the node.
+Below is the implementation of above idea. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to find second largest 
+# element in BST
+class Node: 
+  
+    # Constructor to create a new node 
+    def __init__(self, data): 
+        self.key = data 
+        self.left = None
+        self.right = None
+          
+# A function to find 2nd largest 
+# element in a given tree. 
+def secondLargestUtil(root, c):
+      
+    # Base cases, the second condition 
+    # is important to avoid unnecessary
+    # recursive calls 
+    if root == None or c[0] >= 2: 
+        return
+  
+    # Follow reverse inorder traversal so that 
+    # the largest element is visited first 
+    secondLargestUtil(root.right, c)
+  
+    # Increment count of visited nodes 
+    c[0] += 1
+  
+    # If c becomes k now, then this is
+    # the 2nd largest 
+    if c[0] == 2:
+        print("2nd largest element is", 
+                              root.key) 
+        return
+  
+    # Recur for left subtree 
+    secondLargestUtil(root.left, c)
+  
+# Function to find 2nd largest element 
+def secondLargest(root):
+      
+    # Initialize count of nodes 
+    # visited as 0 
+    c = [0] 
+  
+    # Note that c is passed by reference 
+    secondLargestUtil(root, c)
+  
+# A utility function to insert a new
+# node with given key in BST 
+def insert(node, key):
+      
+    # If the tree is empty, return a new node 
+    if node == None:
+        return Node(key) 
+  
+    # Otherwise, recur down the tree 
+    if key < node.key: 
+        node.left = insert(node.left, key) 
+    elif key > node.key: 
+        node.right = insert(node.right, key) 
+  
+    # return the (unchanged) node pointer 
+    return node
+  
+# Driver Code
+if __name__ == '__main__':
+      
+    # Let us create following BST 
+    #         50 
+    #     /     \ 
+    #     30     70 
+    #     / \ / \ 
+    # 20 40 60 80 
+    root = None
+    root = insert(root, 50) 
+    insert(root, 30)
+    insert(root, 20) 
+    insert(root, 40) 
+    insert(root, 70) 
+    insert(root, 60) 
+    insert(root, 80) 
+  
+    secondLargest(root) 
+  
+# This code is contributed by PranchalK
+C#
+Javascript
+Output: 
+
+2nd largest element is 70
+Time complexity : O(h) where h is height of BST. 
+
+Space Complexity: O(n) for call stack where n is total no of nodes in BST
+ 
+
+This article is contributed by Ravi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+
+
+Like
+21
+Previous
+K'th Largest element in BST using constant extra space
+Next
+Check if given sorted sub-sequence exists in binary search tree
+Related Articles
+1.
+K'th Largest Element in BST when modification to BST is not allowed
+2.
+Find k-th smallest element in BST (Order Statistics in BST)
+3.
+Convert a normal BST to Balanced BST
+4.
+Two nodes of a BST are swapped, correct the BST
+5.
+K'th Largest element in BST using constant extra space
+6.
+Find the largest BST subtree in a given Binary Tree | Set 3
+7.
+Largest BST in a Binary Tree | Set 2
+8.
+Largest number in BST which is less than or equal to N
+9.
+Largest number less than or equal to N in BST (Iterative Approach)
+10.
+Sum of k largest elements in BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+megha92c
+aashish1995
+kumargaurav97520
+Article Tags :
+Binary Search Tree
+Practice Tags :
+Binary Search Tree
+Improve Article
+Report Issue

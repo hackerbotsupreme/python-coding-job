@@ -1,0 +1,244 @@
+Check given array of size n can represent BST of n levels or not
+
+Difficulty Level : Easy
+Last Updated : 29 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of size n, the task is to find whether array can represent a BST with n levels. 
+Since levels are n, we construct a tree in the following manner. 
+Assuming a number X, 
+
+Number higher than X is on the right side
+Number lower than X is on the left side.
+Note: during the insertion, we never go beyond a number already visited.
+
+Examples: 
+
+Input : 500, 200, 90, 250, 100
+Output : No
+
+Input : 5123, 3300, 783, 1111, 890
+Output : Yes
+Explanation : 
+
+
+
+For the sequence 500, 200, 90, 250, 100 formed tree(in above image) can’t represent BST.
+ 
+
+
+
+The sequence 5123, 3300, 783, 1111, 890 forms a binary search tree hence its a correct sequence.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: By constructing BST 
+
+We first insert all array values level by level in a Tree. To insert, we check if current value is less than previous value or greater. After constructing the tree, we check if the constructed tree is Binary Search Tree or not.
+
+Implementation:
+
+C++
+Java
+Python
+# Python program to Check given array
+# can represent BST or not
+ 
+# A binary tree node has data,
+# left child and right child
+class newNode():
+ 
+    def __init__(self, data):
+        self.key = data
+        self.left = None
+        self.right = None
+ 
+# To create a Tree with n levels. We always
+# insert new node to left if it is less than
+# previous value.
+def createNLevelTree(arr, n):
+    root = newNode(arr[0])
+    temp = root
+    for i in range(1, n):
+        if (temp.key > arr[i]):
+            temp.left = newNode(arr[i])
+            temp = temp.left
+        else:
+            temp.right = newNode(arr[i])
+            temp = temp.right
+     
+    return root
+     
+# Please refer below post for details of this
+# function.
+# https:# www.geeksforgeeks.org/a-program-to-check-if-a-binary-tree-is-bst-or-not/
+def isBST(root, min, max):
+     
+    if (root == None):
+        return True
+         
+    if (root.key < min or root.key > max):
+        return False
+         
+    # Allow only distinct values
+    return (isBST(root.left, min, (root.key) - 1) and
+            isBST(root.right,(root.key) + 1, max))
+ 
+# Returns tree if given array of size n can
+# represent a BST of n levels.
+def canRepresentNLevelBST(arr, n):
+     
+    root = createNLevelTree(arr, n)
+    return isBST(root, 0, 2**32)
+ 
+# Driver code
+arr = [512, 330, 78, 11, 8]
+n = len(arr)
+ 
+if (canRepresentNLevelBST(arr, n)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output: 
+Yes
+ 
+
+Time Complexity: O(n), we traverse the whole array to create a binary tree, and then traverse it again to check if it is a BST. Thus, the overall time complexity is O(n).
+Auxiliary Space: O(n), because we store the complete binary tree in memory.
+
+Method 2 (Array Based):
+
+Take two variables max = INT_MAX to mark the maximum limit for left subtree and min = INT_MIN to mark the minimum limit for right subtree. 
+Loop from arr[1] to arr[n-1] 
+for each element check 
+If ( arr[i] > arr[i-1] && arr[i] > min && arr[i] < max ), update min = arr[i-1] 
+Else if ( arr[i] min && arr[i] < max ), update max = arr[i] 
+If none of the above two conditions hold, then element will not be inserted in a new level, so break. 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to Check given array
+# can represent BST or not
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [5123, 3300, 783, 1111, 890]
+    n = len(arr)
+    max = 2147483647 # INT_MAX
+    min = -2147483648 # INT_MIN
+    flag = True
+ 
+    for i in range(1,n):
+ 
+        # This element can be inserted to the
+        # right of the previous element, only
+        # if it is greater than the previous
+        # element and in the range.
+        if (arr[i] > arr[i - 1] and
+            arr[i] > min and arr[i] < max):
+                 
+            # max remains same, update min
+            min = arr[i - 1]
+         
+        # This element can be inserted to the
+        # left of the previous element, only
+        # if it is lesser than the previous
+        # element and in the range.
+        elif (arr[i] < arr[i - 1] and
+              arr[i] > min and arr[i] < max):
+                   
+            # min remains same, update max
+            max = arr[i - 1]
+         
+        else :
+            flag = False
+            break
+         
+    if (flag):
+        print("Yes")
+     
+    else:
+         
+        # if the loop completed successfully
+        # without encountering else condition
+        print("No")
+     
+# This code is contributed
+# by SHUBHAMSINGH10
+C#
+Javascript
+Output: 
+Yes
+ 
+
+Time Complexity: O(n)
+Auxiliary Space: O(1) 
+
+
+
+Like
+Previous
+Binary Tree to Binary Search Tree Conversion using STL set
+Next
+Convert a normal BST to Balanced BST
+Related Articles
+1.
+K'th Largest Element in BST when modification to BST is not allowed
+2.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+3.
+Check if the given array can represent Level Order Traversal of Binary Search Tree
+4.
+Convert a normal BST to Balanced BST
+5.
+Two nodes of a BST are swapped, correct the BST
+6.
+Find k-th smallest element in BST (Order Statistics in BST)
+7.
+Check if all levels of two trees are anagrams or not
+8.
+Check if the Binary Tree contains a balanced BST of size K
+9.
+Iterative approach to check if a Binary Tree is BST or not
+10.
+Check if a Binary Tree (not BST) has duplicate values
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nickhilrawat
+@nickhilrawat
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sakshi Parashar
+andrew1234
+shrikanth13
+SHUBHAMSINGH10
+princiraj1992
+Rajput-Ji
+rutvik_56
+divyesh072019
+hardikkoriintern
+factworx4i2
+surajrasr7277
+Article Tags :
+Arrays
+Binary Search Tree
+Tree
+Practice Tags :
+Arrays
+Binary Search Tree
+Tree
+Report Issue

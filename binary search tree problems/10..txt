@@ -1,0 +1,147 @@
+Iterative searching in Binary Search Tree
+
+Difficulty Level : Basic
+Last Updated : 01 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary search tree and a key. Check the given key exists in BST or not without recursion.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Please refer binary search tree insertion for recursive search. 
+
+C++
+Java
+Python3
+# Python program to demonstrate searching operation
+# in binary search tree without recursion
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to check the given
+# key exist or not
+def iterativeSearch(root, key):
+     
+    # Traverse until root reaches
+    # to dead end
+    while root != None:
+         
+        # pass right subtree as new tree
+        if key > root.data:
+            root = root.right
+ 
+        # pass left subtree as new tree
+        elif key < root.data:
+            root = root.left
+        else:
+            return True # if the key is found return 1
+    return False
+ 
+# A utility function to insert a
+# new Node with given key in BST
+def insert(Node, data):
+     
+    # If the tree is empty, return
+    # a new Node
+    if Node == None:
+        return newNode(data)
+ 
+    # Otherwise, recur down the tree
+    if data < Node.data:
+        Node.left = insert(Node.left, data)
+    elif data > Node.data:
+        Node.right = insert(Node.right, data)
+ 
+    # return the (unchanged) Node pointer
+    return Node
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Let us create following BST
+    # 50
+    # 30     70
+    # / \ / \
+    # 20 40 60 80
+    root = None
+    root = insert(root, 50)
+    insert(root, 30)
+    insert(root, 20)
+    insert(root, 40)
+    insert(root, 70)
+    insert(root, 60)
+    insert(root, 80)
+    if iterativeSearch(root, 15):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+No
+Time Complexity: O(h), here h is the height of the BST.
+Auxiliary Space: O(1), as constant extra space is used.
+
+
+
+
+
+Like
+14
+Previous
+Maximum Unique Element in every subarray of size K
+Next
+Shortest distance between two nodes in BST
+Related Articles
+1.
+Binary Search Tree | Set 3 (Iterative Delete)
+2.
+Binary Tree to Binary Search Tree Conversion
+3.
+Binary Tree to Binary Search Tree Conversion using STL set
+4.
+Difference between Binary Tree and Binary Search Tree
+5.
+Binary Search Tree | Set 1 (Search and Insertion)
+6.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+7.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+8.
+Difference between Binary Search Tree and AVL Tree
+9.
+Count the Number of Binary Search Trees present in a Binary Tree
+10.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shahnawaz_Ali
+@Shahnawaz_Ali
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+andrew1234
+29AjayKumar
+todaysgaurav
+gabaa406
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

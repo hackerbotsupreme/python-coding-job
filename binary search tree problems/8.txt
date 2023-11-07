@@ -1,0 +1,260 @@
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+
+Difficulty Level : Basic
+Last Updated : 24 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Search Tree, The task is to print the elements in inorder, preorder, and postorder traversal of the Binary Search Tree. 
+
+Input: 
+
+
+A Binary Search Tree
+
+Output: 
+Inorder Traversal: 10 20 30 100 150 200 300
+Preorder Traversal: 100 20 10 30 200 150 300
+Postorder Traversal: 10 30 20 150 300 200 100
+
+Input: 
+
+
+Binary Search Tree
+
+Output: 
+Inorder Traversal: 8 12 20 22 25 30 40
+Preorder Traversal: 22 12 8 20 30 25 40
+Postorder Traversal: 8 20 12 25 40 30 22
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+Inorder Traversal:
+Below is the idea to solve the problem:
+
+At first traverse left subtree then visit the root and then traverse the right subtree.
+
+Follow the below steps to implement the idea:
+
+Traverse left subtree
+Visit the root and print the data.
+Traverse the right subtree
+The inorder traversal of the BST gives the values of the nodes in sorted order. To get the decreasing order visit the right, root, and left subtree.
+
+Below is the implementation of the inorder traversal.
+
+C++
+Java
+Python3
+# Python3 code to implement the approach
+ 
+# Class describing a node of tree
+class Node:
+    def __init__(self, v):
+        self.left = None
+        self.right = None
+        self.data = v
+ 
+# Inorder Traversal
+def printInorder(root):
+    if root:
+        # Traverse left subtree
+        printInorder(root.left)
+         
+        # Visit node
+        print(root.data,end=" ")
+         
+        # Traverse right subtree
+        printInorder(root.right)
+ 
+# Driver code
+if __name__ == "__main__":
+    # Build the tree
+    root = Node(100)
+    root.left = Node(20)
+    root.right = Node(200)
+    root.left.left = Node(10)
+    root.left.right = Node(30)
+    root.right.left = Node(150)
+    root.right.right = Node(300)
+ 
+    # Function call
+    print("Inorder Traversal:",end=" ")
+    printInorder(root)
+ 
+    # This code is contributed by ajaymakvana.
+C#
+Javascript
+Output
+Inorder Traversal: 10 20 30 100 150 200 300 
+Time complexity: O(N), Where N is the number of nodes.
+Auxiliary Space: O(h), Where h is the height of tree
+
+Preorder Traversal:
+Below is the idea to solve the problem:
+
+At first visit the root then traverse left subtree and then traverse the right subtree.
+
+Follow the below steps to implement the idea:
+
+Visit the root and print the data.
+Traverse left subtree
+Traverse the right subtree
+Below is the implementation of the preorder traversal.
+
+C++
+Java
+Python3
+class Node:
+    def __init__(self, v):
+        self.data = v
+        self.left = None
+        self.right = None
+ 
+# Preorder Traversal
+def printPreOrder(node):
+    if node is None:
+        return
+    # Visit Node
+    print(node.data, end = " ")
+ 
+    # Traverse left subtree
+    printPreOrder(node.left)
+ 
+    # Traverse right subtree
+    printPreOrder(node.right)
+ 
+# Driver code
+if __name__ == "__main__":
+    # Build the tree
+    root = Node(100)
+    root.left = Node(20)
+    root.right = Node(200)
+    root.left.left = Node(10)
+    root.left.right = Node(30)
+    root.right.left = Node(150)
+    root.right.right = Node(300)
+ 
+    # Function call
+    print("Preorder Traversal: ", end = "")
+    printPreOrder(root)
+C#
+Javascript
+Output
+Preorder Traversal: 100 20 10 30 200 150 300 
+Time complexity: O(N), Where N is the number of nodes.
+Auxiliary Space: O(H), Where H is the height of the tree
+
+Postorder Traversal:
+Below is the idea to solve the problem:
+
+At first traverse left subtree then traverse the right subtree and then visit the root.
+
+Follow the below steps to implement the idea:
+
+Traverse left subtree
+Traverse the right subtree
+Visit the root and print the data.
+Below is the implementation of the postorder traversal:
+
+C++
+Java
+C#
+Python3
+class Node:
+    def __init__(self, v):
+        self.data = v
+        self.left = None
+        self.right = None
+ 
+# Preorder Traversal
+def printPostOrder(node):
+    if node is None:
+        return
+ 
+    # Traverse left subtree
+    printPostOrder(node.left)
+ 
+    # Traverse right subtree
+    printPostOrder(node.right)
+     
+    # Visit Node
+    print(node.data, end = " ")
+ 
+# Driver code
+if __name__ == "__main__":
+    # Build the tree
+    root = Node(100)
+    root.left = Node(20)
+    root.right = Node(200)
+    root.left.left = Node(10)
+    root.left.right = Node(30)
+    root.right.left = Node(150)
+    root.right.right = Node(300)
+ 
+    # Function call
+    print("Postorder Traversal: ", end = "")
+    printPostOrder(root)
+Output
+PostOrder Traversal: 10 30 20 150 300 200 100 
+Time complexity: O(N), Where N is the number of nodes.
+Auxiliary Space: O(H), Where H is the height of the tree
+
+
+
+Like
+Previous
+Check if given Circles form a single Component
+Next
+Deletion in an AVL Tree
+Related Articles
+1.
+Check if given inorder and preorder traversals are valid for any Binary Tree without building the tree
+2.
+Check if given Preorder, Inorder and Postorder traversals are of same tree | Set 2
+3.
+Check if given Preorder, Inorder and Postorder traversals are of same tree
+4.
+Preorder from Inorder and Postorder traversals
+5.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+6.
+Preorder, Postorder and Inorder Traversal of a Binary Tree using a single Stack
+7.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+8.
+Leaf nodes from Preorder of a Binary Search Tree
+9.
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+10.
+Check if an array represents Inorder of Binary Search tree or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sahilgangurde08
+@sahilgangurde08
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rohit768
+lokeshmvs21
+aadityapburujwale
+aashutoshparoha
+ajaymakvana
+akashish__
+Article Tags :
+Picked
+Tree Traversals
+Binary Search Tree
+Recursion
+Practice Tags :
+Binary Search Tree
+Recursion
+Report Issue

@@ -1,0 +1,348 @@
+Merge Two Balanced Binary Search Trees
+
+Difficulty Level : Medium
+Last Updated : 26 Dec, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+You are given two balanced binary search trees e.g., AVL or Red-Black Tree. Write a function that merges the two given balanced BSTs into a balanced binary search tree. Let there be m elements in the first tree and n elements in the other tree. Your merge function should take O(m+n) time.
+In the following solutions, it is assumed that the sizes of trees are also given as input. If the size is not given, then we can get the size by traversing the tree (See this).
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Insert elements of the first tree to the second):
+
+Take all elements of the first BST one by one, and insert them into the second BST. Inserting an element to a self-balancing BST takes Logn time (See this) where n is the size of the BST. So time complexity of this method is Log(n) + Log(n+1) … Log(m+n-1). The value of this expression will be between mLogn and mLog(m+n-1). As an optimization, we can pick the smaller tree as the first tree.
+
+Method 2 (Merge Inorder Traversals):
+
+Do inorder traversal of the first tree and store the traversal in one temp array arr1[]. This step takes O(m) time. 
+Do inorder traversal of the second tree and store the traversal in another temp array arr2[]. This step takes O(n) time. 
+The arrays created in steps 1 and 2 are sorted arrays. Merge the two sorted arrays into one array of size m + n. This step takes O(m+n) time. 
+Construct a balanced tree from the merged array using the technique discussed in this post. This step takes O(m+n) time.
+The time complexity of this method is O(m+n) which is better than method 1. This method takes O(m+n) time even if the input BSTs are not balanced. 
+Following is the implementation of this method.
+
+C++
+C
+Java
+Python3
+# A binary tree node has data, pointer to left child 
+# and a pointer to right child
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+ 
+# A utility function to merge two sorted arrays into one
+# Time Complexity of below function: O(m + n)
+# Space Complexity of below function: O(m + n)
+def merge_sorted_arr(arr1, arr2):
+    arr = []
+    i = j = 0
+    while i < len(arr1) and j < len(arr2):
+        if arr1[i] <= arr2[j]:
+            arr.append(arr1[i])
+            i += 1
+        else:
+            arr.append(arr2[j])
+            j += 1
+    while i < len(arr1):
+        arr.append(arr1[i])
+        i += 1
+    while i < len(arr2):
+        arr.append(arr2[j])
+        j += 1
+    return arr
+ 
+# A helper function that stores inorder
+# traversal of a tree in arr
+def inorder(root, arr = []):
+    if root:
+        inorder(root.left, arr)
+        arr.append(root.val)
+        inorder(root.right, arr)
+ 
+# A utility function to insert the values
+# in the individual Tree
+def insert(root, val):
+    if not root:
+        return Node(val)
+    if root.val == val:
+        return root
+    elif root.val > val:
+        root.left = insert(root.left, val)
+    else:
+        root.right = insert(root.right, val)
+    return root
+ 
+# Converts the merged array to a balanced BST
+# Explanation of the below code:
+# https://www.geeksforgeeks.org/sorted-array-to-balanced-bst/
+def arr_to_bst(arr):
+    if not arr:
+        return None
+    mid = len(arr) // 2
+    root = Node(arr[mid])
+    root.left = arr_to_bst(arr[:mid])
+    root.right = arr_to_bst(arr[mid + 1:])
+    return root
+ 
+if __name__=='__main__':
+    root1 = root2 = None
+     
+    # Inserting values in first tree
+    root1 = insert(root1, 100)
+    root1 = insert(root1, 50)
+    root1 = insert(root1, 300)
+    root1 = insert(root1, 20)
+    root1 = insert(root1, 70)
+     
+    # Inserting values in second tree
+    root2 = insert(root2, 80)
+    root2 = insert(root2, 40)
+    root2 = insert(root2, 120)
+    arr1 = []
+    inorder(root1, arr1)
+    arr2 = []
+    inorder(root2, arr2)
+    arr = merge_sorted_arr(arr1, arr2)
+    root = arr_to_bst(arr)
+    res = []
+    inorder(root, res)
+    print('Following is Inorder traversal of the merged tree')
+    for i in res:
+      print(i, end = ' ')
+       
+# This code is contributed by Flarow4
+C#
+Javascript
+Output
+Following is Inorder traversal of the merged tree 
+20 40 50 70 80 100 120 300 
+ Time complexity: O(m+n), where m and n are the numbers of elements in the two binary search trees.
+ Space complexity: O(m+n). This is because we need to allocate space for the two arrays that store the elements from the two binary search trees, as well as an array to store the merged elements.
+
+
+
+Method 3 (In-Place Merge using DLL):
+
+We can use a Doubly Linked List to merge trees in place. Following are the steps.
+
+Convert the given two Binary Search Trees into a doubly linked list in place (Refer to this post for this step). 
+Merge the two sorted Linked Lists (Refer to this post for this step). 
+Build a Balanced Binary Search Tree from the merged list created in step 2. (Refer to this post for this step)
+The time complexity of this method is also O(m+n) and this method does conversion in place.
+Thanks to Dheeraj and Ronzii for suggesting this method.
+
+C++
+// C++ Code for the above approach
+ 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+/* A binary tree node has data,
+a pointer to left child
+and a pointer to right child */
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+};
+ 
+// Function to return a new Node
+Node* newNode(int data)
+{
+    Node* node = new Node();
+    node->data = data;
+    node->left = NULL;
+    node->right = NULL;
+ 
+    return (node);
+}
+ 
+// Function to convert bst to
+// a doubly linked list
+void bstTodll(Node* root, Node*& head)
+{
+    // if root is NULL
+    if (!root)
+        return;
+ 
+    // Convert right subtree recursively
+    bstTodll(root->right, head);
+ 
+    // Update root
+    root->right = head;
+ 
+    // if head is not NULL
+    if (head) {
+ 
+        // Update left of the head
+        head->left = root;
+    }
+ 
+    // Update head
+    head = root;
+ 
+    // Convert left subtree recursively
+    bstTodll(root->left, head);
+}
+ 
+// Function to merge two sorted linked list
+Node* mergeLinkedList(Node* head1, Node* head2)
+{
+ 
+    /*Create head and tail for result list*/
+    Node* head = NULL;
+    Node* tail = NULL;
+ 
+    while (head1 && head2) {
+ 
+        if (head1->data < head2->data) {
+ 
+            if (!head)
+                head = head1;
+            else {
+ 
+                tail->right = head1;
+                head1->left = tail;
+            }
+ 
+            tail = head1;
+            head1 = head1->right;
+        }
+ 
+        else {
+ 
+            if (!head)
+                head = head2;
+            else {
+                tail->right = head2;
+                head2->left = tail;
+            }
+ 
+            tail = head2;
+            head2 = head2->right;
+        }
+    }
+ 
+    while (head1) {
+        tail->right = head1;
+        head1->left = tail;
+        tail = head1;
+        head1 = head1->right;
+    }
+ 
+    while (head2) {
+        tail->right = head2;
+        head2->left = tail;
+        tail = head2;
+        head2 = head2->right;
+    }
+ 
+    // Return the created DLL
+    return head;
+}
+ 
+// function to convert list to bst
+Node* sortedListToBST(Node*& head, int n)
+{
+    // if no element is left or head is null
+    if (n <= 0 || !head)
+        return NULL;
+ 
+    // Create left part from the list recursively
+    Node* left = sortedListToBST(head, n / 2);
+ 
+    Node* root = head;
+    root->left = left;
+    head = head->right;
+ 
+    // Create left part from the list recursively
+    root->right = sortedListToBST(head, n - (n / 2) - 1);
+ 
+    // Return the root of BST
+    return root;
+}
+ 
+// This function merges two balanced BSTs
+Node* mergeTrees(Node* root1, Node* root2, int m, int n)
+{
+    // Convert BSTs into sorted Doubly Linked Lists
+ 
+    Node* head1 = NULL;
+    bstTodll(root1, head1);
+    head1->left = NULL;
+ 
+    Node* head2 = NULL;
+    bstTodll(root2, head2);
+    head2->left = NULL;
+ 
+    // Merge the two sorted lists into one
+    Node* head = mergeLinkedList(head1, head2);
+ 
+    // Construct a tree from the merged lists
+    return sortedListToBST(head, m + n);
+}
+ 
+void printInorder(Node* node)
+{
+    // if current node is NULL
+    if (!node) {
+        return;
+    }
+ 
+    printInorder(node->left);
+ 
+      // Print node of current data
+    cout << node->data << " ";
+ 
+    printInorder(node->right);
+}
+ 
+/* Driver code*/
+int main()
+{
+    /* Create following tree as first balanced BST
+       100
+       / \
+      50 300
+     / \
+    20 70   */
+ 
+    Node* root1 = newNode(100);
+    root1->left = newNode(50);
+    root1->right = newNode(300);
+    root1->left->left = newNode(20);
+    root1->left->right = newNode(70);
+ 
+    /* Create following tree as second balanced BST
+             80
+            / \
+           40 120
+    */
+    Node* root2 = newNode(80);
+    root2->left = newNode(40);
+    root2->right = newNode(120);
+ 
+      // Function Call
+    Node* mergedTree = mergeTrees(root1, root2, 5, 3);
+ 
+    cout << "Following is Inorder traversal of the merged "
+            "tree \n";
+    printInorder(mergedTree);
+ 
+    return 0;
+}
+ 
+// This code is contributed by Tapesh(tapeshdua420)
+Output
+Following is Inorder traversal of the merged tree 
+20 40 50 70 80 100 120 300 
+Time Complexity: O(N + M). where N and M are the numbers of nodes in the given trees.
+Auxiliary Space: O(1), as constant extra space is used.
+

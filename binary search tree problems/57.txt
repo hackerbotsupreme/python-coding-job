@@ -1,0 +1,347 @@
+Replace every element with the least greater element on its right
+
+Difficulty Level : Hard
+Last Updated : 11 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given an array of integers, replace every element with the least greater element on its right side in the array. If there are no greater elements on the right side, replace it with -1.
+
+Examples: 
+
+Input: [8, 58, 71, 18, 31, 32, 63, 92, 
+         43, 3, 91, 93, 25, 80, 28]
+Output: [18, 63, 80, 25, 32, 43, 80, 93, 
+         80, 25, 93, -1, 28, -1, -1]
+Recommended Problem
+Replace every element with the least greater element on its right
+set
+Arrays
++2 more
+Solve Problem
+Submission count: 19.3K
+A naive method is to run two loops. The outer loop will one by one pick array elements from left to right. The inner loop will find the smallest element greater than the picked element on its right side. Finally, the outer loop will replace the picked element with the element found by inner loop. The time complexity of this method will be O(n2).
+
+A tricky solution would be to use Binary Search Trees. We start scanning the array from right to left and insert each element into the BST. For each inserted element, we replace it in the array by its inorder successor in BST. If the element inserted is the maximum so far (i.e. its inorder successor doesn’t exist), we replace it by -1.
+
+
+Below is the implementation of the above idea – 
+
+C++
+Java
+Python3
+# Python3 program to replace every element
+# with the least greater element on its right
+ 
+# A binary Tree node
+ 
+ 
+class Node:
+ 
+    def __init__(self, d):
+ 
+        self.data = d
+        self.left = None
+        self.right = None
+ 
+# A utility function to insert a new node with
+# given data in BST and find its successor
+ 
+ 
+def insert(node, data):
+ 
+    global succ
+ 
+    # If the tree is empty, return a new node
+    root = node
+ 
+    if (node == None):
+        return Node(data)
+ 
+    # If key is smaller than root's key, go to left
+    # subtree and set successor as current node
+    if (data < node.data):
+ 
+        # print("1")
+        succ = node
+        root.left = insert(node.left, data)
+ 
+    # Go to right subtree
+    elif (data > node.data):
+        root.right = insert(node.right, data)
+ 
+    return root
+ 
+# Function to replace every element with the
+# least greater element on its right
+ 
+ 
+def replace(arr, n):
+ 
+    global succ
+    root = None
+ 
+    # Start from right to left
+    for i in range(n - 1, -1, -1):
+        succ = None
+ 
+        # Insert current element into BST and
+        # find its inorder successor
+        root = insert(root, arr[i])
+ 
+        # Replace element by its inorder
+        # successor in BST
+        if (succ):
+            arr[i] = succ.data
+ 
+        # No inorder successor
+        else:
+            arr[i] = -1
+ 
+    return arr
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    arr = [8, 58, 71, 18, 31, 32, 63,
+           92, 43, 3, 91, 93, 25, 80, 28]
+    n = len(arr)
+    succ = None
+ 
+    arr = replace(arr, n)
+ 
+    print(*arr)
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+18 63 80 25 32 43 80 93 80 25 93 -1 28 -1 -1 
+Time complexity: O(n2),  As it uses BST. The worst-case will happen when array is sorted in ascending or descending order. The complexity can easily be reduced to O(nlogn) by using balanced trees like red-black trees.
+Auxiliary Space: O(h), Here h is the height of the BST and the extra space is used in recursion call stack.
+
+Another Approach:
+
+We can use the Next Greater Element using stack algorithm to solve this problem in O(Nlog(N)) time and O(N) space.
+
+Algorithm:
+
+First, we take an array of pairs namely temp, and store each element and its index in this array,i.e. temp[i] will be storing {arr[i],i}.
+Sort the array according to the array elements.
+Now get the next greater index for each and every index of the temp array in an array namely index by using Next Greater Element using stack.
+Now index[i] stores the index of the next least greater element of the element temp[i].first and if index[i] is -1, then it means that there is no least greater element of the element temp[i].second at its right side.
+Now take a result array where result[i] will be equal to a[indexes[temp[i].second]] if index[i] is not -1 otherwise result[i] will be equal to -1.
+Below is the implementation of the above approach
+
+C++
+Java
+Python3
+# function to get the next least greater index for each and
+# every temp[1] of the temp array using stack this
+# function is similar to the Next Greater element for each
+# and every element of an array using stack difference is
+# we are finding the next greater index not value and the
+# indexes are stored in the temp[i][1] for all i
+ 
+ 
+def nextGreaterIndex(temp):
+ 
+    n = len(temp)
+ 
+    # initially result[i] for all i is -1
+    res = [-1 for i in range(n)]
+    stack = []
+    for i in range(n):
+ 
+        # if the stack is empty or this index is smaller
+        # than the index stored at top of the stack then we
+        # append this index to the stack
+        if (len(stack) == 0 or temp[i][1] < stack[-1]):
+            stack.append(temp[i][1])  # notice temp[i][1] is
+            # the index
+        # else this index (i.e. temp[i][1]) is greater
+        # than the index stored at top of the stack we pop
+        # all the indexes stored at stack's top and for all
+        # these indexes we make this index i.e.
+        # temp[i][1] as their next greater index
+        else:
+            while (len(stack) > 0 and temp[i][1] > stack[-1]):
+                res[stack[-1]] = temp[i][1]
+                stack.pop()
+ 
+            # after that append the current index to the stack
+            stack.append(temp[i][1])
+ 
+    # now res will store the next least greater indexes for
+    # each and every indexes stored at temp[i][1] for
+    # all i
+    return res
+ 
+# now we will be using above function for finding the next
+# greater index for each and every indexes stored at
+# temp[i][1]
+ 
+ 
+def replaceByLeastGreaterUsingStack(arr, n):
+ 
+    # first of all in temp we store the pairs of {arr[i].i}
+    temp = []
+    for i in range(n):
+        temp.append([arr[i], i])
+ 
+    # we sort the temp according to the first of the pair
+    # i.e value
+    temp.sort()
+ 
+    # now indexes vector will store the next greater index
+    # for each temp[i][1] index
+    indexes = nextGreaterIndex(temp)
+ 
+    # we initialize a result vector with all -1
+    res = [-1 for i in range(n)]
+    for i in range(n):
+ 
+        # now if there is no next greater index after the
+        # index temp[i][1] the result will be -1
+        # otherwise the result will be the element of the
+        # array arr at index indexes[temp[i][1]]
+        if (indexes[temp[i][1]] != -1):
+            res[temp[i][1]] = arr[indexes[temp[i][1]]]
+ 
+    # return the res which will store the least greater
+    # element of each and every element in the array at its
+    # right side
+    return res
+ 
+# driver code
+ 
+ 
+arr = [8,  58, 71, 18, 31, 32, 63, 92, 43, 3,  91, 93, 25, 80, 28]
+n = len(arr)
+res = replaceByLeastGreaterUsingStack(arr, n)
+print("Least Greater elements on the right side are ")
+for i in res:
+    print(i, end=' ')
+print()
+ 
+# this code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Least Greater elements on the right side are 
+18 63 80 25 32 43 80 93 80 25 93 -1 28 -1 -1 
+Another approach with set
+
+A different way to think about the problem is listing our requirements and then thinking over it to find a solution. If we traverse the array from backwards, we need  a data structure(ds) to support:
+
+Insert an element into our ds in sorted order (so at any point of time the elements in our ds are sorted)
+Finding the upper bound of the current element (upper bound will give just greater element from our ds if present)
+Carefully observing at our requirements, a set is what comes in mind. 
+
+Why not multiset? Well we can use a multiset but there is no need to store an element more than once.
+
+Let’s code our approach
+
+Time and space complexity: We insert each element in our set and find upper bound for each element using a loop so its time complexity is O(n*log(n)). We are storing each element in our set so space complexity is O(n)
+
+C++
+Java
+Python3
+from typing import List
+from bisect import bisect_right
+ 
+def solve(arr: List[int]) -> List[int]:
+    s = set()
+    for i in range(len(arr) - 1, -1, -1):
+        s.add(arr[i])
+        upper_bound = bisect_right(sorted(s), arr[i])
+        if upper_bound == len(s):
+            arr[i] = -1
+        else:
+            arr[i] = sorted(s)[upper_bound]
+    return arr
+ 
+def print_array(arr: List[int]):
+    print(*arr)
+ 
+if __name__ == "__main__":
+    arr = [8, 58, 71, 18, 31, 32, 63, 92, 43, 3, 91, 93, 25, 80, 28]
+    print_array(arr)
+    solve(arr)
+    print_array(arr)
+ 
+    # This code is contributed by vikranshirsath177.
+C#
+Output
+8 58 71 18 31 32 63 92 43 3 91 93 25 80 28 
+18 63 80 25 32 43 80 93 80 25 93 -1 28 -1 -1 
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Maximize arr[j] - arr[i] + arr[l] - arr[k], such that i < j < k < l
+Next
+Find minimum adjustment cost of an array
+Related Articles
+1.
+Count of Array elements greater than all elements on its left and at least K elements on its right
+2.
+Java Program to Count of Array elements greater than all elements on its left and at least K elements on its right
+3.
+C++ Program to Count of Array elements greater than all elements on its left and at least K elements on its right
+4.
+Partition array into two subarrays with every element in the right subarray strictly greater than every element in left subarray
+5.
+Replace every element of array with sum of elements on its right side
+6.
+Replace every element with the greatest element on right side
+7.
+Count of Array elements greater than all elements on its left and next K elements on its right
+8.
+Replace every element with the greatest element on its left side
+9.
+Replace every element with the smallest element on its left side
+10.
+Replace every element of the array by its previous element
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mysticpeaks
+mohit kumar 29
+rag2127
+arpitprasad928
+unknown2108
+sinhadiptiprakash
+anikaseth98
+abhishek0719kadiyan
+shobhittewari
+shinjanpatra
+sagarkumar28773
+jainlovely450
+hardikkoriintern
+tapeshdua420
+aadityapburujwale
+jyoti369
+nikhilraj7654
+adityakumar129
+abhijeet19403
+vikramshirsath177
+Article Tags :
+Arrays
+Binary Search Tree
+Practice Tags :
+Arrays
+Binary Search Tree

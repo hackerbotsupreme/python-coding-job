@@ -1,0 +1,180 @@
+Find the largest BST subtree in a given Binary Tree | Set 3
+
+Difficulty Level : Hard
+Last Updated : 14 Dec, 2022
+Read
+Discuss(300+)
+Courses
+Practice
+Video
+Largest BST in a Binary Tree | Set 3
+Method 3 (Shorter, Smarter and More Efficient) 
+
+In this section, a different O(n) solution is discussed. This solution is simpler than the solutions discussed in Set-1 and Set-2 and works in O(n) time. In this method, we do not need to check explicitly if the binary tree is BST. A Tree is BST if the following is true for every node x. 
+
+1. The largest value in the left subtree (of x) is smaller than the value of x.
+2. The smallest value in the right subtree (of x) is greater than the value of x.
+
+So, we will just check if the largest value of the left subtree is less than the value of the root node and the smallest value of right subtree is greater than the value of root node.
+
+
+We will use a array/list ans :
+
+• ans[0]=minimum value
+• ans[1]=maximum value
+• ans[2]=size of current largest BST
+
+Algorithm:
+
+
+
+1. If root==None:
+return INT_MAX,INT_MIN,0
+2. If (root.left==None and root.right==None):
+             return root.data,root.data,1
+3. Initialize ans=[0,0,0]
+4. Check if the largest value of the left subtree is less than the value of the root node and the smallest value of the right subtree is greater than the value of the root node, if this holds true, update the ans accordingly and return ans.
+5. If 4 is false, we will assign values as IMIN,IMAX, max(left[2],right[2] and return ans.
+
+C++
+Java
+Python3
+#User function Template for python3
+IMIN = -2147483648
+IMAX = 2147483647
+def largestBst(root):
+        if root==None:
+            return IMAX,IMIN,0
+        if (root.left==None and root.right==None):
+            return root.data,root.data,1
+         
+        left=largestBst(root.left)
+        right=largestBst(root.right)
+ 
+         
+        ans=[0,0,0]
+         
+        if left[1]<root.data and right[0]>root.data:
+            ans[0]=min(left[0],right[0],root.data)
+            ans[1]=max(right[1],left[1],root.data)
+            ans[2]=1+left[2]+right[2]
+            return ans
+ 
+        ans[0]=IMIN
+        ans[1]=IMAX
+        ans[2]=max(left[2],right[2])
+        return ans
+ 
+def largestBstUtil(root):
+      # Return the size of the largest sub-tree which is also a BST
+     return largestBst(root)[2]
+     
+#  Driver Code Starts
+import sys
+sys.setrecursionlimit(1000000)
+from collections import deque
+# Tree Node
+class newNode:
+    def __init__(self, val):
+        self.right = None
+        self.data = val
+        self.left = None
+ 
+# Driver Code
+if __name__ == '__main__':
+      
+    """Let us construct the following Tree
+        50
+        / \
+        75 45
+    /
+    40 """
+    root = newNode(50)
+    root.left = newNode(75)
+    root.right = newNode(45)
+    root.left.left = newNode(40)
+    print("Size of the largest BST is",largestBstUtil(root))
+C#
+Javascript
+Output
+Size of the largest BST is 2
+Time Complexity: O(n), Auxiliary Space: O(n)
+
+Here n is the number of nodes in the given Binary Tree.  
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+70
+Previous
+Largest BST in a Binary Tree | Set 2
+Next
+Print the longest leaf to leaf path in a Binary tree
+Related Articles
+1.
+Find the largest Complete Subtree in a given Binary Tree
+2.
+Find the largest Perfect Subtree in a given Binary Tree
+3.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+4.
+Check if a binary tree is subtree of another binary tree | Set 2
+5.
+Check if a Binary tree is Subtree of another Binary tree | Set 3
+6.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+7.
+Count of nodes in given N-ary tree such that their subtree is a Binary Tree
+8.
+K'th Largest Element in BST when modification to BST is not allowed
+9.
+Find largest subtree sum in a tree
+10.
+Largest subtree sum for each vertex of given N-ary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+rathbhupendra
+GauravRajput1
+rutvik_56
+mahi_07
+Rajput-Ji
+noviced3vq6
+abhijeet19403
+anushkachandra710
+chaudharikunals02
+ajaymakvana
+tapeshdua420
+adityamaharshi21
+Article Tags :
+Amazon
+D-E-Shaw
+DE Shaw
+Samsung
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+D-E-Shaw
+DE Shaw
+Samsung
+Binary Search Tree
+Tree
+Improve Article
+Report Issue

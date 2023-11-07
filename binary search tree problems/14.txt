@@ -1,0 +1,127 @@
+Check if an array represents Inorder of Binary Search tree or not
+
+Difficulty Level : Easy
+Last Updated : 01 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of N element. The task is to check if it is Inorder traversal of any Binary Search Tree or not. Print “Yes” if it is Inorder traversal of any Binary Search Tree else print “No”. 
+
+Examples: 
+
+Input : arr[] = { 19, 23, 25, 30, 45 }
+Output : Yes
+
+Input : arr[] = { 19, 23, 30, 25, 45 }
+Output : No
+Recommended Problem
+Inorder Traversal and BST
+Binary Search Tree
+Tree
++1 more
+Solve Problem
+Submission count: 20.2K
+The idea is to use the fact that the inorder traversal of Binary Search Tree is sorted. So, just check if given array is sorted or not. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python 3 program to check if a given array
+# is sorted or not.
+ 
+# Function that returns true if array is Inorder
+# traversal of any Binary Search Tree or not.
+def isInorder(arr, n):
+     
+    # Array has one or no element
+    if (n == 0 or n == 1):
+        return True
+ 
+    for i in range(1, n, 1):
+         
+        # Unsorted pair found
+        if (arr[i - 1] > arr[i]):
+            return False
+ 
+    # No unsorted pair found
+    return True
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [19, 23, 25, 30, 45]
+    n = len(arr)
+     
+    if (isInorder(arr, n)):
+        print("Yes")
+    else:
+        print("No")
+         
+# This code is contributed by
+# Sahil_Shelangia
+C#
+PHP
+Javascript
+Output
+Yes
+Time complexity: O(n) where n is the size of array
+Auxiliary Space: O(1)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Find the node with minimum value in a Binary Search Tree
+Next
+Inorder predecessor and successor for a given key in BST
+Related Articles
+1.
+Check if Inorder traversal of a Binary Tree is palindrome or not
+2.
+Check if given inorder and preorder traversals are valid for any Binary Tree without building the tree
+3.
+Inorder Successor in Binary Search Tree
+4.
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+5.
+How to check if a given array represents a Binary Heap?
+6.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+7.
+Cartesian tree from inorder traversal | Segment Tree
+8.
+Construct Special Binary Tree from given Inorder traversal
+9.
+Inorder Non-threaded Binary Tree Traversal without Recursion or Stack
+10.
+Replace each node in binary tree with the sum of its inorder predecessor and successor
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+Rajput-Ji
+Akanksha_Rai
+sahilshelangia
+technophpfij
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Binary Search Tree
+Tree
+Practice Tags :
+Binary Search Tree
+Tree
+Report Issue

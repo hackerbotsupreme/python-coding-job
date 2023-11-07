@@ -1,0 +1,287 @@
+Leaf nodes from Preorder of a Binary Search Tree
+
+Difficulty Level : Hard
+Last Updated : 28 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Preorder traversal of a Binary Search Tree. The task is to print leaf nodes of the Binary Search Tree from the given preorder.
+
+Examples: 
+
+Input : preorder[] = {890, 325, 290, 530, 965};
+Output : 290 530 965
+Explanation : Tree represented is,
+      890
+     /   \
+  325    965
+  /  \
+290   530
+
+Input : preorder[] = { 3, 2, 4 };
+Output : 2 4
+Recommended Problem
+Print leaf nodes from preorder traversal of BST
+Recursion
+Stack
++3 more
+Facebook
+Solve Problem
+Submission count: 20K
+Method 1: (Simple):
+
+The idea is to find Iorder, then traverse the tree in preorder fashion (using both inorder and postorder traversals) and while traversing print leaf nodes.
+
+
+How to traverse in preorder fashion using two arrays representing inorder and preorder traversals? 
+
+We iterate the preorder array and for each element find that element in the inorder array. For searching, we can use binary search, since inorder traversal of the binary search tree is always sorted. Now, for each element of preorder array, in binary search, we set the range [L, R]. 
+
+And when L == R, the leaf node is found. So, initially, L = 0 and R = n – 1 for first element (i.e root) of preorder array. Now, to search for the element on the left subtree of the root, set L = 0 and R = index of root – 1. Also, for all element of right subtree set L = index of root + 1 and R = n -1. 
+Recursively, follow this, until L == R.
+
+Below is the implementation of this approach:
+
+C++
+Java
+Python3
+# Python3 program to print leaf node from
+# preorder of binary search tree.
+ 
+# Binary Search
+def binarySearch(inorder, l, r, d):
+ 
+    mid = (l + r) >> 1
+    if (inorder[mid] == d):
+        return mid
+    elif (inorder[mid] > d):
+        return binarySearch(inorder, l,
+                            mid - 1, d)
+    else:
+        return binarySearch(inorder,
+                            mid + 1, r, d)
+ 
+# Function to print Leaf Nodes by doing
+# preorder traversal of tree using
+# preorder and inorder arrays.
+def leafNodesRec(preorder, inorder,
+                      l, r, ind, n):
+ 
+    # If l == r, therefore no right or left subtree.
+    # So, it must be leaf Node, print it.
+    if(l == r):
+        print(inorder[l], end = " ")
+        ind[0] = ind[0] + 1
+        return
+ 
+    # If array is out of bound, return.
+    if (l < 0 or l > r or r >= n):
+        return
+ 
+    # Finding the index of preorder element
+    # in inorder array using binary search.
+    loc = binarySearch(inorder, l, r,
+                       preorder[ind[0]])
+ 
+    # Incrementing the index.
+    ind[0] = ind[0] + 1
+ 
+    # Finding on the left subtree.
+    leafNodesRec(preorder, inorder,    
+                 l, loc - 1, ind, n)
+ 
+    # Finding on the right subtree.
+    leafNodesRec(preorder, inorder,
+                 loc + 1, r, ind, n)
+ 
+# Finds leaf nodes from
+# given preorder traversal.
+def leafNodes(preorder, n):
+ 
+    # To store inorder traversal
+    inorder = [0] * n
+     
+    # Copy the preorder into another array.
+    for i in range(n):
+        inorder[i] = preorder[i]
+ 
+    # Finding the inorder by sorting the array.
+    inorder.sort()
+     
+    # Point to the index in preorder.
+    ind = [0]
+     
+    # Print the Leaf Nodes.
+    leafNodesRec(preorder, inorder, 0,
+                 n - 1, ind, n)
+ 
+ 
+# Driver Code
+preorder = [890, 325, 290, 530, 965]
+n = len(preorder)
+leafNodes(preorder, n)
+ 
+# This code is contributed
+# by SHUBHAMSINGH10
+C#
+Javascript
+Output
+290 530 965 
+Time Complexity: O(n log n) 
+Auxiliary Space: O(n)
+
+Method 2:(using Stack):
+
+The idea is to use the property of the Binary Search Tree and stack. 
+Traverse the array using two pointer i and j to the array, initially i = 0 and j = 1. Whenever a[i] > a[j], we can say a[j] is left part of a[i], since preorder traversal follows Visit -> Left -> Right. So, we push a[i] into the stack. 
+For those points violating the rule, we start to pop element from the stack till a[i] > top element of the stack and break when it doesn’t and print the corresponding jth value.
+
+Algorithm: 
+
+1. Set i = 0, j = 1.
+2. Traverse the preorder array.
+3. If a[i] > a[j], push a[i] to the stack.
+4. Else
+   While (stack is not empty)
+     if (a[j] > top of stack)
+       pop element from the stack;
+       set found = true;
+     else
+       break;
+5. if (found == true)
+     print a[i];
+How does this algorithm work? 
+Preorder traversal traverse in the order: Visit, Left, Right. 
+And we know the left node of any node in BST is always less than the node. So preorder traversal will first traverse from root to leftmost node. Therefore, preorder will be in decreasing order first. Now, after decreasing order, there may be a node that is greater or which breaks the decreasing order. So, there can be a case like this : 
+ 
+
+
+
+In case 1, 20 is a leaf node whereas in case 2, 20 is not the leaf node. 
+So, our problem is how to identify if we have to print 20 as a leaf node or not? 
+This is solved using stack. 
+While running above algorithm on case 1 and case 2, when i = 2 and j = 3, state of a stack will be the same in both the case : 
+ 
+
+
+
+So, node 65 will pop 20 and 50 from the stack. This is because 65 is the right child of a node which is before 20. This information we store using the found variable. So, 20 is a root node. 
+While in case 2, 40 will not able to pop any element from the stack. Because 40 is the right node of a node which is after 20. So, 20 is not a leaf node.
+Note: In the algorithm, we will not be able to check the condition of the leaf node of the rightmost node or rightmost element of the preorder. So, simply print the rightmost node because we know this will always be a leaf node in preorder traversal.
+
+Below is the implementation of this approach: 
+
+C++
+Java
+Python3
+# Stack based Python program to print
+# leaf nodes from preorder traversal.
+ 
+# Print the leaf node from the given
+# preorder of BST.
+def leafNode(preorder, n):
+    s = []
+    i = 0
+    for j in range(1, n):
+        found = False
+        if preorder[i] > preorder[j]:
+            s.append(preorder[i])
+ 
+        else:
+            while len(s) != 0:
+                if preorder[j] > s[-1]:
+                    s.pop(-1)
+                    found = True
+                else:
+                    break
+ 
+        if found:
+            print(preorder[i], end = " ")
+        i += 1
+ 
+    # Since rightmost element is
+    # always leaf node.
+    print(preorder[n - 1])
+ 
+# Driver code
+if __name__ == '__main__':
+    preorder = [890, 325, 290, 530, 965]
+    n = len(preorder)
+ 
+    leafNode(preorder, n)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+290 530 965
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Print Common Nodes in Two Binary Search Trees
+Next
+Floor and Ceil from a BST
+Related Articles
+1.
+Remove all leaf nodes from the binary search tree
+2.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+3.
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+4.
+Create Balanced Binary Tree using its Leaf Nodes without using extra space
+5.
+Binary Tree to Binary Search Tree Conversion
+6.
+Binary Tree to Binary Search Tree Conversion using STL set
+7.
+Difference between Binary Tree and Binary Search Tree
+8.
+Binary Search Tree | Set 1 (Search and Insertion)
+9.
+Meta Binary Search | One-Sided Binary Search
+10.
+Print all even nodes of Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+shrikanth13
+PranchalKatiyar
+SHUBHAMSINGH10
+Akanksha_Rai
+nidhi_biet
+andrew1234
+Rajput-Ji
+Code_Mech
+mukesh07
+rdtank
+surinderdawra388
+simmytarika5
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Binary Search
+Binary Search Tree
+Practice Tags :
+Binary Search
+Binary Search Tree
+Report Issue

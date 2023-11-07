@@ -1,0 +1,363 @@
+Merge two BSTs with limited extra space
+
+Difficulty Level : Hard
+Last Updated : 26 Dec, 2022
+Read
+Discuss(200+)
+Courses
+Practice
+Video
+Given two Binary Search Trees(BST), print the inorder traversal of merged BSTs. 
+
+Examples:
+
+Input: 
+First BST 
+       3
+    /     \
+ 1       5
+Second BST
+     4
+  /   \
+2     6
+Output: 1 2 3 4 5 6
+
+Input:
+First BST 
+            8
+         /  \
+      2   10
+    /
+ 1
+Second BST 
+          5
+        / 
+     3  
+   /
+0
+Output: 0 1 2 3 5 8 10 
+
+Recommended Problem
+Merge two BST 's
+Binary Search Tree
+Tree
++1 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 37.8K
+Merge two BSTs using Iterative Inorder Traversal:
+The idea is to use iterative inorder traversal. 
+
+Follow the steps below to solve the problem:
+
+Consider two stacks s1 and s2 which stores the elements of the two trees.
+Store the left view value of a tree1 in s1 and of tree2 in s2.
+Compare the top values present in the stack and push the value accordingly in the result vector.
+If s2 is empty then pop s1 and put the popped node value in the answer vector 
+Else if both s1 and s2 are not empty then compare their top nodes’ value if s1.top()->val <= s2.top()->val then in this case push the s1.top()->val in the result vector and push its right child in the stack s1.
+If s1 is empty then pop s2 and put the popped node value in the answer vector.
+Else if both s1 and s2 are not empty then compare their top nodes’ value if s2.top()->val >= s1.top()->val then in this case push the s2.top()->val in the result vector and push its right child in the stack s2 
+Loop while there are nodes not yet printed. The nodes may be in the stack(explored, but not printed) or maybe not yet explored 
+Below is the implementation of the above approach:
+
+
+
+C++
+C
+Java
+Python 3
+# Class to create a new Tree Node
+class newNode:
+    def __init__(self, data: int):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+def inorder(root: newNode):
+ 
+    if root:
+        inorder(root.left)
+        print(root.data, end=" ")
+        inorder(root.right)
+ 
+def merge(root1: newNode, root2: newNode):
+ 
+    # s1 is stack to hold nodes of first BST
+    s1 = []
+     
+    # Current node of first BST
+    current1 = root1
+     
+    # s2 is stack to hold nodes of first BST
+    s2 = []
+     
+    # Current node of second BST
+    current2 = root2
+ 
+    # If first BST is empty then the output is the
+    # inorder traversal of the second BST
+    if not root1:
+        return inorder(root2)
+ 
+    # If the second BST is empty then the output is the
+    # inorder traversal of the first BST
+    if not root2:
+        return inorder(root1)
+ 
+    # Run the loop while there are nodes not yet printed.
+    # The nodes may be in stack(explored, but not printed)
+    # or may be not yet explored
+    while current1 or s1 or current2 or s2:
+ 
+        # Following steps follow iterative Inorder Traversal
+        if current1 or current2:
+         
+            # Reach the leftmost node of both BSTs and push ancestors of
+            # leftmost nodes to stack s1 and s2 respectively
+            if current1:
+                s1.append(current1)
+                current1 = current1.left
+ 
+            if current2:
+                s2.append(current2)
+                current2 = current2.left
+ 
+        else:
+ 
+            # If we reach a NULL node and either of the stacks is empty,
+            # then one tree is exhausted, print the other tree
+ 
+            if not s1:
+                while s2:
+                    current2 = s2.pop()
+                    current2.left = None
+                    inorder(current2)
+                    return
+            if not s2:
+                while s1:
+                    current1 = s1.pop()
+                    current1.left = None
+                    inorder(current1)
+                    return
+ 
+            # Pop an element from both stacks and compare the
+            # popped elements
+            current1 = s1.pop()
+            current2 = s2.pop()
+ 
+            # If element of first tree is smaller, then print it
+            # and push the right subtree. If the element is larger,
+            # then we push it back to the corresponding stack.
+            if current1.data < current2.data:
+                print(current1.data, end=" ")
+                current1 = current1.right
+                s2.append(current2)
+                current2 = None
+ 
+            else:
+                print(current2.data, end=" ")
+                current2 = current2.right
+                s1.append(current1)
+                current1 = None
+ 
+# Driver code
+ 
+def main():
+ 
+    # Let us create the following tree as first tree
+    #     3
+    #     / \
+    # 1 5
+ 
+    root1 = newNode(3)
+    root1.left = newNode(1)
+    root1.right = newNode(5)
+ 
+    # Let us create the following tree as second tree
+    #     4
+    #     / \
+    # 2 6
+    #
+ 
+    root2 = newNode(4)
+    root2.left = newNode(2)
+    root2.right = newNode(6)
+ 
+    merge(root1, root2)
+ 
+ 
+if __name__ == "__main__":
+    main()
+ 
+# This code is contributed by Koushik Reddy Bukkasamudram
+C#
+Javascript
+Output
+1 2 3 4 5 6 
+Time Complexity: O(M+N), M is the size of the first tree and N is the size of the second tree
+Auxiliary Space: O(H1 + H2), H1 is the height of the first tree and H2 is the height of the second tree
+
+Merge two BSTs using Inbuilt Stack Data structure:
+In this method, we use the inbuilt stack that is present in the STL library so as to get rid of the implementation of the stack part of the code that has been done in the previous implementation.
+
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python program to Merge two BSTs with limited extra space
+ 
+# Structure of a BST Node
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+ 
+ 
+def mergeTwoBST(root1, root2):
+    res = []
+    s1, s2 = [], []
+ 
+    while root1 or root2 or s1 or s2:
+        while root1:
+            s1.append(root1)
+            root1 = root1.left
+ 
+        while root2:
+            s2.append(root2)
+            root2 = root2.left
+ 
+        # Step 3 Case 1:-
+        if not s2 or (s1 and s1[-1].val <= s2[-1].val):
+            root1 = s1[-1]
+            del s1[-1]
+            res.append(root1.val)
+            root1 = root1.right
+ 
+        #  Step 3 case 2 :-
+        else:
+            root2 = s2[-1]
+            del s2[-1]
+            res.append(root2.val)
+            root2 = root2.right
+ 
+    return res
+ 
+ 
+# Driver program to test above functions
+if __name__ == '__main__':
+    root1 = None
+    root2 = None
+ 
+    '''
+    Let us create the following tree as first tree
+             3
+            / \
+           1   5
+    '''
+ 
+    root1 = Node(3)
+    root1.left = Node(1)
+    root1.right = Node(5)
+ 
+    '''
+    Let us create the following tree as second tree
+             4
+            / \
+           2   6
+    '''
+ 
+    root2 = Node(4)
+    root2.left = Node(2)
+    root2.right = Node(6)
+ 
+    ans = mergeTwoBST(root1, root2)
+    for x in ans:
+        print (x, end=" ")
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output
+1 2 3 4 5 6 
+Time Complexity: O(M+N), M is the size of the first tree and N is the size of the second tree
+Auxiliary Space: O(H1 + H2), H1 is the height of the first tree and H2 is the height of the second tree
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+61
+Previous
+Binary Tree to Binary Search Tree Conversion using STL set
+Next
+Transform a BST to greater sum tree
+Related Articles
+1.
+Merge two BSTs with constant extra space
+2.
+Merge Sort with O(1) extra space merge and O(n lg n) time [Unsigned Integers Only]
+3.
+Merge two sorted arrays with O(1) extra space
+4.
+Merge two sorted arrays in O(1) extra space using QuickSort partition
+5.
+Efficiently merging two sorted arrays with O(1) extra space
+6.
+Count pairs from two BSTs whose sum is equal to a given value x
+7.
+Check if two BSTs contain same set of elements
+8.
+Check if two given key sequences construct same BSTs
+9.
+Generate two BSTs from the given array such that maximum height among them is minimum
+10.
+Nodes from given two BSTs with sum equal to X
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rathbhupendra
+koushikrbukkasamudram
+nidhisebastian008
+rutvik_56
+saurabh1990aror
+rdtank
+adnanirshad158
+gabaa406
+sumitgumber28
+surinderdawra388
+adityakumar129
+lokeshmvs21
+tapeshdua420
+ishank0106
+user_7gr9iodclfx
+Article Tags :
+Amazon
+Google
+Merge Sort
+Microsoft
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+Google
+Microsoft
+Binary Search Tree
+Merge Sort
+Tree
+Improve Article
+Report Issue

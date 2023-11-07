@@ -1,0 +1,452 @@
+Inorder predecessor and successor for a given key in BST
+
+Difficulty Level : Medium
+Last Updated : 24 Jan, 2023
+Read
+Discuss(210+)
+Courses
+Practice
+Video
+There is BST given with root node with key part as integer only. The structure of each node is as follows:
+
+C++
+Java
+Python3
+class Node:
+   
+    def __init__(self, key):
+       
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+# This code is contributed by harshitkap00r
+C#
+Javascript
+You need to find the inorder successor and predecessor of a given key. In case the given key is not found in BST, then return the two values within which this key will lie.
+
+Recommended Problem
+Predecessor and Successor
+Binary Search Tree
+Tree
++1 more
+Ola Cabs
+Solve Problem
+Submission count: 56K
+Following is the algorithm to reach the desired result. It is a recursive method: 
+
+Input: root node, key
+output: predecessor node, successor node
+
+1. If root is NULL
+      then return
+2. if key is found then
+    a. If its left subtree is not null
+        Then predecessor will be the right most 
+        child of left subtree or left child itself.
+    b. If its right subtree is not null
+        The successor will be the left most child 
+        of right subtree or right child itself.
+    return
+3. If key is smaller than root node
+        set the successor as root
+        search recursively into left subtree
+    else
+        set the predecessor as root
+        search recursively into right subtree
+Following is the implementation of the above algorithm: 
+
+C++
+Java
+Python
+# Python program to find predecessor and successor in a BST
+ 
+# A BST node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.key  = key
+        self.left = None
+        self.right = None
+ 
+# This function finds predecessor and successor of key in BST
+# It sets pre and suc as predecessor and successor respectively
+def findPreSuc(root, key):
+ 
+    # Base Case
+    if root is None:
+        return
+ 
+    # If key is present at root
+    if root.key == key:
+ 
+        # the maximum value in left subtree is predecessor
+        if root.left is not None:
+            tmp = root.left
+            while(tmp.right):
+                tmp = tmp.right
+            findPreSuc.pre = tmp
+ 
+ 
+        # the minimum value in right subtree is successor
+        if root.right is not None:
+            tmp = root.right
+            while(tmp.left):
+                tmp = tmp.left
+            findPreSuc.suc = tmp
+ 
+        return
+ 
+    # If key is smaller than root's key, go to left subtree
+    if root.key > key :
+        findPreSuc.suc = root
+        findPreSuc(root.left, key)
+ 
+    else: # go to right subtree
+        findPreSuc.pre = root
+        findPreSuc(root.right, key)
+ 
+# A utility function to insert a new node in with given key in BST
+def insert(node , key):
+    if node is None:
+        return Node(key)
+ 
+    if key < node.key:
+        node.left = insert(node.left, key)
+ 
+    else:
+        node.right = insert(node.right, key)
+ 
+    return node
+ 
+ 
+# Driver program to test above function
+key = 65 #Key to be searched in BST
+  
+""" Let us create following BST
+              50
+           /     \
+          30      70
+         /  \    /  \
+       20   40  60   80
+"""
+root = None
+root = insert(root, 50)
+insert(root, 30);
+insert(root, 20);
+insert(root, 40);
+insert(root, 70);
+insert(root, 60);
+insert(root, 80);
+ 
+# Static variables of the function findPreSuc
+findPreSuc.pre = None
+findPreSuc.suc = None
+ 
+findPreSuc(root, key)
+ 
+if findPreSuc.pre is not None:
+    print "Predecessor is", findPreSuc.pre.key
+ 
+else:
+    print "No Predecessor"
+ 
+if findPreSuc.suc is not None:
+    print "Successor is", findPreSuc.suc.key
+else:
+    print "No Successor"
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Predecessor is 60
+Successor is 70
+Complexity Analysis:
+
+Time Complexity: O(h), where h is the height of the tree. In the worst case as explained above we travel the whole height of the tree.
+Auxiliary Space: O(1),  since no extra space has been taken.
+
+
+
+Another Approach: 
+
+We can also find the inorder successor and inorder predecessor using inorder traversal. Check if the current node is smaller than the given key for the predecessor and for a successor, check if it is greater than the given key. If it is greater than the given key then, check if it is smaller than the already stored value in the successor then, update it. At last, get the predecessor and successor stored in q(successor) and p(predecessor). 
+
+C++
+Java
+Python3
+""" Python3 code for inorder successor
+and predecessor of tree """
+ 
+# A Binary Tree Node
+# Utility function to create a new tree node
+class getnode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+"""
+since inorder traversal results in
+ascendingorder visit to node , we
+can store the values of the largest
+o which is smaller than a (predecessor)
+and smallest no which is large than
+a (successor) using inorder traversal
+"""
+def find_p_s(root, a, p, q):
+ 
+    # If root is None return
+    if(not root):
+        return
+         
+    # traverse the left subtree    
+    find_p_s(root.left, a, p, q)
+     
+    # root data is greater than a
+    if(root and root.data > a):
+         
+        # q stores the node whose data is greater
+        # than a and is smaller than the previously
+        # stored data in *q which is successor
+        if((not q[0]) or q[0] and
+                q[0].data > root.data):
+            q[0] = root
+             
+    # if the root data is smaller than
+    # store it in p which is predecessor
+    elif(root and root.data < a):
+        p[0]= root
+     
+    # traverse the right subtree
+    find_p_s(root.right, a, p, q)
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    root1 = getnode(50)
+    root1.left = getnode(20)
+    root1.right = getnode(60)
+    root1.left.left = getnode(10)
+    root1.left.right = getnode(30)
+    root1.right.left = getnode(55)
+    root1.right.right = getnode(70)
+    p = [None]
+    q = [None]
+     
+    find_p_s(root1, 55, p, q)
+     
+    if(p[0]) :
+        print(p[0].data, end = "")
+    if(q[0]) :
+        print("", q[0].data)
+ 
+# This code is contributed by
+# SHUBHAMSINGH10
+C#
+Javascript
+Output
+50 60
+Complexity Analysis:
+
+Time Complexity: O(n), where n is the total number of nodes in the tree. In the worst case as explained above we travel the whole tree.
+Auxiliary Space: O(n).
+
+Iterative method:
+
+Input: root node, key
+output: predecessor node, successor node
+
+set suc and pre as NULL initially.
+Create a Node temp1 and set it to root node, temp1 will give the successor while traversing
+In first while loop, if temp1->key>key, then temp1->key may be a successor of the key and go to the left of temp.
+else, go to the right.
+Create a Node temp2 and set it to root node, temp2 will give the predecessor while traversing
+In second while loop, if temp2->key<key, then temp1->key may be a predecessor of the key and go to the right of temp.
+else, go to the left.
+Following is the implementation of the above algorithm: 
+
+C++
+Python3
+# Python program to find predecessor and successor in a BST
+ 
+# BST Node
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+# This function finds predecessor and successor of key in
+# BST. It sets pre and suc as predecessor and successor
+# respectively
+def findPreSuc(root, key):
+    # Base Case
+    if root is None:
+        return
+ 
+    # If key is present at root
+    if root.key == key:
+         
+        # the maximum value in left subtree is predecessor
+        if root.left is not None:
+            tmp = root.left
+            while(tmp.right):
+                tmp = tmp.right
+            findPreSuc.pre = tmp
+ 
+        # the minimum value in right subtree is successor
+        if root.right is not None:
+            tmp = root.right
+            while(tmp.left):
+                tmp = tmp.left
+            findPreSuc.suc = tmp
+         
+        return
+ 
+    # If key is smaller than root's key
+    # value then it could be in left subtree
+    if root.key > key:
+        findPreSuc.suc = root
+        findPreSuc(root.left, key)
+    else: # else it can only be in right subtree
+        findPreSuc.pre = root
+        findPreSuc(root.right, key)
+ 
+# A utility function to create a new BST node
+def newNode(item):
+    return Node(item)
+ 
+# A utility function to insert a new node with given key in BST
+def insert(node, key):
+    if node is None:
+        return newNode(key)
+    if key < node.key:
+        node.left = insert(node.left, key)
+    else:
+        node.right = insert(node.right, key)
+    return node
+ 
+# Driver program to test above function
+def main():
+    key = 65 # Key to be searched in BST
+ 
+    """ Let us create following BST
+              50
+           /    \
+          30    70
+         / \   / \
+       20 40 60 80
+    """
+    root = None
+    root = insert(root, 50)
+    insert(root, 30)
+    insert(root, 20)
+    insert(root, 40)
+    insert(root, 70)
+    insert(root, 60)
+    insert(root, 80)
+ 
+    findPreSuc.pre = None
+    findPreSuc.suc = None
+    findPreSuc(root, key)
+ 
+    if findPreSuc.pre is not None:
+        print("Predecessor is", findPreSuc.pre.key)
+    else:
+        print("No Predecessor")
+ 
+    if findPreSuc.suc is not None:
+        print("Successor is", findPreSuc.suc.key)
+    else:
+        print("No Successor")
+ 
+main()
+ 
+# This code is contributed by vikramshirsath177.
+Java
+Output
+Predecessor is 60
+Successor is 70
+Complexity Analysis:
+
+Time Complexity: O(n), where n is the total number of nodes in the tree. In the worst case as explained above we travel the whole tree.
+Auxiliary Space: O(1).
+
+
+
+?list=PLqM7alHXFySHCXD7r1J0ky9Zg_GBB1dbk
+
+This article is contributed by algoLover. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+93
+Previous
+Check if an array represents Inorder of Binary Search tree or not
+Next
+Inorder predecessor and successor for a given key in BST | Iterative Approach
+Related Articles
+1.
+Inorder predecessor and successor for a given key in BST | Iterative Approach
+2.
+Replace each node in binary tree with the sum of its inorder predecessor and successor
+3.
+Modify Binary Tree by replacing each node with the sum of its Preorder Predecessor and Successor
+4.
+Populate Inorder Successor for all nodes
+5.
+Inorder Successor of a node in Binary Tree
+6.
+Inorder Successor in Binary Search Tree
+7.
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+8.
+Preorder predecessor of a Node in Binary Tree
+9.
+Postorder predecessor of a Node in Binary Search Tree
+10.
+Level Order Predecessor of a node in Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+sanjeev2552
+aashish1995
+GauravRajput1
+surinderdawra388
+itwasme
+patel2127
+harshitkap00r
+Rajput-Ji
+kapilag
+polymatir3j
+adityap3055
+rishavpgl4
+mitalibhola94
+deeppandey360
+harshraghav718
+vikramshirsath177
+Article Tags :
+Ola Cabs
+Binary Search Tree
+Tree
+Practice Tags :
+Ola Cabs
+Binary Search Tree
+Tree

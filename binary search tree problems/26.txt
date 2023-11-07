@@ -1,0 +1,172 @@
+BST to a Tree with sum of all smaller keys
+
+Difficulty Level : Easy
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Search Tree(BST), convert it to a Binary Tree such that every key of the original BST is changed to key plus sum of all smaller keys in BST.
+Given a BST with N Nodes we have to convert it into Binary Tree 
+
+ 
+Given above BST with N=5 Nodes. The values at Node being 9, 6, 15, 3, 21
+Binary Tree after conversion 
+
+ 
+Binary Tree after conversion, the values at Node being 18, 9, 33, 3, 54
+
+Solution: We will perform a regular Inorder traversal in which we keep track of sum of Nodes visited. Let this sum be sum. The Node which is being visited, add that key of Node to sum i.e. sum = sum + Node->key. Change the key of the current Node to sum i.e. Node->key = sum. 
+When a BST is being traversed in inorder, for every key currently being visited, all keys that are already visited are all smaller keys. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Program to change a BST to Binary Tree
+# such that key of a Node becomes original
+# key plus sum of all smaller keys in BST
+ 
+# A BST node has key, left child
+# and right child */
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.key = data
+        self.left = None
+        self.right = None
+ 
+# A recursive function that traverses the
+# given BST in inorder and for every key,
+# adds all smaller keys to it
+def addSmallerUtil(root, Sum):
+     
+    # Base Case
+    if root == None:
+        return
+ 
+    # Recur for left subtree first so that
+    # sum of all smaller Nodes is stored
+    addSmallerUtil(root.left, Sum)
+ 
+    # Update the value at sum
+    Sum[0] = Sum[0] + root.key
+ 
+    # Update key of this Node
+    root.key = Sum[0]
+ 
+    # Recur for right subtree so
+    # that the updated sum is
+    # added to greater Nodes
+    addSmallerUtil(root.right, Sum)
+ 
+# A wrapper over addSmallerUtil(). It
+# initializes sum and calls addSmallerUtil()
+# to recursively update and use value of
+def addSmaller(root):
+    Sum = [0]
+    addSmallerUtil(root, Sum)
+     
+# A utility function to print
+# inorder traversal of Binary Tree
+def printInorder(node):
+    if node == None:
+        return
+    printInorder(node.left)
+    print(node.key, end = " ")
+    printInorder(node.right)
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Create following BST
+    #         9
+    #     / \
+    #     6     15
+    root = Node(9)
+    root.left = Node(6)
+    root.right = Node(15)
+ 
+    print("Original BST")
+    printInorder(root)
+    print()
+    addSmaller(root)
+ 
+    print("BST To Binary Tree")
+    printInorder(root)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+ Original BST
+6 9 15 
+ BST To Binary Tree
+6 15 30 
+Time Complexity: O(n), the time complexity of this algorithm is O(n) because we traverse through the entire tree in order to add the sum of all smaller keys.
+Auxiliary Space: O(n), the auxiliary space is also O(n) as it uses recursion for the traversal.
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+16
+Previous
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+Next
+Convert BST into a Min-Heap without using array
+Related Articles
+1.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+2.
+Sum of all nodes with smaller values at a distance K from a given node in a BST
+3.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+4.
+Number of elements smaller than root using preorder traversal of a BST
+5.
+Remove BST keys outside the given range
+6.
+Print BST keys in given Range | O(1) Space
+7.
+Print BST keys in the given range
+8.
+Remove BST Keys in a given Range
+9.
+K'th Largest Element in BST when modification to BST is not allowed
+10.
+Convert a normal BST to Balanced BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+akash1295
+@akash1295
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+itsok
+sagartomar9927
+hardikkoriintern
+factworx4i2
+Article Tags :
+Binary Search Tree
+Tree
+Practice Tags :
+Binary Search Tree
+Tree

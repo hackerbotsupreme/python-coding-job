@@ -1,0 +1,461 @@
+Find a pair with given sum in a Balanced BST
+
+Difficulty Level : Hard
+Last Updated : 30 Dec, 2022
+Read
+Discuss(170+)
+Courses
+Practice
+Video
+Given a Balanced Binary Search Tree and a target sum, write a function that returns true if there is a pair with sum equals to target sum, otherwise return false. Expected time complexity is O(n) and only O(Logn) extra space can be used. Any modification to Binary Search Tree is not allowed. Note that height of a Balanced BST is always O(Logn).
+
+
+
+This problem is mainly extension of the previous post. Here we are not allowed to modify the BST.
+
+Recommended Practice
+Find a pair with given target in BST
+Try It!
+The Brute Force Solution is to consider each node in the BST and search for (target – node->val) in the BST.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A binary tree node
+class Node:
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Binary Search Tree
+class BinarySearchTree:
+    # Constructor to create a new BST
+    def __init__(self):
+        self.root = None
+ 
+    # Function to insert an element in BST
+    def insertRec(self, root, data):
+        # Base Case: If the tree is empty
+        if root is None:
+            root = Node(data)
+            return root
+        # Otherwise recur down the tree
+        if data < root.data:
+            root.left = self.insertRec(root.left, data)
+        elif data > root.data:
+            root.right = self.insertRec(root.right, data)
+        return root
+ 
+    # Function to insert an element in BST
+    def insert(self, data):
+        self.root = self.insertRec(self.root, data)
+ 
+    # Function to check if pair is present
+    def isPairPresent(self, root, temp, target):
+        if temp is None:
+            return False
+        return self.search(root, temp, target - temp.data) or \
+            self.isPairPresent(root, temp.left, target) or \
+            self.isPairPresent(root, temp.right, target)
+ 
+    # Function to search an element in BST
+    def search(self, root, temp, k):
+        # Base case
+        if root is None:
+            return False
+ 
+        c = root
+        flag = False
+        while c is not None and flag == False:
+            if c.data == k and temp != c:
+                flag = True
+                print("Pair Found: ", c.data, "+", temp.data)
+                return True
+            elif k < c.data:
+                c = c.left
+            else:
+                c = c.right
+        return False
+ 
+# Driver program
+if __name__ == '__main__':
+    bst = BinarySearchTree()
+    """
+                    15
+                /     \
+            10      20
+            / \     / \
+            8 12 16 25
+    """
+    bst.insert(15)
+    bst.insert(10)
+    bst.insert(20)
+    bst.insert(8)
+    bst.insert(12)
+    bst.insert(16)
+    bst.insert(25)
+ 
+    test = bst.isPairPresent(bst.root, bst.root, 35)
+    if not test:
+        print("No such values are found!")
+C#
+Javascript
+Output
+Pair Found: 20 + 15
+Time Complexity: O(N2logN), where N is the number of nodes in the given tree.
+Auxiliary Space: O(logN), for recursive stack space.
+
+A Better Solution is to create an auxiliary array and store the Inorder traversal of BST in the array. The array will be sorted as Inorder traversal of BST always produces sorted data. Once we have the Inorder traversal, we can pair in O(n) time (See this for details). This solution works in O(n) time but requires O(n) auxiliary space.  
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 code to find a pair with given sum
+# in a Balanced BST
+class Node:
+     
+    # Construct to create a new Node
+    def __init__(self, key):
+         
+        self.data = key
+        self.left = self.right = None
+ 
+# A utility function to insert a new
+# Node with given key in BST
+def insert(root: Node, key: int):
+     
+    # If the tree is empty, return a new Node
+    if root is None:
+        return Node(key)
+ 
+    # Otherwise, recur down the tree
+    if root.data > key:
+        root.left = insert(root.left, key)
+ 
+    elif root.data < key:
+        root.right = insert(root.right, key)
+ 
+    # return the (unchanged) Node pointer
+    return root
+ 
+# Function that adds values of given BST into
+# ArrayList and hence returns the ArrayList
+def tree_to_list(root: Node, arr: list):
+     
+    if not root:
+        return arr
+ 
+    tree_to_list(root.left, arr)
+    arr.append(root.data)
+    tree_to_list(root.right, arr)
+ 
+    return arr
+ 
+# Function that checks if there is a pair present
+def isPairPresent(root: Node, target: int) -> bool:
+     
+    # This list a1 is passed as an argument
+    # in treeToList method which is later
+    # on filled by the values of BST
+    arr1 = []
+     
+    # a2 list contains all the values of BST
+    # returned by treeToList method
+    arr2 = tree_to_list(root, arr1)
+     
+    # Starting index of a2
+    start = 0
+     
+    # Ending index of a2
+    end = len(arr2) - 1
+ 
+    while start < end:
+         
+        # If target found
+        if arr2[start] + arr2[end] == target:
+            print(f"Pair Found: {arr2[start]} + {arr2[end]} = {target}")
+            return True
+             
+        # Decrements end
+        if arr2[start] + arr2[end] > target:
+            end -= 1
+             
+        # Increments start
+        if arr2[start] + arr2[end] < target:
+            start += 1
+ 
+    print("No such values are found!")
+    return False
+ 
+# Driver code
+if __name__ == "__main__":
+     
+    root = None
+    root = insert(root, 15)
+    root = insert(root, 10)
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 12)
+    root = insert(root, 16)
+    root = insert(root, 25)
+ 
+    isPairPresent(root, 33)
+ 
+# This code is contributed by shindesharad71
+C#
+Javascript
+Output
+Pair Found: 8 + 25 = 33
+Complexity Analysis: 
+
+Time Complexity: O(n). 
+Inorder Traversal of BST takes linear time.
+Auxiliary Space: O(n). 
+Use of array for storing the Inorder Traversal.
+A space optimized solution is discussed in previous post. The idea was to first in-place convert BST to Doubly Linked List (DLL), then find pair in sorted DLL in O(n) time. This solution takes O(n) time and O(Logn) extra space, but it modifies the given BST.
+
+The solution discussed below takes O(n) time, O(Logn) space and doesn’t modify BST. The idea is same as finding the pair in sorted array (See method 1 of this for details). We traverse BST in Normal Inorder and Reverse Inorder simultaneously. In reverse inorder, we start from the rightmost node which is the maximum value node. In normal inorder, we start from the left most node which is minimum value node. We add sum of current nodes in both traversals and compare this sum with given target sum. If the sum is same as target sum, we return true. If the sum is more than target sum, we move to next node in reverse inorder traversal, otherwise we move to next node in normal inorder traversal. If any of the traversals is finished without finding a pair, we return false.
+
+Following is the implementation of this approach. 
+
+C++
+C
+Java
+Python3
+#  In a balanced binary search tree
+# isPairPresent two element which sums to
+# a given value time O(n) space O(logn)
+MAX_SIZE= 100
+ 
+# A BST node
+class Node:
+    def __init__(self,val):
+        self.val = val
+        self.left = self.right = None
+ 
+# Stack type
+class Stack:
+    def __init__(self):
+        self.size = 0
+        self.top = 0
+        self.array = []
+ 
+# A utility function to create a stack of given size
+def createStack(size):
+    stack = Stack()
+    stack.size = size
+    stack.top = -1
+    stack.array = [0 for i in range(stack.size)]
+    return stack
+ 
+# BASIC OPERATIONS OF STACK
+def isFull(stack):
+    return 1 if(stack.top - 1 == stack.size) else 0
+ 
+def isEmpty(stack):
+    return 1 if stack.top == -1 else 0
+ 
+def push(stack,node):
+    if (isFull(stack)==1):
+        return
+    stack.array[stack.top+1] = node
+    stack.top += 1
+ 
+def pop(stack):
+    if (isEmpty(stack) == 1):
+        return None
+    x = stack.array[stack.top]
+    stack.top -= 1
+    return x
+ 
+# Returns true if a pair with target
+# sum exists in BST, otherwise False
+def isPairPresent(root,target):
+    # Create two stacks. s1 is used for
+    # normal inorder traversal and s2 is
+    # used for reverse inorder traversal
+    s1 = createStack(MAX_SIZE)
+    s2 = createStack(MAX_SIZE)
+ 
+    # Note the sizes of stacks is MAX_SIZE,
+    # we can find the tree size and fix stack size
+    # as O(Logn) for balanced trees like AVL and Red Black
+    # tree. We have used MAX_SIZE to keep the code simple
+ 
+    # done1, val1 and curr1 are used for
+    # normal inorder traversal using s1
+    # done2, val2 and curr2 are used for
+    # reverse inorder traversal using s2
+    done1,done2 = False,False
+    val1,val2 = 0,0
+    curr1,curr2 = root,root
+ 
+    # The loop will break when we either
+# find a pair or one of the two
+    # traversals is complete
+    while (True):
+     
+        # Find next node in normal Inorder
+        # traversal. See following post
+        # https:# www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
+        while (done1 == False):
+            if (curr1 != None):
+                push(s1, curr1)
+                curr1 = curr1.left
+            else:
+                if (isEmpty(s1) == 1):
+                    done1 = True
+                else:
+                    curr1 = pop(s1)
+                    val1 = curr1.val
+                    curr1 = curr1.right
+                    done1 = True
+ 
+        # Find next node in REVERSE Inorder traversal. The only
+        # difference between above and below loop is, in below loop
+        # right subtree is traversed before left subtree
+        while (done2 == False):
+            if (curr2 != None):
+                push(s2, curr2)
+                curr2 = curr2.right
+            else:
+                if (isEmpty(s2) == 1):
+                    done2 = True
+                else:
+                    curr2 = pop(s2)
+                    val2 = curr2.val
+                    curr2 = curr2.left
+                    done2 = True
+ 
+        # If we find a pair, then print the pair and return. The first
+        # condition makes sure that two same values are not added
+        if ((val1 != val2) and (val1 + val2) == target):
+            print("Pair Found: " +str(val1)+ " + " +str(val2)+ " = " +str(target))
+            return True
+ 
+        # If sum of current values is smaller,
+        # then move to next node in
+        # normal inorder traversal
+        elif ((val1 + val2) < target):
+            done1 = False
+ 
+        # If sum of current values is greater,
+        # then move to next node in
+        # reverse inorder traversal
+        elif ((val1 + val2) > target):
+            done2 = False
+ 
+        # If any of the inorder traversals is
+        # over, then there is no pair
+        # so return False
+        if (val1 >= val2):
+            return False
+ 
+# Driver program to test above functions
+ 
+            #     15
+            #     / \
+            # 10 20
+            # / \ / \
+            # 8 12 16 25
+root = Node(15)
+root.left = Node(10)
+root.right = Node(20)
+root.left.left = Node(8)
+root.left.right = Node(12)
+root.right.left = Node(16)
+root.right.right = Node(25)
+ 
+target = 33
+if (isPairPresent(root, target) == False):
+    print("<br>No such values are found")
+     
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Pair Found: 8+ 25 = 33
+Complexity Analysis: 
+
+Time Complexity: O(n). 
+Inorder Traversal of BST takes linear time.
+Auxiliary Space: O(logn). 
+The stack holds log N values as at a single time
+ 
+https://youtube.com/watch?v=TvAFvAoS6s8%3Flist%3DPLqM7alHXFySHCXD7r1J0ky9Zg_GBB1dbk
+
+
+
+Like
+Previous
+Deletion in an AVL Tree
+Next
+Merge Two Balanced Binary Search Trees
+Related Articles
+1.
+Convert a normal BST to Balanced BST
+2.
+Find if there is a triplet in a Balanced BST that adds to zero
+3.
+Find a pair with given sum in BST
+4.
+Find k-th smallest element in BST (Order Statistics in BST)
+5.
+Sorted Array to Balanced BST
+6.
+Check if the Binary Tree contains a balanced BST of size K
+7.
+Create a balanced BST using vector in C++ STL
+8.
+Split a BST into two balanced BSTs based on a value K
+9.
+Sorted Linked List to Balanced BST
+10.
+Pair with a given sum in BST | Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rathbhupendra
+Rajput-Ji
+bidibaaz123
+aashish1995
+itwasme
+shindesharad71
+avanitrachhadiya2155
+ashutoshsinghgeeksforgeeks
+shinjanpatra
+hardikkoriintern
+surbhisharma1
+abhijeet19403
+garg28harsh
+factworx4i2
+surajrasr7277
+Article Tags :
+Amazon
+OYO Rooms
+Snapdeal
+Visa
+VMWare
+Binary Search Tree
+Practice Tags :
+Amazon
+OYO Rooms
+Snapdeal
+Visa
+VMWare
+Binary Search Tree
+Report Issue

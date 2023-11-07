@@ -1,0 +1,198 @@
+Construct all possible BSTs for keys 1 to N
+
+Difficulty Level : Hard
+Last Updated : 28 Dec, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+In this article, first count of possible BST (Binary Search Trees)s is discussed, then the construction of all possible BSTs.
+
+How many structurally unique BSTs for keys from 1..N? 
+
+For example, for N = 2, there are 2 unique BSTs
+     1               2  
+      \            /
+       2         1 
+
+For N = 3, there are 5 possible BSTs
+  1              3        3         2      1
+    \           /        /        /  \      \
+     3        2         1        1    3      2
+    /       /            \                    \
+   2      1               2                    3
+We strongly recommend you to minimize your browser and try this yourself first.
+We know that all node in left subtree are smaller than root and in right subtree are larger than root so if we have ith number as root, all numbers from 1 to i-1 will be in left subtree and i+1 to N will be in right subtree. If 1 to i-1 can form x different trees and i+1 to N can from y different trees then we will have x*y total trees when ith number is root and we also have N choices for root also so we can simply iterate from 1 to N for root and another loop for left and right subtree. If we take a closer look, we can notice that the count is basically n’th Catalan number. We have discussed different approaches to find n’th Catalan number here. 
+
+How to construct all BST for keys 1..N? 
+The idea is to maintain a list of roots of all BSTs. Recursively construct all possible left and right subtrees. Create a tree for every pair of left and right subtree and add the tree to list. Below is detailed algorithm. 
+
+
+Initialize list of BSTs as empty.  
+For every number i where i varies from 1 to N, do following
+Create a new node with key as ‘i’, let this node be ‘node’
+Recursively construct list of all left subtrees.
+Recursively construct list of all right subtrees.
+Iterate for all left subtrees
+For current leftsubtree, iterate for all right subtrees
+Add current left and right subtrees to ‘node’ and add
+node’ to list.
+Below is the implementation of the above idea. 
+
+C++
+Java
+Python3
+# Python3 program to construct all unique
+# BSTs for keys from 1 to n
+ 
+# Binary Tree Node
+""" A utility function to create a
+new BST node """
+class newNode:
+ 
+    # Construct to create a newNode
+    def __init__(self, item):
+        self.key=item
+        self.left = None
+        self.right = None
+ 
+# A utility function to do preorder
+# traversal of BST
+def preorder(root) :
+ 
+    if (root != None) :
+     
+        print(root.key, end = " " )
+        preorder(root.left)
+        preorder(root.right)
+     
+# function for constructing trees
+def constructTrees(start, end):
+ 
+    list = []
+ 
+    """ if start > end then subtree will be
+        empty so returning None in the list """
+    if (start > end) :
+     
+        list.append(None)
+        return list
+     
+    """ iterating through all values from
+        start to end for constructing
+        left and right subtree recursively """
+    for i in range(start, end + 1):
+     
+        """ constructing left subtree """
+        leftSubtree = constructTrees(start, i - 1)
+ 
+        """ constructing right subtree """
+        rightSubtree = constructTrees(i + 1, end)
+ 
+        """ now looping through all left and
+            right subtrees and connecting
+            them to ith root below """
+        for j in range(len(leftSubtree)) :
+            left = leftSubtree[j]
+            for k in range(len(rightSubtree)):
+                right = rightSubtree[k]
+                node = newNode(i)   # making value i as root
+                node.left = left    # connect left subtree
+                node.right = right    # connect right subtree
+                list.append(node)    # add this tree to list
+    return list
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # Construct all possible BSTs
+    totalTreesFrom1toN = constructTrees(1, 3)
+ 
+    """ Printing preorder traversal of
+        all constructed BSTs """
+    print("Preorder traversals of all",
+                "constructed BSTs are")
+    for i in range(len(totalTreesFrom1toN)):
+        preorder(totalTreesFrom1toN[i])
+        print()
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+Preorder traversals of all constructed BSTs are 
+1 2 3 
+1 3 2 
+2 1 3 
+3 1 2 
+3 2 1 
+Time Complexity: O(2^n).
+
+The time complexity of this solution is exponential. This is because we are constructing all possible BSTs. Since at each level, we are generating two subproblems and at each level, there are O(2^n) subproblems, the time complexity is O(2^n).
+
+Auxiliary Space: O(2^n).
+
+The space complexity of this solution is also exponential. This is because we are constructing all possible BSTs. Since at each level, we are generating two subproblems and at each level, there are O(2^n) subproblems, the space complexity is O(2^n).
+
+This article is contributed by Utkarsh Trivedi. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Transform a BST to greater sum tree
+Next
+A program to check if a Binary Tree is BST or not
+Related Articles
+1.
+Check if two given key sequences construct same BSTs
+2.
+Print all pairs from two BSTs whose sum is greater than the given value
+3.
+Merge two BSTs with limited extra space
+4.
+Check for Identical BSTs without building the trees
+5.
+Find pairs with given sum such that pair elements lie in different BSTs
+6.
+Count pairs from two BSTs whose sum is equal to a given value x
+7.
+Check if two BSTs contain same set of elements
+8.
+Merge two BSTs with constant extra space
+9.
+Generate two BSTs from the given array such that maximum height among them is minimum
+10.
+Nodes from given two BSTs with sum equal to X
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_Gaurav_Tiwari
+SHUBHAMSINGH10
+andrew1234
+rutvik_56
+surinderdawra388
+simmytarika5
+hardikkoriintern
+factworx4i2
+Article Tags :
+Amazon
+catalan
+Binary Search Tree
+Practice Tags :
+Amazon
+Binary Search Tree

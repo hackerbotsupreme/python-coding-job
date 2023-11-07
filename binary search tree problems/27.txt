@@ -1,0 +1,295 @@
+Construct BST from its given level order traversal
+
+Difficulty Level : Hard
+Last Updated : 12 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Construct the BST (Binary Search Tree) from its given level order traversal.
+
+Examples: 
+
+Input: arr[] = {7, 4, 12, 3, 6, 8, 1, 5, 10}
+Output: BST: 
+                 7        
+            /    \       
+         4     12      
+      /  \     /     
+    3   6  8 
+  /   /   \
+1  5   10
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Construct BST from its given level order traversal Using Recursion:
+The idea is to use recursion as the first element will always be the root of the tree and second element will be the left child and the third element will be the right child (if fall in the range), and so on for all the remaining elements.
+
+
+Follow the steps below to solve the problem:
+
+First, pick the first element of the array and make it root. 
+Pick the second element, if its value is smaller than the root node value make it left child, 
+Else make it right child 
+Now recursively call step (2) and step (3) to make a BST from its level Order Traversal.
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python implementation to construct a BST
+# from its level order traversal
+ 
+import math
+ 
+# Node of a BST
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+# Function to get a new node
+def getNode(data):
+ 
+    # Allocate memory
+    newNode = Node(data)
+ 
+    # put in the data
+    newNode.data = data
+    newNode.left = None
+    newNode.right = None
+    return newNode
+ 
+ 
+# Function to construct a BST from
+# its level order traversal
+def LevelOrder(root, data):
+    if(root == None):
+        root = getNode(data)
+        return root
+ 
+    if(data <= root.data):
+        root.left = LevelOrder(root.left, data)
+    else:
+        root.right = LevelOrder(root.right, data)
+    return root
+ 
+ 
+def constructBst(arr, n):
+    if(n == 0):
+        return None
+    root = None
+ 
+    for i in range(0, n):
+        root = LevelOrder(root, arr[i])
+ 
+    return root
+ 
+ 
+# Function to print the inorder traversal
+def inorderTraversal(root):
+    if (root == None):
+        return None
+ 
+    inorderTraversal(root.left)
+    print(root.data, end=" ")
+    inorderTraversal(root.right)
+ 
+ 
+# Driver program
+if __name__ == '__main__':
+ 
+    arr = [7, 4, 12, 3, 6, 8, 1, 5, 10]
+    n = len(arr)
+ 
+    root = constructBst(arr, n)
+ 
+    print("Inorder Traversal: ", end="")
+    root = inorderTraversal(root)
+ 
+ 
+# This code is contributed by Srathore
+C#
+Javascript
+Output
+
+
+Inorder Traversal: 1 3 4 5 6 7 8 10 12 
+Time Complexity: O(N * H), Where N is the number of nodes in the tree and H is the height of the tree 
+Auxiliary Space: O(N), N is the number of nodes in the Tree
+
+Construct BST from its given level order traversal Using Queue:
+The idea is similar to what we do while finding the level order traversal of a binary tree using the queue. In this case, we maintain a queue that contains a pair of the Node class and an integer pair storing the range for each of the tree nodes.
+
+Follow the below steps to Implement the above idea:
+
+Create an empty queue q<pair<Node*,pair<int,int>>> and push root and range from – infinite to  + infinite in q.
+Run for loop through the entire array containing the level order traversal
+Get the front of the queue and store its Node (in temp variable) and its range.
+If arr[i] can be a child of temp by checking the value is within the range. 
+Check whether arr[i] can be a left child or right child of the Node by checking the condition of BST.
+If arr[i] can be a left child, we create a new Node and point it to the left child of temp. 
+We update the range such that its new lower bound is the same as before and it’s new upper bound is the value of temp node.
+If arr[i] can be the right child, we create a new Node and point it to the right child of temp. 
+We update the range such that it’s new lower bound is the value of temp node and its new upper bound is the same as before. 
+Pop the temp node from the queue once the right child is set. This is because the temp node cannot have any more children.
+Else we pop out the node from the queue, decrement i and go ahead.
+Initialize temp_node = q.front() and print temp_node->data.
+Push temp_node’s children i.e. temp_node -> left then temp_node -> right to q
+Pop front node from q.
+Finally, return the head of the tree.
+Below is the Implementation of the above approach:
+
+C++
+Python3
+# Python implementation to construct a BST
+# from its level order traversal
+ 
+# Importing essential libraries
+from collections import deque
+ 
+# Node of a BST
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def constructBst(arr, n):
+    queue = deque()
+    if n == 0:
+        return None
+ 
+    # Create root node and store a copy of it in head
+    root = Node(arr[0])
+    head = root
+ 
+    # Push the root node and the initial range
+    queue.append((root, (-float("inf"), float("inf"))))
+    i = 1
+ 
+    # Loop over the contents of arr to process all the elements using
+    # while loop we may have to process atmost 2 child's
+    while i < n:
+ 
+        # Get the node and the range at the front of the queue
+        # and popout the leftmost element
+        temp = queue[0][0]
+        tempRange = queue[0][1]
+        queue.popleft()
+ 
+        # Check if arr[i] can be left child and within range of it's parent data
+        if (arr[i] < temp.data) and tempRange[0] < arr[i] < tempRange[1]:
+ 
+            # Set the left child and new range for the child
+            temp.left = Node(arr[i])
+            queue.append((temp.left, (tempRange[0], temp.data)))
+            i += 1
+ 
+        # Check if arr[i] can be right child and within range of it's parent data
+        if arr[i] > temp.data and tempRange[0] < arr[i] < tempRange[1]:
+ 
+            # Set the right child and new range for the child
+            temp.right = Node(arr[i])
+            queue.append((temp.right, (temp.data, tempRange[1])))
+            i += 1
+    return head
+ 
+ 
+def inorderTraversal(root):
+    if (root == None):
+        return None
+ 
+    inorderTraversal(root.left)
+    print(root.data, end = " ")
+    inorderTraversal(root.right)
+ 
+ 
+# Driver program
+if __name__ == '__main__':
+ 
+    arr = [7, 4, 12, 3, 6, 8, 1, 5, 10]
+    n = len(arr)
+ 
+    root = constructBst(arr, n)
+ 
+    print("Inorder Traversal: ")
+    root = inorderTraversal(root)
+ 
+ 
+# This code is contributed by Divyanshu Singh
+Javascript
+Output
+Inorder Traversal: 1 3 4 5 6 7 8 10 12 
+Time Complexity: O(N), Visiting every node once.
+Auxiliary Space: O(N), Using queue to store the nodes
+
+This article is contributed by Nishant Balayan and Rohit Iyer. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+57
+Previous
+Convert BST to Min Heap
+Next
+Reverse a path in BST using queue
+Related Articles
+1.
+Construct BST from its given level order traversal | Set-2
+2.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+3.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+4.
+Build Binary Tree from BST such that it's level order traversal prints sorted data
+5.
+Level order traversal of Binary Tree using Morris Traversal
+6.
+Connect Nodes at same Level (Level Order Traversal)
+7.
+Insertion in n-ary tree in given order and Level order traversal
+8.
+Construct BST from given preorder traversal using Sorting
+9.
+Construct a BST from given postorder traversal using Stack
+10.
+Construct BST from given preorder traversal | Set 1
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+its_strange
+andrew1234
+Rajput-Ji
+sapnasingh4991
+shobhitgupta907
+rdtank
+geekygirl2001
+hardikkoriintern
+rohit_iyer
+ishank0106
+divyanshusingh9314
+lokeshpotta20
+Article Tags :
+cpp-queue
+Traversal
+tree-level-order
+Binary Search Tree
+Tree
+Practice Tags :
+Binary Search Tree
+Traversal
+Tree

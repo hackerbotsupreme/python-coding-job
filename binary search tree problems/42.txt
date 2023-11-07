@@ -1,0 +1,221 @@
+Two nodes of a BST are swapped, correct the BST
+
+Difficulty Level : Hard
+Last Updated : 22 Sep, 2022
+Read
+Discuss(180+)
+Courses
+Practice
+Video
+Two of the nodes of a Binary Search Tree (BST) are swapped. Fix (or correct) the BST. 
+
+Input: x = 20, y = 8 
+         10
+        /  \
+      5    8
+    / \
+  2   20
+Output:
+         10
+        /  \
+     5    20
+   / \
+ 2   8
+
+Input: x = 10 y = 5 
+         10
+        /  \
+      5    8
+    / \
+  2   20
+Output:
+         5
+        /  \
+     10   20
+   / \
+ 2   8
+
+Recommended Problem
+Fixing Two swapped nodes of a BST
+Solve Problem
+Approach:
+
+The in-order traversal of a BST produces a sorted array. So a simple method is to store inorder traversal of the input tree in an auxiliary array. Sort the auxiliary array. Finally, insert the auxiliary array elements back to the BST, keeping the structure of the BST same. 
+
+Time complexity: O(N * logN) 
+Auxiliary Space: O(N).
+
+We can solve this in O(n) time and with a single traversal of the given BST. 
+
+Two nodes of a BST are swapped, correct the BST using recursion:
+Since in-order traversal of BST is always a sorted array, the problem can be reduced to a problem where two elements of a sorted array are swapped. 
+
+There are two cases that to handle:
+
+Maintain three-pointers, first, middle, and last. When the first point where the current node value is smaller than the previous node value is found, update the first with the previous node & the middle with the current node. 
+When we find the second point where the current node value is smaller than the previous node value, we update the last with the current node. If the last node value is null, then two swapped nodes of BST are adjacent i.e. first and middle otherwise first and last
+
+Illustration:
+
+1. The swapped nodes are not adjacent in the in-order traversal of the BST. 
+
+ For example, Nodes 5 and 25 are swapped in {3 5 7 8 10 15 20 25}. 
+ The inorder traversal of the given tree is 3 25 7 8 10 15 20 5 
+
+Observe carefully, during inorder traversal, find node 7 is smaller than the previously visited node 25. Here save the context of node 25 (previous node). Again, find that node 5 is smaller than the previous node 20. This time, save the context of node 5 (the current node ). Finally, swap the two node’s values.
+
+2. The swapped nodes are adjacent in the inorder traversal of BST.
+
+  For example, Nodes 7 and 8 are swapped in {3 5 7 8 10 15 20 25}. 
+  The inorder traversal of the given tree is 3 5 8 7 10 15 20 25 
+
+Here only one point exists where a node value is smaller than the previous node value. e.g. node 7 is smaller than node 8. 
+
+Follow the below steps to implement the idea:
+
+Initialize pointers prev, first, middle, and last as Null pointers.
+Traverse the Binary search tree in in-order form 
+Make a recursive call for root -> left.
+If *prev != null and root -> data < (*prev)->data) then 
+If first = Null then set first = prev and middle = root.
+Else last = root.
+Make a recursive call for root -> right.
+Store the current node as prev.
+If last != Null swap last and first pointer.
+Else swap first and middle pointer
+Below is the implementation of the above approach. 
+
+C++
+C
+Java
+Python3
+# Python3 program to correct the BST 
+# if two nodes are swapped
+class Node:
+     
+    # Constructor to create a new node
+    def __init__(self, data):
+         
+        self.key = data
+        self.left = None
+        self.right = None
+ 
+# Utility function to track the nodes
+# that we have to swap
+def correctBstUtil(root, first, middle,
+                   last, prev):
+                        
+    if(root):
+         
+        # Recur for the left sub tree
+        correctBstUtil(root.left, first,
+                       middle, last, prev)
+                        
+        # If this is the first violation, mark these
+        # two nodes as 'first and 'middle'
+        if(prev[0] and root.key < prev[0].key):
+            if(not first[0]):
+                first[0] = prev[0]
+                middle[0] = root
+            else:
+                 
+                # If this is the second violation,
+                # mark this node as last
+                last[0] = root
+                 
+        prev[0] = root
+         
+        # Recur for the right subtree
+        correctBstUtil(root.right, first,
+                       middle, last, prev)
+     
+# A function to fix a given BST where
+# two nodes are swapped. This function
+# uses correctBSTUtil() to find out two
+# nodes and swaps the nodes to fix the BST
+def correctBst(root):
+     
+    # Followed four lines just for forming
+    # an array with only index 0 filled
+    # with None and we will update it accordingly.
+    # we made it null so that we can fill
+    # node data in them.
+    first = [None]
+    middle = [None]
+    last = [None]
+    prev = [None]
+     
+    # Setting arrays (having zero index only)
+    # for capturing the required node
+    correctBstUtil(root, first, middle,
+                   last, prev)
+ 
+    # Fixing the two nodes
+    if(first[0] and last[0]):
+         
+        # Swapping for first and last key values
+        first[0].key, last[0].key = (last[0].key,
+                                    first[0].key)
+ 
+    elif(first[0] and middle[0]):
+     
+        # Swapping for first and middle key values
+        first[0].key, middle[0].key = (middle[0].key,
+                                        first[0].key)
+     
+    # else tree will be fine
+ 
+# Function to print inorder
+# traversal of tree
+def PrintInorder(root):
+     
+    if(root):
+        PrintInorder(root.left)
+        print(root.key, end = " ")
+        PrintInorder(root.right)
+         
+    else:
+        return
+ 
+# Driver code
+ 
+#      6
+#     /   \
+#   10    2
+#  / \   / \
+# 1   3 7   12
+ 
+# Following 7 lines are for tree formation
+root = Node(6)
+root.left = Node(10)
+root.right = Node(2)
+root.left.left = Node(1)
+root.left.right = Node(3)
+root.right.left = Node(7)
+root.right.right = Node(12)
+ 
+# Printing inorder traversal of normal tree
+print("inorder traversal of normal tree")
+PrintInorder(root)
+print("")
+ 
+# Function call to do the task
+correctBst(root)
+ 
+# Printing inorder for corrected Bst tree
+print("")
+print("inorder for corrected BST")
+ 
+PrintInorder(root)
+ 
+# This code is contributed by rajutkarshai
+C#
+Javascript
+Output
+Inorder Traversal of the original tree 
+  1  10  3  6  7  2  12
+Inorder Traversal of the fixed tree 
+  1  2  3  6  7  10  12
+Time Complexity: O(N) 
+Auxiliary Space: O(N) for recursive call stack
+

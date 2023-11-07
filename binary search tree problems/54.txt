@@ -1,0 +1,193 @@
+Print BST keys in given Range | O(1) Space
+
+Difficulty Level : Medium
+Last Updated : 17 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two values n1 and n2 (where n1 < n2) and a root pointer to a Binary Search Tree. Print all the keys of tree in range n1 to n2. i.e. print all nodes n such that n1<=n<=n2 and n is a key of given BST. Print all the keys in increasing order.
+
+Prerequisites: Morris traversal | Threaded binary trees
+
+Inorder traversal uses recursion or stack/queue which consumes O(n) space. But there is one efficient way to do inorder tree traversal using Morris Traversal which is based in Threaded Binary trees. Morris traversal uses no recursion or stack/queue and simply stores some important information in the wasted NULL pointers. Morris traversal consumes constant extra memory O(1) as it uses no recursion or stack/queue. Hence we will use Morris traversal to do inorder traversal in the algorithm presented in this tutorial to print keys of a BST in a given range, which is efficient memory-wise.
+
+The concept of Threaded Binary trees is simple in that they store some useful information in the wasted NULL pointers. In a normal binary tree with n nodes, n+1 NULL pointers waste memory.
+
+
+Approach: Morris Traversal is a very nice memory-efficient technique to do tree traversal without using stack or recursion in constant memory O(1) based on Threaded Binary Trees. Morris traversal can be used in solving problems where inorder tree traversals are used especially in order statistics eg-Kth largest element in BST, Kth smallest in BST etc. Hence, this is where Morris traversal would come handy as a more efficient method to do inorder traversal in constant O(1) space without using any stack or recursion.
+
+Algorithm
+
+1) Initialize Current as root.
+
+2) While current is not NULL :
+
+  2.1) If current has no left child
+
+   a) Check if current lies between n1 and n2.
+      1)If so, then visit the current node.
+
+   b)Otherwise, Move to the right child of current.
+
+  3) Else, here we have 2 cases:
+   a) Find the inorder predecessor of current node. 
+      Inorder predecessor is the right most node 
+      in the left subtree or left child itself.
+
+   b) If the right child of the inorder predecessor is NULL:
+      1) Set current as the right child of its inorder predecessor.
+      2) Move current node to its left child.
+
+   c) Else, if the threaded link between the current node 
+      and it's inorder predecessor already exists :
+      1) Set right pointer of the inorder predecessor as NULL.
+      2) Again check if current node lies between n1 and n2.
+        a)If so, then visit the current node.
+      
+      3)Now move current to it's right child.
+Below is the implementation of above approach. 
+
+
+
+C++
+Java
+Python3
+# Python3 code to print BST keys in given Range
+# in constant space using Morris traversal.
+ 
+# Helper function to create a new node
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to print the keys in range
+def RangeTraversal(root, n1, n2):
+    if root == None:
+        return
+ 
+    curr = root
+    while curr:
+        if curr.left == None:
+             
+            # check if current node lies
+            # between n1 and n2
+            if curr.data <= n2 and curr.data >= n1:
+                print(curr.data, end = " ")
+            curr = curr.right
+        else:
+            pre = curr.left
+             
+            # finding the inorder predecessor-
+            # inorder predecessor is the right
+            # most in left subtree or the left
+            # child, i.e in BST it is the
+            # maximum(right most) in left subtree.
+            while (pre.right != None and
+                   pre.right != curr):
+                pre = pre.right
+                         
+            if pre.right == None:
+                pre.right = curr;
+                curr = curr.left
+            else:
+                pre.right = None
+ 
+                # check if current node lies
+                # between n1 and n2
+                if curr.data <= n2 and curr.data >= n1:
+                    print(curr.data, end = " ")
+                curr = curr.right
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # Constructed binary tree is
+    #        4
+    #      / \
+    #     2      7
+    #    / \ / \
+    #   1  3 6 10
+    root = newNode(4)
+    root.left = newNode(2)
+    root.right = newNode(7)
+    root.left.left = newNode(1)
+    root.left.right = newNode(3)
+    root.right.left = newNode(6)
+    root.right.right = newNode(10)
+ 
+    RangeTraversal(root, 4, 12)    
+     
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+4 6 7 10 
+Complexity Analysis:
+
+Time Complexity : O(n) 
+Auxiliary Space : O(1),  since no extra space has been taken.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+10
+Next
+Count BST nodes that lie in a given range
+Related Articles
+1.
+Print BST keys in the given range
+2.
+Remove BST keys outside the given range
+3.
+Remove BST Keys in a given Range
+4.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+5.
+BST to a Tree with sum of all smaller keys
+6.
+K'th Largest Element in BST when modification to BST is not allowed
+7.
+Convert a normal BST to Balanced BST
+8.
+Two nodes of a BST are swapped, correct the BST
+9.
+Find k-th smallest element in BST (Order Statistics in BST)
+10.
+K'th smallest element in BST using O(1) Extra Space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+AnishSinghWalia
+@AnishSinghWalia
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+PranchalKatiyar
+29AjayKumar
+todaysgaurav
+rishavpgl4
+hardikkoriintern
+Article Tags :
+morris-traversal
+threaded-binary-tree
+Binary Search Tree
+Practice Tags :
+Binary Search Tree
+Improve Article
+Report Issue

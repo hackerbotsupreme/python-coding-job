@@ -1,0 +1,270 @@
+How to handle duplicates in Binary Search Tree?
+
+Difficulty Level : Medium
+Last Updated : 02 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+In a Binary Search Tree (BST), all keys in left subtree of a key must be smaller and all keys in right subtree must be greater. So a Binary Search Tree by definition has distinct keys. 
+
+How to allow duplicates where every insertion inserts one more key with a value and every deletion deletes one occurrence?
+A Simple Solution is to allow same keys on right side (we could also choose left side). For example consider insertion of keys 12, 10, 20, 9, 11, 10, 12, 12 in an empty Binary Search Tree 
+
+          12
+       /     \
+     10      20
+    /  \     /
+   9   11   12 
+      /      \
+    10       12
+A Better Solution is to augment every tree node to store count together with regular fields like key, left and right pointers. 
+
+Insertion of keys 12, 10, 20, 9, 11, 10, 12, 12 in an empty Binary Search Tree would create following. 
+
+          12(3)
+       /        \
+     10(2)      20(1)
+    /    \       
+ 9(1)   11(1)   
+
+Count of a key is shown in bracket
+This approach has following advantages over above simple approach.
+
+Height of tree is small irrespective of number of duplicates. Note that most of the BST operations (search, insert and delete) have time complexity as O(h) where h is height of BST. So if we are able to keep the height small, we get advantage of less number of key comparisons.
+Search, Insert and Delete become easier to do. We can use same insert, search and delete algorithms with small modifications (see below code). 
+This approach is suited for self-balancing BSTs (AVL Tree, Red-Black Tree, etc) also. These trees involve rotations, and a rotation may violate BST property of simple solution as a same key can be in either left side or right side after rotation.
+Below is implementation of normal Binary Search Tree with count with every key. This code basically is taken from code for insert and delete in BST. The changes made for handling duplicates are highlighted, rest of the code is same. 
+
+C++
+C
+Java
+Python3
+# Python3 program to implement basic operations
+# (search, insert and delete) on a BST that handles
+# duplicates by storing count with every node
+ 
+# A utility function to create a new BST node
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.key = data
+        self.count = 1
+        self.left = None
+        self.right = None
+ 
+# A utility function to do inorder
+# traversal of BST
+def inorder(root):
+    if root != None:
+        inorder(root.left)
+        print(root.key,"(", root.count,")",
+                                 end = " ")
+        inorder(root.right)
+ 
+# A utility function to insert a new node
+# with given key in BST
+def insert(node, key):
+     
+    # If the tree is empty, return a new node
+    if node == None:
+        k = newNode(key)
+        return k
+ 
+    # If key already exists in BST, increment
+    # count and return
+    if key == node.key:
+        (node.count) += 1
+        return node
+ 
+    # Otherwise, recur down the tree
+    if key < node.key:
+        node.left = insert(node.left, key)
+    else:
+        node.right = insert(node.right, key)
+ 
+    # return the (unchanged) node pointer
+    return node
+ 
+# Given a non-empty binary search tree, return
+# the node with minimum key value found in that
+# tree. Note that the entire tree does not need
+# to be searched.
+def minValueNode(node):
+    current = node
+ 
+    # loop down to find the leftmost leaf
+    while current.left != None:
+        current = current.left
+ 
+    return current
+ 
+# Given a binary search tree and a key,
+# this function deletes a given key and
+# returns root of modified tree
+def deleteNode(root, key):
+     
+    # base case
+    if root == None:
+        return root
+ 
+    # If the key to be deleted is smaller than the
+    # root's key, then it lies in left subtree
+    if key < root.key:
+        root.left = deleteNode(root.left, key)
+ 
+    # If the key to be deleted is greater than
+    # the root's key, then it lies in right subtree
+    else if key > root.key:
+        root.right = deleteNode(root.right, key)
+ 
+    # if key is same as root's key
+    else:
+         
+        # If key is present more than once,
+        # simply decrement count and return
+        if root.count > 1:
+            root.count -= 1
+            return root
+         
+        # ElSE, delete the node with
+        # only one child or no child
+        if root.left == None:
+            temp = root.right
+            return temp
+        else if root.right == None:
+            temp = root.left
+            return temp
+ 
+        # node with two children: Get the inorder
+        # successor (smallest in the right subtree)
+        temp = minValueNode(root.right)
+ 
+        # Copy the inorder successor's content
+        # to this node
+        root.key = temp.key
+        root.count = temp.count
+ 
+        # Delete the inorder successor
+        root.right = deleteNode(root.right, temp.key)
+    return root
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Let us create following BST
+    # 12(3)
+    # / \
+    # 10(2) 20(1)
+    # / \
+    # 9(1) 11(1)
+    root = None
+    root = insert(root, 12)
+    root = insert(root, 10)
+    root = insert(root, 20)
+    root = insert(root, 9)
+    root = insert(root, 11)
+    root = insert(root, 10)
+    root = insert(root, 12)
+    root = insert(root, 12)
+ 
+    print("Inorder traversal of the given tree")
+    inorder(root)
+    print()
+     
+    print("Delete 20")
+    root = deleteNode(root, 20)
+    print("Inorder traversal of the modified tree")
+    inorder(root)
+    print()
+ 
+    print("Delete 12")
+    root = deleteNode(root, 12)
+    print("Inorder traversal of the modified tree")
+    inorder(root)
+    print()
+ 
+    print("Delete 9")
+    root = deleteNode(root, 9)
+    print("Inorder traversal of the modified tree")
+    inorder(root)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Inorder traversal of the given tree 
+9(1) 10(2) 11(1) 12(3) 20(1) 
+Delete 20
+Inorder traversal of the modified tree 
+9(1) 10(2) 11(1) 12(3) 
+Delete 12
+Inorder traversal of the modified tree 
+9(1) 10(2) 11(1) 12(2) 
+Delete 9
+Inorder traversal of the modified tree 
+10(2) 11(1) 12(2) 
+Time Complexity: The time complexity of all operations like search, insert, and delete is O(h) where h is the height of the BST.
+Auxiliary Space: The space complexity is O(h) which is required for the recursive function calls.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Threaded Binary Search Tree | Deletion
+Next
+Print Common Nodes in Two Binary Search Trees
+Related Articles
+1.
+Binary Tree to Binary Search Tree Conversion
+2.
+Binary Tree to Binary Search Tree Conversion using STL set
+3.
+Difference between Binary Tree and Binary Search Tree
+4.
+Binary Search Tree | Set 1 (Search and Insertion)
+5.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+6.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+7.
+Difference between Binary Search Tree and AVL Tree
+8.
+Count the Number of Binary Search Trees present in a Binary Tree
+9.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+10.
+Find the node with minimum value in a Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+Akanksha_Rai
+29AjayKumar
+Rajput-Ji
+aashish1995
+kanagselvi
+anishmm1997
+simmytarika5
+surinderdawra388
+hardikkoriintern
+factworx4i2
+Article Tags :
+Self-Balancing-BST
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

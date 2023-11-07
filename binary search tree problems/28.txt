@@ -1,0 +1,189 @@
+Check if the given array can represent Level Order Traversal of Binary Search Tree
+
+Difficulty Level : Hard
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of size n. The problem is to check whether the given array can represent the level order traversal of a Binary Search Tree or not.
+
+Examples: 
+
+Input : arr[] = {7, 4, 12, 3, 6, 8, 1, 5, 10}
+Output : Yes
+For the given arr[] the Binary Search Tree is:
+         7        
+       /    \       
+      4     12      
+     / \    /     
+    3   6  8    
+   /   /    \
+  1   5     10
+
+Input : arr[] = {11, 6, 13, 5, 12, 10}
+Output : No
+The given arr[] do not represent the level
+order traversal of a BST.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use a queue data structure. Every element of queue has a structure say NodeDetails which stores details of a tree node. The details are node’s data, and two variables min and max where min stores the lower limit for the node values which can be a part of the left subtree and max stores the upper limit for the node values which can be a part of the right subtree for the specified node in NodeDetails structure variable. For the 1st array value arr[0], create a NodeDetails structure having arr[0] as node’s data and min = INT_MIN and max = INT_MAX. Add this structure variable to the queue. This Node will be the root of the tree. Move to 2nd element in arr[] and then perform the following steps:
+
+Pop NodeDetails from the queue in temp.
+Check whether the current array element can be a left child of the node in temp with the help of min and temp.data values. If it can, then create a new NodeDetails structure for this new array element value with its proper ‘min’ and ‘max’ values and push it to the queue, and move to next element in arr[].
+Check whether the current array element can be a right child of the node in temp with the help of max and temp.data values. If it can, then create a new NodeDetails structure for this new array element value with its proper ‘min’ and ‘max’ values and push it to the queue, and move to next element in arr[].
+Repeat steps 1, 2 and 3 until there are no more elements in arr[] or there are no more elements in the queue.
+Finally, if all the elements of the array have been traversed then the array represents the level order traversal of a BST, else NOT. 
+
+C++
+Java
+Python3
+# Python3 implementation to check if the
+# given array can represent Level Order
+# Traversal of Binary Search Tree
+INT_MIN, INT_MAX = float('-inf'), float('inf')
+ 
+# To store details of a node like node's
+# data, 'min' and 'max' to obtain the
+# range of values where node's left
+# and right child's should lie
+class NodeDetails:
+ 
+    def __init__(self, data, min, max):
+        self.data = data
+        self.min = min
+        self.max = max
+ 
+# function to check if the given array
+# can represent Level Order Traversal
+# of Binary Search Tree
+def levelOrderIsOfBST(arr, n):
+ 
+    # if tree is empty
+    if n == 0:
+        return True
+     
+    # queue to store NodeDetails
+    q = []
+     
+    # index variable to access array elements
+    i = 0
+     
+    # node details for the root of the BST
+    newNode = NodeDetails(arr[i], INT_MIN, INT_MAX)
+    i += 1
+    q.append(newNode)
+     
+    # until there are no more elements
+    # in arr[] or queue is not empty
+    while i != n and len(q) != 0:    
+     
+        # extracting NodeDetails of a
+        # node from the queue
+        temp = q.pop(0)
+         
+        # check whether there are more elements
+        # in the arr[] and arr[i] can be left
+        # child of 'temp.data' or not
+        if i < n and (arr[i] < temp.data and
+                    arr[i] > temp.min):
+         
+            # Create NodeDetails for newNode
+            #/ and add it to the queue
+            newNode = NodeDetails(arr[i], temp.min, temp.data)
+            i += 1
+            q.append(newNode)            
+         
+        # check whether there are more elements
+        # in the arr[] and arr[i] can be right
+        # child of 'temp.data' or not
+        if i < n and (arr[i] > temp.data and
+                    arr[i] < temp.max):
+         
+            # Create NodeDetails for newNode
+            #/ and add it to the queue
+            newNode = NodeDetails(arr[i], temp.data, temp.max)
+            i += 1
+            q.append(newNode)        
+                 
+    # given array represents level
+    # order traversal of BST
+    if i == n:
+        return True
+         
+    # given array do not represent
+    # level order traversal of BST
+    return False       
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    arr = [7, 4, 12, 3, 6, 8, 1, 5, 10]
+    n = len(arr)    
+    if levelOrderIsOfBST(arr, n):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output
+Yes
+Time complexity: O(n), the time complexity of this algorithm is O(n) because we are iterating over the given array of size n only once. 
+Space complexity: O(n), here we are using a queue to store the nodes of the given tree. So the space complexity of this algorithm is O(n) as we are storing all the nodes of the given tree in the queue.
+
+This article is contributed by Ayush Jauhari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Replace node with depth in a binary tree
+Next
+Construct Binary Tree from String with bracket representation
+Related Articles
+1.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+2.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+3.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+4.
+Level order traversal of Binary Tree using Morris Traversal
+5.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+6.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+7.
+Flatten Binary Tree in order of Level Order Traversal
+8.
+Insertion in n-ary tree in given order and Level order traversal
+9.
+Check if the level order traversal of a Binary Tree results in a palindrome
+10.
+Deletion of a given node K in a Binary Tree using Level Order Traversal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rituraj_jain
+andrew1234
+Rajput-Ji
+vaibhavrabadiya3
+hardikkoriintern
+factworx4i2
+Article Tags :
+cpp-queue
+tree-level-order
+Tree
+Practice Tags :
+Tree
+Report Issue

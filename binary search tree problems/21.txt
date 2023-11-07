@@ -1,0 +1,271 @@
+Check if two BSTs contain same set of elements
+
+Difficulty Level : Easy
+Last Updated : 20 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two Binary Search Trees consisting of unique positive elements, we have to check whether the two BSTs contain the same set of elements or not. 
+
+Note: The structure of the two given BSTs can be different. 
+
+For example, 
+ 
+
+9 (5)
+
+The above two BSTs contains same set of elements {5, 10, 12, 15, 20, 25}
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: The most simple method will be to traverse first tree and store its element in a list or array. Now, traverse 2nd tree and simultaneously check if the current element is present in the list or not. If yes, then mark the element in the list as negative and check for further elements otherwise if no, then immediately terminate the traversal and print No. If all the elements of 2nd tree is present in the list and are marked negative then finally traverse the list to check if there are any non-negative elements left. If Yes then it means that the first tree had some extra element otherwise both trees consist the same set of elements.
+
+Time Complexity: O( n * n ) , where n is the number of nodes in the BST. 
+Auxiliary Space: O( n ).
+
+Method 2: This method is an optimization of the above approach. If we observe carefully, we will see that in the above approach, searching for elements in the list takes linear time. We can optimize this operation to be done in constant time using a hashmap instead of a list. We insert elements of both trees in different hash sets. Finally, we compare if both hash sets contain the same elements or not.
+
+Below is the complete implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python3 program to check if two BSTs contains
+# same set of elements
+ 
+# BST Node
+class Node:
+    def __init__(self):
+        self.val = 0
+        self.left = None
+        self.right = None
+ 
+# Utility function to create Node
+def Node_(val1):
+ 
+    temp = Node()
+    temp.val = val1
+    temp.left = temp.right = None
+    return temp
+ 
+s = {}
+ 
+# function to insert elements of the
+# tree to map m
+def insertToHash(root):
+ 
+    if (root == None):
+        return
+    insertToHash(root.left)
+    s.add(root.data)
+    insertToHash(root.right)
+ 
+# function to check if the two BSTs contain
+# same set of elements
+def checkBSTs(root1, root2):
+ 
+    # Base cases
+    if (root1 != None and root2 != None) :
+        return True
+    if ((root1 == None and root2 != None) or
+        (root1 != None and root2 == None)):
+        return False
+         
+    # Create two hash sets and store
+    # elements both BSTs in them.
+    s1 = {}
+    s2 = {}
+    s = s1
+    insertToHash(root1)
+    s1 = s
+    s = s2
+    insertToHash(root2)
+    s2 = s
+     
+    # Return True if both hash sets
+    # contain same elements.
+    return (s1 == (s2))
+ 
+# Driver code
+ 
+# First BST
+root1 = Node_(15)
+root1.left = Node_(10)
+root1.right = Node_(20)
+root1.left.left = Node_(5)
+root1.left.right = Node_(12)
+root1.right.right = Node_(25)
+     
+# Second BST
+root2 = Node_(15)
+root2.left = Node_(12)
+root2.right = Node_(20)
+root2.left.left = Node_(5)
+root2.left.left.right = Node_(10)
+root2.right.right = Node_(25)
+     
+# check if two BSTs have same set of elements
+if (checkBSTs(root1, root2)):
+    print("YES")
+else:
+    print("NO")
+     
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output
+YES
+Time Complexity: O( n ), where n is the number of nodes in the trees. 
+Auxiliary Space: O( n ).
+
+Method 3: We know about an interesting property of BST that inorder traversal of a BST generates a sorted array. So we can do inorder traversals of both the BSTs and generate two arrays and finally, we can compare these two arrays. If both of the arrays are the same then the BSTs have the same set of elements otherwise not.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to check if two BSTs contains
+# same set of elements
+ 
+# BST Node
+class Node:
+    def __init__(self):
+        self.data = 0
+        self.left = None
+        self.right = None
+ 
+# Utility function to create Node
+def Node_(val1):
+ 
+    temp = Node()
+    temp.data = val1
+    temp.left = temp.right = None
+    return temp
+ 
+v = []
+ 
+# function to insert elements of the
+# tree to map m
+def storeInorder(root):
+ 
+    if (root == None):
+        return
+    storeInorder(root.left)
+    v.append(root.data)
+    storeInorder(root.right)
+ 
+# function to check if the two BSTs contain
+# same set of elements
+def checkBSTs(root1, root2):
+ 
+    # Base cases
+    if (root1 == None and root2 == None) :
+        return True
+    if ((root1 == None and root2 != None) or \
+        (root1 != None and root2 == None)):
+        return False
+         
+    # Create two hash sets and store
+    # elements both BSTs in them.
+    v1 = []
+    v2 = []
+    v = v1
+    storeInorder(root1)
+    v1 = v
+    v = v2
+    storeInorder(root2)
+    v2 = v
+     
+    # Return True if both hash sets
+    # contain same elements.
+    return (v1 == v2)
+ 
+# Driver code
+ 
+# First BST
+root1 = Node_(15)
+root1.left = Node_(10)
+root1.right = Node_(20)
+root1.left.left = Node_(5)
+root1.left.right = Node_(12)
+root1.right.right = Node_(25)
+     
+# Second BST
+root2 = Node_(15)
+root2.left = Node_(12)
+root2.right = Node_(20)
+root2.left.left = Node_(5)
+root2.left.left.right = Node_(10)
+root2.right.right = Node_(25)
+     
+# check if two BSTs have same set of elements
+if (checkBSTs(root1, root2)):
+    print("YES")
+else:
+    print("NO")
+     
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+YES
+Time Complexity: O( n ). 
+Auxiliary Space: O( n ).
+
+This article is contributed by Harsh Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Check if an array represents Inorder of Binary Search tree or not
+Next
+Largest number in BST which is less than or equal to N
+Related Articles
+1.
+Check if two given key sequences construct same BSTs
+2.
+Merge two BSTs with limited extra space
+3.
+Count pairs from two BSTs whose sum is equal to a given value x
+4.
+Merge two BSTs with constant extra space
+5.
+Generate two BSTs from the given array such that maximum height among them is minimum
+6.
+Nodes from given two BSTs with sum equal to X
+7.
+Split a BST into two balanced BSTs based on a value K
+8.
+Print all pairs from two BSTs whose sum is greater than the given value
+9.
+Check for Identical BSTs without building the trees
+10.
+Find pairs with given sum such that pair elements lie in different BSTs
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+princiraj1992
+Rajput-Ji
+andrew1234
+SHUBHAMSINGH10
+rutvik_56
+prithicogni89
+hardikkoriintern
+Article Tags :
+cpp-unordered_set
+cpp-vector
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

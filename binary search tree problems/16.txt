@@ -1,0 +1,188 @@
+Sorted Array to Balanced BST
+
+Difficulty Level : Easy
+Last Updated : 15 Dec, 2022
+Read
+Discuss(130)
+Courses
+Practice
+Video
+Given a sorted array. Write a function that creates a Balanced Binary Search Tree using array elements.
+
+Examples: 
+
+Input: arr[] = {1, 2, 3}
+Output: A Balanced BST
+      2
+    /  \
+ 1     3 
+Explanation: all elements less than 2 are on the left side of 2 , and all the elements greater than 2 are on the right side
+
+Input: arr[] = {1, 2, 3, 4}
+Output: A Balanced BST
+          3
+        /  \
+     2    4
+   /
+1
+
+Recommended Problem
+Array to BST
+Binary Search Tree
+Tree
++1 more
+VMWare
+Amazon
++4 more
+Solve Problem
+Submission count: 49.9K
+Sorted Array to Balanced BST By Finding The middle element
+The idea is to find the middle element of the array and make it the root of the tree, then perform the same operation on the left subarray for the root’s left child and the same operation on the right subarray for the root’s right child.
+
+Follow the steps mentioned below to implement the approach:
+
+Set The middle element of the array as root.
+Recursively do the same for the left half and right half.
+Get the middle of the left half and make it the left child of the root created in step 1.
+Get the middle of the right half and make it the right child of the root created in step 1.
+Print the preorder of the tree.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python
+# Python code to convert a sorted array
+# to a balanced Binary Search Tree
+ 
+# binary tree node
+class Node:
+    def __init__(self, d):
+        self.data = d
+        self.left = None
+        self.right = None
+ 
+# function to convert sorted array to a
+# balanced BST
+# input : sorted array of integers
+# output: root node of balanced BST
+def sortedArrayToBST(arr):
+     
+    if not arr:
+        return None
+ 
+    # find middle index
+    mid = (len(arr)) // 2
+     
+    # make the middle element the root
+    root = Node(arr[mid])
+     
+    # left subtree of root has all
+    # values <arr[mid]
+    root.left = sortedArrayToBST(arr[:mid])
+     
+    # right subtree of root has all
+    # values >arr[mid]
+    root.right = sortedArrayToBST(arr[mid+1:])
+    return root
+ 
+# A utility function to print the preorder
+# traversal of the BST
+def preOrder(node):
+    if not node:
+        return
+     
+    print node.data,
+    preOrder(node.left)
+    preOrder(node.right)
+ 
+# driver program to test above function
+"""
+Constructed balanced BST is
+    4
+/ \
+2 6
+/ \ / \
+1 3 5 7
+"""
+ 
+arr = [1, 2, 3, 4, 5, 6, 7]
+root = sortedArrayToBST(arr)
+print "PreOrder Traversal of constructed BST ",
+preOrder(root)
+ 
+# This code is contributed by Ishita Tripathi
+C#
+Javascript
+Output
+PreOrder Traversal of constructed BST 
+4 2 1 3 6 5 7 
+Time Complexity: O(N) 
+Auxiliary Space: O(H) ~= O(log(N)), for recursive stack space where H is the height of the tree.
+
+
+
+Like
+Previous
+Convert a normal BST to Balanced BST
+Next
+Sorted Linked List to Balanced BST
+Related Articles
+1.
+Convert a normal BST to Balanced BST
+2.
+Sorted Linked List to Balanced BST
+3.
+Comparison between Height Balanced Tree and Weight Balanced Tree
+4.
+Find if there is a triplet in a Balanced BST that adds to zero
+5.
+Check if the Binary Tree contains a balanced BST of size K
+6.
+Create a balanced BST using vector in C++ STL
+7.
+Find a pair with given sum in a Balanced BST
+8.
+Split a BST into two balanced BSTs based on a value K
+9.
+K'th Largest Element in BST when modification to BST is not allowed
+10.
+Two nodes of a BST are swapped, correct the BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+IshitaTripathi
+shrikanth13
+rathbhupendra
+ClintonGomes
+rutvik_56
+sumitgumber28
+hardikkoriintern
+swst1k
+garvitpr1hev
+mitalibhola94
+ajaymakvana
+surinderdawra388
+Article Tags :
+Amazon
+Cisco
+Snapdeal
+VMWare
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+Cisco
+Snapdeal
+VMWare
+Binary Search Tree
+Tree
+Report Issue

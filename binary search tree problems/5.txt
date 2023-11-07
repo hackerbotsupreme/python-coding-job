@@ -1,0 +1,272 @@
+Insertion in Binary Search Tree
+
+Difficulty Level : Easy
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+What is a Binary Search Tree?
+A binary Search Tree is a special type of binary tree data structure that has the following properties:  
+
+The left subtree of a node contains only nodes with keys lesser than the node’s key.
+The right subtree of a node contains only nodes with keys greater than the node’s key.
+The left and right subtree each must also be a binary search tree.
+There must be no duplicate nodes.
+
+Binary Search Tree
+Binary Search Tree
+
+The above properties of a Binary Search Tree provide an ordering among keys so that the operations like search, minimum and maximum can be done fast.
+
+Insert a value in a Binary Search Tree:
+A new key is always inserted at the leaf by maintaining the property of the binary search tree. We start searching for a key from the root until we hit a leaf node. Once a leaf node is found, the new node is added as a child of the leaf node. The below steps are followed while we try to insert a node into a binary search tree:
+
+Check the value to be inserted (say X) with the value of the current node (say val) we are in:
+If X is less than val move to the left subtree.
+Otherwise, move to the right subtree.
+Once the leaf node is reached, insert X to its right or left based on the relation between X and the leaf node’s value.
+Follow the below illustration for a better understanding:
+
+Illustration:
+
+Consider the below tree:
+
+Binary Search Tree
+Binary Search Tree
+
+Let us try to insert a node with value 40 in this tree:
+
+1st step: 40 will be compared with root, i.e., 100. 
+
+40 is less than 100. 
+So move to the left subtree of 100. The root of the left subtree is 20.
+2nd step: 40 is now compared with 20. 
+
+It is greater than 20. 
+So move to the right subtree of 20 whose root is 30.
+3rd step: 30 is a leaf node. 
+
+So we have to insert 40 to the left or right of 30. 
+As 40 is greater than 30, insert 40 to the right of 30.
+The new tree will look like the following:
+
+Insertion in binary search tree
+Insertion in Binary Search Tree
+
+Implementation using Recursion:
+Below is the implementation of the insertion operation using recursion.
+
+C
+C++14
+Java
+Python3
+# Python program to demonstrate
+# insert operation in binary search tree
+ 
+ 
+# A utility class that represents
+# an individual node in a BST
+class Node:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
+ 
+ 
+# A utility function to insert
+# a new node with the given key
+def insert(root, key):
+    if root is None:
+        return Node(key)
+    else:
+        if root.val == key:
+            return root
+        elif root.val < key:
+            root.right = insert(root.right, key)
+        else:
+            root.left = insert(root.left, key)
+    return root
+ 
+ 
+# A utility function to do inorder tree traversal
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.val, end =" ")
+        inorder(root.right)
+ 
+ 
+# Driver program to test the above functions
+if __name__ == '__main__':
+ 
+    # Let us create the following BST
+    # 50
+    #  /     \
+    # 30     70
+    #  / \ / \
+    # 20 40 60 80
+ 
+    r = Node(50)
+    r = insert(r, 30)
+    r = insert(r, 20)
+    r = insert(r, 40)
+    r = insert(r, 70)
+    r = insert(r, 60)
+    r = insert(r, 80)
+ 
+    # Print inoder traversal of the BST
+    inorder(r)
+C#
+Javascript
+Output
+20 30 40 50 60 70 80 
+Time Complexity: 
+
+The worst-case time complexity of insert operations is O(h) where h is the height of the Binary Search Tree. 
+In the worst case, we may have to travel from the root to the deepest leaf node. The height of a skewed tree may become n and the time complexity of insertion operation may become O(n). 
+Auxiliary Space: The auxiliary space complexity of insertion into a binary search tree is O(1)
+
+Implementation using Iterative approach: 
+Instead of using recursion, we can also implement the insertion operation iteratively using a while loop. Below is the implementation using a while loop.
+
+C++
+Java
+Python3
+# Python 3 code to implement the insertion
+# operation iteratively
+ 
+ 
+class GFG:
+    @staticmethod
+    def main(args):
+        tree = BST()
+        tree.insert(30)
+        tree.insert(50)
+        tree.insert(15)
+        tree.insert(20)
+        tree.insert(10)
+        tree.insert(40)
+        tree.insert(60)
+        tree.inorder()
+ 
+ 
+class Node:
+    left = None
+    val = 0
+    right = None
+ 
+    def __init__(self, val):
+        self.val = val
+ 
+ 
+class BST:
+    root = None
+ 
+    # Function to insert a key in the BST
+    def insert(self, key):
+        node = Node(key)
+        if (self.root == None):
+            self.root = node
+            return
+        prev = None
+        temp = self.root
+        while (temp != None):
+            if (temp.val > key):
+                prev = temp
+                temp = temp.left
+            elif(temp.val < key):
+                prev = temp
+                temp = temp.right
+        if (prev.val > key):
+            prev.left = node
+        else:
+            prev.right = node
+ 
+     
+    # Function to print the inorder traversal of BST
+    def inorder(self):
+        temp = self.root
+        stack = []
+        while (temp != None or not (len(stack) == 0)):
+            if (temp != None):
+                stack.append(temp)
+                temp = temp.left
+            else:
+                temp = stack.pop()
+                print(str(temp.val) + " ", end ="")
+                temp = temp.right
+ 
+ 
+if __name__ == "__main__":
+    GFG.main([])
+ 
+ 
+# This code is contributed by rastogik346.
+C#
+Javascript
+Output
+10 15 20 30 40 50 60 
+The time complexity of inserting a node in a BST is O(log n), as we need to traverse down the tree to insert the node. 
+The Auxiliary space is O(1), as we do not use any extra space while inserting the node.
+
+The time complexity of inorder traversal is O(n), as each node is visited once. 
+The Auxiliary space is O(n), as we use a stack to store nodes for recursion.
+
+Related Links: 
+
+Binary Search Tree Delete Operation
+Quiz on Binary Search Tree
+Coding practice on BST
+All Articles on BST
+
+
+Like
+Previous
+Design custom Browser History based on given operations
+Next
+Check whether the number has only first and last bits set | Set 2
+Related Articles
+1.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+2.
+Search and Insertion in K Dimensional tree
+3.
+m-Way Search Tree | Set-2 | Insertion and Deletion
+4.
+Binary Tree to Binary Search Tree Conversion
+5.
+Minimum swap required to convert binary tree to binary search tree
+6.
+Binary Tree to Binary Search Tree Conversion using STL set
+7.
+Difference between Binary Tree and Binary Search Tree
+8.
+Search N elements in an unbalanced Binary Search Tree in O(N * logM) time
+9.
+Insertion in a Binary Tree in level order
+10.
+Threaded Binary Tree | Insertion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+itsadityash
+@itsadityash
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+surajrasr7277
+factworx4i2
+dnyaneshwarsssss
+Article Tags :
+Binary Search Trees
+DSA
+Tree
+Practice Tags :
+Tree
+Report Issue

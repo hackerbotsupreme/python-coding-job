@@ -1,0 +1,212 @@
+K’th Largest Element in BST when modification to BST is not allowed
+
+Difficulty Level : Easy
+Last Updated : 15 Jul, 2022
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+Given a Binary Search Tree (BST) and a positive integer k, find the k’th largest element in the Binary Search Tree. 
+For example, in the following BST, if k = 3, then output should be 14, and if k = 5, then output should be 10. 
+
+
+
+We have discussed two methods in this post. The method 1 requires O(n) time. The method 2 takes O(h) time where h is height of BST, but requires augmenting the BST (storing count of nodes in left subtree with every node). 
+Can we find k’th largest element in better than O(n) time and no augmentation?
+
+Recommended Problem
+Kth largest element in BST
+Binary Search Tree
+Tree
++1 more
+Accolite
+Amazon
++3 more
+Solve Problem
+Submission count: 86K
+Approach: 
+
+The idea is to do reverse inorder traversal of BST. Keep a count of nodes visited.
+The reverse inorder traversal traverses all nodes in decreasing order, i.e, visit the right node then centre then left and continue traversing the nodes recursively.
+While doing the traversal, keep track of the count of nodes visited so far.
+When the count becomes equal to k, stop the traversal and print the key.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find k'th largest 
+# element in BST 
+  
+class Node: 
+  
+    # Constructor to create a new node 
+    def __init__(self, data): 
+        self.key = data 
+        self.left = None
+        self.right = None
+          
+# A function to find k'th largest 
+# element in a given tree. 
+def kthLargestUtil(root, k, c):
+      
+    # Base cases, the second condition 
+    # is important to avoid unnecessary
+    # recursive calls 
+    if root == None or c[0] >= k: 
+        return
+  
+    # Follow reverse inorder traversal 
+    # so that the largest element is 
+    # visited first 
+    kthLargestUtil(root.right, k, c)
+  
+    # Increment count of visited nodes 
+    c[0] += 1
+  
+    # If c becomes k now, then this is 
+    # the k'th largest 
+    if c[0] == k:
+        print("K'th largest element is", 
+                               root.key) 
+        return
+  
+    # Recur for left subtree 
+    kthLargestUtil(root.left, k, c)
+  
+# Function to find k'th largest element 
+def kthLargest(root, k):
+      
+    # Initialize count of nodes
+    # visited as 0 
+    c = [0]
+  
+    # Note that c is passed by reference 
+    kthLargestUtil(root, k, c)
+  
+# A utility function to insert a new 
+# node with given key in BST */
+def insert(node, key): 
+      
+    # If the tree is empty, 
+    # return a new node 
+    if node == None:
+        return Node(key) 
+  
+    # Otherwise, recur down the tree 
+    if key < node.key: 
+        node.left = insert(node.left, key) 
+    elif key > node.key:
+        node.right = insert(node.right, key) 
+  
+    # return the (unchanged) node pointer 
+    return node
+  
+# Driver Code
+if __name__ == '__main__':
+      
+    # Let us create following BST 
+    #         50 
+    #     /     \ 
+    #     30     70 
+    # / \ / \ 
+    # 20 40 60 80 */
+    root = None
+    root = insert(root, 50)
+    insert(root, 30)
+    insert(root, 20)
+    insert(root, 40)
+    insert(root, 70)
+    insert(root, 60)
+    insert(root, 80)
+  
+    for k in range(1,8):
+        kthLargest(root, k)
+          
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+K'th largest element is 80
+K'th largest element is 70
+K'th largest element is 60
+K'th largest element is 50
+K'th largest element is 40
+K'th largest element is 30
+K'th largest element is 20
+Complexity Analysis:  
+
+
+
+Time Complexity: O(n). 
+In worst case the code can traverse each and every node of the tree if the k given is equal to n (total number of nodes in the tree). Therefore overall time complexity is O(n).
+Auxiliary Space: O(h). 
+Max recursion stack of height h at a given time.
+This article is contributed by Chirag Sharma. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+60
+Previous
+Inorder predecessor and successor for a given key in BST | Iterative Approach
+Next
+K'th smallest element in BST using O(1) Extra Space
+Related Articles
+1.
+Find k-th smallest element in BST (Order Statistics in BST)
+2.
+Second largest element in BST
+3.
+K'th Largest element in BST using constant extra space
+4.
+Maximum sum from a tree with adjacent levels not allowed
+5.
+Largest element smaller than current element on left for every element in Array
+6.
+Convert a normal BST to Balanced BST
+7.
+Two nodes of a BST are swapped, correct the BST
+8.
+Find the largest BST subtree in a given Binary Tree | Set 3
+9.
+Largest BST in a Binary Tree | Set 2
+10.
+Largest number in BST which is less than or equal to N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+andrew1234
+GauravRajput1
+AryanRaja
+ravishekr7
+polymatir3j
+hardikkoriintern
+Article Tags :
+Accolite
+Amazon
+Order-Statistics
+Samsung
+Binary Search Tree
+Tree
+Practice Tags :
+Accolite
+Amazon
+Samsung
+Binary Search Tree
+Tree
+Improve Article
+Report Issue

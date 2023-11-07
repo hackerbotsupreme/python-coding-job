@@ -1,0 +1,275 @@
+How to determine if a binary tree is height-balanced?
+
+Difficulty Level : Medium
+Last Updated : 14 Oct, 2022
+Read
+Discuss(300+)
+Courses
+Practice
+Video
+A height balanced binary tree is a binary tree in which the height of the left subtree and right subtree of any node does not differ by more than 1 and both the left and right subtree are also height balanced.
+
+In this article, we will look into methods how to determine if given Binary trees are height-balanced
+
+Examples: The tree on the left is a height balanced binary tree. Whereas the tree on the right is not a height balanced tree. Because the left subtree of the root has a height which is 2 more than the height of the right subtree.
+ 
+
+
+
+Recommended Problem
+Check for Balanced Tree
+Tree
+Data Structures
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 2L
+Naive Approach: To check if a tree is height-balanced:
+
+Get the height of left and right subtrees using dfs traversal. Return true if the difference between heights is not more than 1 and left and right subtrees are balanced, otherwise return false. 
+
+Below is the implementation of the above approach.
+
+
+
+C++
+C
+Java
+Python3
+"""
+Python3 program to check if a tree is height-balanced
+"""
+# A binary tree Node
+ 
+ 
+class Node:
+    # Constructor to create a new Node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# function to find height of binary tree
+ 
+ 
+def height(root):
+ 
+    # base condition when binary tree is empty
+    if root is None:
+        return 0
+    return max(height(root.left), height(root.right)) + 1
+ 
+# function to check if tree is height-balanced or not
+ 
+ 
+def isBalanced(root):
+ 
+    # Base condition
+    if root is None:
+        return True
+ 
+    # for left and right subtree height
+    lh = height(root.left)
+    rh = height(root.right)
+ 
+    # allowed values for (lh - rh) are 1, -1, 0
+    if (abs(lh - rh) <= 1) and isBalanced(
+            root.left) is True and isBalanced(root.right) is True:
+        return True
+ 
+    # if we reach here means tree is not
+    # height-balanced tree
+    return False
+ 
+ 
+# Driver function to test the above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.left.left.left = Node(8)
+if isBalanced(root):
+    print("Tree is balanced")
+else:
+    print("Tree is not balanced")
+ 
+# This code is contributed by Shweta Singh
+C#
+Javascript
+Output
+Tree is not balanced
+Time Complexity: O(n^2) in case of full binary tree.
+Auxiliary Space: O(n) space for call stack since using recursion
+
+Efficient implementation: Above implementation can be optimized by 
+
+Calculating the height in the same recursion rather than calling a height() function separately. 
+
+For each node make two recursion calls – one for left subtree and the other for the right subtree. 
+Based on the heights returned from the recursion calls, decide if the subtree whose root is the current node is height-balanced or not. 
+If it is balanced then return the height of that subtree. Otherwise, return -1 to denote that the subtree is not height-balanced.
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+"""
+Python3 program to check if a tree is height-balanced
+"""
+# A binary tree Node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new Node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to check if tree is height-balanced or not
+ 
+ 
+def isBalanced(root):
+ 
+    # Base condition
+    if root is None:
+        return True
+ 
+    # Compute height of left subtree
+    lh = isBalanced(root.left)
+ 
+    # If left subtree is not balanced,
+    # return -1
+    if lh == -1:
+        return -1
+ 
+    # Do same thing for the right subtree
+    rh = isBalanced(root.right)
+    if rh == -1:
+        return -1
+ 
+    # Allowed values for (lh - rh) are 1, -1, 0
+    if (abs(lh - rh) > 1):
+        return -1
+ 
+    # If we reach here means tree is
+    # height-balanced tree, return height
+    # in this case
+    else:
+        return max(lh, rh) + 1
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    root = Node(10)
+    root.left = Node(5)
+    root.right = Node(30)
+    root.right.left = Node(15)
+    root.right.right = Node(20)
+    if (isBalanced(root) == -1):
+        print("Not Balanced")
+    else:
+        print("Balanced")
+ 
+# This code is contributed by Shweta Singh
+C#
+Javascript
+Output
+Balanced
+Time Complexity: O(n) 
+
+Because we are only one dfs call and utilizing the height returned from that to determine the height balance, it is performing the task in linear time.
+Auxiliary Space: O(n)
+
+Asked in: Amazon, Belzabar, Goldman Sachs, InMobi, Intel, Microsoft, Paytm, Synopsys, Walmart, Zillious
+
+Please write comments if you find any of the above codes/algorithms incorrect, or find other ways to solve the same problem.
+
+
+
+
+
+Like
+120
+Previous
+Sorted Linked List to Balanced BST
+Next
+Insertion in an AVL Tree
+Related Articles
+1.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+2.
+Determine the count of Leaf nodes in an N-ary tree
+3.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+4.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+5.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+6.
+Binary Tree to Binary Search Tree Conversion
+7.
+Check if a binary tree is subtree of another binary tree | Set 2
+8.
+Convert a Binary Tree to Threaded binary tree | Set 1 (Using Queue)
+9.
+Convert a Binary Tree to Threaded binary tree | Set 2 (Efficient)
+10.
+Minimum swap required to convert binary tree to binary search tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shweta44
+shrikanth13
+rathbhupendra
+nobody_cares
+HarshUpadhyay
+saurabhlohiya1234
+AakashYadav4
+Shubhank Gupta
+prasanna1995
+adnanirshad158
+shinjanpatra
+technophpfij
+hardikkoriintern
+animeshdey
+harendrakumar123
+Article Tags :
+Amazon
+Belzabar
+Goldman Sachs
+InMobi
+Intel
+Microsoft
+Paytm
+Self-Balancing-BST
+Synopsys
+Walmart
+Zillious
+Tree
+Practice Tags :
+Amazon
+Belzabar
+Goldman Sachs
+InMobi
+Intel
+Microsoft
+Paytm
+Synopsys
+Walmart
+Zillious
+Tree
+Improve Article
+Report Issue

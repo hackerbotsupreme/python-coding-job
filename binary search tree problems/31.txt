@@ -1,0 +1,207 @@
+K’th Largest element in BST using constant extra space
+
+Difficulty Level : Hard
+Last Updated : 12 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary search tree, task is to find Kth largest element in the binary search tree.
+
+Example: 
+
+Input :  k = 3
+         Root of following BST
+            10
+          /    \
+         4      20
+        /      /   \
+       2     15     40
+Output : 15
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use Reverse Morris Traversal which is based on Threaded Binary Trees. Threaded binary trees use the NULL pointers to store the successor and predecessor information which helps us to utilize the wasted memory by those NULL pointers.
+
+The special thing about Morris traversal is that we can do Inorder traversal without using stack or recursion which saves us memory consumed by stack or recursion call stack.
+
+Reverse Morris traversal is just the reverse of Morris traversal which is majorly used to do Reverse Inorder traversal with constant O(1) extra memory consumed as it does not uses any Stack or Recursion.
+
+To find Kth largest element in a Binary search tree, the simplest logic is to do reverse inorder traversal and while doing reverse inorder traversal simply keep a count of number of Nodes visited. When the count becomes equal to k, we stop the traversal and print the data. It uses the fact that reverse inorder traversal will give us a list sorted in descending order. 
+
+Algorithm
+1) Initialize Current as root.
+2) Initialize a count variable to 0.
+3) While current is not NULL :
+   3.1) If current has no right child
+   a) Increment count and check if count is equal to K.
+      1) If count is equal to K, simply return current 
+         Node as it is the Kth largest Node.
+   b) Otherwise, Move to the left child of current.
+
+   3.2) Else, here we have 2 cases:
+   a) Find the inorder successor of current Node. 
+      Inorder successor is the left most Node 
+      in the right subtree or right child itself.
+   b) If the left child of the inorder successor is NULL:
+      1) Set current as the left child of its inorder 
+         successor.
+      2) Move current Node to its right.
+   c) Else, if the threaded link between the current Node 
+      and it's inorder successor already exists :
+      1) Set left pointer of the inorder successor as NULL.
+      2) Increment count and check if count is equal to K.
+           a) If count is equal to K, simply return current
+              Node as it is the Kth largest Node.
+
+      3) Otherwise, Move current to it's left child.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 code for finding K-th largest
+# Node using O(1) extra memory and
+# reverse Morris traversal.
+ 
+# helper function to create a new Node
+class newNode:
+    def __init__(self, data):
+        self.data = data
+        self.right = self.left = None
+ 
+def KthLargestUsingMorrisTraversal(root, k):
+    curr = root
+    Klargest = None
+ 
+    # count variable to keep count
+    # of visited Nodes
+    count = 0
+ 
+    while (curr != None):
+         
+        # if right child is None
+        if (curr.right == None):
+ 
+            # first increment count and
+            # check if count = k
+            count += 1
+            if (count == k):
+                Klargest = curr
+ 
+            # otherwise move to the left child
+            curr = curr.left
+ 
+        else:
+ 
+            # find inorder successor of
+            # current Node
+            succ = curr.right
+ 
+            while (succ.left != None and
+                   succ.left != curr):
+                succ = succ.left
+ 
+            if (succ.left == None):
+ 
+                # set left child of successor
+                # to the current Node
+                succ.left = curr
+ 
+                # move current to its right
+                curr = curr.right
+ 
+            # restoring the tree back to 
+            # original binary search tree
+            # removing threaded links
+            else:
+ 
+                succ.left = None
+                count += 1
+                if (count == k):
+                    Klargest = curr
+ 
+                # move current to its left child
+                curr = curr.left
+ 
+    return Klargest
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # Constructed binary tree is
+    #     4
+    #     / \
+    # 2     7
+    # / \ / \
+    # 1 3 6 10
+    root = newNode(4)
+    root.left = newNode(2)
+    root.right = newNode(7)
+    root.left.left = newNode(1)
+    root.left.right = newNode(3)
+    root.right.left = newNode(6)
+    root.right.right = newNode(10)
+ 
+    print("Finding K-th largest Node in BST : ",
+           KthLargestUsingMorrisTraversal(root, 2).data)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Finding K-th largest Node in BST : 7
+Complexity Analysis:
+
+Time Complexity : O(n) 
+Auxiliary Space : O(1)
+
+
+Like
+Previous
+K'th Largest Element in BST when modification to BST is not allowed
+Next
+Second largest element in BST
+Related Articles
+1.
+K'th smallest element in BST using O(1) Extra Space
+2.
+Merge two BSTs with constant extra space
+3.
+K'th Largest Element in BST when modification to BST is not allowed
+4.
+Find k-th smallest element in BST (Order Statistics in BST)
+5.
+Create Balanced Binary Tree using its Leaf Nodes without using extra space
+6.
+k smallest elements in same order using O(1) extra space
+7.
+Convert a normal BST to Balanced BST
+8.
+Two nodes of a BST are swapped, correct the BST
+9.
+Merge two BSTs with limited extra space
+10.
+Second largest element in BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+AnishSinghWalia
+@AnishSinghWalia
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+PranchalKatiyar
+29AjayKumar
+aashish1995
+hardikkoriintern
+Article Tags :
+Order-Statistics
+Binary Search Tree
+Practice Tags :
+Binary Search Tree
+Report Issue

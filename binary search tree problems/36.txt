@@ -1,0 +1,522 @@
+Inorder Successor in Binary Search Tree
+
+Difficulty Level : Medium
+Last Updated : 24 Jan, 2023
+Read
+Discuss(210+)
+Courses
+Practice
+Video
+In Binary Tree, Inorder successor of a node is the next node in Inorder traversal of the Binary Tree. Inorder Successor is NULL for the last node in Inorder traversal. 
+
+In Binary Search Tree, Inorder Successor of an input node can also be defined as the node with the smallest key greater than the key of the input node. So, it is sometimes important to find next node in sorted order.
+
+
+
+In the above diagram, inorder successor of 8 is 10, inorder successor of 10 is 12 and inorder successor of 14 is 20.
+
+Recommended Problem
+Inorder Successor in BST
+Binary Search Tree
+Data Structures
+Morgan Stanley
+Amazon
++1 more
+Solve Problem
+Submission count: 58.9K
+Method 1 (Uses Parent Pointer) 
+
+In this method, we assume that every node has a parent pointer. 
+The Algorithm is divided into two cases on the basis of the right subtree of the input node being empty or not.
+
+Input: node, root // node is the node whose Inorder successor is needed. 
+
+
+
+Output: succ // succ is Inorder successor of node.
+
+If right subtree of node is not NULL, then succ lies in right subtree. Do the following. 
+Go to right subtree and return the node with minimum key value in the right subtree.
+If right subtree of node is NULL, then succ is one of the ancestors. Do the following. 
+Travel up using the parent pointer until you see a node which is left child of its parent. The parent of such a node is the succ.
+Implementation: 
+
+Note that the function to find InOrder Successor is highlighted (with gray background) in below code.  
+
+C++
+C
+Java
+Python3
+# Python program to find the inorder successor in a BST
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+def inOrderSuccessor(n):
+     
+    # Step 1 of the above algorithm
+    if n.right is not None:
+        return minValue(n.right)
+ 
+    # Step 2 of the above algorithm
+    p = n.parent
+    while( p is not None):
+        if n != p.right :
+            break
+        n = p
+        p = p.parent
+    return p
+ 
+# Given a non-empty binary search tree, return the
+# minimum data value found in that tree. Note that the
+# entire tree doesn't need to be searched
+def minValue(node):
+    current = node
+ 
+    # loop down to find the leftmost leaf
+    while(current is not None):
+        if current.left is None:
+            break
+        current = current.left
+ 
+    return current
+ 
+ 
+# Given a binary search tree and a number, inserts a
+# new node with the given number in the correct place
+# in the tree. Returns the new root pointer which the
+# caller should then use( the standard trick to avoid
+# using reference parameters)
+def insert( node, data):
+ 
+    # 1) If tree is empty then return a new singly node
+    if node is None:
+        return Node(data)
+    else:
+        
+        # 2) Otherwise, recur down the tree
+        if data <= node.data:
+            temp = insert(node.left, data)
+            node.left = temp
+            temp.parent = node
+        else:
+            temp = insert(node.right, data)
+            node.right = temp
+            temp.parent = node
+         
+        # return  the unchanged node pointer
+        return node
+ 
+ 
+# Driver program to test above function
+ 
+root = None
+ 
+# Creating the tree given in the above diagram
+root = insert(root, 20)
+root = insert(root, 8);
+root = insert(root, 22);
+root = insert(root, 4);
+root = insert(root, 12);
+root = insert(root, 10); 
+root = insert(root, 14);   
+temp = root.left.right.right
+ 
+succ = inOrderSuccessor(temp)
+if succ is not None:
+    print ("\nInorder Successor of % d is % d "%(temp.data, succ.data))
+else:
+    print ("\nInorder Successor doesn't exist")
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+ Inorder Successor of 14 is 20
+Complexity Analysis: 
+
+Time Complexity: 
+O(h), where h is the height of the tree. 
+As in the second case(suppose skewed tree) we have to travel all the way towards the root.
+Auxiliary Space: O(1). 
+Due to no use of any data structure for storing values.
+Method 2 (Search from root) 
+Parent pointer is NOT needed in this algorithm. The Algorithm is divided into two cases on the basis of right subtree of the input node being empty or not.
+
+
+Input: node, root // node is the node whose Inorder successor is needed. 
+
+Output: succ // succ is Inorder successor of node.
+
+If right subtree of node is not NULL, then succ lies in right subtree. Do the following. 
+Go to right subtree and return the node with minimum key value in the right subtree.
+If right subtree of node is NULL, then start from the root and use search-like technique. Do the following. 
+Travel down the tree, if a node’s data is greater than root’s data then go right side, otherwise, go to left side.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to find
+# the inorder successor in a BST
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+def inOrderSuccessor(root, n):
+     
+    # Step 1 of the above algorithm
+    if n.right is not None:
+        return minValue(n.right)
+ 
+    # Step 2 of the above algorithm
+    succ=Node(None)
+     
+     
+    while( root):
+        if(root.data<n.data):
+            root=root.right
+        elif(root.data>n.data):
+            succ=root
+            root=root.left
+        else:
+            break
+    return succ
+ 
+# Given a non-empty binary search tree,
+# return the minimum data value
+# found in that tree. Note that the
+# entire tree doesn't need to be searched
+def minValue(node):
+    current = node
+ 
+    # loop down to find the leftmost leaf
+    while(current is not None):
+        if current.left is None:
+            break
+        current = current.left
+ 
+    return current
+ 
+ 
+# Given a binary search tree
+# and a number, inserts a
+# new node with the given
+# number in the correct place
+# in the tree. Returns the
+# new root pointer which the
+# caller should then use
+# (the standard trick to avoid
+# using reference parameters)
+def insert( node, data):
+ 
+    # 1) If tree is empty
+    # then return a new singly node
+    if node is None:
+        return Node(data)
+    else:
+        
+        # 2) Otherwise, recur down the tree
+        if data <= node.data:
+            temp = insert(node.left, data)
+            node.left = temp
+            temp.parent = node
+        else:
+            temp = insert(node.right, data)
+            node.right = temp
+            temp.parent = node
+         
+        # return  the unchanged node pointer
+        return node
+ 
+ 
+# Driver program to test above function
+if __name__ == "__main__":
+  root = None
+ 
+  # Creating the tree given in the above diagram
+  root = insert(root, 20)
+  root = insert(root, 8);
+  root = insert(root, 22);
+  root = insert(root, 4);
+  root = insert(root, 12);
+  root = insert(root, 10); 
+  root = insert(root, 14);   
+  temp = root.left.right
+ 
+  succ = inOrderSuccessor( root, temp)
+  if succ is not None:
+      print("Inorder Successor of" ,
+               temp.data ,"is" ,succ.data)
+  else:
+      print("InInorder Successor doesn't exist")
+C#
+Javascript
+Output
+ Inorder Successor of 14 is 20
+Complexity Analysis: 
+
+Time Complexity: O(h), where h is the height of the tree. 
+In the worst case as explained above we travel the whole height of the tree
+Auxiliary Space: O(1). 
+Due to no use of any data structure for storing values.
+Method 3 (Inorder traversal) An inorder transversal of BST produces a sorted sequence. Therefore, we perform an inorder traversal. The first encountered node with value greater than the node is the inorder successor. 
+
+Input: node, root // node is the node whose ignorer successor is needed.
+
+Output: succ // succ is Inorder successor of node.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program for above approach
+ 
+''' A binary tree node has data,
+   the pointer to left child
+   and a pointer to right child '''
+class Node :
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.parent = None
+     
+def inOrderTraversal(root, n, succ):
+    if(root == None): return
+    inOrderTraversal(root.left, n, succ)
+    if(root.data > n.data and not succ.left):
+        succ.left = root
+        return
+    inOrderTraversal(root.right, n, succ)     
+ 
+def inOrderSuccessor(root, n):
+    succ = Node(0)
+    inOrderTraversal(root, n, succ)
+    return succ.left
+ 
+# Give a binary search tree and a
+# number, inserts a new node with
+# the given number in the correct
+# place in the tree. Returns the new
+# root pointer which the caller should
+# then use (the standard trick to
+# avoid using reference parameters).
+def insert(node, data):
+    #  1. If the tree is empty, return a new,
+    #    single node
+    if (node == None):
+        return Node(data)
+    else:
+    #  2. Otherwise, recur down the tree
+        if (data <= node.data):
+            temp = insert(node.left, data)
+            node.left = temp
+            temp.parent = node
+        else:
+            temp = insert(node.right, data)
+            node.right = temp
+            temp.parent = node
+ 
+        # Return the (unchanged) node pointer
+        return node
+ 
+# Driver code
+root = None
+ 
+# Creating the tree given in the above diagram
+root = insert(root, 20)
+root = insert(root, 8)
+root = insert(root, 22)
+root = insert(root, 4)
+root = insert(root, 12)
+root = insert(root, 10)
+root = insert(root, 14)
+temp = root.left.right.right
+ 
+# Function Call
+succ = inOrderSuccessor(root, temp)
+if (succ != None): print("Inorder Successor of",temp.data,"is",succ.data)
+else: print("Inorder Successor doesn't exist")
+C#
+Javascript
+Output
+ Inorder Successor of 14 is 20
+Complexity Analysis:
+
+Time Complexity: O(h), where h is the height of the tree. In the worst case as explained above we travel the whole height of the tree.
+Auxiliary Space: O(1). Due to no use of any data structure for storing values.
+Method 4 (Inorder traversal iterative) this method is inspired from the method 3 but with iterative and easy to understand approach.
+
+Input: node, root // node is the node whose inorder successor is needed.
+Output: succ // succ is Inorder successor of node.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program for above approach
+ 
+# A binary tree node has data, the pointer to left
+# child and a pointer to right child
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.parent = None
+ 
+def inOrderTraversal(root):
+    if not root:
+        return
+    inOrderTraversal(root.left)
+    print(root.data, end=' ')
+    inOrderTraversal(root.right)
+ 
+def inOrderSuccessor(root, key):
+    _stack = []
+    while root or _stack:
+        while root:
+            _stack.append(root)
+            root = root.left
+        root = _stack.pop()
+        if root.data > key:
+            return root
+        root = root.right
+    return None
+ 
+    # Helper function that allocates a new
+    # node with the given data and null left
+    # and right pointers.
+def newNode(data):
+    return Node(data)
+   
+    # Give a binary search tree and a
+    # number, inserts a new node with
+    # the given number in the correct
+    # place in the tree. Returns the new
+    # root pointer which the caller should
+    # then use (the standard trick to
+    # astatic void using reference parameters).
+ 
+   
+def insert(node, data):
+    if not node:
+        return newNode(data)
+    else:
+        if data <= node.data:
+            temp = insert(node.left, data)
+            node.left = temp
+            temp.parent = node
+        else:
+            temp = insert(node.right, data)
+            node.right = temp
+            temp.parent = node
+        return node
+ 
+if __name__ == "__main__":
+    root = None
+    root = insert(root, 20)
+    root = insert(root, 8)
+    root = insert(root, 22)
+    root = insert(root, 4)
+    root = insert(root, 12)
+    root = insert(root, 10)
+    root = insert(root, 14)
+    temp = root.left.right.right
+    succ = inOrderSuccessor(root, temp.data)
+    if succ:
+        print("\n Inorder Successor of",temp.data,"is",succ.data)
+    else:
+        print("\n Inorder Successor doesn't exist")
+C#
+Javascript
+Output
+ Inorder Successor of 14 is 20
+Complexity Analysis:
+
+Time Complexity: O(h), where h is the height of the tree. In the worst case as explained above we travel the whole height of the tree
+Auxiliary Space: O(1). Due to no use of any data structure for storing values.
+
+
+
+
+Like
+86
+Next
+Inorder predecessor and successor for a given key in BST
+Related Articles
+1.
+Inorder predecessor and successor for a given key in BST | Iterative Approach
+2.
+Inorder predecessor and successor for a given key in BST
+3.
+Pre-Order Successor of all nodes in Binary Search Tree
+4.
+Check if an array represents Inorder of Binary Search tree or not
+5.
+Binary Search Tree (BST) Traversals – Inorder, Preorder, Post Order
+6.
+Construct a Binary Tree from Postorder and Inorder
+7.
+Convert Binary Tree to Doubly Linked List using inorder traversal
+8.
+Binary Tree to Binary Search Tree Conversion
+9.
+Binary Tree to Binary Search Tree Conversion using STL set
+10.
+Difference between Binary Tree and Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+bidibaaz123
+vipinyadav15799
+reapedjuggler
+pancudaniel
+aashish1995
+GauravRajput1
+unknown2108
+surinderdawra388
+shivanisinghss2110
+as5853535
+jaisw7
+amartyaghoshgfg
+Rajput-Ji
+nitin dhamija
+hardikkoriintern
+abhijeet19403
+karandeep1234
+garg28harsh
+hardikkushwaha
+Article Tags :
+Amazon
+Morgan Stanley
+Binary Search Tree
+Practice Tags :
+Amazon
+Morgan Stanley
+Binary Search Tree

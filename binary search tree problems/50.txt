@@ -1,0 +1,183 @@
+Check if given sorted sub-sequence exists in binary search tree
+
+Difficulty Level : Easy
+Last Updated : 10 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary search tree and a sorted sub-sequence. the task is to check if the given sorted sub-sequence exist in binary search tree or not.
+ 
+
+200px-Binary_search_tree.svg
+
+Examples: 
+ 
+
+// For above binary search tree
+Input : seq[] = {4, 6, 8, 14}
+Output: "Yes"
+
+Input : seq[] = {4, 6, 8, 12, 13}
+Output: "No"
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to store inorder traversal in an auxiliary array and then by matching elements of sorted sub-sequence one by one with inorder traversal of tree , we can if sub-sequence exist in BST or not. Time complexity for this approach will be O(n) but it requires extra space O(n) for storing traversal in an array.
+An efficient solution is to match elements of sub-sequence while we are traversing BST in inorder fashion. We take index as a iterator for given sorted sub-sequence and start inorder traversal of given bst, if current node matches with seq[index] then move index in forward direction by incrementing 1 and after complete traversal of BST if index==n that means all elements of given sub-sequence have been matched and exist as a sorted sub-sequence in given BST. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to find if given array
+# exists as a subsequence in BST
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+         
+# A utility function to insert a
+# given key to BST
+def insert(root, key):
+    if root == None:
+        return Node(key)
+    if root.data > key:
+        root.left = insert(root.left, key)
+    else:
+        root.right = insert(root.right, key)
+    return root
+ 
+# function to check if given sorted
+# sub-sequence exist in BST index .
+# iterator for given sorted sub-sequence
+# seq[] . given sorted sub-sequence
+def seqExistUtil(ptr, seq, index):
+    if ptr == None:
+        return
+ 
+    # We traverse left subtree
+    # first in Inorder
+    seqExistUtil(ptr.left, seq, index)
+ 
+    # If current node matches with se[index[0]]
+    # then move forward in sub-sequence
+    if ptr.data == seq[index[0]]:
+        index[0] += 1
+ 
+    # We traverse left subtree in
+    # the end in Inorder
+    seqExistUtil(ptr.right, seq, index)
+ 
+# A wrapper over seqExistUtil. It returns
+# true if seq[0..n-1] exists in tree.
+def seqExist(root, seq, n):
+     
+    # Initialize index in seq[]
+    index = [0]
+ 
+    # Do an inorder traversal and find if
+    # all elements of seq[] were present
+    seqExistUtil(root, seq, index)
+ 
+    # index would become n if all elements
+    # of seq[] were present
+    if index[0] == n:
+        return True
+    else:
+        return False
+ 
+# Driver Code
+if __name__ == '__main__':
+    root = None
+    root = insert(root, 8)
+    root = insert(root, 10)
+    root = insert(root, 3)
+    root = insert(root, 6)
+    root = insert(root, 1)
+    root = insert(root, 4)
+    root = insert(root, 7)
+    root = insert(root, 14)
+    root = insert(root, 13)
+ 
+    seq = [4, 6, 8, 14]
+    n = len(seq)
+    if seqExist(root, seq, n):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output:  
+
+Yes
+Time complexity: O(n)
+
+
+
+Auxiliary Space: O(n) for call stack since using recursion, where n is total no of nodes in BST
+
+This article is contributed by Shashank Mishra ( Gullu ). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+18
+Previous
+Second largest element in BST
+Next
+Simple Recursive solution to check whether BST contains dead end
+Related Articles
+1.
+Binary Tree to Binary Search Tree Conversion
+2.
+Binary Tree to Binary Search Tree Conversion using STL set
+3.
+Difference between Binary Tree and Binary Search Tree
+4.
+Binary Search Tree | Set 1 (Search and Insertion)
+5.
+Check if a non-contiguous subsequence same as the given subarray exists or not
+6.
+Check whether a subsequence exists with sum equal to k if arr[i]> 2*arr[i-1]
+7.
+Check if a subsequence of length K with odd sum exists
+8.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+9.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+10.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+break_it
+PranchalKatiyar
+andrew1234
+princiraj1992
+rutvik_56
+surinderdawra388
+kumargaurav97520
+Article Tags :
+subsequence
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

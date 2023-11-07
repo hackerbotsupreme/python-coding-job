@@ -1,0 +1,187 @@
+Maximum element between two nodes of BST
+
+Difficulty Level : Medium
+Last Updated : 30 Nov, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of N elements and two integers A, B which belong to the given array. Create a Binary Search Tree by inserting elements from arr[0] to arr[n-1]. The task is to find the maximum element in the path from A to B.
+
+Examples : 
+
+Input : arr[] = { 18, 36, 9, 6, 12, 10, 1, 8 }, 
+        a = 1, 
+        b = 10.
+        
+Output : 12
+ 
+
+
+Path from 1 to 10 contains { 1, 6, 9, 12, 10 }. The maximum element is 12.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to find Lowest Common Ancestor of node ‘a’ and node ‘b’. Then search maximum node between LCA and ‘a’, and also find the maximum node between LCA and ‘b’. The answer will be maximum node of two.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python 3 program to find maximum element
+# in the path between two Nodes of Binary
+# Search Tree.
+ 
+# Create and return a pointer of new Node.
+class createNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Insert a new Node in Binary Search Tree.
+def insertNode(root, x):
+    p, q = root, None
+ 
+    while p != None:
+        q = p
+        if p.data < x:
+            p = p.right
+        else:
+            p = p.left
+ 
+    if q == None:
+        p = createNode(x)
+    else:
+        if q.data < x:
+            q.right = createNode(x)
+        else:
+            q.left = createNode(x)
+ 
+# Return the maximum element between a
+# Node and its given ancestor.
+def maxelpath(q, x):
+    p = q
+ 
+    mx = -999999999999
+ 
+    # Traversing the path between ancestor
+    # and Node and finding maximum element.
+    while p.data != x:
+        if p.data > x:
+            mx = max(mx, p.data)
+            p = p.left
+        else:
+            mx = max(mx, p.data)
+            p = p.right
+ 
+    return max(mx, x)
+ 
+# Return maximum element in the path
+# between two given Node of BST.
+def maximumElement(root, x, y):
+    p = root
+ 
+    # Finding the LCA of Node x and Node y
+    while ((x < p.data and y < p.data) or
+           (x > p.data and y > p.data)):
+                
+        # Checking if both the Node lie on
+        # the left side of the parent p.
+        if x < p.data and y < p.data:
+            p = p.left
+ 
+        # Checking if both the Node lie on
+        # the right side of the parent p.
+        elif x > p.data and y > p.data:
+            p = p.right
+ 
+    # Return the maximum of maximum elements
+    # occur in path from ancestor to both Node.
+    return max(maxelpath(p, x), maxelpath(p, y))
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [ 18, 36, 9, 6, 12, 10, 1, 8]
+    a, b = 1, 10
+    n = len(arr)
+ 
+    # Creating the root of Binary Search Tree
+    root = createNode(arr[0])
+ 
+    # Inserting Nodes in Binary Search Tree
+    for i in range(1,n):
+        insertNode(root, arr[i])
+ 
+    print(maximumElement(root, a, b))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+
+
+12
+Time complexity: O(h), where h is the height of BST
+Auxiliary Space: O(1)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+18
+Previous
+Find a pair with given sum in BST
+Next
+Find pairs with given sum such that pair elements lie in different BSTs
+Related Articles
+1.
+Two nodes of a BST are swapped, correct the BST
+2.
+K'th Largest Element in BST when modification to BST is not allowed
+3.
+Find k-th smallest element in BST (Order Statistics in BST)
+4.
+Shortest distance between two nodes in BST
+5.
+Convert a normal BST to Balanced BST
+6.
+Implementing a BST where every node stores the maximum number of nodes in the path till any leaf
+7.
+Correct BST whose two nodes are swapped (using Morris Traversal)
+8.
+Count BST nodes that lie in a given range
+9.
+Sum of cousin nodes of a given node in a BST
+10.
+Median of all nodes from a given range in a Binary Search Tree ( BST )
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeetkumarSingh
+andrew1234
+shrikanth13
+PranchalKatiyar
+GauravRajput1
+simmytarika5
+hardikkoriintern
+abhijeet19403
+Article Tags :
+LCA
+Binary Search Tree
+Practice Tags :
+Binary Search Tree

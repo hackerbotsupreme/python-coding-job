@@ -1,0 +1,213 @@
+Minimum Possible value of |ai + aj – k| for given array and k.
+
+Difficulty Level : Medium
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+You are given an array of n integer and an integer K. Find the number of total unordered pairs {i, j} such that absolute value of (ai + aj – K), i.e., |ai + aj – k| is minimal possible, where i != j.
+Examples:  
+
+Input: arr[] = {0, 4, 6, 2, 4},  K = 7
+Output: Minimal Value = 1, Total  Pairs = 5 
+Explanation: Pairs resulting minimal value are : {a1, a3}, {a2, a4}, {a2, a5}, {a3, a4}, {a4, a5} 
+Input: arr[] = {4, 6, 2, 4}  , K = 9
+Output: Minimal Value = 1, Total Pairs = 4 
+Explanation: Pairs resulting minimal value are : {a1, a2}, {a1, a4}, {a2, a3}, {a2, a4} 
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is iterate over all possible pairs and for each pair we will check whether the value of (ai + aj – K) is smaller than our current smallest value of not. So as per result of above condition we have total of three cases : 
+ 
+
+abs( ai + aj – K) > smallest : do nothing as this pair will not count in minimal possible value.
+abs(ai + aj – K) = smallest : increment the count of pair resulting minimal possible value.
+abs( ai + aj – K) < smallest : update the smallest value and set count to 1.
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python3 program to find number of pairs
+# and minimal possible value
+ 
+# function for finding pairs and min value
+ 
+ 
+def pairs(arr, n, k):
+ 
+    # initialize smallest and count
+    smallest = 999999999999
+    count = 0
+ 
+    # iterate over all pairs
+    for i in range(n):
+        for j in range(i + 1, n):
+ 
+            # is abs value is smaller than smallest
+            # update smallest and reset count to 1
+            if abs(arr[i] + arr[j] - k) < smallest:
+                smallest = abs(arr[i] + arr[j] - k)
+                count = 1
+ 
+            # if abs value is equal to smallest
+            # increment count value
+            elif abs(arr[i] + arr[j] - k) == smallest:
+                count += 1
+ 
+    # print result
+    print("Minimal Value = ", smallest)
+    print("Total Pairs = ", count)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [3, 5, 7, 5, 1, 9, 9]
+    k = 12
+    n = len(arr)
+    pairs(arr, n, k)
+ 
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+Minimal Value = 0
+Total Pairs = 4
+Time Complexity: O(n2) where n is the number of elements in the array.
+Auxiliary Space : O(1)
+
+
+
+An efficient solution is to use a self balancing binary search tree (which is implemented in set in C++ and TreeSet in Java). We can find closest element in O(log n) time in map.
+ 
+
+C++
+Python3
+# Python program to find number of pairs
+# and minimal possible value
+ 
+from sys import maxsize
+from bisect import bisect_left, bisect_right
+ 
+# function for finding pairs and min value
+def pairs(arr, n, k):
+    # initialize smallest and count
+    smallest = maxsize
+    count = 0
+    s = set()
+ 
+    # iterate over all pairs
+    s.add(arr[0])
+    for i in range(1, n):
+        # Find the closest elements to k - arr[i]
+        sorted_s = sorted(s)
+        index = bisect_left(sorted_s, k - arr[i])
+        if index == len(sorted_s):
+            lower = sorted_s[index - 1]
+        else:
+            lower = sorted_s[index]
+        index = bisect_right(sorted_s, k - arr[i])
+        if index == len(sorted_s):
+            upper = sorted_s[index - 1]
+        else:
+            upper = sorted_s[index]
+ 
+        # Find absolute value of the pairs formed
+        # with closest greater and smaller elements.
+        curr_min = min(abs(lower + arr[i] - k), abs(upper + arr[i] - k))
+ 
+        # is abs value is smaller than smallest
+        # update smallest and reset count to 1
+        if curr_min < smallest:
+            smallest = curr_min
+            count = 1
+        # if abs value is equal to smallest
+        # increment count value
+        elif curr_min == smallest:
+            count += 1
+        s.add(arr[i])
+ 
+    # print result
+    print("Minimal Value = ", smallest)
+    print("Total Pairs = ", count)
+ 
+# driver program
+arr = [3, 5, 7, 5, 1, 9, 9]
+k = 12
+n = len(arr)
+pairs(arr, n, k)
+ 
+# This code is contributed by vikramshirsath177.
+Output
+Minimal Value = 0
+Total Pairs = 4
+Time Complexity : O(n Log n)
+Auxiliary Space: O(n)
+
+This article is contributed by Shivam Pradhan (anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+3
+Previous
+Minimum and Maximum sum of absolute differences of pairs
+Next
+Average numbers in array
+Related Articles
+1.
+Minimum possible value T such that at most D Partitions of the Array having at most sum T is possible
+2.
+Modify array by replacing every array element with minimum possible value of arr[j] + |j - i|
+3.
+Minimize value of a given function for any possible value of X
+4.
+Minimum LCM and GCD possible among all possible sub-arrays
+5.
+Minimum possible value of D which when added to or subtracted from K repeatedly obtains every array element
+6.
+Minimize value of x that minimizes value of |a1−x|^c+|a2−x|^c+···+|an−x|^c for value of c as 1 and 2
+7.
+Minimize operations to make minimum value of one array greater than maximum value of the other
+8.
+Flip minimum signs of array elements to get minimum sum of positive elements possible
+9.
+Minimum score possible for a player by selecting one or two consecutive array elements from given binary array
+10.
+Minimum absolute value of (K – arr[i]) for all possible values of K over the range [0, N – 1]
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+vt_m
+PranchalKatiyar
+itsok
+Rajput-Ji
+sweetyty
+simmytarika5
+shruti456rawal
+manjulgfg
+vikramshirsath177
+Article Tags :
+cpp-set
+Self-Balancing-BST
+Arrays
+Binary Search Tree
+Practice Tags :
+Arrays
+Binary Search Tree

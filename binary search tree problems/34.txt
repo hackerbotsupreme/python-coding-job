@@ -1,0 +1,217 @@
+Largest BST in a Binary Tree | Set 2
+
+Difficulty Level : Hard
+Last Updated : 22 Sep, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given a Binary Tree, write a function that returns the size of the largest subtree which is also a Binary Search Tree (BST). If the complete Binary Tree is BST, then return the size of the whole tree.
+Examples: 
+ 
+
+Input: 
+      5
+    /  \
+   2    4
+ /  \
+1    3
+
+Output: 3 
+The following subtree is the 
+maximum size BST subtree 
+   2  
+ /  \
+1    3
+
+
+Input: 
+       50
+     /    \
+  30       60
+ /  \     /  \ 
+5   20   45    70
+              /  \
+            65    80
+Output: 5
+The following subtree is the
+maximum size BST subtree 
+      60
+     /  \ 
+   45    70
+        /  \
+      65    80
+ 
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed two methods in below post. 
+Find the largest BST subtree in a given Binary Tree | Set 1
+In this post, a different O(n) solution is discussed. This solution is simpler than the solutions discussed above and works in O(n) time.
+The idea is based on method 3 of check if a binary tree is BST article. 
+A Tree is BST if following is true for every node x. 
+ 
+
+The largest value in left subtree (of x) is smaller than value of x.
+The smallest value in right subtree (of x) is greater than value of x.
+We traverse tree in bottom up manner. For every traversed node, we return maximum and minimum values in subtree rooted with it. If any node follows above properties and size of 
+ 
+
+C++
+Java
+Python3
+# Python program to find largest
+# BST in a Binary Tree.
+ 
+INT_MIN = -2147483648
+INT_MAX = 2147483647
+ 
+# Helper function that allocates a new
+# node with the given data and None left
+# and right pointers.
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Returns Information about subtree. The
+# Information also includes size of largest
+# subtree which is a BST
+def largestBSTBT(root):
+     
+# Base cases : When tree is empty or it has
+    # one child.
+    if (root == None):
+        return 0, INT_MIN, INT_MAX, 0, True
+    if (root.left == None and root.right == None) :
+        return 1, root.data, root.data, 1, True
+ 
+    # Recur for left subtree and right subtrees
+    l = largestBSTBT(root.left)
+    r = largestBSTBT(root.right)
+ 
+    # Create a return variable and initialize its
+    # size.
+    ret = [0, 0, 0, 0, 0]
+    ret[0] = (1 + l[0] + r[0])
+ 
+    # If whole tree rooted under current root is
+    # BST.
+    if (l[4] and r[4] and l[1] <
+        root.data and r[2] > root.data) :
+     
+        ret[2] = min(l[2], root.data)
+        ret[1] = max(r[1], root.data)
+ 
+        # Update answer for tree rooted under
+        # current 'root'
+        ret[3] = max(l[3], r[3]) + 1;
+        ret[4] = True
+ 
+        return ret
+     
+ 
+    # If whole tree is not BST, return maximum
+    # of left and right subtrees
+    ret[3] = max(l[3], r[3])
+    ret[4] = False
+ 
+    return ret
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    """Let us construct the following Tree
+        60
+        / \
+        65 70
+    /
+    50 """
+    root = newNode(60)
+    root.left = newNode(65)
+    root.right = newNode(70)
+    root.left.left = newNode(50)
+    print("Size of the largest BST is",
+                    largestBSTBT(root)[3])
+                             
+# This code is contributed
+# Shubham Singh(SHUBHAMSINGH10)
+# Naman Sharma (NAMANSHARMA1805)
+C#
+Javascript
+Output
+ Size of the largest BST is 2
+Time Complexity : O(n)
+
+Space complexity: O(n) For call stack since using recursion
+
+This article is contributed Utkarsh Saxena. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Next
+Find the largest BST subtree in a given Binary Tree | Set 3
+Related Articles
+1.
+K'th Largest Element in BST when modification to BST is not allowed
+2.
+Find the largest BST subtree in a given Binary Tree | Set 3
+3.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+4.
+Convert a normal BST to Balanced BST
+5.
+Two nodes of a BST are swapped, correct the BST
+6.
+Find k-th smallest element in BST (Order Statistics in BST)
+7.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+8.
+Convert a BST to a Binary Tree such that sum of all greater keys is added to every key
+9.
+Build Binary Tree from BST such that it's level order traversal prints sorted data
+10.
+Floor in Binary Search Tree (BST)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+Akanksha_Rai
+code_ayush
+sagarmaybiswas
+andreisljusar
+Rajput-Ji
+namansharma1805
+noviced3vq6
+imutkarsh09
+arghyadas42
+Sapna2001
+tahaansari
+rishabhmittal
+Article Tags :
+Amazon
+Binary Search Tree
+Tree
+Practice Tags :
+Amazon
+Binary Search Tree
+Tree
+Report Issue

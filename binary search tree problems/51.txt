@@ -1,0 +1,163 @@
+Maximum Unique Element in every subarray of size K
+
+Difficulty Level : Medium
+Last Updated : 01 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array and an integer K. We need to find the maximum of every segment of length K which has no duplicates in that segment.
+
+Examples:
+
+Input : a[] = {1, 2, 2, 3, 3}, 
+          K = 3.
+Output : 1 3 2
+For segment (1, 2, 2), Maximum = 1.
+For segment (2, 2, 3), Maximum = 3.
+For segment (2, 3, 3), Maximum = 2. 
+
+Input : a[] = {3, 3, 3, 4, 4, 2},
+          K = 4.
+Output : 4 Nothing 3 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to run two loops. For every subarray, find all distinct elements and print maximum unique elements.
+
+An efficient solution is to use the sliding window technique. We have two structures in every window.
+
+A hash table to store counts of all elements in the current window. 
+A self-balancing BST (implemented using set in C++ STL and TreeSet in Java). The idea is to quickly find the maximum element and update the maximum elements.
+We process the first K-1 elements and store their counts in the hash table. We also store unique elements in set. Now we, one by one, process the last element of every window. If the current element is unique, we add it to the set. We also increase its count. After processing the last element, we print the maximum from the set. Before starting the next iteration, we remove the first element of the previous window.  
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 code to calculate maximum unique
+# element of every segment of array
+def find_max(A, N, K):
+     
+    # Storing counts of first K-1 elements
+    # Also storing distinct elements.
+    Count = dict()
+    for i in range(K - 1):
+        Count[A[i]] = Count.get(A[i], 0) + 1
+ 
+    Myset = dict()
+    for x in Count:
+        if (Count[x] == 1):
+            Myset[x] = 1
+ 
+    # Before every iteration of this loop,
+    # we maintain that K-1 elements of current
+    # window are processed.
+    for i in range(K - 1, N):
+ 
+        # Process K-th element of current window
+        Count[A[i]] = Count.get(A[i], 0) + 1
+ 
+        if (Count[A[i]] == 1):
+            Myset[A[i]] = 1
+        else:
+            del Myset[A[i]]
+ 
+        # If there are no distinct
+        # elements in current window
+        if (len(Myset) == 0):
+            print("Nothing")
+ 
+        # Set is ordered and last element
+        # of set gives us maximum element.
+        else:
+            maxm = -10**9
+            for i in Myset:
+                maxm = max(i, maxm)
+            print(maxm)
+ 
+        # Remove first element of current
+        # window before next iteration.
+        x = A[i - K + 1]
+        if x in Count.keys():
+            Count[x] -= 1
+            if (Count[x] == 1):
+                Myset[x] = 1
+            if (Count[x] == 0):
+                del Myset[x]
+ 
+# Driver code
+a = [1, 2, 2, 3, 3 ]
+n = len(a)
+k = 3
+find_max(a, n, k)
+ 
+# This code is contributed
+# by mohit kumar
+C#
+Javascript
+Output
+1
+3
+2
+Time Complexity: O(N Log K)
+Auxiliary Space: O(N)
+
+
+
+Like
+Previous
+Largest number in BST which is less than or equal to N
+Next
+Iterative searching in Binary Search Tree
+Related Articles
+1.
+Partition array into two subarrays with every element in the right subarray strictly greater than every element in left subarray
+2.
+First subarray having sum at least half the maximum sum of any subarray of size K
+3.
+Maximum subarray size, such that all subarrays of that size have sum less than k
+4.
+Minimize replacements to make every element in an array exceed every element in another given array
+5.
+Split array into maximum subarrays such that every distinct element lies in a single subarray
+6.
+Generate a N size Array where MEX of every K sized Subarray is X
+7.
+Minimum cost to convert all elements of a K-size subarray to 0 from given Ternary Array with subarray sum as cost
+8.
+Longest unique subarray of an Array with maximum sum in another Array
+9.
+Maximum number of Unique integers in Sub-Array of given size
+10.
+Construct array B as last element left of every suffix array obtained by performing given operations on every suffix of given array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Harsha_Mogali
+@Harsha_Mogali
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+rachana soma
+rag2127
+unknown2108
+hardikkoriintern
+abhijeet19403
+Article Tags :
+cpp-set
+cpp-unordered_map
+sliding-window
+Arrays
+Binary Search Tree
+Hash
+Practice Tags :
+Arrays
+Binary Search Tree
+Hash
+sliding-window
