@@ -1,0 +1,196 @@
+Minimum time required to infect all the nodes of Binary tree
+
+Difficulty Level : Basic
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary tree and a node start that is initially infected. For every second, neighbours of an infected node get infected. The task is to find the minimum time in which the whole tree will be infected.
+
+Examples:
+
+Input:
+         10
+      /     \
+ 12      13
+        /       \
+    14        15
+   /  \        /   \
+21 22  23  24
+Start = 14
+Output: 3
+
+Input: 
+       3
+    /    \
+  4      1
+            \
+             2
+Start = 1
+Output: 2
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+An approach using BFS (Breadth-first search):
+The idea to solve this problem is by doing the BFS (breadth-first search) algorithm on the tree,  
+
+Starts from the given special node “start”. During the BFS make all adjacent node infected. Keep counting the time in result, where we have visited all the node. 
+
+One problem while infecting the adjacent node is that we can easily know the node’s children (left child or right child) which is adjacent but we can’t know that node’s parent directly. So, to overcome this problem we have to generate a parent-node relationship into some data structure, there we can keep track to node’s parent.
+
+
+
+Follow the steps below to implement the above idea:
+
+Store parent-child relations for each node in the parent array. (i.e, keeping track of the parent of any node)
+Find the actual node “node” of a given special node start in the tree.
+Create a queue for performing the BFS and an array visited to keep track of which node has already been infected.
+Do BFS (Breadth-first search) by initially storing the “node” in the queue and making this “node” visited.
+Do the following while queue size is greater than zero.
+Iterate over the size of the queue and do the following:
+Check if the current node’s parent exists in the tree and is not infected yet.
+Push into the queue and make it visited to show it’s infected now.
+Check if the current node’s left child exists in the tree and is not infected yet.
+Push into the queue and make it visited to show it’s infected now.
+Check if the current node’s right exists in the tree and is not infected yet.
+Push into the queue and make it visited to show it’s infected now.
+Increment the result by 1. (i.e, the infection has already spread by the above steps for this time.)
+Return the result.
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python program for the above approach
+# A Tree node
+class Node:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+ 
+# Utility function to create a new node
+def newNode(val):
+    return Node(val)
+ 
+ 
+# "node" will store the actual Tree node
+# of special node "start".
+node = None
+ 
+# Function for generating
+# parent-root relationship
+ 
+ 
+def findParent(root, p, parent, start):
+    if not root:
+        return
+    # Store parent of current node
+    parent[root.val] = p
+    if root.val == start:
+        global node
+        node = root
+    findParent(root.left, root, parent, start)
+    findParent(root.right, root, parent, start)
+ 
+# Function to return the minimum amount
+# of time require to infect all the
+# nodes of binary tree
+ 
+ 
+def amountOfTime(root, start):
+    parent = [None] * 100005
+    findParent(root, None, parent, start)
+ 
+    visited = [False] * 100005
+ 
+    q = []
+ 
+    # Push special tree node into the
+    # queue and make it visited.
+    q.append(node)
+    visited[start] = True
+ 
+    # This store the minimum time require
+    # to infect all the tree node.
+    result = -1
+ 
+    while len(q) > 0:
+        n = len(q)
+        for i in range(n):
+            curr = q.pop(0)
+            currNode = curr.val
+ 
+            # Check if parent of currNode
+            # exist and not visited yet
+            # then push this parent of
+            # current node into queue.
+            if parent[currNode] and not visited[parent[currNode].val]:
+                visited[parent[currNode].val] = True
+                q.append(parent[currNode])
+ 
+            # Check if current node left
+            # child exist and not
+            # visited yet.
+            if curr.left and not visited[curr.left.val]:
+                visited[curr.left.val] = True
+                q.append(curr.left)
+ 
+            # Check if current node right
+            # child exist and not
+            # visited yet.
+            if curr.right and not visited[curr.right.val]:
+                visited[curr.right.val] = True
+                q.append(curr.right)
+ 
+        # Increment the time
+        result += 1
+ 
+    # Return the result.
+    return result
+ 
+ 
+# Driver Code
+ 
+    """
+      10
+     /  \
+    12  13
+        / \
+       14 15
+      / \ / \
+    21 22 23 24
+ 
+    Let us create Binary Tree as shown
+    above
+    """
+ 
+ 
+root = newNode(10)
+root.left = newNode(12)
+root.right = newNode(13)
+ 
+root.right.left = newNode(14)
+root.right.right = newNode(15)
+ 
+root.right.left.left = newNode(21)
+root.right.left.right = newNode(22)
+root.right.right.left = newNode(23)
+root.right.right.right = newNode(24)
+ 
+start = 14
+ 
+# Function call
+result = amountOfTime(root, start)
+print(result)
+ 
+# This code is contributed by Potta Lokesh
+C#
+Javascript
+Output
+3
+Time Complexity: O(N), where N is the number of nodes in the binary tree.
+Auxiliary Space: O(N)

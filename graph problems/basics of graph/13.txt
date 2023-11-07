@@ -1,0 +1,231 @@
+Minimum jumps to same value or adjacent to reach end of Array
+
+Difficulty Level : Medium
+Last Updated : 02 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array arr[] of size N, the task is to find the minimum number of jumps to reach the last index of the array starting from index 0. In one jump you can move from current index i to index j, if arr[i] = arr[j] and i != j or you can jump to (i + 1) or (i – 1).
+
+Note: You can not jump outside of the array at any time.
+
+Examples:
+
+Input: arr = {100, -23, -23, 404, 100, 23, 23, 23, 3, 404}
+Output: 3
+Explanation: Valid jump indices are 0 -> 4 -> 3 -> 9.
+
+Input: arr = {7, 6, 9, 6, 9, 6, 9, 7}
+Output: 1
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+An approach using BFS:
+Here consider the elements which are at (i + 1), (i – 1), and all elements similar to arr[i] and insert them into a queue to perform BFS. Repeat the BFS in this manner and keep the track of level. When the end of array is reached return the level value.
+
+Follow the steps below to implement the above idea:
+
+
+
+Initialize a map for mapping elements with the indices of their occurrence.
+Initialize a queue and an array visited[] to keep track of the elements that are visited.
+Push starting element into the queue and mark it as visited
+Initialize a variable count for counting the minimum number of valid jumps to reach the last index
+Do the following while the queue size is greater than 0:
+Iterate on all the elements of the queue
+Fetch the front element and pop out from the queue
+Check if we reach the last index or not
+If true, then return the count
+Check if curr + 1 is a valid position to visit or not
+If true, push curr + 1 into the queue and mark it as visited
+Check if curr – 1 is a valid position to visit or not
+If true, push curr – 1 into the queue and mark it as visited
+Now, Iterate over all the elements that are similar to curr
+Check if the child is in a valid position to visit or not
+If true, push the child into the queue and mark it as visited
+Erase all the occurrences of curr from the map because we already considered these elements for a valid jump in the above step
+Increment the count of jump
+Finally, return the count.
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python code to implement the above approach
+
+# Function to find the
+# minimum number of jumps required
+def minimizeJumps(arr):
+    n = len(arr)
+    
+    # Initialize a map for mapping element
+    # with indices of all similar value
+    # occurrences in array
+    unmap = {}
+    
+    # Mapping element with indices
+    for i in range(n):
+        if arr[i] in unmap:
+            unmap.get(arr[i]).append(i)
+        else:
+            unmap.update({arr[i]:[i]})
+    
+    q = []
+    visited = [False]*n
+    
+    # Push starting element into queue
+    # and mark it visited
+    q.append(0)
+    visited[0] = True
+    
+    # Initialize a variable count for
+    # counting the minimum number number
+    # of valid jump to reach at last index
+    count = 0
+    
+    # Do while queue size is
+    # greater than 0
+    while(len(q) > 0):
+        size = len(q)
+        
+        # Iterate on all the
+        # elements of queue
+        for i in range(size):
+            # Fetch the front element and
+            # pop out from queue
+            curr = q[0]
+            q.pop(0)
+            
+            # Check if we reach at the
+            # last index or not if true,
+            # then return the count
+            if(curr == n - 1):
+                return count//2
+            
+            # Check if curr + 1 is valid
+            # position to visit or not
+            if(curr + 1 < n and visited[curr + 1] == False):
+                # If true, push curr + 1
+                # into queue and mark
+                # it as visited
+                q.append(curr + 1)
+                visited[curr + 1] = True
+            
+            # Check if curr - 1 is valid
+            # position to visit or not
+            if(curr - 1 >= 0 and visited[curr - 1] == False):
+                # If true, push curr - 1
+                # into queue and mark
+                # it as visited
+                q.append(curr - 1)
+                visited[curr - 1] = True
+            
+            # Now, Iterate over all the
+            # element that are similar
+            # to curr
+            if arr[i] in unmap:
+                for j in range(len(unmap[arr[curr]])):
+                    child=unmap.get(arr[curr])[j]
+                    if(curr==child):
+                        continue
+                    
+                    # Check if child is valid
+                    # position to visit or not
+                    if(visited[child] == False):
+                        # If true, push child
+                        # into queue and mark
+                        # it as visited
+                        q.append(child)
+                        visited[child] = True
+            
+            # Erase all the occurrences
+            # of curr from map. Because
+            # we already considered these
+            # element for valid jump
+            # in above step
+            if arr[curr] in unmap:
+                unmap.pop(arr[curr])
+            
+        
+        # Increment the count of jump
+        count = count + 1
+    
+    # Finally, return the count.
+    return count//2
+
+# Driver code
+arr=[100, -23, -23, 404, 100, 23, 23, 23, 3, 404]
+
+# Function Call
+print(minimizeJumps(arr))
+
+# This code is contributed by Pushpesh Raj.
+C#
+Javascript
+Output
+3
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+2
+Previous
+Maximize sum by multiplying adjacent difference of Binary String with any digit
+Next
+Minimum cost to make Array equal by increment/decrementing elements
+Related Articles
+1.
+Maximum jumps to reach end of Array with condition that index i can make arr[i] jumps
+2.
+Count minimum factor jumps required to reach the end of an Array
+3.
+Minimum cost to reach the end of the array with maximum jumps of length K
+4.
+Paths requiring minimum number of jumps to reach end of array
+5.
+Minimum number of Fibonacci jumps to reach end
+6.
+Minimum number of jumps to reach end | Set 2 (O(n) solution)
+7.
+Minimize cost to reach end of an array by two forward jumps or one backward jump in each move
+8.
+Count of jumps to reach the end of Array by jumping from arr[i] to arr[arr[i]]
+9.
+Minimise jumps to reach end of Array by jumping in range [x, x+k]
+10.
+Count ways to reach end from start stone with at most K jumps at each step
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+hkdass001
+@hkdass001
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lokeshpotta20
+user_7gr9iodclfx
+pushpeshrajdx01
+rkbhola5
+amankr0211
+akshaysingh98088
+Article Tags :
+BFS
+cpp-map
+Technical Scripter 2022
+Arrays
+Technical Scripter
+Practice Tags :
+Arrays
+BFS

@@ -1,0 +1,245 @@
+Minimum Product Spanning Tree
+
+Difficulty Level : Medium
+Last Updated : 08 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a connected and undirected graph, a spanning tree of that graph is a subgraph that is a tree and connects all the vertices together. A single graph can have many different spanning trees. A minimum product spanning tree for a weighted, connected, and undirected graph is a spanning tree with a weight product less than or equal to the weight product of every other spanning tree. The weight product of a spanning tree is the product of weights corresponding to each edge of the spanning tree. All weights of the given graph will be positive for simplicity.
+
+Examples:
+
+
+
+Minimum Product that we can obtain is 
+180 for above graph by choosing edges 
+0-1, 1-2, 0-3 and 1-4
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+This problem can be solved using standard minimum spanning tree algorithms like Kruskal (https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/)and prim’s algorithm, but we need to modify our graph to use these algorithms. Minimum spanning tree algorithms tries to minimize the total sum of weights, here we need to minimize the total product of weights. We can use the property of logarithms to overcome this problem. 
+As we know, 
+
+  log(w1* w2 * w3 * …. * wN) = 
+     log(w1) + log(w2) + log(w3) ….. + log(wN)
+We can replace each weight of the graph by its log value, then we apply any minimum spanning tree algorithm which will try to minimize the sum of log(wi) which in turn minimizes the weight product. 
+For example graph, the steps are shown below diagram, 
+ 
+
+
+
+In the below code first, we have constructed the log graph from the given input graph, then that graph is given as input to prim’s MST algorithm, which will minimize the total sum of weights of the tree. Since weights of the modified graph are logarithms of the actual input graph, we actually minimize the product of weights of the spanning tree.  
+
+C++
+Java
+Python3
+# A Python3 program for getting minimum
+# product spanning tree The program is
+# for adjacency matrix representation
+# of the graph
+import math
+ 
+# Number of vertices in the graph
+V = 5
+ 
+# A utility function to find the vertex
+# with minimum key value, from the set
+# of vertices not yet included in MST
+def minKey(key, mstSet):
+ 
+    # Initialize min value
+    min = 10000000
+    min_index = 0
+     
+    for v in range(V):
+     
+        if (mstSet[v] == False and
+               key[v] < min):
+            min = key[v]
+            min_index = v
+ 
+    return min_index
+ 
+# A utility function to print the constructed
+# MST stored in parent[] and print Minimum
+# Obtainable product
+def printMST(parent, n, graph):
+     
+    print("Edge Weight")
+    minProduct = 1
+     
+    for i in range(1, V):
+        print("{} - {}   {} ".format(parent[i], i,
+                            graph[i][parent[i]]))
+        minProduct *= graph[i][parent[i]]
+     
+    print("Minimum Obtainable product is {}".format(
+          minProduct))
+ 
+# Function to construct and print MST for
+# a graph represented using adjacency
+# matrix representation inputGraph is
+# sent for printing actual edges and
+# logGraph is sent for actual MST
+# operations
+def primMST(inputGraph, logGraph):
+     
+    # Array to store constructed MST
+    parent = [0 for i in range(V)]
+     
+    # Key values used to pick minimum
+    key = [10000000 for i in range(V)]
+     
+    # weight edge in cut
+    # To represent set of vertices not
+    mstSet = [False for i in range(V)]
+     
+    # Yet included in MST
+    # Always include first 1st vertex in MST
+     
+    # Make key 0 so that this vertex is
+    key[0] = 0
+     
+    # Picked as first vertex
+     
+    # First node is always root of MST
+    parent[0] = -1
+ 
+    # The MST will have V vertices
+    for count in range(0, V - 1):
+     
+        # Pick the minimum key vertex from
+        # the set of vertices not yet
+        # included in MST
+        u = minKey(key, mstSet)
+ 
+        # Add the picked vertex to the MST Set
+        mstSet[u] = True
+ 
+        # Update key value and parent index
+        # of the adjacent vertices of the
+        # picked vertex. Consider only those
+        # vertices which are not yet
+        # included in MST
+        for v in range(V):
+ 
+            # logGraph[u][v] is non zero only
+            # for adjacent vertices of m
+            # mstSet[v] is false for vertices
+            # not yet included in MST. Update
+            # the key only if logGraph[u][v] is
+            # smaller than key[v]
+            if (logGraph[u][v] > 0 and
+                mstSet[v] == False and
+                logGraph[u][v] < key[v]):
+                parent[v] = u
+                key[v] = logGraph[u][v]
+     
+    # Print the constructed MST
+    printMST(parent, V, inputGraph)
+ 
+# Method to get minimum product spanning tree
+def minimumProductMST(graph):
+ 
+    logGraph = [[0 for j in range(V)]
+                   for i in range(V)]
+ 
+    # Constructing logGraph from
+    # original graph
+    for i in range(V):
+        for j in range(V):
+            if (graph[i][j] > 0):
+                logGraph[i][j] = math.log(graph[i][j])
+            else:
+                logGraph[i][j] = 0
+         
+    # Applying standard Prim's MST algorithm
+    # on Log graph.
+    primMST(graph, logGraph)
+ 
+# Driver code
+if __name__=='__main__':
+     
+    ''' Let us create the following graph
+        2 3
+    (0)--(1)--(2)
+        | / \ |
+    6| 8/ \5 |7
+        | /     \ |
+    (3)-------(4)
+            9         '''
+    graph = [ [ 0, 2, 0, 6, 0 ],
+              [ 2, 0, 3, 8, 5 ],
+              [ 0, 3, 0, 0, 7 ],
+              [ 6, 8, 0, 0, 9 ],
+              [ 0, 5, 7, 9, 0 ], ]
+ 
+    # Print the solution
+    minimumProductMST(graph)
+ 
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output: 
+
+Edge   Weight
+0 - 1    2 
+1 - 2    3 
+0 - 3    6 
+1 - 4    5 
+Minimum Obtainable product is 180
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Total number of Spanning Trees in a Graph
+Next
+Check if a graph is strongly connected | Set 1 (Kosaraju using DFS)
+Related Articles
+1.
+Boruvka's algorithm for Minimum Spanning Tree
+2.
+Kruskal’s Minimum Spanning Tree Algorithm | Greedy Algo-2
+3.
+Kruskal's Minimum Spanning Tree using STL in C++
+4.
+Reverse Delete Algorithm for Minimum Spanning Tree
+5.
+Minimum spanning tree cost of given Graphs
+6.
+Find the weight of the minimum spanning tree
+7.
+Find the minimum spanning tree with alternating colored edges
+8.
+Minimum Spanning Tree using Priority Queue and Array List
+9.
+Minimum Bottleneck Spanning Tree(MBST)
+10.
+Second Best Minimum Spanning Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+princiraj1992
+rutvik_56
+rag2127
+simmytarika5
+raj2002
+Article Tags :
+MST
+Graph
+Practice Tags :
+Graph
+Report Issue

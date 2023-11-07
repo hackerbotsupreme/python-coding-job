@@ -1,0 +1,279 @@
+Depth First Search or DFS for a Graph
+
+Difficulty Level : Easy
+Last Updated : 26 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Depth First Traversal (or Search) for a graph is similar to Depth First Traversal of a tree. The only catch here is, that, unlike trees, graphs may contain cycles (a node may be visited twice). To avoid processing a node more than once, use a boolean visited array. A graph can have more than one DFS traversal.
+
+Example: 
+
+Input: n = 4, e = 6 
+0 -> 1, 0 -> 2, 1 -> 2, 2 -> 0, 2 -> 3, 3 -> 3 
+Output: DFS from vertex 1 : 1 2 0 3 
+Explanation: 
+DFS Diagram: 
+ 
+
+
+
+Input: n = 4, e = 6 
+2 -> 0, 0 -> 2, 1 -> 2, 0 -> 1, 3 -> 3, 1 -> 3 
+Output: DFS from vertex 2 : 2 0 1 3 
+Explanation: 
+DFS Diagram: 
+ 
+
+
+
+Recommended Problem
+DFS of Graph
+DFS
+Graph
++2 more
+Accolite
+Amazon
++2 more
+Solve Problem
+Submission count: 1.5L
+Prerequisites:  See this post for all applications of Depth First Traversal.
+
+Depth-first search is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking. 
+
+So the basic idea is to start from the root or any arbitrary node and mark the node and move to the adjacent unmarked node and continue this loop until there is no unmarked adjacent node. Then backtrack and check for other unmarked nodes and traverse them. Finally, print the nodes in the path.
+
+Follow the below steps to solve the problem:
+
+Create a recursive function that takes the index of the node and a visited array.
+Mark the current node as visited and print the node.
+Traverse all the adjacent and unmarked nodes and call the recursive function with the index of the adjacent node.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to print DFS traversal
+# from a given  graph
+from collections import defaultdict
+ 
+# This class represents a directed graph using
+# adjacency list representation
+ 
+ 
+class Graph:
+ 
+    # Constructor
+    def __init__(self):
+ 
+        # default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+    # function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+    # A function used by DFS
+    def DFSUtil(self, v, visited):
+ 
+        # Mark the current node as visited
+        # and print it
+        visited.add(v)
+        print(v, end=' ')
+ 
+        # Recur for all the vertices
+        # adjacent to this vertex
+        for neighbour in self.graph[v]:
+            if neighbour not in visited:
+                self.DFSUtil(neighbour, visited)
+ 
+    # The function to do DFS traversal. It uses
+    # recursive DFSUtil()
+    def DFS(self, v):
+ 
+        # Create a set to store visited vertices
+        visited = set()
+ 
+        # Call the recursive helper function
+        # to print DFS traversal
+        self.DFSUtil(v, visited)
+ 
+# Driver's code
+ 
+ 
+# Create a graph given
+# in the above diagram
+if __name__ == "__main__":
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(0, 2)
+    g.addEdge(1, 2)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
+    g.addEdge(3, 3)
+ 
+    print("Following is DFS from (starting from vertex 2)")
+    # Function call
+    g.DFS(2)
+ 
+# This code is contributed by Neelam Yadav
+C#
+Javascript
+Output
+Following is Depth First Traversal (starting from vertex 2) 
+2 0 1 3 
+Time complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+Auxiliary Space: O(V), since an extra visited array of size V is required.
+
+Handling A Disconnected Graph:
+This will happen by handling a corner case. 
+
+The above code traverses only the vertices reachable from a given source vertex. All the vertices may not be reachable from a given vertex, as in a Disconnected graph. To do a complete DFS traversal of such graphs, run DFS from all unvisited nodes after a DFS. The recursive function remains the same.
+
+Follow the below steps to solve the problem:
+
+Create a recursive function that takes the index of the node and a visited array.
+Mark the current node as visited and print the node.
+Traverse all the adjacent and unmarked nodes and call the recursive function with the index of the adjacent node.
+Run a loop from 0 to the number of vertices and check if the node is unvisited in the previous DFS, then call the recursive function with the current node.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+'''Python3 program to print DFS traversal for complete graph'''
+from collections import defaultdict
+ 
+# this class represents a directed graph using adjacency list representation
+ 
+ 
+class Graph:
+    # Constructor
+    def __init__(self):
+        # default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+    # Function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+    # A function used by DFS
+ 
+    def DFSUtil(self, v, visited):
+        # Mark the current node as visited and print it
+        visited.add(v)
+        print(v, end=" ")
+ 
+    # recur for all the vertices adjacent to this vertex
+        for neighbour in self.graph[v]:
+            if neighbour not in visited:
+                self.DFSUtil(neighbour, visited)
+    # The function to do DFS traversal. It uses recursive DFSUtil
+ 
+    def DFS(self):
+        # create a set to store all visited vertices
+        visited = set()
+    # call the recursive helper function to print DFS traversal starting from all
+    # vertices one by one
+        for vertex in self.graph:
+            if vertex not in visited:
+                self.DFSUtil(vertex, visited)
+# Driver's code
+# create a graph given in the above diagram
+ 
+ 
+if __name__ == "__main__":
+    print("Following is Depth First Traversal \n")
+    g = Graph()
+    g.addEdge(0, 1)
+    g.addEdge(0, 2)
+    g.addEdge(1, 2)
+    g.addEdge(2, 0)
+    g.addEdge(2, 3)
+    g.addEdge(3, 3)
+ 
+    # Function call
+    g.DFS()
+ 
+# This code is contributed by Priyank Namdeo
+C#
+Javascript
+Output
+Following is Depth First Traversal 
+0 1 2 3 
+Time complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+Auxiliary Space: O(V), since an extra visited array of size V is required.
+
+Applications of DFS.
+Breadth-First Traversal for a Graph
+Recent Articles on DFS
+Would you please write comments if you find anything incorrect or share more information about the topic discussed above?
+
+
+
+Like
+Previous
+Breadth First Search or BFS for a Graph
+Next
+Applications of Depth First Search
+Related Articles
+1.
+Top 10 Interview Questions on Depth First Search (DFS)
+2.
+Depth First Traversal ( DFS ) on a 2D array
+3.
+Iterative Deepening Search(IDS) or Iterative Deepening Depth First Search(IDDFS)
+4.
+Applications of Depth First Search
+5.
+Iterative Depth First Traversal of Graph
+6.
+Transitive Closure of a Graph using DFS
+7.
+DFS for a n-ary tree (acyclic graph) represented as adjacency list
+8.
+Check if the given permutation is a valid DFS of graph
+9.
+Check if a given graph is Bipartite using DFS
+10.
+Tree, Back, Edge and Cross Edges in DFS of Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+speak2rk09
+techno2mahi
+princiraj1992
+eshankvaish
+andrew1234
+draco_malf0y
+nikhil104
+akashgoac
+itisvishnudev
+koushalsagar66
+rdtank
+avanitrachhadiya2155
+dheerajkumar33
+tanvimoharir
+byromjomaa
+amartyaghoshgfg
+surinderdawra388
+mitalibhola94
+aayushi2402
+janardansthox
+pk03
+Article Tags :
+DFS
+graph-basics
+Graph
+Practice Tags :
+DFS
+Graph

@@ -1,0 +1,86 @@
+Applications of Breadth First Traversal
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+We have earlier discussed Breadth First Traversal Algorithm for Graphs. We have also discussed Applications of Depth First Traversal. In this article, applications of Breadth First Search are discussed. 
+
+Shortest Path and Minimum Spanning Tree for unweighted graph In an unweighted graph, the shortest path is the path with least number of edges. With Breadth First, we always reach a vertex from given source using the minimum number of edges. Also, in case of unweighted graphs, any spanning tree is Minimum Spanning Tree and we can use either Depth or Breadth first traversal for finding a spanning tree. 
+Peer to Peer Networks. In Peer to Peer Networks like BitTorrent, Breadth First Search is used to find all neighbor nodes. 
+Crawlers in Search Engines: Crawlers build index using Breadth First. The idea is to start from source page and follow all links from source and keep doing same. Depth First Traversal can also be used for crawlers, but the advantage with Breadth First Traversal is, depth or levels of the built tree can be limited. 
+Social Networking Websites: In social networks, we can find people within a given distance ‘k’ from a person using Breadth First Search till ‘k’ levels. 
+GPS Navigation systems: Breadth First Search is used to find all neighboring locations. 
+Broadcasting in Network: In networks, a broadcasted packet follows Breadth First Search to reach all nodes. 
+In Garbage Collection: Breadth First Search is used in copying garbage collection using Cheney’s algorithm. Refer this and for details. Breadth First Search is preferred over Depth First Search because of better locality of reference: 
+Cycle detection in undirected graph: In undirected graphs, either Breadth First Search or Depth First Search can be used to detect cycle. We can use BFS to detect cycle in a directed graph also,
+ Ford–Fulkerson algorithm In Ford-Fulkerson algorithm, we can either use Breadth First or Depth First Traversal to find the maximum flow. Breadth First Traversal is preferred as it reduces worst case time complexity to O(VE2). 
+To test if a graph is Bipartite We can either use Breadth First or Depth First Traversal. 
+Path Finding We can either use Breadth First or Depth First Traversal to find if there is a path between two vertices. 
+Finding all nodes within one connected component: We can either use Breadth First or Depth First Traversal to find all nodes reachable from a given node. 
+AI: In AI, BFS is used in traversing a game tree to find the best move.
+Network Security: In the field of network security, BFS is used in traversing a network to find all the devices connected to it.
+Undirected graph: Finding all connected components in an undirected graph.
+Topological sorting: BFS can be used to find a topological ordering of the nodes in a directed acyclic graph (DAG).
+Image processing: BFS can be used to flood fill an image with a particular color or to find connected components of pixels.
+Recommender systems: BFS can be used to find similar items in a large dataset by traversing the items’ connections in a similarity graph.
+Many algorithms like Prim’s Minimum Spanning Tree and Dijkstra’s Single Source Shortest Path use structure similar to Breadth First Search. 
+There can be many more applications as Breadth First Search is one of the core algorithms for Graphs.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+124
+Previous
+Applications of Depth First Search
+Next
+Count the number of nodes at given level in a tree using BFS.
+Related Articles
+1.
+Breadth First Traversal ( BFS ) on a 2D array
+2.
+Implementing Water Supply Problem using Breadth First Search
+3.
+Breadth First Search without using Queue
+4.
+Breadth First Search or BFS for a Graph
+5.
+Applications of Depth First Search
+6.
+Iterative Depth First Traversal of Graph
+7.
+Graph Coloring | Set 1 (Introduction and Applications)
+8.
+Applications of Dijkstra's shortest path algorithm
+9.
+Applications, Advantages and Disadvantages of Weighted Graph
+10.
+What is Data Structure: Types, Classifications and Applications
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hardikkoriintern
+Article Tags :
+BFS
+Graph
+Practice Tags :
+BFS
+Graph
+Improve Article
+Report Issue

@@ -1,0 +1,233 @@
+Graph and its representations
+
+Difficulty Level : Easy
+Last Updated : 18 Jan, 2023
+Read
+Discuss(440)
+Courses
+Practice
+Video
+A graph is a data structure that consists of the following two components: 
+1. A finite set of vertices also called as nodes. 
+2. A finite set of ordered pair of the form (u, v) called as edge. The pair is ordered because (u, v) is not the same as (v, u) in case of a directed graph(di-graph). The pair of the form (u, v) indicates that there is an edge from vertex u to vertex v. The edges may contain weight/value/cost.
+Graphs are used to represent many real-life applications: Graphs are used to represent networks. The networks may include paths in a city or telephone network or circuit network. Graphs are also used in social networks like linkedIn, Facebook. For example, in Facebook, each person is represented with a vertex(or node). Each node is a structure and contains information like person id, name, gender, and locale. See this for more applications of graph. 
+Following is an example of an undirected graph with 5 vertices. 
+ 
+
+
+
+The following two are the most commonly used representations of a graph. 
+1. Adjacency Matrix 
+2. Adjacency List 
+There are other representations also like, Incidence Matrix and Incidence List. The choice of graph representation is situation-specific. It totally depends on the type of operations to be performed and ease of use. 
+Adjacency Matrix: 
+Adjacency Matrix is a 2D array of size V x V where V is the number of vertices in a graph. Let the 2D array be adj[][], a slot adj[i][j] = 1 indicates that there is an edge from vertex i to vertex j. Adjacency matrix for undirected graph is always symmetric. Adjacency Matrix is also used to represent weighted graphs. If adj[i][j] = w, then there is an edge from vertex i to vertex j with weight w. 
+
+In case of an undirected graph, we need to show that there is an edge from vertex i  to vertex j and vice versa. In code, we assign adj[i][j] = 1  and adj[j][i] = 1
+
+In case of a directed graph, if there is an edge from vertex i to vertex j then we just assign adj[i][j]=1
+
+The adjacency matrix for the above example graph is: 
+ 
+
+Adjacency Matrix Representation
+
+Pros: Representation is easier to implement and follow. Removing an edge takes O(1) time. Queries like whether there is an edge from vertex ‘u’ to vertex ‘v’ are efficient and can be done O(1).
+Cons: Consumes more space O(V^2). Even if the graph is sparse(contains less number of edges), it consumes the same space. Adding a vertex is O(V^2) time.  Computing all neighbors of a vertex takes O(V) time (Not efficient).
+Please see this for a sample Python implementation of adjacency matrix.
+
+Implementation of taking input for adjacency matrix
+
+C++
+Java
+Python3
+if __name__ == '__main__':
+    #  n is the number of vertices
+    #  m is the number of edges
+    n, m = map(int, input().split())
+    adjMat = [[0 for i in range(n)]for j in range(n)]
+    for i in range(n):
+        u, v = map(int, input().split())
+        adjMat[u][v] = 1
+        adjMat[v][u] = 1
+        # for a directed graph with an edge pointing from u to v,we just assign
+        # adjMat[u][v] as 1
+C#
+Javascript
+Adjacency List: 
+An array of lists is used. The size of the array is equal to the number of vertices. Let the array be an array[]. An entry array[i] represents the list of vertices adjacent to the ith vertex. This representation can also be used to represent a weighted graph. The weights of edges can be represented as lists of pairs. Following is the adjacency list representation of the above graph. 
+ 
+
+Adjacency List Representation of Graph
+
+ 
+
+Recommended Problem
+Print adjacency list
+Graph
+Data Structures
+Solve Problem
+Submission count: 72.3K
+Note that in the below implementation, we use dynamic arrays (vector in C++/ArrayList in Java) to represent adjacency lists instead of the linked list. The vector implementation has advantages of cache friendliness. 
+ 
+
+C++
+C
+Java
+Python3
+"""
+A Python program to demonstrate the adjacency
+list representation of the graph
+"""
+ 
+# A class to represent the adjacency list of the node
+ 
+ 
+class AdjNode:
+    def __init__(self, data):
+        self.vertex = data
+        self.next = None
+ 
+ 
+# A class to represent a graph. A graph
+# is the list of the adjacency lists.
+# Size of the array will be the no. of the
+# vertices "V"
+class Graph:
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = [None] * self.V
+ 
+    # Function to add an edge in an undirected graph
+    def add_edge(self, src, dest):
+        # Adding the node to the source node
+        node = AdjNode(dest)
+        node.next = self.graph[src]
+        self.graph[src] = node
+ 
+        # Adding the source node to the destination as
+        # it is the undirected graph
+        node = AdjNode(src)
+        node.next = self.graph[dest]
+        self.graph[dest] = node
+ 
+    # Function to print the graph
+    def print_graph(self):
+        for i in range(self.V):
+            print("Adjacency list of vertex {}\n head".format(i), end="")
+            temp = self.graph[i]
+            while temp:
+                print(" -> {}".format(temp.vertex), end="")
+                temp = temp.next
+            print(" \n")
+ 
+ 
+# Driver program to the above graph class
+if __name__ == "__main__":
+    V = 5
+    graph = Graph(V)
+    graph.add_edge(0, 1)
+    graph.add_edge(0, 4)
+    graph.add_edge(1, 2)
+    graph.add_edge(1, 3)
+    graph.add_edge(1, 4)
+    graph.add_edge(2, 3)
+    graph.add_edge(3, 4)
+ 
+    graph.print_graph()
+ 
+# This code is contributed by Kanav Malhotra
+C#
+Javascript
+Output
+ Adjacency list of vertex 0
+ head -> 1-> 4
+
+ Adjacency list of vertex 1
+ head -> 0-> 2-> 3-> 4
+
+ Adjacency list of vertex 2
+ head -> 1-> 3
+
+ Adjacency list of vertex 3
+ head -> 1-> 2-> 4
+
+ Adjacency list of vertex 4
+ head -> 0-> 1-> 3
+Pros: Saves space O(|V|+|E|). In the worst case, there can be C(V, 2) number of edges in a graph thus consuming O(V^2) space. Adding a vertex is easier. Computing all neighbors of a vertex takes optimal time.
+Cons: Queries like whether there is an edge from vertex u to vertex v are not efficient and can be done O(V).
+ In Real-life problems,  graphs are sparse(|E| <<|V|2). That’s why adjacency lists Data structure is commonly used for storing graphs. Adjacency matrix will enforce (|V|2) bound on time complexity for such algorithms. 
+
+
+
+Reference: 
+http://en.wikipedia.org/wiki/Graph_%28abstract_data_type%29
+Related Post: 
+Graph representation using STL for competitive programming | Set 1 (DFS of Unweighted and Undirected) 
+Graph implementation using STL for competitive programming | Set 2 (Weighted graph)
+This article is compiled by Aashish Barnwal and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Introduction to Graphs - Data Structure and Algorithm Tutorials
+Next
+Graph representations using set and hash
+Related Articles
+1.
+Graph representations using set and hash
+2.
+Connect a graph by M edges such that the graph does not contain any cycle and Bitwise AND of connected vertices is maximum
+3.
+Undirected graph splitting and its application for number pairs
+4.
+Maximum difference between node and its ancestor in a Directed Acyclic Graph ( DAG )
+5.
+Detect cycle in the graph using degrees of nodes of graph
+6.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+7.
+Maximum number of edges that N-vertex graph can have such that graph is Triangle free | Mantel's Theorem
+8.
+Convert undirected connected graph to strongly connected directed graph
+9.
+Java Program to Find Independent Sets in a Graph using Graph Coloring
+10.
+Java Program to Find Independent Sets in a Graph By Graph Coloring
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+RajatSinghal
+kanavMalhotra
+avsharma
+Viru_UIC
+techno2mahi
+nailwalhimanshu
+Akanksha_Rai
+shariulakab1
+avanitrachhadiya2155
+shubamkoul009
+manojtomer0709
+prasanna1995
+harendrakumar123
+kapilag
+simranarora5sos
+vivekmaddheshiya205
+tapeshdua420
+lokeshmvs21
+r_c
+Article Tags :
+graph-basics
+Graph
+Practice Tags :
+Graph

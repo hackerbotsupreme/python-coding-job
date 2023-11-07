@@ -1,0 +1,106 @@
+Applications, Advantages and Disadvantages of Graph
+
+Difficulty Level : Easy
+Last Updated : 19 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Graph is a non-linear data structure that contains nodes (vertices) and edges. A graph is a collection of set of vertices and edges (formed by connecting two vertices). A graph is defined as G = {V, E} where V is the set of vertices and E is the set of edges. 
+
+ Graphs can be used to model a wide variety of real-world problems, including social networks, transportation networks, and communication networks. They can be represented in various ways, such as by a set of vertices and a set of edges, or by a matrix or an adjacency list. The two most common types of graphs are directed and undirected graphs.
+
+Graph Representation:
+
+Graph can be represented in the following ways:
+
+Set Representation: Set representation of a graph involves two sets: Set of vertices V = {V1, V2, V3, V4} and set of edges E = {{V1, V2}, {V2, V3}, {V3, V4}, {V4, V1}}. This representation is efficient for memory but does not allow parallel edges.
+Sequential Representation: This representation of a graph can be represented by means of matrices: Adjacency Matrix, Incidence matrix and Path matrix.
+Adjacency Matrix: This matrix includes information about the adjacent nodes. Here, aij = 1 if there is an edge from Vi to Vj otherwise 0. It is a matrix of order V×V.
+Incidence Matrix: This matrix includes information about the incidence of edges on the nodes. Here, aij = 1 if the jth edge Ej is incident on ith vertex Vi otherwise 0. It is a matrix of order V×E.
+Path Matrix: This matrix includes information about the simple path between two vertices. Here, Pij = 1 if there is a path from Vi to Vj otherwise 0. It is also called as reachability matrix of graph G.  
+Linked Representation: This representation gives the information about the nodes to which a specific node is connected i.e. adjacency lists. This representation gives the adjacency lists of the vertices with the help of array and linked lists. In the adjacency lists, the vertices which are connected with the specific vertex are arranged in the form of lists which is connected to that vertex.
+Real-Time Applications of Graph:
+
+Graphs are used to represent flow of control in computers.
+Graphs are used in social networking sites where users act as nodes and connection between them acts as edges.
+In an operating system, graphs are used as resource allocation graphs.
+Graphs are used in Google maps to find the shortest route.
+Graphs are also used in airlines system for effective route optimization. 
+In-state transition diagrams, the graph is used to represent their states and their transition.
+In transportation, graphs are used to find the shortest path.
+In circuits, graphs can be used to represent circuit points as nodes and wires as edges.
+Graphs are used in solving puzzles with only one solution, such as mazes.
+Graphs are used in computer networks for Peer to peer (P2P) applications.
+Graphs basically in the form of DAG(Directed acyclic graph) are used as alternative to blockchain for cryptocurrency. For example crypto like  IOTA, Nano are mainly based on DAG.
+Advantages of Graph:
+
+By using graphs we can easily find the shortest path, neighbors of the nodes, and many more.
+Graphs are used to implement algorithms like DFS and BFS.
+It is used to find minimum spanning tree which has many practical applications.
+It helps in organizing data.
+Because of its non-linear structure, helps in understanding complex problems and their visualization.
+Graphs can handle large amounts of data and can easily be distributed across multiple machines.
+Graphs can be used to model many different types of real-world relationships and connections.
+Graphs are well suited to handle sparse data.
+Graphs can support multiple types of relationships between entities, such as one-to-one, one-to-many, and many-to-many.
+Disadvantages of Graph:
+
+Graphs use lots of pointers which can be complex to handle.
+It can have large memory complexity.
+If the graph is represented with an adjacency matrix then it does not allow parallel edges and multiplication of the graph is also difficult. 
+ Some graph algorithms have high time complexity, which can slow down the performance of a system.
+Graphs can have cyclic relationships, which can make it difficult to traverse or process the data.
+Graphs may not have built-in support for advanced analytics such as machine learning or data mining.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Check whether a given graph is Bipartite or not
+Next
+Applications, Advantages and Disadvantages of Unweighted Graph
+Related Articles
+1.
+Applications, Advantages and Disadvantages of Weighted Graph
+2.
+Applications, Advantages and Disadvantages of Unweighted Graph
+3.
+Applications, Advantages and Disadvantages of Directed Graph
+4.
+Graph Coloring | Set 1 (Introduction and Applications)
+5.
+Applications of Graph Data Structure
+6.
+Connect a graph by M edges such that the graph does not contain any cycle and Bitwise AND of connected vertices is maximum
+7.
+Detect cycle in the graph using degrees of nodes of graph
+8.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+9.
+Maximum number of edges that N-vertex graph can have such that graph is Triangle free | Mantel's Theorem
+10.
+Convert undirected connected graph to strongly connected directed graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+aayushi2402
+@aayushi2402
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+pushpeshrajdx01
+shreyasnaphad
+Article Tags :
+Picked
+Graph
+Practice Tags :
+Graph
+Report Issue

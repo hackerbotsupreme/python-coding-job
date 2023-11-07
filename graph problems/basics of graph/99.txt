@@ -1,0 +1,194 @@
+Clone an Undirected Graph
+
+Difficulty Level : Medium
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Cloning of a LinkedList and a Binary Tree with random pointers has already been discussed. The idea behind cloning a graph is pretty much similar. 
+
+Recommended Problem
+Clone Graph
+Graph
+Data Structures
+Google
+Solve Problem
+Submission count: 1.7K
+The idea is to do a BFS traversal of the graph and while visiting a node make a clone node of it (a copy of original node). If a node is encountered which is already visited then it already has a clone node.
+
+How to keep track of the visited/cloned nodes? A HashMap/Map is required in order to maintain all the nodes which have already been created. Key stores: Reference/Address of original Node Value stores: Reference/Address of cloned Node A copy of all the graph nodes has been made, 
+
+how to connect clone nodes? While visiting the neighboring vertices of a node u get the corresponding cloned node for u , let’s call that cloneNodeU , now visit all the neighboring nodes for u and for each neighbor find the corresponding clone node(if not found create one) and then push into the neighboring vector of cloneNodeU node. 
+
+How to verify if the cloned graph is a correct? Do a BFS traversal before and after the cloning of graph. In BFS traversal display the value of a node along with its address/reference. Compare the order in which nodes are displayed, if the values are same but the address/reference is different for both the traversals then the cloned graph is correct. 
+
+Implementation:
+
+C++
+Java
+Python3
+from collections import deque
+ 
+class GraphNode:
+    def __init__(self, val=0, neighbors=[]):
+        self.val = val
+        self.neighbors = neighbors
+ 
+def cloneGraph(src: GraphNode) -> GraphNode:
+    # A Map to keep track of all the
+    # nodes which have already been created
+    m = {}
+    q = deque()
+ 
+    # Enqueue src node
+    q.append(src)
+    node = None
+ 
+    # Make a clone Node
+    node = GraphNode()
+    node.val = src.val
+ 
+    # Put the clone node into the Map
+    m[src] = node
+    while q:
+        # Get the front node from the queue
+        # and then visit all its neighbors
+        u = q.popleft()
+        v = u.neighbors
+        for neighbor in v:
+            # Check if this node has already been created
+            if neighbor not in m:
+                # If not then create a new Node and
+                # put into the HashMap
+                node = GraphNode()
+                node.val = neighbor.val
+                m[neighbor] = node
+                q.append(neighbor)
+ 
+            # Add these neighbors to the cloned graph node
+            m[u].neighbors.append(m[neighbor])
+ 
+    # Return the address of cloned src Node
+    return m[src]
+ 
+# Build the desired graph
+def buildGraph() -> GraphNode:
+    """
+    Given Graph:
+    1--2
+    | |
+    4--3
+    """
+    node1 = GraphNode(1)
+    node2 = GraphNode(2)
+    node3 = GraphNode(3)
+    node4 = GraphNode(4)
+    node1.neighbors = [node2, node4]
+    node2.neighbors = [node1, node3]
+    node3.neighbors = [node2, node4]
+    node4.neighbors = [node3, node1]
+    return node1
+ 
+# A simple bfs traversal of a graph to
+# check for proper cloning of the graph
+def bfs(src: GraphNode):
+    visit = {}
+    q = deque()
+    q.append(src)
+    visit[src] = True
+    while q:
+        u = q.popleft()
+        print(f"Value of Node {u.val}")
+        print(f"Address of Node {u}")
+        v = u.neighbors
+        for neighbor in v:
+            if neighbor not in visit:
+                visit[neighbor] = True
+                q.append(neighbor)
+ 
+if __name__ == "__main__":
+    src = buildGraph()
+    print("BFS Traversal before cloning")
+    bfs(src)
+    clone = cloneGraph(src)
+    print("\nBFS Traversal after cloning")
+    bfs(clone)
+ 
+    # This code is contributed by vikramshirsath177
+Output
+
+
+BFS Traversal before cloning
+Value of Node 1
+Address of Node 0x1b6ce70
+Value of Node 2
+Address of Node 0x1b6cea0
+Value of Node 4
+Address of Node 0x1b6cf00
+Value of Node 3
+Address of Node 0x1b6ced0
+
+BFS Traversal after cloning
+Value of Node 1
+Address of Node 0x1b6e5a0
+Value of Node 2
+Address of Node 0x1b6e5d0
+Value of Node 4
+Address of Node 0x1b6e620
+Value of Node 3
+Address of Node 0x1b6e670
+Clone an undirected graph with multiple connected components This article is contributed by Chirag Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org.
+
+
+
+
+
+Like
+36
+Previous
+BFS using STL for competitive coding
+Next
+Bidirectional Search
+Related Articles
+1.
+Clone an undirected graph with multiple connected components
+2.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+3.
+Convert undirected connected graph to strongly connected directed graph
+4.
+Clone a Directed Acyclic Graph
+5.
+Eulerian path and circuit for undirected graph
+6.
+Detect cycle in an undirected graph
+7.
+Find k-cores of an undirected graph
+8.
+Find minimum weight cycle in an undirected graph
+9.
+Count number of edges in an undirected graph
+10.
+Connected Components in an Undirected Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+raj2002
+hardikkoriintern
+vikramshirsath177
+Article Tags :
+BFS
+Graph
+Practice Tags :
+BFS
+Graph

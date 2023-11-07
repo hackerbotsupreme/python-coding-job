@@ -1,0 +1,173 @@
+Find the level of given node in an Undirected Graph
+
+Difficulty Level : Easy
+Last Updated : 02 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an undirected graph with V vertices and E edges and a node X, The task is to find the level of node X in the undirected graph. If X does not exist in the graph then return -1.
+
+Note: Traverse the graph starting from vertex 0.
+
+Examples:
+
+Input: V = 5, Edges = {{0, 1}, {0, 2}, {1, 3}, {2, 4}}, X = 3
+Output: 2
+Explanation: Starting from vertex 0, at level 0 we have node 0, at level 1 we have nodes 1 and 2 and at level 2 we have nodes 3 and 4. So the answer is 2
+
+The example graph
+The example graph
+
+Input: V = 5, Edges = {{0, 1}, {0, 2}, {1, 3}, {2, 4}}, X = 5
+Output: -1
+Explanation: Vertex 5 is not present in the given graph so answer is -1
+
+An example graph
+An example graph
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+Approach: The problem can be solved based on the following idea:
+
+The given problem can be solved with the help of level order traversal. We can perform a BFS traversal in order to find the level of the given vertex
+
+Follow the steps mentioned below to implement the idea:
+
+Find the maximum vertex of the graph and store it in a variable (say maxVertex).
+create adjacency list adj[] of size maxVertex+1.
+Check if X is present or not, if not then return -1.
+To traverse the graph, create a queue for level order traversal.
+Push vertex 0 in a queue, and set a counter level to 0.
+Create a visited array of size maxVertex+1 to mark the visited nodes. 
+Start BFS traversal if the value of X is found in front of the queue then return the level.
+Keep popping nodes from the queue till it becomes empty and increment the counter level
+In one iteration, push all the unvisited nodes in the queue connected with the current node
+Increment the level variable to jump to the next level.
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python code to implement the approach
+
+# Function to find the level of the given node
+def findLevel(N,edges,X):
+    # Variable to store maximum vertex of graph
+    maxVertex=0
+    for it in edges:
+        maxVertex=max(maxVertex,max(it[0],it[1]))
+    
+    # Creating adjacency list
+    adj=[[] for j in range(maxVertex+1)]
+    for i in range(len(edges)):
+        adj[edges[i][0]].append(edges[i][1])
+        adj[edges[i][1]].append(edges[i][0])
+    
+    # If X is not present then return -1
+    if(X>maxVertex or len(adj[X])==0):
+        return -1
+    
+    # Initialize a Queue for BFS traversal
+    q=[]
+    q.append(0)
+    level=0
+    
+    # Visited array to mark the already visited nodes
+    visited=[0]*(maxVertex+1)
+    visited[0]=1
+    
+    # BFS traversal
+    while(len(q)>0):
+        sz=len(q)
+        while(sz>0):
+            currentNode=q[0]
+            q.pop(0)
+            if(currentNode==X):
+                return level
+            for it in adj[currentNode]:
+                if(not visited[it]):
+                    q.append(it)
+                    visited[it]=1
+            sz=sz-1
+        level=level+1
+        
+    return -1
+
+# Driver Code
+V=5
+edges=[[0,1],[0,2],[1,3],[2,4]]
+X=3
+
+#Function call
+level=findLevel(V,edges,X)
+print(level)
+
+# This code is contributed by Pushpesh Raj.
+C#
+Javascript
+Output
+2
+Time Complexity: O(V + E) For traversing all of the nodes.
+Auxiliary Space: O(V) to store all the nodes in the queue.
+
+Related Articles:
+
+Introduction to Graphs – Data Structure and Algorithm Tutorials
+Breadth First Search or BFS for a Graph
+
+
+Like
+Previous
+Timestamp Dependency in Smart Contracts
+Next
+Find the final String by incrementing prefixes of given length
+Related Articles
+1.
+Kth largest node among all directly connected nodes to the given node in an undirected graph
+2.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+3.
+Convert undirected connected graph to strongly connected directed graph
+4.
+Check if all nodes of Undirected Graph can be visited from given Node
+5.
+Minimum labelled node to be removed from undirected Graph such that there is no cycle
+6.
+Find if an undirected graph contains an independent set of a given size
+7.
+Find k-cores of an undirected graph
+8.
+Find minimum weight cycle in an undirected graph
+9.
+Program to find Circuit Rank of an Undirected Graph
+10.
+Find all cliques of size K in an undirected graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sarkarrohit650
+@sarkarrohit650
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ksam24000
+pushpeshrajdx01
+garg28harsh
+Article Tags :
+BFS
+Picked
+Technical Scripter 2022
+Graph
+Technical Scripter
+Practice Tags :
+BFS
+Graph
+Report Issue

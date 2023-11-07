@@ -1,0 +1,216 @@
+Paths to travel each nodes using each edge (Seven Bridges of Königsberg)
+
+Difficulty Level : Hard
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+There are n nodes and m bridges in between these nodes. Print the possible path through each node using each edges (if possible), traveling through each edges only once.
+ 
+
+
+
+Examples : 
+
+Input : [[0, 1, 0, 0, 1],
+         [1, 0, 1, 1, 0],
+         [0, 1, 0, 1, 0],
+         [0, 1, 1, 0, 0],
+         [1, 0, 0, 0, 0]]
+
+Output : 5 -> 1 -> 2 -> 4 -> 3 -> 2
+
+Input : [[0, 1, 0, 1, 1],
+         [1, 0, 1, 0, 1],
+         [0, 1, 0, 1, 1],
+         [1, 1, 1, 0, 0],
+         [1, 0, 1, 0, 0]]
+
+Output : "No Solution"
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+It is one of the famous problems in Graph Theory and known as problem of “Seven Bridges of Königsberg”. This problem was solved by famous mathematician Leonhard Euler in 1735. This problem is also considered as the beginning of Graph Theory. 
+
+The problem back then was that: There was 7 bridges connecting 4 lands around the city of Königsberg in Prussia. Was there any way to start from any of the land and go through each of the bridges once and only once? Please see these wikipedia images for more clarity.
+
+Euler first introduced graph theory to solve this problem. He considered each of the lands as a node of a graph and each bridge in between as an edge in between. Now he calculated if there is any Eulerian Path in that graph. If there is an Eulerian path then there is a solution otherwise not. 
+Problem here, is a generalized version of the problem in 1735.
+
+Below is the implementation :
+
+C++
+Java
+Python3
+# A Python program to print Eulerian trail in a
+# given Eulerian or Semi-Eulerian Graph
+from collections import defaultdict
+ 
+class Graph:
+ 
+    # Constructor and destructor
+    def __init__(self, V):
+        self.V = V
+        self.adj = defaultdict(list)
+ 
+    # functions to add and remove edge
+    def addEdge(self, u, v):
+        self.adj[u].append(v)
+        self.adj[v].append(u)
+ 
+    def rmvEdge(self, u, v):
+        self.adj[u].remove(v)
+        self.adj[v].remove(u)
+ 
+    # Methods to print Eulerian tour
+    def printEulerTour(self):
+        # Find a vertex with odd degree
+        u = 0
+        for i in range(self.V):
+            if len(self.adj[i]) % 2 == 1:
+                u = i
+                break
+         
+        # Print tour starting from oddv
+        self.printEulerUtil(u)
+        print()
+ 
+    def printEulerUtil(self, u):
+        # Recur for all the vertices adjacent to this vertex
+        for v in self.adj[u]:
+            # If edge u-v is not removed and it's a valid next edge
+            if v != -1 and self.isValidNextEdge(u, v):
+                print(u, "-", v, " ", end="")
+                self.rmvEdge(u, v)
+                self.printEulerUtil(v)
+ 
+    # The function to check if edge u-v can be considered
+    # as next edge in Euler Tout
+    def isValidNextEdge(self, u, v):
+        # The edge u-v is valid in one of the following
+        # two cases:
+ 
+        # 1) If v is the only adjacent vertex of u
+        count = 0  # To store count of adjacent vertices
+        for i in self.adj[u]:
+            if i != -1:
+                count += 1
+        if count == 1:
+            return True
+ 
+        # 2) If there are multiple adjacents, then u-v is not a bridge
+        # Do following steps to check if u-v is a bridge
+        # 2.a) count of vertices reachable from u
+        visited = [False] * (self.V)
+        count1 = self.DFSCount(u, visited)
+ 
+        # 2.b) Remove edge (u, v) and after removing
+        # the edge, count vertices reachable from u
+        self.rmvEdge(u, v)
+        visited = [False] * (self.V)
+        count2 = self.DFSCount(u, visited)
+ 
+        # 2.c) Add the edge back to the graph
+        self.addEdge(u, v)
+ 
+        # 2.d) If count1 is greater, then edge (u, v) is a bridge
+        return False if count1 > count2 else True
+ 
+    # A DFS based function to count reachable vertices from v
+   
+    def DFSCount(self, v, visited):
+        # Mark the current node as visited
+        visited[v] = True
+        count = 1
+        # Recur for all the vertices adjacent to this vertex
+        for i in self.adj[v]:
+            if not visited[i]:
+                count += self.DFSCount(i, visited)
+        return count
+    # utility function to form edge between two vertices
+    # source and dest
+    def makeEdge(src, dest):
+        graph.addEdge(src, dest)
+ 
+# Driver program to test above functions
+def main():
+    # Let us first create and test
+    # graphs shown in above figure
+    g1 = Graph(4)
+    g1.addEdge(0, 1)
+    g1.addEdge(0, 2)
+    g1.addEdge(1, 2)
+    g1.addEdge(2, 3)
+    g1.printEulerTour()
+  
+    g3 = Graph(4)
+    g3.addEdge(0, 1)
+    g3.addEdge(1, 0)
+    g3.addEdge(0, 2)
+    g3.addEdge(2, 0)
+    g3.addEdge(2, 3)
+    g3.addEdge(3, 1)
+ 
+    # comment out this line and you will see that
+    # it gives TLE because there is no possible
+    # output g3.addEdge(0, 3);
+    g3.printEulerTour()
+ 
+if __name__ == "__main__":
+    main()
+ 
+    # This code is contributed by vikramshirsath177
+Output: 
+2-0  0-1  1-2  2-3  
+1-0  0-2  2-3  3-1  1-0  0-2
+ 
+
+
+
+Like
+Next
+Number of cyclic elements in an array where we can jump according to value
+Related Articles
+1.
+Count number of times each Edge appears in all possible paths of a given Tree
+2.
+Difference between Tree edge and Back edge in graph
+3.
+Bridges in a graph
+4.
+Maximum number of bridges in a path of a given graph
+5.
+Minimum bridges required to be crossed to reach Nth city
+6.
+Find maximum number of edge disjoint paths between two vertices
+7.
+Minimum time to reach from Node 1 to N if travel is allowed only when node is Green
+8.
+Maximize number of nodes which are not part of any edge in a Graph
+9.
+Shortest distance between two nodes in Graph by reducing weight of an edge by half
+10.
+Find a set of at most N/2 nodes from a Graph such that all remaining nodes are directly connected to one of the chosen nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+egoista
+@egoista
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+adityapande88
+varshagumber28
+simmytarika5
+hardikkoriintern
+vikramshirsath177
+Article Tags :
+Algorithms-Graph Traversals
+Graph
+Practice Tags :
+Graph
+Report Issue

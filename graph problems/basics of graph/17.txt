@@ -1,0 +1,204 @@
+Minimize moves to next greater element to reach end of Array
+
+Last Updated : 06 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array nums[] of size N and a starting index K. In one move from index i we can move to any other index j such that there exists no element in between the indices that is greater than nums[i] and nums[j] > nums[i]. Find the minimum number of moves to reach the last index. Print -1 if it is not possible. 
+
+Examples:
+
+Input: N = 4, K = 0, nums[] = {3, 4, 6, 9}
+Output: 3
+Explanation: We are initially at index 0. In the first step we can move from index 0 to index 1 because 4 > 3 and there exists no k between 0 and 1 such that nums[k] > nums[0]. Similarly in the second step we can go from index 1 to 2 and in the third index we can go from 2 to 3. Hence minimum moves required is 3.
+
+Input: N = 3, K = 0, nums[] = {0, -1, 2}
+Output: 1
+Explanation: We are initially at index 0. In the first step we can go from index 0 to index 2 because there is no element between 0 and 2 which is greater than nums[0] (i.e 0). Hence minimum number of steps required is 1.
+
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+Approach: The problem can be solved based on the following observation:
+
+From the problem statement, it can be visualized that we need to move from the current element to the next greater element on its right or the next greater element on its left. Then we can apply breadth-first search to find the minimum number of moves required to reach the last index to the end of the array.
+
+Follow the given steps to solve this problem:
+
+Create two arrays ngel[] and nger[] of size N. 
+ngel[i] stores the index of the next greater element on the left for the ith element. Similarly nger[i] stores the index of the next greater element on the right for the ith element. 
+Fill arrays ngel[] and nger[] one by one using a stack as discussed in this article.
+Create a queue that stores pairs. The first element in the pair is the index and the second element is the minimum moves required to reach that index starting from K.
+We also take a visited[] array of size N to keep track of the visited indices.
+Initially push the initial index K and 0 into the queue and mark the initial index visited.
+Perform BFS until the queue is not empty. 
+Pop the front value from the queue. 
+Then store the index and the minimum moves required in two variables (say currentIndex and minMoves).
+If currentIndex is equal to the end of the array return minMoves.
+Otherwise, find the next two locations that we can move using the ngel[] and nger[] values for currentIndex.
+If the ngel[currentIndex] and nger[currentIndex] are valid and not already visited, mark them visited and store them in the queue where the number of moves will be minMoves + 1.
+After iteration, if the last index is not visited, return -1.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# python3 code to implement the approach.
+
+# Function to find minimum moves required
+# to reach from the initial position to
+# the end of the array.
+def getMinMoves(N, K, nums):
+
+    # nger stores next greater
+    # element on right
+    nger = [0 for _ in range(N)]
+    s = []
+
+    # Loop to fill the nger vector
+    for i in range(N-1, -1, -1):
+        while (len(s) != 0 and nums[s[len(s) - 1]] <= nums[i]):
+            s.pop()
+
+        if (len(s) == 0):
+            nger[i] = -1
+
+        else:
+            nger[i] = s[len(s) - 1]
+
+        s.append(i)
+
+    while (len(s) != 0):
+        s.pop()
+
+    # ngel stores next greater
+    # element on left
+    ngel = [0 for _ in range(N)]
+
+    # Loop to fill the ngel vector
+    for i in range(0, N):
+
+        while(len(s) != 0 and nums[s[len(s) - 1]] <= nums[i]):
+            s.pop()
+
+        if (len(s) == 0):
+            ngel[i] = -1
+
+        else:
+            nger[i] = s[len(s) - 1]
+
+        s.append(i)
+
+    # We take a queue of pair to perform
+    # bfs the first element of the pair
+    # is the index and the second element
+    # is the minimum moves from initial
+    # index to reach that index
+    q = []
+    q.append([K, 0])
+    visited = [False for _ in range(N)]
+    visited[K] = True
+
+    # Perform BFS
+    while (len(q) != 0):
+        par = q[0]
+        q.pop(0)
+
+        # If the last index is foudn
+        # return the minimim moves
+        currentIndex = par[0]
+        minimumMoves = par[1]
+        if (currentIndex == N - 1):
+            return minimumMoves
+
+        child1 = ngel[currentIndex]
+        child2 = nger[currentIndex]
+        if (child1 != -1 and (not visited[child1])):
+            q.append([child1, minimumMoves + 1])
+            visited[child1] = True
+
+        if (child2 != -1 and not visited[child2]):
+            q.append([child2, minimumMoves + 1])
+            visited[child2] = True
+
+    # The last index cannot be reached
+    return -1
+
+# Driver code
+if __name__ == "__main__":
+
+    N, K = 0, 0
+    nums = [0, -1, 2]
+    N = len(nums)
+
+    # Function Call
+    minMoves = getMinMoves(N, K, nums)
+    print(minMoves)
+
+    # This code is contributed by rakeshsahni
+C#
+Javascript
+PHP
+Output
+1
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+Like
+Previous
+Check if Arrays can be made equal by Replacing elements with their number of Digits
+Next
+Check if given Array can be made a binary Array with K consecutive 1s
+Related Articles
+1.
+Find the minimum number of moves to reach end of the array
+2.
+Minimize cost of choosing and skipping array elements to reach end of the given array
+3.
+Minimum steps to reach end by jumping to next different bit once
+4.
+Find next Smaller of next Greater in an array
+5.
+Minimize the number of steps required to reach the end of the array
+6.
+Minimize the number of steps required to reach the end of the array | Set 2
+7.
+Minimize cost to reach end of an array by two forward jumps or one backward jump in each move
+8.
+Minimize cost to reach the end of given Binary Array using jump of K length after performing given operations
+9.
+Minimize refills to reach end of path
+10.
+Next Greater Element (NGE) for every element in given Array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+tripathiomrock989
+@tripathiomrock989
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rakeshsahni
+rohit768
+akashish__
+simmytarika5
+thekanishkagupta
+Article Tags :
+BFS
+Arrays
+Queue
+Stack
+Practice Tags :
+Arrays
+BFS
+Queue
+Stack

@@ -1,0 +1,138 @@
+Traveling Salesman Problem (TSP) Implementation
+
+Difficulty Level : Medium
+Last Updated : 20 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Travelling Salesman Problem (TSP) : Given a set of cities and distances between every pair of cities, the problem is to find the shortest possible route that visits every city exactly once and returns to the starting point. 
+Note the difference between Hamiltonian Cycle and TSP. The Hamiltonian cycle problem is to find if there exists a tour that visits every city exactly once. Here we know that Hamiltonian Tour exists (because the graph is complete) and in fact, many such tours exist, the problem is to find a minimum weight Hamiltonian Cycle. 
+For example, consider the graph shown in the figure on the right side. A TSP tour in the graph is 1-2-4-3-1. The cost of the tour is 10+25+30+15 which is 80.
+The problem is a famous NP-hard problem. There is no polynomial-time known solution for this problem. 
+ 
+
+
+
+Examples: 
+
+Output of Given Graph:
+minimum weight Hamiltonian Cycle :
+10 + 25 + 30 + 15 := 80
+Recommended: Please try your approach on {Practice} first, before moving on to the solution.
+In this post, the implementation of a simple solution is discussed.
+
+Consider city 1 as the starting and ending point. Since the route is cyclic, we can consider any point as a starting point.
+Generate all (n-1)! permutations of cities.
+Calculate the cost of every permutation and keep track of the minimum cost permutation.
+Return the permutation with minimum cost.
+Below is the implementation of the above idea 
+
+C++
+Java
+Python3
+# Python3 program to implement traveling salesman
+# problem using naive approach.
+from sys import maxsize
+from itertools import permutations
+V = 4
+ 
+# implementation of traveling Salesman Problem
+def travellingSalesmanProblem(graph, s):
+ 
+    # store all vertex apart from source vertex
+    vertex = []
+    for i in range(V):
+        if i != s:
+            vertex.append(i)
+ 
+    # store minimum weight Hamiltonian Cycle
+    min_path = maxsize
+    next_permutation=permutations(vertex)
+    for i in next_permutation:
+ 
+        # store current Path weight(cost)
+        current_pathweight = 0
+ 
+        # compute current path weight
+        k = s
+        for j in i:
+            current_pathweight += graph[k][j]
+            k = j
+        current_pathweight += graph[k][s]
+ 
+        # update minimum
+        min_path = min(min_path, current_pathweight)
+         
+    return min_path
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    # matrix representation of graph
+    graph = [[0, 10, 15, 20], [10, 0, 35, 25],
+            [15, 35, 0, 30], [20, 25, 30, 0]]
+    s = 0
+    print(travellingSalesmanProblem(graph, s))
+C#
+Javascript
+Output
+80
+
+
+
+
+Like
+71
+Previous
+Graph Coloring | Set 1 (Introduction and Applications)
+Next
+Travelling Salesman Problem using Dynamic Programming
+Related Articles
+1.
+Travelling Salesman Problem (TSP) using Reduced Matrix Method
+2.
+Traveling Salesman Problem using Genetic Algorithm
+3.
+Proof that traveling salesman problem is NP Hard
+4.
+Travelling Salesman Problem implementation using BackTracking
+5.
+Travelling Salesman Problem using Dynamic Programming
+6.
+Approximate solution for Travelling Salesman Problem using MST
+7.
+Hungarian Algorithm for Assignment Problem | Set 2 (Implementation)
+8.
+Implementation of Exact Cover Problem and Algorithm X using DLX
+9.
+Hopcroft–Karp Algorithm for Maximum Matching | Set 2 (Implementation)
+10.
+Push Relabel Algorithm | Set 2 (Implementation)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant_Singh
+@Nishant_Singh
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Blinkii
+sanjeev2552
+error_502
+adityapande88
+tapeshdua420
+hardikkoriintern
+ishankhandelwals
+Article Tags :
+NP Complete
+NPHard
+Graph
+Practice Tags :
+Graph

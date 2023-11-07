@@ -1,0 +1,142 @@
+Transpose graph
+
+Difficulty Level : Easy
+Last Updated : 12 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Transpose of a directed graph G is another directed graph on the same set of vertices with all of the edges reversed compared to the orientation of the corresponding edges in G. That is, if G contains an edge (u, v) then the converse/transpose/reverse of G contains an edge (v, u) and vice versa. Given a graph (represented as adjacency list), we need to find another graph which is the transpose of the given graph. 
+
+Example:
+
+Transpose graph
+Transpose Graph
+
+Input : figure (i) is the input graph.
+Output : figure (ii) is the transpose graph of the given graph.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We traverse the adjacency list and as we find a vertex v in the adjacency list of vertex u which indicates an edge from u to v in main graph, we just add an edge from v to u in the transpose graph i.e. add u in the adjacency list of vertex v of the new graph. Thus traversing lists of all vertices of main graph we can get the transpose graph. Thus the total time complexity of the algorithm is O(V+E) where V is number of vertices of graph and E is the number of edges of the graph. Note : It is simple to get the transpose of a graph which is stored in adjacency matrix format, you just need to get the transpose of that matrix. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find transpose of a graph.
+ 
+# function to add an edge from vertex
+# source to vertex dest
+def addEdge(adj, src, dest):
+    adj[src].append(dest)
+ 
+# function to print adjacency list
+# of a graph
+def displayGraph(adj, v):
+    for i in range(v):
+        print(i, "--> ", end = "")
+        for j in range(len(adj[i])):
+            print(adj[i][j], end = " ")
+        print()
+ 
+# function to get Transpose of a graph
+# taking adjacency list of given graph
+# and that of Transpose graph
+def transposeGraph(adj, transpose, v):
+     
+    # traverse the adjacency list of given
+    # graph and for each edge (u, v) add
+    # an edge (v, u) in the transpose graph's
+    # adjacency list
+    for i in range(v):
+        for j in range(len(adj[i])):
+            addEdge(transpose, adj[i][j], i)
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    v = 5
+    adj = [[] for i in range(v)]
+    addEdge(adj, 0, 1)
+    addEdge(adj, 0, 4)
+    addEdge(adj, 0, 3)
+    addEdge(adj, 2, 0)
+    addEdge(adj, 3, 2)
+    addEdge(adj, 4, 1)
+    addEdge(adj, 4, 3)
+ 
+    # Finding transpose of graph represented
+    # by adjacency list adj[]
+    transpose = [[]for i in range(v)]
+    transposeGraph(adj, transpose, v)
+ 
+    # displaying adjacency list of
+    # transpose graph i.e. b
+    displayGraph(transpose, v)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+0--> 2  
+1--> 0  4  
+2--> 3  
+3--> 0  4  
+4--> 0  
+
+
+
+
+Like
+41
+Previous
+Graph representations using set and hash
+Next
+Check whether a given graph is Bipartite or not
+Related Articles
+1.
+Detect cycle in the graph using degrees of nodes of graph
+2.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+3.
+Maximum number of edges that N-vertex graph can have such that graph is Triangle free | Mantel's Theorem
+4.
+Convert undirected connected graph to strongly connected directed graph
+5.
+Java Program to Find Independent Sets in a Graph using Graph Coloring
+6.
+Connect a graph by M edges such that the graph does not contain any cycle and Bitwise AND of connected vertices is maximum
+7.
+Java Program to Find Independent Sets in a Graph By Graph Coloring
+8.
+Graph implementation using STL for competitive programming | Set 2 (Weighted graph)
+9.
+Depth First Search or DFS for a Graph
+10.
+Detect Cycle in a Directed Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ab_gupta
+@ab_gupta
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+code_freak
+Rajput-Ji
+simmytarika5
+_saurabh_jaiswal
+hardikkoriintern
+Article Tags :
+graph-basics
+Graph
+Practice Tags :
+Graph
+Improve Article
+Report Issue

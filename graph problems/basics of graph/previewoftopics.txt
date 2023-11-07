@@ -1,0 +1,41 @@
+matrices
+BFSdfs
+
+             #     i    want   to   know   where   all  of  these  things  come  in  real  life
+detect positive and negativr cycles
+detect cycles of n length in directedor undirected path
+floyd warshell graph concept
+union find algorithm 
+dijkstras algorithm (shortest path)
+bell man ford algorithm
+johnsons algorithm(all pars of shortest path)
+dial's algorith
+multistage graph
+karps minimum mean (or average) 
+weight cycle algorithmminimum spanning tree(mst)
+  krushal's mst prim's mst
+  diff between them 
+  rda (Reverse deleting algorithm)
+trees in graph 
+Boruvka'd algorithm 
+topological sorting
+   directed graph
+   undirected graph 
+   kahn's algorithm 
+articulation point(cut vertices)
+Bridges in a graph 
+eulerian path
+fleury's algorithm 
+travel on each node (travelling through nodes problem )  
+Dynamic connecting (incremental)
+max - flow problems 
+Bipertite problem 
+push relabel algorithmkargar's algorithm 
+Dinic's algorithm 
+Introduction to graph , advantages ,disadvantages, uses, vision , real life implementation/uses
+peterson's problem cloning a graph 
+cloning a graph 
+tsp- travelling salesman problem
+endos renyl model for generating graphs
+hierholzer's algorithm
+

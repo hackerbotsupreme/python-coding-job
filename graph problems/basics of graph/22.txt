@@ -1,0 +1,105 @@
+Applications of Depth First Search
+
+Difficulty Level : Easy
+Last Updated : 28 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+In this article we will deep dive into the world of application of Depth-First Search (DFS), the algorithm that traverses the depth of a graph before exploring its breadth. From topological sorting to pathfinding, cycle detection to maze generation, DFS is a versatile tool for solving a wide range of problems.
+Following are the problems that use DFS as a building block.  
+
+1) Detecting cycle in a graph 
+A graph has cycle if and only if we see a back edge during DFS. So we can run DFS for the graph and check for back edges. (See this for details) 
+
+2) Path Finding 
+We can specialize the DFS algorithm to find a path between two given vertices u and z. 
+i) Call DFS(G, u) with u as the start vertex. 
+ii) Use a stack S to keep track of the path between the start vertex and the current vertex. 
+iii) As soon as destination vertex z is encountered, return the path as the 
+contents of the stack 
+
+See this for details. 
+
+
+3) Topological Sorting 
+Topological Sorting is mainly used for scheduling jobs from the given dependencies among jobs. In computer science, applications of this type arise in instruction scheduling, ordering of formula cell evaluation when recomputing formula values in spreadsheets, logic synthesis, determining the order of compilation tasks to perform in makefiles, data serialization, and resolving symbol dependencies in linkers [2]. 
+
+4) To test if a graph is bipartite 
+We can augment either BFS or DFS when we first discover a new vertex, color it opposite its parents, and for each other edge, check it doesn’t link two vertices of the same color. The first vertex in any connected component can be red or black! See this for details. 
+
+5) Finding Strongly Connected Components of a graph A directed graph is called strongly connected if there is a path from each vertex in the graph to every other vertex. (See this for DFS-based algo for finding Strongly Connected Components) 
+
+6) Solving puzzles with only one solution, such as mazes. (DFS can be adapted to find all solutions to a maze by only including nodes on the current path in the visited set.) 
+
+7) Web crawlers: Depth-first search can be used in the implementation of web crawlers to explore the links on a website.
+
+8) Maze generation: Depth-first search can be used to generate random mazes.
+
+9) Model checking: Depth-first search can be used in model checking, which is the process of checking that a model of a system meets a certain set of properties.
+
+10) Backtracking: Depth-first search can be used in backtracking algorithms.
+
+ 
+
+Sources: 
+http://www8.cs.umu.se/kurser/TDBAfl/VT06/algorithms/LEC/LECTUR16/NODE16.HTM 
+http://en.wikipedia.org/wiki/Depth-first_search 
+http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/GraphAlgor/depthSearch.htm 
+http://ww3.algorithmdesign.net/handouts/DFS.pdf
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Depth First Search or DFS for a Graph
+Next
+Applications of Breadth First Traversal
+Related Articles
+1.
+Iterative Deepening Search(IDS) or Iterative Deepening Depth First Search(IDDFS)
+2.
+Depth First Search or DFS for a Graph
+3.
+Top 10 Interview Questions on Depth First Search (DFS)
+4.
+Depth First Traversal ( DFS ) on a 2D array
+5.
+Iterative Depth First Traversal of Graph
+6.
+Best First Search (Informed Search)
+7.
+Applications of Breadth First Traversal
+8.
+Flatten a multi-level linked list | Set 2 (Depth wise)
+9.
+Minimum valued node having maximum depth in an N-ary Tree
+10.
+C++ Program To Flatten A Multi-Level Linked List Depth Wise- Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+JunyiYe
+f20170086
+f20190104
+aayushi2402
+Article Tags :
+DFS
+Graph
+Practice Tags :
+DFS
+Graph
+Report Issue

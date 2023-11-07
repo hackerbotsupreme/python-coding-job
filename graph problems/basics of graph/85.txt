@@ -1,0 +1,218 @@
+Dynamic Connectivity | Set 1 (Incremental)
+
+Difficulty Level : Hard
+Last Updated : 12 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Dynamic connectivity is a data structure that dynamically maintains the information about the connected components of graph. In simple words suppose there is a graph G(V, E) in which no. of vertices V is constant but no. of edges E is variable. There are three ways in which we can change the number of edges
+
+Incremental Connectivity : Edges are only added to the graph.
+Decremental Connectivity : Edges are only deleted from the graph.
+Fully Dynamic Connectivity : Edges can both be deleted and added to the graph.
+In this article only Incremental connectivity is discussed. There are mainly two operations that need to be handled. 
+
+An edge is added to the graph.
+Information about two nodes x and y whether they are in the same connected components or not.
+Example: 
+
+Input : V = 7
+        Number of operations = 11
+        1 0 1
+        2 0 1
+        2 1 2
+        1 0 2
+        2 0 2
+        2 2 3
+        2 3 4
+        1 0 5
+        2 4 5
+        2 5 6
+        1 2 6
+Note: 7 represents number of nodes, 
+      11 represents number of queries. 
+      There are two types of queries 
+      Type 1: 1 x y in  this if the node 
+               x and y are connected print 
+               Yes else No
+      Type 2: 2 x y in this add an edge 
+               between node x and y
+Output: No
+         Yes
+         No
+         Yes
+Explanation :
+Initially there are no edges so node 0 and 1
+will be disconnected so answer will be No
+Node 0 and 2 will be connected through node 
+1 so answer will be Yes similarly for other
+queries we can find whether two nodes are 
+connected or not
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+To solve the problems of incremental connectivity disjoint data structure is used. Here each connected component represents a set and if the two nodes belong to the same set it means that they are connected. 
+
+
+Implementation is given below here we are using union by rank and path compression 
+
+C++
+Java
+Python3
+# Python3 implementation of
+# incremental connectivity
+ 
+# Finding the root of node i
+def root(arr, i):
+    while (arr[i] != i):
+        arr[i] = arr[arr[i]]
+        i = arr[i]
+    return i
+ 
+# union of two nodes a and b
+def weighted_union(arr, rank, a, b):
+    root_a = root (arr, a)
+    root_b = root (arr, b)
+ 
+    # union based on rank
+    if (rank[root_a] < rank[root_b]):
+        arr[root_a] = arr[root_b]
+        rank[root_b] += rank[root_a]
+    else:
+        arr[root_b] = arr[root_a]
+        rank[root_a] += rank[root_b]
+ 
+# Returns true if two nodes have
+# same root
+def areSame(arr, a, b):
+    return (root(arr, a) == root(arr, b))
+ 
+# Performing an operation according
+# to query type
+def query(type, x, y, arr, rank):
+     
+    # type 1 query means checking if
+    # node x and y are connected or not
+    if (type == 1):
+         
+        # If roots of x and y is same
+        # then yes is the answer
+        if (areSame(arr, x, y) == True):
+            print("Yes")
+        else:
+            print("No")
+ 
+    # type 2 query refers union of
+    # x and y
+    elif (type == 2):
+         
+        # If x and y have different
+        # roots then union them
+        if (areSame(arr, x, y) == False):
+            weighted_union(arr, rank, x, y)
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # No.of nodes
+    n = 7
+ 
+    # The following two arrays are used to
+    # implement disjoint set data structure.
+    # arr[] holds the parent nodes while rank
+    # array holds the rank of subset
+    arr = [None] * n
+    rank = [None] * n
+ 
+    # initializing both array
+    # and rank
+    for i in range(n):
+        arr[i] = i
+        rank[i] = 1
+ 
+    # number of queries
+    q = 11
+    query(1, 0, 1, arr, rank)
+    query(2, 0, 1, arr, rank)
+    query(2, 1, 2, arr, rank)
+    query(1, 0, 2, arr, rank)
+    query(2, 0, 2, arr, rank)
+    query(2, 2, 3, arr, rank)
+    query(2, 3, 4, arr, rank)
+    query(1, 0, 5, arr, rank)
+    query(2, 4, 5, arr, rank)
+    query(2, 5, 6, arr, rank)
+    query(1, 2, 6, arr, rank)
+ 
+# This code is contributed by PranchalK
+C#
+Output
+No
+Yes
+No
+Yes
+Time Complexity:
+The amortized time complexity is O(alpha(n)) per operation where alpha is inverse ackermann function which is nearly constant.
+
+
+
+This article is contributed by Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. O(alpha(n))
+
+
+
+
+
+Like
+3
+Previous
+Eulerian Path in undirected graph
+Next
+Maximum Bipartite Matching
+Related Articles
+1.
+Dynamic Connectivity | Set 2 (DSU with Rollback)
+2.
+Dynamic Disjoint Set Data Structure for large range values
+3.
+Travelling Salesman Problem using Dynamic Programming
+4.
+Sum over Subsets | Dynamic Programming
+5.
+Introduction to Dynamic Programming on Trees
+6.
+Longest path in a directed Acyclic graph | Dynamic Programming
+7.
+Extendible Hashing (Dynamic approach to DBMS)
+8.
+Minimum moves to make M and N equal by repeated addition of divisors except 1 using Dynamic Programming
+9.
+Implement Dynamic Multi Stack (K stacks) using only one Data Structure
+10.
+Static and Dynamic data structures in Java with Examples
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+Rajput-Ji
+princiraj1992
+sumitgumber28
+simmytarika5
+hardikkoriintern
+Article Tags :
+union-find
+Advanced Data Structure
+Graph
+Practice Tags :
+Advanced Data Structure
+Graph
+union-find
+Improve Article
+Report Issue

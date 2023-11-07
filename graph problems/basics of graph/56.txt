@@ -1,0 +1,254 @@
+Reverse Delete Algorithm for Minimum Spanning Tree
+
+Difficulty Level : Medium
+Last Updated : 04 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Reverse Delete algorithm is closely related to Kruskal’s algorithm. In Kruskal’s algorithm what we do is : Sort edges by increasing order of their weights. After sorting, we one by one pick edges in increasing order. We include current picked edge if by including this in spanning tree not form any cycle until there are V-1 edges in spanning tree, where V = number of vertices.
+
+In Reverse Delete algorithm, we sort all edges in decreasing order of their weights. After sorting, we one by one pick edges in decreasing order. We include current picked edge if excluding current edge causes disconnection in current graph. The main idea is delete edge if its deletion does not lead to disconnection of graph.
+
+The Algorithm :
+
+Sort all edges of graph in non-increasing order of edge weights.
+Initialize MST as original graph and remove extra edges using step 3.
+Pick highest weight edge from remaining edges and check if deleting the edge disconnects the graph   or not.
+ If disconnects, then we don’t delete the edge.
+Else we delete the edge and continue. 
+Illustration: 
+
+Let us understand with the following example:
+
+
+
+If we delete highest weight edge of weight 14, graph doesn’t become disconnected, so we remove it. 
+ 
+
+
+
+reversedelete2
+
+Next we delete 11 as deleting it doesn’t disconnect the graph. 
+ 
+
+reversedelete3
+
+Next we delete 10 as deleting it doesn’t disconnect the graph. 
+ 
+
+reversedelete4
+
+Next is 9. We cannot delete 9 as deleting it causes disconnection. 
+ 
+
+reversedelete5
+
+We continue this way and following edges remain in final MST. 
+
+Edges in MST
+(3, 4) 
+(0, 7) 
+(2, 3) 
+(2, 5) 
+(0, 1) 
+(5, 6) 
+(2, 8) 
+(6, 7) 
+Note : In case of same weight edges, we can pick any edge of the same weight edges.
+
+Recommended Problem
+Reverse Delete Algorithm for Minimum Spanning Tree
+Graph
+Data Structures
+Solve Problem
+Submission count: 1.2K
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find Minimum Spanning Tree
+# of a graph using Reverse Delete Algorithm
+ 
+# Graph class represents a directed graph
+# using adjacency list representation
+class Graph:
+    def __init__(self, v):
+ 
+        # No. of vertices
+        self.v = v
+        self.adj = [0] * v
+        self.edges = []
+        for i in range(v):
+            self.adj[i] = []
+ 
+    # function to add an edge to graph
+    def addEdge(self, u: int, v: int, w: int):
+        self.adj[u].append(v) # Add w to v’s list.
+        self.adj[v].append(u) # Add w to v’s list.
+        self.edges.append((w, (u, v)))
+ 
+    def dfs(self, v: int, visited: list):
+ 
+        # Mark the current node as visited and print it
+        visited[v] = True
+ 
+        # Recur for all the vertices adjacent to
+        # this vertex
+        for i in self.adj[v]:
+            if not visited[i]:
+                self.dfs(i, visited)
+ 
+    # Returns true if graph is connected
+    # Returns true if given graph is connected, else false
+    def connected(self):
+        visited = [False] * self.v
+ 
+        # Find all reachable vertices from first vertex
+        self.dfs(0, visited)
+ 
+        # If set of reachable vertices includes all,
+        # return true.
+        for i in range(1, self.v):
+            if not visited[i]:
+                return False
+ 
+        return True
+ 
+    # This function assumes that edge (u, v)
+    # exists in graph or not,
+    def reverseDeleteMST(self):
+ 
+        # Sort edges in increasing order on basis of cost
+        self.edges.sort(key = lambda a: a[0])
+ 
+        mst_wt = 0 # Initialize weight of MST
+ 
+        print("Edges in MST")
+ 
+        # Iterate through all sorted edges in
+        # decreasing order of weights
+        for i in range(len(self.edges) - 1, -1, -1):
+            u = self.edges[i][1][0]
+            v = self.edges[i][1][1]
+ 
+            # Remove edge from undirected graph
+            self.adj[u].remove(v)
+            self.adj[v].remove(u)
+ 
+            # Adding the edge back if removing it
+            # causes disconnection. In this case this
+            # edge becomes part of MST.
+            if self.connected() == False:
+                self.adj[u].append(v)
+                self.adj[v].append(u)
+ 
+                # This edge is part of MST
+                print("( %d, %d )" % (u, v))
+                mst_wt += self.edges[i][0]
+        print("Total weight of MST is", mst_wt)
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    # create the graph given in above figure
+    V = 9
+    g = Graph(V)
+ 
+    # making above shown graph
+    g.addEdge(0, 1, 4)
+    g.addEdge(0, 7, 8)
+    g.addEdge(1, 2, 8)
+    g.addEdge(1, 7, 11)
+    g.addEdge(2, 3, 7)
+    g.addEdge(2, 8, 2)
+    g.addEdge(2, 5, 4)
+    g.addEdge(3, 4, 9)
+    g.addEdge(3, 5, 14)
+    g.addEdge(4, 5, 10)
+    g.addEdge(5, 6, 2)
+    g.addEdge(6, 7, 1)
+    g.addEdge(6, 8, 6)
+    g.addEdge(7, 8, 7)
+ 
+    g.reverseDeleteMST()
+ 
+# This code is contributed by
+# sanjeev2552
+C#
+Output
+Edges in MST
+(3, 4) 
+(0, 7) 
+(2, 3) 
+(2, 5) 
+(0, 1) 
+(5, 6) 
+(2, 8) 
+(6, 7) 
+Total weight of MST is 37
+Notes : 
+
+The above implementation is a simple/naive implementation of Reverse Delete algorithm and can be optimized to O(E log V (log log V)3) [Source : Wiki]. But this optimized time complexity is still less than Prim and Kruskal Algorithms for MST.
+The above implementation modifies the original graph. We can create a copy of the graph if original graph must be retained.
+This article is contributed by Antra Purohit. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+10
+Previous
+Boruvka's algorithm | Greedy Algo-9
+Next
+Dijkstra's Shortest Path Algorithm | Greedy Algo-7
+Related Articles
+1.
+Boruvka's algorithm for Minimum Spanning Tree
+2.
+Kruskal’s Minimum Spanning Tree Algorithm | Greedy Algo-2
+3.
+Spanning Tree With Maximum Degree (Using Kruskal's Algorithm)
+4.
+Maximum Spanning Tree using Prim’s Algorithm
+5.
+Kruskal's Minimum Spanning Tree using STL in C++
+6.
+Minimum Product Spanning Tree
+7.
+Minimum spanning tree cost of given Graphs
+8.
+Find the weight of the minimum spanning tree
+9.
+Find the minimum spanning tree with alternating colored edges
+10.
+Minimum Spanning Tree using Priority Queue and Array List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+simmytarika5
+cavi4762
+hardikkoriintern
+prithicogni89
+Article Tags :
+MST
+Graph
+Greedy
+Practice Tags :
+Graph
+Greedy
+Improve Article
+Report Issue

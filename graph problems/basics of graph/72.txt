@@ -1,0 +1,137 @@
+Topological Sort of a graph using departure time of vertex
+
+Difficulty Level : Medium
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Directed Acyclic Graph (DAG), find Topological Sort of the graph.
+
+Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every directed edge uv, vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+
+For example, a topological sorting of the following graph is “5 4 2 3 1 0”. There can be more than one topological sorting for a graph. For example, another topological sorting of the following graph is “4 5 2 3 1 0”.
+
+Topological Sort
+
+Please note that the first vertex in topological sorting is always a vertex with in-degree as 0 (a vertex with no incoming edges). For above graph, vertex 4 and 5 have no incoming edges.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have already discussed a DFS-based algorithm using stack and Kahn’s Algorithm for Topological Sorting. We have also discussed how to print all topological sorts of the DAG here. In this post, another DFS based approach is discussed for finding Topological sort of a graph by introducing concept of arrival and departure time of a vertex in DFS.
+
+What is Arrival Time & Departure Time of Vertices in DFS? 
+In DFS, Arrival Time is the time at which the vertex was explored for the first time and Departure Time is the time at which we have explored all the neighbors of the vertex and we are ready to backtrack.
+
+How to find Topological Sort of a graph using departure time? 
+To find Topological Sort of a graph, we run DFS starting from all unvisited vertices one by one. For any vertex, before exploring any of its neighbors, we note the arrival time of that vertex and after exploring all the neighbors of the vertex, we note its departure time. Please note only departure time is needed to find Topological Sort of a graph, so we can skip arrival time of vertex. Finally, after we have visited all the vertices of the graph, we print the vertices in order of their decreasing departure time which is our desired Topological Order of Vertices.
+
+Below is C++ implementation of above idea –
+
+C++
+Python3
+# A Python3 program to print topological sorting of a DAG
+def addEdge(u, v):
+    global adj
+    adj[u].append(v)
+ 
+# The function to do DFS() and stores departure time
+# of all vertex
+def DFS(v):
+    global visited, departure, time
+    visited[v] = 1
+    for i in adj[v]:
+        if visited[i] == 0:
+            DFS(i)
+    departure[time] = v
+    time += 1
+ 
+# The function to do Topological Sort. It uses DFS().
+def topologicalSort():
+ 
+    # perform DFS on all unvisited vertices
+    for i in range(V):
+        if(visited[i] == 0):
+            DFS(i)
+ 
+    # Print vertices in topological order
+    for i in range(V - 1, -1, -1):
+        print(departure[i], end = " ")
+ 
+# Driver code
+if __name__ == '__main__':
+   
+    # Create a graph given in the above diagram
+    V,time, adj, visited, departure = 6, 0, [[] for i in range(7)], [0 for i in range(7)],[-1 for i in range(7)]
+    addEdge(5, 2)
+    addEdge(5, 0)
+    addEdge(4, 0)
+    addEdge(4, 1)
+    addEdge(2, 3)
+    addEdge(3, 1)
+ 
+    print("Topological Sort of the given graph is")
+    topologicalSort()
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Java
+Output
+Topological Sort of the given graph is 
+5 4 2 3 1 0 
+Time Complexity of above solution is O(V + E).
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Find the ordering of tasks from given dependencies
+Next
+Prim’s Minimum Spanning Tree (MST) | Greedy Algo-5
+Related Articles
+1.
+Check if incoming edges in a vertex of directed graph is equal to vertex itself or not
+2.
+Check if vertex X lies in subgraph of vertex Y for the given Graph
+3.
+Check if every vertex triplet in graph contains two vertices connected to third vertex
+4.
+Detect cycle in Directed Graph using Topological Sort
+5.
+All Topological Sorts of a Directed Acyclic Graph
+6.
+Maximum number of edges that N-vertex graph can have such that graph is Triangle free | Mantel's Theorem
+7.
+Finding minimum vertex cover size of a graph using binary search
+8.
+Find a Mother vertex in a Graph using Bit Masking
+9.
+Topological Sorting
+10.
+Kahn's algorithm for Topological Sorting
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+unknown2108
+Apoorva_Kumar
+cavi4762
+hardikkoriintern
+prithicogni89
+Article Tags :
+Topological Sorting
+Graph
+Practice Tags :
+Graph
+Report Issue

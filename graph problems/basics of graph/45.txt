@@ -1,0 +1,229 @@
+Shortest path in an unweighted graph
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(20)
+Courses
+Practice
+Video
+Given an unweighted graph, a source, and a destination, we need to find the shortest path from source to destination in the graph in the most optimal way.
+
+unweighted graph
+unweighted graph of 8 vertices 
+
+Input: source vertex = 0 and destination vertex is = 7.
+Output: Shortest path length is:2
+        Path is::
+        0 3 7
+
+Input: source vertex is = 2 and destination vertex is = 6.
+Output: Shortest path length is:5
+        Path is::
+        2 1 0 3 4 6
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+One solution is to solve in O(VE) time using Bellman–Ford. If there are no negative weight cycles, then we can solve in O(E + VLogV) time using Dijkstra’s algorithm. 
+Since the graph is unweighted, we can solve this problem in O(V + E) time. The idea is to use a modified version of Breadth-first search in which we keep storing the predecessor of a given vertex while doing the breadth-first search. 
+
+We first initialize an array dist[0, 1, …., v-1] such that dist[i] stores the distance of vertex i from the source vertex and array pred[0, 1, ….., v-1] such that pred[i] represents the immediate predecessor of the vertex i in the breadth-first search starting from the source. 
+
+Now we get the length of the path from source to any other vertex in O(1) time from array d, and for printing the path from source to any vertex we can use array p and that will take O(V) time in worst case as V is the size of array P. So most of the time of the algorithm is spent in doing the Breadth-first search from a given source which we know takes O(V+E) time. Thus the time complexity of our algorithm is O(V+E). 
+
+Take the following unweighted graph as an example:
+
+Following is the complete algorithm for finding the shortest path: 
+
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 code for printing shortest path between
+# two vertices of unweighted graph
+  
+# utility function to form edge between two vertices
+# source and dest
+def add_edge(adj, src, dest):
+ 
+    adj[src].append(dest);
+    adj[dest].append(src);
+  
+# a modified version of BFS that stores predecessor
+# of each vertex in array p
+# and its distance from source in array d
+def BFS(adj, src, dest, v, pred, dist):
+ 
+    # a queue to maintain queue of vertices whose
+    # adjacency list is to be scanned as per normal
+    # DFS algorithm
+    queue = []
+  
+    # boolean array visited[] which stores the
+    # information whether ith vertex is reached
+    # at least once in the Breadth first search
+    visited = [False for i in range(v)];
+  
+    # initially all vertices are unvisited
+    # so v[i] for all i is false
+    # and as no path is yet constructed
+    # dist[i] for all i set to infinity
+    for i in range(v):
+ 
+        dist[i] = 1000000
+        pred[i] = -1;
+     
+    # now source is first to be visited and
+    # distance from source to itself should be 0
+    visited[src] = True;
+    dist[src] = 0;
+    queue.append(src);
+  
+    # standard BFS algorithm
+    while (len(queue) != 0):
+        u = queue[0];
+        queue.pop(0);
+        for i in range(len(adj[u])):
+         
+            if (visited[adj[u][i]] == False):
+                visited[adj[u][i]] = True;
+                dist[adj[u][i]] = dist[u] + 1;
+                pred[adj[u][i]] = u;
+                queue.append(adj[u][i]);
+  
+                # We stop BFS when we find
+                # destination.
+                if (adj[u][i] == dest):
+                    return True;
+  
+    return False;
+  
+# utility function to print the shortest distance
+# between source vertex and destination vertex
+def printShortestDistance(adj, s, dest, v):
+     
+    # predecessor[i] array stores predecessor of
+    # i and distance array stores distance of i
+    # from s
+    pred=[0 for i in range(v)]
+    dist=[0 for i in range(v)];
+  
+    if (BFS(adj, s, dest, v, pred, dist) == False):
+        print("Given source and destination are not connected")
+  
+    # vector path stores the shortest path
+    path = []
+    crawl = dest;
+    path.append(crawl);
+     
+    while (pred[crawl] != -1):
+        path.append(pred[crawl]);
+        crawl = pred[crawl];
+     
+  
+    # distance from source is in distance array
+    print("Shortest path length is : " + str(dist[dest]), end = '')
+  
+    # printing path from source to destination
+    print("\nPath is : : ")
+     
+    for i in range(len(path)-1, -1, -1):
+        print(path[i], end=' ')
+         
+# Driver program to test above functions
+if __name__=='__main__':
+     
+    # no. of vertices
+    v = 8;
+  
+    # array of vectors is used to store the graph
+    # in the form of an adjacency list
+    adj = [[] for i in range(v)];
+  
+    # Creating graph given in the above diagram.
+    # add_edge function takes adjacency list, source
+    # and destination vertex as argument and forms
+    # an edge between them.
+    add_edge(adj, 0, 1);
+    add_edge(adj, 0, 3);
+    add_edge(adj, 1, 2);
+    add_edge(adj, 3, 4);
+    add_edge(adj, 3, 7);
+    add_edge(adj, 4, 5);
+    add_edge(adj, 4, 6);
+    add_edge(adj, 4, 7);
+    add_edge(adj, 5, 6);
+    add_edge(adj, 6, 7);
+    source = 0
+    dest = 7;
+    printShortestDistance(adj, source, dest, v);
+ 
+    # This code is contributed by rutvik_56
+C#
+Javascript
+Output
+Shortest path length is : 2
+Path is::
+0 3 7 
+Time Complexity : O(V + E) 
+Auxiliary Space: O(V)
+
+
+
+
+
+Like
+102
+Previous
+Shortest Path in Directed Acyclic Graph
+Next
+Comparison of Dijkstra’s and Floyd–Warshall algorithms
+Related Articles
+1.
+Difference between the shortest and second shortest path in an Unweighted Bidirectional Graph
+2.
+Multi Source Shortest Path in Unweighted Graph
+3.
+Number of shortest paths in an unweighted and directed graph
+4.
+Shortest cycle in an undirected unweighted graph
+5.
+Find any simple cycle in an undirected unweighted Graph
+6.
+Graph implementation using STL for competitive programming | Set 1 (DFS of Unweighted and Undirected)
+7.
+Applications, Advantages and Disadvantages of Unweighted Graph
+8.
+Shortest path from source to destination such that edge weights along path are alternatively increasing and decreasing
+9.
+Shortest path with exactly k edges in a directed and weighted graph
+10.
+Shortest Path in a weighted Graph where weight of an edge is 1 or 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ab_gupta
+@ab_gupta
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+svision
+Rajput-Ji
+rutvik_56
+uttamsingh
+hardikkoriintern
+z1nc0r3
+Article Tags :
+BFS
+cpp-queue
+Graph
+Practice Tags :
+BFS
+Graph
+Improve Article
+Report Issue

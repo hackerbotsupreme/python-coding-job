@@ -1,0 +1,103 @@
+Difference between Prim’s and Kruskal’s algorithm for MST
+
+Difficulty Level : Easy
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Kruskal’s algorithm for MST 
+
+Given a connected and undirected graph, a spanning tree of that graph is a subgraph that is a tree and connects all the vertices together. A single graph can have many different spanning trees. A minimum spanning tree (MST) or minimum weight spanning tree for a weighted, connected and undirected graph is a spanning tree with weight less than or equal to the weight of every other spanning tree. The weight of a spanning tree is the sum of weights given to each edge of the spanning tree. 
+
+Below are the steps for finding MST using Kruskal’s algorithm 
+
+Sort all the edges in non-decreasing order of their weight.
+Pick the smallest edge. Check if it forms a cycle with the spanning-tree formed so far. If the cycle is not formed, include this edge. Else, discard it.
+Repeat step#2 until there are (V-1) edges in the spanning tree.
+Prim’s algorithm for MST 
+
+Like Kruskal’s algorithm, Prim’s algorithm is also a Greedy algorithm. It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. 
+
+Below are the steps for finding MST using Prim’s algorithm 
+
+Create a set mstSet that keeps track of vertices already included in MST.
+Assign a key value to all vertices in the input graph. Initialize all key values as INFINITE. Assign key value as 0 for the first vertex so that it is picked first.
+While mstSet doesn’t include all vertices 
+Pick a vertex u which is not there in mstSet and has minimum key value.
+Include u to mstSet.
+Update the key value of all adjacent vertices of u. To update the key values, iterate through all adjacent vertices. For every adjacent vertex v, if the weight of edge u-v is less than the previous key value of v, update the key value as the weight of u-v
+Both Prim’s and Kruskal’s algorithm finds the Minimum Spanning Tree and follow the Greedy approach of problem-solving, but there are few major differences between them.  
+
+Prim’s Algorithm	Kruskal’s Algorithm
+It starts to build the Minimum Spanning Tree from any vertex in the graph.	It starts to build the Minimum Spanning Tree from the vertex carrying minimum weight in the graph.
+It traverses one node more than one time to get the minimum distance.	It traverses one node only once.
+Prim’s algorithm has a time complexity of O(V2), V being the number of vertices and can be improved up to O(E log V) using Fibonacci heaps.	Kruskal’s algorithm’s time complexity is O(E log V), V being the number of vertices.
+Prim’s algorithm gives connected component as well as it works only on connected graph.	Kruskal’s algorithm can generate forest(disconnected components) at any instant as well as it can work on disconnected components
+Prim’s algorithm runs faster in dense graphs.	Kruskal’s algorithm runs faster in sparse graphs.
+It generates the minimum spanning tree starting from the root vertex.	It generates the minimum spanning tree starting from the least weighted edge. 
+Applications of prim’s algorithm are Travelling Salesman Problem, Network for roads and Rail tracks connecting all the cities etc.	Applications of Kruskal algorithm are LAN connection, TV Network etc.
+Prim’s algorithm prefer list data structures.	Kruskal’s algorithm prefer heap data structures.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Difference between 4G and 5G
+Next
+Difference between Test Plan and Test Strategy
+Related Articles
+1.
+Why Prim’s and Kruskal's MST algorithm fails for Directed Graph?
+2.
+Prim’s MST for Adjacency List Representation | Greedy Algo-6
+3.
+Approximate solution for Travelling Salesman Problem using MST
+4.
+Find weight of MST in a complete graph with edge-weights either 0 or 1
+5.
+Properties of Minimum Spanning Tree (MST)
+6.
+Prim’s Minimum Spanning Tree (MST) | Greedy Algo-5
+7.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+8.
+Introduction to Greedy Algorithm - Data Structures and Algorithm Tutorials
+9.
+Difference between Algorithm, Pseudocode and Program
+10.
+Difference Between Algorithm and Flowchart
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+argha_c14
+@argha_c14
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+aman26121997
+argha111234
+viswananthhemanth
+RishabhPrabhu
+itskawal2000
+priyansh70890
+Article Tags :
+MST
+Difference Between
+Greedy
+Practice Tags :
+Greedy
+Report Issue
+WHAT'S NEW
+
+Master Data Science & ML
+View Details
+
+DSA- Live Classes

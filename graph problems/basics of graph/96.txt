@@ -1,0 +1,131 @@
+Count number of trees in a forest
+
+Difficulty Level : Easy
+Last Updated : 03 Aug, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given n nodes of a forest (collection of trees), find the number of trees in the forest.
+
+Examples : 
+
+Input :  edges[] = {0, 1}, {0, 2}, {3, 4}
+Output : 2
+Explanation : There are 2 trees
+                   0       3
+                  / \       \
+                 1   2       4
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach : 
+
+ Apply DFS on every node. 
+Increment count by one if every connected node is visited from one source. 
+Again perform DFS traversal if some nodes yet not visited. 
+ Count will give the number of trees in forest. 
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to count number 
+# of trees in a forest.
+ 
+# A utility function to add an
+# edge in an undirected graph.
+def addEdge(adj, u, v):
+    adj[u].append(v)
+    adj[v].append(u)
+ 
+# A utility function to do DFS of graph
+# recursively from a given vertex u.
+def DFSUtil(u, adj, visited):
+    visited[u] = True
+    for i in range(len(adj[u])):
+        if (visited[adj[u][i]] == False):
+            DFSUtil(adj[u][i], adj, visited)
+ 
+# Returns count of tree is the
+# forest given as adjacency list.
+def countTrees(adj, V):
+    visited = [False] * V
+    res = 0
+    for u in range(V):
+        if (visited[u] == False):
+            DFSUtil(u, adj, visited)
+            res += 1
+    return res
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    V = 5
+    adj = [[] for i in range(V)]
+    addEdge(adj, 0, 1)
+    addEdge(adj, 0, 2)
+    addEdge(adj, 3, 4)
+    print(countTrees(adj, V))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output: 
+2
+ 
+
+Time Complexity : O(V + E)
+
+
+
+Like
+Previous
+Water Jug problem using BFS
+Next
+BFS using vectors & queue as per the algorithm of CLRS
+Related Articles
+1.
+Size of the Largest Trees in a Forest formed by the given Graph
+2.
+Convert a tree to forest of even nodes
+3.
+Maximum edge removal from tree to make even forest
+4.
+Node whose removal minimizes the maximum size forest from an N-ary Tree
+5.
+Minimize deletion of edges to convert Tree into a forest of size at most N/2
+6.
+Total number of Spanning Trees in a Graph
+7.
+Total number of Spanning trees in a Cycle Graph
+8.
+Find number of edges that can be broken in a tree such that Bitwise OR of resulting two trees are equal
+9.
+Number of trees whose sum of degrees of all the vertices is L
+10.
+Number of spanning trees of a weighted complete Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Bibhu Pala
+@Bibhu Pala
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajesh Raj 2
+PranchalKatiyar
+mayankbansal2
+princiraj1992
+rutvik_56
+hardikkoriintern
+Article Tags :
+DFS
+Graph
+Practice Tags :
+DFS
+Graph
+Report Issue

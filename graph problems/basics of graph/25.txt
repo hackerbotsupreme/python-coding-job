@@ -1,0 +1,205 @@
+BFS for Disconnected Graph
+
+Difficulty Level : Easy
+Last Updated : 20 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+In the previous post, BFS only with a particular vertex is performed i.e. it is assumed that all vertices are reachable from the starting vertex. But in the case of a disconnected graph or any vertex that is unreachable from all vertex, the previous implementation will not give the desired output, so in this post, a modification is done in BFS. 
+
+BFS for Disconnected Graph 1
+
+ All vertices are reachable. So, for the above graph, simple BFS will work. 
+
+BFS for Disconnected Graph 2
+
+
+ As in the above graph vertex 1 is unreachable from all vertex, so simple BFS wouldn’t work for it.
+
+Just to modify BFS, perform simple BFS from each 
+unvisited vertex of given graph.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Following is the code when adjacency matrix representation is used for the graph.
+
+C++
+Java
+Python3
+import queue
+ 
+def add_edge(edges, f, s):
+    edges[f][s] = 1
+ 
+def print_bfs(edges, V, start, visited):
+    if V == 0:
+        return
+    bfs = queue.Queue()
+    bfs.put(start)
+    visited[start] = 1
+    while not bfs.empty():
+        data = bfs.get()
+        print(data, end=' ')
+        for i in range(V):
+            if edges[data][i] == 1:
+                if visited[i] == 0:
+                    bfs.put(i)
+                    visited[i] = 1
+ 
+def bfs_helper(edges, V):
+    if V == 0:
+        return
+    visited = [0] * V
+    for i in range(V):
+        if visited[i] == 0:
+            print_bfs(edges, V, i, visited)
+ 
+if __name__ == "__main__":
+    V = 5
+    E = 6
+    if E == 0:
+        for i in range(V):
+            print(i, end=' ')
+        exit()
+ 
+    edges = [[0 for _ in range(V)] for _ in range(V)]
+ 
+    add_edge(edges, 0, 4)
+    add_edge(edges, 1, 2)
+    add_edge(edges, 1, 3)
+    add_edge(edges, 1, 4)
+    add_edge(edges, 2, 3)
+    add_edge(edges, 3, 4)
+ 
+    bfs_helper(edges, V)
+C#
+Output
+0 4 1 2 3 
+Following is the code when adjacency list representation is used for the graph.
+
+C++
+Java
+Python3
+# Python3 implementation of modified BFS
+import queue
+ 
+# A utility function to add an edge
+# in an undirected graph.
+def addEdge(adj, u, v):
+    adj[u].append(v)
+ 
+# A utility function to do BFS of
+# graph from a given vertex u.
+def BFSUtil(u, adj, visited):
+ 
+    # Create a queue for BFS
+    q = queue.Queue()
+     
+    # Mark the current node as visited
+    # and enqueue it
+    visited[u] = True
+    q.put(u)
+     
+    # 'i' will be used to get all adjacent
+    # vertices 4 of a vertex list<int>::iterator i
+     
+    while(not q.empty()):
+         
+        # Dequeue a vertex from queue
+        # and print it
+        u = q.queue[0]
+        print(u, end = " ")
+        q.get()
+     
+        # Get all adjacent vertices of the
+        # dequeued vertex s. If an adjacent
+        # has not been visited, then mark
+        # it visited and enqueue it
+        i = 0
+        while i != len(adj[u]):
+            if (not visited[adj[u][i]]):
+                    visited[adj[u][i]] = True
+                    q.put(adj[u][i])
+            i += 1
+ 
+# This function does BFSUtil() for all
+# unvisited vertices.
+def BFS(adj, V):
+    visited = [False] * V
+    for u in range(V):
+        if (visited[u] == False):
+            BFSUtil(u, adj, visited)
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    V = 5
+    adj = [[] for i in range(V)]
+ 
+    addEdge(adj, 0, 4)
+    addEdge(adj, 1, 2)
+    addEdge(adj, 1, 3)
+    addEdge(adj, 1, 4)
+    addEdge(adj, 2, 3)
+    addEdge(adj, 3, 4)
+    BFS(adj, V)
+ 
+# This code is contributed by PranchalK
+C#
+Output
+0 4 1 2 3 
+ This article is contributed by Sahil Chhabra (akku). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Best First Search (Informed Search)
+Next
+Detect Cycle in a Directed Graph
+Related Articles
+1.
+Count single node isolated sub-graphs in a disconnected graph
+2.
+Maximize count of nodes disconnected from all other nodes in a Graph
+3.
+Java Program to Find Minimum Number of Edges to Cut to Make the Graph Disconnected
+4.
+Check if a given directed graph is strongly connected | Set 2 (Kosaraju using BFS)
+5.
+0-1 BFS (Shortest Path in a Binary Weight Graph)
+6.
+Detect cycle in an undirected graph using BFS
+7.
+Detect Cycle in a Directed Graph using BFS
+8.
+Print the lexicographically smallest BFS of the graph starting from 1
+9.
+Islands in a graph using BFS
+10.
+When to use DFS or BFS to solve a Graph problem?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+perdio
+Rajput-Ji
+aggarwalsajal19
+cavi4762
+hardikkoriintern
+vikramshirsath177
+Article Tags :
+BFS
+Graph
+Practice Tags :
+BFS
+Graph
+Report Issue

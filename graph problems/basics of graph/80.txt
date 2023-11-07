@@ -1,0 +1,280 @@
+Word Ladder (Length of shortest chain to reach a target word)
+
+Difficulty Level : Medium
+Last Updated : 11 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a dictionary, and two words ‘start’ and ‘target’ (both of same length). Find length of the smallest chain from ‘start’ to ‘target’ if it exists, such that adjacent words in the chain only differ by one character and each word in the chain is a valid word i.e., it exists in the dictionary. It may be assumed that the ‘target’ word exists in dictionary and length of all dictionary words is same. 
+
+Example: 
+
+Input: Dictionary = {POON, PLEE, SAME, POIE, PLEA, PLIE, POIN}, start = TOON, target = PLEA
+Output: 7
+Explanation: TOON – POON – POIN – POIE – PLIE – PLEE – PLEA
+
+Input: Dictionary = {ABCD, EBAD, EBCD, XYZA}, start = ABCV, target = EBAD
+Output: 4
+Explanation: ABCV – ABCD – EBCD – EBAD
+
+ 
+Approach: The idea to solve the problem is to use BFS. To find the shortest path through BFS, start from the start word and push it in a queue. And once the target is found for the first time, then return that level of BFS traversal. In each step of BFS one can get all the words that can be formed using that many steps. So whenever the target word is found for the first time that will be the length of the shortest chain of words.
+
+Start from the given start word.
+Push the word in the queue
+Run a loop until the queue is empty
+Traverse all words that adjacent (differ by one character) to it and push the word in a queue (for BFS)
+Keep doing so until we find the target word or we have traversed all words.
+Below are the implementations of the above idea.
+
+C++
+Java
+Python3
+# Python3 program to find length of the
+# shortest chain transformation from source
+# to target
+from collections import deque
+ 
+# Returns length of shortest chain
+# to reach 'target' from 'start'
+# using minimum number of adjacent
+# moves. D is dictionary
+def shortestChainLen(start, target, D):
+     
+    if start == target:
+      return 0
+    # If the target is not
+    # present in the dictionary
+    if target not in D:
+        return 0
+ 
+    # To store the current chain length
+    # and the length of the words
+    level, wordlength = 0, len(start)
+ 
+    # Push the starting word into the queue
+    Q =  deque()
+    Q.append(start)
+ 
+    # While the queue is non-empty
+    while (len(Q) > 0):
+         
+        # Increment the chain length
+        level += 1
+ 
+        # Current size of the queue
+        sizeofQ = len(Q)
+ 
+        # Since the queue is being updated while
+        # it is being traversed so only the
+        # elements which were already present
+        # in the queue before the start of this
+        # loop will be traversed for now
+        for i in range(sizeofQ):
+ 
+            # Remove the first word from the queue
+            word = [j for j in Q.popleft()]
+            #Q.pop()
+ 
+            # For every character of the word
+            for pos in range(wordlength):
+                 
+                # Retain the original character
+                # at the current position
+                orig_char = word[pos]
+ 
+                # Replace the current character with
+                # every possible lowercase alphabet
+                for c in range(ord('a'), ord('z')+1):
+                    word[pos] = chr(c)
+ 
+                    # If the new word is equal
+                    # to the target word
+                    if ("".join(word) == target):
+                        return level + 1
+ 
+                    # Remove the word from the set
+                    # if it is found in it
+                    if ("".join(word) not in D):
+                        continue
+                         
+                    del D["".join(word)]
+ 
+                    # And push the newly generated word
+                    # which will be a part of the chain
+                    Q.append("".join(word))
+ 
+                # Restore the original character
+                # at the current position
+                word[pos] = orig_char
+ 
+    return 0
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    # Make dictionary
+    D = {}
+    D["poon"] = 1
+    D["plee"] = 1
+    D["same"] = 1
+    D["poie"] = 1
+    D["plie"] = 1
+    D["poin"] = 1
+    D["plea"] = 1
+    start = "toon"
+    target = "plea"
+     
+    print("Length of shortest chain is: ",
+    shortestChainLen(start, target, D))
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+
+
+Length of shortest chain is: 7
+Time Complexity: O(N² * M), where N is the number of entries originally in the dictionary and M is the size of the string.
+Auxiliary Space: O(M * N)
+
+Alternate Implementation: (Maintaining the mapping of the intermediate words and the original word):
+
+Below is an alternative implementation to the above approach. 
+
+Here, in this approach, we find out all the intermediate words of the start word and the words in the given list of dictionary and maintain a map of the intermediate word and a vector of the original word (map<string, vector<string>>). For instance, for the word “POON”, the intermediate words are “*OON” , “P*ON”, “PO*N”, “POO*”. Then, we perform BFS traversal starting with the start word and push a pair of start word and the distance (pair(word, distance)) to the queue until we reach the target word. Then, the distance is our answer.
+
+C++
+Java
+Python3
+from typing import List, Tuple, Set, Dict, Any, Union
+ 
+def shortest_chain_len(start: str, target: str, D: Set[str]) -> int:
+    if start == target:
+        return 0
+ 
+    # Map of intermediate words and
+    # the list of original words
+    umap: Dict[str, List[str]] = {}
+ 
+    # Initialize umap with empty lists
+    for i in range(len(start)):
+        intermediate_word = start[:i] + "*" + start[i+1:]
+        umap[intermediate_word] = []
+ 
+    # Find all the intermediate words for
+    # the words in the given Set
+    for word in D:
+        for i in range(len(word)):
+            intermediate_word = word[:i] + "*" + word[i+1:]
+            if intermediate_word not in umap:
+                umap[intermediate_word] = []
+            umap[intermediate_word].append(word)
+ 
+    # Perform BFS and push (word, distance)
+    q = [(start, 1)]
+    visited = {start: 1}
+ 
+    # Traverse until queue is empty
+    while q:
+        word, dist = q.pop(0)
+ 
+        # If target word is found
+        if word == target:
+            return dist
+ 
+        # Finding intermediate words for
+        # the word in front of queue
+        for i in range(len(word)):
+            intermediate_word = word[:i] + '*' + word[i+1:]
+            vect = umap[intermediate_word]
+            for k in range(len(vect)):
+               
+                # If the word is not visited
+                if vect[k] not in visited:
+                    visited[vect[k]] = 1
+                    q.append((vect[k], dist + 1))
+ 
+    return 0
+ 
+# Test
+ 
+# Make dictionary
+D = {'poon', 'plee', 'same', 'poie', 'plie', 'poin', 'plea'}
+start = "toon"
+target = "plea"
+print(f"Length of shortest chain is: {shortest_chain_len(start, target, D)}")
+ 
+# This code is contributed by vikramshirsath177
+Output
+Length of shortest chain is: 7
+Time Complexity: O(N² * M), where N is the number of entries originally in the dictionary and M is the size of the string.
+Auxiliary Space: O(M * N)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+52
+Previous
+Word Ladder - Set 2 ( Bi-directional BFS )
+Next
+N Queen Problem | Backtracking-3
+Related Articles
+1.
+Print all possible shortest chains to reach a target word
+2.
+Word Ladder - Set 2 ( Bi-directional BFS )
+3.
+Minimum steps to reach target by a Knight | Set 1
+4.
+Ladder Graph Using Networkx Module in Python
+5.
+Snake and Ladder Problem
+6.
+Difference between the shortest and second shortest path in an Unweighted Bidirectional Graph
+7.
+Shortest path for a thief to reach the Nth house avoiding policemen
+8.
+Shortest path to reach one prime to other by changing single digit at a time
+9.
+Find the probability of a state at a given time in a Markov chain | Set 1
+10.
+Finding the probability of a state at a given time in a Markov chain | Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+andrew1234
+ryadav2
+mohit kumar 29
+Codilis
+UtkarshPandey6
+unknown2108
+29AjayKumar
+nehakumariintern
+abhinav dixit
+vikramshirsath177
+Article Tags :
+BFS
+Graph
+Practice Tags :
+BFS
+Graph
+Improve Article
+Report Issue

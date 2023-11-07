@@ -1,0 +1,191 @@
+Introduction and Approximate Solution for Vertex Cover Problem
+
+Difficulty Level : Medium
+Last Updated : 14 Dec, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+A vertex cover of an undirected graph is a subset of its vertices such that for every edge (u, v) of the graph, either ‘u’ or ‘v’ is in the vertex cover. Although the name is Vertex Cover, the set covers all edges of the given graph. Given an undirected graph, the vertex cover problem is to find minimum size vertex cover. 
+The following are some examples. 
+ 
+
+VertexCover
+
+Vertex Cover Problem is a known NP Complete problem, i.e., there is no polynomial-time solution for this unless P = NP. There are approximate polynomial-time algorithms to solve the problem though. Following is a simple approximate algorithm adapted from CLRS book.
+
+Naive Approach:
+
+Consider all the subset of vertices one by one and find out whether it covers all edges of the graph. For eg. in a graph consisting only 3 vertices the set consisting of the combination of vertices are:{0,1,2,{0,1},{0,2},{1,2},{0,1,2}} . Using each element of this set check whether these vertices cover all  all the edges of the graph. Hence update the optimal answer. And hence print the subset having minimum number of vertices which also covers all the edges of the graph.
+
+Approximate Algorithm for Vertex Cover: 
+ 
+
+1) Initialize the result as {}
+2) Consider a set of all edges in given graph.  Let the set be E.
+3) Do following while E is not empty
+...a) Pick an arbitrary edge (u, v) from set E and add 'u' and 'v' to result
+...b) Remove all edges from E which are either incident on u or v.
+4) Return result 
+Below diagram to show the execution of the above approximate algorithm: 
+ 
+
+
+
+vertexCover
+
+How well the above algorithm perform? 
+It can be proved that the above approximate algorithm never finds a vertex cover whose size is more than twice the size of the minimum possible vertex cover (Refer this for proof)
+Implementation: 
+The following are C++ and Java implementations of the above approximate algorithm. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to print Vertex Cover
+# of a given undirected graph 
+from collections import defaultdict 
+  
+# This class represents a directed graph 
+# using adjacency list representation 
+class Graph:
+  
+    def __init__(self, vertices):
+          
+        # No. of vertices
+        self.V = vertices 
+          
+        # Default dictionary to store graph
+        self.graph = defaultdict(list) 
+  
+    # Function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+  
+    # The function to print vertex cover 
+    def printVertexCover(self):
+          
+        # Initialize all vertices as not visited. 
+        visited = [False] * (self.V)
+          
+        # Consider all edges one by one 
+        for u in range(self.V):
+              
+            # An edge is only picked when 
+            # both visited[u] and visited[v] 
+            # are false
+            if not visited[u]:
+                  
+                # Go through all adjacents of u and 
+                # pick the first not yet visited 
+                # vertex (We are basically picking
+                # an edge (u, v) from remaining edges. 
+                for v in self.graph[u]:
+                    if not visited[v]:
+                          
+                        # Add the vertices (u, v) to the
+                        # result set. We make the vertex
+                        # u and v visited so that all 
+                        # edges from/to them would 
+                        # be ignored 
+                        visited[v] = True
+                        visited[u] = True
+                        break
+  
+        # Print the vertex cover 
+        for j in range(self.V):
+            if visited[j]:
+                print(j, end = ' ')
+                  
+        print()
+  
+# Driver code
+  
+# Create a graph given in 
+# the above diagram 
+g = Graph(7)
+g.addEdge(0, 1)
+g.addEdge(0, 2) 
+g.addEdge(1, 3) 
+g.addEdge(3, 4) 
+g.addEdge(4, 5) 
+g.addEdge(5, 6) 
+  
+g.printVertexCover()
+  
+# This code is contributed by Prateek Gupta
+C#
+Javascript
+Output: 
+
+0 1 3 4 5 6
+The Time Complexity of the above algorithm is O(V + E).
+Exact Algorithms: 
+Although the problem is NP complete, it can be solved in polynomial time for the following types of graphs. 
+1) Bipartite Graph 
+2) Tree Graph
+The problem to check whether there is a vertex cover of size smaller than or equal to a given number k can also be solved in polynomial time if k is bounded by O(LogV) (Refer this)
+We will soon be discussing exact algorithms for vertex cover.
+This article is contributed by Shubham. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+47
+Previous
+Approximate solution for Travelling Salesman Problem using MST
+Next
+Greedy Approximate Algorithm for K Centers Problem
+Related Articles
+1.
+Vertex Cover Problem (Dynamic Programming Solution for Tree)
+2.
+Greedy Approximate Algorithm for Set Cover Problem
+3.
+Approximate solution for Travelling Salesman Problem using MST
+4.
+Greedy Approximate Algorithm for K Centers Problem
+5.
+Finding minimum vertex cover size of a graph using binary search
+6.
+Proof that vertex cover is NP complete
+7.
+Introduction to Exact Cover Problem and Algorithm X
+8.
+Check if incoming edges in a vertex of directed graph is equal to vertex itself or not
+9.
+Check if vertex X lies in subgraph of vertex Y for the given Graph
+10.
+Check if every vertex triplet in graph contains two vertices connected to third vertex
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PrateekGupta10
+GauravRajput1
+patel2127
+riyaprasad01
+Article Tags :
+NPHard
+Graph
+Practice Tags :
+Graph
+Improve Article
+Report Issue

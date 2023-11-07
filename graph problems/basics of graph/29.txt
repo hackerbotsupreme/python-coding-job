@@ -1,0 +1,253 @@
+Detect cycle in an undirected graph
+
+Difficulty Level : Medium
+Last Updated : 21 Sep, 2022
+Read
+Discuss(250+)
+Courses
+Practice
+Video
+Given an undirected graph, The task is to check if there is a cycle in the given graph.
+
+Example:
+
+Input: N = 4, E = 4 
+
+Detect cycle in an undirected graph 1
+
+Output: Yes 
+Explanation: The diagram clearly shows a cycle 0 to 2 to 1 to 0
+
+Input: N = 4, E = 3 , 0 1, 1 2, 2 3 
+
+Detect cycle in an undirected graph 2
+
+Output: No 
+Explanation: There is no cycle in the given graph
+
+Recommended Problem
+Detect cycle in an undirected graph
+DFS
+Graph
++3 more
+Flipkart
+Amazon
++5 more
+Solve Problem
+Submission count: 2.4L
+Articles about cycle detection: 
+
+cycle detection for directed graph.
+union-find algorithm for cycle detection in undirected graphs.
+Find cycle in undirected Graph using DFS:
+Use DFS from every unvisited node. Depth First Traversal can be used to detect a cycle in a Graph. There is a cycle in a graph only if there is a back edge present in the graph. A back edge is an edge that is indirectly joining a node to itself (self-loop) or one of its ancestors in the tree produced by DFS. 
+
+To find the back edge to any of its ancestors keep a visited array and if there is a back edge to any visited node then there is a loop and return true.
+
+Follow the below steps to implement the above approach:
+
+Iterate over all the nodes of the graph and Keep a visited array visited[] to track the visited nodes.
+Run a Depth First Traversal on the given subgraph connected to the current node and pass the parent of the current node. In each recursive 
+Set visited[root] as 1.
+Iterate over all adjacent nodes of the current node in the adjacency list 
+If it is not visited then run DFS on that node and return true if it returns true.
+Else if the adjacent node is visited and not the parent of the current node then return true.
+Return false.
+Dry Run: 
+
+Dry run of DFS from every unvisited node
+
+Another possible scenario:
+
+If No cycle is detected after running Depth First Traversal for every subgraph the there exists no cycle as shown below
+
+
+Graph with disconnected components
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python Program to detect cycle in an undirected graph
+from collections import defaultdict
+ 
+# This class represents a undirected
+# graph using adjacency list representation
+ 
+ 
+class Graph:
+ 
+    def __init__(self, vertices):
+ 
+        # No. of vertices
+        self.V = vertices  # No. of vertices
+ 
+        # Default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+    # Function to add an edge to graph
+    def addEdge(self, v, w):
+ 
+        # Add w to v_s list
+        self.graph[v].append(w)
+ 
+        # Add v to w_s list
+        self.graph[w].append(v)
+ 
+    # A recursive function that uses
+    # visited[] and parent to detect
+    # cycle in subgraph reachable from vertex v.
+    def isCyclicUtil(self, v, visited, parent):
+ 
+        # Mark the current node as visited
+        visited[v] = True
+ 
+        # Recur for all the vertices
+        # adjacent to this vertex
+        for i in self.graph[v]:
+ 
+            # If the node is not
+            # visited then recurse on it
+            if visited[i] == False:
+                if(self.isCyclicUtil(i, visited, v)):
+                    return True
+            # If an adjacent vertex is
+            # visited and not parent
+            # of current vertex,
+            # then there is a cycle
+            elif parent != i:
+                return True
+ 
+        return False
+ 
+    # Returns true if the graph
+    # contains a cycle, else false.
+ 
+    def isCyclic(self):
+ 
+        # Mark all the vertices
+        # as not visited
+        visited = [False]*(self.V)
+ 
+        # Call the recursive helper
+        # function to detect cycle in different
+        # DFS trees
+        for i in range(self.V):
+ 
+            # Don't recur for u if it
+            # is already visited
+            if visited[i] == False:
+                if(self.isCyclicUtil
+                   (i, visited, -1)) == True:
+                    return True
+ 
+        return False
+ 
+ 
+# Create a graph given in the above diagram
+g = Graph(5)
+g.addEdge(1, 0)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+g.addEdge(0, 3)
+g.addEdge(3, 4)
+ 
+if g.isCyclic():
+    print("Graph contains cycle")
+else:
+    print("Graph doesn't contain cycle ")
+g1 = Graph(3)
+g1.addEdge(0, 1)
+g1.addEdge(1, 2)
+ 
+ 
+if g1.isCyclic():
+    print("Graph contains cycle")
+else:
+    print("Graph doesn't contain cycle ")
+ 
+# This code is contributed by Neelam Yadav
+C#
+Output
+Graph contains cycle
+Graph doesn't contain cycle
+Time Complexity: O(V+E), The program does a simple DFS Traversal of the graph which is represented using an adjacency list. So the time complexity is O(V+E).
+Auxiliary Space: O(V), To store the visited array O(V) space is required.
+
+Exercise: Can we use BFS to detect cycle in an undirected graph in O(V+E) time? What about directed graphs?
+
+
+
+Like
+Previous
+Detect Cycle in a Directed Graph
+Next
+Detect a negative cycle in a Graph | (Bellman Ford)
+Related Articles
+1.
+Detect cycle in an undirected graph using BFS
+2.
+Detect cycle in the graph using degrees of nodes of graph
+3.
+Find minimum weight cycle in an undirected graph
+4.
+Check if there is a cycle with odd weight sum in an undirected graph
+5.
+Shortest cycle in an undirected unweighted graph
+6.
+Minimum labelled node to be removed from undirected Graph such that there is no cycle
+7.
+Check if a cycle exists between nodes S and T in an Undirected Graph with only S and T repeating | Set - 2
+8.
+Number of single cycle components in an undirected graph
+9.
+Find any simple cycle in an undirected unweighted Graph
+10.
+Check if a cycle exists between nodes S and T in an Undirected Graph with only S and T repeating
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+de_astle
+princiraj1992
+andrew1234
+nikhil104
+faraziqbal
+ankitdoot
+surindertarika1234
+amartyaghoshgfg
+yogendramaarisetty
+hardikkoriintern
+aashutoshparoha
+Article Tags :
+Adobe
+Amazon
+BFS
+DFS
+Flipkart
+graph-cycle
+MakeMyTrip
+Oracle
+Samsung
+union-find
+Graph
+Practice Tags :
+Adobe
+Amazon
+Flipkart
+MakeMyTrip
+Oracle
+Samsung
+BFS
+DFS
+Graph
+union-find
+Report Issue

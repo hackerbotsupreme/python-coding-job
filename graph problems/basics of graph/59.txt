@@ -1,0 +1,218 @@
+All Topological Sorts of a Directed Acyclic Graph
+
+Difficulty Level : Hard
+Last Updated : 22 Sep, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every directed edge uv, vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
+
+Given a DAG, print all topological sorts of the graph.
+
+For example, consider the below graph.
+graph
+
+All topological sorts of the given graph are:
+4 5 0 2 3 1 
+4 5 2 0 3 1 
+4 5 2 3 0 1 
+4 5 2 3 1 0 
+5 2 3 4 0 1 
+5 2 3 4 1 0 
+5 2 4 0 3 1 
+5 2 4 3 0 1 
+5 2 4 3 1 0 
+5 4 0 2 3 1 
+5 4 2 0 3 1 
+5 4 2 3 0 1 
+5 4 2 3 1 0 
+In a Directed acyclic graph many a times we can have vertices which are unrelated to each other because of which we can order them in many ways. These various topological sorting is important in many cases, for example if some relative weight is also available between the vertices, which is to minimize then we need to take care of relative ordering as well as their relative weight, which creates the need of checking through all possible topological ordering. 
+
+We can go through all possible ordering via backtracking , the algorithm step are as follows : 
+
+Initialize all vertices as unvisited.
+Now choose vertex which is unvisited and has zero indegree and decrease indegree of all those vertices by 1 (corresponding to removing edges) now add this vertex to result and call the recursive function again and backtrack.
+After returning from function reset values of visited, result and indegree for enumeration of other possibilities.
+Below is the implementation of the above steps.
+
+C++
+Java
+Python3
+# class to represent a graph object
+class Graph:
+ 
+    # Constructor
+    def __init__(self, edges, N):
+ 
+        # A List of Lists to represent an adjacency list
+        self.adjList = [[] for _ in range(N)]
+ 
+        # stores in-degree of a vertex
+        # initialize in-degree of each vertex by 0
+        self.indegree = [0] * N
+ 
+        # add edges to the undirected graph
+        for (src, dest) in edges:
+ 
+            # add an edge from source to destination
+            self.adjList[src].append(dest)
+ 
+            # increment in-degree of destination vertex by 1
+            self.indegree[dest] = self.indegree[dest] + 1
+ 
+ 
+# Recursive function to find
+# all topological orderings of a given DAG
+def findAllTopologicalOrders(graph, path, discovered, N):
+ 
+    # do for every vertex
+    for v in range(N):
+ 
+        # proceed only if in-degree of current node is 0 and
+        # current node is not processed yet
+        if graph.indegree[v] == 0 and not discovered[v]:
+ 
+            # for every adjacent vertex u of v,
+            # reduce in-degree of u by 1
+            for u in graph.adjList[v]:
+                graph.indegree[u] = graph.indegree[u] - 1
+ 
+            # include current node in the path
+            # and mark it as discovered
+            path.append(v)
+            discovered[v] = True
+ 
+            # recur
+            findAllTopologicalOrders(graph, path, discovered, N)
+ 
+            # backtrack: reset in-degree
+            # information for the current node
+            for u in graph.adjList[v]:
+                graph.indegree[u] = graph.indegree[u] + 1
+ 
+            # backtrack: remove current node from the path and
+            # mark it as undiscovered
+            path.pop()
+            discovered[v] = False
+ 
+    # print the topological order if
+    # all vertices are included in the path
+    if len(path) == N:
+        print(path)
+ 
+ 
+# Print all topological orderings of a given DAG
+def printAllTopologicalOrders(graph):
+ 
+    # get number of nodes in the graph
+    N = len(graph.adjList)
+ 
+    # create an auxiliary space to keep track of whether vertex is discovered
+    discovered = [False] * N
+ 
+    # list to store the topological order
+    path = []
+ 
+    # find all topological ordering and print them
+    findAllTopologicalOrders(graph, path, discovered, N)
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    # List of graph edges as per above diagram
+    edges = [(5, 2), (5, 0), (4, 0), (4, 1), (2, 3), (3, 1)]
+ 
+    print("All Topological sorts")
+ 
+    # Number of nodes in the graph
+    N = 6
+ 
+    # create a graph from edges
+    graph = Graph(edges, N)
+ 
+    # print all topological ordering of the graph
+    printAllTopologicalOrders(graph)
+ 
+# This code is contributed by Priyadarshini Kumari
+Output
+
+
+All Topological sorts
+4 5 0 2 3 1 
+4 5 2 0 3 1 
+4 5 2 3 0 1 
+4 5 2 3 1 0 
+5 2 3 4 0 1 
+5 2 3 4 1 0 
+5 2 4 0 3 1 
+5 2 4 3 0 1 
+5 2 4 3 1 0 
+5 4 0 2 3 1 
+5 4 2 0 3 1 
+5 4 2 3 0 1 
+5 4 2 3 1 0 
+Time Complexity: O(V*(V+E)), Here V is the number of vertices and E is the number of edges
+Auxiliary Space: O(V), for creating an additional array and recursive stack space.
+
+This articles is contributed by Utkarsh Trivedi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+83
+Previous
+Topological Sorting
+Next
+Kahn's algorithm for Topological Sorting
+Related Articles
+1.
+Detect cycle in Directed Graph using Topological Sort
+2.
+Longest Path in a Directed Acyclic Graph
+3.
+Assign directions to edges so that the directed graph remains acyclic
+4.
+Longest Path in a Directed Acyclic Graph | Set 2
+5.
+Clone a Directed Acyclic Graph
+6.
+Longest path in a directed Acyclic graph | Dynamic Programming
+7.
+Minimum time taken by each job to be completed given by a Directed Acyclic Graph
+8.
+Find the Dominators for every vertex in a given DAG (Directed Acyclic Graph)
+9.
+Maximum difference between node and its ancestor in a Directed Acyclic Graph ( DAG )
+10.
+Shortest Path in Directed Acyclic Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sakshamcse
+pawki
+surinderdawra388
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Topological Sorting
+Graph
+Practice Tags :
+Graph
+Improve Article
+Report Issue

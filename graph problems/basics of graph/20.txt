@@ -1,0 +1,185 @@
+Check if destination of given Matrix is reachable with required values of cells
+
+Difficulty Level : Expert
+Last Updated : 27 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a matrix mat[][] of size N*M and the destination (x, y) to be reached from (0, 0), the task is to find if you can reach the destination following the given criteria:
+
+If the cell value is 0 you cannot move to that cell.
+If the cell value is 1, you can move to the cell and do not need to have any special value.
+In all other cases, you need to collect that value first before moving to that cell.
+Movements in all four directions (up, down, left and right) are allowed and the positions where a specific value is situated are provided in a map name keys.  
+ 
+
+Input: mat = {{1, 0, 0, 0}, {1, 1, 1, 1}, {0, 2, 0, 0}, {1, 1, 1, 1}}
+keys: {(1, 3): 2, (2, 1): 3}, x = 3, y = 1
+Output: True 
+Explanation: In the above grid start from (0, 0) and 
+fetch the value 2 from (1, 3). Now move to (2, 1) and reach the destination (3, 1).
+
+Input: mat = {{1, 0, 0, 0}, {1, 1, 1, 1}, {0, 2, 0, 0}, {1, 1, 2, 1}}
+keys: {(1, 3)=> 2, (2, 1)=> 3}, x = 3, y = 3
+Output: True
+
+
+ 
+Approach: The way to solve the problem is based on the concept of BFS:
+
+We need to collect the values of the special cells with values greater than 1, thus Breadth-first traversal can be used to explore the closest levels first and move in all directions to collect the values and find path to reach the destination.
+
+Follow the steps mentioned below to implement the idea:
+
+Perform Breadth-first traversal in grid starting from (0, 0). Three cases can arise: 
+Case 1 (When a cell has a value of 1): In this case, we simply push this coordinate in the queue for exploring.
+Case 2 (When a cell needs a special value that is already collected): The cells that require the value can now be pushed into the queue for processing.
+Case 3 (When a cell needs a special value that is not yet collected). In this case, push this cell into a map that represents the cells that cannot be traversed in the absence of a value. When the value is found while traversing the grid, then visit all the rooms that are stored in the map which require this value.
+If the target room (x, y) is reached then return true otherwise false.
+Below is the complete implementation of the above idea:
+
+C++
+Python3
+# Python3 code to implement the approach
+ 
+# Function to find if
+# the destination can be reached or not
+def Solvable(mat, Given_keys, xDestination, yDestination):
+ 
+    # Contains the keys which were found while
+    # traversing the grid.
+    ListOfAvailableKeys = set()
+    ListOfAvailableKeys.add(1)
+    q = []
+    q.append([0, 0])
+ 
+    dirr = [[1, 0], [0, 1], [-1, 0], [0, -1]]
+ 
+    # Contains value -> ListOfCells which
+    # require this value.
+    Unopened_Rooms = {}
+ 
+    while (len(q)):
+        curr = q.pop(0)
+ 
+        # Checking if at the destination
+        if (curr[0] == xDestination and curr[1] == yDestination):
+            return "True"
+ 
+        # Case 2: If the current co-ordinate
+        # contains any value.
+        if ((curr[0], curr[1]) in Given_keys):
+            curr_key = Given_keys[(curr[0], curr[1])]
+ 
+            # Insert the found value in
+            # list of available values
+            ListOfAvailableKeys.add(curr_key)
+ 
+            # Fetch the list of cells which require
+            # the current value and then
+            # push them in queue for exploration
+            if curr_key in Unopened_Rooms:
+                for i in range(len(Unopened_Rooms[curr_key])):
+                    q.append(
+                        (Unopened_Rooms[curr_key][i][0], Unopened_Rooms[curr_key][i][1]))
+ 
+        for i in range(len(dirr)):
+            x = curr[0] + dirr[i][0]
+            y = curr[1] + dirr[i][1]
+ 
+            if (x < 0 or y < 0 or x >= len(mat) or y >= len(mat[0]) or mat[x][y] == 0):
+                continue
+ 
+            # Case 3: if the cell requires a value
+            # that currently we don't have.
+            if (mat[x][y] not in ListOfAvailableKeys):
+                if (mat[x][y] not in Unopened_Rooms):
+                    Unopened_Rooms[mat[x][y]] = []
+                Unopened_Rooms[mat[x][y]].append([x, y])
+ 
+                # Mark the cell as visited.
+                mat[x][y] = 0
+ 
+            else:
+                q.append([x, y])
+ 
+                # Mark that cell as visited.
+                mat[x][y] = 0
+ 
+    return "False"
+ 
+# Driver Code
+mat = [[1, 0, 0, 0], [1, 1, 1, 1], [0, 2, 0, 0], [1, 1, 2, 1]]
+keys = {}
+keys[(1, 1)] = 3
+keys[(1, 3)] = 2
+x = 3
+y = 3
+ 
+# Function Call
+print(Solvable(mat, keys, x, y))
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+True
+Time Complexity: O(N * M) 
+Auxiliary Space: O(1).
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Minimize the maximum of Matrix whose rows and columns are in A.P
+Next
+Maximum possible cost of buildings with pool view
+Related Articles
+1.
+Minimum cells required to reach destination with jumps equal to cell values
+2.
+Shortest path from a source cell to a destination cell of a Binary Matrix through cells consisting only of 1s
+3.
+Count of cells in a matrix which give a Fibonacci number when the count of adjacent cells is added
+4.
+Count of cells in a matrix whose adjacent cells's sum is prime Number
+5.
+Minimum Numbers of cells that are connected with the smallest path between 3 given cells
+6.
+Path to reach border cells from a given cell in a 2D Grid without crossing specially marked cells
+7.
+Count cells in a grid from which maximum number of cells can be reached by K vertical or horizontal jumps
+8.
+Find all reachable nodes from every node present in a given set
+9.
+Min number of moves to traverse entire Matrix through connected cells with equal values
+10.
+Program to print all the non-reachable nodes | Using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+garvjuneja98
+@garvjuneja98
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sagartomar9927
+phasing17
+ruhelaa48
+Article Tags :
+BFS
+Matrix
+Practice Tags :
+BFS
+Matrix
+Report Issue

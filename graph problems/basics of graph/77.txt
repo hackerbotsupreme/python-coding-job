@@ -1,0 +1,255 @@
+Fleury’s Algorithm for printing Eulerian Path or Circuit
+
+Difficulty Level : Hard
+Last Updated : 21 Jun, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Eulerian Path is a path in a graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path that starts and ends on the same vertex.
+
+We strongly recommend first reading the following post on Euler Path and Circuit. “https://www.geeksforgeeks.org/eulerian-path-and-circuit/”
+
+In the above-mentioned post, we discussed the problem of finding out whether a given graph is Eulerian or not. In this post, an algorithm to print an Eulerian trail or circuit is discussed.
+
+Following is Fleury’s Algorithm for printing the Eulerian trail or cycle
+
+
+ Make sure the graph has either 0 or 2 odd vertices.
+If there are 0 odd vertices, start anywhere. If there are 2 odd vertices, start at one of them.
+Follow edges one at a time. If you have a choice between a bridge and a non-bridge, always choose the non-bridge.
+Stop when you run out of edges.
+The idea is, “don’t burn bridges“ so that we can come back to a vertex and traverse the remaining edges. For example, let us consider the following graph. 
+ 
+
+Euler1
+
+There are two vertices with odd degrees, ‘2’ and ‘3’, and we can start paths from any of them. Let us start the tour from vertex ‘2’. 
+ 
+
+
+
+Euler2
+
+Three edges are going out from vertex ‘2’, which one to pick? We don’t pick the edge ‘2-3’ because that is a bridge (we won’t be able to come back to ‘3’). We can pick any of the remaining two edges. Let us say we pick ‘2-0’. We remove this edge and move to vertex ‘0’. 
+ 
+
+Eule3
+
+There is only one edge from vertex ‘0’, so we pick it, remove it and move to vertex ‘1’. Euler tour becomes ‘2-0 0-1’. 
+ 
+
+Euler4
+
+There is only one edge from vertex ‘1’, so we pick it, remove it and move to vertex ‘2’. Euler tour becomes ‘2-0 0-1 1-2’ 
+ 
+
+Euler5
+
+Again there is only one edge from vertex 2, so we pick it, remove it and move to vertex 3. Euler tour becomes ‘2-0 0-1 1-2 2-3’ 
+ 
+
+Euler6
+
+There are no more edges left, so we stop here. Final tour is ‘2-0 0-1 1-2 2-3’.
+
+See this and this for more examples.
+
+Following is the C++ implementation of the above algorithm. In the following code, it is assumed that the given graph has an Eulerian trail or Circuit. The main focus is to print an Eulerian trail or circuit. We can use isEulerian() to first check whether there is an Eulerian Trail or Circuit in the given graph. 
+
+We first find the starting point which must be an odd vertex (if there are odd vertices) and store it in variable ‘u’. If there are zero odd vertices, we start from vertex ‘0’. We call printEulerUtil() to print Euler tour starting with u. We traverse all adjacent vertices of u, if there is only one adjacent vertex, we immediately consider it. If there are more than one adjacent vertices, we consider an adjacent v only if edge u-v is not a bridge. How to find if a given edge is a bridge? We count several vertices reachable from u. We remove edge u-v and again count the number of reachable vertices from u. If the number of reachable vertices is reduced, then edge u-v is a bridge. To count reachable vertices, we can either use BFS or DFS, we have used DFS in the above code. The function DFSCount(u) returns several vertices reachable from u. 
+
+Once an edge is processed (included in the Euler tour), we remove it from the graph. To remove the edge, we replace the vertex entry with -1 in the adjacency list. Note that simply deleting the node may not work as the code is recursive and a parent call may be in the middle of the adjacency list.
+
+C++
+Java
+Python3
+# Python program print Eulerian Trail in a given Eulerian or Semi-Eulerian Graph
+  
+from collections import defaultdict
+  
+#This class represents an undirected graph using adjacency list representation
+class Graph:
+  
+    def __init__(self,vertices):
+        self.V= vertices #No. of vertices
+        self.graph = defaultdict(list) # default dictionary to store graph
+        self.Time = 0
+  
+    # function to add an edge to graph
+    def addEdge(self,u,v):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+ 
+    # This function removes edge u-v from graph   
+    def rmvEdge(self, u, v):
+        for index, key in enumerate(self.graph[u]):
+            if key == v:
+                self.graph[u].pop(index)
+        for index, key in enumerate(self.graph[v]):
+            if key == u:
+                self.graph[v].pop(index)
+ 
+    # A DFS based function to count reachable vertices from v
+    def DFSCount(self, v, visited):
+        count = 1
+        visited[v] = True
+        for i in self.graph[v]:
+            if visited[i] == False:
+                count = count + self.DFSCount(i, visited)        
+        return count
+ 
+    # The function to check if edge u-v can be considered as next edge in
+    # Euler Tour
+    def isValidNextEdge(self, u, v):
+        # The edge u-v is valid in one of the following two cases:
+  
+          #  1) If v is the only adjacent vertex of u
+        if len(self.graph[u]) == 1:
+            return True
+        else:
+            '''
+             2) If there are multiple adjacents, then u-v is not a bridge
+                 Do following steps to check if u-v is a bridge
+  
+            2.a) count of vertices reachable from u'''   
+            visited =[False]*(self.V)
+            count1 = self.DFSCount(u, visited)
+ 
+            '''2.b) Remove edge (u, v) and after removing the edge, count
+                vertices reachable from u'''
+            self.rmvEdge(u, v)
+            visited =[False]*(self.V)
+            count2 = self.DFSCount(u, visited)
+ 
+            #2.c) Add the edge back to the graph
+            self.addEdge(u,v)
+ 
+            # 2.d) If count1 is greater, then edge (u, v) is a bridge
+            return False if count1 > count2 else True
+ 
+ 
+    # Print Euler tour starting from vertex u
+    def printEulerUtil(self, u):
+        #Recur for all the vertices adjacent to this vertex
+        for v in self.graph[u]:
+            #If edge u-v is not removed and it's a a valid next edge
+            if self.isValidNextEdge(u, v):
+                print("%d-%d " %(u,v))
+                   self.rmvEdge(u, v)
+                self.printEulerUtil(v)
+ 
+ 
+     
+    '''The main function that print Eulerian Trail. It first finds an odd
+   degree vertex (if there is any) and then calls printEulerUtil()
+   to print the path '''
+    def printEulerTour(self):
+        #Find a vertex with odd degree
+        u = 0
+        for i in range(self.V):
+            if len(self.graph[i]) %2 != 0 :
+                u = i
+                break
+        # Print tour starting from odd vertex
+        print ("\n")
+        self.printEulerUtil(u)
+ 
+# Create a graph given in the above diagram
+ 
+g1 = Graph(4)
+g1.addEdge(0, 1)
+g1.addEdge(0, 2)
+g1.addEdge(1, 2)
+g1.addEdge(2, 3)
+g1.printEulerTour()
+ 
+ 
+g2 = Graph(3)
+g2.addEdge(0, 1)
+g2.addEdge(1, 2)
+g2.addEdge(2, 0)
+g2.printEulerTour()
+ 
+g3 = Graph (5)
+g3.addEdge(1, 0)
+g3.addEdge(0, 2)
+g3.addEdge(2, 1)
+g3.addEdge(0, 3)
+g3.addEdge(3, 4)
+g3.addEdge(3, 2)
+g3.addEdge(3, 1)
+g3.addEdge(2, 4)
+g3.printEulerTour()
+ 
+ 
+#This code is contributed by Neelam Yadav
+C#
+Output
+2-0  0-1  1-2  2-3  
+0-1  1-2  2-0  
+0-1  1-2  2-0  0-3  3-4  4-2  2-3  3-1  
+Note that the above code modifies the given graph, we can create a copy of the graph if we don’t want the given graph to be modified.
+
+Time Complexity: The time complexity of the above implementation is O ((V+E)2). The function printEulerUtil() is like DFS and it calls isValidNextEdge() which also does DFS two times. The time complexity of DFS for adjacency list representation is O(V+E). Therefore overall time complexity is O((V+E)*(V+E)) which can be written as O(E2) for a connected graph. 
+There are better algorithms to print Euler tour, Hierholzer’s Algorithm finds in O(V+E) time.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+16
+Previous
+Eulerian path and circuit for undirected graph
+Next
+Bridges in a graph
+Related Articles
+1.
+Eulerian path and circuit for undirected graph
+2.
+Eulerian Path in undirected graph
+3.
+Printing Paths in Dijkstra's Shortest Path Algorithm
+4.
+Java Program for Dijkstra's Algorithm with Path Printing
+5.
+Euler Circuit in a Directed Graph
+6.
+Minimum edges required to add to make Euler Circuit
+7.
+Program to find Circuit Rank of an Undirected Graph
+8.
+Conversion of an Undirected Graph to a Directed Euler Circuit
+9.
+Java Program to Optimize Wire Length in Electrical Circuit
+10.
+Shortest path from source to destination such that edge weights along path are alternatively increasing and decreasing
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+surinderdawra388
+gurukiranx
+amartyaghoshgfg
+simmytarika5
+raj2002
+hardikkoriintern
+Article Tags :
+Euler-Circuit
+Graph
+Practice Tags :
+Graph

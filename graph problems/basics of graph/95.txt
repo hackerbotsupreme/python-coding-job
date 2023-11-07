@@ -1,0 +1,299 @@
+Find size of the largest region in Boolean Matrix
+
+Difficulty Level : Medium
+Last Updated : 11 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Consider a matrix, where each cell contains either a ‘0’ or a ‘1’, and any cell containing a 1 is called a filled cell. Two cells are said to be connected if they are adjacent to each other horizontally, vertically, or diagonally. If one or more filled cells are also connected, they form a region. find the size of the largest region.
+
+Examples: 
+
+Input: M[][5] = { {0, 0, 1, 1, 0}, {1, 0, 1, 1, 0}, {0, 1, 0, 0, 0}, {0, 0, 0, 0, 1}}
+Output: 6 
+Explanation: In the following example, there are 2 regions. 
+One with size 1 and the other as 6. So largest region: 6
+
+Input: M[][5] = { {0, 0, 1, 1, 0}, {0, 0, 1, 1, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0 1} }
+Output: 4
+Explanation: In the following example, there are 2 regions.
+One with size 1 and the other as 4. So largest region: 4
+
+Recommended Problem
+Unit Area of largest region of 1's
+DFS
+Graph
++3 more
+Flipkart
+Amazon
++5 more
+Solve Problem
+Submission count: 54K
+Approach: To solve the problem follow the below idea:
+
+The idea is based on the problem of finding number of islands in Boolean 2D-matrix 
+
+Find the length of the largest region in Boolean Matrix using DFS:
+Follow the given steps to solve the problem:
+
+A cell in the 2D matrix can be connected to at most 8 neighbors.
+So in DFS, make recursive calls for 8 neighbors of that cell.
+Keep a visited Hash-map to keep track of all visited cells.
+Also, keep track of the visited 1’s in every DFS and update the maximum size region.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the length of the
+# largest region in boolean 2D-matrix
+ 
+# A function to check if a given cell
+# (row, col) can be included in DFS
+ 
+ 
+def isSafe(M, row, col, visited):
+    global ROW, COL
+ 
+    # row number is in range, column number is in
+    # range and value is 1 and not yet visited
+    return ((row >= 0) and (row < ROW) and
+            (col >= 0) and (col < COL) and
+            (M[row][col] and not visited[row][col]))
+ 
+# A utility function to do DFS for a 2D
+# boolean matrix. It only considers
+# the 8 neighbours as adjacent vertices
+ 
+ 
+def DFS(M, row, col, visited, count):
+ 
+    # These arrays are used to get row and column
+    # numbers of 8 neighbours of a given cell
+    rowNbr = [-1, -1, -1, 0, 0, 1, 1, 1]
+    colNbr = [-1, 0, 1, -1, 1, -1, 0, 1]
+ 
+    # Mark this cell as visited
+    visited[row][col] = True
+ 
+    # Recur for all connected neighbours
+    for k in range(8):
+        if (isSafe(M, row + rowNbr[k],
+                   col + colNbr[k], visited)):
+ 
+            # increment region length by one
+            count[0] += 1
+            DFS(M, row + rowNbr[k],
+                col + colNbr[k], visited, count)
+ 
+# The main function that returns largest
+# length region of a given boolean 2D matrix
+ 
+ 
+def largestRegion(M):
+    global ROW, COL
+ 
+    # Make a bool array to mark visited cells.
+    # Initially all cells are unvisited
+    visited = [[0] * COL for i in range(ROW)]
+ 
+    # Initialize result as 0 and traverse
+    # through the all cells of given matrix
+    result = -999999999999
+    for i in range(ROW):
+        for j in range(COL):
+ 
+            # If a cell with value 1 is not
+            if (M[i][j] and not visited[i][j]):
+ 
+                # visited yet, then new region found
+                count = [1]
+                DFS(M, i, j, visited, count)
+ 
+                # maximum region
+                result = max(result, count[0])
+    return result
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+  ROW = 4
+  COL = 5
+ 
+  M = [[0, 0, 1, 1, 0],
+       [1, 0, 1, 1, 0],
+       [0, 1, 0, 0, 0],
+       [0, 0, 0, 0, 1]]
+ 
+  # Function call
+  print(largestRegion(M))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+6
+Time complexity: O(ROW * COL). In the worst case, all the cells will be visited so the time complexity is O(ROW * COL).
+Auxiliary Space: O(ROW * COL). To store the visited nodes O(ROW * COL) space is needed.
+
+Find the length of the largest region in Boolean Matrix using BFS:
+Follow the given steps to solve the problem:
+
+If the value at any particular cell is 1 then from here we need to do the BFS traversal
+Push the pair<i,j> in the queue
+Marking the value 1 to -1 so that we don’t again push the same cell again
+ We will check in all 8 directions and if we encounter the cell having a value of 1 then we will push it into the queue and we will mark the cell to -1
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+from typing import List, Tuple
+from collections import deque
+ 
+def largestRegion(grid: List[List[int]]) -> int:
+    m = len(grid)
+    n = len(grid[0])
+ 
+    # creating a queue that will help in bfs traversal
+    q = deque()
+    area = 0
+    ans = 0
+    for i in range(m):
+        for j in range(n):
+            # if the value at any particular cell is 1 then
+            # from here we need to do the BFS traversal
+            if grid[i][j] == 1:
+                ans = 0
+                # pushing the pair(i,j) in the queue
+                q.append((i, j))
+                # marking the value 1 to -1 so that we
+                # don't again push this cell in the queue
+                grid[i][j] = -1
+                while len(q) > 0:
+                    t = q.popleft()
+                    ans += 1
+                    x, y = t[0], t[1]
+                    # now we will check in all 8 directions
+                    if x + 1 < m:
+                        if grid[x + 1][y] == 1:
+                            q.append((x + 1, y))
+                            grid[x + 1][y] = -1
+                    if x - 1 >= 0:
+                        if grid[x - 1][y] == 1:
+                            q.append((x - 1, y))
+                            grid[x - 1][y] = -1
+                    if y + 1 < n:
+                        if grid[x][y + 1] == 1:
+                            q.append((x, y + 1))
+                            grid[x][y + 1] = -1
+                    if y - 1 >= 0:
+                        if grid[x][y - 1] == 1:
+                            q.append((x, y - 1))
+                            grid[x][y - 1] = -1
+                    if x + 1 < m and y + 1 < n:
+                        if grid[x + 1][y + 1] == 1:
+                            q.append((x + 1, y + 1))
+                            grid[x + 1][y + 1] = -1
+                    if x - 1 >= 0 and y + 1 < n:
+                        if grid[x - 1][y + 1] == 1:
+                            q.append((x - 1, y + 1))
+                            grid[x - 1][y + 1] = -1
+                    if x - 1 >= 0 and y - 1 >= 0:
+                        if grid[x - 1][y - 1] == 1:
+                            q.append((x - 1, y - 1))
+                            grid[x - 1][y - 1] = -1
+                    if x + 1 < m and y - 1 >= 0:
+                        if grid[x + 1][y - 1] == 1:
+                            q.append((x + 1, y - 1))
+                            grid[x + 1][y - 1] = -1
+                area = max(area, ans)
+    return area
+ 
+def main():
+    grid = [
+        [0, 0, 1, 1, 0],
+        [1, 0, 1, 1, 0],
+        [0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1]
+    ]
+    result = largestRegion(grid)
+    print(f'Largest region of 1s has an area of {result}')
+ 
+main()
+Output
+6
+Time complexity: O(ROW * COL). In the worst case, all the cells will be visited so the time complexity is O(ROW * COL).
+Auxiliary Space: O(ROW * COL). To store the visited nodes O(ROW * COL) space is needed.
+
+This article is contributed by Nishant Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+
+
+
+Like
+Previous
+A matrix probability question
+Next
+Find the number of Islands using Disjoint Set
+Related Articles
+1.
+Find regions with most common region size in a given boolean matrix
+2.
+Program to find the number of region in Planar Graph
+3.
+A Boolean Matrix Question
+4.
+Boolean Parenthesization Problem | DP-37
+5.
+Evaluate a boolean expression represented as string
+6.
+Largest component size in a graph formed by connecting non-co-prime nodes
+7.
+Size of the Largest Trees in a Forest formed by the given Graph
+8.
+Merge an array of size n into another array of size m+n
+9.
+Lexicographically largest prime path from top-left to bottom-right in a matrix
+10.
+Maximum size square sub-matrix with all 1s
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+naba09
+PranchalKatiyar
+rachana soma
+Rajput-Ji
+andrew1234
+nandalamit1555
+avanitrachhadiya2155
+surinderdawra388
+isha307
+sniggy
+janardansthox
+vikramshirsath177
+Article Tags :
+Amazon
+BFS
+DFS
+Microsoft
+Samsung
+Graph
+Practice Tags :
+Amazon
+Microsoft
+Samsung
+BFS
+DFS
+Graph
+Report Issue

@@ -1,0 +1,146 @@
+Construct a graph from given degrees of all vertices
+
+Difficulty Level : Medium
+Last Updated : 27 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+This is a C++ program to generate a graph for a given fixed degree sequence. This algorithm generates a undirected graph for the given degree sequence.It does not include self-edge and multiple edges.
+
+Examples: 
+
+Input : degrees[] = {2, 2, 1, 1}
+Output :  (0)  (1)  (2)  (3)
+    (0)    0    1    1    0                              
+    (1)    1    0    0    1                   
+    (2)    1    0    0    0                       
+    (3)    0    1    0    0     
+Explanation : We are given that there
+are four vertices with degree of vertex
+0 as 2, degree of vertex 1 as 2, degree
+of vertex 2 as 1 and degree of vertex 3
+as 1. Following is graph that follows
+given conditions.                   
+    (0)----------(1)
+     |            | 
+     |            | 
+     |            |
+    (2)          (3) 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach : 
+
+Take the input of the number of vertexes and their corresponding degree. 
+Declare adjacency matrix, mat[ ][ ] to store the graph. 
+To create the graph, create the first loop to connect each vertex ‘i’. 
+Second nested loop to connect the vertex ‘i’ to the every valid vertex ‘j’, next to it. 
+If the degree of vertex ‘i’ and ‘j’ are more than zero then connect them. 
+Print the adjacency matrix.
+Based on the above explanation, below are implementations:
+
+C++
+Java
+Python3
+# Python3 program to generate a graph
+# for a given fixed degrees
+ 
+# A function to print the adjacency matrix.
+def printMat(degseq, n):
+     
+    # n is number of vertices
+    mat = [[0] * n for i in range(n)]
+ 
+    for i in range(n):
+        for j in range(i + 1, n):
+ 
+            # For each pair of vertex decrement
+            # the degree of both vertex.
+            if (degseq[i] > 0 and degseq[j] > 0):
+                degseq[i] -= 1
+                degseq[j] -= 1
+                mat[i][j] = 1
+                mat[j][i] = 1
+ 
+    # Print the result in specified form
+    print("      ", end = " ")
+    for i in range(n):
+        print(" ", "(", i, ")", end = "")
+    print()
+    print()
+    for i in range(n):
+        print(" ", "(", i, ")", end = "")
+        for j in range(n):
+            print("     ", mat[i][j], end = "")
+        print()
+ 
+# Driver Code
+if __name__ == '__main__':
+    degseq = [2, 2, 1, 1, 1]
+    n = len(degseq)
+    printMat(degseq, n)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+       (0)  (1)  (2)  (3)  (4)
+
+   (0)    0    1    1    0    0
+   (1)    1    0    0    1    0
+   (2)    1    0    0    0    0
+   (3)    0    1    0    0    0
+   (4)    0    0    0    0    0
+Time Complexity: O(v*v).
+
+
+
+Like
+Previous
+Minimum time required to rot all oranges
+Next
+Degree Centrality (Centrality Measure)
+Related Articles
+1.
+Construct a graph using N vertices whose shortest distance between K pair of vertices is 2
+2.
+Finding in and out degrees of all vertices in a graph
+3.
+Check whether given degrees of vertices represent a Graph or Tree
+4.
+Number of trees whose sum of degrees of all the vertices is L
+5.
+Find K vertices in the graph which are connected to at least one of remaining vertices
+6.
+Pendant Vertices, Non-Pendant Vertices, Pendant Edges and Non-Pendant Edges in Graph
+7.
+Detect cycle in the graph using degrees of nodes of graph
+8.
+Sum of degrees of all nodes of a undirected graph
+9.
+Maximize the number of uncolored vertices appearing along the path from root vertex and the colored vertices
+10.
+Connect a graph by M edges such that the graph does not contain any cycle and Bitwise AND of connected vertices is maximum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+shreyanshi_arun
+@shreyanshi_arun
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+29AjayKumar
+princi singh
+nidhi_biet
+rag2127
+hardikkoriintern
+Article Tags :
+Graph
+Practice Tags :
+Graph
+Report Issue

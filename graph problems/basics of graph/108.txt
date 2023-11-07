@@ -1,0 +1,241 @@
+Boggle (Find all possible words in a board of characters) | Set 1
+
+Difficulty Level : Hard
+Last Updated : 11 Jan, 2023
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell has one character. Find all possible words that can be formed by a sequence of adjacent characters. Note that we can move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.
+
+Example: 
+
+Input: dictionary[] = {"GEEKS", "FOR", "QUIZ", "GO"};
+       boggle[][]   = {{'G', 'I', 'Z'},
+                       {'U', 'E', 'K'},
+                       {'Q', 'S', 'E'}};
+      isWord(str): returns true if str is present in dictionary
+                   else false.
+
+Output:  Following words of dictionary are present
+         GEEKS
+         QUIZ
+Boggle
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+The idea is to consider every character as a starting character and find all words starting with it. All words starting from a character can be found using Depth First Traversal. We do depth-first traversal starting from every cell. We keep track of visited cells to make sure that a cell is considered only once in a word.
+
+C++
+Java
+Python3
+# Python3 program for Boggle game
+# Let the given dictionary be following
+ 
+dictionary = ["GEEKS", "FOR", "QUIZ", "GO"]
+n = len(dictionary)
+M = 3
+N = 3
+ 
+# A given function to check if a given string
+# is present in dictionary. The implementation is
+# naive for simplicity. As per the question
+# dictionary is given to us.
+def isWord(Str):
+   
+    # Linearly search all words
+    for i in range(n):
+        if (Str == dictionary[i]):
+            return True
+    return False
+ 
+# A recursive function to print all words present on boggle
+def findWordsUtil(boggle, visited, i, j, Str):
+    # Mark current cell as visited and
+    # append current character to str
+    visited[i][j] = True
+    Str = Str + boggle[i][j]
+     
+    # If str is present in dictionary,
+    # then print it
+    if (isWord(Str)):
+        print(Str)
+     
+    # Traverse 8 adjacent cells of boggle[i,j]
+    row = i - 1
+    while row <= i + 1 and row < M:
+        col = j - 1
+        while col <= j + 1 and col < N:
+            if (row >= 0 and col >= 0 and not visited[row][col]):
+                findWordsUtil(boggle, visited, row, col, Str)
+            col+=1
+        row+=1
+     
+    # Erase current character from string and
+    # mark visited of current cell as false
+    Str = "" + Str[-1]
+    visited[i][j] = False
+ 
+# Prints all words present in dictionary.
+def findWords(boggle):
+   
+    # Mark all characters as not visited
+    visited = [[False for i in range(N)] for j in range(M)]
+     
+    # Initialize current string
+    Str = ""
+     
+    # Consider every character and look for all words
+    # starting with this character
+    for i in range(M):
+      for j in range(N):
+        findWordsUtil(boggle, visited, i, j, Str)
+ 
+# Driver Code
+boggle = [["G", "I", "Z"], ["U", "E", "K"], ["Q", "S", "E"]]
+ 
+print("Following words of", "dictionary are present")
+findWords(boggle)
+ 
+#  This code is contributed by divyesh072019.
+C#
+Javascript
+Output
+Following words of dictionary are present
+GEEKS
+QUIZ
+Note that the above solution may print the same word multiple times. For example, if we add “SEEK” to the dictionary, it is printed multiple times. To avoid this, we can use hashing to keep track of all printed words.
+To improve time complexity, we can use unordered_set(in C++) or dictionary(in Python) which takes constant search time. Now Time Complexity, Since we are doing depth-first traversal for every position in the array so n*m( time for one DFS) = n*m( |V| + |E|) where |V| is the total number of nodes and |E| is the total number of edges which are equal to n*m. So,
+
+Time Complexity:  O(N2 *M2)
+Auxiliary Space:   O(N*M)
+
+
+
+Optimised Approach : 
+
+Instead of generating all strings from the grid and the checking whether it exists in dictionary or not , we can simply run a DFS on all words present in dictionary and check whether we can make that word from grid or not. This Approach is more optimised then the previous one.
+
+Below is the implementation of above Appcoach.
+
+C++
+Python3
+def dfs(board, s, i, j, n, m, idx):
+    if i < 0 or i >= n or j < 0 or j >= m:
+        return False
+    if s[idx] != board[i][j]:
+        return False
+    if idx == len(s) - 1:
+        return True
+    temp = board[i][j]
+    board[i][j] = '*'
+    a = dfs(board, s, i, j+1, n, m, idx+1)
+    b = dfs(board, s, i, j-1, n, m, idx+1)
+    c = dfs(board, s, i+1, j, n, m, idx+1)
+    d = dfs(board, s, i-1, j, n, m, idx+1)
+    e = dfs(board, s, i+1, j+1, n, m, idx+1)
+    f = dfs(board, s, i-1, j+1, n, m, idx+1)
+    g = dfs(board, s, i+1, j-1, n, m, idx+1)
+    h = dfs(board, s, i-1, j-1, n, m, idx+1)
+    board[i][j] = temp
+    return a or b or c or e or f or g or h or d
+ 
+def wordBoggle(board, dictionary):
+    n = len(board)
+    m = len(board[0])
+    store = set()
+     
+    #     Let the given dictionary be following
+    for word in dictionary:
+        for i in range(n):
+            for j in range(m):
+                if dfs(board, word, i, j, n, m, 0):
+                    store.add(word)
+    for word in store:
+        print(word)
+ 
+boggle = [['G', 'I', 'Z'],
+          ['U', 'E', 'K'],
+          ['Q', 'S', 'E']]
+dictionary = ["GEEKS", "FOR", "QUIZ", "GO"]
+print("Following words of dictionary are present:")
+wordBoggle(boggle, dictionary)
+ 
+# This code is contributed by vikramshirsath177
+Output
+Following words of dictionary are present
+GEEKS
+QUIZ
+Time Complexity: O(N*W + R*C^2)
+
+Auxiliary Space: O(N*W + R*C)
+
+In below set 2, we have discussed Trie based optimized solution: 
+Boggle | Set 2 (Using Trie)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+40
+Previous
+General Tree (Each node can have arbitrary number of children) Level Order Traversal
+Next
+Persistent data structures
+Related Articles
+1.
+Boggle using Trie
+2.
+Count words that appear exactly two times in an array of words
+3.
+Validity of a given Tic-Tac-Toe board configuration
+4.
+Print all possible words from phone digits
+5.
+Given a sequence of words, print all anagrams together | Set 2
+6.
+Given a sequence of words, print all anagrams together | Set 1
+7.
+Given a sequence of words, print all anagrams together using STL
+8.
+Find alphabetical order such that words can be considered sorted
+9.
+Rearrange characters in a String such that no two adjacent characters are same
+10.
+Lexicographically largest string possible consisting of at most K consecutive similar characters
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ShubhamRathi1
+AbhinayJha
+princiraj1992
+rdtank
+divyesh072019
+kapilag
+hardikkoriintern
+111arpit1
+vikramshirsath177
+Article Tags :
+Algorithms-Backtracking
+Amazon
+DFS
+Graph
+Practice Tags :
+Amazon
+DFS
+Graph
+Improve Article
+Report Issue

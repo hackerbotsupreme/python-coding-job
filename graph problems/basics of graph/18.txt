@@ -1,0 +1,177 @@
+Shortest path by removing K walls
+
+Difficulty Level : Hard
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a 2D binary matrix of size N * M, where 0 represents an empty space while 1 represents a wall you cannot walk through. You are also given an integer K. You can walk up, down, left, or right. Given that you can remove up to K walls, return the minimum number of steps to walk from the top left corner (0, 0) to the bottom right corner (N-1, M-1). 
+
+Note: If there is no way to walk from the top left corner to the bottom right corner, return -1.
+
+Examples:
+
+Input: N = 3, M = 3, K = 1
+mat = {{0, 0, 0}, {0, 0, 1}, {0, 1, 0}}
+Output: 4
+Explanation: We can remove any one of the walls and reach the bottom in 4 moves.
+
+The below image gives the paths through which we can go from the source to the destination.
+
+
+Image showing most of the paths from the source to the destination
+
+If we carefully observe the paths shown above then, we will see that in these paths we have one cell that contains 1 and since we have k=1 hence we can traverse this cell also, and hence it gives the minimum steps.
+
+Input: N = 2, M = 2, K = 0
+mat[] = {{0, 1}, {1, 0}}
+Output: -1
+Explanation: There’s no way of reaching the bottom corner without removing any walls.
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+Approach:
+
+The idea is to use breadth first search to calculate the shortest path from source to destination.
+
+Follow the steps below to solve the problem:
+
+Initialize a 3D array that ensures that we don’t visit the same cell again and again. Also, Initailse the steps as 0.
+Initialize a queue data structure that contains a list that will be composed of the current_X coordinate, curret_Y coordinate, and the no. of obstacles that we can destroy. Push the current cell into the queue.
+Do the following until the queue becomes empty:- 
+Pop the front element from the queue and explore this popped cell in all four directions such that the current_X coordinate and curret_Y coordinate should not cross the boundary.
+If the current cell is 0 and not visited then explore all the directions. Push all the nonvisited cells from this cell into the queue. Mark this cell as visited. 
+If the current cell is 1 which means it represents a wall and this cell is not visited as well as the no of obstacles that we can destroy is greater than 1 which means that we can destroy this wall and then explore all the directions. Push all the nonvisited cells from this cell into the queue. Mark this cell as visited. 
+After each iteration increment the step value. 
+During the previous two steps, if at any time the current_X coordinate, curret_Y coordinate is equal to the destination_X coordinate, destination_Y coordinate then return the steps.
+Below is the implementation of the above approach. 
+
+C++
+Java
+Python3
+# Python3 code to implement the approach
+
+# Function to find the minimum number of steps
+def shotestPath(mat, k):
+
+    n = len(mat)
+    m = len(mat[0])
+    if (n == 1 and m == 1 and (mat[0][0] == 0 or k >= 1)):
+        return 0
+
+    visited = [[[False for _ in range(k+1)]
+                for _ in range(m)] for _ in range(n)]
+    steps = 0
+
+    q = []
+    q.append([0, 0, k])
+
+    ar1 = [1, -1, 0, 0]
+    ar2 = [0, 0, -1, 1]
+
+    # Loop to run a BFS
+    while (len(q) != 0):
+        size = len(q)
+
+        steps += 1
+        while (size):
+            curr = q.pop(0)
+            i = curr[0]
+            j = curr[1]
+            w = curr[2]
+
+            visited[i][j][w] = True
+            for dir in range(0, 4):
+                new_x = i + ar1[dir]
+                new_y = j + ar2[dir]
+                new_k = w
+                if (new_x >= 0 and new_x < n and new_y >= 0
+                        and new_y < m):
+                    if (mat[new_x][new_y] == 0
+                            and (not visited[new_x][new_y][new_k])):
+                        if (new_x == n - 1
+                                and new_y == m - 1):
+                            return steps
+                        q.append([new_x, new_y, new_k])
+                        visited[new_x][new_y][new_k] = True
+
+                    elif (mat[new_x][new_y] == 1
+                          and new_k >= 1
+                          and (not visited[new_x][new_y]
+                               [new_k - 1])):
+                        if (new_x == n - 1
+                                and new_y == m - 1):
+                            return steps
+                        q.append([new_x, new_y, new_k - 1])
+                        visited[new_x][new_y][new_k - 1] = True
+            size -= 1
+    return -1
+
+# Driver code
+if __name__ == "__main__":
+
+    mat = [[0, 0, 0], [0, 0, 1], [0, 1, 0]]
+    K = 1
+
+    # Function call
+    print(shotestPath(mat, K))
+
+    # This code is contributed by rakeshsahni
+C#
+Javascript
+Output
+4
+Time Complexity: O(N*M*K), For every cell (M*N), in the worst case we have to put that cell into the queue K times.
+Space Complexity: O(N*M*K), In the worst case store all of those steps/paths in the visited set.
+
+
+
+Like
+Previous
+Number of land cells for which we cannot walk off the boundary of Grid
+Next
+Count paths whose sum is not divisible by K in given Matrix
+Related Articles
+1.
+Shortest Path in a weighted Graph where weight of an edge is 1 or 2
+2.
+Shortest path in a Binary Maze
+3.
+Print shortest path to print a string on screen
+4.
+Find shortest safe route in a path with landmines
+5.
+0-1 BFS (Shortest Path in a Binary Weight Graph)
+6.
+Shortest path in a Matrix from top-left to bottom right-corner with neighbors exceeding at most K
+7.
+Single source shortest path between two cities
+8.
+Detect a negative cycle in a Graph using Shortest Path Faster Algorithm
+9.
+Shortest path from a source cell to a destination cell of a Binary Matrix through cells consisting only of 1s
+10.
+1st to Kth shortest path lengths from node 1 to N in given Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+adityakumar129
+@adityakumar129
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rakeshsahni
+sayanc170
+amankr0211
+ishankhandelwals
+Article Tags :
+BFS
+Matrix

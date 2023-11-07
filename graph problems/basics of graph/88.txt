@@ -1,0 +1,200 @@
+Find maximum number of edge disjoint paths between two vertices
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a directed graph and two vertices in it, source ‘s’ and destination ‘t’, find out the maximum number of edge disjoint paths from s to t. Two paths are said edge disjoint if they don’t share any edge.
+ 
+
+edgedisjoint1
+
+There can be maximum two edge disjoint paths from source 0 to destination 7 in the above graph. Two edge disjoint paths are highlighted below in red and blue colors are 0-2-6-7 and 0-3-6-5-7. 
+ 
+
+edgedisjoint2
+
+Note that the paths may be different, but the maximum number is same. For example, in the above diagram, another possible set of paths is 0-1-2-6-7 and 0-3-6-5-7 respectively.
+
+This problem can be solved by reducing it to maximum flow problem. Following are steps. 
+
+Consider the given source and destination as source and sink in flow network. Assign unit capacity to each edge. 
+Run Ford-Fulkerson algorithm to find the maximum flow from source to sink. 
+The maximum flow is equal to the maximum number of edge-disjoint paths.
+When we run Ford-Fulkerson, we reduce the capacity by a unit. Therefore, the edge can not be used again. So the maximum flow is equal to the maximum number of edge-disjoint paths.
+
+Following is the implementation of the above algorithm. Most of the code is taken from here. 
+
+C++
+Java
+Python
+# Python program to find maximum number of edge disjoint paths
+# Complexity : (E*(V^3))
+# Total augmenting path = VE
+# and BFS with adj matrix takes :V^2 times
+  
+from collections import defaultdict
+  
+#This class represents a directed graph using
+# adjacency matrix representation
+class Graph:
+  
+    def __init__(self,graph):
+        self.graph = graph # residual graph
+        self. ROW = len(graph)
+         
+  
+    '''Returns true if there is a path from source 's' to sink 't' in
+    residual graph. Also fills parent[] to store the path '''
+    def BFS(self,s, t, parent):
+ 
+        # Mark all the vertices as not visited
+        visited =[False]*(self.ROW)
+         
+        # Create a queue for BFS
+        queue=[]
+         
+        # Mark the source node as visited and enqueue it
+        queue.append(s)
+        visited[s] = True
+          
+         # Standard BFS Loop
+        while queue:
+ 
+            #Dequeue a vertex from queue and print it
+            u = queue.pop(0)
+         
+            # Get all adjacent vertices of the dequeued vertex u
+            # If a adjacent has not been visited, then mark it
+            # visited and enqueue it
+            for ind, val in enumerate(self.graph[u]):
+                if visited[ind] == False and val > 0 :
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+ 
+        # If we reached sink in BFS starting from source, then return
+        # true, else false
+        return True if visited[t] else False
+             
+     
+    # Returns the maximum number of edge-disjoint paths from
+    #s to t in the given graph
+    def findDisjointPaths(self, source, sink):
+ 
+        # This array is filled by BFS and to store path
+        parent = [-1]*(self.ROW)
+ 
+        max_flow = 0 # There is no flow initially
+ 
+        # Augment the flow while there is path from source to sink
+        while self.BFS(source, sink, parent) :
+ 
+            # Find minimum residual capacity of the edges along the
+            # path filled by BFS. Or we can say find the maximum flow
+            # through the path found.
+            path_flow = float("Inf")
+            s = sink
+            while(s !=  source):
+                path_flow = min (path_flow, self.graph[parent[s]][s])
+                s = parent[s]
+ 
+            # Add path flow to overall flow
+            max_flow +=  path_flow
+ 
+            # update residual capacities of the edges and reverse edges
+            # along the path
+            v = sink
+            while(v !=  source):
+                u = parent[v]
+                self.graph[u][v] -= path_flow
+                self.graph[v][u] += path_flow
+                v = parent[v]
+ 
+        return max_flow
+ 
+  
+# Create a graph given in the above diagram
+ 
+graph = [[0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 1, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1],
+        [0, 1, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 1, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0]]
+  
+ 
+g = Graph(graph)
+ 
+source = 0; sink = 7
+  
+print ("There can be maximum %d edge-disjoint paths from %d to %d" %
+            (g.findDisjointPaths(source, sink), source, sink))
+ 
+ 
+# This code is contributed by Neelam Yadav
+C#
+Javascript
+Output
+There can be maximum 2 edge-disjoint paths from 0 to 7
+Time Complexity: Same as time complexity of Edmonds-Karp implementation of Ford-Fulkerson (See time complexity discussed here)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Longest Path in a Directed Acyclic Graph
+Next
+Detect cycle in an undirected graph
+Related Articles
+1.
+Calculate number of nodes between two vertices in an acyclic Graph by Disjoint Union method
+2.
+Find two disjoint good sets of vertices in a given graph
+3.
+Maximum Possible Edge Disjoint Spanning Tree From a Complete Graph
+4.
+Difference between Tree edge and Back edge in graph
+5.
+Count all possible Paths between two Vertices
+6.
+Maximize shortest path between given vertices by adding a single edge
+7.
+Construct a graph using N vertices whose shortest distance between K pair of vertices is 2
+8.
+Find K vertices in the graph which are connected to at least one of remaining vertices
+9.
+Maximize the number of uncolored vertices appearing along the path from root vertex and the colored vertices
+10.
+Pendant Vertices, Non-Pendant Vertices, Pendant Edges and Non-Pendant Edges in Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+Rajput-Ji
+avanitrachhadiya2155
+varshagumber28
+simmytarika5
+hardikkoriintern
+Article Tags :
+Graph
+Practice Tags :
+Graph
+Report Issue

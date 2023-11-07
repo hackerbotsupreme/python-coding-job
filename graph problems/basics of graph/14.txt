@@ -1,0 +1,209 @@
+Maximum coin in minimum time by skipping K obstacles along path in Matrix
+
+Last Updated : 04 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a 2D matrix, where ‘*’ represents an obstacle and the rest all represent coins in the grid. It is also given that you are currently on grid[i1][ j1] and want to reach grid[i2][j2] by skipping at most K obstacles in the path, the task is to collect the maximum coin while reaching grid[i2][j2] in a minimum amount of time.
+
+Note: Only movements in right, left, up or down is allowed.
+
+Examples:
+
+Input:  i1 = 0, j1 = 2, i2 = 3, j2 = 3, k = 1
+grid = { { ‘*’, ‘0’, ‘1’, ‘1’ }, 
+             { ‘0’, ‘0’, ‘*’, ‘*’ }, 
+            { ‘0’, ‘*’, ‘*’, ‘*’ }, 
+            { ‘0’, ‘0’, ‘0’, ‘1’ } };
+Output: 2
+Explanation: The path is {0, 2}, {0, 1}, {1, 1}, {2, 1}, {3, 1}, {3, 2} and {3, 3}.
+
+Input:  i1 = 0, j1 = 2,  i2 = 3, j2 = 3, k = 2
+grid = { { ‘*’, ‘0’, ‘1’, ‘2’ }, 
+             { ‘0’, ‘0’, ‘*’, ‘*’ }, 
+              { ‘0’, ‘*’, ‘6’, ‘*’ }, 
+             { ‘0’, ‘0’, ‘0’, ‘1’ } };
+Output: 8
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+An approach using BFS:
+The idea is to use BFS algorithm to reach from start to destination and maintain a variable kLeft which state how many k’s are remaining till any cell and a variable currCoinCollect to represent how many coins are collected till any cell. 
+
+Once we reach at destination the time will be minimum [BFS ensures that because of level wise traversal]. Now we will only need to find the maximum amount of coin collected till now.
+
+Follow the steps below to implement the above idea:
+
+Initialize an array visited for keeping any cell is visited or not.
+Initialize a queue for BFS which will store {i, j, kLeft, coinCollected} for the cell in the grid.
+Initialize a variable coinCollect, to store the coin collected to reach the destination in minimum time.
+Initially, Push { i1, j1, k, grid[i1][j1] – ‘0’ } in the queue and mark the current position {i, j} visited.
+Initialize a variable minTime for storing the minimum time to reach the destination.
+While the queue is not empty, do the following:
+Calculate the size of the queue and run a loop till the size of the queue.
+Pop the front element from the queue.
+Check if time ≥ minTime as this ensures that time has exceeded the minimum time to reach the destination:
+Explore all the directions for the current cell say, newX, newY
+Check if the new cell is an obstacle and any k move we have left to cross this obstacle.
+If true, then push { newX, newY, kLeft – 1, currCoinCollect } into the queue and make visited[newX][newY] = true
+If grid[newX][newY] is not an obstacle then push {newX, newY, kLeft, currCoinCollect + (grid[newX][newY] – ‘0’} into queue and mark visited[newX][newY] = true.
+Incrementing the time taken after every level
+Finally, return the maximum number of coins collected.
+Follow the steps below to implement the above idea:
+
+C++
+Java
+Python3
+# Python code to implement the approach
+import sys
+ 
+# Function to find all the coin from the
+# grid in minimum number of time
+def collectAllCoin(grid, i1, j1, i2, j2, k):
+    m = len(grid)
+    n = len(grid[0])
+     
+    # For storing the i, j index is
+    # visited or not
+    visited = [[False for i in range(n)] for j in range(m)]
+     
+    # For BFS
+    q=[]  # <val, x, y>
+     
+    # Final coin collect to reach
+    # destination in minimum time.
+    coinCollect = 0
+     
+    # Pushing the current position
+    q.append([i1, j1, k, ord(grid[i1][j1])-ord('0')])
+     
+    # Marking the current
+    # position visited
+    visited[i1][j1] = True
+     
+    # Possible direction to move
+    dir = [[1,0],[0,1],[-1,0],[0,-1]]
+     
+    # For counting the current
+    # time while moving
+    time = 0
+     
+    # Storing the minimum time to
+    # reach at destination
+    minTime = sys.maxsize
+     
+    while(len(q) > 0):
+        size = len(q)
+         
+        # This ensure that time has
+        # reached greater than minimum
+        # time to reach at destination
+        if(time >= minTime):
+            break
+        for i in range(size):
+            curr = q[0]
+            q.pop(0)
+            x, y, kLeft, currCoinCollect = curr[0], curr[1], curr[2], curr[3]
+             
+            if(x == i2 and y == j2):
+                minTime = min(time, minTime)
+                coinCollect = max(coinCollect, currCoinCollect)
+             
+            # Explore all the direction
+            for k in range(4):
+                newX = x + dir[k][0]
+                newY = y + dir[k][1]
+                 
+                if(newX >= 0 and newX < m and newY >= 0 and newY < n and visited[newX][newY] == False):
+                    # Check if new cell is
+                    # obstacle and any k
+                    # move we have left to
+                    # cross this obstacle
+                    if(grid[newX][newY] == "*" and kLeft > 0):
+                        q.append([newX, newY, kLeft - 1, currCoinCollect])
+                    elif(grid[newX][newY] != "*"):
+                        q.append([newX, newY, kLeft, currCoinCollect + ord(grid[newX][newY]) - ord('0')])
+                     
+                    visited[newX][newY] = True
+        # Incrementing the time taken
+        # after every level
+        time = time + 1
+         
+    # Return the total amount of time
+    # taken to collect all the coin
+    return coinCollect
+ 
+# Driver code
+grid=[['*', '0', '1', '2'],['0', '0', '*', '*'],['0', '*', '6', '*'],['0', '0', '0', '1']]
+i1, j1 = 0, 2
+i2, j2 = 3, 3
+K = 2
+ 
+# Function call
+maxCoinCollected=collectAllCoin(grid, i1, j1, i2, j2, K)
+print(maxCoinCollected)
+ 
+# This code is contributed by Pushpesh Raj
+C#
+Javascript
+Output
+8
+Time Complexity: O(M * N)
+Auxiliary Space: O(M * N)
+
+
+
+Like
+Previous
+Count Substrings with even frequency of each character and one exception
+Next
+Maximum number of Strings with Common Prefix of length K
+Related Articles
+1.
+Shortest path between two points in a Matrix with at most K obstacles
+2.
+Check if a path exists from start to end cell in given Matrix with obstacles in at most K moves
+3.
+Program to print elements of a Matrix row-wise skipping alternate elements
+4.
+Flip the given Matrix along both diagonals in clockwise direction
+5.
+Number of cells a queen can move with obstacles on the chessboard
+6.
+Unique paths in a Grid with Obstacles
+7.
+Minimum moves taken to move coin of each cell to any one cell of Matrix
+8.
+Maven Project - LinkedHashMap and LinkedHashSet usage Along with JUnit Testing
+9.
+Coin Change | BFS Approach
+10.
+Maximum decimal value path in a binary matrix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+hkdass001
+@hkdass001
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lokeshmvs21
+rakeshsahni
+pushpeshrajdx01
+rkbhola5
+akashish__
+Article Tags :
+BFS
+Technical Scripter 2022
+Matrix
+Technical Scripter
+Practice Tags :
+BFS
+Matrix
+Report Issue

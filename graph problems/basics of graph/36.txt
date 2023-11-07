@@ -1,0 +1,243 @@
+Introduction to Disjoint Set Data Structure or Union-Find Algorithm
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(230+)
+Courses
+Practice
+Video
+A disjoint-set data structure is defined as a data structure that keeps track of a set of elements partitioned into a number of disjoint (non-overlapping) subsets. 
+
+A union-find algorithm is an algorithm that performs two useful operations on such a data structure:
+
+Find: Determine which subset a particular element is in. This can be used for determining if two elements are in the same subset.
+Union: Join two subsets into a single subset. Here first we have to check if the two subsets belong to same set. If no, then we cannot perform union. 
+Example:
+Let us check an example to understand how the data structure is applied. For this consider the following problem statement
+
+Problem: Given an undirected graph, the task is to check if the graph contains a cycle or not.
+
+Examples:
+
+Input: The following is the graph
+
+cycle-in-graph
+
+
+
+Output: Yes
+Explanation: There is a cycle of vertices {0, 1, 2}.
+
+Recommended Problem
+Detect Cycle using DSU
+Graph
+Disjoint Set
++1 more
+Solve Problem
+Submission count: 6.9K
+We already have discussed an algorithm to detect cycle in directed graph. Here Union-Find Algorithm can be used to check whether an undirected graph contains cycle or not. The idea is that, 
+
+Initially create subsets containing only a single node which are the parent of itself. Now while traversing through the edges, if the two end nodes of the edge belongs to the same set then they form a cycle. Otherwise, perform union to merge the subsets together.
+
+Note: This method assumes that the graph doesn’t contain any self-loops.
+
+Illustration:
+
+Follow the below illustration for a better understanding
+
+Let us consider the following graph: 
+
+cycle-in-graph
+
+Use an array to keep track of the subsets and which nodes belong to that subset. Let the array be parent[].
+
+Initially, all slots of parent array are initialized to hold the same values as the node.
+
+parent[] = {0, 1, 2}. Also when the value of the node and its parent are same, that is the root of that subset of nodes.
+
+Now process all edges one by one.
+Edge 0-1: 
+        => Find the subsets in which vertices 0 and 1 are. 
+        => 0 and 1 belongs to subset 0 and 1.
+        => Since they are in different subsets, take the union of them. 
+        => For taking the union, either make node 0 as parent of node 1 or vice-versa. 
+        => 1 is made parent of 0 (1 is now representative of subset {0, 1})
+        => parent[] = {1, 1, 2}
+
+Edge 1-2: 
+        => 1 is in subset 1 and 2 is in subset 2.
+        => Since they are in different subsets, take union.
+        => Make 2 as parent of 1. (2 is now representative of subset {0, 1, 2})
+        => parent[] = {1, 2, 2}
+
+Edge 0-2: 
+        => 0 is in subset 2 and 2 is also in subset 2. 
+        => Because 1 is parent of 0 and 2 is parent of 1. So 0 also belongs to subset 2
+        => Hence, including this edge forms a cycle. 
+
+Therefore, the above graph contains a cycle.
+
+Follow the below steps to implement the idea:
+
+Initially create a parent[] array to keep track of the subsets.
+Traverse through all the edges:
+Check to which subset each of the nodes belong to by finding the parent[] array till the node and the parent are the same.
+If the two nodes belong to the same subset then they belong to a cycle.
+Otherwise, perform union operation on those two subsets.
+If no cycle is found, return false.
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Python Program for union-find algorithm
+# to detect cycle in a undirected graph
+# we have one egde for any two vertex
+# i.e 1-2 is either 1-2 or 2-1 but not both
+ 
+from collections import defaultdict
+ 
+# This class represents a undirected graph
+# using adjacency list representation
+ 
+ 
+class Graph:
+ 
+    def __init__(self, vertices):
+        self.V = vertices  # No. of vertices
+        self.graph = defaultdict(list)  # default dictionary to store graph
+ 
+    # function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+    # A utility function to find the subset of an element i
+    def find_parent(self, parent, i):
+        if parent[i] == i:
+            return i
+        if parent[i] != i:
+            return self.find_parent(parent, parent[i])
+ 
+    # A utility function to do union of two subsets
+    def union(self, parent, x, y):
+        parent[x] = y
+ 
+    # The main function to check whether a given graph
+    # contains cycle or not
+ 
+    def isCyclic(self):
+ 
+        # Allocate memory for creating V subsets and
+        # Initialize all subsets as single element sets
+        parent = [0]*(self.V)
+        for i in range(self.V):
+            parent[i] = i
+ 
+        # Iterate through all edges of graph, find subset of both
+        # vertices of every edge, if both subsets are same, then
+        # there is cycle in graph.
+        for i in self.graph:
+            for j in self.graph[i]:
+                x = self.find_parent(parent, i)
+                y = self.find_parent(parent, j)
+                if x == y:
+                    return True
+                self.union(parent, x, y)
+ 
+ 
+# Create a graph given in the above diagram
+g = Graph(3)
+g.addEdge(0, 1)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+ 
+if g.isCyclic():
+    print("Graph contains cycle")
+else:
+    print("Graph does not contain cycle ")
+ 
+# This code is contributed by Neelam Yadav
+C#
+Javascript
+Output
+Graph contains cycle
+Note that the implementation of union() and find() is naive and takes O(n) time in the worst case. These methods can be improved to O(logN) using Union by Rank or Height. We will soon be discussing Union by Rank in a separate post. 
+
+Auxiliary Space: O(1)
+
+Related Articles : 
+Union-Find Algorithm | Set 2 (Union By Rank and Path Compression) 
+Disjoint Set Data Structures (Java Implementation) 
+Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm) 
+Job Sequencing Problem | Set 2 (Using Disjoint Set)
+
+
+
+
+
+Like
+206
+Previous
+Clone a Directed Acyclic Graph
+Next
+Union By Rank and Path Compression in Union-Find Algorithm
+Related Articles
+1.
+Introduction to Graphs - Data Structure and Algorithm Tutorials
+2.
+Disjoint Set Data Structures
+3.
+Disjoint Set Union on trees | Set 2
+4.
+Job Sequencing Problem using Disjoint Set
+5.
+Find the number of Islands using Disjoint Set
+6.
+Disjoint Set Union on Trees
+7.
+Extended Disjoint Set Union on Trees
+8.
+Number of connected components of a graph ( using Disjoint Set Union )
+9.
+Find maximum number of edge disjoint paths between two vertices
+10.
+Calculate number of nodes between two vertices in an acyclic Graph by Disjoint Union method
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+avinashr175
+KhushalVyas
+rathbhupendra
+f2008700
+princi singh
+rahulsharma9
+gsivaram1998
+rutvik_56
+vector01
+amartyaghoshgfg
+hardikkoriintern
+sudiptar1pvd
+animeshdey
+dharmistmahato
+njbrake
+reacharunnegi
+raj2002
+Article Tags :
+graph-cycle
+union-find
+Graph
+Practice Tags :
+Graph
+union-find
+Improve Article
+Report Issue

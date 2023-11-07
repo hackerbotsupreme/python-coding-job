@@ -1,0 +1,203 @@
+Minimum time to visit all nodes of given Graph at least once
+
+Last Updated : 02 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a graph and the list of neighbours for each node in an array graph[] of size N, where graph[i] contains a list of neighbor nodes that are connected to ith node, the task is to visit all the nodes of the given graph in a minimum amount of time.
+
+Note: Movement from any node to its neighbour takes one unit of time
+
+Example:
+
+Input: [[1, 2, 3], [2, 0], [0, 1], [0, 4], [3]]
+Output: 4
+Explanation:
+One possible way to visit all node in minimum number of time is shown by the below graph
+
+
+ 
+
+Input: [[1, 2, 3], [2, 0], [0, 1], [0]]
+Output: 3
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+An approach using BFS + BitMasking:
+
+Usually it is best to use BFS to find the minimum time problem in graph. However, in this case, we cannot use traditional BFS since traditional BFS can only visit the elements once. In this case, repetition is allowed, which means we can traverse any node multiple times, leading to an infinite loop. To handle infinite loop we can use Bitmasking to store the states while moving over graph.
+
+
+
+Follow the step below to implement the above idea:
+
+Create an adjacency list from the given graph
+Initialize a variable finalMask = (1 << number_of_nodes)  – 1, this represent the state when all node has been visited.
+Initialize a variable timeCount = 0 to keep track of the minimum time to visit all nodes.
+Initialize a queue for BFS which will store the current node id and mask of visited nodes.
+Initialize a 2D array visited[][] for keeping track of nodes with all possible masks that are visited in the path.
+Push every node as a starting node for all possible paths with their mask for counting the number of the minimum time to visit all the node
+While the queue is not empty:
+Iterate over each level
+Fetch and pop the current node
+Check if the current node mask is equal to finalMask:
+If the condition is true, return timeCount as the result.
+Explore all the children of the current node:
+Make a new mask for the child by toggling the ith bit of the current Mask.
+If the new mask for the child has not been visited yet, push the child and new Mask in the queue and mark visited for the child with new mask.
+Increment the time Count after each level
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python code to implement the approach
+
+# Function to calculate the minimum time
+def minimizeTime(graph):
+    n = len(graph)
+    
+    # Create adjacency list from the given graph
+    adj = [[] for i in range(n)]
+    
+    for i in range(n):
+        for j in graph[i]:
+            adj[i].append(j)
+    
+    # Final mask when all the node will be visited
+    finalMask = (1<<n) - 1
+    
+    # Initialize a queue for BFS which will store current
+    # node id and mask of visited nodes.
+    q = []
+    
+    # Initialize a visited array for keeping track
+    # of all mask that are visited in the path
+    visited = [[0 for i in range(finalMask+1)] for j in range(n)]
+    
+    # Push starting node for
+    # all possible path with their mask
+    for i in range(n):
+        q.append([i,1<<i])
+    
+    # For counting the minimum time
+    # to visit all the nodes
+    timeCount = 0
+    
+    # Do while q.size > 0
+    
+    while(len(q) > 0):
+        size = len(q)
+        
+        # Iterate over each level
+        for i in range(size):
+            
+            # Fetch and pop the current node
+            curr = q.pop(0)
+            
+            # Check if the current node mask
+            # is equal to finalMask
+            if(curr[1] == finalMask):
+                return timeCount
+            
+            # Explore all the child of current node
+            for child in adj[curr[0]]:
+                
+                # Make a new Mask for child
+                newVisitedBit = curr[1]|(1<<child)
+                
+                # If new Mask for child has
+                # not been visited yet,
+                # push child and new Mask in
+                # the queue and mark visited
+                # for child with newVisitedBit
+                if(visited[child][newVisitedBit] == False):
+                    q.append([child,newVisitedBit])
+                    visited[child][newVisitedBit] = True
+                    
+    
+        # Increment the time Count after each level
+        timeCount = timeCount + 1
+    
+    # If all node can't be visited
+    return -1
+    
+# Driver code
+graph = [[1,2,3],[2,0],[0,1],[0,4],[3]]
+
+# Function calla
+minTime = minimizeTime(graph)
+print(minTime)
+
+# This code is contributed by Pushpesh Raj.
+
+C#
+Javascript
+Output
+4
+Time Complexity: O(V + E) where V is the number of vertices and E is the number of edges.
+Auxiliary Space: O(V + E)
+
+
+
+
+
+Like
+1
+Previous
+How to Define And Save Filters in Wireshark?
+Next
+Check if every Subarray of even length has sum 0
+Related Articles
+1.
+Find if possible to visit every nodes in given Graph exactly once based on given conditions
+2.
+Smallest set of vertices to visit all nodes of the given Graph
+3.
+Check if we can visit all other nodes from any node in given Directed Graph
+4.
+Find a set of at most N/2 nodes from a Graph such that all remaining nodes are directly connected to one of the chosen nodes
+5.
+Minimum cost of path between given nodes containing at most K nodes in a directed and weighted graph
+6.
+Maximize count of nodes disconnected from all other nodes in a Graph
+7.
+Count of nodes accessible from all other nodes of Graph
+8.
+Detect cycle in the graph using degrees of nodes of graph
+9.
+Minimum time required to infect all the nodes of Binary tree
+10.
+Minimum Cost Path in a directed graph via given set of intermediate nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+hkdass001
+@hkdass001
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+pushpeshrajdx01
+tapeshdua420
+rkbhola5
+ruhelaa48
+akshaysingh98088
+Article Tags :
+BFS
+Technical Scripter 2022
+Bit Magic
+Graph
+Technical Scripter
+Practice Tags :
+BFS
+Bit Magic
+Graph
+Improve Article
+Report Issue

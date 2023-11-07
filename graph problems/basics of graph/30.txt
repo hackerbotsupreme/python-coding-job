@@ -1,0 +1,187 @@
+Detect Cycle in a directed graph using colors
+
+Difficulty Level : Medium
+Last Updated : 30 Jun, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given a directed graph, check whether the graph contains a cycle or not. Your function should return true if the given graph contains at least one cycle, else return false.
+
+Example: 
+
+Input: n = 4, e = 6 
+0 -> 1, 0 -> 2, 1 -> 2, 2 -> 0, 2 -> 3, 3 -> 3 
+Output: Yes 
+Explanation: 
+ 
+
+Detect Cycle in a directed graph using colors 1
+
+This diagram clearly shows a cycle 0 -> 2 -> 0.
+
+Input:n = 4, e = 3 
+0 -> 1, 0 -> 2, 1 -> 2, 2 -> 3 
+Output:No 
+Explanation: 
+ 
+
+Detect Cycle in a directed graph using colors 2
+This diagram clearly shows no cycle. 
+
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Solution
+Approach: Depth First Traversal can be used to detect cycle in a Graph. DFS for a connected graph produces a tree. There is a cycle in a graph only if there is a back edge present in the graph. A back edge is an edge that is from a node to itself (selfloop) or one of its ancestor in the tree produced by DFS. In the following graph, there are 3 back edges, marked with cross sign. It can be observed that these 3 back edges indicate 3 cycles present in the graph.
+
+Depth First Traversal to detect cycle in a Graph
+
+For a disconnected graph, we get the DFS forest as output. To detect cycle, we can check for cycle in individual trees by checking back edges.
+
+In the previous post, we have discussed a solution that stores visited vertices in a separate array which stores vertices of the current recursion call stack.
+
+In this post, a different solution is discussed. The solution is from CLRS book. The idea is to do DFS of a given graph and while doing traversal, assign one of the below three colours to every vertex. 
+
+WHITE : Vertex is not processed yet. Initially, all vertices are WHITE.
+GRAY: Vertex is being processed (DFS for this vertex has started, but not finished which means that all descendants (in DFS tree) of this vertex are not processed yet (or this vertex is in the function call stack)
+BLACK : Vertex and all its descendants are processed. While doing DFS, if an edge is encountered from current vertex to a GRAY vertex, then this edge is back edge and hence there is a cycle. 
+ 
+
+Algorithm:  
+
+Create a recursive function that takes the edge and color array (this can be also kept as a global variable)
+Mark the current node as GREY.
+Traverse all the adjacent nodes and if any node is marked GREY then return true as a loop is bound to exist.
+If any adjacent vertex is WHITE then call the recursive function for that node. If the function returns true. Return true.
+If no adjacent node is grey or has not returned true then mark the current Node as BLACK and return false.
+Implementation:  
+
+C++
+Java
+Python3
+# Python program to detect cycle in
+# a directed graph
+ 
+from collections import defaultdict
+ 
+class Graph():
+    def __init__(self, V):
+        self.V = V
+        self.graph = defaultdict(list)
+ 
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+    def DFSUtil(self, u, color):
+        # GRAY :  This vertex is being processed (DFS
+        #         for this vertex has started, but not
+        #         ended (or this vertex is in function
+        #         call stack)
+        color[u] = "GRAY"
+ 
+        for v in self.graph[u]:
+ 
+            if color[v] == "GRAY":
+                return True
+ 
+            if color[v] == "WHITE" and self.DFSUtil(v, color) == True:
+                return True
+ 
+        color[u] = "BLACK"
+        return False
+ 
+    def isCyclic(self):
+        color = ["WHITE"] * self.V
+ 
+        for i in range(self.V):
+            if color[i] == "WHITE":
+                if self.DFSUtil(i, color) == True:
+                    return True
+        return False
+ 
+# Driver program to test above functions
+ 
+g = Graph(4)
+g.addEdge(0, 1)
+g.addEdge(0, 2)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+g.addEdge(2, 3)
+g.addEdge(3, 3)
+print ("Graph contains cycle" if g.isCyclic() == True\
+                             else "Graph doesn't contain cycle")
+                              
+# This program is contributed by Divyanshu Mehta                            
+C#
+Javascript
+Output
+Graph contains cycle
+Complexity Analysis: 
+
+Time complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph.
+Space Complexity :O(V). 
+Since an extra color array is needed of size V.
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above 
+
+
+
+
+
+Like
+71
+Previous
+Detecting negative cycle using Floyd Warshall
+Next
+Clone a Directed Acyclic Graph
+Related Articles
+1.
+Detect Cycle in a Directed Graph using BFS
+2.
+Detect cycle in Directed Graph using Topological Sort
+3.
+Detect Cycle in a Directed Graph
+4.
+Detect cycle in the graph using degrees of nodes of graph
+5.
+Detect cycle in an undirected graph using BFS
+6.
+Detect a negative cycle in a Graph using Shortest Path Faster Algorithm
+7.
+Print negative weight cycle in a Directed Graph
+8.
+Print Nodes which are not part of any cycle in a Directed Graph
+9.
+Detect cycle in an undirected graph
+10.
+Detect a negative cycle in a Graph | (Bellman Ford)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+ManasChhabra2
+princiraj1992
+andrew1234
+rrrtnx
+surinderdawra388
+amartyaniel20
+hardikkoriintern
+Article Tags :
+DFS
+Graph Coloring
+graph-cycle
+Graph
+Practice Tags :
+DFS
+Graph
+Improve Article
+Report Issue

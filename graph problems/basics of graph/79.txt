@@ -1,0 +1,193 @@
+Euler Circuit in a Directed Graph
+
+Difficulty Level : Hard
+Last Updated : 07 Nov, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Eulerian Path is a path in graph that visits every edge exactly once. Eulerian Circuit is an Eulerian Path which starts and ends on the same vertex. 
+
+A graph is said to be eulerian if it has a eulerian cycle. We have discussed eulerian circuit for an undirected graph. In this post, the same is discussed for a directed graph.
+
+For example, the following graph has eulerian cycle as {1, 0, 3, 4, 0, 2, 1} 
+
+SCC
+
+How to check if a directed graph is eulerian? 
+
+A directed graph has an eulerian cycle if following conditions are true
+
+All vertices with nonzero degree belong to a single strongly connected component. 
+In degree is equal to the out degree for every vertex.
+We can detect singly connected component using Kosaraju’s DFS based simple algorithm. 
+
+To compare in degree and out-degree, we need to store in degree and out-degree of every vertex. Out degree can be obtained by the size of an adjacency list. In degree can be stored by creating an array of size equal to the number of vertices. 
+
+Recommended Problem
+Euler Circuit in an Undirected Graph
+DFS
+Graph
++2 more
+Solve Problem
+Submission count: 5.2K
+Following implementations of above approach. 
+
+C++
+Java
+Python3
+# A Python3 program to check if a given
+# directed graph is Eulerian or not
+ 
+from collections import defaultdict
+ 
+class Graph():
+ 
+    def __init__(self, vertices):
+        self.V = vertices
+        self.graph = defaultdict(list)
+        self.IN = [0] * vertices
+ 
+    def addEdge(self, v, u):
+ 
+        self.graph[v].append(u)
+        self.IN[u] += 1
+ 
+    def DFSUtil(self, v, visited):
+        visited[v] = True
+        for node in self.graph[v]:
+            if visited[node] == False:
+                self.DFSUtil(node, visited)
+ 
+    def getTranspose(self):
+        gr = Graph(self.V)
+ 
+        for node in range(self.V):
+            for child in self.graph[node]:
+                gr.addEdge(child, node)
+ 
+        return gr
+ 
+    def isSC(self):
+        visited = [False] * self.V
+ 
+        v = 0
+        for v in range(self.V):
+            if len(self.graph[v]) > 0:
+                break
+ 
+        self.DFSUtil(v, visited)
+ 
+        # If DFS traversal doesn't visit all
+        # vertices, then return false.
+        for i in range(self.V):
+            if visited[i] == False:
+                return False
+ 
+        gr = self.getTranspose()
+ 
+        visited = [False] * self.V
+        gr.DFSUtil(v, visited)
+ 
+        for i in range(self.V):
+            if visited[i] == False:
+                return False
+ 
+        return True
+ 
+    def isEulerianCycle(self):
+ 
+        # Check if all non-zero degree vertices
+        # are connected
+        if self.isSC() == False:
+            return False
+ 
+        # Check if in degree and out degree of
+        # every vertex is same
+        for v in range(self.V):
+            if len(self.graph[v]) != self.IN[v]:
+                return False
+ 
+        return True
+ 
+ 
+g = Graph(5);
+g.addEdge(1, 0);
+g.addEdge(0, 2);
+g.addEdge(2, 1);
+g.addEdge(0, 3);
+g.addEdge(3, 4);
+g.addEdge(4, 0);
+if g.isEulerianCycle():
+   print( "Given directed graph is eulerian");
+else:
+   print( "Given directed graph is NOT eulerian");
+ 
+# This code is contributed by Divyanshu Mehta
+C#
+Javascript
+Output
+Given directed graph is eulerian n
+ Time complexity of the above implementation is O(V + E) as Kosaraju’s algorithm takes O(V + E) time. After running Kosaraju’s algorithm we traverse all vertices and compare in degree with out degree which takes O(V) time. 
+
+See following as an application of this. 
+Find if the given array of strings can be chained to form a circle.
+
+
+
+Like
+16
+Previous
+Find the number of islands using DFS
+Next
+Eulerian Path in undirected graph
+Related Articles
+1.
+Conversion of an Undirected Graph to a Directed Euler Circuit
+2.
+Minimum edges required to add to make Euler Circuit
+3.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+4.
+Convert undirected connected graph to strongly connected directed graph
+5.
+Eulerian path and circuit for undirected graph
+6.
+Program to find Circuit Rank of an Undirected Graph
+7.
+Detect Cycle in a Directed Graph
+8.
+Longest Path in a Directed Acyclic Graph
+9.
+Shortest path with exactly k edges in a directed and weighted graph
+10.
+Assign directions to edges so that the directed graph remains acyclic
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+UtkarshVerma12
+princi singh
+khushboogoyal499
+avanitrachhadiya2155
+hardikkoriintern
+sagar0719kumar
+Article Tags :
+DFS
+Euler-Circuit
+graph-connectivity
+graph-cycle
+Graph
+Practice Tags :
+DFS
+Graph
+Improve Article
+Report Issue

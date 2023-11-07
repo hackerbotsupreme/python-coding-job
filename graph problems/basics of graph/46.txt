@@ -1,0 +1,192 @@
+Karp’s minimum mean (or average) weight cycle algorithm
+
+Difficulty Level : Expert
+Last Updated : 11 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a directed and strongly connected graph with non-negative edge weights. We define the mean weight of a cycle as the summation of all the edge weights of the cycle divided by the no. of edges. Our task is to find the minimum mean weight among all the directed cycles of the graph.
+
+Example: 
+
+Input : Below Graph
+karps_mean_value
+
+Output : 1.66667
+Method to find the smallest mean weight value cycle efficiently 
+ 
+
+Step 1: Choose first vertex as source.
+
+Step 2: Compute the shortest path to all other vertices 
+        on a path consisting of k edges 0 <= k <= V 
+        where V is number of vertices.
+        This is a simple dp problem which can be computed 
+        by the recursive solution
+        dp[k][v] = min(dp[k][v], dp[k-1][u] + weight(u,v)
+        where v is the destination and the edge(u,v) should
+        belong to E
+
+Step 3: For each vertex calculate max(dp[n][v]-dp[k][v])/(n-k) 
+         where 0<=k<=n-1
+
+Step 4: The minimum of the values calculated above is the 
+        required answer.
+Please refer to the solution of problem 9.2 here for proof that the above steps find minimum average weight.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find minimum
+# average weight of a cycle in
+# connected and directed graph.
+ 
+# a struct to represent edges
+class edge:
+    def __init__(self, u, w):
+        self.From = u
+        self.weight = w
+ 
+def addedge(u, v, w):
+    edges[v].append(edge(u, w))
+ 
+# calculates the shortest path
+def shortestpath(dp):
+     
+    # initializing all distances as -1
+    for i in range(V + 1):
+        for j in range(V):
+            dp[i][j] = -1
+ 
+    # shortest distance From first vertex
+    # to in itself consisting of 0 edges
+    dp[0][0] = 0
+ 
+    # filling up the dp table
+    for i in range(1, V + 1):
+        for j in range(V):
+            for k in range(len(edges[j])):
+                if (dp[i - 1][edges[j][k].From] != -1):
+                    curr_wt = (dp[i - 1][edges[j][k].From] +
+                                         edges[j][k].weight)
+                    if (dp[i][j] == -1):
+                        dp[i][j] = curr_wt
+                    else:
+                        dp[i][j] = min(dp[i][j], curr_wt)
+ 
+# Returns minimum value of average
+# weight of a cycle in graph.
+def minAvgWeight():
+    dp = [[None] * V for i in range(V + 1)]
+    shortestpath(dp)
+ 
+    # array to store the avg values
+    avg = [-1] * V
+ 
+    # Compute average values for all
+    # vertices using weights of
+    # shortest paths store in dp.
+    for i in range(V):
+        if (dp[V][i] != -1):
+            for j in range(V):
+                if (dp[j][i] != -1):
+                    avg[i] = max(avg[i], (dp[V][i] -
+                                          dp[j][i]) / (V - j))
+ 
+    # Find minimum value in avg[]
+    result = avg[0]
+    for i in range(V):
+        if (avg[i] != -1 and avg[i] < result):
+            result = avg[i]
+ 
+    return result
+ 
+# Driver Code
+V = 4
+ 
+# vector to store edges
+edges = [[] for i in range(V)]
+ 
+addedge(0, 1, 1)
+addedge(0, 2, 10)
+addedge(1, 2, 3)
+addedge(2, 3, 2)
+addedge(3, 1, 0)
+addedge(3, 0, 8)
+ 
+print(minAvgWeight())
+ 
+# This code is contributed by Pranchalk
+C#
+Javascript
+Output
+
+
+1.66667
+Here the graph with no cycle will return value as -1.
+
+This article is contributed by Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+3
+Previous
+BFS for Disconnected Graph
+Next
+Minimum edge reversals to make a root
+Related Articles
+1.
+Find minimum weight cycle in an undirected graph
+2.
+Check if there is a cycle with odd weight sum in an undirected graph
+3.
+Print negative weight cycle in a Directed Graph
+4.
+Detect a negative cycle in a Graph using Shortest Path Faster Algorithm
+5.
+Floyd’s Cycle Finding Algorithm
+6.
+Remove all outgoing edges except edge with minimum weight
+7.
+Find the weight of the minimum spanning tree
+8.
+Product of minimum edge weight between all pairs of a Tree
+9.
+Minimum colors required such that edges forming cycle do not have same color
+10.
+Minimum labelled node to be removed from undirected Graph such that there is no cycle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+sanjeev2552
+princi singh
+itsok
+sumitgumber28
+kothavvsaakash
+hardikkoriintern
+Article Tags :
+graph-cycle
+Shortest Path
+Graph
+Practice Tags :
+Graph
+Shortest Path
+Improve Article
+Report Issue

@@ -1,0 +1,148 @@
+Check if all nodes of Undirected Graph can be visited from given Node
+
+Last Updated : 21 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an undirected graph consisting of N nodes labeled from 0 to N – 1, which are represented by a 2D array arr[][], where arr[i] represents all the nodes that are connected to the ith node, the task is to find whether we can visit all the nodes from node X.
+
+Examples:
+
+Input: arr = { { 1, 2 }, { 0, 3, 2 }, {0, 1}, {1} }, N = 4, X = 0
+Output: YES
+Explanation: As can be seen from the below graph, we can reach to any node from node 0.
+
+The structure of the above graph
+The structure of the above graph
+
+Input: arr = { { 1, 2 }, { 0, 3, 2 }, {0, 1}, {1} }, N = 5, X = 4
+Output: NO
+Explanation: No node is connected to the node 4.
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+An approach using BFS:
+The idea is to use BFS from starting from node X and count all the nodes that are visited in the path. Finally check if number of nodes that are visited are equal to given number of node N or not. If they are equal then print YES, otherwise NO.
+
+Follow the steps below to implement the above idea:
+
+The given array acts as n adjacency list of the graph.
+Initialize a queue and visited array, push start node X into a queue and mark it visited.
+Initialize a count variable to keep count of the number of nodes that are visited during BFS
+Do the following while queue size is greater than 0
+Pop the top node (say curr) node from the queue and increment the count by 1.
+Explore all the children of curr node
+Check if the children of the current node are visited, if not then push it into the queue and mark it visited.
+Finally, check if the count is equal to the given N,
+If true, print YES
+otherwise, print NO
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python code for the above approach:
+
+# Function to find if
+# all nodes can be visited from X
+def canVisitAllNodes(arr, X, n):
+    q = []
+    visited = [False]*n
+    q.append(X)
+    visited[X] = True
+    count = 0
+    
+    # Loop to implement BFS
+    while(len(q) > 0):
+        size = len(q)
+        
+        for i in range(size):
+            curr = q.pop(0)
+            
+            count = count + 1
+            
+            for j in arr[curr]:
+                if(visited[j] == False):
+                    q.append(j)
+                    visited[j] = True
+    
+    # Check if all nodes are visited
+    if(count == n):
+        return True
+    
+    return False
+    
+# Driver code
+arr = [[1, 2], [0, 3, 2], [0, 1], [1]]
+N, X = 4, 0
+
+# Function Call
+if(canVisitAllNodes(arr, X, N)):
+    print("YES")
+else:
+    print("NO")
+    
+# This code is contributed by Pushpesh Raj.
+C#
+Javascript
+Output
+YES
+Time Complexity: O(N + E) where N is the number of nodes and E is the number of edges.
+Auxiliary Space: O(N)
+
+
+Like
+Previous
+How to Fix Hreflang Tag Errors with Google Search Console?
+Next
+Count Substrings with even frequency of each character and one exception
+Related Articles
+1.
+Maximum cost path in an Undirected Graph such that no edge is visited twice in a row
+2.
+Kth largest node among all directly connected nodes to the given node in an undirected graph
+3.
+Check if a cycle exists between nodes S and T in an Undirected Graph with only S and T repeating | Set - 2
+4.
+Check if a cycle exists between nodes S and T in an Undirected Graph with only S and T repeating
+5.
+Sum of degrees of all nodes of a undirected graph
+6.
+Maximum sum of values of nodes among all connected components of an undirected graph
+7.
+Maximum GCD of all nodes in a connected component of an Undirected Graph
+8.
+Check if we can visit all other nodes from any node in given Directed Graph
+9.
+Printing pre and post visited times in DFS of a graph
+10.
+Minimum edges to be removed from given undirected graph to remove any existing path between nodes A and B
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+hkdass001
+@hkdass001
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lokeshmvs21
+garg28harsh
+pushpeshrajdx01
+tapeshdua420
+sagartomar9927
+sumitgumber28
+Article Tags :
+BFS
+Technical Scripter 2022
+Graph
+Technical Scripter
+Practice Tags :
+BFS
+Graph

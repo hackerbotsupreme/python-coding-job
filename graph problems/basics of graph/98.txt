@@ -1,0 +1,165 @@
+A Peterson Graph Problem
+
+Difficulty Level : Medium
+Last Updated : 25 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+The following graph G is called a Petersen graph and its vertices have been numbered from 0 to 9. Some letters have also been assigned to vertices of G, as can be seen from the following picture: 
+
+Let’s consider a walk W in graph G, which consists of L vertices W1, W2, …, WL. A string S of L letters ‘A’ – ‘E’ is realized by walking W if the sequence of letters written along W is equal to S. Vertices can be visited multiple times while walking along W.
+
+For example, S = ‘ABBECCD’ is realized by W = (0, 1, 6, 9, 7, 2, 3). Determine whether there is a walk W that realizes a given string S in graph G and if so then find the lexicographically least such walk. The only line of input contains one string S. If there is no walk W which realizes S, then output -1 otherwise, you should output the least lexicographical walk W which realizes S. 
+ 
+
+Example of a Petersen Graph
+Example of a Petersen Graph
+
+Examples: 
+
+
+Input : s = 'ABB'
+Output: 016
+Explanation: As we can see in the graph
+             the path from ABB is 016.
+Input : s = 'AABE'
+Output :-1
+Explanation: As there is no path that
+             exists, hence output is -1.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Algorithm for a Peterson Graph Problem:
+
+petersonGraphWalk(S, v):
+
+begin
+    res := starting vertex
+    for each character c in S except the first one, do
+        if there is an edge between v and c in outer graph, then      
+            v := c
+        else if there is an edge between v and c+5 in inner graph, then
+            v := c + 5
+        else
+            return false
+        end if
+            put v into res
+        done
+    return true
+end
+
+Below is the implementation of the above algorithm:
+
+C++
+Java
+Python3
+# Python3 program to find the
+# path in Peterson graph
+# path to be checked
+ 
+# adjacency matrix.
+adj = [[False for i in range(10)] for j in range(10)]
+ 
+# resulted path - way
+result = [0]
+ 
+# we are applying breadth first search
+# here
+def findthepath(S, v):
+    result[0] = v
+    for i in range(1, len(S)):
+         
+        # first traverse the outer graph
+        if (adj[v][ord(S[i]) - ord('A')] or
+            adj[ord(S[i]) - ord('A')][v]):
+            v = ord(S[i]) - ord('A')
+             
+        # then traverse the inner graph
+        else if (adj[v][ord(S[i]) - ord('A') + 5] or
+               adj[ord(S[i]) - ord('A') + 5][v]):
+            v = ord(S[i]) - ord('A') + 5
+         
+        # if the condition failed to satisfy
+        # return false
+        else:
+            return False
+         
+        result.append(v)
+         
+    return True
+ 
+# driver code
+# here we have used adjacency matrix to make
+# connections between the connected nodes
+adj[0][1] = adj[1][2] = adj[2][3] = \
+adj[3][4] = adj[4][0] = adj[0][5] = \
+adj[1][6] = adj[2][7] = adj[3][8] = \
+adj[4][9] = adj[5][7] = adj[7][9] = \
+adj[9][6] = adj[6][8] = adj[8][5] = True
+ 
+# path to be checked
+S= "ABB"
+S=list(S)
+if (findthepath(S, ord(S[0]) - ord('A')) or
+    findthepath(S, ord(S[0]) - ord('A') + 5)):
+    print(*result, sep = "")
+else:
+    print("-1")
+     
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+016
+This article is contributed by Sunidhi Chaudhary. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Next
+Print all paths from a given source to a destination using BFS
+Related Articles
+1.
+What is Peterson Graph?
+2.
+When to use DFS or BFS to solve a Graph problem?
+3.
+Two Clique Problem (Check if Graph can be divided in two Cliques)
+4.
+Detect cycle in the graph using degrees of nodes of graph
+5.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+6.
+Maximum number of edges that N-vertex graph can have such that graph is Triangle free | Mantel's Theorem
+7.
+Convert undirected connected graph to strongly connected directed graph
+8.
+Java Program to Find Independent Sets in a Graph using Graph Coloring
+9.
+Connect a graph by M edges such that the graph does not contain any cycle and Bitwise AND of connected vertices is maximum
+10.
+Java Program to Find Independent Sets in a Graph By Graph Coloring
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+SHUBHAMSINGH10
+aashish1995
+simmytarika5
+_saurabh_jaiswal
+hardikkoriintern
+harendrakumar123
+animeshdey
+Article Tags :
+Graph
+Practice Tags :
+Graph
+Report Issue

@@ -1,0 +1,171 @@
+Maximum edges that can be added to DAG so that it remains DAG
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+A DAG is given to us, we need to find maximum number of edges that can be added to this DAG, after which new graph still remain a DAG that means the reformed graph should have maximal number of edges, adding even single edge will create a cycle in graph.
+
+Maximum edges that can be added to DAG so that it remains DAG
+
+The Output for above example should be following edges in any order.
+4-2, 4-5, 4-3, 5-3, 5-1, 2-0, 2-1, 0-3, 0-1
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+As shown in above example, we have added all the edges in one direction only to save ourselves from making a cycle. This is the trick to solve this question. We sort all our nodes in topological order and create edges from node to all nodes to the right if not there already. 
+How can we say that, it is not possible to add any more edge? the reason is we have added all possible edges from left to right and if we want to add more edge we need to make that from right to left, but adding edge from right to left we surely create a cycle because its counter part left to right edge is already been added to graph and creating cycle is not what we needed. 
+So solution proceeds as follows, we consider the nodes in topological order and if any edge is not there from left to right, we will create it. 
+
+Below is the solution, we have printed all the edges that can be added to given DAG without making any cycle. 
+
+C++
+Java
+Python3
+# Python3 program to find maximum
+# edges after adding which graph
+# still remains a DAG
+ 
+ 
+class Graph:
+ 
+    def __init__(self, V):
+ 
+        # No. of vertices
+        self.V = V
+ 
+        # Pointer to a list containing
+        # adjacency list
+        self.adj = [[] for i in range(V)]
+ 
+        # Vector to store indegree of vertices
+        self.indegree = [0 for i in range(V)]
+ 
+    # Utility function to add edge
+    def addEdge(self, v, w):
+ 
+         # Add w to v's list.
+        self.adj[v].append(w)
+ 
+        # Increasing inner degree of w by 1
+        self.indegree[w] += 1
+ 
+    # Main function to print maximum
+    # edges that can be added
+    def topologicalSort(self):
+ 
+        topological = []
+        q = []
+ 
+        # In starting append all node
+        # with indegree 0
+        for i in range(self.V):
+            if (self.indegree[i] == 0):
+                q.append(i)
+ 
+        while (len(q) != 0):
+            t = q[0]
+            q.pop(0)
+ 
+            # Append the node into topological
+            # vector
+            topological.append(t)
+ 
+            # Reducing indegree of adjacent
+            # vertices
+            for j in self.adj[t]:
+                self.indegree[j] -= 1
+ 
+                # If indegree becomes 0, just
+                # append into queue
+                if (self.indegree[j] == 0):
+                    q.append(j)
+ 
+        return topological
+ 
+    # The function prints all edges that
+    # can be added without making any cycle
+    # It uses recursive topologicalSort()
+    def maximumEdgeAddtion(self):
+ 
+        visited = [False for i in range(self.V)]
+ 
+        topo = self.topologicalSort()
+ 
+        # Looping for all nodes
+        for i in range(len(topo)):
+            t = topo[i]
+ 
+            # In below loop we mark the
+            # adjacent node of t
+            for j in self.adj[t]:
+                visited[j] = True
+ 
+            # In below loop unmarked nodes
+            # are printed
+            for j in range(i + 1, len(topo)):
+ 
+                # If not marked, then we can make
+                # an edge between t and j
+                if (not visited[topo[j]]):
+                    print(str(t) + '-' +
+                          str(topo[j]), end=' ')
+ 
+                visited[topo[j]] = False
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    # Create a graph given in the
+    # above diagram
+    g = Graph(6)
+    g.addEdge(5, 2)
+    g.addEdge(5, 0)
+    g.addEdge(4, 0)
+    g.addEdge(4, 1)
+    g.addEdge(2, 3)
+    g.addEdge(3, 1)
+ 
+    g.maximumEdgeAddtion()
+ 
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output
+4-5 4-2 4-3 5-3 5-1 2-0 2-1 0-3 0-1 
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+23
+Previous
+Kahn's algorithm for Topological Sorting
+Next
+Longest Path in a Directed Acyclic Graph
+Related Articles
+1.
+Assign directions to edges so that the directed graph remains acyclic
+2.
+Minimum edges to be added in a directed graph so that any node can be reachable from a given node
+3.
+Maximum number of edges to be added to a tree so that it stays a Bipartite graph
+4.
+Ways to Remove Edges from a Complete Graph to make Odd Edges
+5.
+Pendant Vertices, Non-Pendant Vertices, Pendant Edges and Non-Pendant Edges in Graph
+6.
+Minimum number of edges that need to be added to form a triangle
+7.
+Minimum number of Edges to be added to a Graph to satisfy the given condition
+8.
+Maximize number of edges added to convert given Tree into a Bipartite Graph
+9.
+Maximum difference between node and its ancestor in a Directed Acyclic Graph ( DAG )
+10.
+Print all possible paths in a DAG from vertex whose indegree is 0
+Article Contributed By :

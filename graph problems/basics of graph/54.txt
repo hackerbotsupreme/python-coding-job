@@ -1,0 +1,91 @@
+Total number of Spanning Trees in a Graph
+
+Difficulty Level : Hard
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+If a graph is a complete graph with n vertices, then total number of spanning trees is n(n-2) where n is the number of nodes in the graph. In complete graph, the task is equal to counting different labeled trees with n nodes for which have Cayley’s formula.
+
+What if graph is not complete? 
+
+Follow the given procedure:
+
+STEP 1: Create Adjacency Matrix for the given graph. 
+STEP 2: Replace all the diagonal elements with the degree of nodes. For eg. element at (1,1) position of adjacency matrix will be replaced by the degree of node 1, element at (2,2) position of adjacency matrix will be replaced by the degree of node 2, and so on. 
+STEP 3: Replace all non-diagonal 1’s with -1. 
+STEP 4: Calculate co-factor for any element. 
+STEP 5: The cofactor that you get is the total number of spanning tree for that graph. 
+Consider the following graph:
+
+ kirchoff-formula 
+
+Adjacency Matrix for the above graph will be as follows:
+
+ kirchoff-matrix
+
+
+
+ After applying STEP 2 and STEP 3, adjacency matrix will look like
+
+ kirchoff-theorem 
+
+The co-factor for (1, 1) is 8. Hence total no. of spanning tree that can be formed is 8. 
+
+NOTE: Co-factor for all the elements will be same. Hence we can compute co-factor for any element of the matrix. This method is also known as Kirchhoff’s Theorem. It can be applied to complete graphs also.
+
+This article is contributed by Kapil Khandelwal. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+80
+Previous
+Minimum cost to connect all cities
+Next
+Minimum Product Spanning Tree
+Related Articles
+1.
+Total number of Spanning trees in a Cycle Graph
+2.
+Number of spanning trees of a weighted complete Graph
+3.
+Problem Solving for Minimum Spanning Trees (Kruskal’s and Prim’s)
+4.
+Maximum Possible Edge Disjoint Spanning Tree From a Complete Graph
+5.
+Program to find total number of edges in a Complete Graph
+6.
+Boruvka's algorithm for Minimum Spanning Tree
+7.
+Kruskal’s Minimum Spanning Tree Algorithm | Greedy Algo-2
+8.
+Kruskal's Minimum Spanning Tree using STL in C++
+9.
+Minimum Product Spanning Tree
+10.
+Reverse Delete Algorithm for Minimum Spanning Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hardikkoriintern
+Article Tags :
+MST
+Graph
+Practice Tags :
+Graph

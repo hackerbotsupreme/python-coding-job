@@ -1,0 +1,289 @@
+Union By Rank and Path Compression in Union-Find Algorithm
+
+Difficulty Level : Medium
+Last Updated : 16 Jan, 2023
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+In the previous post, we introduced union find algorithm and used it to detect cycle in a graph. We used following union() and find() operations for subsets.
+
+C++
+Java
+Python3
+# Naive implementation of find
+def find(parent, i):
+     
+    if (parent[i] == -1):
+        return i
+     
+    return find(parent, parent[i])
+ 
+# Naive implementation of union()
+def Union(parent, x, y):
+ 
+    xset = find(parent, x)
+    yset = find(parent, y)
+    parent[xset] = yset
+ 
+# This code is contributed by rutvik_56
+C#
+Javascript
+The above union() and find() are naive and the worst case time complexity is linear. The trees created to represent subsets can be skewed and can become like a linked list. Following is an example worst case scenario. 
+
+Let there be 4 elements 0, 1, 2, 3
+
+Initially, all elements are single element subsets.
+0 1 2 3 
+
+Do Union(0, 1)
+   1   2   3  
+  /
+ 0
+
+Do Union(1, 2)
+     2   3   
+    /
+   1
+ /
+0
+
+Do Union(2, 3)
+         3    
+        /
+      2
+     /
+   1
+ /
+0
+The above operations can be optimized to O(Log n) in worst case. The idea is to always attach smaller depth tree under the root of the deeper tree. This technique is called union by rank. The term rank is preferred instead of height because if path compression technique (we have discussed it below) is used, then rank is not always equal to height. Also, size (in place of height) of trees can also be used as rank. Using size as rank also yields worst case time complexity as O(Logn).
+
+Let us see the above example with union by rank
+Initially, all elements are single element subsets.
+0 1 2 3 
+
+Do Union(0, 1)
+   1   2   3  
+  /
+ 0
+
+Do Union(1, 2)
+   1    3
+ /  \
+0    2
+
+Do Union(2, 3)
+    1    
+ /  |  \
+0   2   3
+The second optimization to naive method is Path Compression. The idea is to flatten the tree when find() is called. When find() is called for an element x, root of the tree is returned. The find() operation traverses up from x to find root. The idea of path compression is to make the found root as parent of x so that we don’t have to traverse all intermediate nodes again. If x is root of a subtree, then path (to root) from all nodes under x also compresses.
+
+Let the subset {0, 1, .. 9} be represented as below and find() is called
+for element 3.
+             9
+         /   |   \  
+        4    5    6
+       /         /  \
+      0         7    8
+     /        
+    3
+   / \         
+  1   2
+When find() is called for 3, we traverse up and find 9 as representative
+of this subset. With path compression, we also make 3 and 0 as the child of 9 so 
+that when find() is called next time for 0, 1, 2 or 3, the path to root is reduced.
+
+        --------9-------
+      /   /    /  \      \
+     0   4    5    6       3 
+                  /  \    /  \
+                 7    8   1   2
+The two techniques complement each other. The time complexity of each operation becomes even smaller than O(Logn). In fact, amortized time complexity effectively becomes small constant. 
+
+Following is union by rank and path compression based implementation to find a cycle in a graph. 
+
+C++
+C
+Java
+Python3
+# A union by rank and path compression based
+# program to detect cycle in a graph
+from collections import defaultdict
+ 
+# a structure to represent a graph
+ 
+ 
+class Graph:
+ 
+    def __init__(self, num_of_v):
+        self.num_of_v = num_of_v
+        self.edges = defaultdict(list)
+ 
+    # graph is represented as an
+    # array of edges
+    def add_edge(self, u, v):
+        self.edges[u].append(v)
+ 
+ 
+class Subset:
+    def __init__(self, parent, rank):
+        self.parent = parent
+        self.rank = rank
+ 
+# A utility function to find set of an element
+# node(uses path compression technique)
+ 
+ 
+def find(subsets, node):
+    if subsets[node].parent != node:
+        subsets[node].parent = find(subsets, subsets[node].parent)
+    return subsets[node].parent
+ 
+# A function that does union of two sets
+# of u and v(uses union by rank)
+ 
+ 
+def union(subsets, u, v):
+ 
+    # Attach smaller rank tree under root
+    # of high rank tree(Union by Rank)
+    if subsets[u].rank > subsets[v].rank:
+        subsets[v].parent = u
+    elif subsets[v].rank > subsets[u].rank:
+        subsets[u].parent = v
+ 
+    # If ranks are same, then make one as
+    # root and increment its rank by one
+    else:
+        subsets[v].parent = u
+        subsets[u].rank += 1
+ 
+# The main function to check whether a given
+# graph contains cycle or not
+ 
+ 
+def isCycle(graph):
+ 
+    # Allocate memory for creating sets
+    subsets = []
+ 
+    for u in range(graph.num_of_v):
+        subsets.append(Subset(u, 0))
+ 
+    # Iterate through all edges of graph,
+    # find sets of both vertices of every
+    # edge, if sets are same, then there
+    # is cycle in graph.
+    for u in graph.edges:
+        u_rep = find(subsets, u)
+ 
+        for v in graph.edges[u]:
+            v_rep = find(subsets, v)
+ 
+            if u_rep == v_rep:
+                return True
+            else:
+                union(subsets, u_rep, v_rep)
+ 
+ 
+# Driver Code
+g = Graph(3)
+ 
+# add edge 0-1
+g.add_edge(0, 1)
+ 
+# add edge 1-2
+g.add_edge(1, 2)
+ 
+# add edge 0-2
+g.add_edge(0, 2)
+ 
+if isCycle(g):
+    print('Graph contains cycle')
+else:
+    print('Graph does not contain cycle')
+ 
+# This code is contributed by
+# Sampath Kumar Surine
+C#
+Javascript
+Output
+
+
+Graph contains cycle
+Related Articles : 
+
+Union-Find Algorithm | Set 1 (Detect Cycle in an Undirected Graph) 
+Disjoint Set Data Structures (Java Implementation) 
+Greedy Algorithms | Set 2 (Kruskal’s Minimum Spanning Tree Algorithm) 
+Job Sequencing Problem | Set 2 (Using Disjoint Set)
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+111
+Previous
+Introduction to Disjoint Set Data Structure or Union-Find Algorithm
+Next
+Dijkstra's Shortest Path Algorithm | Greedy Algo-7
+Related Articles
+1.
+Union-Find Algorithm | (Union By Rank and Find by Optimized Path Compression)
+2.
+Introduction to Disjoint Set Data Structure or Union-Find Algorithm
+3.
+Program to find Circuit Rank of an Undirected Graph
+4.
+Implementation of Page Rank using Random Walk method in Python
+5.
+Shortest path from source to destination such that edge weights along path are alternatively increasing and decreasing
+6.
+Construct a Tree whose sum of nodes of all the root to leaf path is not divisible by the count of nodes in that path
+7.
+Union and Intersection of two Graphs
+8.
+Fleury's Algorithm for printing Eulerian Path or Circuit
+9.
+Printing Paths in Dijkstra's Shortest Path Algorithm
+10.
+Dijkstra’s shortest path algorithm using set in STL
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+DeepeshThakur
+ashwani khemani
+andrew1234
+Sampath Kumar Surine
+rahulsharma9
+rutvik_56
+pratham76
+divyesh072019
+mukesh07
+avanitrachhadiya2155
+mittalshubham05
+amartyaghoshgfg
+adityakumar129
+hardikkoriintern
+mitalibhola94
+Article Tags :
+union-find
+Graph
+Practice Tags :
+Graph
+union-find
+Improve Article
+Report Issue

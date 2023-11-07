@@ -1,0 +1,209 @@
+Minimize maximum adjacent difference in a path from top-left to bottom-right
+
+Last Updated : 06 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a matrix arr[][] of size M * N, where arr[i][j] represents the height of the cell (row, col). The task is to find a path from top-left to bottom-right such that the value of the maximum difference in height between adjacent cells is minimum for that path.
+
+Note: A path energy is the maximum absolute difference in heights between two consecutive cells of the path.
+
+Examples:
+
+Input: 
+
+Example matrix
+Example matrix
+
+Output: 1
+Explanation: The path {1, 2, 1, 2, 2} has a maximum absolute difference of 1 in consecutive cells and this is better than all other possible paths
+
+Input: 
+ 
+
+Example matrix
+Example matrix
+
+Output: 1
+Explanation: The highlighted path is the path with minimum value of maximum adjacent difference.
+
+
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+An approach using DFS + Binary Search:
+The idea is to use Binary search to solve this problem, if we assume a threshold value as mid, and check whether there exist a path through which we can reach to end, then that might be my answer, else look for some bigger values.
+
+Initialize a variable start = 0 and end = maximum possible energy required and a variable result
+Do the following while start ≤ end
+Calculate mid = (start + end) / 2
+Check if mid energy is valid energy required by choosing any path into the matrix
+Checking the valid energy using a valid function
+Check if we go outside the matrix or if cell(i, j) is visited or absolute difference between consecutive cells is greater than our assumed maximum energy required
+If true, then return false
+Check if we reach the bottom-right cell
+If true, then return true
+Make the current cell(i, j) visited
+Make all four direction calls and check if any path is valid
+If true, then return true.
+Otherwise, return false
+If the value from a valid function returns true, then update the result and move the end to mid – 1
+Otherwise, move the start to mid + 1
+Return the result
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python code to implement the above approach
+
+m,n=0,0
+# Function to check if there is a valid path
+def isValid(i,j,x,visited,arr,parent):
+    # Check if we go outside the matrix or
+    # cell(i, j) is visited or absolute
+    # difference between consecutive cell
+    # is greater than our assumed maximum
+    # energy required If true,
+    # then return false
+    if(i<0 or j<0 or i>=m or j>=n or visited[i][j] or abs(arr[i][j]-parent)>x):
+        return False
+    
+    # Check if we reach at bottom-right
+    # cell If true, then return true
+    if(i==m-1 and j==n-1):
+        return True
+    
+    # Make the current cell(i, j) visited
+    visited[i][j]=True
+    
+    # Make all four direction call and
+    # check if any path is valid If true,
+    # then return true.
+    if(isValid(i+1,j,x,visited,arr,arr[i][j])):
+        return True
+    if(isValid(i-1,j,x,visited,arr,arr[i][j])):
+        return True
+    if(isValid(i,j+1,x,visited,arr,arr[i][j])):
+        return True
+    if(isValid(i,j-1,x,visited,arr,arr[i][j])):
+        return True
+    
+    # Otherwise, return false
+    return False
+    
+# Function to find the minimum value among
+# the maximum adjacent differences
+def minimumEnergyPath(arr):
+    # Initialize a variable start = 0
+    # and end = maximum possible
+    # energy required
+    start,end=0,10000000
+    
+    # Initialize a variable result
+    result=arr[0][0]
+    
+    # Loop to implement the binary search
+    while(start<=end):
+        mid=(start+end)//2
+        
+        # Initialize a visited array
+        # of size (m * n)
+        visited=[[False for i in range(n)] for j in range(m)]
+        
+        # Check if mid energy is valid
+        # energy required by choosing any
+        # path into the matrix If true,
+        # update the result and
+        # move end to mid - 1
+        if(isValid(0,0,mid,visited,arr,arr[0][0])):
+            result=mid
+            end=mid-1
+        
+        # Otherwise, move start to mid + 1
+        else:
+            start=mid+1
+    
+    # Return the result
+    return result
+    
+# Driver Code 
+arr=[[1,2,1],[2,8,2],[2,4,2]]
+m=len(arr)
+n=len(arr[0])
+
+# Function Call
+print(minimumEnergyPath(arr))
+
+# This code is contributed by Pushpesh Raj.
+
+C#
+Javascript
+Output
+1
+Time Complexity: O(log2(K) * (M*N)), where K is the maximum element in the matrix and M, and N are the number of rows and columns in the given matrix respectively.
+Auxiliary Space: O(M * N)
+
+
+
+
+
+Like
+1
+Previous
+Count all pairs of rows and columns which are equal
+Next
+Multiline TextField in Flutter
+Related Articles
+1.
+Minimize the maximum distance between adjacent points after adding K points anywhere in between
+2.
+Minimize colours to paint graph such that no path have same colour
+3.
+Minimize count of adjacent row swaps to convert given Matrix to a Lower Triangular Matrix
+4.
+Minimize absolute Sum by subtracting one and two from adjacent indices
+5.
+Minimize Array size by replacing adjacent integers by their Modulo
+6.
+Maximum height of an elevation possible such that adjacent matrix cells have a difference of at most height 1
+7.
+Divide Matrix into K groups of adjacent cells having minimum difference between maximum and minimum sized groups
+8.
+Make a N*N matrix that contains integers from 1 to N^2 having maximum adjacent difference
+9.
+Maximum decimal value path in a binary matrix
+10.
+Maximum path sum that starting with any cell of 0-th row and ending with any cell of (N-1)-th row
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+hkdass001
+@hkdass001
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lokeshpotta20
+user_7gr9iodclfx
+ksam24000
+ruhelaa48
+pushpeshrajdx01
+akshaysingh98088
+rkbhola5
+Article Tags :
+BFS
+Binary Search
+Technical Scripter 2022
+Matrix
+Technical Scripter
+Practice Tags :
+BFS
+Binary Search
+Matrix
