@@ -1,0 +1,136 @@
+Check if right triangle possible from given area and hypotenuse
+
+Difficulty Level : Basic
+Last Updated : 27 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given area and hypotenuse, the aim is to print all sides if right triangle can exist, else print -1. We need to print all sides in ascending order.
+
+Examples: 
+
+Input  : 6 5
+Output : 3 4 5
+
+Input  : 10 6
+Output : -1 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed a solution of this problem in below post. 
+Find all sides of a right angled triangle from given hypotenuse and area | Set 1
+In this post, a new solution with below logic is discussed.
+Let the two unknown sides be a and b 
+Area : A = 0.5 * a * b 
+Hypotenuse Square : H^2 = a^2 + b^2 
+Substituting b, we get H2 = a2 + (4 * A2)/a2 
+On re-arranging, we get the equation a4 – (H2)(a2) + 4*(A2)
+The discriminant D of this equation would be D = H4 – 16*(A2) 
+If D = 0, then roots are given by the linear equation formula, roots = (-b +- sqrt(D) )/2*a 
+these roots would be equal to the square of the sides, finding the square roots would give us the sides. 
+
+C++
+Java
+Python3
+# Python program to check existence of
+# right triangle.
+from math import sqrt
+ 
+# Prints three sides of a right triangle
+# from given area and hypotenuse if triangle
+# is possible, else prints -1.
+def findRightAngle(A, H):
+ 
+    # Descriminant of the equation
+    D = pow(H,4) - 16 * A * A
+    if D >= 0:
+ 
+        # applying the linear equation
+        # formula to find both the roots
+        root1 = (H * H + sqrt(D))//2
+        root2 = (H * H - sqrt(D))//2
+ 
+        a = int(sqrt(root1))
+        b = int(sqrt(root2))
+        if b >= a:
+            print (a, b, H)
+        else:
+            print (b, a, H)
+    else:
+        print ("-1")
+ 
+# Driver code
+# Area is 6 and hypotenuse is 5.
+findRightAngle(6, 5)
+C#
+PHP
+Javascript
+Output: 
+
+3 4 5
+Time complexity: O(log(n)) since using inbuilt sqrt functions
+
+Auxiliary Space: O(1)
+
+This article is contributed by Harshit Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+0
+Previous
+Find all angles of a given triangle
+Next
+Number of Triangles that can be formed given a set of lines in Euclidean Plane
+Related Articles
+1.
+Number of possible pairs of Hypotenuse and Area to form right angled triangle
+2.
+Find all sides of a right angled triangle from given hypotenuse and area | Set 1
+3.
+Find the hypotenuse of a right angled triangle with given two sides
+4.
+Check whether a number is Non-hypotenuse number
+5.
+Check if a triangle of positive area is possible with the given angles
+6.
+Calculate ratio of area of a triangle inscribed in an Ellipse and the triangle formed by corresponding points on auxiliary circle
+7.
+Biggest Reuleaux Triangle within a Square which is inscribed within a Right angle Triangle
+8.
+Area of a largest square fit in a right angle triangle
+9.
+Area of Circumcircle of a Right Angled Triangle
+10.
+Area of Incircle of a Right Angled Triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Rajput-Ji
+anikakapoor
+amartyaghoshgfg
+hasani
+technophpfij
+agfro1cac
+Article Tags :
+area-volume-programs
+triangle
+DSA
+Geometric
+Practice Tags :
+Geometric

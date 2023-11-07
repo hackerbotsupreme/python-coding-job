@@ -1,0 +1,175 @@
+Find perimeter of shapes formed with 1s in binary matrix
+
+Difficulty Level : Easy
+Last Updated : 12 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a matrix of N rows and M columns, consist of 0’s and 1’s. The task is to find the perimeter of subfigure consisting only 1’s in the matrix. Perimeter of single 1 is 4 as it can be covered from all 4 side. Perimeter of double 11 is 6. 
+
+     
+                            
+|  1  |           |  1    1  |
+                            
+Examples:  
+
+Input : mat[][] = 
+               {
+                 1, 0,
+                 1, 1,
+               }
+Output : 8
+Cell (1,0) and (1,1) making a L shape whose perimeter is 8.
+
+Input :  mat[][] = 
+                {   
+                    0, 1, 0, 0, 0,
+                    1, 1, 1, 0, 0,
+                    1, 0, 0, 0, 0
+                }
+Output : 12
+perimeter of shapes formed with 1s in binary matrix
+
+Recommended Problem
+Find perimeter of shapes
+Matrix
+Geometric
++1 more
+Solve Problem
+Submission count: 1.3K
+The idea is to traverse the matrix, find all ones and find their contribution in perimeter. The maximum contribution of a 1 is four if it is surrounded by all 0s. The contribution reduces by one with 1 around it. 
+
+Algorithm for solving this problem: 
+
+Traverse the whole matrix and find the cell having value equal to 1.
+Calculate the number of closed side for that cell and add, 4 – number of closed side to the total perimeter.
+Below is the implementation of this approach: 
+
+C++
+Java
+Python3
+# Python3 program to find perimeter of area
+# covered by 1 in 2D matrix consists of 0's and 1's.
+ 
+R = 3
+C = 5
+ 
+# Find the number of covered side for mat[i][j].
+def numofneighbour(mat, i, j):
+ 
+    count = 0;
+ 
+    # UP
+    if (i > 0 and mat[i - 1][j]):
+        count+= 1;
+ 
+    # LEFT
+    if (j > 0 and mat[i][j - 1]):
+        count+= 1;
+ 
+    # DOWN
+    if (i < R-1 and mat[i + 1][j]):
+        count+= 1
+ 
+    # RIGHT
+    if (j < C-1 and mat[i][j + 1]):
+        count+= 1;
+ 
+    return count;
+ 
+# Returns sum of perimeter of shapes formed with 1s
+def findperimeter(mat):
+ 
+    perimeter = 0;
+ 
+    # Traversing the matrix and finding ones to
+    # calculate their contribution.
+    for i in range(0, R):
+        for j in range(0, C):
+            if (mat[i][j]):
+                perimeter += (4 - numofneighbour(mat, i, j));
+ 
+    return perimeter;
+ 
+# Driver Code
+mat = [ [0, 1, 0, 0, 0],
+        [1, 1, 1, 0, 0],
+        [1, 0, 0, 0, 0] ]
+ 
+print(findperimeter(mat), end="\n");
+ 
+# This code is contributed by Akanksha Rai
+C#
+PHP
+Javascript
+Output
+
+
+12
+Time Complexity: O(R x C).
+Auxiliary Space: O(1), since no extra space has been taken.
+
+This article is contributed by Aarti_Rathi and Anuj Chauhan(anuj0503). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+5
+Previous
+Validity of a given Tic-Tac-Toe board configuration
+Next
+Construct Ancestor Matrix from a Given Binary Tree
+Related Articles
+1.
+Maximize Perimeter of Quadrilateral formed by choosing sides from given Array
+2.
+Find trace of matrix formed by adding Row-major and Column-major order of same matrix
+3.
+Find size of the largest '+' formed by all ones in a binary matrix
+4.
+Equable Shapes
+5.
+Draw geometric shapes on images using OpenCV
+6.
+Program to find Perimeter / Circumference of Square and Rectangle
+7.
+Find the perimeter of a cylinder
+8.
+Program to find the Area and Perimeter of a Semicircle
+9.
+Program to find the Perimeter of a Regular Polygon
+10.
+Find maximum volume of a cuboid from the given perimeter and area
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+Sach_Code
+Akanksha_Rai
+souravghosh0416
+akshaysingh98088
+saurabh1990aror
+codewithmini
+hardikkoriintern
+rishavnitro
+noviced3vq6
+Article Tags :
+Geometric
+Matrix
+Practice Tags :
+Geometric
+Matrix
+Improve Article
+Report Issue

@@ -1,0 +1,150 @@
+Number of rectangles in N*M grid
+
+Difficulty Level : Medium
+Last Updated : 16 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given a N*M grid, print the number of rectangles in it.
+Examples: 
+ 
+
+Input  : N = 2, M = 2
+Output : 9
+There are 4 rectangles of size 1 x 1.
+There are 2 rectangles of size 1 x 2
+There are 2 rectangles of size 2 x 1
+There is one rectangle of size 2 x 2.
+
+Input  : N = 5, M = 4
+Output : 150
+
+Input :  N = 4, M = 3
+Output: 60
+ 
+
+Recommended Problem
+Rectangle Number
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 1.6K
+We have discussed counting number of squares in a n x m grid,
+Let us derive a formula for number of rectangles.
+If the grid is 1×1, there is 1 rectangle. 
+If the grid is 2×1, there will be 2 + 1 = 3 rectangles 
+If it grid is 3×1, there will be 3 + 2 + 1 = 6 rectangles. 
+we can say that for N*1 there will be N + (N-1) + (n-2) … + 1 = (N)(N+1)/2 rectangles
+If we add one more column to N×1, firstly we will have as many rectangles in the 2nd column as the first, 
+and then we have that same number of 2×M rectangles. 
+So N×2 = 3 (N)(N+1)/2
+After deducing this we can say 
+For N*M we’ll have (M)(M+1)/2 (N)(N+1)/2 = M(M+1)(N)(N+1)/4
+So the formula for total rectangles will be M(M+1)(N)(N+1)/4 
+
+.
+
+Combinatorial Logic:
+
+N*M grid can be represented as (N+1) vertical lines and (M+1) horizontal lines.
+In a rectangle, we need two distinct horizontal and two distinct verticals.
+So going by the logic of Combinatorial Mathematics we can choose 2 vertical lines and 2 horizontal lines to form a rectangle. And total number of these combinations is the number of rectangles possible in the grid.
+
+Total Number of Rectangles in N*M grid: N+1C2 * M+1C2 = (N*(N+1)/2!)*(M*(M+1)/2!) = N*(N+1)*M*(M+1)/4
+ 
+
+
+
+C++
+// C++ program to count number of rectangles
+// in a n x m grid
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int rectCount(int n, int m)
+{
+    return (m * n * (n + 1) * (m + 1)) / 4;
+}
+ 
+/* driver code */
+int main()
+{
+    int n = 5, m = 4;
+    cout << rectCount(n, m);
+    return 0;
+}
+Java
+Python3
+C#
+PHP
+Javascript
+Output:  
+
+150
+Time complexity: O(1)
+
+Auxiliary Space: O(1), since no extra space has been taken.
+
+This article is contributed by Pranav. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+15
+Previous
+Minimum Perimeter of n blocks
+Next
+Coordinates of rectangle with given points lie inside
+Related Articles
+1.
+Number of rectangles with given area in an N*M grid
+2.
+Maximize median of a KxK sub-grid in an NxN grid
+3.
+Number of unique rectangles formed using N unit squares
+4.
+Number of rectangles in a circle of radius R
+5.
+Find the number of rectangles of size 2*1 which can be placed inside a rectangle of size n*m
+6.
+Count the number of rectangles such that ratio of sides lies in the range [a,b]
+7.
+Find the minimum number of rectangles left after inserting one into another
+8.
+Total number of unit cells covered by all given Rectangles
+9.
+Maximum number of overlapping rectangles with at least one common point
+10.
+Find the number of corner rectangles that can be formed from given Matrix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+arora_hritik
+perfecto_pride
+decode2207
+hasani
+rishavnitro
+Article Tags :
+square-rectangle
+Geometric
+Mathematical
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

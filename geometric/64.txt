@@ -1,0 +1,186 @@
+Area of a polygon with given n ordered vertices
+
+Difficulty Level : Medium
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given ordered coordinates of a polygon with n vertices. Find the area of the polygon. Here ordered means that the coordinates are given either in a clockwise manner or anticlockwise from the first vertex to last.
+Examples : 
+
+Input :  X[] = {0, 4, 4, 0}, Y[] = {0, 0, 4, 4};
+Output : 16
+
+Input : X[] = {0, 4, 2}, Y[] = {0, 0, 4}
+Output : 8
+We can compute the area of a polygon using the Shoelace formula.  
+
+Area
+
+=\frac{1}{2}\left | \sum_{i=1}^{n-1}x_iy_(_i+_1_)+x_ny1-\sum_{i=1}^{n-1}x_(_i+_1_)y_i-x_1y_n \right |
+
+= | 1/2 [ (x1y2 + x2y3 + … + xn-1yn + xny1) –
+
+(x2y1 + x3y2 + … + xnyn-1 + x1yn) ] |
+
+The above formula is derived by following the cross product of the vertices to get the Area of triangles formed in the polygon. 
+Below is an implementation of the above formula. 
+
+
+
+CPP
+Java
+Python3
+# python3 program to evaluate
+# area of a polygon using
+# shoelace formula
+ 
+# (X[i], Y[i]) are coordinates of i'th point.
+def polygonArea(X, Y, n):
+ 
+    # Initialize area
+    area = 0.0
+ 
+    # Calculate value of shoelace formula
+    j = n - 1
+    for i in range(0,n):
+        area += (X[j] + X[i]) * (Y[j] - Y[i])
+        j = i   # j is previous vertex to i
+     
+ 
+    # Return absolute value
+    return int(abs(area / 2.0))
+ 
+# Driver program to test above function
+X = [0, 2, 4]
+Y = [1, 3, 7]
+n = len(X)
+print(polygonArea(X, Y, n))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output : 
+
+2
+Time Complexity: O(n) 
+Auxiliary Space: O(1), since no extra space has been taken.
+
+Why is it called Shoelace Formula? 
+The formula is called so because of the way we evaluate it. 
+Example : 
+
+Let the input vertices be
+ (0, 1), (2, 3), and (4, 7). 
+
+Evaluation procedure matches with process of tying
+shoelaces.
+
+We write vertices as below
+  0    1
+  2    3
+  4    7
+  0    1  [written twice]
+
+we evaluate positive terms as below
+  0  \  1
+  2  \  3
+  4  \  7
+  0     1  
+i.e., 0*3 + 2*7 + 4*1 = 18 
+
+we evaluate negative terms as below
+  0     1
+  2  /  3
+  4  /  7
+  0  /  1  
+i.e., 0*7 + 4*3 + 2*1 = 14
+
+Area = 1/2 (18 - 14) = 2 
+
+See this for a clearer image.
+How does this work? 
+We can always divide a polygon into triangles. The area formula is derived by taking each edge AB and calculating the (signed) area of triangle ABO with a vertex at the origin O, by taking the cross-product (which gives the area of a parallelogram) and dividing by 2. As one wraps around the polygon, these triangles with positive and negative areas will overlap, and the areas between the origin and the polygon will be canceled out and sum to 0, while only the area inside the reference triangle remains. [Source: Wiki] 
+
+For a better understanding look at the following diagrams:
+
+Area Of Triangle Using Cross Product
+Area Of Triangle Using Cross Product
+
+Dividing Polygons into Smaller Triangles to compute Area
+Dividing Polygons into Smaller Triangles to compute Area
+
+for Irregular Polygons, we can form triangles to compute the Area
+Similarly, for Irregular Polygons, we can form triangles to compute the Area
+
+Related articles : 
+Minimum Cost Polygon Triangulation 
+Find Simple Closed Path for a given set of points
+This article is contributed by Aarti_Rathi and Utkarsh Trivedi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+14
+Previous
+How to check if a given point lies inside or outside a polygon?
+Next
+Tangents between two Convex Polygons
+Related Articles
+1.
+Find three vertices in an N-sided regular polygon such that the angle subtended at a vertex by two other vertices is closest to A
+2.
+Find the remaining vertices of a square from two given vertices
+3.
+Angle between 3 given vertices in a n-sided regular polygon
+4.
+Number of occurrences of a given angle formed using 3 vertices of a n-sided regular polygon
+5.
+Check if given polygon is a convex polygon or not
+6.
+Find K vertices in the graph which are connected to at least one of remaining vertices
+7.
+Maximize the number of uncolored vertices appearing along the path from root vertex and the colored vertices
+8.
+Construct a graph using N vertices whose shortest distance between K pair of vertices is 2
+9.
+Pendant Vertices, Non-Pendant Vertices, Pendant Edges and Non-Pendant Edges in Graph
+10.
+Number of ways a convex polygon of n+2 sides can split into triangles by connecting vertices
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+dybydx
+target_2
+surinderdawra388
+kova484
+_shinchancode
+rishav1329
+Article Tags :
+area-volume-programs
+triangle
+DSA
+Geometric
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

@@ -1,0 +1,171 @@
+Find all angles of a given triangle
+
+Difficulty Level : Medium
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given coordinates of all three vertices of the triangle in the 2D plane, the task is to find all three angles.
+Example: 
+ 
+
+Input : A = (0, 0), 
+        B = (0, 1), 
+        C = (1, 0)
+Output : 90, 45, 45
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+To solve this problem we use below Law of cosines. 
+ 
+
+all angles of a given triangle
+
+ 
+
+c^2 = a^2 + b^2 - 2(a)(b)(cos beta)
+After re-arranging 
+ 
+
+beta = acos( ( a^2 + b^2 - c^2 ) / (2ab) )
+In trigonometry, the law of cosines (also known as the cosine formula or cosine rule) relates the lengths of the sides of a triangle to the cosine of one of its angles.
+ 
+
+
+
+First, calculate the length of all the sides. 
+Then apply above formula to get all angles in 
+radian. Then convert angles from radian into 
+degrees.
+Below is implementation of above steps. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to find all three angles
+# of a triangle given coordinate
+# of all three vertices
+import math
+ 
+# returns square of distance b/w two points
+def lengthSquare(X, Y):
+    xDiff = X[0] - Y[0]
+    yDiff = X[1] - Y[1]
+    return xDiff * xDiff + yDiff * yDiff
+     
+def printAngle(A, B, C):
+     
+    # Square of lengths be a2, b2, c2
+    a2 = lengthSquare(B, C)
+    b2 = lengthSquare(A, C)
+    c2 = lengthSquare(A, B)
+ 
+    # length of sides be a, b, c
+    a = math.sqrt(a2);
+    b = math.sqrt(b2);
+    c = math.sqrt(c2);
+ 
+    # From Cosine law
+    alpha = math.acos((b2 + c2 - a2) /
+                         (2 * b * c));
+    betta = math.acos((a2 + c2 - b2) /
+                         (2 * a * c));
+    gamma = math.acos((a2 + b2 - c2) /
+                         (2 * a * b));
+ 
+    # Converting to degree
+    alpha = alpha * 180 / math.pi;
+    betta = betta * 180 / math.pi;
+    gamma = gamma * 180 / math.pi;
+ 
+    # printing all the angles
+    print("alpha : %f" %(alpha))
+    print("betta : %f" %(betta))
+    print("gamma : %f" %(gamma))
+         
+# Driver code
+A = (0, 0)
+B = (0, 1)
+C = (1, 0)
+ 
+printAngle(A, B, C);
+ 
+# This code is contributed
+# by ApurvaRaj
+C#
+Javascript
+Output: 
+ 
+
+alpha : 90
+beta : 45
+gamma : 45
+Time Complexity: O(log(n)) since using inbuilt sqrt functions
+
+Auxiliary Space: O(1)
+
+Reference : 
+https://en.wikipedia.org/wiki/Law_of_cosines
+This article is contributed by Pratik Chhajer . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Maximum number of 2x2 squares that can be fit inside a right isosceles triangle
+Next
+Check if right triangle possible from given area and hypotenuse
+Related Articles
+1.
+Find all angles of a triangle in 3D
+2.
+Find other two sides and angles of a right angle triangle
+3.
+Check whether the triangle is valid or not if angles are given
+4.
+Length of remaining two sides of a Triangle from a given side and its adjacent angles
+5.
+Program to find smallest difference of angles of two parts of a given circle
+6.
+Find interior angles for each side of a given Cyclic Quadrilateral
+7.
+Maximum size of subset of given array such that a triangle can be formed by any three integers as the sides of the triangle
+8.
+Program to find the angles of a quadrilateral
+9.
+Count of obtuse angles in a circle with 'k' equidistant points between 2 given points
+10.
+Check whether Quadrilateral is valid or not if angles are given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+MohitDhariwal
+Shivam_k
+Rajput-Ji
+ApurvaRaj
+rkbhola5
+gautamgoel962
+ajaymakvana
+technophpfij
+Article Tags :
+triangle
+Geometric
+School Programming
+Practice Tags :
+Geometric

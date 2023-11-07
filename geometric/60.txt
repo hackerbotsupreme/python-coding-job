@@ -1,0 +1,122 @@
+Program for Volume and Surface Area of Cube
+
+Last Updated : 21 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Cube is a 3-dimensional box-like figure represented in the 3-dimensional plane. Cube has 6 squared-shape equal faces. Each face meet another face at 90 degree each. Three sides of cube meet at same vertex. 
+ 
+
+cube
+
+Examples: 
+ 
+
+Input : Side of a cube = 2
+Output : Area = 8
+         Total surface area = 24
+
+Input : Side of a cube = 3
+Output : Area = 27
+         Total surface area = 54
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+Volume: a*a*a 
+Total Surface area: 6*a*a
+
+ 
+
+
+
+C++
+Java
+Python3
+# Python3 code to find area
+# and total surface area of cube
+ 
+# utility function
+def areaCube( a ):
+    return (a * a * a)
+ 
+def surfaceCube( a ):
+    return (6 * a * a)
+ 
+# driver function
+a = 5
+print("Area =", areaCube(a))
+print("Total surface area =", surfaceCube(a))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output: 
+ 
+
+Area = 125
+Total surface area = 150
+Time complexity : O(1) 
+Auxiliary Space : O(1)
+
+This article is contributed by Saloni Gupta . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Program to calculate volume of Ellipsoid
+Next
+Number of parallelograms when n horizontal parallel lines intersect m vertical parallel lines
+Related Articles
+1.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+2.
+Percentage increase in volume of the cube if a side of cube is increased by a given percentage
+3.
+Program for Volume and Surface Area of Cuboid
+4.
+Program to calculate Volume and Surface area of Hemisphere
+5.
+Program for Volume and Surface area of Frustum of Cone
+6.
+Program to find volume and surface area of pentagonal prism
+7.
+Program to find Surface Area and Volume of Octagonal Prism
+8.
+Calculate Volume and Surface area Of Sphere
+9.
+Calculate volume and surface area of a cone
+10.
+Surface Area and Volume of Hexagonal Prism
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Akanksha_Rai
+GauravRajput1
+krishnav4
+Article Tags :
+area-volume-programs
+maths-cube
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric

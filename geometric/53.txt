@@ -1,0 +1,115 @@
+Find the perimeter of a cylinder
+
+Difficulty Level : Easy
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given diameter and height, find the perimeter of a cylinder.
+Perimeter is the length of the outline of a two – dimensional shape. A cylinder is a three – dimensional shape. So, technically we cannot find the perimeter of a cylinder but we can find the perimeter of the cross-section of the cylinder. This can be done by creating the projection on its base, thus, creating the projection on its side, then the shape would be reduced to a rectangle.
+ 
+
+perimeter of a cylinder
+
+Formula : 
+Perimeter of cylinder ( P ) = ( 2 * d ) + ( 2 * h )   
+here d is the diameter of the cylinder 
+h is the height of the cylinder
+Examples : 
+ 
+
+Input : diameter = 5, height = 10 
+Output : Perimeter = 30
+
+Input : diameter = 50, height = 150 
+Output : Perimeter = 400
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+Java
+Python
+# Function to calculate
+# the perimeter of a cylinder
+def perimeter( diameter, height ) :
+    return 2 * ( diameter + height )
+ 
+# Driver function
+diameter = 5 ;
+height = 10 ;
+print ("Perimeter = ",
+            perimeter(diameter, height))
+C#
+PHP
+Javascript
+Output : 
+ 
+
+Perimeter = 30 units
+Time Complexity: O(1) 
+Auxiliary Space: O(1)
+ 
+
+
+
+
+
+
+
+Like
+2
+Previous
+Check if two given circles touch or intersect each other
+Next
+Find the Surface area of a 3D figure
+Related Articles
+1.
+C Program for Find the perimeter of a cylinder
+2.
+Java Program for Find the perimeter of a cylinder
+3.
+Python Program for Find the perimeter of a cylinder
+4.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+5.
+Largest cube that can be inscribed within a right circular cylinder
+6.
+Longest rod that can be inserted within a right circular cylinder
+7.
+Volume of largest right circular cylinder within a Sphere
+8.
+Volume of biggest sphere within a right circular cylinder
+9.
+Largest right circular cylinder that can be inscribed within a cone
+10.
+Largest right circular cylinder within a frustum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+mohitw16
+@mohitw16
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+parashar
+vt_m
+susmitakundugoaldanga
+mailaruyashaswi
+Article Tags :
+area-volume-programs
+Geometric
+Mathematical
+School Programming
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

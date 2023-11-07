@@ -1,0 +1,141 @@
+Print lower triangle with alternate ‘*’ and ‘#’
+
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number N which denotes the number of rows, the task is to follow the below pattern to print the first N rows of it.
+
+Pattern:
+
+*
+*#
+*#*
+*#*#
+*#*#*
+
+Examples:
+
+Input: N = 2
+Output:
+*
+*#
+
+Input: N = 6
+Output: 
+*
+*#
+*#*
+*#*#
+*#*#*
+*#*#*#
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+Approach: Follow the below steps to implement the above pattern:
+
+
+
+Initialize two variables row and col to 1. These will be used to keep track of the current row and column that we are on in the pattern.
+Use a loop to iterate the row from 1 to N. This will be the outer loop and will represent each row of the pattern.
+Inside the outer loop, use another loop to iterate col from 1 to row. This will be the inner loop and will represent each column in the current row.
+Inside the inner loop, check if col is even or odd.
+If it is even, print a “#” character. If it is odd, print a “*” character.
+After the inner loop has been completed, move to the next line (this will start a new row in the pattern).
+After the outer loop has been completed, the pattern has been printed.
+Below is the implementation of the above approach:
+
+C++
+Python3
+# Python code for the above approach:
+ 
+n = 6
+ 
+# Loop through each row of
+# the pattern
+for row in range(1, n+1):
+ 
+    # Loop through each column of
+    # the pattern
+    for col in range(1, row+1):
+ 
+        # If the column number is even,
+        # print a "#" character
+        if col % 2 == 0:
+            print("#", end="")
+ 
+        # If the column number is odd,
+        # print a "*" character
+        else:
+            print("*", end="")
+ 
+    # Move to the next line after
+    # printing each row
+    print()
+C#
+Javascript
+Java
+Output
+*
+*#
+*#*
+*#*#
+*#*#*
+*#*#*#
+Time Complexity: O(N2)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+0
+Previous
+Difference between Binary Search Tree and AVL Tree
+Next
+Admissibility of A* Algorithm
+Related Articles
+1.
+Program to print a Hollow Triangle inside a Triangle
+2.
+Print lower triangular matrix pattern from given array
+3.
+Hollow lower triangular pattern
+4.
+Programs to print Triangle and Diamond patterns using recursion
+5.
+Program to Print Floyd's Triangle
+6.
+Program to print binary right angle triangle
+7.
+Print symmetric double triangle pattern
+8.
+Program to print Reverse Floyd's triangle
+9.
+Program to print hollow Triangle pattern
+10.
+Print Triangle separated pattern
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+harendrakumar123
+@harendrakumar123
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+poojaagrawal2
+ratiagrawal
+Article Tags :
+pattern-printing
+DSA
+Practice Tags :
+pattern-printing
+Improve Article
+Report Issue

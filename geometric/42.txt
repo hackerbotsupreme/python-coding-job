@@ -1,0 +1,130 @@
+Area of a Circumscribed Circle of a Square
+
+Difficulty Level : Basic
+Last Updated : 09 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the side of a square then find the area of a Circumscribed circle around it.
+Examples: 
+ 
+
+Input : a = 6
+Output : Area of a circumscribed circle is : 56.55
+
+Input : a = 4
+Output : Area of a circumscribed circle is : 25.13
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+All four sides of a square are of equal length and all four angles are 90 degree. The circle is circumscribed on a given square shown by a shaded region in the below diagram. 
+ 
+
+circle-square
+
+Properties of Circumscribed circle are as follows: 
+ 
+
+The center of the circumcircle is the point where the two diagonals of a square meet.
+Circumscribed circle of a square is made through the four vertices of a square.
+The radius of a circumcircle of a square is equal to the radius of a square.
+ 
+
+Formula used to calculate the area of inscribed circle is: 
+(PI * a * a)/2 
+where, a is the side of a square in which a circle is circumscribed.
+How does this formula work? 
+We know area of circle = PI*r*r. 
+We also know radius of circle = (square diagonal)/2 
+Length of diagonal = ?(2*a*a) 
+Radius = ?(2*a*a)/2 = ?((a*a)/2) 
+Area = PI*r*r = (PI*a*a)/2
+
+
+
+ 
+ 
+
+C++
+Java
+Python3
+# Python3 Program to find the
+# area of a circumscribed circle
+PI = 3.14159265
+ 
+def areacircumscribed(a):
+ 
+    return (a * a * (PI / 2))
+ 
+# Driver code
+a = 6
+print(" Area of an circumscribed circle is :",
+        round(areacircumscribed(a), 2))
+         
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+ Area of an circumscribed circle is : 56.55 
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+0
+Previous
+Check if a line touches or intersects a circle
+Next
+Area of square Circumscribed by Circle
+Related Articles
+1.
+Area of square Circumscribed by Circle
+2.
+Side of a regular n-sided polygon circumscribed in a circle
+3.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+4.
+Area of the circle that has a square and a circle inscribed in it
+5.
+Maximum area of a Rectangle that can be circumscribed about a given Rectangle of size LxW
+6.
+Find area of the Circle when the area of inscribed Square is given
+7.
+Program to calculate area of inner circle which passes through center of outer circle and touches its circumference
+8.
+Minimum volume of cone that can be circumscribed about a sphere of radius R
+9.
+Radius of a circle having area equal to the sum of area of the circles having given radii
+10.
+Program to calculate area of an Circle inscribed in a Square
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+azkia anam
+@azkia anam
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+vt_m
+mayanktyagi1709
+singhh3010
+Article Tags :
+circle
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

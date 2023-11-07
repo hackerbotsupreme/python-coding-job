@@ -1,0 +1,231 @@
+Program to print V and inverted-V pattern
+
+Difficulty Level : Medium
+Last Updated : 04 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Inverted V pattern: Given the value of n, print the inverted V pattern.
+Examples : 
+ 
+
+Input : n = 5
+Output : 
+
+    E
+   D D
+  C   C
+ B     B
+A       A
+
+Input : n = 7
+Output : 
+
+      G
+     F F
+    E   E
+   D     D
+  C       C
+ B         B
+A           A
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is the program to print the above pattern 
+ 
+
+C++
+// C++ Implementation to print the pattern
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function definition
+void pattern(int n)
+{
+    int i, j, k = 0;
+    for (i = n - 1; i >= 0; i--) {
+ 
+        // outer gap loop
+        for (j = n - 1; j > k; j--) {
+            cout << " ";
+        }
+ 
+        // 65 is ASCII of 'A'
+        cout << char(i + 65);
+ 
+        // inner gap loop
+        for (j = 1; j < (k * 2); j++)
+            cout << " ";
+ 
+        if (i < n - 1)
+            cout << char(i + 65);
+        cout << "\n";
+        k++;
+    }
+}
+ 
+// Driver code
+int main()
+{
+    // taking size from the user
+    int n = 5;
+ 
+    // function calling
+    pattern(n);
+    return 0;
+}
+Java
+Python3
+C#
+PHP
+Javascript
+Output:  
+
+
+    E
+   D D
+  C   C
+ B     B
+A       A
+Time Complexity: O(n2), where n represents the given input.
+Auxiliary Space: O(1), no extra space is required, so it is a constant.
+
+V pattern: Given the value of n, print the V pattern.
+Examples : 
+ 
+
+Input : n = 5
+Output : 
+
+E       E
+ D     D
+  C   C
+   B B
+    A
+
+Input : n = 7
+Output : 
+
+G           G
+ F         F
+  E       E
+   D     D
+    C   C
+     B B
+      A
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is the program to print the above pattern 
+ 
+
+C++
+// C++ Implementation to print the pattern
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function definition
+void pattern(int n)
+{
+    int i, j;
+    for (i = n - 1; i >= 0; i--) {
+ 
+        // outer gap loop
+        for (j = n - 1; j > i; j--) {
+            cout << " ";
+        }
+ 
+        // 65 is ASCII of 'A'
+        cout << char(i + 65);
+ 
+        // inner gap loop
+        for (j = 1; j < (i * 2); j++)
+            cout << " ";
+ 
+        if (i >= 1)
+            cout << char(i + 65);
+        cout << "\n";
+    }
+}
+ 
+// Driver code
+int main()
+{
+    // taking size from the user
+    int n = 5;
+ 
+    // function calling
+    pattern(n);
+    return 0;
+}
+Java
+Python3
+C#
+PHP
+Javascript
+Output: 
+
+E       E
+ D     D
+  C   C
+   B B
+    A
+Time Complexity: O(n2), where n represents the given input.
+Auxiliary Space: O(1), no extra space is required, so it is a constant.
+
+
+
+
+
+Like
+1
+Previous
+Program to implement ASCII lookup table
+Next
+Program to print the pattern ‘D’
+Related Articles
+1.
+Program to print hollow pyramid, diamond pattern and their modifications
+2.
+Program to Print a Pattern of Numbers
+3.
+Program to print pyramid pattern
+4.
+C Program to print pyramid pattern
+5.
+Program to print interesting pattern
+6.
+Program to print number pattern
+7.
+Program to print number with star pattern
+8.
+Program to print reverse character bridge pattern
+9.
+Program to print numbers with diamond pattern
+10.
+Program to print a inverse pyramid character pattern
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nikunj_agarwal
+@nikunj_agarwal
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+SamyuktaSHegde
+mohit kumar 29
+rdtank
+unknown2108
+tamanna17122007
+Article Tags :
+pattern-printing
+School Programming
+Practice Tags :
+pattern-printing

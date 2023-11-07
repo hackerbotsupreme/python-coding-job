@@ -1,0 +1,122 @@
+Program to find Circumference of a Circle
+
+Difficulty Level : Medium
+Last Updated : 11 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given radius of a circle, write a program to find its circumference.
+Examples : 
+ 
+
+Input : 2
+Output : Circumference = 12.566
+
+Input : 8
+Output : Circumference = 50.264
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+In a circle, points lie in the boundary of a circle are at same distance from its center. This distance is called radius. Circumference of a circle can simply be evaluated using following formula. 
+ 
+
+Circumference = 2*pi*r
+where r is the radius of circle 
+and value of pi = 3.1415.
+ 
+
+
+
+ 
+
+C++
+Java
+Python3
+# Python3 code to find
+# circumference of circle
+ 
+PI = 3.1415
+ 
+# utility function
+def circumference(r):
+    return (2 * PI * r)
+ 
+ 
+# driver function
+print ('%.3f' % circumference(5))
+ 
+# This code is contributed by Saloni Gupta
+C#
+PHP
+Javascript
+Output : 
+
+
+
+Circumference = 31.415
+Time Complexity: O(1), since there is no loop or recursion.
+
+Auxiliary Space: O(1), since no extra space has been taken.
+
+This article is contributed by Saloni Gupta . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+1
+Previous
+Arc length from given Angle
+Next
+Check if two given circles touch or intersect each other
+Related Articles
+1.
+Program to calculate area of inner circle which passes through center of outer circle and touches its circumference
+2.
+Number of quadrilateral formed with N distinct points on circumference of Circle
+3.
+Check if it is possible to reach any point on the circumference of a given circle from origin
+4.
+Program to find Perimeter / Circumference of Square and Rectangle
+5.
+Program for Circumference of a Parallelogram
+6.
+Program to calculate angle on circumference subtended by the chord when the central angle subtended by the chord is given
+7.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+8.
+Equation of circle when three points on the circle are given
+9.
+Check if a circle lies inside another circle or not
+10.
+Angle subtended by the chord to center of the circle when the angle subtended by the another equal chord of a congruent circle is given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+vt_m
+mank1083
+ajaymakvana
+rishavpgl4
+Article Tags :
+area-volume-programs
+circle
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

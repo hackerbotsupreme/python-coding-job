@@ -1,0 +1,131 @@
+Program to calculate area and perimeter of Trapezium
+
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A trapezium is a quadrilateral with at least one pair of parallel sides, other two sides may not be parallel. The parallel sides are called the bases of the trapezium and the other two sides are called it’s legs. The perpendicular distance between parallel sides is called height of trapezium.
+ 
+
+
+
+Formula : 
+ 
+
+Area of Trapezium : 0.5 * (a + b) * h
+Perimeter of Trapezium : a + b + c + d
+Examples : 
+ 
+
+Input :  a = 5, b = 6, c = 4, d = 3, h = 8
+Output : Area of Trapezium : 44
+         Perimeter of Trapezium : 18
+
+Input :  a = 10, b = 15, c = 14, d = 11, h = 21
+Output : Area of Trapezium: 262.5
+         Perimeter of Trapezium: 50
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is the implementation of above formula : 
+ 
+
+C++
+Java
+Python3
+# Python3 code to find area
+# and perimeter of trapezium
+ 
+# Function to calculate
+# Area of trapezium
+def areaTrapezium (a, b, h):
+    return (1.0 / 2 * (a + b) * h)
+ 
+# Function to calculate
+# perimeter of trapezium
+def perimeterTrapezium (a, b, c, d):
+    return (a + b + c + d)
+ 
+# Driver function
+a = 5
+b = 15
+c = 11
+d = 4
+h = 20
+print("Area of Trapezium =",
+      areaTrapezium(a, b, h))
+ 
+print("Perimeter of Trapezium =",
+      perimeterTrapezium(a, b, c, d))
+ 
+# This code is contributed by "Sharad_Bhardwaj"
+C#
+PHP
+Javascript
+Output: 
+
+
+
+Area of Trapezium = 200
+Perimeter of Trapezium = 35
+Time complexity: O(1)
+
+space complexity: O(1)
+ 
+
+
+
+
+
+Like
+1
+Previous
+Program for Circumference of a Parallelogram
+Next
+Program to find area of a Trapezoid
+Related Articles
+1.
+Program to calculate area and perimeter of equilateral triangle
+2.
+Program to calculate area and perimeter of a rhombus whose diagonals are given
+3.
+Program to calculate the Area and Perimeter of Incircle of an Equilateral Triangle
+4.
+Program for Area And Perimeter Of Rectangle
+5.
+Program to find the Area and Perimeter of a Semicircle
+6.
+Program to find all possible triangles having same Area and Perimeter
+7.
+JavaScript program to find Area and Perimeter of Rectangle
+8.
+Program to Print the Trapezium Pattern
+9.
+Program to Calculate the Perimeter of a Decagon
+10.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+shreyanshi_arun
+@shreyanshi_arun
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+rutvik_56
+hasani
+Article Tags :
+area-volume-programs
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

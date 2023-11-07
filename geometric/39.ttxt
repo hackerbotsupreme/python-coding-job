@@ -1,0 +1,158 @@
+Check if two given circles touch or intersect each other
+
+Difficulty Level : Easy
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+There are two circles A and B with their centres C1(x1, y1) and C2(x2, y2) and radius R1 and R2. The task is to check both circles A and B touch each other or not.
+
+Examples :  
+
+Input : C1 = (3,  4)
+        C2 = (14, 18)
+        R1 = 5, R2 = 8
+Output : Circles do not touch each other.
+
+Input : C1 = (2,  3)
+        C2 = (15, 28)
+        R1 = 12, R2 = 10
+Output : Circles intersect with each other.
+
+Input : C1 = (-10,  8)
+        C2 = (14, -24)
+        R1 = 30, R2 = 10
+
+Recommended Problem
+Check if two given circles touch each other
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 5.9K
+Approach:
+Distance between centres C1 and C2 is calculated as
+
+ C1C2 = sqrt((x1 – x2)2 + (y1 – y2)2).
+
+There are three conditions that arise.
+
+
+
+If C1C2 <= R1 – R2: Circle B is inside A.
+If C1C2 <= R2 – R1: Circle A is inside B.
+If C1C2 < R1 + R2: Circle intersects each other.
+If C1C2 == R1 + R2: Circle A and B are in touch with each other.
+Otherwise, Circle A and  do not overlap
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python program to check if two
+# circles touch each other or not.
+ 
+import math
+ 
+# Function to check if two circles touch each other
+def circle(x1, y1, x2, y2, r1, r2):
+    d = math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))
+ 
+    if(d <= r1 - r2):
+        print("Circle B is inside A")
+    elif(d <= r2 - r1):
+        print("Circle A is inside B")
+    elif(d < r1 + r2):
+        print("Circle intersect to each other")
+    elif(d == r1 + r2):
+        print("Circle touch to each other")
+    else:
+        print("Circle not touch to each other")
+ 
+# Driver code
+ 
+x1, y1 = -10, 8
+x2, y2 = 14, -24
+r1, r2 = 30, 10
+ 
+# Function call
+circle(x1, y1, x2, y2, r1, r2)
+ 
+# This code is contributed by Aman Kumar
+C#
+Javascript
+Output
+Circle touch to each other
+Time Complexity: O(log(n)) because using inbuilt sqrt function 
+Auxiliary Space: O(1)
+
+This article is contributed by Aarti_Rathi and Dharmendra kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+8
+Previous
+Program to find Circumference of a Circle
+Next
+Find the perimeter of a cylinder
+Related Articles
+1.
+Check if two circles intersect such that the third circle passes through their points of intersections and centers
+2.
+Ratio of the distance between the centers of the circles and the point of intersection of two direct common tangents to the circles
+3.
+Ratio of the distance between the centers of the circles and the point of intersection of two transverse common tangents to the circles
+4.
+Check whether given circle resides in boundary maintained by two other circles
+5.
+Minimum Circles needed to be removed so that all remaining circles are non intersecting
+6.
+Length of rope tied around three equal circles touching each other
+7.
+How to check if two given line segments intersect?
+8.
+Given n line segments, find if any two segments intersect
+9.
+Check if a given circle lies completely inside the ring formed by two concentric circles
+10.
+Check if two given Circles are Orthogonal or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+susmitakundugoaldanga
+ysachin2314
+simranarora5sos
+simmytarika5
+RishabhPrabhu
+adi1212
+harendrakumar123
+polymatir3j
+pushpeshrajdx01
+amankr0211
+Article Tags :
+circle
+DSA
+Geometric
+Mathematical
+Misc
+Practice Tags :
+Misc
+Geometric
+Mathematical
+Misc
+Improve Article
+Report Issue

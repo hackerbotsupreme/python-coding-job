@@ -1,0 +1,127 @@
+Program for Volume and Surface Area of Cuboid
+
+Difficulty Level : Medium
+Last Updated : 21 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Cuboid is a 3-dimensional box-like figure represented in the 3-dimensional plane.Cuboid has 6 rectangled-shape faces. Each face meet another face at 90 degree each.Three sides of cuboid meet at same vertex.Since it is made up of 6 rectangle faces, it have length, width and height of different dimension.
+ 
+
+cuboid
+
+Examples : 
+ 
+
+Input : 2 3 4
+Output : Area = 24
+         Total Surface Area = 52 
+  
+
+Input : 5 6 12
+Output : Area = 360
+         Total Surface Area = 324
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Formulae : 
+ 
+
+Area = l*w*h
+Total Surface Area = 2*l*w + 2*w*h + 2*l*h
+where l, h, w are length, height and width of
+cuboid respectively.
+ 
+
+C++
+Java
+Python3
+# Python3 code to find volume and
+# total surface area of cuboid
+ 
+# utility function
+def volumeCuboid( l , h , w ):
+    return (l * h * w)
+     
+def surfaceAreaCuboid( l , h , w ):
+    return (2 * l * w + 2 * w * h + 2 * l * h)
+ 
+# driver function
+l = 1
+h = 5
+w = 7
+print("Volume =" , volumeCuboid(l, h, w))
+print("Total Surface Area =", surfaceAreaCuboid(l, h, w))
+ 
+#This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output : 
+ 
+
+
+
+Area = 35
+Total Surface Area = 94
+Time complexity : O(1) 
+Auxiliary Space : O(1)
+
+This article is contributed by Saloni Gupta . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Next
+Program for Volume and Surface Area of Cube
+Related Articles
+1.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+2.
+Find maximum volume of a cuboid from the given perimeter and area
+3.
+Python | Percentage increase in the total surface area of the cuboid
+4.
+Program for Volume and Surface Area of Cube
+5.
+Program to calculate Volume and Surface area of Hemisphere
+6.
+Program for Volume and Surface area of Frustum of Cone
+7.
+Program to find volume and surface area of pentagonal prism
+8.
+Program to find Surface Area and Volume of Octagonal Prism
+9.
+Calculate Volume and Surface area Of Sphere
+10.
+Calculate volume and surface area of a cone
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+todaysgaurav
+krishnav4
+Article Tags :
+area-volume-programs
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

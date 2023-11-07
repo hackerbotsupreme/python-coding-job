@@ -1,0 +1,108 @@
+Program to find slope of a line
+
+Difficulty Level : Basic
+Last Updated : 08 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two coordinates, find the slope of a straight line.
+
+Examples: 
+
+Input  : x1 = 4, y1 = 2, 
+         x2 = 2, y2 = 5 
+Output : Slope is -1.5
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: To calculate the slope of a line you need only two points from that line, (x1, y1) and (x2, y2). The equation used to calculate the slope from two points is: 
+ 
+
+
+
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python
+# Python program for slope of line
+def slope(x1, y1, x2, y2):
+    if(x2 - x1 != 0):
+      return (float)(y2-y1)/(x2-x1)
+    return sys.maxint
+ 
+ 
+# driver code
+x1 = 4
+y1 = 2
+x2 = 2
+y2 = 5
+print "Slope is:", slope(x1, y1, x2, y2)
+C#
+PHP
+Javascript
+Output
+Slope is: -1.5
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+Like
+3
+Previous
+Program to find line passing through 2 Points
+Next
+Program to find the mid-point of a line
+Related Articles
+1.
+Slope of the line parallel to the line with the given slope
+2.
+Find points at a given distance on a line of given slope
+3.
+Slope of perpendicular to line
+4.
+Count pairs of coordinates connected by a line with slope in the range [-K, K]
+5.
+Equation of a straight line passing through a point and making a given angle with a given line
+6.
+Program to find line passing through 2 Points
+7.
+Program to find the mid-point of a line
+8.
+Given n line segments, find if any two segments intersect
+9.
+Find an Integer point on a line segment with given two ends
+10.
+Find the other end point of a line with given one end and mid
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+rohitsingh07052
+susmitakundugoaldanga
+iayushsrivastava1999
+Rajput-Ji
+vaishaligoyal878
+famously
+gabaa406
+sayanc170
+_shinchancode
+adi1212
+hkdass001
+Article Tags :
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

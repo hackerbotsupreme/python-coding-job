@@ -1,0 +1,114 @@
+Program for Circumference of a Parallelogram
+
+Difficulty Level : Medium
+Last Updated : 20 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the sides of Parallelogram then calculate the circumference.
+Examples : 
+ 
+
+Input: a = 10, b = 8
+Output: 36.00
+
+Input: a = 25.12, b = 20.4
+Output: 91.04
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The opposite sides of a parallelogram are of equal length and parallel. The angles are pairwise equal but not necessarily 90 degree. The circumference of a Parallelogram can be computed as sum of two adjacent sides each multiplied by 2.
+ 
+
+
+
+ 
+
+Formula used to calculate circumference of a Parallelogram: 
+(2*a)+(2*b)
+
+ 
+ 
+
+C++
+Java
+Python3
+# Python3 Program to calculate the
+# Circumference of a Parallelogram
+ 
+# Utility Function
+def circumferenceparallelogram(a,b):
+    return ((2 * a) + (2 * b))
+ 
+# Driver Function
+a = 10
+b = 8
+ 
+print("Circumference of a given Parallelogram is :",
+         round(circumferenceparallelogram(a, b),4))
+ 
+# This code is contributed
+# by Azkia Anam.
+C#
+PHP
+Javascript
+Output : 
+ 
+
+Circumference of a given parallelogram is : 36.0
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+
+
+Like
+Previous
+Number of parallelograms when n horizontal parallel lines intersect m vertical parallel lines
+Next
+Program to calculate area and perimeter of Trapezium
+Related Articles
+1.
+Program to find Circumference of a Circle
+2.
+Program to find Perimeter / Circumference of Square and Rectangle
+3.
+Program to calculate area of inner circle which passes through center of outer circle and touches its circumference
+4.
+Program to calculate angle on circumference subtended by the chord when the central angle subtended by the chord is given
+5.
+Minimum Cost Path to visit all nodes situated at the Circumference of Circular Road
+6.
+Number of quadrilateral formed with N distinct points on circumference of Circle
+7.
+Check if it is possible to reach any point on the circumference of a given circle from origin
+8.
+Program to print the hollow numerical parallelogram
+9.
+Program to find the Area of a Parallelogram
+10.
+Program to calculate area of a parallelogram
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+azkia anam
+@azkia anam
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+mank1083
+ajaymakvana
+Article Tags :
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Report Issue

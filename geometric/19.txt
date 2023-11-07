@@ -1,0 +1,153 @@
+Minimum lines to cover all points
+
+Difficulty Level : Easy
+Last Updated : 16 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given N points in 2-dimensional space, we need to print the count of the minimum number of lines which traverse through all these N points and which go through a specific (xO, yO) point also.
+Examples: 
+ 
+
+If given points are (-1, 3), (4, 3), (2, 1), (-1, -2), 
+(3, -3) and (xO, yO) point is (1, 0) i.e. every line
+must go through this point. 
+Then we have to draw at least two lines to cover all
+these points going through (xO, yO) as shown in below
+diagram.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can solve this problem by considering the slope of all points with (xO, yO). If two distinct points have the same slope with (xO, yO) then they can be covered with same line only so we can track slope of each point and whenever we get a new slope we will increase our line count by one. 
+In below code slope is stored as a pair of integer to get rid of the precision problem and a set is used to keep track of occurred slopes. 
+Please see below code for better understanding. 
+ 
+
+CPP
+Java
+Python3
+# Python3 program to get minimum lines to cover
+# all the points
+ 
+# Utility method to get gcd of a and b
+def gcd(a, b):
+    if (b == 0):
+        return a
+    return gcd(b, a % b)
+ 
+# method returns reduced form of dy/dx as a pair
+def getReducedForm(dy, dx):
+    g = gcd(abs(dy), abs(dx))
+ 
+    # get sign of result
+    sign = (dy < 0) ^ (dx < 0)
+ 
+    if (sign):
+        return (-abs(dy) // g, abs(dx) // g)
+    else:
+        return (abs(dy) // g, abs(dx) // g)
+ 
+# /* method returns minimum number of lines to
+#     cover all points where all lines goes
+#     through (xO, yO) */
+def minLinesToCoverPoints(points, N, xO, yO):
+     
+    # set to store slope as a pair
+    st = dict()
+    minLines = 0
+ 
+    # loop over all points once
+    for i in range(N):
+         
+        # get x and y co-ordinate of current point
+        curX = points[i][0]
+        curY = points[i][1]
+ 
+        temp = getReducedForm(curY - yO, curX - xO)
+ 
+        # if this slope is not there in set,
+        # increase ans by 1 and insert in set
+        if (temp not in st):
+            st[temp] = 1
+            minLines += 1
+ 
+    return minLines
+ 
+# Driver code
+xO = 1
+yO = 0
+ 
+points =[[-1, 3],
+         [4, 3],
+         [2, 1],
+         [-1, -2],
+         [3, -3]]
+ 
+N = len(points)
+print(minLinesToCoverPoints(points, N, xO, yO))
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output: 
+ 
+
+2
+Time Complexity: O(N) 
+Auxiliary Space: O(N)
+
+This article is contributed by Aarti_Rathi and Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Count maximum points on same line
+Next
+Represent a given set of points by the best possible straight line
+Related Articles
+1.
+Minimum number of points required to cover all blocks of a 2-D grid
+2.
+Minimum steps needed to cover a sequence of points on an infinite grid
+3.
+Minimum number of Straight Lines to connect all the given Points
+4.
+Find whether only two parallel lines contain all coordinates points or not
+5.
+Minimum distance to travel to cover all intervals
+6.
+Minimum queens required to cover all the squares of a chess board
+7.
+Number of parallelograms when n horizontal parallel lines intersect m vertical parallel lines
+8.
+Check if N given lines can be intersected by K vertical lines
+9.
+Minimum number of points to be removed to get remaining points on one side of axis
+10.
+Find the point on X-axis from given N points having least Sum of Distances from all other points
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+unknown2108
+rj13to
+shruti456rawal
+codewithshinchan
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric

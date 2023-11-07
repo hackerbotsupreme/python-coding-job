@@ -1,0 +1,136 @@
+Program to calculate area of Circumcircle of an Equilateral Triangle
+
+Difficulty Level : Medium
+Last Updated : 27 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the length of sides of an equilateral triangle. We need to write a program to find the area of Circumcircle of the given equilateral triangle.
+Examples: 
+ 
+
+Input : side = 6
+Output : Area of circumscribed circle is: 37.69
+
+Input : side = 9
+Output : Area of circumscribed circle is: 84.82 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+All three sides of equilateral triangle are of equal length and all three interior angles are 60 degrees.
+Properties of a Circumcircle are as follows: 
+ 
+
+The center of the circumcircle is the point where the medians of the equilateral triangle intersect.
+Circumscribed circle of an equilateral triangle is made through the three vertices of an equilateral triangle.
+The radius of a circumcircle of an equilateral triangle is equal to (a / √3), where ‘a’ is the length of the side of equilateral triangle.
+Below image shows an equilateral triangle with circumcircle: 
+ 
+
+
+
+The formula used to calculate the area of circumscribed circle is: 
+ 
+
+(π*a2)/3
+where a is the length of the side of the given equilateral triangle.
+ 
+
+
+
+How this formulae works?
+
+We know that area of circle = π*r2, where r is the radius of given circle.
+We also know that radius of Circumcircle of an equilateral triangle = (side of the equilateral triangle)/ √3.
+Therefore, area = π*r2 = π*a2/3.
+ 
+
+C++
+C
+Java
+Python3
+# Python3 code to find the area of circumscribed
+# circle of equilateral triangle
+PI = 3.14159265
+     
+# Function to find the area of
+# circumscribed circle
+def area_circumscribed(a):
+    return (a * a * (PI / 3))
+     
+# Driver code
+a = 6.0
+print("Area of circumscribed circle is :%f"
+                        %area_circumscribed(a))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output: 
+Area of circumscribed circle is :37.6991118
+ 
+
+Time Complexity: O(1)
+Auxiliary Space: O(1), since no extra space has been taken.
+
+
+
+
+
+Like
+0
+Previous
+Number of Triangles that can be formed given a set of lines in Euclidean Plane
+Next
+Program to calculate area and perimeter of equilateral triangle
+Related Articles
+1.
+Area of Circumcircle of an Equilateral Triangle using Median
+2.
+Maximum count of Equilateral Triangles that can be formed within given Equilateral Triangle
+3.
+Program to calculate area and perimeter of equilateral triangle
+4.
+Program to calculate the Area and Perimeter of Incircle of an Equilateral Triangle
+5.
+Area of Circumcircle of a Right Angled Triangle
+6.
+Biggest Reuleaux Triangle inscribed within a Square inscribed in an equilateral triangle
+7.
+Area of a square inscribed in a circle which is inscribed in an equilateral triangle
+8.
+Area of circle which is inscribed in equilateral triangle
+9.
+Area of Equilateral triangle inscribed in a Circle of radius R
+10.
+Maximum area of rectangle inscribed in an equilateral triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+akash1295
+@akash1295
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+Krishna_Yadav
+RamAryan
+todaysgaurav
+surindertarika1234
+simmytarika5
+singhh3010
+rishav1329
+Article Tags :
+triangle
+Geometric
+School Programming
+Practice Tags :
+Geometric

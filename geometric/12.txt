@@ -1,0 +1,155 @@
+Section formula (Point that divides a line in given ratio)
+
+Difficulty Level : Easy
+Last Updated : 18 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two coordinates (x1, y1) and (x2, y2), and m and n, find the co-ordinates that divides the line joining (x1, y1) and (x2, y2) in the ratio m : n
+ 
+
+Section formula problems
+
+Examples: 
+ 
+
+Input : x1 = 1, y1 = 0, x2 = 2 y2 = 5,
+        m = 1, n = 1
+Output : (1.5, 2.5)
+Explanation: co-ordinates (1.5, 2.5)
+divides the line in ratio 1 : 1
+
+Input : x1 = 2, y1 = 4, x2 = 4, y2 = 6,
+        m = 2, n = 3
+Output : (2.8, 4.8)
+Explanation: (2.8, 4.8) divides the line
+in the ratio 2:3
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The section formula tells us the coordinates of the point which divides a given line segment into two parts such that their lengths are in the ratio m : n
+ 
+
+Section formula
+
+ 
+
+
+
+C++
+Java
+Python
+# Python program to find point that divides
+# given line in given ratio.
+def section(x1, x2, y1, y2, m, n):
+ 
+    # Applying section formula
+    x = (float)((n * x1)+(m * x2))/(m + n)
+    y = (float)((n * y1)+(m * y2))/(m + n)
+ 
+    # Printing result
+    print (x, y)
+ 
+x1 = 2
+x2 = 4
+y1 = 4
+y2 = 6
+m = 2
+n = 3
+section(x1, x2, y1, y2, m, n)
+C#
+PHP
+Javascript
+Output: 
+ 
+
+(2.8, 4.8)
+Time Complexity: O(1) 
+Auxiliary Space: O(1)
+
+How does this work? 
+ 
+
+Section formula working
+
+ 
+
+From our diagram, we can see,
+PS = x – x1 and RT = x2 – x
+
+We are given,
+
+PR/QR = m/n
+
+Using similarity, we can write
+RS/QT = PS/RT = PR/QR
+
+Therefore, we can write
+ PS/RR = m/n
+ (x - x1) / (x2 - x) = m/n
+
+From above, we get
+  x = (mx2 + nx1) / (m + n)
+
+Similarly, we can solve for y.
+References: 
+http://doubleroot.in/lessons/coordinate-geometry-basics/section-formula/#.WjYXQvbhU8o
+ 
+
+
+
+
+
+Like
+0
+Next
+Program to calculate area and perimeter of equilateral triangle
+Related Articles
+1.
+Find two co-prime integers such that the first divides A and the second divides B
+2.
+Count of triplets (a, b, c) in the Array such that a divides b and b divides c
+3.
+Equation of a straight line passing through a point and making a given angle with a given line
+4.
+Sum of two numbers if the original ratio and new ratio obtained by adding a given number to each number is given
+5.
+Equation of straight line passing through a given point which bisects it into two equal line segments
+6.
+Ratio of mth and nth terms of an A. P. with given ratio of sums
+7.
+Find the number which when added to the given ratio a : b, the ratio changes to c : d
+8.
+Count of pairs in given range having their ratio equal to ratio of product of their digits
+9.
+Legendre's formula (Given p and n, find the largest x such that p^x divides n!)
+10.
+Count of unordered pair of indices such that ratio of elements at these indices is same as ratio of indices
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Twinkl Bajaj
+@Twinkl Bajaj
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+avijitmondal1998
+ManasChhabra2
+_shinchancode
+Article Tags :
+Algebra
+DSA
+Geometric
+Mathematical
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

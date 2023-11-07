@@ -1,0 +1,186 @@
+Minimum area of a Polygon with three points given
+
+Difficulty Level : Hard
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three points of a regular polygon(n > 3), find the minimum area of a regular polygon (all sides same) possible with the points given.
+Examples: 
+
+Input : 0.00 0.00
+        1.00 1.00
+        0.00 1.00
+Output : 1.00
+By taking point (1.00, 0.00) square is 
+formed of side 1.0 so area = 1.00 .
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+One thing to note in question before we proceed is that the number of sides must be at least 4 (note n > 3 condition)..
+Here, we have to find the minimum area possible for a regular polygon, so to calculate the minimum possible area, we need to calculate the required value of n. As the side length is not given, so we first calculate the circumradius of the triangle formed by the points. It is given by the formula 
+R = abc / 4A 
+Where a, b, c are the sides of the triangle formed and A is the area of the triangle. Here, the area of the triangle can be calculated by Heron’s Formula.
+After calculating circumradius of the triangle, we calculate the area of the polygon by the formula 
+A = nX ( sin(360/n) xr2 /2 )
+Here r represents the circumradius of n-gon (regular polygon of n sides). 
+But, first we have to calculate value of n . To calculate n we first have to calculate all the angles of triangle by the cosine formula 
+cosA = ( b2+c2-a2 ) / 2bc 
+cosB = ( a2+c2-b2 ) / 2ac 
+cosC = ( a2+b2-c2 ) / 2ab 
+Then, n is given by 
+n = pi / GCD (A , B, C ) 
+Where A, B and C are the angles of the triangle . After calculating n we substitute this value to the formula for calculating area of polygon .
+Below is the implementation of the given approach :
+ 
+
+C++
+Java
+Python3
+# Python3 program to find minimum area of
+# polygon of number of sides more than three
+# with given three points.
+ 
+# from math lib import every function
+from math import *
+ 
+# assigning pi value to variable
+pi = 3.14159265359
+ 
+# calculating gcd value of two double values .
+def gcd(x, y) :
+ 
+    if abs(y) < 1e-4 :
+        return x
+    else :
+        return gcd(y, fmod(x, y))
+ 
+ 
+# Calculating minimum area of polygon
+# through this function .
+def min_area_of_polygon(Ax, Ay, Bx,
+                        By, Cx, Cy) :
+ 
+    # calculating the length of the sides of
+    # the triangle formed from given points
+    # a, b, c represents the length of different
+    # sides of triangle
+    a = sqrt((Bx - Cx) * (Bx - Cx) +
+             (By - Cy) * (By - Cy))
+    b = sqrt((Ax - Cx) * (Ax - Cx) +
+             (Ay - Cy) * (Ay - Cy))
+    c = sqrt((Ax - Bx) * (Ax - Bx) +
+             (Ay - By) * (Ay - By))
+ 
+    # here we have calculated the semiperimeter
+    # of a triangle .
+    semiperimeter = (a + b + c) / 2
+ 
+    # Now from the semiperimeter area of triangle
+    # is derived through the heron's formula
+    area_triangle = sqrt(semiperimeter *
+                        (semiperimeter - a) *
+                        (semiperimeter - b) *
+                        (semiperimeter - c))
+ 
+    # thus circumradius of the triangle is derived
+    # from the sides and area of the triangle calculated
+    Radius = (a * b * c) / (4 * area_triangle)
+ 
+    # Now each angle of the triangle is derived
+    # from the sides of the triangle
+    Angle_A = acos((b * b + c * c - a * a) / (2 * b * c))
+    Angle_B = acos((a * a + c * c - b * b) / (2 * a * c))
+    Angle_C = acos((b * b + a * a - c * c) / (2 * b * a))
+ 
+    # Now n is calculated such that area is
+    # minimum for the regular n-gon
+    n = pi / gcd(gcd(Angle_A, Angle_B), Angle_C)
+ 
+    # calculating area of regular n-gon through
+    # the circumradius of the triangle
+    area = (n * Radius * Radius *
+            sin((2 * pi) / n)) / 2
+ 
+    return area
+ 
+# Driver Code
+if __name__ == "__main__" :
+ 
+    # three points are given as input .
+    Ax = 0.00
+    Ay = 0.00
+    Bx = 1.00
+    By = 1.00
+    Cx = 0.00
+    Cy = 1.00
+ 
+    print(round(min_area_of_polygon(Ax, Ay, Bx,
+                                    By, Cx, Cy), 1))
+ 
+# This code is contributed by Ryuga
+C#
+Javascript
+Output: 
+
+1.00
+Time complexity : O(log(min(A,B,C)))
+
+Auxiliary Space : O(1), since no extra space has been taken.
+
+
+
+
+
+Like
+1
+Previous
+Deleting points from Convex Hull
+Next
+Find Simple Closed Path for a given set of points
+Related Articles
+1.
+Ways to choose three points with distance between the most distant points <= L
+2.
+Check if given polygon is a convex polygon or not
+3.
+Check if the given point lies inside given N points of a Convex Polygon
+4.
+Polygon with maximum sides that can be inscribed in an N-sided regular polygon
+5.
+Area of a polygon with given n ordered vertices
+6.
+Area of a n-sided regular polygon with given side length
+7.
+Area of a n-sided regular polygon with given Radius
+8.
+Find three vertices in an N-sided regular polygon such that the angle subtended at a vertex by two other vertices is closest to A
+9.
+Minimum number of points to be removed to get remaining points on one side of axis
+10.
+Find three closest elements from given three sorted arrays
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ankthon
+divyeshrabadiya07
+divyesh072019
+_saurabh_jaiswal
+mailaruyashaswi
+rishav1329
+Article Tags :
+area-volume-programs
+DSA
+Geometric
+Technical Scripter
+Practice Tags :
+Geometric

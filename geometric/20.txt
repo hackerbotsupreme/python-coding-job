@@ -1,0 +1,127 @@
+Check whether triangle is valid or not if sides are given
+
+Difficulty Level : Basic
+Last Updated : 08 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three sides, check whether triangle is valid or not. 
+Examples: 
+ 
+
+Input :  a = 7, b = 10, c = 5 
+Output : Valid
+
+Input : a = 1 b = 10 c = 12 
+Output : Invalid
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: A triangle is valid if sum of its two sides is greater than the third side. If three sides are a, b and c, then three conditions should be met. 
+ 
+
+1.a + b > c 
+2.a + c > b 
+3.b + c > a  
+ 
+
+Check whether triangle is valid or not if sides are given
+
+ 
+
+C++
+// C++ program to check if three sides form a triangle or not
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// function to check if three sider form a triangle or not
+bool checkValidity(int a, int b, int c)
+{
+    // check condition
+    if (a + b <= c || a + c <= b || b + c <= a)
+        return false;
+    else
+        return true;
+}
+ 
+// Driver function
+int main()
+{
+    int a = 7, b = 10, c = 5;
+    if (checkValidity(a, b, c))
+        cout << "Valid";
+    else
+        cout << "Invalid";
+}
+ 
+// This code is contributed by Aditya Kumar (adityakumar129)
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+
+
+Valid
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+22
+Previous
+Program to find the Type of Triangle from the given Coordinates
+Next
+Check whether triangle is valid or not if three points are given
+Related Articles
+1.
+Check whether right angled triangle is valid or not for large sides
+2.
+Check whether the triangle is valid or not if angles are given
+3.
+Check whether triangle is valid or not if three points are given
+4.
+Maximum size of subset of given array such that a triangle can be formed by any three integers as the sides of the triangle
+5.
+Check whether Quadrilateral is valid or not if angles are given
+6.
+Number of triangles formed by joining vertices of n-sided polygon with two common sides and no common sides
+7.
+Count right angled triangles in a matrix having two of its sides parallel to sides of the matrix
+8.
+Check whether a given point lies inside a triangle or not
+9.
+Find all sides of a right angled triangle from given hypotenuse and area | Set 1
+10.
+Find area of triangle if two vectors of two adjacent sides are given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Koushik Mondal
+nitin mittal
+mayanktyagi1709
+gaurav4037
+adityakumar129
+rohitsingh57
+Article Tags :
+triangle
+Geometric
+School Programming
+Practice Tags :
+Geometric

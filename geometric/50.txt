@@ -1,0 +1,131 @@
+Maximum area of quadrilateral
+
+Difficulty Level : Easy
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given four sides of quadrilateral a, b, c, d, find the maximum area of the quadrilateral possible from the given sides .
+Examples: 
+ 
+
+Input : 1 2 1 2
+Output : 2.00
+It is optimal to construct a rectangle for maximum area .
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+
+
+According to Bretschneider’s formula, the area of a general quadrilateral is given by K={\sqrt {(s-a)(s-b)(s-c)(s-d)-abcd\cdot \cos ^{2}\left({\frac {\alpha +\gamma }{2}}\right)}}        
+Here a, b, c, d are the sides of a quadrilateral, s is the semiperimeter of a quadrilateral and angles are two opposite angles. 
+So, this formula is maximized only when opposite angles sum to pi(180) then we can use a simplified form of Bretschneider’s formula to get the (maximum) area K. 
+K={\sqrt {(s-a)(s-b)(s-c)(s-d)}}        
+This formula is called as Brahmagupta’s formula . 
+Below is the implementation of given approach
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program to find maximum
+# area of a quadrilateral
+import math
+ 
+def maxArea (a , b , c , d ):
+ 
+    # Calculating the semi-perimeter
+    # of the given quadrilateral
+    semiperimeter = (a + b + c + d) / 2
+     
+    # Applying Brahmagupta's formula to
+    # get maximum area of quadrilateral
+    return math.sqrt((semiperimeter - a) *
+                    (semiperimeter - b) *
+                    (semiperimeter - c) *
+                    (semiperimeter - d))
+ 
+# Driver code
+a = 1
+b = 2
+c = 1
+d = 2
+print("%.2f"%maxArea(a, b, c, d))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output:  
+
+2.00
+Time Complexity: O(logn) 
+Auxiliary Space: O(1)
+
+
+
+Please suggest if someone has a better solution which is more efficient in terms of space and time.
+This article is contributed by Aarti_Rathi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+2
+Previous
+Find all possible coordinates of parallelogram
+Next
+Check whether four points make a parallelogram
+Related Articles
+1.
+Find the area of quadrilateral when diagonal and the perpendiculars to it from opposite vertices are given
+2.
+Calculate area of a cyclic quadrilateral with given side lengths
+3.
+Find interior angles for each side of a given Cyclic Quadrilateral
+4.
+Program to find the angles of a quadrilateral
+5.
+Exterior angle of a cyclic quadrilateral when the opposite interior angle is given
+6.
+Check whether Quadrilateral is valid or not if angles are given
+7.
+Number of quadrilateral formed with N distinct points on circumference of Circle
+8.
+Length of Diagonals of a Cyclic Quadrilateral using the length of Sides.
+9.
+Circumradius of a Cyclic Quadrilateral using the length of Sides
+10.
+Maximize Perimeter of Quadrilateral formed by choosing sides from given Array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+surbhityagi15
+rajeev0719singh
+shivanisinghss2110
+surinderdawra388
+_shinchancode
+Article Tags :
+area-volume-programs
+DSA
+Geometric
+Technical Scripter
+Practice Tags :
+Geometric

@@ -1,0 +1,213 @@
+Program to print the diamond shape
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, write a program to print a diamond shape with 2n rows.
+Examples : 
+ 
+
+diamond
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+C
+Java
+Python3
+# Python program to
+# print Diamond shape
+ 
+# Function to print
+# Diamond shape
+def Diamond(rows):
+    n = 0
+    for i in range(1, rows + 1):
+        # loop to print spaces
+        for j in range (1, (rows - i) + 1):
+            print(end = " ")
+         
+        # loop to print star
+        while n != (2 * i - 1):
+            print("*", end = "")
+            n = n + 1
+        n = 0
+         
+        # line break
+        print()
+ 
+    k = 1
+    n = 1
+    for i in range(1, rows):
+        # loop to print spaces
+        for j in range (1, k + 1):
+            print(end = " ")
+        k = k + 1
+         
+        # loop to print star
+        while n <= (2 * (rows - i) - 1):
+            print("*", end = "")
+            n = n + 1
+        n = 1
+        print()
+ 
+# Driver Code
+# number of rows input
+rows = 5
+Diamond(rows)
+C#
+PHP
+Javascript
+Output
+    * 
+   * * 
+  * * * 
+ * * * * 
+* * * * * 
+* * * * * 
+ * * * * 
+  * * * 
+   * * 
+    * 
+Time Complexity: O(n*n) since we are traversing rows and columns of a grid for printing spaces ‘ ‘ and star ‘*’.
+Auxiliary Space: O(1), No extra Space used.
+
+Approach2: Solving the problem using Recursion
+Implementation:
+
+
+
+C++
+Java
+Python3
+def gotonextLine(k, i, z):
+  # base case
+    if (k == i):
+      return
+    print("* ", end=""),
+    gotonextLine(k + z, i, z)
+ 
+# print blank space of diamond
+def addblankSpaceInDiamond(j,i,z):
+    if (j == i):
+      return
+    print(" ",end=""),
+    addblankSpaceInDiamond(j + z, i, z)
+ 
+def upperDiamond(row,i):
+  # base case
+    if (i > row):
+      return
+    addblankSpaceInDiamond(row, i, -1)
+    gotonextLine(0, i, 1)
+    print("\n",end=""),
+    upperDiamond(row, i + 1) # recursive call
+ 
+ 
+def lowerDiamond(row,i):
+  # print the next line of diamond
+    if (i > row): # base case
+      return
+    addblankSpaceInDiamond(0, i, 1)
+    gotonextLine(row, i, -1)
+    print("\n",end=""),
+    lowerDiamond(row, i + 1)
+ 
+# Code
+row = 5
+upperDiamond(row, 0) # print uper part of triangle
+lowerDiamond(row, 1) # print lower part of diamond
+ 
+# This code is contributed by akashish__
+C#
+Javascript
+Output
+     
+    * 
+   * * 
+  * * * 
+ * * * * 
+* * * * * 
+ * * * * 
+  * * * 
+   * * 
+    * 
+     
+Time Complexity: O(N2), Since we are traversing rows and columns of a grid for printing spaces ‘ ‘ and star ‘*’.
+Auxiliary Space: O(N), The extra space is used in recursion call stack.
+
+This article is contributed by Rahul Singh(Nit KKR) and improved by Himanshu Patel(@prophet1999). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+17
+Previous
+Program to print hollow pyramid, diamond pattern and their modifications
+Next
+Program to print numbers with diamond pattern
+Related Articles
+1.
+C++ Program To Print Hollow Star Pyramid Diamond Shape Pattern
+2.
+C++ Program To Print The Diamond Shape
+3.
+Draw Diamond shape using Turtle graphics in Python
+4.
+Draw Shape inside Shape in Python Using Turtle
+5.
+Program to print hollow pyramid, diamond pattern and their modifications
+6.
+Program to print numbers with diamond pattern
+7.
+Program to print Inverse Diamond pattern
+8.
+Program to print half diamond Number-Star pattern
+9.
+Python Program to print a number diamond of any given size N in Rangoli Style
+10.
+Program to print half Diamond star pattern
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+vt_m
+rathbhupendra
+rdtank
+prophet1999
+cpdwivedi916
+akashish__
+adityapatil12
+agfro1cac
+vivekedula
+gowthammallela231
+Article Tags :
+pattern-printing
+Python Pattern-printing
+C Language
+C++
+Python
+School Programming
+Practice Tags :
+CPP
+pattern-printing
+python

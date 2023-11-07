@@ -1,0 +1,132 @@
+Finding the vertex, focus and directrix of a parabola
+
+Difficulty Level : Basic
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Problem – Find the vertex, focus and directrix of a parabola when the coefficients of its equation are given.
+A set of points on a plain surface that forms a curve such that any point on that curve is equidistant from the focus is a parabola. 
+Vertex of a parabola is the coordinate from which it takes the sharpest turn whereas a is the straight line used to generate the curve. 
+ 
+
+22
+
+The standard form of a parabola equation is y=ax^2+bx+c    . Given the values of a, b and c; our task is to find the coordinates of vertex, focus and the equation of the directrix. 
+Example – 
+ 
+
+Input : 5 3 2
+Output : Vertex:(-0.3, 1.55)
+         Focus: (-0.3, 1.6)
+         Directrix: y=-198
+Consult the formula below for explanation.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+This problem is a simple example of implementations of formulae. Given below are the required set of formulae which will help us tackle the problem. 
+ 
+
+For a parabola in the form y=ax^2+bx+cVertex: (-b/2a, 4ac-b^2/4a)Focus: (-b/2a, 4ac-b^2+1/4a)Directrix: y=c-(b^2+1)4a
+ 
+
+C++
+Java
+Python 3
+# Function to calculate Vertex,
+# Focus and Directrix
+def parabola(a, b, c):
+ 
+    print("Vertex: (" , (-b / (2 * a)),
+        ", ", (((4 * a * c) - (b * b))
+            / (4 * a)), ")", sep = "")
+               
+    print("Focus: (" , (-b / (2 * a)),
+    ", ", (((4 * a * c) - (b * b) + 1)
+            / (4 * a)), ")", sep = "")
+                
+    print("Directrix: y=", c - ((b * b)
+                + 1) * 4 * a, sep = "")
+ 
+# Driver Function
+a = 5
+b = 3
+c = 2
+parabola(a, b, c)
+ 
+# This code is contributed by Smitha.
+C#
+PHP
+Javascript
+Output – 
+ 
+
+
+
+Vertex:(-0.3, 1.55)
+Focus: (-0.3, 1.6)
+Directrix: y=-198
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+ 
+
+
+
+
+
+Like
+1
+Previous
+Rotation of a point about another point in C++
+Next
+Find mirror image of a point in 2-D plane
+Related Articles
+1.
+Equation of parabola from its focus and directrix
+2.
+Equation of ellipse from its focus, directrix, and eccentricity
+3.
+Area of a triangle with two vertices at midpoints of opposite sides of a square and the other vertex lying on vertex of a square
+4.
+Find vertex coordinates of all possible rectangles with a given vertex and dimensions
+5.
+Check if incoming edges in a vertex of directed graph is equal to vertex itself or not
+6.
+Check if vertex X lies in subgraph of vertex Y for the given Graph
+7.
+Check if every vertex triplet in graph contains two vertices connected to third vertex
+8.
+Find the vertex diagonally opposite to the vertex M from an N-sided polygon
+9.
+Finding minimum vertex cover size of a graph using binary search
+10.
+Finding the path from one vertex to rest using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Vineet Joshi
+@Vineet Joshi
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+nitin mittal
+vt_m
+code_hunt
+mailaruyashaswi
+Article Tags :
+DSA
+Geometric
+Mathematical
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

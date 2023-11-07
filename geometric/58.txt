@@ -1,0 +1,133 @@
+Calculate Volume and Surface area Of Sphere
+
+Last Updated : 21 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given radius of sphere, calculate the volume and surface area of sphere.
+Sphere: 
+Just like a circle, which geometrically is a two-dimensional object, a sphere is defined mathematically as the set of points that are all at the same distance r from a given point, but in three-dimensional space. This distance r is the radius of the sphere, and the given point is the center of the sphere. 
+For a given surface area, the sphere is the one solid that has the greatest volume. This why it appears in nature so much, such as water drops, bubbles and planets etc.
+Volume Of Sphere: 
+The number of cubic units that will exactly fill a sphere or the storage capacity of sphere. We can calculate the volume of sphere by using formula: 
+ 
+
+Volume Of Sphere
+
+Surface Area Of Sphere: 
+The surface area of a sphere object is a measure of the total area that the surface of the sphere occupies. We can calculate the volume of sphere by using formula: 
+ 
+
+Surface area Of Sphere
+
+Examples : 
+ 
+
+Input  : Radius Of Sphere = 5
+Output : Volume    Of    Sphere :  523.5987755982989
+         Surface Area Of Sphere :  314.1592653589793
+Explanation:
+         Volume =( 4/3 ) * 3.14159 * 5 * 5 * 5 = 523.598
+         Surface Area = 4 * 3.14159 * 5 * 5 =314.159
+       
+
+Input  : Radius Of Sphere = 12
+Output : Volume    Of    Sphere :  7238.229473870883
+         Surface Area Of Sphere :  1809.5573684677208
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+
+
+C++
+Java
+Python3
+''' Python3 program to calculate Volume and
+Surface area of Sphere'''
+# Importing Math library for value Of PI
+import math
+pi = math.pi
+ 
+# Function to calculate Volume of Sphere
+def volume(r):
+    vol = (4 / 3) * pi * r * r * r
+    return vol
+ 
+# Function To Calculate Surface Area of Sphere
+def surfacearea(r):
+    sur_ar = 4 * pi * r * r
+    return sur_ar
+ 
+# Driver Code
+radius = float(12)
+print( "Volume Of Sphere : ", volume(radius) )
+print( "Surface Area Of Sphere : ", surfacearea(radius) )
+C#
+PHP
+Javascript
+Output : 
+ 
+
+Volume Of Sphere :7238.22
+Surface Area Of Sphere :1809.56
+Time complexity : O(1) 
+Auxiliary Space : O(1) 
+
+
+
+
+
+Like
+1
+Previous
+Program for Volume and Surface Area of Cube
+Next
+Calculate volume and surface area of a cone
+Related Articles
+1.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+2.
+Calculate volume and surface area of a cone
+3.
+Program to calculate Volume and Surface area of Hemisphere
+4.
+Calculate volume and surface area of Torus
+5.
+Program for Volume and Surface Area of Cube
+6.
+Program for Volume and Surface Area of Cuboid
+7.
+Program for Volume and Surface area of Frustum of Cone
+8.
+Surface Area and Volume of Hexagonal Prism
+9.
+Program to find volume and surface area of pentagonal prism
+10.
+Program to find Surface Area and Volume of Octagonal Prism
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Sharad_Bhardwaj
+@Sharad_Bhardwaj
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Rajput-Ji
+bunnyram19
+krishnav4
+Article Tags :
+area-volume-programs
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

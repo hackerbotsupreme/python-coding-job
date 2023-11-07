@@ -1,0 +1,147 @@
+Equable Shapes
+
+Difficulty Level : Hard
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A shape is equable if its area is equal to its perimeter. Given ordered coordinates of polygon find whether the shape is equable or not.
+
+Examples : 
+
+Input : X[] = {0, 5, 0}
+        Y[] = {0, 0, 12}
+Output : Equable Shape
+
+Input : X[] = {0, 4, 4, 0}
+        Y[] = {0, 0, 4, 4}
+Output : Equable Shape
+
+Input: X[] = {0, 6, 6, 0}
+       Y[] = {0, 0, 4, 4}
+Output: Not Equable Shape
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can find area of polygon using shoelace formula which is described in Area of a polygon with given n ordered vertices. We can also find its perimeter simply by adding distances between adjacent points. 
+
+C++
+Java
+Python3
+# Python 3 program to find equable shape
+# To calculate area of polygon
+ 
+import math
+def polygonArea(X, Y, n):
+    area = 0.0
+  
+    # Calculate value of area
+    # using shoelace  formula
+    j = n - 1
+    for i in range(n):
+        area += (X[j] + X[i]) * (Y[j] - Y[i])
+ 
+        # j is previous vertex to i
+        j = i 
+    return abs(area / 2.0)
+  
+# To calculate perimeter of polygon
+def polygonPerimeter(X, Y, n):
+    perimeter = 0.0
+  
+    # Calculate value of perimeter
+    j = n - 1
+    for i in range(n):
+        perimeter += math.sqrt((X[j] - X[i]) * (X[j] - X[i]) +
+                          (Y[j] - Y[i]) * (Y[j] - Y[i]))
+ 
+        # j is previous vertex to i
+        j = i 
+ 
+    return perimeter
+  
+# To find equable shape
+def equableShape(X, Y, n):
+    # Find area and perimeter of polygon if
+    # they are equal then it is equable shape
+    if (polygonPerimeter(X, Y, n) == polygonArea(X, Y, n)):
+        print("Equable Shape")
+    else:
+        print("Not Equable Shape")
+ 
+#  Driver program to test above function
+X = [ 0, 5, 0 ]
+Y = [ 0, 0, 12 ]
+n = len(X)
+equableShape(X, Y, n)
+ 
+# This code is contributed by Azkia Anam.
+C#
+PHP
+Javascript
+Output : 
+
+Equable Shape
+Time Complexity: O(NlogN)
+
+Auxiliary Space: O(N)
+Reference: 
+https://en.wikipedia.org/wiki/Equable_shape
+
+This article is contributed by nuclode. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+0
+Previous
+Find mirror image of a point in 2-D plane
+Related Articles
+1.
+Find perimeter of shapes formed with 1s in binary matrix
+2.
+Draw geometric shapes on images using OpenCV
+3.
+Different shapes of AVL possible at height h
+4.
+Find the number of 'X' total shapes
+5.
+2D Range Minimum Query in O(1)
+6.
+Introduction to Möbius inversion
+7.
+Maximize sum of product of Subsequence sum and its length
+8.
+Time saved travelling in shortest path through given city and shortest route
+9.
+Find the number N, where (N+X) divisible by Y and (N-Y) divisible by X
+10.
+Find maximum sum by replacing the Subarray in given range
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+suresh07
+mailaruyashaswi
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

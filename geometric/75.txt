@@ -1,0 +1,216 @@
+Draw geometric shapes on images using OpenCV
+
+Difficulty Level : Easy
+Last Updated : 04 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+OpenCV provides many drawing functions to draw geometric shapes and write text on images. Let’s see some of the drawing functions and draw geometric shapes on images using OpenCV.
+
+Some of the drawing functions are :
+
+cv2.line() : Used to draw line on an image. 
+cv2.rectangle() : Used to draw rectangle on an image. 
+cv2.circle() : Used to draw circle on an image. 
+cv2.putText() : Used to write text on image.
+
+To demonstrate the uses of the above-mentioned functions we need an image of size 400 X 400 filled with a solid color (black in this case). Inorder to do this, We can utilize numpy.zeroes function to create the required image. 
+
+Python3
+# Python3 program to draw solid-colored
+# image using numpy.zeroes() function
+import numpy as np
+import cv2
+  
+# Creating a black image with 3 channels
+# RGB and unsigned int datatype
+img = np.zeros((400, 400, 3), dtype = "uint8")
+cv2.imshow('dark', img)
+  
+# Allows us to see image
+# until closed forcefully
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Output : 
+
+image of size 400 X 400 filled with a solid color using opencv
+
+Now, let’s draw some geometric shapes on this solid black image. 
+
+
+
+Draw a line : 
+cv2.line(imageObjectName, (‘start_coordinates’), (‘end_coordinates’), (‘color_in_bgr’), ‘line_thickness’)
+
+Python3
+# Python3 program to draw line
+# shape on solid image
+import numpy as np
+import cv2
+  
+# Creating a black image with 3 channels
+# RGB and unsigned int datatype
+img = np.zeros((400, 400, 3), dtype = "uint8")
+  
+# Creating line
+cv2.line(img, (20, 160), (100, 160), (0, 0, 255), 10)
+  
+cv2.imshow('dark', img)
+  
+# Allows us to see image
+# until closed forcefully
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Output : 
+
+Draw a line using opencv
+
+Draw a rectangle :
+cv2.rectangle(imageObjectName, (‘top_left_vertex_coordinates’), (‘lower_right_vertex_coordinates’), (‘stroke_color_in_bgr’), ‘stroke_thickness’)
+
+Python3
+# Python3 program to draw rectangle
+# shape on solid image
+import numpy as np
+import cv2
+  
+# Creating a black image with 3
+# channels RGB and unsigned int datatype
+img = np.zeros((400, 400, 3), dtype = "uint8")
+  
+# Creating rectangle
+cv2.rectangle(img, (30, 30), (300, 200), (0, 255, 0), 5)
+  
+cv2.imshow('dark', img)
+  
+# Allows us to see image
+# until closed forcefully
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Output : 
+
+Draw a rectangle using opencv
+
+Draw a Circle :
+cv2.circle(imageObjectName, (‘center_coordinates’), (‘circle_radius’), (‘color_in_bgr’), ‘stroke_thickness’)
+
+Python3
+# Python3 program to draw circle
+# shape on solid image
+import numpy as np
+import cv2
+  
+# Creating a black image with 3
+# channels RGB and unsigned int datatype
+img = np.zeros((400, 400, 3), dtype = "uint8")
+  
+# Creating circle
+cv2.circle(img, (200, 200), 80, (255, 0, 0), 3)
+  
+cv2.imshow('dark', img)
+  
+# Allows us to see image
+# until closed forcefully
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Output : 
+
+Draw a circle using opencv
+
+Writing text :
+cv2.putText(imageObjectName, ‘TextContent’, (‘text_starting_point_coordinates’), ‘fontToBeUsed’, ‘font_size’, (‘text_color’, ‘text_thickness’, ‘line_type’)
+
+Python
+# Python3 program to write 
+# text on solid image
+import numpy as np
+import cv2
+  
+# Creating a black image with 3
+# channels RGB and unsigned int datatype
+img = np.zeros((400, 400, 3), dtype = "uint8")
+  
+# writing text
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(img, 'GeeksForGeeks', (50, 50),
+            font, 0.8, (0, 255, 0), 2, cv2.LINE_AA)
+  
+cv2.imshow('dark', img)
+  
+# Allows us to see image
+# until closed forcefully
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Output : 
+
+writing text using opencv
+
+Applications of drawing shapes on images :  
+
+Drawing geometrical shapes can help us highlight the particular portions of an image.
+Geometrical shapes like line can help us point or identify particular regions in image.
+Writing text on certain regions of images can add description to that region.
+Reference : 
+https://docs.opencv.org/2.4/modules/core/doc/drawing_functions.html
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+1
+Previous
+Draw a triangle with centroid using OpenCV
+Next
+OpenCV C++ Program for Face Detection
+Related Articles
+1.
+Java Program to Draw Geometric Shapes on Images in OpenCV
+2.
+How to Detect Shapes in Images in Python using OpenCV?
+3.
+Arithmetic Operations on Images using OpenCV | Set-2 (Bitwise Operations on Binary Images)
+4.
+Draw Color Filled Shapes in Turtle - Python
+5.
+Python | Create video using multiple images using OpenCV
+6.
+Draw a rectangular shape and extract objects using Python's OpenCV
+7.
+Draw a triangle with centroid using OpenCV
+8.
+Find and Draw Contours using OpenCV | Python
+9.
+Draw a line using OpenCV in C++
+10.
+Draw an rectangle using OpenCV in C++
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+neerajnegi174
+@neerajnegi174
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+adnanirshad158
+Article Tags :
+OpenCV
+Python-OpenCV
+Geometric
+Python
+Practice Tags :
+Geometric
+python
+Improve Article
+Report Issue

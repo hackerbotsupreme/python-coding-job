@@ -1,0 +1,277 @@
+Angular Sweep (Maximum points that can be enclosed in a circle of given radius)
+
+Difficulty Level : Hard
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given ‘n’ points on 2-D plane, find the maximum number of points that can be enclosed by a fixed-radius circle of radius ‘R’. 
+Note: The point is considered to be inside the circle even when it lies on the circumference.
+Examples: 
+ 
+
+Input : R = 1
+        points[] = {(6.47634, 7.69628), (5.16828 4.79915), 
+                    (6.69533 6.20378)}
+Output :  2
+The maximum number of points are 2
+
+Input :  R = 1
+  points[] = {(6.65128, 5.47490), (6.42743, 6.26189)
+   (6.35864, 4.61611), (6.59020 4.54228), (4.43967 5.70059)
+   (4.38226, 5.70536), (5.50755 6.18163), (7.41971 6.13668)
+   (6.71936, 3.04496), (5.61832, 4.23857), (5.99424, 4.29328)
+   (5.60961, 4.32998), (6.82242, 5.79683), (5.44693, 3.82724) 
+   (6.70906, 3.65736), (7.89087, 5.68000), (6.23300, 4.59530)
+   (5.92401, 4.92329), (6.24168, 3.81389), (6.22671, 3.62210)}
+Output : 11
+The maximum number of points are 11
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive Algorithm 
+ 
+
+For an arbitrary pair of points in the given set (say A and B), construct the circles with radius ‘R’ that touches both the points. There are maximum 2 such possible circles. As we can see here maximum possible circles is for CASE 1 i.e. 2.
+ 
+The circles with radius 'R' touching points A and B
+
+For each of the constructed circle, check for each point in the set if it lies inside the circle or not.
+The circle with maximum number of points enclosed is returned.
+Time Complexity: There are nC2 pair of points corresponding to which we can have 2nC2 circles at maximum. For each circle, (n-2) points have to be checked. This makes the naive algorithm O(n3).
+ 
+Angular Sweep Algorithm 
+By using Angular Sweep, we can solve this problem in O(n2log n). The basic logical idea of this algorithm is described below.
+We pick an arbitrary point P from the given set. We then rotate a circle with fixed-radius ‘R’ about the point P. During the entire rotation P lies on the circumference of the circle and we maintain a count of the number of points in the circle at a given value of Θ where the parameter Θ determines the angle of rotation. The state of a circle can thus be determined by a single parameter Θ because the radius is fixed. 
+We can also see that the value of the count maintained will change only when a point from the set enters or exits the circle.
+ 
+
+The single parameter Θ controls the orientation of circle
+
+In the given diagram, C1 is the circle with Θ = 0 and C2 is the circle constructed when we rotate the circle at a general value of Θ.
+After this, the problem reduces to, how to maintain the value of count. 
+For any given point except P (say Q), we can easily calculate the value of Θ for which it enters the circle (Let it be α) and the value of Θ for which it exits the circle (Let it be β). 
+We have angles A and B defined as under, 
+ 
+
+
+
+A is the angle between PQ and the X-Axis.
+B is the angle between PC and PQ where C is the centre of the circle.
+ 
+
+A = tan^{-1}  \frac{(P.y - Q.y)}{(P.x-Q.x)} \\\\ B = cos^{-1}  \frac{d}{2R}
+where, x and y represent the coordinates of a point and ‘d’ is the distance between P and Q.
+Now, from the diagrams we can see that, 
+ 
+
+α = A-B 
+β = A+B
+(Note: All angles are w.r.t. to X-Axis. Thus, it becomes ‘A-B’ and not ‘B-A’).
+When Q enters the circle 
+ 
+
+When Q enters the circle 
+
+When Q exits the circle 
+ 
+
+When Q exits the circle 
+
+We can calculate angles A and B for all points excluding P. Once these angles are found, we sort them and then traverse them in increasing order. Now we maintain a counter which tells us how many points are inside the circle at a particular moment. 
+Count will change only when a point enters the circle or exits it. In case we find an entry angle we increase the counter by 1 and in case we find an exit angle we decrease the counter by 1. The check that the angle is entry or exit can be easily realised using a flag. 
+Proceeding like this, the counter always gives us a valid value for the number of points inside the circle in a particular state.
+Important Note: The points which have ‘d’>2R do not have to be considered because they will never enter or exit the circle.
+The angular sweep algorithm can be described as:
+ 
+
+Calculate the distance between every pair of nC2 points and store them.
+For an arbitrary point (say P), get the maximum number of points that can lie inside the circle rotated about P using the getPointsInside() function.
+The maximum of all values returned will be the final answer.
+This algorithm has been described in the following C++ implementation.
+ 
+
+CPP
+// C++ program to find the maximum number of
+// points that can be enclosed by a fixed-radius
+// circle
+#include <bits/stdc++.h>
+using namespace std;
+ 
+const int MAX_POINTS = 500;
+ 
+// complex class which is available in STL has
+// been used to implement points. This helps to
+// ensure greater functionality easily
+typedef complex<double> Point;
+ 
+Point arr[MAX_POINTS];
+double dis[MAX_POINTS][MAX_POINTS];
+ 
+// This function returns the maximum points that
+// can lie inside the circle of radius 'r' being
+// rotated about point 'i'
+bool mycompare(pair<double,bool> A, pair<double,bool> B)
+{
+    if(A.first<B.first)
+        return true;
+    else if(A.first>B.first)
+        return false;
+    else
+        return (A.second==1);
+}
+int getPointsInside(int i, double r, int n)
+{
+    // This vector stores alpha and beta and flag
+    // is marked true for alpha and false for beta
+    vector<pair<double, bool> > angles;
+ 
+    for (int j=0; j<n; j++)
+    {
+        if (i != j && dis[i][j] <= 2*r)
+        {
+            // acos returns the arc cosine of the complex
+            // used for cosine inverse
+            double B =  acos(dis[i][j]/(2*r));
+ 
+            // arg returns the phase angle of the complex
+            double A = arg(arr[j]-arr[i]);
+            double alpha = A-B;
+            double beta = A+B;
+            angles.push_back(make_pair(alpha, true));
+            angles.push_back(make_pair(beta, false));
+        }
+    }
+ 
+    // angles vector is sorted and traversed
+    sort(angles.begin(), angles.end(), mycompare);
+ 
+    // count maintains the number of points inside
+    // the circle at certain value of theta
+    // res maintains the maximum of all count
+    int count = 1, res = 1;
+    vector<pair<double, bool> >::iterator it;
+    for (it=angles.begin(); it!=angles.end(); ++it)
+    {
+        // entry angle
+        if ((*it).second)
+            count++;
+ 
+        // exit angle
+        else
+            count--;
+ 
+        if (count > res)
+            res = count;
+    }
+ 
+    return res;
+}
+ 
+// Returns count of maximum points that can lie
+// in a circle of radius r.
+int maxPoints(Point arr[], int n, int r)
+{
+    // dis array stores the distance between every
+    // pair of points
+    for (int i=0; i<n-1; i++)
+        for (int j=i+1; j<n; j++)
+ 
+            // abs gives the magnitude of the complex
+            // number and hence the distance between
+            // i and j
+            dis[i][j] = dis[j][i] = abs(arr[i]-arr[j]);
+ 
+    // This loop picks a point p
+    int ans = 0;
+    for (int i=0; i<n; i++)
+ 
+        // maximum number of points for point arr[i]
+        ans = max(ans, getPointsInside(i, r, n));
+ 
+    return ans;
+}
+ 
+// Driver code
+int main()
+{
+    Point  arr[] = {Point(6.47634, 7.69628),
+                    Point(5.16828, 4.79915),
+                    Point(6.69533, 6.20378)};
+    int r = 1;
+ 
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    cout << "The maximum number of points are: "
+         << maxPoints(arr, n, r);
+ 
+    return 0;
+}
+Output : 
+ 
+
+The maximum number of points are: 2
+Time Complexity: There are n points for which we call the function getPointsInside(). This function works on ‘n-1’ points for which we get 2*(n-1) size of the vector ‘angles’ (one entry angle and one exit angle). Now this ‘angles’ vector is sorted and traversed which gives complexity of the getPointsInside() function equal to O(nlogn). This makes the Angular Sweep Algorithm O(n2log n).
+
+Space complexity: O(n) since using auxiliary space for vector
+
+Related Resources: Using the complex class available in stl for implementing solutions to geometry problems. 
+http://codeforces.com/blog/entry/22175
+This article is contributed by Aanya Jindal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+5
+Previous
+Pizza cut problem (Or Circle Division by Lines)
+Next
+Check if a line touches or intersects a circle
+Related Articles
+1.
+Radii of the three tangent circles of equal radius which are inscribed within a circle of given radius
+2.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+3.
+Minimum number of Bottles visible when a bottle can be enclosed inside another Bottle
+4.
+Equation of circle when three points on the circle are given
+5.
+Count of obtuse angles in a circle with 'k' equidistant points between 2 given points
+6.
+Make N pairs from Array as (X, Y) coordinate point that are enclosed inside a minimum area rectangle
+7.
+Length of the chord of the circle whose radius and the angle subtended at the center by the chord is given
+8.
+Radius of the circle when the width and height of an arc is given
+9.
+Find the radius of the circles which are lined in a row, and distance between the centers of first and last circle is given
+10.
+Radius of a circle having area equal to the sum of area of the circles having given radii
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+abhishek vanjani
+ysachin2314
+technophpfij
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

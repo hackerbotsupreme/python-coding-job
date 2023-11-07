@@ -1,0 +1,161 @@
+Hour-glass Pattern
+
+Difficulty Level : Easy
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given positive integer n, print numeric pattern in form of an hourglass.
+Examples : 
+ 
+
+Input : rows_no = 7
+Output :
+
+1 2 3 4 5 6 7
+ 2 3 4 5 6 7
+  3 4 5 6 7
+   4 5 6 7
+    5 6 7
+     6 7 
+      7
+     6 7
+    5 6 7
+   4 5 6 7
+  3 4 5 6 7
+ 2 3 4 5 6 7
+1 2 3 4 5 6 7
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+Java
+Python3
+# Python3 code for hour glass pattern
+ 
+# Function definition
+def pattern(rows_no):
+ 
+    # for loop for printing upper half
+    for i in range(1, rows_no + 1):
+ 
+        # printing i spaces at the
+        # beginning of each row
+        for k in range(1, i):
+            print(" ", end = "")
+         
+        # printing i to rows value
+        # at the end of each row
+        for j in range(i, rows_no + 1):
+            print(j, end = " ")
+ 
+        print()
+     
+    # for loop for printing lower half
+    for i in range(rows_no - 1, 0, -1):
+ 
+        # printing i spaces at the
+        # beginning of each row
+        for k in range(1, i):
+            print(" ", end = "")
+         
+        # printing i to rows value
+        # at the end of each row
+        for j in range(i, rows_no + 1):
+            print(j, end = " ")
+ 
+        print()
+     
+# Driver code
+ 
+# taking rows value from the user
+rows_no = 7
+ 
+pattern(rows_no)
+ 
+# This code is contributed
+# by ihritik
+C#
+PHP
+Javascript
+Output : 
+ 
+
+1 2 3 4 5 6 7
+ 2 3 4 5 6 7
+  3 4 5 6 7
+   4 5 6 7
+    5 6 7
+     6 7 
+      7
+     6 7
+    5 6 7
+   4 5 6 7
+  3 4 5 6 7
+ 2 3 4 5 6 7
+1 2 3 4 5 6 7
+Time Complexity : O(rows_no*rows_no) ,where rows_no is rows value taken from user.
+
+Space Complexity : O(1) ,as we are not using any extra space.
+
+
+
+
+
+Like
+4
+Previous
+Program to print double headed arrow pattern
+Next
+Program to print hollow pyramid, diamond pattern and their modifications
+Related Articles
+1.
+Print matrix in diagonal pattern
+2.
+Printing Heart Pattern in C
+3.
+Print pattern using only one loop | Set 1 (Using setw)
+4.
+Program to Print a Pattern of Numbers
+5.
+Program to print pyramid pattern
+6.
+Print a String in wave pattern
+7.
+Print the pattern by using one loop | Set 2 (Using Continue Statement)
+8.
+Print the given pattern recursively
+9.
+Print the following pyramid pattern
+10.
+Program to print hollow pyramid, diamond pattern and their modifications
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nikunj_agarwal
+@nikunj_agarwal
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+ihritik
+Akanksha_Rai
+GauravRajput1
+surinderdawra388
+arorakashish0911
+adityapatil12
+Article Tags :
+pattern-printing
+School Programming
+Practice Tags :
+pattern-printing
+Improve Article
+Report Issue

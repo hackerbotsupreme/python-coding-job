@@ -1,0 +1,236 @@
+Program to find Circumcenter of a Triangle
+
+Difficulty Level : Hard
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given 3 non-collinear points in the 2D Plane P, Q and R with their respective x and y coordinates, find the circumcenter of the triangle.
+Note: Circumcenter of a triangle is the centre of the circle, formed by the three vertices of a triangle. Note that three points can uniquely determine a circle.
+Examples: 
+ 
+
+Input : P(6, 0)
+        Q(0, 0)
+        R(0, 8)
+Output : The circumcenter of the triangle PQR 
+         is: (3, 4)
+
+Input : P(1, 1)
+        Q(0, 0)
+        R(2, 2)
+Output : The two perpendicular bisectors found 
+         come parallel. Thus, the given points 
+         do not form a triangle and are collinear
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Given, three points of the triangle, we can easily find the sides of the triangle. Now, we have the equations of the lines for the three sides of the triangle. After getting these, we can find the circumcenter of the triangle by a simple property stated as under:
+ 
+
+The circumcenter of the triangle is point where all the perpendicular bisectors of the sides of the triangle intersect.
+
+This is well explained in the following diagram.
+ 
+
+Circumcenter of a Triangle
+
+Note here that, there is no need to find all of the three sides of the triangle. Finding two sides is sufficient as we can uniquely find the point of intersection using just two perpendicular bisectors. The third perpendicular bisector will itself pass through the so found circumcenter.
+The things to be done can be divided as under: 
+ 
+
+
+
+Find 2 lines (say PQ and QR) which form the sides of the triangle.
+Find the perpendicular bisectors of PQ and QR (say lines L and M respectively).
+Find the point of intersection of lines L and M as the circumcenter of the given triangle.
+STEP 1 
+Refer this post Program to find line passing through 2 Points
+STEP 2 
+Let PQ be represented as ax + by = c 
+A line perpendicular to this line is represented as -bx + ay = d for some d. 
+However, we are interested in the perpendicular bisector. So, we find the mid-point of P and Q and putting this value in the standard equation, we get the value of d. 
+Similarly, we repeat the process for QR.
+ 
+
+d = -bx + ay
+where, x = (xp + xq)/2
+AND y = (yp + yq)/2
+STEP 3 
+Refer this post Program for Point of Intersection of Two Lines
+ 
+
+CPP
+// C++ program to find the CIRCUMCENTER of a
+// triangle
+#include <iostream>
+#include <cfloat>
+using namespace std;
+ 
+// This pair is used to store the X and Y
+// coordinate of a point respectively
+#define pdd pair<double, double>
+ 
+// Function to find the line given two points
+void lineFromPoints(pdd P, pdd Q, double &a,
+                        double &b, double &c)
+{
+    a = Q.second - P.second;
+    b = P.first - Q.first;
+    c = a*(P.first)+ b*(P.second);
+}
+ 
+// Function which converts the input line to its
+// perpendicular bisector. It also inputs the points
+// whose mid-point lies on the bisector
+void perpendicularBisectorFromLine(pdd P, pdd Q,
+                 double &a, double &b, double &c)
+{
+    pdd mid_point = make_pair((P.first + Q.first)/2,
+                            (P.second + Q.second)/2);
+ 
+    // c = -bx + ay
+    c = -b*(mid_point.first) + a*(mid_point.second);
+ 
+    double temp = a;
+    a = -b;
+    b = temp;
+}
+ 
+// Returns the intersection point of two lines
+pdd lineLineIntersection(double a1, double b1, double c1,
+                         double a2, double b2, double c2)
+{
+    double determinant = a1*b2 - a2*b1;
+    if (determinant == 0)
+    {
+        // The lines are parallel. This is simplified
+        // by returning a pair of FLT_MAX
+        return make_pair(FLT_MAX, FLT_MAX);
+    }
+ 
+    else
+    {
+        double x = (b2*c1 - b1*c2)/determinant;
+        double y = (a1*c2 - a2*c1)/determinant;
+        return make_pair(x, y);
+    }
+}
+ 
+void findCircumCenter(pdd P, pdd Q, pdd R)
+{
+    // Line PQ is represented as ax + by = c
+    double a, b, c;
+    lineFromPoints(P, Q, a, b, c);
+ 
+    // Line QR is represented as ex + fy = g
+    double e, f, g;
+    lineFromPoints(Q, R, e, f, g);
+ 
+    // Converting lines PQ and QR to perpendicular
+    // vbisectors. After this, L = ax + by = c
+    // M = ex + fy = g
+    perpendicularBisectorFromLine(P, Q, a, b, c);
+    perpendicularBisectorFromLine(Q, R, e, f, g);
+ 
+    // The point of intersection of L and M gives
+    // the circumcenter
+    pdd circumcenter =
+           lineLineIntersection(a, b, c, e, f, g);
+ 
+    if (circumcenter.first == FLT_MAX &&
+        circumcenter.second == FLT_MAX)
+    {
+        cout << "The two perpendicular bisectors "
+                "found come parallel" << endl;
+        cout << "Thus, the given points do not form "
+                "a triangle and are collinear" << endl;
+    }
+ 
+    else
+    {
+        cout << "The circumcenter of the triangle PQR is: ";
+        cout << "(" << circumcenter.first << ", "
+             << circumcenter.second  << ")" << endl;
+    }
+}
+ 
+// Driver code.
+int main()
+{
+    pdd P = make_pair(6, 0);
+    pdd Q = make_pair(0, 0);
+    pdd R = make_pair(0, 8);
+    findCircumCenter(P, Q, R);
+    return 0;
+}
+Java
+Python3
+C#
+Javascript
+Output: 
+ 
+
+The circumcenter of the triangle PQR is: (3, 4)
+Time complexity: O(1) since performing constant operations
+
+Auxiliary Space: O(1)
+
+This article is contributed by Aanya Jindal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Program to Find the Incenter of a Triangle
+Next
+Program to find line passing through 2 Points
+Related Articles
+1.
+Distance between Incenter and Circumcenter of a triangle using Inradius and Circumradius
+2.
+Distance between orthocenter and circumcenter of a right-angled triangle
+3.
+Program to print a Hollow Triangle inside a Triangle
+4.
+Sum of upper triangle and lower triangle
+5.
+Biggest Reuleaux Triangle within a Square which is inscribed within a Right angle Triangle
+6.
+Biggest Reuleaux Triangle inscribed within a Square inscribed in an equilateral triangle
+7.
+Calculate ratio of area of a triangle inscribed in an Ellipse and the triangle formed by corresponding points on auxiliary circle
+8.
+Maximum size of subset of given array such that a triangle can be formed by any three integers as the sides of the triangle
+9.
+Program to find the Type of Triangle from the given Coordinates
+10.
+Program to find area of a triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+gautamgoel962
+_shinchancode
+technophpfij
+Article Tags :
+triangle
+DSA
+Geometric
+Practice Tags :
+Geometric

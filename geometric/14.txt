@@ -1,0 +1,159 @@
+Program to find line passing through 2 Points
+
+Difficulty Level : Easy
+Last Updated : 08 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two points P and Q in the coordinate plane, find the equation of the line passing through both points.
+This kind of conversion is very useful in many geometric algorithms like intersection of lines, finding the circumcenter of a triangle, finding the incenter of a triangle and many more…
+
+Examples: 
+
+Input : P(3, 2)
+        Q(2, 6)
+Output : 4x + 1y = 14
+
+Input : P(0, 1)
+        Q(2, 4)
+Output : 3x + -2y = -2
+Recommended Problem
+Line passing through 2 points
+Geometric
+Solve Problem
+Submission count: 877
+Let the given two points be P(x1, y1) and Q(x2, y2). Now, we find the equation of line formed by these points.
+Any line can be represented as, 
+ax + by = c 
+Let the two points satisfy the given line. So, we have, 
+ax1 + by1 = c 
+ax2 + by2 = c 
+
+We can set the following values so that all the equations hold true,  
+
+a = y2 - y1
+b = x1 - x2
+c = ax1 + by1
+These can be derived by first getting the slope directly and then finding the intercept of the line. OR these can also be derived cleverly by a simple observation as under:
+
+Derivation : 
+
+ax1 + by1 = c ...(i)
+ax2 + by2 = c ...(ii)
+Equating (i) and (ii),
+ax1 + by1 = ax2 + by2
+=> a(x1 - x2) = b(y2 - y1)
+Thus, for equating LHS and RHS, we can simply have,
+a = (y2 - y1)
+AND
+b = (x1 - x2)
+so that we have,
+(y2 - y1)(x1 - x2) = (x1 - x2)(y2 - y1)
+AND
+Putting these values in (i), we get,
+c = ax1 + by1 
+Thus, we now have the values of a, b, and c which means that we have the line in the coordinate plane.
+
+
+
+C++
+Java
+Python3
+# Python3 Implementation to find the line passing
+# through two points
+ 
+# This pair is used to store the X and Y
+# coordinate of a point respectively
+# define pdd pair<double, double>
+ 
+# Function to find the line given two points
+ 
+ 
+def lineFromPoints(P, Q):
+ 
+    a = Q[1] - P[1]
+    b = P[0] - Q[0]
+    c = a*(P[0]) + b*(P[1])
+ 
+    if(b < 0):
+        print("The line passing through points P and Q is:",
+              a, "x - ", b, "y = ", c, "\n")
+    else:
+        print("The line passing through points P and Q is: ",
+              a, "x + ", b, "y = ", c, "\n")
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    P = [3, 2]
+    Q = [2, 6]
+    lineFromPoints(P, Q)
+ 
+# This code is contributed by ash264
+C#
+Javascript
+Output
+The line passing through points P and Q is: 4x + 1y = 14
+Time Complexity: O(1)
+Auxiliary Space: O(1), since no extra space has been taken.
+
+This article is contributed by Aanya Jindal. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+5
+Previous
+Represent a given set of points by the best possible straight line
+Next
+Reflection of a point about a line in C++
+Related Articles
+1.
+Find the equation of the straight line passing through the given points
+2.
+Minimum points to be selected such that removal of line segments passing through them empties given array
+3.
+Equation of a straight line passing through a point and making a given angle with a given line
+4.
+Program to find equation of a plane passing through 3 points
+5.
+Maximum distinct lines passing through a single point
+6.
+Find the equation of plane which passes through two points and parallel to a given axis
+7.
+Check if two circles intersect such that the third circle passes through their points of intersections and centers
+8.
+Find the point on X-axis from given N points having least Sum of Distances from all other points
+9.
+Check if a line passes through the origin
+10.
+Determine the number of squares of unit area that a given line will pass through.
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ash264
+princi singh
+29AjayKumar
+bittupasranjan
+akshitsaxenaa09
+ajaymakvana
+souravkumar29
+agfro1cac
+Article Tags :
+computer-graphics
+Geometric
+Practice Tags :
+Geometric

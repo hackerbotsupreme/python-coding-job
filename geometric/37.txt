@@ -1,0 +1,114 @@
+Program to find area of a circle
+
+Difficulty Level : Medium
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the radius of a circle, find the area of that circle.
+
+The area of a circle can simply be evaluated using the following formula.
+ 
+
+Area-of-circle
+
+ 
+
+Area = \pi r^2
+
+where r is radius of circle and it maybe in float because value of pie is 3.14 
+
+ 
+Approach: Using the given radius, find the area using the above formula: (pi * r * r) and print the result in float.
+ 
+
+
+
+C++
+C
+Java
+Python3
+# Python3 program to find Area of a circle
+ 
+def findArea(r):
+    PI = 3.142
+    return PI * (r*r);
+ 
+# Driver method
+print("Area is %.6f" % findArea(5));
+ 
+# This code is contributed by Chinmoy Lenka
+C#
+PHP
+Javascript
+Output
+Area of Circle is :78.5398
+Time Complexity: O(1)
+Auxiliary Space: O(1), since no extra space has been taken.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+9
+Previous
+Program to Print Floyd's Triangle
+Next
+Program to find area of a triangle
+Related Articles
+1.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+2.
+Program to calculate area of inner circle which passes through center of outer circle and touches its circumference
+3.
+Find area of the Circle when the area of inscribed Square is given
+4.
+Area of the circle that has a square and a circle inscribed in it
+5.
+Radius of a circle having area equal to the sum of area of the circles having given radii
+6.
+JavaScript program to find area of a circle
+7.
+Program to calculate area of an Circle inscribed in a Square
+8.
+Given equation of a circle as string, find area
+9.
+Find the area of largest circle inscribed in ellipse
+10.
+Equation of circle when three points on the circle are given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+RamAryan
+mayanktyagi1709
+harisuman7082
+subhammahato348
+Code_r
+rishavpgl4
+Article Tags :
+area-volume-programs
+Geometric
+Mathematical
+School Programming
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

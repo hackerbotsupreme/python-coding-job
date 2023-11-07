@@ -1,0 +1,157 @@
+Find if two rectangles overlap
+
+Difficulty Level : Easy
+Last Updated : 06 Aug, 2022
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Given two rectangles, find if the given two rectangles overlap or not.
+Note that a rectangle can be represented by two coordinates, top left and bottom right. So mainly we are given following four coordinates. 
+l1: Top Left coordinate of first rectangle. 
+r1: Bottom Right coordinate of first rectangle. 
+l2: Top Left coordinate of second rectangle. 
+r2: Bottom Right coordinate of second rectangle.
+
+rectanglesOverlap
+
+We need to write a function bool doOverlap(l1, r1, l2, r2) that returns true if the two given rectangles overlap. 
+
+Recommended Problem
+Overlapping rectangles
+Mathematical
+Geometric
++1 more
+Amazon
+Microsoft
++4 more
+Solve Problem
+Submission count: 40K
+Note : It may be assumed that the rectangles are parallel to the coordinate axis.
+One solution is to one by one pick all points of one rectangle and see if the point lies inside the other rectangle or not. This can be done using the algorithm discussed here. 
+Following is a simpler approach. Two rectangles do not overlap if one of the following conditions is true. 
+1) One rectangle is above top edge of other rectangle. 
+2) One rectangle is on left side of left edge of other rectangle.
+We need to check above cases to find out if given rectangles overlap or not. Following is the implementation of the above approach. 
+
+C++
+Java
+Python3
+# Python program to check if rectangles overlap
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+ 
+# Returns true if two rectangles(l1, r1)
+# and (l2, r2) overlap
+def do_overlap(l1, r1, l2, r2):
+     
+    # if rectangle has area 0, no overlap
+    if l1.x == r1.x or l1.y == r1.y or r2.x == l2.x or l2.y == r2.y:
+        return False
+     
+    # If one rectangle is on left side of other
+    if l1.x > r2.x or l2.x > r1.x:
+        return False
+ 
+    # If one rectangle is above other
+    if r1.y > l2.y or r2.y > l1.y:
+        return False
+ 
+    return True
+ 
+# Driver Code
+if __name__ == "__main__":
+    l1 = Point(0, 10)
+    r1 = Point(10, 0)
+    l2 = Point(5, 5)
+    r2 = Point(15, 0)
+ 
+    if(do_overlap(l1, r1, l2, r2)):
+        print("Rectangles Overlap")
+    else:
+        print("Rectangles Don't Overlap")
+ 
+# This code is contributed by Vivek Kumar Singh
+C#
+Javascript
+Output
+Rectangles Overlap
+The Time Complexity of the above code is O(1) as the code doesn’t have any loop or recursion. 
+
+Auxiliary Space: O(1)
+
+
+
+This article is compiled by Aman Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+Like
+Previous
+Minimum height of a triangle with given base and area
+Next
+Check if four segments form a rectangle
+Related Articles
+1.
+Maximum rods to put horizontally such that no two rods overlap on X coordinate
+2.
+Maximum number of operations required such that no pairs from a Matrix overlap
+3.
+Minimum time at which at least K out of N circles expanding 1 unit per second overlap
+4.
+Find side of Square which makes minimal area to fit two identical rectangles inside it
+5.
+Total area of two overlapping rectangles
+6.
+Intersecting rectangle when bottom-left and top-right corners of two rectangles are given
+7.
+Minimum area of square holding two identical rectangles
+8.
+Perimeter of the Union of Two Rectangles
+9.
+Find all rectangles filled with 0
+10.
+Find the number of rectangles of size 2*1 which can be placed inside a rectangle of size n*m
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+Rajput-Ji
+Vivekkumar Singh
+shivamsingh49
+rahulagarwal14
+umadevi9616
+nitishgautam1223
+deepakkumar144
+enchanto
+vaibhavilohani21
+singhpraduman451
+subhammahato348
+aftab_a
+kuhxeyd
+garriul9v
+Article Tags :
+Amazon
+Expedia
+Goldman Sachs
+Microsoft
+OATS Systems
+square-rectangle
+Geometric
+Mathematical
+Practice Tags :
+Amazon
+Expedia
+Goldman Sachs
+Microsoft

@@ -1,0 +1,160 @@
+Print the pattern 1*2*5*6 –3*4
+
+Last Updated : 16 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given integer N, the task is to print an upside-down triangle where the left half is made of elements in the range [1, N*(N+1)/2] and the right half is made of elements in the range [N*(N+1)/2 + 1, N*(N+1)].
+
+Examples:
+
+Input: N = 3 
+Output: 
+1*2*3*10*11*12
+   4*5*8*9
+      6*7
+
+Input: n = 4
+Output:
+1*2*3*4*17*18*19*20
+   5*6*7*14*15*16
+      8*9*12*13
+       10*11 
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+Approach:
+
+Looking at the pattern we can easily observed that it is following a ZIG-ZAG pattern first few numbers are printed from the top row to the bottom and then numbers are printed from the bottom row to the top increasingly
+
+
+Pattern
+
+Hyphen Pattern: No of spaces in ith line is i*2 [Here i is 0 based]
+
+
+
+Since numbers are in increasing order in this zigzag format we can store those numbers in a 2d dynamic array and print them accordingly with respect to the condition of number of spaces at each row.
+
+Follow the steps mentioned below to implement the idea:
+
+Create a 2D vector arr[] of size N*N, so that the matrix would be of N*N.
+Then, traverse the array from top to bottom and push numbers (N-i) numbers for the ith line.
+Similarly, traverse from bottom to top and push elements in the same manner from bottom to top.
+Start a loop and traverse the column and print array:
+Then, print spaces before each row in increasing order by traversing the length of i*2.
+Print * after each element in a row
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python code to print the above pattern
+
+# Function to print the pattern
+def printPattern(n):
+    l = []
+    num = 1
+
+    # First Traversal top to bottom
+    for i in range(n):
+        tem = []
+        for j in range((i)*2):
+            tem.append(' ')
+        for j in range(n - i):
+            tem.append(num)
+            tem.append('*')
+            num += 1
+        l.append(tem)
+
+    # Second Traversal bottom to top
+    for i in range(n-1, -1, -1):
+        tem = []
+        for j in range(0, n-i):
+            tem.append(num)
+            tem.append('*')
+            num += 1
+        tem.pop()
+        l[i] += tem
+
+    for row in l:
+        for i in row:
+            print(i, end ="")
+        print()
+
+
+# Driver code
+if __name__ == '__main__':
+    N = 3
+
+    # Function call
+    printPattern(N)
+C#
+Javascript
+Output
+1*2*3*10*11*12
+  4*5*8*9
+    6*7
+Time Complexity: O(N2)
+Auxiliary Space: O(N2) 
+
+
+
+
+Like
+3
+Previous
+5G Network Architecture
+Next
+What is a Memory Heap?
+Related Articles
+1.
+Compare usage of Module Pattern vs Constructor/Prototype pattern ?
+2.
+Print matrix in diagonal pattern
+3.
+Print pattern using only one loop | Set 1 (Using setw)
+4.
+Program to Print a Pattern of Numbers
+5.
+Program to print pyramid pattern
+6.
+Print a String in wave pattern
+7.
+Print the pattern by using one loop | Set 2 (Using Continue Statement)
+8.
+Print the given pattern recursively
+9.
+Print the following pyramid pattern
+10.
+Program to print hollow pyramid, diamond pattern and their modifications
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sarkarrohit650
+@sarkarrohit650
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rohit768
+sanjoy_62
+sweetyty
+sagartomar9927
+Article Tags :
+pattern-printing
+Picked
+Technical Scripter 2022
+Greedy
+Technical Scripter
+Practice Tags :
+Greedy
+pattern-printing
+Improve Article
+Report Issue

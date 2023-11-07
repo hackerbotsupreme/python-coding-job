@@ -1,0 +1,125 @@
+Program to print pyramid pattern
+
+Difficulty Level : Basic
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Write to program to print the pyramid pattern formed of stars 
+
+Example : 
+
+Input:  n = 6
+Output:
+       *
+       * *
+       * * *
+       * * * *
+       * * * * *
+       * * * * * * 
+       * * * * *
+       * * * *
+       * * *
+       * * 
+       *
+We strongly recommend you to minimize your browser and try this yourself first.
+The idea is to use two for loops for every part of the pyramid. The two parts may be classified as upper part and lower part 
+
+C++
+C
+Java
+Python3
+# Python program to print Pyramid pattern
+ 
+def pattern(n):
+    
+    # For printing the upper part of pyramid
+    for i in range (1, n+1):
+        for j in range (1, i+1):
+            print (" *",end=" ")
+        print()
+     
+    # for printing the middle and lower part of pyramid
+    for i in range (n, 1, -1):
+        for j in range (i, 1, -1):
+            print (" *",end=" ")
+        print()
+ 
+# Driver program
+pattern(6)
+C#
+PHP
+Javascript
+Output : 
+
+ *
+ *  *
+ *  *  *
+ *  *  *  *
+ *  *  *  *  *
+ *  *  *  *  *  *
+ *  *  *  *  *
+ *  *  *  *
+ *  *  *
+ *  *
+ *
+Time complexity: O(n2)
+
+Auxiliary Space: O(1)
+This article is contributed by Rahul Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+4
+Previous
+Program to Print Pyramid Pattern using numbers
+Next
+C Program to print pyramid pattern
+Related Articles
+1.
+Program to print hollow pyramid, diamond pattern and their modifications
+2.
+C Program to print pyramid pattern
+3.
+Program to print a inverse pyramid character pattern
+4.
+Program to Print Pyramid Pattern using numbers
+5.
+Print the following pyramid pattern
+6.
+Print the pyramid pattern with given height and minimum number of stars
+7.
+Program to print Even Odd Number Pyramid
+8.
+Program for volume of Pyramid
+9.
+Program to Print a Pattern of Numbers
+10.
+Program to print interesting pattern
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+rdtank
+amartyaghoshgfg
+bhartik021
+hasani
+Article Tags :
+pattern-printing
+School Programming
+Practice Tags :
+pattern-printing

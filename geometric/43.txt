@@ -1,0 +1,140 @@
+Find minimum radius such that atleast k point lie inside the circle
+
+Difficulty Level : Easy
+Last Updated : 16 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a positive integer K, a circle center at (0, 0) and coordinates of some points. The task is to find minimum radius of the circle so that at-least k points lie inside the circle. Output the square of the minimum radius.
+ 
+
+Examples:  
+
+Input : (1, 1), (-1, -1), (1, -1), 
+         k = 3
+Output : 2
+We need a circle of radius at least 2
+to include 3 points.
+
+
+Input : (1, 1), (0, 1), (1, -1), 
+         k = 2
+Output : 1
+We need a circle of radius at least 1
+to include 2 points. The circle around
+(0, 0) of radius 1 would include (1, 1)
+and (0, 1).
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to find square of Euclidean Distance of each point from origin (0, 0). Now, sort these distance in increasing order. Now the kth element of distance is the required minimum radius.
+Below is the implementation of this approach: 
+ 
+
+C++
+Java
+Python3
+# Python3 program to find minimum radius
+# such that atleast k point lie inside
+# the circle
+ 
+ 
+# Return minimum distance required so
+# that atleast k point lie inside the
+# circle.
+def minRadius(k, x, y, n):
+    dis = [0] * n
+ 
+    # Finding distance between of each
+    # point from origin
+ 
+    for i in range(0, n):
+        dis[i] = x[i] * x[i] + y[i] * y[i]
+ 
+    # Sorting the distance
+    dis.sort()
+ 
+    return dis[k - 1]
+         
+# Driver Program
+k = 3
+x = [1, -1, 1]
+y = [1, -1, -1]
+n = len(x)
+ 
+print(minRadius(k, x, y, n))
+ 
+# This code is contributed by
+# Prasad Kshirsagar
+C#
+PHP
+Javascript
+Output: 
+
+2
+Time complexity: O(n + nlogn)
+Auxiliary Space: O(n)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+
+
+Like
+1
+Previous
+Angular Sweep (Maximum points that can be enclosed in a circle of given radius)
+Next
+Minimum Enclosing Circle
+Related Articles
+1.
+Radii of the three tangent circles of equal radius which are inscribed within a circle of given radius
+2.
+Queries on count of points lie inside a circle
+3.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+4.
+Coordinates of rectangle with given points lie inside
+5.
+Check if a circle lies inside another circle or not
+6.
+Find the number of points that have atleast 1 point above, below, left or right of it
+7.
+Find the radius of the circles which are lined in a row, and distance between the centers of first and last circle is given
+8.
+Angular Sweep (Maximum points that can be enclosed in a circle of given radius)
+9.
+Sum of area of alternative concentric circle with radius 1,2,3,4..........N
+10.
+Number of rectangles in a circle of radius R
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Prasad_Kshirsagar
+code_hunt
+simmytarika5
+surindertarika1234
+surinderdawra388
+hasani
+Article Tags :
+circle
+Geometric
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

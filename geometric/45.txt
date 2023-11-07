@@ -1,0 +1,132 @@
+Number of parallelograms when n horizontal parallel lines intersect m vertical parallel lines
+
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two positive integers n and m. The task is to count number of parallelogram that can be formed of any size when n horizontal parallel lines intersect with m vertical parallel lines. 
+ 
+
+
+
+Examples: 
+ 
+
+Input : n = 3, m = 2
+Output : 3
+2 parallelograms of size 1x1 and 1 parallelogram 
+of size 2x1.
+
+Input : n = 5, m = 5
+Output : 100
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use Combination, which state, number of ways to choose k items from given n items is given by nCr. 
+To form a parallelogram, we need two horizontal parallel lines and two vertical parallel lines. So, number of ways to choose two horizontal parallel lines are nC2 and number of ways to choose two vertical parallel lines are mC2. So, total number of possible parallelogram will be nC2 x mC2.
+Below is C++ implementation of this approach: 
+ 
+
+C++
+Java
+Python3
+# Python Program to find number of parallelogram when
+# n horizontal parallel lines intersect m vertical
+# parallel lines.
+MAX = 10;
+ 
+# Find value of Binomial Coefficient
+def binomialCoeff(C, n, k):
+     
+    # Calculate value of Binomial Coefficient
+    # in bottom up manner
+    for i in range(n + 1):
+        for j in range(0, min(i, k) + 1):
+         
+            # Base Cases
+            if (j == 0 or j == i):
+                C[i][j] = 1;
+ 
+            # Calculate value using previously
+            # stored values
+            else:
+                C[i][j] = C[i - 1][j - 1] + C[i - 1][j];
+ 
+# Return number of parallelogram when n horizontal
+# parallel lines intersect m vertical parallel lines.
+def countParallelogram(n, m):
+    C = [[0 for i in range(MAX)] for j in range(MAX)]
+ 
+    binomialCoeff(C, max(n, m), 2);
+ 
+    return C[n][2] * C[m][2];
+ 
+# Driver code
+if __name__ == '__main__':
+    n = 5;
+    m = 5;
+    print(countParallelogram(n, m));
+ 
+# This code is contributed by 29AjayKumar
+C#
+Javascript
+Output: 
+ 
+
+100
+Time Complexity: O(n2) 
+Auxiliary Space: O(n2)
+Please suggest if someone has a better solution which is more efficient in terms of space and time.
+This article is contributed by Aarti_Rathi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+Like
+Previous
+Program for Volume and Surface Area of Cube
+Next
+Program for Circumference of a Parallelogram
+Related Articles
+1.
+Total number of triangles formed when there are H horizontal and V vertical lines
+2.
+Check if N given lines can be intersected by K vertical lines
+3.
+Number of horizontal or vertical line segments to connect 3 points
+4.
+Count cells in a grid from which maximum number of cells can be reached by K vertical or horizontal jumps
+5.
+Count number of triangles cut by the given horizontal and vertical line segments
+6.
+Maximum number of parallelograms that can be made using the given length of line segments
+7.
+Check horizontal and vertical symmetry in binary matrix
+8.
+Vertical and Horizontal retrieval (MRT) on Tapes
+9.
+Count ways to remove pairs from a matrix such that remaining elements can be grouped in vertical or horizontal pairs
+10.
+Largest area possible after removal of a series of horizontal & vertical bars
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+anuj0503
+@anuj0503
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+itsok
+adi1212
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric
+Report Issue

@@ -1,0 +1,424 @@
+Program to print hollow pyramid, diamond pattern and their modifications
+
+Difficulty Level : Easy
+Last Updated : 31 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+For Prerequisite : Loops, If Else Statement
+1. Hollow pyramid/triangle pattern 
+The pattern is similar to pyramid pattern. The only difference is, we will replace all internal ‘#’ or ‘*’ characters by space character and we will print 2*N-1 (N = number of rows in pattern) ‘#’ or ‘*’ characters in last row. 
+Examples: 
+ 
+
+Input: n=6
+Output:
+     #
+    # #
+   #   #
+  #     #
+ #       #
+#         #
+###########    
+ 
+
+C++14
+Java
+Python
+# Python program to print a hollow
+# pyramid pattern
+ 
+def printPattern( n) :
+    k = 0
+    for i in range(1,n+1) : #row 6
+     
+        # Print spaces
+        for j in range(i,n) :
+            print(' ', end='')
+         
+        # Print #
+        while (k != (2 * i - 1)) :
+            if (k == 0 or k == 2 * i - 2) :
+                print('#', end='')
+            else :
+                print(' ', end ='')
+            k = k + 1
+        k = 0;
+        print ("") # print next row
+         
+    # print last row
+    for i in range(0, 2 * n -1) :
+        print ('#', end = '')
+ 
+# Driver code
+n = 6
+printPattern(n)
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+     #
+    # #
+   #   #
+  #     #
+ #       #
+#         #
+###########
+2. Hollow Diamond
+
+Note: For even input, print the pattern for n-1.
+
+Example:
+
+Input: 1
+
+Output:
+
+
+For n=1
+
+Input: 7
+
+
+
+Output:
+
+
+For n=7
+
+Input: 9
+
+Output:
+
+
+For n=9
+
+ 
+Approach: To print diamond we need to print spaces before star and after the star to achieve constant increasing distance of stars.
+
+To print the box shape we need to print ‘-‘ for i==1 (first row) & i==n (last row) and ‘|’ for j==1 (first column) and j==n (last column).
+
+Algorithm: 1. If n is odd increment n.
+
+2. Find mid=n/2.
+
+3. Traverse from 1 to mid to print upper half of the pattern (say i).
+
+4. Traverse from 1 to mid-i to print spaces for upper left most outer box (say j).
+
+5. If (i==1) print ‘*’ (since for first row we need only one star).
+
+6. else print ‘*’ and traverse from 1 to 2*i-3 to print spaces for hollow diamond (say j) and print ‘*’ after loop is over.
+
+7. Traverse from 1 to mid-i to print spaces again for upper right most outer box (say j).
+
+8. Close the loop at step 3.
+
+9. Traverse from mid+1 to n-1 to print lower half of the pattern (say i).
+
+4. Traverse from 1 to i-mid to print spaces for lower left most outer box (say j).
+
+5. If (i==n-1) print ‘*’ (since for last row we need only one star).
+
+6. else print ‘*’ and traverse from 1 to 2*(n-i)-3 to print spaces for hollow diamond (say j) and print ‘*’ after loop is over.
+
+7. Traverse from 1 to i-mid to print spaces again for lower right most outer box (say j).
+
+8. Close the loop at step 9.
+
+C++14
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// function to print the pattern
+void printPattern(int& n)
+{
+    int i,j,mid;
+    if(n%2==1) //when n is odd, increase it by 1 to make it even
+      n++;
+    mid = n/2;
+     
+    // upper half pattern
+    for(i = 1; i<= mid; i++) {
+      for(j = 1; j<=mid-i; j++) //print the blank spaces and outer box before star
+         cout<<" ";
+          
+      if(i == 1) {
+         cout << "*";
+      }else{
+         cout << "*"; //in each line star at start and end position
+         for(j = 1; j<=2*i-3; j++) { //print space to make hollow
+            cout << " ";
+         }
+         cout << "*";
+      }
+      for(j = 1; j<=mid-i; j++) //print the blank spaces and outer box after star
+         cout<<" ";
+          
+      cout << endl;
+   }
+    
+   // lower half pattern
+   for(i = mid+1; i<n; i++) {
+        
+      for(j = 1; j<=i-mid; j++) //print the blank spaces and outer box before star
+         cout<<" ";
+          
+      if(i == n-1) {
+         cout << "*";
+      }else{
+         cout << "*"; //in each line star at start and end position
+         for(j = 1; j<=2*(n - i)-3; j++) { //print space to make hollow
+            cout << " ";
+         }
+         cout << "*";
+      }
+      for(j = 1; j<=i-mid; j++) //print the blank spaces and outer box after star
+         cout<<" ";
+          
+      cout << endl;
+   }
+}
+ 
+// driver's code
+int main() {
+   int n=7;
+   printPattern(n);
+}
+// this code is contributed by prophet1999
+Java
+C#
+Output
+   *   
+  * *  
+ *   * 
+*     *
+ *   * 
+  * *  
+   *   
+Time Complexity: O(n^2) for given input n
+
+Auxiliary Space: O(1)
+
+3. Hollow Diamond bounded inside a rectangular box made of horizontal and vertical dashes(-).
+
+Write a program to Print hollow diamond pattern bound inside a box made of dash(-) and bitwise-OR(|) as shown below.
+
+Note: For even input, print the pattern for n-1.
+
+Example:
+
+Input: 1
+
+Output:
+
+
+For n=1
+
+Input: 7
+
+Output:
+
+
+For n=7
+
+Input: 9
+
+Output:
+
+
+For n=9
+
+ 
+Approach: To print diamond we need to print spaces before star and after the star to achieve constant increasing distance of stars.
+
+To print the box shape we need to print ‘-‘ for i==1 (first row) & i==n (last row) and ‘|’ for j==1 (first column) and j==n (last column).
+
+Algorithm: 1. If n is odd increment n.
+
+2. Find mid=n/2.
+
+3. Traverse from 1 to mid to print upper half of the pattern (say i).
+
+4. Traverse from 1 to mid-i to print upper left most outer box (say j).
+
+5. If (i==1) print ‘*’ (since for first row we need only one star).
+
+6. else print ‘*’ and traverse from 1 to 2*i-3 to print spaces for hollow diamond (say j) and print ‘*’ after loop is over.
+
+7. Traverse from 1 to mid-i to print upper right most outer box (say j).
+
+8. Close the loop at step 3.
+
+9. Traverse from mid+1 to n-1 to print lower half of the pattern (say i).
+
+4. Traverse from 1 to i-mid to print lower left most outer box (say j).
+
+5. If (i==n-1) print ‘*’ (since for last row we need only one star).
+
+6. else print ‘*’ and traverse from 1 to 2*(n-i)-3 to print spaces for hollow diamond (say j) and print ‘*’ after loop is over.
+
+7. Traverse from 1 to i-mid to print lower right most outer box (say j).
+
+8. Close the loop at step 9.
+
+C++14
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// function to print the pattern
+void printPattern(int& n)
+{
+    int i,j,mid;
+    if(n%2==1) //when n is odd, increase it by 1 to make it even
+      n++;
+    mid = n/2;
+     
+    // upper half pattern
+    for(i = 1; i<= mid; i++) {
+      for(j = 1; j<=mid-i; j++) { //print the blank spaces and outer box before star
+         if(i==1)
+         cout<<"-";
+         else if(j==1)
+         cout << "|";
+         else cout<<" ";
+      }
+      if(i == 1) {
+         cout << "*";
+      }else{
+         cout << "*"; //in each line star at start and end position
+         for(j = 1; j<=2*i-3; j++) { //print space to make hollow
+            cout << " ";
+         }
+         cout << "*";
+      }
+      for(j = 1; j<=mid-i; j++) { //print the blank spaces and outer box after star
+         if(i==1)
+         cout<<"-";
+         else if(j==mid-i)
+         cout << "|";
+         else cout<<" ";
+      }
+      cout << endl;
+   }
+    
+   // lower half pattern
+   for(i = mid+1; i<n; i++) {
+        
+      for(j = 1; j<=i-mid; j++) { //print the blank spaces and outer box before star
+         if(i==n-1)
+         cout<<"-";
+         else if(j==1)
+         cout << "|";
+         else cout<<" ";
+      }
+      if(i == n-1) {
+         cout << "*";
+      }else{
+         cout << "*"; //in each line star at start and end position
+         for(j = 1; j<=2*(n - i)-3; j++) { //print space to make hollow
+            cout << " ";
+         }
+         cout << "*";
+      }
+      for(j = 1; j<=i-mid; j++) { //print the blank spaces and outer box after star
+         if(i==n-1)
+         cout<<"-";
+         else if(j==i-mid)
+         cout << "|";
+         else cout<<" ";
+      }
+      cout << endl;
+   }
+}
+ 
+// driver's code
+int main() {
+   int n=12;
+   printPattern(n);
+}
+// this code is contributed by prophet1999
+Java
+Output
+-----*-----
+|   * *   |
+|  *   *  |
+| *     * |
+|*       *|
+*         *
+|*       *|
+| *     * |
+|  *   *  |
+|   * *   |
+-----*-----
+Time Complexity: O(n*n)
+
+Auxiliary Space: O(1)
+
+This article is contributed by Shivani Ghughtyal and improved by Himanshu Patel(@prophet1999). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+8
+Next
+Program to print the diamond shape
+Related Articles
+1.
+C++ Program To Print Hollow Star Pyramid Diamond Shape Pattern
+2.
+Python Program to print hollow half diamond hash pattern
+3.
+C Program To Print Hollow Diamond Pattern
+4.
+C++ Program To Print Inverted Hollow Star Pyramid Pattern
+5.
+C Program To Print Inverted Hollow Star Pyramid
+6.
+C Program To Print Hollow Star Pyramid
+7.
+Program to print the pattern with two hollow Triangles
+8.
+Program to print hollow Triangle pattern
+9.
+Program to print numbers with diamond pattern
+10.
+Program to print Inverse Diamond pattern
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+rdtank
+anikakapoor
+prophet1999
+pushpeshrajdx01
+adityapatil12
+technophpfij
+laxmigangarajula03
+amankr0211
+Article Tags :
+pattern-printing
+C Language
+C++
+School Programming
+Practice Tags :
+CPP
+pattern-printing
+Improve Article
+Report Issue

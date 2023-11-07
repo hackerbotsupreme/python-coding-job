@@ -1,0 +1,141 @@
+Program to find third side of triangle using law of cosines
+
+Difficulty Level : Medium
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two sides A, B and angle C. Find the third side of the triangle using law of cosines.
+Examples: 
+ 
+
+Input : a = 5, b = 8, c = 49 
+Output : 6.04339 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+In particular, the Law of Cosines can be used to find the length of the third side of a triangle when you know the length of two sides and the angle in between. See here to learn to how to find the value of cos. 
+Let us assume a, b, c are the sides of triangle where c is the side across from angle C. Then, 
+ 
+
+c^2 = a^2 + b^2 - 2*a*b*cos(c) 
+OR
+c = sqrt(a^2 + b^2 - 2*a*b*cos(c))
+ 
+
+
+
+ 
+
+C++
+Java
+Python3
+# Python3 program to find third side
+# of triangle using law of cosines
+import math as mt
+ 
+# Function to calculate cos
+# value of angle c
+def cal_cos(n):
+ 
+    accuracy = 0.0001
+    x1, denominator, cosx, cosval = 0, 0, 0, 0
+ 
+    # Converting degrees to radian
+    n = n * (3.142 / 180.0)
+ 
+    x1 = 1
+ 
+    # Maps the sum along the series
+    cosx = x1
+ 
+    # Holds the actual value of sin(n)
+    cosval = mt.cos(n)
+    i = 1
+    while (accuracy <= abs(cosval - cosx)):
+ 
+        denominator = 2 * i * (2 * i - 1)
+        x1 = -x1 * n * n / denominator
+        cosx = cosx + x1
+        i = i + 1
+ 
+    return cosx
+ 
+# Function to find third side
+def third_side(a, b, c):
+    angle = cal_cos(c)
+    return mt.sqrt((a * a) +
+                   (b * b) - 2 * a * b * angle)
+ 
+# Driver Code
+c = 49
+a, b = 5, 8
+print(third_side(a, b, c))
+ 
+# This code is contributed by mohit kumar
+C#
+PHP
+Javascript
+Output
+
+
+6.04339
+Time Complexity: O(log(n)), since using inbuilt sqrt function
+Auxiliary Space: O(1), as we are not using any extra space.
+
+
+
+
+
+Like
+2
+Previous
+Program to find smallest difference of angles of two parts of a given circle
+Next
+An introduction to Flowcharts
+Related Articles
+1.
+Area of Triangle using Side-Angle-Side (length of two sides and the included angle)
+2.
+Check if it is possible to draw a straight line with the given direction cosines
+3.
+Find coordinates of the triangle given midpoint of each side
+4.
+Length of remaining two sides of a Triangle from a given side and its adjacent angles
+5.
+Check if a right-angled triangle can be formed by the given side lengths
+6.
+Program to print a Hollow Triangle inside a Triangle
+7.
+Sum of upper triangle and lower triangle
+8.
+Biggest Reuleaux Triangle within a Square which is inscribed within a Right angle Triangle
+9.
+Biggest Reuleaux Triangle inscribed within a Square inscribed in an equilateral triangle
+10.
+Calculate ratio of area of a triangle inscribed in an Ellipse and the triangle formed by corresponding points on auxiliary circle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+mohit kumar 29
+Rajput-Ji
+rohitsingh57
+technophpfij
+Article Tags :
+triangle
+Geometric
+School Programming
+Practice Tags :
+Geometric

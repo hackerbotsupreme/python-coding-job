@@ -1,0 +1,344 @@
+Pascal’s Triangle
+
+Difficulty Level : Medium
+Last Updated : 28 Jan, 2023
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Pascal’s triangle is a triangular array of binomial coefficients. Write a function that takes an integer value n as input and prints first n lines of Pascal’s triangle. Following are the first 6 rows of Pascal’s Triangle.
+
+1  
+1 1 
+1 2 1 
+1 3 3 1 
+1 4 6 4 1 
+1 5 10 10 5 1 
+Recommended Problem
+Pascal Triangle
+Arrays
+Recursion
++2 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 41.4K
+Method 1 ( O(n^3) time complexity ) 
+The number of entries in every line is equal to line number. For example, the first line has “1”, the second line has “1 1”, the third line has “1 2 1”,.. and so on. Every entry in a line is value of a Binomial Coefficient. The value of ith entry in line number line is C(line, i). The value can be calculated using following formula. 
+
+C(line, i)   = line! / ( (line-i)! * i! ) 
+ 
+A simple method is to run two loops and calculate the value of Binomial Coefficient in inner loop. 
+
+C++
+//  C++ code for Pascal's Triangle
+#include <iostream>
+using namespace std;
+ 
+// See https://www.geeksforgeeks.org/space-and-time-efficient-binomial-coefficient/
+// for details of this function
+int binomialCoeff(int n, int k);
+ 
+// Function to print first
+// n lines of Pascal's
+// Triangle
+void printPascal(int n)
+{
+    // Iterate through every line and
+    // print entries in it
+    for (int line = 0; line < n; line++)
+    {
+        // Every line has number of
+        // integers equal to line
+        // number
+        for (int i = 0; i <= line; i++)
+            cout <<" "<< binomialCoeff(line, i);
+        cout <<"\n";
+    }
+}
+ 
+// See https://www.geeksforgeeks.org/space-and-time-efficient-binomial-coefficient/
+// for details of this function
+int binomialCoeff(int n, int k)
+{
+    int res = 1;
+    if (k > n - k)
+    k = n - k;
+    for (int i = 0; i < k; ++i)
+    {
+        res *= (n - i);
+        res /= (i + 1);
+    }
+     
+    return res;
+}
+ 
+// Driver program
+int main()
+{
+    int n = 7;
+    printPascal(n);
+    return 0;
+}
+ 
+// This code is contributed by shivanisinghss2110
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+ 1
+ 1 1
+ 1 2 1
+ 1 3 3 1
+ 1 4 6 4 1
+ 1 5 10 10 5 1
+ 1 6 15 20 15 6 1
+Time complexity: O(n^3)
+Auxiliary Space: O(1)
+
+Method 2( O(n^2) time and O(n^2) extra space ) 
+If we take a closer at the triangle, we observe that every entry is sum of the two values above it. So we can create a 2D array that stores previously generated values. To generate a value in a line, we can use the previously stored values from array. 
+ 
+
+
+
+
+
+Steps to solve the problem:-
+
+step1- Declare an 2-D array array of size n*n.
+
+step2- Iterate through line 0 to line n:
+
+           *Iterate through i=0 to present the  line:
+
+                  *check if present line is equal to i or i=0 than arr[line][i]=1 .
+
+                  *else update arr[line][i] to arr[line-1][i-1] + arr[line-1][i] .
+
+
+                  *print arr[line][i].
+
+          *shift to next line.
+ 
+
+C++
+// C++ program for Pascal’s Triangle
+// A O(n^2) time and O(n^2) extra space
+// method for Pascal's Triangle
+#include <bits/stdc++.h>
+using namespace std;
+ 
+void printPascal(int n)
+{
+     
+    // An auxiliary array to store
+    // generated pascal triangle values
+    int arr[n][n];
+ 
+    // Iterate through every line and
+    // print integer(s) in it
+    for (int line = 0; line < n; line++)
+    {
+        // Every line has number of integers
+        // equal to line number
+        for (int i = 0; i <= line; i++)
+        {
+        // First and last values in every row are 1
+        if (line == i || i == 0)
+            arr[line][i] = 1;
+        // Other values are sum of values just
+        // above and left of above
+        else
+            arr[line][i] = arr[line - 1][i - 1] +
+                            arr[line - 1][i];
+        cout << arr[line][i] << " ";
+        }
+        cout << "\n";
+    }
+}
+ 
+// Driver code
+int main()
+{
+    int n = 5;
+    printPascal(n);
+    return 0;
+}
+ 
+// This code is Contributed by Code_Mech.
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+1 
+1 1 
+1 2 1 
+1 3 3 1 
+1 4 6 4 1 
+This method can be optimized to use O(n) extra space as we need values only from previous row. So we can create an auxiliary array of size n and overwrite values. Following is another method uses only O(1) extra space.
+Method 3 ( O(n^2) time and O(1) extra space ) 
+This method is based on method 1. We know that ith entry in a line number line is Binomial Coefficient C(line, i) and all lines start with value 1. The idea is to calculate C(line, i) using C(line, i-1). It can be calculated in O(1) time using the following. 
+Steps to solve the problem:
+
+1. iterate through line 1 to line n:
+
+          *declare c variable and initialize it to 1.
+
+          *iterate through i=1 till present line:
+
+                    *print c.
+
+                    *update c to c*(line-i)/i.
+
+          *shift to next line.
+
+C(line, i)   = line! / ( (line-i)! * i! )
+C(line, i-1) = line! / ( (line - i + 1)! * (i-1)! )
+We can derive following expression from above two expressions.
+C(line, i) = C(line, i-1) * (line - i + 1) / i
+
+So C(line, i) can be calculated from C(line, i-1) in O(1) time
+C++
+// C++ program for Pascal’s Triangle
+// A O(n^2) time and O(1) extra space
+// function for Pascal's Triangle
+#include <bits/stdc++.h>
+ 
+using namespace std;
+void printPascal(int n)
+{
+     
+for (int line = 1; line <= n; line++)
+{
+    int C = 1; // used to represent C(line, i)
+    for (int i = 1; i <= line; i++)
+    {
+         
+        // The first value in a line is always 1
+        cout<< C<<" ";
+        C = C * (line - i) / i;
+    }
+    cout<<"\n";
+}
+}
+ 
+// Driver code
+int main()
+{
+    int n = 5;
+    printPascal(n);
+    return 0;
+}
+ 
+// This code is contributed by Code_Mech
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+1 
+1 1 
+1 2 1 
+1 3 3 1 
+1 4 6 4 1 
+Time Complexity: O(n2)
+Auxiliary Space: O(1)
+
+So method 3 is the best method among all, but it may cause integer overflow for large values of n as it multiplies two integers to obtain values. 
+
+
+
+Variations of the problem that may be asked in interviews:
+
+i) Find the whole pascal triangle as shown above.
+
+ii) Find just the one element of a pascal’s triangle given row number and column number in O(n) time.
+
+iii) Find a particular row of pascal’s triangle given a row number in O(n) time.
+
+This article is compiled by Rahul and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+107
+Previous
+Number of possible Triangles in a Cartesian coordinate system
+Next
+Find x and y satisfying ax + by = n
+Related Articles
+1.
+Biggest Reuleaux Triangle within a Square which is inscribed within a Right angle Triangle
+2.
+Biggest Reuleaux Triangle inscribed within a Square inscribed in an equilateral triangle
+3.
+Program to print a Hollow Triangle inside a Triangle
+4.
+Calculate ratio of area of a triangle inscribed in an Ellipse and the triangle formed by corresponding points on auxiliary circle
+5.
+Maximum size of subset of given array such that a triangle can be formed by any three integers as the sides of the triangle
+6.
+Check whether a given point lies inside a triangle or not
+7.
+Count Integral points inside a Triangle
+8.
+Find all sides of a right angled triangle from given hypotenuse and area | Set 1
+9.
+Find coordinates of the triangle given midpoint of each side
+10.
+Program to find area of a triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+Ravi_Maurya
+Akanksha_Rai
+ARCHIT PURI
+Smitha Dinesh Semwal
+Code_Mech
+sanju88
+nidhi_biet
+souravghosh0416
+29AjayKumar
+surindertarika1234
+shivanisinghss2110
+subhammahato348
+phasing17
+sakshamagrawal703
+Article Tags :
+Adobe
+Amazon
+binomial coefficient
+pattern-printing
+Arrays
+Mathematical
+Practice Tags :
+Adobe
+Amazon
+Arrays
+Mathematical
+pattern-printing
+Improve Article
+Report Issue

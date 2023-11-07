@@ -1,0 +1,128 @@
+Program for volume of Pyramid
+
+Last Updated : 08 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A pyramid is a 3-dimensional geometric shape formed by connecting all the corners of a polygon to a central apex. 
+There are many types of pyramids. Most often, they are named after the type of base they have. Let’s look at some common types of pyramids below. 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+Volume of a square pyramid [base of Pyramid is square] = (1/3) * (b^2) * h 
+Volume of a triangular pyramid [base of Pyramid is triangle] = (1/6) * a * b * h 
+Volume of a pentagonal pyramid [base of Pyramid is pentagonal] = (5/6) * a * b * h 
+Volume of a hexagonal pyramid [base of Pyramid is hexagonal] = a * b * h
+
+Below is code for calculating volume of Pyramids : 
+ 
+
+C++
+Java
+Python3
+# Python3 program to Volume of Pyramid
+ 
+# Function to calculate
+# Volume of Triangular Pyramid
+def volumeTriangular(a, b, h):
+    return (0.1666) * a * b * h
+ 
+# Function To calculate
+# Volume of Square Pyramid
+def volumeSquare(b, h):
+    return (0.33) * b * b * h
+ 
+# Function To calculate Volume
+# of Pentagonal Pyramid
+def volumePentagonal(a, b, h):
+    return (0.83) * a * b * h
+ 
+# Function To calculate Volume
+# of Hexagonal Pyramid
+def volumeHexagonal(a, b, h):
+    return a * b * h
+ 
+ 
+# Driver Code
+b = float(4)
+h = float(9)
+a = float(4)
+print( "Volume of triangular base pyramid is ",
+                    volumeTriangular(a, b, h) )
+print( "Volume of square base pyramid is ",
+                    volumeSquare(b, h) )
+print( "Volume of pentagonal base pyramid is ",
+                    volumePentagonal(a,b, h) )
+print( "Volume of Hexagonal base pyramid is ",
+                    volumeHexagonal(a, b, h))
+ 
+# This code is contributed by rishabh_jain
+C#
+PHP
+Javascript
+Output
+Volume of triangular base pyramid is 23.9904
+Volume of square  base pyramid is 47.52
+Volume of pentagonal base pyramid is 119.52
+Volume of Hexagonal base pyramid is 144
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+0
+Previous
+Program to calculate Volume and Surface area of Hemisphere
+Next
+Program to calculate volume of Ellipsoid
+Related Articles
+1.
+Java Program for Program to calculate volume of a Tetrahedron
+2.
+Program to print pyramid pattern
+3.
+Program to print hollow pyramid, diamond pattern and their modifications
+4.
+C Program to print pyramid pattern
+5.
+Program to print a inverse pyramid character pattern
+6.
+Program to find the surface area of the square pyramid
+7.
+Program to print Even Odd Number Pyramid
+8.
+Program to find slant height of cone and pyramid
+9.
+Program for Volume and Surface Area of Cube
+10.
+Program for Volume and Surface Area of Cuboid
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Rajput-Ji
+rohitsingh57
+Article Tags :
+area-volume-programs
+DSA
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

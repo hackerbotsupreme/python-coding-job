@@ -1,0 +1,184 @@
+Find points at a given distance on a line of given slope
+
+Difficulty Level : Easy
+Last Updated : 28 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the co-ordinates of a 2-dimensional point p(x0, y0). Find the points at a distance L away from it, such that the line formed by joining these points has a slope of M.
+
+Examples: 
+
+Input : p = (2, 1)
+        L = sqrt(2)
+        M = 1
+Output :3, 2
+        1, 0
+Explanation:
+The two points are sqrt(2) distance away 
+from the source and have the required slope
+m = 1.
+
+Input : p = (1, 0)
+        L = 5
+        M = 0
+Output : 6, 0
+        -4, 0
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We need to find two points that are L distance from given point, on a line with slope M.
+The idea has been introduced in below post. 
+Find Corners of Rectangle using mid points
+
+Based on the input slope, the problem can be classified into 3 categories.  
+
+If slope is zero, we just need to adjust the x coordinate of the source point
+If slope is infinite, the we need to adjust the y coordinate
+For other values of slope, we can use the following equations to find the points
+  Given \ that \ the \ point (x, y) \ is \ at \ distance \ I \ away \ from \ (x_0, y_0) \newline \newline (y-y_0)^{2} + (x-x_0)^{2}= l^{2} \newline \newline Also \ as \ the \ line  \ that \ passes \ through \ (x, y) \ and \ (x0, y0) \ satisfies \newline \newline \frac{y-y_0}{x-x_0}= m \newline \newline Rearranging \ we \ get \newline y=y_0+m*(x-x_0) \newline \newline  Putting \ the \ values \ in \ first \ equation \newline \newline  m^2.(x-x_0)^2+(x-x_0)^2=l^2 \newline \newline Hence, \ we \ have \newline \newline x=x_0\pm l.\sqrt{\frac{1}{1+m^2}} \newline \newline y=y_0 \pm m.l.\sqrt{\frac{1}{1+m^2}}           
+ 
+
+Now using the above formula we can find the required points.
+
+ 
+
+
+
+C++
+Java
+C#
+Python3
+# Python program to find the points on a line of
+# slope M at distance L
+import math
+ 
+ 
+# structure to represent a co-ordinate
+# point
+ 
+ 
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+ 
+# Function to print pair of points at
+# distance 'l' and having a slope 'm'
+# from the source
+ 
+ 
+def printPoints(source, l, m):
+    # m is the slope of line, and the
+    # required Point lies distance l
+    # away from the source Point
+    a = Point(0, 0)
+    b = Point(0, 0)
+ 
+    # slope is 0
+    if m == 0:
+        a.x = source.x + l
+        a.y = source.y
+ 
+        b.x = source.x - l
+        b.y = source.y
+ 
+    # if slope is infinite
+    elif math.isfinite(m) is False:
+        a.x = source.x
+        a.y = source.y + l
+ 
+        b.x = source.x
+        b.y = source.y - l
+    else:
+        dx = (l / math.sqrt(1 + (m * m)))
+        dy = m * dx
+        a.x = source.x + dx
+        a.y = source.y + dy
+        b.x = source.x - dx
+        b.y = source.y - dy
+ 
+    # print the first Point
+    print(f"{a.x}, {a.y}")
+ 
+    # print the second Point
+    print(f"{b.x}, {b.y}")
+ 
+ 
+# driver function
+p = Point(2, 1)
+q = Point(1, 0)
+printPoints(p, math.sqrt(2), 1)
+print("\n")
+printPoints(q, 5, 0)
+ 
+# The code is contributed by Gautam goel(gautamgoel962)
+Javascript
+Output
+3, 2
+1, 0
+
+6, 0
+-4, 0
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+This article is contributed by Ashutosh Kumar 😀 If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+6
+Next
+Program to calculate distance between two points
+Related Articles
+1.
+Slope of the line parallel to the line with the given slope
+2.
+Program to find slope of a line
+3.
+Slope of perpendicular to line
+4.
+Count pairs of coordinates connected by a line with slope in the range [-K, K]
+5.
+Ways to choose three points with distance between the most distant points <= L
+6.
+Minimize the maximum distance between adjacent points after adding K points anywhere in between
+7.
+Find the slope of the given number
+8.
+Find the point on X-axis from given N points having least Sum of Distances from all other points
+9.
+Find the maximum possible distance from origin using given points
+10.
+Find integral points with minimum distance from given set of integers using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajnis09
+amit143katiyar
+rajeev0719singh
+shruti456rawal
+ajaymakvana
+gautamgoel962
+bishtvibhav
+Article Tags :
+DSA
+Geometric
+Mathematical
+Practice Tags :
+Geometric
+Mathematical
+Improve Article
+Report Issue

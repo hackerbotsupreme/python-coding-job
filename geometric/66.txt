@@ -1,0 +1,120 @@
+Find number of diagonals in n sided convex polygon
+
+Difficulty Level : Medium
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given n > 3, find number of diagonals in n sided convex polygon.
+According to Wikipedia, In geometry, a diagonal is a line segment joining two vertices of a polygon or polyhedron, when those vertices are not on the same edge. Informally, any sloping line is called diagonal.
+
+Examples : 
+
+Input : 5
+Output : 5
+Explanation: Five possible diagonals are : AC, AD, BD, BE, CE 
+ 
+
+number of diagonals in n sided convex polygon
+
+ 
+
+Recommended Problem
+Number of Diagonals
+Geometric
+Solve Problem
+Submission count: 6.3K
+Since for an n-sided convex polygon, from each vertex, we can draw n-3 diagonals leaving two adjacent vertices and itself. Following this way for n-vertices, there will be n*(n-3) diagonals but then we will be calculating each diagonal twice so total number of diagonals become n*(n-3)/2
+Here is code for above formula.
+
+C++
+Java
+Python3
+# Python3 program to find number of diagonals
+# in n sided convex polygon
+def numberOfDiagonals(n):
+    return n * (n - 3) / 2
+ 
+  
+# driver code to test above function
+def main():
+    n = 5
+    print(n , " sided convex polygon have ")
+    print(numberOfDiagonals(n) , " diagonals")
+ 
+if __name__ == '__main__':
+    main()
+ 
+#this code contributed by 29AjayKumar
+C#
+PHP
+Javascript
+Output :
+
+
+
+5 sided convex polygon have 5 diagonals
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+This article is contributed by Pratik Chhajer. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Tangents between two Convex Polygons
+Next
+Convex Hull using Jarvis' Algorithm or Wrapping
+Related Articles
+1.
+Check if given polygon is a convex polygon or not
+2.
+Polygon with maximum sides that can be inscribed in an N-sided regular polygon
+3.
+Dynamic Convex hull | Adding Points to an Existing Convex Hull
+4.
+Number of ways a convex polygon of n+2 sides can split into triangles by connecting vertices
+5.
+Program to find Area of Triangle inscribed in N-sided Regular Polygon
+6.
+Find the angle of Rotational Symmetry of an N-sided regular polygon
+7.
+Find the vertex diagonally opposite to the vertex M from an N-sided polygon
+8.
+Find the length of Kth N-sided polygon formed by given operations
+9.
+Find three vertices in an N-sided regular polygon such that the angle subtended at a vertex by two other vertices is closest to A
+10.
+Check whether two convex regular polygon have same center or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+29AjayKumar
+ankita_saini
+ajaymakvana
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric
+Improve Article
+Report Issue

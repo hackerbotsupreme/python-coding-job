@@ -1,0 +1,135 @@
+Check whether a point exists in circle sector or not.
+
+Difficulty Level : Medium
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We have a circle centered at origin (0, 0). As input we are given with starting angle of the circle sector and the size of the circle sector in percentage. 
+
+Examples: 
+
+Input :  Radius = 8 
+         StartAngle = 0 
+         Percentage = 12 
+         x = 3 y = 4 
+Output : Point (3, 4) exists in the circle 
+         sector
+
+Input : Radius = 12 
+        Startangle = 45
+        Percentage = 25  
+        x = 3 y = 4 
+Output : Point (3, 4) does not exist in 
+         the circle sector
+ 
+
+Source:wikibooks.org
+Source:wikibooks.org
+
+In this image starting angle is 0 degree, radius r and suppose that percentage of colored area is 12% then we calculate Ending Angle as 360/percentage + starting angle.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+To find whether a point (x, y) exists in a circle sector (centered at origin) or not we find polar coordinates of that point and then go through the following steps:
+
+Convert x, y to polar coordinates using this 
+Angle = atan(y/x); Radius = sqrt(x * x + y * y);
+Then Angle must be between StartingAngle and EndingAngle, and Radius between 0 and your Radius.
+C++
+Java
+Python3
+# Python3 program to check if a point
+# lies inside a circle sector.
+import math
+ 
+def checkPoint(radius, x, y, percent, startAngle):
+ 
+    # calculate endAngle
+    endAngle = 360 / percent + startAngle
+ 
+    # Calculate polar co-ordinates
+    polarradius = math.sqrt(x * x + y * y)
+    Angle = math.atan(y / x)
+ 
+    # Check whether polarradius is less
+    # then radius of circle or not and
+    # Angle is between startAngle and
+    # endAngle or not
+    if (Angle >= startAngle and Angle <= endAngle
+                        and polarradius < radius):
+        print("Point (", x, ",", y, ") "
+              "exist in the circle sector")
+    else:
+        print("Point (", x, ",", y, ") "
+              "does not exist in the circle sector")
+ 
+# Driver code
+radius, x, y = 8, 3, 4
+percent, startAngle = 12, 0
+ 
+checkPoint(radius, x, y, percent, startAngle)
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+Javascript
+Output : 
+
+Point(3, 4) exists in the circle sector
+Time complexity:  O(1)
+Auxiliary Space: O(1)
+
+This article is contributed by Aarti_Rathi and Niteesh kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Program to toggle all characters in a string
+Next
+Sublist Search (Search a linked list in another list)
+Related Articles
+1.
+Check if a circle lies inside another circle or not
+2.
+Check if a point having maximum X and Y coordinates exists or not
+3.
+Check whether a given point lies inside a triangle or not
+4.
+Check whether a given point lies inside a rectangle or not
+5.
+Check whether a point lies inside a sphere or not
+6.
+Check if any point overlaps the given Circle and Rectangle
+7.
+Check if it is possible to reach any point on the circumference of a given circle from origin
+8.
+Check if any point exists in a plane whose Manhattan distance is at most K from N given points
+9.
+Check whether given circle resides in boundary maintained by two other circles
+10.
+Check whether it is possible to join two points given on circle such that distance between them is k
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+splevel62
+codewithrathi
+Article Tags :
+DSA
+Geometric
+Practice Tags :
+Geometric
+Report Issue

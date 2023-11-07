@@ -1,0 +1,117 @@
+Program to find area of a Trapezoid
+
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Definition of Trapezoid : 
+A Trapezoid is a convex quadrilateral with at least one pair of parallel sides. The parallel sides are called the bases of the trapezoid and the other two sides which are not parallel are referred to as the legs. There can also be two pairs of bases. 
+ 
+
+
+
+In the above figure CD || AB, so they form the bases and the other two sides i.e., AD and BC form the legs. 
+The area of a trapezoid can be found by using this simple formula : 
+ 
+
+Area=\frac{a+b}{2}h
+a = base 
+b = base 
+h = height 
+Examples : 
+ 
+
+Input : base1 = 8, base2 = 10, height = 6
+Output : Area is: 54.0
+
+Input :base1 = 4, base2 = 20, height = 7
+Output :Area is: 84.0
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+C
+Java
+Python3
+# Python program to calculate
+# area of a trapezoid
+ 
+# Function for the area
+def Area(b1, b2, h):
+    return ((b1 + b2) / 2) * h
+ 
+# Driver Code
+base1 = 8; base2 = 10; height = 6
+area = Area(base1, base2, height)
+print("Area is:", area)
+C#
+PHP
+Javascript
+Output : 
+ 
+
+
+
+Area is: 54.0
+ Time complexity: O(1)
+
+space complexity: O(1)
+
+
+
+
+
+Like
+0
+Previous
+Program to calculate area and perimeter of Trapezium
+Next
+Find all possible coordinates of parallelogram
+Related Articles
+1.
+Area of circle inscribed in a Isosceles Trapezoid
+2.
+Program to find height of a Trapezoid
+3.
+Largest trapezoid that can be inscribed in a semicircle
+4.
+Find area of the larger circle when radius of the smaller circle and difference in the area is given
+5.
+Find area of the Circle when the area of inscribed Square is given
+6.
+Calculate Volume, Curved Surface Area and Total Surface Area Of Cylinder
+7.
+Radius of a circle having area equal to the sum of area of the circles having given radii
+8.
+Check if an area P can be obtained from an area of N * M
+9.
+Python Program for Program to calculate area of a Tetrahedron
+10.
+Program to find area of a triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Chinmoy Lenka
+@Chinmoy Lenka
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+shivanisinghss2110
+mayanktyagi1709
+hasani
+Article Tags :
+area-volume-programs
+Geometric
+School Programming
+Practice Tags :
+Geometric
+Improve Article
+Report Issue
