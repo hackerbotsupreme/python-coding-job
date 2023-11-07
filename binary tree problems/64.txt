@@ -1,0 +1,245 @@
+Convert a Binary Tree into Doubly Linked List in spiral fashion
+
+Difficulty Level : Medium
+Last Updated : 30 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Tree, convert it into a Doubly Linked List where the nodes are represented Spirally. The left pointer of the binary tree node should act as a previous node for created DLL and the right pointer should act as the next node. 
+
+The solution should not allocate extra memory for DLL nodes. It should use binary tree nodes for creating DLL i.e. only change of pointers is allowed.
+
+
+
+For example, for the tree on the left side, Doubly Linked List can be,
+1 2 3 7 6 5 4 8 9 10 11 13 14 or
+1 3 2 4 5 6 7 14 13 11 10 9 8.
+
+We strongly recommend you minimize your browser and try this yourself first.
+
+We can do this by doing a spiral order traversal in O(n) time and O(n) extra space. The idea is to use deque (Double-ended queue) that can be expanded or contracted on both ends (either its front or it’s back). We do something similar to level order traversal but to maintain spiral order, for every odd level, we dequeue node from the front and insert its left and right children in the back of the deque data structure. And for each even level, we dequeue node from the back and insert its right and left children in the front of the deque. We also maintain a stack to store Binary Tree nodes. Whenever we pop nodes from deque, we push that node into the stack. 
+
+Later, we pop all nodes from the stack and push the nodes at the beginning of the list. We can avoid the use of stack if we maintain a tail pointer that always points to the last node of DLL and inserts nodes in O(1) time in the end.
+
+
+
+Below is the implementation of the above idea 
+
+C++
+Java
+Python3
+# Python3 program to convert Binary Tree 
+# into Doubly Linked List where the nodes 
+# are represented spirally.
+      
+# Binary tree node 
+class newNode: 
+  
+    # Constructor to create a newNode 
+    def __init__(self, data): 
+        self.data = data 
+        self.left = None
+        self.right = None
+          
+""" Given a reference to the head of a list
+    and a node, inserts the node on the front
+    of the list. """
+def push(head_ref, node):
+  
+    # Make right of given node as 
+    # head and left as None
+    node.right = (head_ref)
+    node.left = None
+  
+    # change left of head node to
+    # given node
+    if ((head_ref) != None):
+        (head_ref).left = node 
+  
+    # move the head to point to 
+    # the given node
+    (head_ref) = node
+  
+# Function to prints contents of DLL
+def printList(node):
+    i = 0
+    while (i < len(node)):
+      
+        print(node[i].data, end = " ")
+        i += 1
+      
+""" Function to print corner node at each level """
+def spiralLevelOrder(root):
+  
+    # Base Case
+    if (root == None):
+        return
+  
+    # Create an empty deque for doing spiral
+    # level order traversal and enqueue root
+    q = []
+    q.append(root)
+  
+    # create a stack to store Binary 
+    # Tree nodes to insert into DLL later
+    stk = []
+  
+    level = 0
+    while (len(q)):
+      
+        # nodeCount indicates number of
+        # Nodes at current level.
+        nodeCount = len(q) 
+          
+        # Dequeue all Nodes of current level 
+        # and Enqueue all Nodes of next level
+        if (level&1): # odd level
+            while (nodeCount > 0):
+              
+                # dequeue node from front & 
+                # push it to stack
+                node = q[0]
+                q.pop(0)
+                stk.append(node)
+  
+                # insert its left and right children
+                # in the back of the deque
+                if (node.left != None):
+                    q.append(node.left)
+                if (node.right != None):
+                    q.append(node.right)
+  
+                nodeCount -= 1
+              
+        else:     # even level
+          
+            while (nodeCount > 0):
+              
+                # dequeue node from the back & 
+                # push it to stack
+                node = q[-1]
+                q.pop(-1)
+                stk.append(node)
+  
+                # inserts its right and left 
+                # children in the front of 
+                # the deque
+                if (node.right != None):
+                    q.insert(0, node.right)
+                if (node.left != None):
+                    q.insert(0, node.left)
+                nodeCount -= 1
+        level += 1
+          
+    # head pointer for DLL
+    head = []
+      
+    # pop all nodes from stack and push
+    # them in the beginning of the list
+    while (len(stk)):
+      
+        head.append(stk[0])
+        stk.pop(0)
+  
+    print("Created DLL is:")
+    printList(head)
+  
+# Driver Code
+if __name__ == '__main__':
+      
+    """Let us create Binary Tree as 
+    shown in above example """
+  
+    root = newNode(1)
+    root.left = newNode(2)
+    root.right = newNode(3)
+    root.left.left = newNode(4)
+    root.left.right = newNode(5)
+    root.right.left = newNode(6)
+    root.right.right = newNode(7)
+  
+    root.left.left.left = newNode(8)
+    root.left.left.right = newNode(9)
+    root.left.right.left = newNode(10)
+    root.left.right.right = newNode(11)
+    #root.right.left.left = newNode(12)
+    root.right.left.right = newNode(13)
+    root.right.right.left = newNode(14)
+    #root.right.right.right = newNode(15)
+  
+    spiralLevelOrder(root)
+  
+# This code is contributed
+# by SHUBHAMSINGH10
+C#
+Javascript
+Output
+Created DLL is:
+1 2 3 7 6 5 4 8 9 10 11 13 14 
+Time Complexity: O(n), as we are using a loop to traverse n times. Where n is the number of nodes in the tree.
+Auxiliary Space: O(n), as we are using extra space for dequeue and stack.
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+13
+Previous
+Non-recursive program to delete an entire binary tree
+Next
+Density of Binary Tree in One Traversal
+Related Articles
+1.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+2.
+Convert Binary Tree to Doubly Linked List using Morris Traversal
+3.
+Convert Binary Tree to Doubly Linked List by fixing left and right pointers
+4.
+Convert given Binary Tree to Doubly Linked List in Linear time
+5.
+Convert Binary Tree to Doubly Linked List using inorder traversal
+6.
+Convert Binary Tree to Doubly Linked List by keeping track of visited node
+7.
+Minimize operations to convert each node of N-ary Tree from initial[i] to final[i] by flipping current node subtree in alternate fashion
+8.
+Convert a Binary Tree to a Circular Doubly Link List
+9.
+Construct a complete binary tree from given array in level order fashion
+10.
+Print Binary Search Tree in Min Max Fashion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+princiraj1992
+itsok
+surinderdawra388
+rohan07
+hardikkoriintern
+Article Tags :
+doubly linked list
+spiral
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

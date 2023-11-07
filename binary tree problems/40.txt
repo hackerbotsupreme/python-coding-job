@@ -1,0 +1,233 @@
+Get Level of a node in a Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 21 Nov, 2022
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+Given a Binary Tree and a key, write a function that returns level of the key. 
+
+For example, consider the following tree. If the input key is 3, then your function should return 1. If the input key is 4, then your function should return 3. And for key which is not present in key, then your function should return 0.
+
+
+
+Recommended Problem
+Level of a Node in Binary Tree
+Tree
+Data Structures
+Amazon
+Solve Problem
+Submission count: 20.4K
+The idea is to start from the root and level as 1. If the key matches with root’s data, return level. Else recursively call for left and right subtrees with level as level + 1. 
+
+
+C++
+C
+Java
+Python3
+# Python3 program to Get Level of a
+# node in a Binary Tree
+ 
+# Helper function that allocates a
+# new node with the given data and
+# None left and right pairs.
+ 
+ 
+class newNode:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Helper function for getLevel(). It
+# returns level of the data if data is
+# present in tree, otherwise returns 0
+ 
+ 
+def getLevelUtil(node, data, level):
+    if (node == None):
+        return 0
+ 
+    if (node.data == data):
+        return level
+ 
+    downlevel = getLevelUtil(node.left,
+                             data, level + 1)
+    if (downlevel != 0):
+        return downlevel
+ 
+    downlevel = getLevelUtil(node.right,
+                             data, level + 1)
+    return downlevel
+ 
+# Returns level of given data value
+ 
+ 
+def getLevel(node, data):
+ 
+    return getLevelUtil(node, data, 1)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # Let us construct the Tree shown
+    # in the above figure
+    root = newNode(3)
+    root.left = newNode(2)
+    root.right = newNode(5)
+    root.left.left = newNode(1)
+    root.left.right = newNode(4)
+    for x in range(1, 6):
+        level = getLevel(root, x)
+        if (level):
+            print("Level of", x,
+                  "is", getLevel(root, x))
+        else:
+            print(x, "is not present in tree")
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+Level of 1 is 3
+Level of 2 is 2
+Level of 3 is 1
+Level of 4 is 3
+Level of 5 is 2
+Time Complexity: O(n) where n is the number of nodes in the given Binary Tree.
+Auxiliary Space: O(n)
+
+Alternative Approach: The given problem can be solved with the help of level order traversal of given binary tree.
+
+
+
+C++
+Java
+Python3
+# Python3 program to print level in which X is present in
+# binary tree
+ 
+# A node structure
+class Node:
+    # A utility function to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+def printLevel(root, X):
+    # Base Case
+    if root is None:
+        return 0
+    # Create an empty queue
+    # for level order traversal
+    q = []
+    #Create a var represent current level of tree
+    currLevel = 1
+    # Enqueue Root
+    q.append(root)
+     
+    while(len(q) > 0):
+        size = len(q)
+        for i in range(size):
+            node = q.pop(0)
+            if(node.data == X):
+                return currLevel
+            # Enqueue left child
+            if node.left is not None:
+                q.append(node.left)
+            # Enqueue right child
+            if node.right is not None:
+                q.append(node.right)
+        currLevel += 1
+    return 0
+ 
+# Driver Program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(7)
+root.right.right = Node(6)
+ 
+print(printLevel(root, 6))
+ 
+# This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Output
+3
+Time Complexity: O(n) where n is the number of nodes in the binary tree.
+Auxiliary Space: O(n) where n is the number of nodes in the binary tree.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+24
+Previous
+Get level of a node in binary tree | iterative approach
+Next
+Print the longest leaf to leaf path in a Binary tree
+Related Articles
+1.
+Count nodes from all lower levels smaller than minimum valued node of current level for every level in a Binary Tree
+2.
+Get level of a node in binary tree | iterative approach
+3.
+Minimum value to be added at each level in Binary Tree to make all level sum equal
+4.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+5.
+Difference between sums of odd level and even level nodes of a Binary Tree
+6.
+Difference between odd level and even level leaf sum in given Binary Tree
+7.
+Print the nodes corresponding to the level value for each level of a Binary Tree
+8.
+Modify a Binary Tree by adding a level of nodes with given value at a specified level
+9.
+Sum of decimal equivalents of binary node values in each level of a Binary Tree
+10.
+Difference between sums of odd level and even level nodes in an N-ary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+SHUBHAMSINGH10
+Akanksha_Rai
+ipsita2811
+decode2207
+nobita04
+simmytarika5
+simranarora5sos
+adityakumar129
+devmittal0407
+hardikkoriintern
+abhijeet19403
+lokeshmvs21
+sayanc170
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

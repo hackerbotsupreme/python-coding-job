@@ -1,0 +1,253 @@
+Check if a binary tree is subtree of another binary tree | Set 2
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss(240+)
+Courses
+Practice
+Video
+Given two binary trees, check if the first tree is a subtree of the second one. A subtree of a tree T is a tree S consisting of a node in T and all of its descendants in T. 
+The subtree corresponding to the root node is the entire tree; the subtree corresponding to any other node is called a proper subtree.
+For example, in the following case, Tree1 is a subtree of Tree2. 
+
+        Tree1
+          x 
+        /    \
+      a       b
+       \
+        c
+
+
+        Tree2
+              z
+            /   \
+          x      e
+        /    \     \
+      a       b      k
+       \
+        c
+ 
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed an O(n2) solution for this problem. In this post, the O(n) solution is discussed. The idea is based on the fact that inorder and preorder/postorder uniquely identify a binary tree. Tree S is a subtree of T if both inorder and preorder traversals of S are substrings of inorder and preorder traversals of T respectively.
+Following are detailed steps.
+1) Find inorder and preorder traversals of T, and store them in two auxiliary arrays inT[] and preT[].
+2) Find inorder and preorder traversals of S, and store them in two auxiliary arrays inS[] and preS[].
+3) If inS[] is a subarray of inT[] and preS[] is a subarray preT[], then S is a subtree of T. Else not.
+We can also use postorder traversal in place of preorder in the above algorithm.
+Let us consider the above example 
+
+Inorder and Preorder traversals of the big tree are.
+inT[]   =  {a, c, x, b, z, e, k}
+preT[]  =  {z, x, a, c, b, e, k}
+
+Inorder and Preorder traversals of small tree are
+inS[]  = {a, c, x, b}
+preS[] = {x, a, c, b}
+
+We can easily figure out that inS[] is a subarray of
+inT[] and preS[] is a subarray of preT[]. 
+EDIT
+
+The above algorithm doesn't work for cases where a tree is present
+in another tree, but not as a subtree. Consider the following example.
+
+        Tree1
+          x 
+        /    \
+      a       b
+     /        
+    c         
+
+
+        Tree2
+          x 
+        /    \
+      a       b
+     /         \
+    c            d
+
+Inorder and Preorder traversals of the big tree or Tree2 are.
+inT[]   =  {c, a, x, b, d}
+preT[]  =  {x, a, c, b, d}
+
+Inorder and Preorder traversals of small tree or Tree1 are-
+inS[]  = {c, a, x, b}
+preS[] = {x, a, c, b}
+
+The Tree2 is not a subtree of Tree1, but inS[] and preS[] are
+subarrays of inT[] and preT[] respectively.
+The above algorithm can be extended to handle such cases by adding a special character whenever we encounter NULL in inorder and preorder traversals. Thanks to Shivam Goel for suggesting this extension. 
+Following is the implementation of the above algorithm.
+ 
+
+C++
+Java
+Python3
+MAX = 100
+ 
+# class for a tree node
+class Node:
+    def __init__(self):
+        self.key = ' '
+        self.left = None
+        self.right = None
+ 
+# A utility function to create a new BST node
+def newNode(item):
+    temp = Node()
+    temp.key = item
+    return temp
+ 
+# A utility function to store inorder traversal of tree rooted
+# with root in an array arr[]. Note that i is passed as reference
+def storeInorder(root, i):
+    if (root == None):
+        return '$'
+    res = storeInorder(root.left, i)
+    res += root.key
+    res += storeInorder(root.right, i)
+    return res
+ 
+# A utility function to store preorder traversal of tree rooted
+# with root in an array arr[]. Note that i is passed as reference
+def storePreOrder(root, i):
+    if (root == None):
+        return '$'
+    res = root.key
+    res += storePreOrder(root.left, i)
+    res += storePreOrder(root.right, i)
+    return res
+ 
+# This function returns true if S is a subtree of T, otherwise false
+def isSubtree(T, S):
+    # base cases
+    if (S == None):
+        return True
+    if (T == None):
+        return False
+ 
+    # Store Inorder traversals of T and S in inT[0..m-1]
+    # and inS[0..n-1] respectively
+    m = 0
+    n = 0
+    inT = storeInorder(T, m)
+    inS = storeInorder(S, n)
+ 
+    # If inS[] is not a substring of inT[], return false
+    res = True
+    if inS in inT:
+        res = True
+    else:
+        res = False
+    if(res == False):
+        return res
+ 
+    # Store Preorder traversals of T and S in preT[0..m-1]
+    # and preS[0..n-1] respectively
+    m = 0
+    n = 0
+    preT = storePreOrder(T, m)
+    preS = storePreOrder(S, n)
+ 
+    # If preS[] is not a substring of preT[], return false
+    # Else return true
+    if preS in preT:
+        return True
+    else:
+        return False
+ 
+# Driver program to test above function
+T = newNode('a')
+T.left = newNode('b')
+T.right = newNode('d')
+T.left.left = newNode('c')
+T.right.right = newNode('e')
+ 
+S = newNode('a')
+S.left = newNode('b')
+S.left.left = newNode('c')
+S.right = newNode('d')
+ 
+if (isSubtree(T, S)):
+    print("Yes: S is a subtree of T")
+else:
+    print("No: S is NOT a subtree of T")
+ 
+    # This code is contributed by rj13to.
+C#
+Javascript
+Output: 
+
+No: S is NOT a subtree of T
+Time Complexity: Inorder and Preorder traversals of Binary Tree take O(n) time. The function strstr() can also be implemented in O(n) time using the KMP string matching algorithm.
+Auxiliary Space: O(n)
+Thanks to Ashwini Singh for suggesting this method. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+
+
+Like
+103
+Previous
+Check if a Binary Tree is subtree of another binary tree | Set 1
+Next
+Check if a Binary Tree (not BST) has duplicate values
+Related Articles
+1.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+2.
+Check if a Binary tree is Subtree of another Binary tree | Set 3
+3.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+4.
+Check if the given Binary Tree have a Subtree with equal no of 1's and 0's
+5.
+Finding if a node X is present in subtree of another node Y or vice versa for Q queries
+6.
+Count of nodes in given N-ary tree such that their subtree is a Binary Tree
+7.
+Find the largest BST subtree in a given Binary Tree | Set 3
+8.
+Duplicate subtree in Binary Tree | SET 2
+9.
+Subtree with given sum in a Binary Tree
+10.
+Change a Binary Tree so that every node stores sum of all nodes in left subtree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+aayushpatni
+rj13to
+vivekmaddheshiya205
+shinjanpatra
+anupkumar509
+saggy2001
+Article Tags :
+Amazon
+Cavisson System
+MakeMyTrip
+Microsoft
+Tree
+Practice Tags :
+Amazon
+Cavisson System
+MakeMyTrip
+Microsoft
+Tree
+Improve Article
+Report Issue

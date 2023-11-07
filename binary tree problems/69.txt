@@ -1,0 +1,174 @@
+Maximum spiral sum in Binary Tree
+
+Difficulty Level : Medium
+Last Updated : 02 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary tree containing n nodes. The problem is to find the maximum sum obtained when the tree is spirally traversed. In spiral traversal one by one all levels are being traversed with the root level traversed from right to left, then next level from left to right, then further next level from right to left and so on.
+
+Example: 
+
+
+
+Maximum spiral sum = 4 + (-1) + (-2) + 1 + 5 = 7
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: Obtain the level order traversal in spiral form of the given binary tree with the help of two stacks and store it in an array. Find the maximum sum sub-array of the array so obtained. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 Implementation to find the maximum Spiral Sum
+ 
+# Structure of a node in binary tree
+class Node:
+     
+    def __init__(self, data):
+         
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# function to find the maximum sum contiguous subarray
+# implementing kadane's algorithm
+def maxSum(Arr):
+ 
+    currSum = maxSum = 0
+    for element in Arr:
+        currSum = max(currSum + element, element)
+        maxSum = max(maxSum, currSum)
+ 
+    return maxSum
+ 
+# function to find maximum spiral sum
+def maxSpiralSum(root):
+ 
+    # if tree is empty
+    if not root:
+        return 0
+ 
+    # create two stacks to stopre alternative levels
+    stack_s1 = [] # from levels right to left
+    stack_s2 = [] # from levels left to right
+ 
+    # store spiral order traversal in Arr
+    Arr = []
+    stack_s1.append(root)
+ 
+    # traversing tree in spiral form
+    # until there are elements in any one
+    # of the stack
+    while stack_s1 or stack_s2:
+ 
+        # traverse current level from s1 and
+        # push node of next level to s2
+        while stack_s1:
+             
+            temp = stack_s1.pop()
+ 
+            # append temp-> data to Arr
+            Arr.append(temp.data)
+ 
+            if temp.right:
+                stack_s2.append(temp.right)
+            if temp.left:
+                stack_s2.append(temp.left)
+ 
+        # traverse current level from s2 and
+        # push node of next level to s1
+        while stack_s2:
+             
+            temp = stack_s2.pop()
+ 
+            # append temp-> data to Arr
+            Arr.append(temp.data)
+ 
+            if temp.left:
+                stack_s1.append(temp.left)
+            if temp.right:
+                stack_s1.append(temp.right)
+ 
+    return maxSum(Arr)
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    root = Node(-2)
+    root.left = Node(-3)
+    root.right = Node(4)
+    root.left.left = Node(5)
+    root.left.right = Node(1)
+    root.right.left = Node(-2)
+    root.right.right = Node(-1)
+    root.left.left.left = Node(-3)
+    root.right.right.right = Node(2)
+ 
+    print("Maximum Spiral Sum is : ", maxSpiralSum(root))
+ 
+# This code is contributed by
+# Mayank Chaudhary (chaudhary_19)
+C#
+Javascript
+Output
+Maximum Spiral Sum = 7
+Time Complexity: O(n). 
+Auxiliary Space: O(n).
+
+
+
+Like
+Previous
+Find maximum level sum in Binary Tree
+Next
+Sum of nodes at k-th level in a tree represented as string
+Related Articles
+1.
+Convert a Binary Tree into Doubly Linked List in spiral fashion
+2.
+Anti Clockwise spiral traversal of a binary tree
+3.
+Clockwise Spiral Traversal of Binary Tree | Set - 2
+4.
+Reverse Anti Clockwise Spiral Traversal of a Binary Tree
+5.
+Reverse Clockwise spiral traversal of a binary tree
+6.
+Clockwise Spiral Traversal of Binary Tree
+7.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+8.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+9.
+Check if max sum level of Binary tree divides tree into two equal sum halves
+10.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ayushjauhari14
+@ayushjauhari14
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_Gaurav_Tiwari
+Rajput-Ji
+chaudhary_19
+hritikbhatnagar2182
+sweetyty
+decode2207
+surinderdawra388
+hardikkoriintern
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Report Issue

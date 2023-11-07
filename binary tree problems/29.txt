@@ -1,0 +1,256 @@
+Check if removing an edge can divide a Binary Tree in two halves
+
+Difficulty Level : Medium
+Last Updated : 30 Jun, 2022
+Read
+Discuss(30)
+Courses
+Practice
+Video
+Given a Binary Tree, find if there exists an edge whose removal creates two trees of equal size.
+
+Examples:  
+
+Input : root of following tree
+           5
+         /   \
+       1      6    
+      /      /  \
+     3      7    4
+Output : true
+Removing edge 5-6 creates two trees of equal size
+
+
+Input : root of following tree
+           5
+         /   \
+       1      6    
+            /  \
+           7    4
+         /  \    \
+        3    2    8
+Output : false
+There is no edge whose removal creates two trees
+of equal size.
+Source- Kshitij IIT KGP 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Simple): First count number of nodes in whole tree. Let count of all nodes be n. Now traverse tree and for every node, find size of subtree rooted with this node. Let the subtree size be s. If n-s is equal to s, then return true, else false.
+
+C++
+Java
+Python3
+# Python3 program to check if there
+# exist an edge whose removal creates
+# two trees of same size
+ 
+# utility function to create a new node
+class newNode:
+    def __init__(self, x):
+        self.data = x
+        self.left = self.right = None
+ 
+# To calculate size of tree
+# with given root
+def count(root):
+    if (root == None):
+        return 0
+    return (count(root.left) +
+            count(root.right) + 1)
+ 
+# This function returns true if there
+# is an edge whose removal can divide
+# the tree in two halves n is size of tree
+def checkRec(root, n):
+     
+    # Base cases
+    if (root == None):
+        return False
+ 
+    # Check for root
+    if (count(root) == n - count(root)):
+        return True
+ 
+    # Check for rest of the nodes
+    return (checkRec(root.left, n) or
+            checkRec(root.right, n))
+ 
+# This function mainly uses checkRec()
+def check(root):
+     
+    # Count total nodes in given tree
+    n = count(root)
+ 
+    # Now recursively check all nodes
+    return checkRec(root, n)
+ 
+# Driver code
+if __name__ == '__main__':
+    root = newNode(5)
+    root.left = newNode(1)
+    root.right = newNode(6)
+    root.left.left = newNode(3)
+    root.right.left = newNode(7)
+    root.right.right = newNode(4)
+ 
+    if check(root):
+        print("YES")
+    else:
+        print("NO")
+         
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+YES
+Time complexity: O(n2) where n is number of nodes in given Binary Tree.
+Auxiliary Space: O(n) for call stack since using recursion, where n is no of nodes in binary tree
+
+Method 2 (Efficient): We can find the solution in O(n) time. The idea is to traverse tree in bottom up manner and while traversing keep updating size and keep checking if there is a node that follows the required property.
+
+
+
+Below is the implementation of above idea. 
+
+C++
+Java
+Python3
+# Python3 program to check if there exist
+# an edge whose removal creates two trees
+# of same size
+class Node:
+     
+    def __init__(self, x):
+         
+        self.key = x
+        self.left = None
+        self.right = None
+ 
+# To calculate size of tree with
+# given root
+def count(node):
+     
+    if (node == None):
+        return 0
+ 
+    return (count(node.left) +
+            count(node.right) + 1)
+ 
+# This function returns size of tree rooted
+# with given root. It also set "res" as true
+# if there is an edge whose removal divides
+# tree in two halves.n is size of tree
+def checkRec(root, n):
+     
+    global res
+     
+    # Base case
+    if (root == None):
+       return 0
+ 
+    # Compute sizes of left and right children
+    c = (checkRec(root.left, n) + 1 +
+         checkRec(root.right, n))
+ 
+    # If required property is true for
+    # current node set "res" as true
+    if (c == n - c):
+        res = True
+ 
+    # Return size
+    return c
+ 
+# This function mainly uses checkRec()
+def check(root):
+     
+    # Count total nodes in given tree
+    n = count(root)
+ 
+    # Initialize result and recursively
+    # check all nodes
+    # bool res = false;
+    checkRec(root, n)
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    res = False
+    root = Node(5)
+    root.left = Node(1)
+    root.right = Node(6)
+    root.left.left = Node(3)
+    root.right.left = Node(7)
+    root.right.right = Node(4)
+ 
+    check(root)
+     
+    if res:
+        print("YES")
+    else:
+        print("NO")
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+YES
+Time Complexity: O(n)
+Auxiliary Space:  O(n)
+
+This article is contributed by Asaad Akram. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+23
+Previous
+Check if all leaves are at same level
+Next
+Check if given Preorder, Inorder and Postorder traversals are of same tree
+Related Articles
+1.
+Number of ways to divide a Binary tree into two halves
+2.
+Check if max sum level of Binary tree divides tree into two equal sum halves
+3.
+Difference between Tree edge and Back edge in graph
+4.
+Maximum cost of splitting given Binary Tree into two halves
+5.
+Maximum weighted edge in path between two nodes in an N-ary tree using binary lifting
+6.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+7.
+Check if all nodes of the Binary Tree can be represented as sum of two primes
+8.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+9.
+Check if a binary tree is subtree of another binary tree | Set 2
+10.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+mohit kumar 29
+unknown2108
+umadevi9616
+technophpfij
+hardikkoriintern
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

@@ -1,0 +1,363 @@
+Find the Maximum Depth or Height of given Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss(310+)
+Courses
+Practice
+Video
+Given a binary tree, the task is to find the height of the tree. Height of the tree is the number of edges in the tree from the root to the deepest node, Height of the empty tree is 0.
+ 
+
+Example Tree
+
+Recommended Problem
+Height of Binary Tree
+Tree
+Data Structures
+VMWare
+Zoho
++12 more
+Solve Problem
+Submission count: 1.8L
+Recursively calculate height of left and right subtrees of a node and assign height to the node as max of the heights of two children plus 1. See below pseudo code and program for details.
+
+Illustration:
+
+Consider the following graph:
+
+Example Tree
+
+maxDepth(‘1’) = max(maxDepth(‘2’), maxDepth(‘3’)) + 1 = 2 + 1
+
+
+
+because recursively 
+maxDepth(‘2’) =  max (maxDepth(‘4’), maxDepth(‘5’)) + 1 = 1 + 1 and  (as height of both ‘4’ and ‘5’ are 1)
+maxDepth(‘3’) = 1
+
+Follow the below steps to Implement the idea:
+
+Recursively do a Depth-first search.
+If the tree is empty then return -1
+Otherwise, do the following
+Get the max depth of the left subtree recursively  i.e. call maxDepth( tree->left-subtree)
+Get the max depth of the right subtree recursively  i.e. call maxDepth( tree->right-subtree)
+Get the max of max depths of left and right subtrees and add 1 to it for the current node.
+max_depth = max(max dept of left subtree,  max depth of right subtree) + 1
+Return max_depth.
+Below is the Implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program to find the maximum depth of tree
+ 
+# A binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Compute the "maxDepth" of a tree -- the number of nodes
+# along the longest path from the root node down to the
+# farthest leaf node
+ 
+ 
+def maxDepth(node):
+    if node is None:
+        return 0
+ 
+    else:
+ 
+        # Compute the depth of each subtree
+        lDepth = maxDepth(node.left)
+        rDepth = maxDepth(node.right)
+ 
+        # Use the larger one
+        if (lDepth > rDepth):
+            return lDepth+1
+        else:
+            return rDepth+1
+ 
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+ 
+ 
+print("Height of tree is %d" % (maxDepth(root)))
+ 
+# This code is contributed by Amit Srivastav
+C#
+Javascript
+Output
+Height of tree is 3
+Time Complexity: O(N) (Please see our post Tree Traversal for details)
+Auxiliary Space: O(N) due to recursive stack.
+
+Find the Maximum Depth or Height of a Tree using Level Order Traversal:
+Do Level Order Traversal, while adding Nodes at each level to Queue, we have to add NULL Node so that whenever it is encountered, we can increment the value of variable and that level get counted.
+
+Follow the below steps to Implement the idea:
+
+Traverse the tree in level order traversal starting from root.
+Initialize an empty queue Q, a variable depth and push root, then push null into the Q.
+Run a while loop till Q is not empty.
+Store the front element of Q and Pop out the front element.
+If the front of Q is NULL then increment depth by one and if queue is not empty then push NULL into the Q.
+Else if the element is not NULL then check for its left and right children and if they are not NULL push them into Q.
+Return depth.
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python3
+# Python code to implement the approach
+ 
+# A Tree node
+ 
+ 
+class Node:
+ 
+    def __init__(self):
+        self.key = 0
+        self.left, self.right = None, None
+ 
+# Utility function to create a new node
+ 
+ 
+def newNode(key):
+ 
+    temp = Node()
+    temp.key = key
+    temp.left, temp.right = None, None
+    return temp
+ 
+ 
+# Function to find the height(depth) of the tree
+def height(root):
+ 
+    # Initialising a variable to count the
+    # height of tree
+    depth = 0
+ 
+    q = []
+ 
+    # appending first level element along with None
+    q.append(root)
+    q.append(None)
+    while(len(q) > 0):
+        temp = q[0]
+        q = q[1:]
+ 
+        # When None encountered, increment the value
+        if(temp == None):
+            depth += 1
+ 
+        # If None not encountered, keep moving
+        if(temp != None):
+            if(temp.left):
+                q.append(temp.left)
+ 
+            if(temp.right):
+                q.append(temp.right)
+ 
+        # If queue still have elements left,
+        # append None again to the queue.
+        elif(len(q) > 0):
+            q.append(None)
+    return depth
+ 
+# Driver program
+ 
+ 
+# Let us create Binary Tree shown in above example
+root = newNode(1)
+root.left = newNode(2)
+root.right = newNode(3)
+ 
+root.left.left = newNode(4)
+root.left.right = newNode(5)
+ 
+print(f"Height(Depth) of tree is: {height(root)}")
+ 
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Height(Depth) of tree is: 3
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Another method to find height using Level Order Traversal:
+This method also uses the concept of Level Order Traversal but we wont be adding null in the Queue. Simply increase the counter when the level increases and push the children of current node into the queue, then remove all the nodes from the queue of the current Level.
+
+C++
+Java
+C#
+Python3
+# Python3 program to find the height of a tree
+   
+# A binary tree node
+class Node:
+   
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.key = data
+        self.left = None
+        self.right = None
+   
+# Function to find height of tree
+def height(root):
+    # Base Case
+    if root is None:
+        return 0
+   
+    # Create an empty queue for level order traversal
+    q = []
+   
+    # Enqueue Root and initialize height
+    q.append(root)
+    height = 0
+   
+    # Loop while queue is not empty
+    while q:
+   
+        # nodeCount (queue size) indicates number of nodes
+        # at current level
+        nodeCount = len(q)
+   
+        # Dequeue all nodes of current level and Enqueue all
+        # nodes of next level
+        while nodeCount > 0:
+            node = q.pop(0)
+            if node.left is not None:
+                q.append(node.left)
+            if node.right is not None:
+                q.append(node.right)
+            nodeCount -= 1
+        height += 1
+   
+    return height
+   
+# Driver Code
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+   
+print("Height(Depth) of tree is", height(root))
+Javascript
+Output
+Height(Depth) of tree is: 3
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+212
+Previous
+Write a program to Calculate Size of a tree | Recursion
+Next
+How to determine if a binary tree is height-balanced?
+Related Articles
+1.
+Height and Depth of a node in a Binary Tree
+2.
+Sum of nodes at maximum depth of a Binary Tree
+3.
+Sum of nodes at maximum depth of a Binary Tree | Iterative Approach
+4.
+Sum of nodes at maximum depth of a Binary Tree | Set 2
+5.
+Find Minimum Depth of a Binary Tree
+6.
+Check if a given Binary Tree is height balanced like a Red-Black Tree
+7.
+Calculate depth of a full Binary tree from Preorder
+8.
+Depth of the deepest odd level node in Binary Tree
+9.
+Replace node with depth in a binary tree
+10.
+Minimum valued node having maximum depth in an N-ary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+coduitachi
+rathbhupendra
+29AjayKumar
+ronitnaik
+vivekans2016
+rag2127
+sarthakdelori10
+as3814
+jana_sayantan
+shinjanpatra
+prashantsrivastava6
+polymatir3j
+hardikkoriintern
+akshitsaxenaa09
+porsiyaamrita
+aashutoshparoha
+abhijeet19403
+yashagarwal2852002
+poojaagrawal2
+surajrasr7277
+Article Tags :
+Amazon
+Cadence India
+CouponDunia
+FactSet
+FreeCharge
+Height of a Tree
+MakeMyTrip
+Monotype Solutions
+Snapdeal
+Synopsys
+Teradata
+tree-traversal
+Trees
+VMWare
+Zoho
+Tree
+Practice Tags :
+Amazon
+Cadence India
+CouponDunia
+FactSet
+FreeCharge
+MakeMyTrip
+Monotype Solutions
+Snapdeal
+Synopsys
+Teradata
+VMWare
+Zoho
+Tree
+Improve Article
+Report Issues

@@ -1,0 +1,215 @@
+Find all possible binary trees with given Inorder Traversal
+
+Difficulty Level : Hard
+Last Updated : 25 Dec, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given an array that represents Inorder Traversal, find all possible Binary Trees with the given Inorder traversal and print their preorder traversals.
+Examples: 
+ 
+
+Input:   in[] = {3, 2};
+Output:  Preorder traversals of different possible Binary Trees are:
+         3 2
+         2 3
+Below are different possible binary trees
+    3        2
+     \      /
+      2    3
+
+Input:   in[] = {4, 5, 7};
+Output:  Preorder traversals of different possible Binary Trees are:
+          4 5 7 
+          4 7 5 
+          5 4 7 
+          7 4 5 
+          7 5 4 
+Below are different possible binary trees
+  4         4           5         7       7
+   \          \       /   \      /       /
+    5          7     4     7    4       5
+     \        /                  \     /
+      7      5                    5   4 
+We strongly recommend you to minimize your browser and try this yourself first.
+Let given inorder traversal be in[]. In the given traversal, all nodes in left subtree of in[i] must appear before it and in right subtree must appear after it. So when we consider in[i] as root, all elements from in[0] to in[i-1] will be in left subtree and in[i+1] to n-1 will be in right subtree. If in[0] to in[i-1] can form x different trees and in[i+1] to in[n-1] can from y different trees then we will have x*y total trees when in[i] as root. So we simply iterate from 0 to n-1 for root. For every node in[i], recursively find different left and right subtrees. If we take a closer look, we can notice that the count is basically n’th Catalan number. We have discussed different approaches to find n’th Catalan number here.
+The idea is to maintain a list of roots of all Binary Trees. Recursively construct all possible left and right subtrees. Create a tree for every pair of left and right subtree and add the tree to list. Below is detailed algorithm. 
+ 
+
+1) Initialize list of Binary Trees as empty.  
+2) For every element in[i] where i varies from 0 to n-1,
+    do following
+......a)  Create a new node with key as 'arr[i]', 
+          let this node be 'node'
+......b)  Recursively construct list of all left subtrees.
+......c)  Recursively construct list of all right subtrees.
+3) Iterate for all left subtrees
+   a) For current leftsubtree, iterate for all right subtrees
+        Add current left and right subtrees to 'node' and add
+        'node' to list.
+ 
+
+C++
+Java
+Python3
+# Python program to find binary tree with given
+# inorder traversal
+ 
+# Node Structure
+class Node:
+ 
+    # Utility to create a new node
+    def __init__(self , item):
+        self.key = item
+        self.left = None
+        self.right = None
+ 
+# A utility function to do preorder traversal of BST
+def preorder(root):
+    if root is not None:
+        print (root.key,end=" ")
+        preorder(root.left)
+        preorder(root.right)
+ 
+ 
+# Function for constructing all possible trees with
+# given inorder traversal stored in an array from
+# arr[start] to arr[end]. This function returns a
+# vector of trees.
+def getTrees(arr , start , end):
+ 
+    # List to store all possible trees
+    trees = []
+     
+    """ if start > end then subtree will be empty so
+    returning NULL in the list """
+    if start > end :
+        trees.append(None)
+        return trees
+     
+ 
+    """ Iterating through all values from start to end
+        for constructing left and right subtree
+        recursively """
+    for i in range(start , end+1):
+ 
+        # Constructing left subtree
+        ltrees = getTrees(arr , start , i-1)
+         
+        # Constructing right subtree
+        rtrees = getTrees(arr , i+1 , end)
+         
+        """ Looping through all left and right subtrees
+        and connecting to ith root below"""
+        for j in ltrees :
+            for k in rtrees :
+ 
+                # Making arr[i]  as root
+                node  = Node(arr[i])
+     
+                # Connecting left subtree
+                node.left = j 
+ 
+                # Connecting right subtree
+                node.right = k
+ 
+                # Adding this tree to list
+                trees.append(node)
+    return trees
+ 
+# Driver program to test above function
+inp = [4 , 5, 7]
+n = len(inp)
+ 
+trees = getTrees(inp , 0 , n-1)
+ 
+print ("Preorder traversals of different possible\
+ Binary Trees are ")
+for i in trees :
+    preorder(i);
+    print ("")
+ 
+# This program is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output: 
+ 
+
+Preorder traversals of different possible Binary Trees are 
+4 5 7 
+4 7 5 
+5 4 7 
+7 4 5 
+7 5 4
+Time Complexity: O(n^3).
+The time complexity of the above algorithm is O(n^3). The getTrees() function is called for every element of the array. Inside the function, two for loops are used for constructing left and right subtrees for every element of the array.
+
+Space Complexity: O(n^2).
+The space complexity of the above algorithm is O(n^2). The getTrees() function is called for every element of the array. Inside the function, two for loops are used for constructing left and right subtrees for every element of the array. Vector of size n is used for storing the list of trees.
+
+Thanks to Utkarsh for suggesting above solution.
+This problem is similar to the problem discussed here.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+68
+Previous
+Find LCA in Binary Tree using RMQ
+Next
+Locking and Unlocking of Resources arranged in the form of n-ary Tree
+Related Articles
+1.
+Total number of possible Binary Search Trees and Binary Trees with n keys
+2.
+Construct Special Binary Tree from given Inorder traversal
+3.
+Inorder Non-threaded Binary Tree Traversal without Recursion or Stack
+4.
+Calculate height of Binary Tree using Inorder and Level Order Traversal
+5.
+Check if Inorder traversal of a Binary Tree is palindrome or not
+6.
+Preorder, Postorder and Inorder Traversal of a Binary Tree using a single Stack
+7.
+Binary Tree Iterator for Inorder Traversal
+8.
+Convert Binary Tree to Doubly Linked List using inorder traversal
+9.
+Find n-th node of inorder traversal
+10.
+Print Postorder traversal from given Inorder and Preorder traversals
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rrrtnx
+amartyaghoshgfg
+surajrasr7277
+Article Tags :
+catalan
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

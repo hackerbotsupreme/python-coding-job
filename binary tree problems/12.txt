@@ -1,0 +1,150 @@
+Insertion in a Binary Tree in level order
+
+Difficulty Level : Easy
+Last Updated : 16 Sep, 2022
+Read
+Discuss(50)
+Courses
+Practice
+Video
+Given a binary tree and a key, insert the key into the binary tree at the first position available in level order.
+
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to do an iterative level order traversal of the given tree using queue. If we find a node whose left child is empty, we make a new key as the left child of the node. Else if we find a node whose right child is empty, we make the new key as the right child. We keep traversing the tree until we find a node whose either left or right child is empty. 
+
+C++
+Java
+Python3
+# Python program to insert element in binary tree
+class newNode():
+ 
+    def __init__(self, data):
+        self.key = data
+        self.left = None
+        self.right = None
+         
+""" Inorder traversal of a binary tree"""
+def inorder(temp):
+ 
+    if (not temp):
+        return
+ 
+    inorder(temp.left)
+    print(temp.key,end = " ")
+    inorder(temp.right)
+ 
+ 
+"""function to insert element in binary tree """
+def insert(temp,key):
+ 
+    if not temp:
+        root = newNode(key)
+        return
+    q = []
+    q.append(temp)
+ 
+    # Do level order traversal until we find
+    # an empty place.
+    while (len(q)):
+        temp = q[0]
+        q.pop(0)
+ 
+        if (not temp.left):
+            temp.left = newNode(key)
+            break
+        else:
+            q.append(temp.left)
+ 
+        if (not temp.right):
+            temp.right = newNode(key)
+            break
+        else:
+            q.append(temp.right)
+     
+# Driver code
+if __name__ == '__main__':
+    root = newNode(10)
+    root.left = newNode(11)
+    root.left.left = newNode(7)
+    root.right = newNode(9)
+    root.right.left = newNode(15)
+    root.right.right = newNode(8)
+ 
+    print("Inorder traversal before insertion:", end = " ")
+    inorder(root)
+ 
+    key = 12
+    insert(root, key)
+ 
+    print()
+    print("Inorder traversal after insertion:", end = " ")
+    inorder(root)
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+Inorder traversal before insertion: 7 11 10 15 9 8 
+Inorder traversal after insertion: 7 11 12 10 15 9 8 
+Time Complexity:  O(V) where V is the number of nodes.
+Auxiliary Space: O(B), where B is the width of the tree and in the worst case we need to hold all vertices of a level in the queue.
+
+This article is contributed by Yash Singla. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Enumeration of Binary Trees
+Next
+Deletion in a Binary Tree
+Related Articles
+1.
+Insertion in n-ary tree in given order and Level order traversal
+2.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+3.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+4.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+5.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+6.
+Minimum value to be added at each level in Binary Tree to make all level sum equal
+7.
+Count nodes from all lower levels smaller than minimum valued node of current level for every level in a Binary Tree
+8.
+Difference between sums of odd level and even level nodes of a Binary Tree
+9.
+Difference between odd level and even level leaf sum in given Binary Tree
+10.
+Print the nodes corresponding to the level value for each level of a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+Rajput-Ji
+siddhantagarwal99
+tridib_samanta
+pranavkumar8588
+umadevi9616
+isha307
+abhijeet19403
+rkshaw2796
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Report Issue

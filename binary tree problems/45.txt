@@ -1,0 +1,185 @@
+Minimum swap required to convert binary tree to binary search tree
+
+Difficulty Level : Hard
+Last Updated : 06 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the array representation of Complete Binary Tree i.e, if index i is the parent, index 2*i + 1 is the left child and index 2*i + 2 is the right child. The task is to find the minimum number of swap required to convert it into Binary Search Tree.
+
+Examples:  
+
+Input : arr[] = { 5, 6, 7, 8, 9, 10, 11 }
+Output : 3
+Binary tree of the given array:
+dig11
+
+Swap 1: Swap node 8 with node 5.
+Swap 2: Swap node 9 with node 10.
+Swap 3: Swap node 10 with node 7.
+dig21
+
+
+So, minimum 3 swaps are required.
+
+
+Input : arr[] = { 1, 2, 3 }
+Output : 1
+Binary tree of the given array:
+dig3
+
+After swapping node 1 with node 2.
+dig41
+
+So, only 1 swap required.
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution.
+
+The idea is to use the fact that inorder traversal of Binary Search Tree is in increasing order of their value. 
+So, find the inorder traversal of the Binary Tree and store it in the array and try to sort the array. The minimum number of swap required to get the array sorted will be the answer. Please refer below post to find minimum number of swaps required to get the array sorted.
+Minimum number of swaps required to sort an array
+
+Time Complexity: O(n log n).
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program for Minimum swap required
+# to convert binary tree to binary search tree
+ 
+# Inorder Traversal of Binary Tree
+def inorder(a, n, index):
+     
+    global v
+     
+    # If index is greater or equal to
+    # vector size
+    if (index >= n):
+        return
+     
+    inorder(a, n, 2 * index + 1)
+ 
+    # Push elements in vector
+    v.append(a[index])
+    inorder(a, n, 2 * index + 2)
+ 
+# Function to find minimum swaps
+# to sort an array
+def minSwaps():
+     
+    global v
+    t = [[0, 0] for i in range(len(v))]
+    ans = -2
+ 
+    for i in range(len(v)):
+        t[i][0], t[i][1] = v[i], i
+ 
+    t, i = sorted(t), 0
+ 
+    while i < len(t):
+         
+        # break
+        # second element is equal to i
+        if (i == t[i][1]):
+            i += 1
+            continue
+        else:
+             
+            # Swapping of elements
+            t[i][0], t[t[i][1]][0] = t[t[i][1]][0], t[i][0]
+            t[i][1], t[t[i][1]][1] = t[t[i][1]][1], t[i][1]
+ 
+        # Second is not equal to i
+        if (i == t[i][1]):
+            i -= 1
+ 
+        i += 1
+ 
+        ans += 1
+ 
+    return ans
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    v = []
+    a = [ 5, 6, 7, 8, 9, 10, 11 ]
+    n = len(a)
+    inorder(a, n, 0)
+ 
+    print(minSwaps())
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+3
+Time Complexity: O(nlogn)
+
+Auxiliary Space: O(n) because it is using extra space for array 
+
+Exercise: Can we extend this to normal binary tree, i.e., a binary tree represented using left and right pointers, and not necessarily complete?
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Convert a given tree to its Sum Tree
+Next
+Convert Ternary Expression to a Binary Tree
+Related Articles
+1.
+Convert a Binary Search Tree into a Skewed tree in increasing or decreasing order
+2.
+Flatten a Binary Search Tree to convert the tree into a wave list in place only
+3.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+4.
+Search N elements in an unbalanced Binary Search Tree in O(N * logM) time
+5.
+Binary Tree to Binary Search Tree Conversion
+6.
+Binary Tree to Binary Search Tree Conversion using STL set
+7.
+Difference between Binary Tree and Binary Search Tree
+8.
+Swap Nodes in Binary tree of every k'th level
+9.
+Pairwise Swap leaf nodes in a binary tree
+10.
+Convert given Binary Tree to Symmetric Tree by adding minimum number of nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+code_freak
+mohit kumar 29
+patel2127
+adityapande88
+saurabh1990aror
+hardikkoriintern
+tapeshdua420
+himanshiyadav7011
+Article Tags :
+Sorting
+Tree
+Practice Tags :
+Sorting
+Tree
+Report Issue

@@ -1,0 +1,335 @@
+Diagonal Traversal of Binary Tree
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss(140+)
+Courses
+Practice
+Video
+Consider lines with a slope of -1 that cross through nodes. Print all diagonal elements in a binary tree that belong to the same line, given a binary tree.
+
+Input : Root of below tree
+unnamed
+
+Output : 
+Diagonal Traversal of binary tree: 
+ 8 10 14
+ 3 6 7 13
+ 1 4
+Observation : root and root->right values will be prioritized over all root->left values.
+Recommended Problem
+Diagonal Traversal of Binary Tree
+Tree
+Data Structures
+Amazon
+Microsoft
+Solve Problem
+Submission count: 58.1K
+The plan is to make use of a map. Different slope distances are used in the map as a key. The map’s value is a node vector (or dynamic array). To save values in the map, we traverse the tree. We print the contents of the map after it has been constructed.
+
+Below is the implementation of the above idea.
+
+C++
+Java
+Python3
+# Python program for diagonal
+# traversal of Binary Tree
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a
+    # new binary tree node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+""" root - root of the binary tree
+   d -  distance of current line from rightmost
+        -topmost slope.
+   diagonalPrint - multimap to store Diagonal
+                   elements (Passed by Reference) """
+def diagonalPrintUtil(root, d, diagonalPrintMap):
+     
+    # Base Case
+    if root is None:
+        return
+ 
+    # Store all nodes of same line
+    # together as a vector
+    try :
+        diagonalPrintMap[d].append(root.data)
+    except KeyError:
+        diagonalPrintMap[d] = [root.data]
+ 
+    # Increase the vertical distance
+    # if left child
+    diagonalPrintUtil(root.left,
+                        d+1, diagonalPrintMap)
+     
+    # Vertical distance remains
+    # same for right child
+    diagonalPrintUtil(root.right,
+                           d, diagonalPrintMap)
+ 
+ 
+ 
+# Print diagonal traversal of given binary tree
+def diagonalPrint(root):
+ 
+    # Create a dict to store diagonal elements
+    diagonalPrintMap = dict()
+     
+    # Find the diagonal traversal
+    diagonalPrintUtil(root, 0, diagonalPrintMap)
+ 
+    print ("Diagonal Traversal of binary tree : ")
+    for i in diagonalPrintMap:
+        for j in diagonalPrintMap[i]:
+            print (j,end=" ")
+        print()
+ 
+ 
+# Driver Program
+root = Node(8)
+root.left = Node(3)
+root.right = Node(10)
+root.left.left = Node(1)
+root.left.right = Node(6)
+root.right.right = Node(14)
+root.right.right.left = Node(13)
+root.left.right.left = Node(4)
+root.left.right.right = Node(7)
+ 
+diagonalPrint(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+Output
+Diagonal Traversal of binary tree : 
+8 10 14 
+3 6 7 13 
+1 4 
+Time complexity: O( N logN )
+Auxiliary Space: O( N )
+
+The identical problem may be solved with a queue and an iterative method.
+
+
+
+C++14
+Java
+Python3
+from collections import deque
+ 
+# A binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a
+    # new binary tree node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def diagonal(root):
+    out = []
+    node = root
+ 
+    # queue to store left nodes
+    left_q = deque()
+    while node:
+ 
+        # append data to output array
+        out.append(node.data)
+ 
+        # if left available add it to the queue
+        if node.left:
+            left_q.appendleft(node.left)
+ 
+        # if right is available change the node
+        if node.right:
+            node = node.right
+        else:
+ 
+            # else pop the left_q
+            if len(left_q) >= 1:
+                node = left_q.pop()
+            else:
+                node = None
+    return out
+ 
+ 
+# Driver Code
+root = Node(8)
+root.left = Node(3)
+root.right = Node(10)
+root.left.left = Node(1)
+root.left.right = Node(6)
+root.right.right = Node(14)
+root.right.right.left = Node(13)
+root.left.right.left = Node(4)
+root.left.right.right = Node(7)
+ 
+print(diagonal(root))
+C#
+Javascript
+Output
+[8, 10, 14, 3, 6, 7, 13, 1, 4]
+Time complexity: O( N log N )
+Auxiliary Space: O(N)
+
+Approach 2: Using Queue:
+Every node will contribute to the formation of the following diagonal. Only when the element’s left is available will we push it into the queue. We’ll process the node and then go to the right.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python Program to print diagonal traversal using queue
+ 
+# Tree Node
+class Node:
+    def __init__(self, x):
+        self.data = x
+        self.left = None
+        self.right = None
+ 
+ 
+def diagonalPrint(root):
+    if root is None:
+        return
+ 
+    q = []
+    q.append(root)
+ 
+    while len(q) > 0:
+        size = len(q)
+        answer = []
+ 
+        while size > 0:
+            temp = q[0]
+            q.pop(0)
+ 
+            # traversing each component;
+            while temp is not None:
+                answer.append(temp.data)
+ 
+                if temp.left is not None:
+                    q.append(temp.left)
+ 
+                temp = temp.right
+ 
+            size -= 1
+ 
+        result.append(answer)
+ 
+ 
+if __name__ == '__main__':
+    root = Node(8)
+    root.left = Node(3)
+    root.right = Node(10)
+    root.left.left = Node(1)
+    root.left.right = Node(6)
+    root.right.right = Node(14)
+    root.right.right.left = Node(13)
+    root.left.right.left = Node(4)
+    root.left.right.right = Node(7)
+ 
+    result = []
+ 
+    diagonalPrint(root)
+ 
+    for i in range(len(result)):
+        for j in range(len(result[i])):
+            print(result[i][j], end=" ")
+        print()
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output
+8  10  14  
+3  6  7  13  
+1  4  
+Time Complexity: O(N), because we are visiting nodes once.
+Auxiliary Space: O(N), because we are using a queue.
+
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+199
+Previous
+Inorder Successor of a node in Binary Tree
+Next
+Construct Tree from given Inorder and Preorder traversals
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Iterative diagonal traversal of binary tree
+3.
+Kth node in Diagonal Traversal of Binary Tree
+4.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+5.
+Level order traversal of Binary Tree using Morris Traversal
+6.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+7.
+Zigzag (or diagonal) traversal of Matrix
+8.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+9.
+Diagonal Sum of a Binary Tree
+10.
+Replace each node of a Binary Tree with the sum of all the nodes present in its diagonal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sachin Verma 7
+r17groopa
+udaybhaskarpaila
+neelbahurupi28
+imsushant12
+abhinaygupta98
+him_ansh_1608
+sxmeer_ahmed
+soumyattamdey14
+rajeev0719singh
+simmytarika5
+mozasuvesh
+amartyaniel20
+satwikpal01
+rmekamal789
+hardikkoriintern
+tapeshdua420
+abhijeet19403
+harshadmarathe8
+yashagarwal2852002
+Article Tags :
+Amazon
+Paytm
+Tree
+Practice Tags :
+Amazon
+Paytm
+Tree

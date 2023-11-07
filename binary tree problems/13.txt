@@ -1,0 +1,335 @@
+Deletion in a Binary Tree
+
+Difficulty Level : Medium
+Last Updated : 17 Jan, 2023
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Given a binary tree, delete a node from it by making sure that the tree shrinks from the bottom (i.e. the deleted node is replaced by the bottom-most and rightmost node). This is different from BST deletion. Here we do not have any order among elements, so we replace them with the last element.
+
+Examples :
+
+Input : Delete 10 in below tree
+
+       10
+     /    \         
+  20     30
+
+
+Output:    
+       30
+     /             
+ 20     
+
+Input : Delete 20 in below tree
+       10
+     /    \         
+ 20     30
+            \
+            40
+
+Output:    
+       10
+   /      \             
+40        30
+            
+
+
+
+Recommended Problem
+Deletion in a Binary Tree
+Tree
+Data Structures
+Solve Problem
+Submission count: 19.2K
+Algorithm:
+
+Starting at the root, find the deepest and rightmost node in the binary tree and the node which we want to delete. 
+Replace the deepest rightmost node’s data with the node to be deleted. 
+Then delete the deepest rightmost node.
+
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to illustrate deletion in a Binary Tree
+ 
+# class to create a node with data, left child and right child.
+ 
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Inorder traversal of a binary tree
+ 
+ 
+def inorder(temp):
+    if(not temp):
+        return
+    inorder(temp.left)
+    print(temp.data, end=" ")
+    inorder(temp.right)
+ 
+# function to delete the given deepest node (d_node) in binary tree
+ 
+ 
+def deleteDeepest(root, d_node):
+    q = []
+    q.append(root)
+    while(len(q)):
+        temp = q.pop(0)
+        if temp is d_node:
+            temp = None
+            return
+        if temp.right:
+            if temp.right is d_node:
+                temp.right = None
+                return
+            else:
+                q.append(temp.right)
+        if temp.left:
+            if temp.left is d_node:
+                temp.left = None
+                return
+            else:
+                q.append(temp.left)
+ 
+# function to delete element in binary tree
+ 
+ 
+def deletion(root, key):
+    if root == None:
+        return None
+    if root.left == None and root.right == None:
+        if root.key == key:
+            return None
+        else:
+            return root
+    key_node = None
+    q = []
+    q.append(root)
+    temp = None
+    while(len(q)):
+        temp = q.pop(0)
+        if temp.data == key:
+            key_node = temp
+        if temp.left:
+            q.append(temp.left)
+        if temp.right:
+            q.append(temp.right)
+    if key_node:
+        x = temp.data
+        deleteDeepest(root, temp)
+        key_node.data = x
+    return root
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    root = Node(10)
+    root.left = Node(11)
+    root.left.left = Node(7)
+    root.left.right = Node(12)
+    root.right = Node(9)
+    root.right.left = Node(15)
+    root.right.right = Node(8)
+    print("The tree before the deletion: ", end = "")
+    inorder(root)
+    key = 11
+    root = deletion(root, key)
+    print();
+    print("The tree after the deletion: ", end = "")
+    inorder(root)
+ 
+# This code is contributed by Monika Anandan
+C#
+Javascript
+Output
+Inorder traversal before deletion : 7 11 12 10 15 9 8 
+Inorder traversal after deletion : 7 8 12 10 15 9 
+Time complexity: O(n) where n is no number of nodes
+Auxiliary Space: O(n) size of queue
+
+Note: We can also replace the node’s data that is to be deleted with any node whose left and right child points to NULL but we only use deepest node in order to maintain the Balance of a binary tree.
+
+Important Note: The above code will not work if the node to be deleted is the deepest node itself because after the function deletDeepest(root, temp) completes execution, the key_node gets deleted(as here key_node is equal to temp)and after which replacing key_node‘s data with the deepest node’s data(temp‘s data) throws a runtime error.
+
+Output
+
+
+
+To avoid the above error and also to avoid doing BFS twice (1st iteration while searching the rightmost deepest node, and 2nd while deleting the rightmost deepest node), we can store the parent node while first traversal and after setting the rightmost deepest node’s data to the node needed deletion, easily delete the rightmost deepest node.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to delete element in binary tree
+ 
+# class to create a node with data, left child and right child.
+ 
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Inorder traversal of a binary tree
+ 
+ 
+def inorder(temp):
+    if(not temp):
+        return
+    inorder(temp.left)
+    print(temp.data, end=" ")
+    inorder(temp.right)
+ 
+ 
+def deletion(root, key):
+    if(root == None):
+        return None
+    if(root.left == None and root.right == None):
+        if(root.data == key):
+            return None
+        else:
+            return root
+ 
+    key_node = None
+    temp = None
+    last = None
+    q = []
+    q.append(root)
+    # Do level order traversal to find deepest
+    # node(temp), node to be deleted (key_node)
+    # and parent of deepest node(last)
+    while(len(q)):
+ 
+        temp = q.pop(0)
+ 
+        if(temp.data == key):
+            key_node = temp
+        if(temp.left):
+ 
+            last = temp  # storing the parent node
+            q.append(temp.left)
+ 
+        if(temp.right):
+ 
+            last = temp  # storing the parent node
+            q.append(temp.right)
+ 
+    if(key_node != None):
+ 
+        key_node.data = temp.data  # replacing key_node's data to deepest node's data
+        if(last.right == temp):
+            last.right = None
+        else:
+            last.left = None
+ 
+    return root
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    root = Node(9)
+    root.left = Node(2)
+    root.left.left = Node(4)
+    root.left.right = Node(7)
+    root.right = Node(8)
+ 
+    print("Inorder traversal before deletion : ", end="")
+    inorder(root)
+ 
+    key = 7
+    root = deletion(root, key)
+    print()
+    print("Inorder traversal after deletion : ", end="")
+    inorder(root)
+ 
+# This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Output
+Inorder traversal before deletion : 4 2 7 9 8 
+Inorder traversal after deletion : 4 2 9 8 
+Time complexity: O(n) where n is no number of nodes
+Auxiliary Space: O(n) size of queue
+
+This article is contributed by Yash Singla and Peehoo Jain. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+186
+Previous
+Insertion in a Binary Tree in level order
+Next
+Binary Tree (Array implementation)
+Related Articles
+1.
+Deletion of a given node K in a Binary Tree using Level Order Traversal
+2.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+3.
+Deletion in Splay Tree
+4.
+Minimize deletion of edges to convert Tree into a forest of size at most N/2
+5.
+m-Way Search Tree | Set-2 | Insertion and Deletion
+6.
+Ternary Search Tree (Deletion)
+7.
+Deletion in an AVL Tree
+8.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+9.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+10.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Kumar Shubham 10
+MonikaAnandan
+Vidhayak_Chacha
+Punpun
+AakashYadav4
+The_Error
+divyesh072019
+snehaspatil6327
+peehoojain2
+harendrakumar123
+prakhermehrotra
+noviced3vq6
+abhijeet19403
+hardikkoriintern
+user_zj6vcdls6v8
+hkdass001
+kirtiagarwal23121999
+Article Tags :
+cpp-queu
+tree-level-order
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

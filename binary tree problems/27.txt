@@ -1,0 +1,355 @@
+Check if a given Binary Tree is SumTree
+
+Difficulty Level : Medium
+Last Updated : 21 Jun, 2022
+Read
+Discuss(250+)
+Courses
+Practice
+Video
+Write a function that returns true if the given Binary Tree is SumTree else false. A SumTree is a Binary Tree where the value of a node is equal to the sum of the nodes present in its left subtree and right subtree. An empty tree is SumTree and the sum of an empty tree can be considered as 0. A leaf node is also considered as SumTree.
+
+Following is an example of SumTree. 
+
+          26
+        /   \
+      10     3
+    /    \     \
+  4      6      3
+Recommended Problem
+Sum Tree
+Tree
+Data Structures
+Amazon
+Microsoft
++3 more
+Solve Problem
+Submission count: 1.6L
+Method 1 (Simple) 
+Get the sum of nodes in the left subtree and right subtree. Check if the sum calculated is equal to the root’s data. Also, recursively check if the left and right subtrees are SumTrees.
+
+C++
+C
+Java
+Python3
+# Python3 program to implement
+# the above approach
+ 
+# A binary tree node has data,
+# left child and right child
+class node:
+   
+    def __init__(self, x):
+       
+        self.data = x
+        self.left = None
+        self.right = None
+ 
+# A utility function to get the sum
+# of values in tree with root as root
+def sum(root):
+   
+    if(root == None):
+        return 0
+    return (sum(root.left) +
+            root.data +
+            sum(root.right))
+ 
+# returns 1 if sum property holds
+# for the given node and both of
+# its children
+def isSumTree(node):
+   
+    # ls, rs
+ 
+    # If node is None or it's a leaf
+    # node then return true
+    if(node == None or
+      (node.left == None and
+       node.right == None)):
+        return 1
+ 
+    # Get sum of nodes in left and
+    # right subtrees
+    ls = sum(node.left)
+    rs = sum(node.right)
+ 
+    # if the node and both of its children
+    # satisfy the property return 1 else 0
+    if((node.data == ls + rs) and
+        isSumTree(node.left) and
+        isSumTree(node.right)):
+        return 1
+ 
+    return 0
+ 
+# Driver code
+if __name__ == '__main__':
+   
+    root = node(26)
+    root.left= node(10)
+    root.right = node(3)
+    root.left.left = node(4)
+    root.left.right = node(6)
+    root.right.right = node(3)
+     
+    if(isSumTree(root)):
+        print("The given tree is a SumTree ")
+    else:
+        print("The given tree is not a SumTree ")
+ 
+# This code is contributed by Mohit Kumar 29
+C#
+Javascript
+Output
+The given tree is a SumTree
+Time Complexity: O(n2) in the worst case. The worst-case occurs for a skewed tree.
+
+Auxiliary Space: O(n) for stack space
+
+Method 2 (Tricky) 
+Method 1 uses sum() to get the sum of nodes in left and right subtrees. Method 2 uses the following rules to get the sum directly. 
+1) If the node is a leaf node then the sum of the subtree rooted with this node is equal to the value of this node. 
+2) If the node is not a leaf node then the sum of the subtree rooted with this node is twice the value of this node (Assuming that the tree rooted with this node is SumTree).
+
+
+
+C++
+C
+Java
+Python3
+# Python3 program to check if
+# Binary tree is sum tree or not
+ 
+# A binary tree node has data,
+# left child and right child
+class node:
+ 
+    def __init__(self, x):
+ 
+        self.data = x
+        self.left = None
+        self.right = None
+ 
+ 
+def isLeaf(node):
+ 
+    if(node == None):
+        return 0
+    if(node.left == None and node.right == None):
+        return 1
+    return 0
+ 
+# A utility function to get the sum
+# of values in tree with root as root
+def sum(root):
+ 
+    if(root == None):
+        return 0
+    return (sum(root.left) +
+            root.data +
+            sum(root.right))
+ 
+ 
+# returns 1 if SumTree property holds
+# for the given tree
+def isSumTree(node):
+   
+    # If node is None or
+    # it's a leaf node then return true
+    if(node == None or isLeaf(node)):
+        return 1
+ 
+    if(isSumTree(node.left) and isSumTree(node.right)):
+       
+        # Get the sum of nodes in left subtree
+        if(node.left == None):
+            ls = 0
+        elif(isLeaf(node.left)):
+            ls = node.left.data
+        else:
+            ls = 2 * (node.left.data)
+ 
+        # Get the sum of nodes in right subtree
+        if(node.right == None):
+            rs = 0
+        elif(isLeaf(node.right)):
+            rs = node.right.data
+        else:
+            rs = 2 * (node.right.data)
+ 
+        # If root's data is equal to sum of nodes
+        # in left and right subtrees then return 1
+        # else return 0
+        return(node.data == ls + rs)
+ 
+    return 0
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    root = node(26)
+    root.left = node(10)
+    root.right = node(3)
+    root.left.left = node(4)
+    root.left.right = node(6)
+    root.right.right = node(3)
+ 
+    if(isSumTree(root)):
+        print("The given tree is a SumTree ")
+    else:
+        print("The given tree is not a SumTree ")
+ 
+# This code is contributed by kirtishsurangalikar
+C#
+Javascript
+Output: 
+
+The given tree is a SumTree
+Time Complexity: O(n)
+
+Auxiliary Space: O(n)
+
+Method 3
+Similar to postorder traversal iteratively find the sum in each step
+Return left + right + current data if left + right is equal to current node data
+Else return -1
+C++
+C++14
+Java
+Python3
+# Python3 program to check if
+# Binary tree is sum tree or not
+  
+# A binary tree node has data,
+# left child and right child
+class node:
+  
+    def __init__(self, x):
+  
+        self.data = x
+        self.left = None
+        self.right = None
+  
+  
+def isLeaf(node):
+  
+    if(node == None):
+        return 0
+    if(node.left == None and node.right == None):
+        return 1
+    return 0
+  
+ 
+# returns data if SumTree property holds for the given
+#    tree else return -1
+def isSumTree(node):
+    if(node == None):
+        return 0
+     
+    ls = isSumTree(node.left)
+    if(ls == -1):            #To stop for further traversal of tree if found not sumTree
+        return -1
+         
+    rs = isSumTree(node.right)
+    if(rs == -1):            #To stop for further traversal of tree if found not sumTree
+        return -1
+     
+     
+    if(isLeaf(node) or ls + rs == node.data):
+        return ls + rs + node.data
+    else:
+        return -1
+  
+# Driver code
+if __name__ == '__main__':
+  
+    root = node(26)
+    root.left = node(10)
+    root.right = node(3)
+    root.left.left = node(4)
+    root.left.right = node(6)
+    root.right.right = node(3)
+  
+    if(isSumTree(root)):
+        print("The given tree is a SumTree ")
+    else:
+        print("The given tree is not a SumTree ")
+  
+# This code is contributed by Mugunthan
+C#
+Javascript
+Time Complexity: O(n), since each element is traversed only once  
+
+Auxiliary Space: O(n), due to recursive stack space
+
+
+
+
+
+Like
+110
+Previous
+Check if all leaves are at same level
+Next
+Check whether a binary tree is a full binary tree or not
+Related Articles
+1.
+Check whether a given binary tree is skewed binary tree or not?
+2.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+3.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+4.
+Check if a binary tree is subtree of another binary tree | Set 2
+5.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+6.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+7.
+Check if a Binary tree is Subtree of another Binary tree | Set 3
+8.
+Check whether a binary tree is a full binary tree or not
+9.
+Check if a given Binary Tree is height balanced like a Red-Black Tree
+10.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+avanitrachhadiya2155
+khushboogoyal499
+rag2127
+pratham76
+rutvik_56
+unknown2108
+kirtishsurangalikar
+decode2207
+surinderdawra388
+amartyaghoshgfg
+mugunthanramesh
+shinjanpatra
+jana_sayantan
+tapeshdua420
+noviced3vq6
+Article Tags :
+Adobe
+Amazon
+Goldman Sachs
+Tree
+Practice Tags :
+Adobe
+Amazon
+Goldman Sachs
+Tree
+Improve Article
+Report Issue

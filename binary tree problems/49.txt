@@ -1,0 +1,285 @@
+Print root to leaf paths without using recursion
+
+Difficulty Level : Medium
+Last Updated : 24 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a binary tree, print all its root-to-leaf paths without using recursion. For example, consider the following Binary Tree. 
+
+        6
+     /    \
+    3      5
+  /   \     \
+ 2     5     4
+     /   \
+    7     4
+
+There are 4 leaves, hence 4 root to leaf paths -
+  6->3->2              
+  6->3->5->7
+  6->3->5->4
+  6->5>4
+We strongly recommend you to minimize your browser and try this yourself first.
+
+We can traverse tree iteratively (we have used iterative preorder). The question is, how to extend the traversal to print root-to-leaf paths? The idea is to maintain a map to store parent pointers of binary tree nodes. Now whenever we encounter a leaf node while doing iterative preorder traversal, we can easily print root to leaf path using parent pointer. 
+
+Below is the implementation of this idea.
+
+C++
+Java
+Python3
+# Python3 program to Print root to
+# leaf path without using recursion
+ 
+# Helper function that allocates a new
+# node with the given data and None left
+# and right pointers.
+class newNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = self.right = None
+ 
+# Function to print root to leaf path for a
+# leaf using parent nodes stored in map
+def printTopToBottomPath(curr, parent):
+    stk = []
+ 
+    # start from leaf node and keep on appending
+    # nodes into stack till root node is reached
+    while (curr):
+        stk.append(curr)
+        curr = parent[curr]
+ 
+    # Start popping nodes from stack
+    # and print them
+    while len(stk) != 0:
+        curr = stk[-1]
+        stk.pop(-1)
+        print(curr.data, end = " ")
+    print()
+ 
+# An iterative function to do preorder
+# traversal of binary tree and print
+# root to leaf path without using recursion
+def printRootToLeaf(root):
+     
+    # Corner Case
+    if (root == None):
+        return
+ 
+    # Create an empty stack and
+    # append root to it
+    nodeStack = []
+    nodeStack.append(root)
+ 
+    # Create a map to store parent
+    # pointers of binary tree nodes
+    parent = {}
+ 
+    # parent of root is None
+    parent[root] = None
+ 
+    # Pop all items one by one. Do following
+    # for every popped item
+    # a) append its right child and set its 
+    #     parent pointer
+    # b) append its left child and set its
+    #     parent pointer
+    # Note that right child is appended first
+    # so that left is processed first
+    while len(nodeStack) != 0:
+         
+        # Pop the top item from stack
+        current = nodeStack[-1]
+        nodeStack.pop(-1)
+ 
+        # If leaf node encountered, print
+        # Top To Bottom path
+        if (not (current.left) and
+            not (current.right)):
+            printTopToBottomPath(current, parent)
+ 
+        # append right & left children of the
+        # popped node to stack. Also set their
+        # parent pointer in the map
+        if (current.right):
+            parent[current.right] = current
+            nodeStack.append(current.right)
+        if (current.left):
+            parent[current.left] = current
+            nodeStack.append(current.left)
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Constructed binary tree is
+    #     10
+    # / \
+    # 8 2
+    # / \ /
+    # 3 5 2    
+    root = newNode(10)
+    root.left = newNode(8)
+    root.right = newNode(2)
+    root.left.left = newNode(3)
+    root.left.right = newNode(5)
+    root.right.left = newNode(2)
+ 
+    printRootToLeaf(root)
+     
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+10 8 3 
+10 8 5 
+10 2 2 
+Time Complexity: O(n log(n)), where n is the total nodes in binary tree.
+Auxiliary Space: O(n).
+
+Another Approach:
+
+This method is an optimization of the previous one. The problem can be solved without maintaining a parent pointer or the use of any additional extra space other than stack. We can store the path from root to leaf in a string as we traverse iteratively and print the path as soon as we encounter any leaf node.
+
+Below is the implementation of above idea.
+
+C++
+Java
+Python3
+# Python program to print root to leaf path without using
+# recursion
+ 
+# A binary tree node structure
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# fun to create a new node
+def newNode(data):
+    temp = Node(data)
+    return temp
+ 
+# fun to check leaf node
+def isleafnode(root):
+    return not root.left and not root.right
+ 
+# fun to print root to leaf paths without using parent
+# pointers
+def printRootToLeaf(root):
+    # base case
+    if not root:
+        return
+ 
+    path = ""
+ 
+    # create an empty stack to store a pair of tree nodes
+    # and its path from root node.
+    s = []
+ 
+    # push the root node
+    s.append((root, path))
+ 
+    # loop until stack becomes empty
+    while len(s) > 0:
+        it = s.pop()
+        root = it[0]
+        path = it[1]
+ 
+        # convert the curr root value to string
+        curr = str(root.data) + " "
+ 
+        # add the current node to the existing path
+        path += curr
+ 
+        # print the path if a node is encountered
+        if isleafnode(root):
+            print(path)
+ 
+        if root.right:
+            s.append((root.right, path))
+        if root.left:
+            s.append((root.left, path))
+ 
+# create a tree
+root = newNode(10)
+root.left = newNode(8)
+root.right = newNode(2)
+root.left.left = newNode(3)
+root.left.right = newNode(5)
+root.right.left = newNode(2)
+ 
+printRootToLeaf(root)
+C#
+Javascript
+Output
+10 8 3 
+10 8 5 
+10 2 2 
+Time Complexity: O(n), where n refers to total nodes in a binary tree.
+Auxiliary Space: O(n).
+
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Print path from root to a given node in a binary tree
+Next
+Print the nodes at odd levels of a tree
+Related Articles
+1.
+Print all root to leaf paths with there relative positions
+2.
+Print all root-to-leaf paths with maximum count of even nodes
+3.
+Print all root to leaf paths of an N-ary tree
+4.
+Print all the paths from root to leaf, with a specified sum in Binary tree
+5.
+Print all the root-to-leaf paths of a Binary Tree whose XOR is non-zero
+6.
+Given a binary tree, print out all of its root-to-leaf paths one per line.
+7.
+Given a binary tree, print all root-to-leaf paths
+8.
+Count of Root to Leaf Paths consisting of at most M consecutive Nodes having value K
+9.
+Remove nodes on root to leaf paths of length < K
+10.
+Root to leaf paths having equal lengths in a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_Gaurav_Tiwari
+PranchalKatiyar
+Rajput-Ji
+itsok
+hardikkoriintern
+upendra200223
+sagartomar9927
+karandeep1234
+vikramshirsath177
+yashagarwal2852002
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Report Issue

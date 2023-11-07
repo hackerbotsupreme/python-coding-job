@@ -1,0 +1,136 @@
+Write a program to Calculate Size of a tree | Recursion
+
+Difficulty Level : Easy
+Last Updated : 14 Sep, 2022
+Read
+Discuss(100)
+Courses
+Practice
+Video
+Size of a tree is the number of elements present in the tree. Size of the below tree is 5. 
+ 
+
+Example Tree
+
+Size() function recursively calculates the size of a tree. It works as follows:
+Size of a tree = Size of left subtree + 1 + Size of right subtree.
+
+Recommended Problem
+Size of Binary Tree
+Tree
+Data Structures
+Solve Problem
+Submission count: 45.1K
+Algorithm: 
+
+size(tree)
+1. If tree is empty then return 0
+2. Else
+     (a) Get the size of left subtree recursively  i.e., call 
+          size( tree->left-subtree)
+     (a) Get the size of right subtree recursively  i.e., call 
+          size( tree->right-subtree)
+     (c) Calculate size of the tree as following:
+            tree_size  =  size(left-subtree) + size(right-
+                               subtree) + 1
+     (d) Return tree_size
+C++
+C
+Java
+Python3
+# Python Program to find the size of binary tree
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Computes the number of nodes in tree
+def size(node):
+    if node is None:
+        return 0
+    else:
+        return (size(node.left)+ 1 + size(node.right))
+ 
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left  = Node(4)
+root.left.right = Node(5)
+ 
+print("Size of the tree is %d" %(size(root)))
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output:  
+
+Size of the tree is 5
+Time Complexity: O(N)
+
+As every node is visited once.
+
+Auxiliary Space: O(N)
+
+The extra space is due to the recursion call stack and the worst case occurs when the tree is either left skewed or right skewed.
+
+Since this program is similar to traversal of tree, time and space complexities will be same as Tree traversal (Please see our Tree Traversal post for details) 
+
+
+
+Like
+Previous
+Query for ancestor-descendant relationship in a tree
+Next
+Find the Maximum Depth or Height of given Binary Tree
+Related Articles
+1.
+Iterative program to Calculate Size of a tree
+2.
+Write a program to Delete a Tree
+3.
+Inorder Tree Traversal without Recursion
+4.
+Inorder Tree Traversal without recursion and without stack!
+5.
+Inorder Non-threaded Binary Tree Traversal without Recursion or Stack
+6.
+DFS traversal of a tree using recursion
+7.
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+8.
+Preorder Traversal of N-ary Tree Without Recursion
+9.
+Zig-Zag traversal of a Binary Tree using Recursion
+10.
+Find the node with minimum value in a Binary Search Tree using recursion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rathbhupendra
+rdtank
+amartyaghoshgfg
+abhijeet19403
+hardikkoriintern
+tiwsonu58
+Article Tags :
+Size of a Tree
+Tree
+Practice Tags :
+Tree
+Report Issue

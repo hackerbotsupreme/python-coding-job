@@ -1,0 +1,298 @@
+Height of a generic tree from parent array
+
+Difficulty Level : Medium
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given a tree of size n as array parent[0..n-1] where every index i in the parent[] represents a node and the value at i represents the immediate parent of that node. For root node value will be -1. Find the height of the generic tree given the parent links.
+
+Examples: 
+
+Input : parent[] = {-1, 0, 0, 0, 3, 1, 1, 2}
+Output : 2
+Height of a generic tree from parent array 1
+
+Input  : parent[] = {-1, 0, 1, 2, 3}
+Output : 4
+Height of a generic tree from parent array 2
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Here, a generic tree is sometimes also called an N-ary tree or N-way tree where N denotes the maximum number of child a node can have. In this problem, the array represents n number of nodes in the tree.
+Approach 1: One solution is to traverse up the tree from the node till the root node is reached with node value -1. While Traversing for each node stores maximum path length. 
+The Time Complexity of this solution is O(n^2).
+
+Approach 2: Build graph for N-ary Tree in O(n) time and apply BFS on the stored graph in O(n) time and while doing BFS store maximum reached level. This solution does two iterations to find the height of N-ary tree.
+
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 code to find height
+# of N-ary tree in O(n)
+from collections import deque
+ 
+MAX = 1001
+ 
+# Adjacency list to
+# store N-ary tree
+adj = [[] for i in range(MAX)]
+ 
+# Build tree in tree in O(n)
+def build_tree(arr, n):
+   
+    root_index = 0
+ 
+    # Iterate for all nodes
+    for i in range(n):
+ 
+        # if root node, store
+        # index
+        if (arr[i] == -1):
+            root_index = i
+        else:
+            adj[i].append(arr[i])
+            adj[arr[i]].append(i)
+ 
+    return root_index
+ 
+# Applying BFS
+def BFS(start):
+   
+    # map is used as visited
+    # array
+    vis = {}
+ 
+    q = deque()
+    max_level_reached = 0
+ 
+    # height of root node is
+    # zero
+    q.append([start, 0])
+ 
+    # p.first denotes node in
+    # adjacency list
+    # p.second denotes level of
+    # p.first
+    p = []
+ 
+    while (len(q) > 0):
+        p = q.popleft()
+        vis[p[0]] = 1
+ 
+        # store the maximum level
+        # reached
+        max_level_reached = max(max_level_reached,
+                                p[1])
+ 
+        for i in range(len(adj[p[0]])):
+ 
+            # adding 1 to previous level
+            # stored on node p.first
+            # which is parent of node
+            # adj[p.first][i]
+            # if adj[p.first][i] is not visited
+            if (adj[p[0]][i] not in vis ):
+                q.append([adj[p[0]][i],
+                          p[1] + 1])
+ 
+    return max_level_reached
+ 
+# Driver code
+if __name__ == '__main__':
+   
+    # node 0 to node n-1
+    parent = [-1, 0, 1, 2, 3]
+ 
+    # Number of nodes in tree
+    n = len(parent)
+ 
+    root_index = build_tree(parent, n)
+    ma = BFS(root_index)
+    print("Height of N-ary Tree=",
+          ma)
+ 
+# This code is contributed by Mohit Kumar 29
+C#
+Javascript
+Output: 
+Height of N-ary Tree=4
+ 
+
+Time Complexity: O(n) which converges to O(n) for very large n.
+Auxiliary Space: O(n), we are using an adjacency list to store the tree in memory. The size of the adjacency list is proportional to the number of nodes in the tree, so the space complexity of the algorithm is O(n).
+
+Approach 3: 
+
+We can find the height of the N-ary Tree in only one iteration. We visit nodes from 0 to n-1 iteratively and mark the unvisited ancestors recursively if they are not visited before till we reach a node which is visited, or we reach the root node. If we reach the visited node while traversing up the tree using parent links, then we use its height and will not go further in recursion.
+
+Explanation For Example 1:
+
+Height of a generic tree from parent array 3
+
+For node 0: Check for Root node is true, 
+Return 0 as height, Mark node 0 as visited 
+For node 1: Recur for an immediate ancestor, i.e 0, which is already visited 
+So, Use its height and return height(node 0) +1 
+Mark node 1 as visited 
+For node 2: Recur for an immediate ancestor, i.e 0, which is already visited 
+So, Use its height and return height(node 0) +1 
+Mark node 2 as visited 
+For node 3: Recur for an immediate ancestor, i.e 0, which is already visited 
+So, Use its height and return height(node 0) +1 
+Mark node 3 as visited 
+For node 4: Recur for an immediate ancestor, i.e 3, which is already visited 
+So, Use its height and return height(node 3) +1 
+Mark node 3 as visited 
+For node 5: Recur for an immediate ancestor, i.e 1, which is already visited 
+So, Use its height and return height(node 1) +1 
+Mark node 5 as visited 
+For node 6: Recur for an immediate ancestor, i.e 1, which is already visited 
+So, Use its height and return height(node 1) +1 
+Mark node 6 as visited 
+For node 7: Recur for an immediate ancestor, i.e 2, which is already visited 
+So, Use its height and return height(node 2) +1 
+Mark node 7 as visited
+Hence, we processed each node in the N-ary tree only once. 
+Implementation:
+
+C++
+Java
+Python3
+# Python3 code to find height of N-ary
+# tree in O(n) (Efficient Approach)
+ 
+# Recur For Ancestors of node and
+# store height of node at last
+def fillHeight(p, node, visited, height):
+     
+    # If root node
+    if (p[node] == -1):
+ 
+        # mark root node as visited
+        visited[node] = 1
+        return 0
+ 
+    # If node is already visited
+    if (visited[node]):
+        return height[node]
+ 
+    # Visit node and calculate its height
+    visited[node] = 1
+ 
+    # recur for the parent node
+    height[node] = 1 + fillHeight(p, p[node],
+                                  visited, height)
+ 
+    # return calculated height for node
+    return height[node]
+ 
+def findHeight(parent, n):
+     
+    # To store max height
+    ma = 0
+ 
+    # To check whether or not node is
+    # visited before
+    visited = [0] * n
+ 
+    # For Storing Height of node
+    height = [0] * n
+ 
+    for i in range(n):
+ 
+        # If not visited before
+        if (not visited[i]):
+            height[i] = fillHeight(parent, i,
+                                   visited, height)
+ 
+        # store maximum height so far
+        ma = max(ma, height[i])
+ 
+    return ma
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    parent = [-1, 0, 0, 0, 3, 1, 1, 2]
+    n = len(parent)
+ 
+    print("Height of N-ary Tree =",
+             findHeight(parent, n))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output: 
+Height of N-ary Tree = 2
+ 
+
+Time Complexity: O(n)
+Auxiliary Space: O(n), this is because we need to store the visited and height arrays which are of size n.
+
+
+
+
+
+Like
+11
+Next
+BFS using STL for competitive coding
+Related Articles
+1.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+2.
+Height of n-ary tree if parent array is given
+3.
+Find Height of Binary Tree represented by Parent array
+4.
+Remove all leaf nodes from a Generic Tree or N-ary Tree
+5.
+Check if given Generic N-ary Tree is Symmetric horizontally
+6.
+Left and Right view of a Generic Tree
+7.
+Replace every node with depth in N-ary Generic Tree
+8.
+Maximum height of an elevation possible such that adjacent matrix cells have a difference of at most height 1
+9.
+Construct Binary Tree from given Parent Array representation | Iterative Approach
+10.
+Construct Binary Tree from given Parent Array representation
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Abhishek rajput
+@Abhishek rajput
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+29AjayKumar
+Rajput-Ji
+mohit kumar 29
+rag2127
+avanitrachhadiya2155
+unknown2108
+ab2127
+rajutsav1234
+hardikkoriintern
+factworx4i2
+Article Tags :
+n-ary-tree
+Graph
+Tree
+Practice Tags :
+Graph
+Tree
+Improve Article
+Report Issue

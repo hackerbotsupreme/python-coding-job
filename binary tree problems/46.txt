@@ -1,0 +1,321 @@
+Convert Binary Tree to Doubly Linked List using inorder traversal
+
+Difficulty Level : Hard
+Last Updated : 12 Jan, 2023
+Read
+Discuss(190+)
+Courses
+Practice
+Video
+Given a Binary Tree (Bt), convert it to a Doubly Linked List(DLL). The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be the same as in Inorder for the given Binary Tree. The first node of Inorder traversal (leftmost node in BT) must be the head node of the DLL.
+
+TreeToList
+
+Recommended Problem
+Binary Tree to DLL
+Linked List
+Tree
++1 more
+Morgan Stanley
+Accolite
++5 more
+Solve Problem
+Submission count: 1.1L
+I came across this question during one of my interviews. A similar problem has been discussed in this post. 
+
+ 
+Complete Interview Preparation - GFG
+
+The problem here is simpler as we don’t need to create a circular DLL, but a simple DLL. The idea behind its solution is quite simple and straight.
+
+If the left subtree exists, process the left subtree
+Recursively convert the left subtree to DLL.
+Then find the inorder predecessor of the root in the left subtree (the inorder predecessor is the rightmost node in the left subtree).
+Make the inorder predecessor as the previous root and the root as the next in order predecessor.
+ If the right subtree exists, process the right subtree (Below 3 steps are similar to the left subtree).
+Recursively convert the right subtree to DLL.
+Then find the inorder successor of the root in the right subtree (in order the successor is the leftmost node in the right subtree).
+Make the inorder successor as the next root and the root as the previous inorder successor.
+Find the leftmost node and return it (the leftmost node is always the head of a converted DLL).
+Below is the source code for the above algorithm.
+
+C++
+C
+Java
+Python3
+# Python program to convert
+# binary tree to doubly linked list
+ 
+class Node(object):
+     
+    """Binary tree Node class has
+    data, left and right child"""
+    def __init__(self, item):
+        self.data = item
+        self.left = None
+        self.right = None
+ 
+def BTToDLLUtil(root):
+     
+    """This is a utility function to
+    convert the binary tree to doubly
+    linked list. Most of the core task
+    is done by this function."""
+    if root is None:
+        return root
+ 
+    # Convert left subtree
+    # and link to root
+    if root.left:
+         
+        # Convert the left subtree
+        left = BTToDLLUtil(root.left)
+ 
+        # Find inorder predecessor, After
+        # this loop, left will point to the
+        # inorder predecessor of root
+        while left.right:
+            left = left.right
+ 
+        # Make root as next of predecessor
+        left.right = root
+         
+        # Make predecessor as
+        # previous of root
+        root.left = left
+ 
+    # Convert the right subtree
+    # and link to root
+    if root.right:
+         
+        # Convert the right subtree
+        right = BTToDLLUtil(root.right)
+ 
+        # Find inorder successor, After
+        # this loop, right will point to
+        # the inorder successor of root
+        while right.left:
+            right = right.left
+ 
+        # Make root as previous
+        # of successor
+        right.left = root
+         
+        # Make successor as
+        # next of root
+        root.right = right
+ 
+    return root
+ 
+def BTToDLL(root):
+    if root is None:
+        return root
+ 
+    # Convert to doubly linked
+    # list using BLLToDLLUtil
+    root = BTToDLLUtil(root)
+     
+    # We need pointer to left most
+    # node which is head of the
+    # constructed Doubly Linked list
+    while root.left:
+        root = root.left
+ 
+    return root
+ 
+def print_list(head):
+     
+    """Function to print the given
+       doubly linked list"""
+    if head is None:
+        return
+    while head:
+        print(head.data, end = " ")
+        head = head.right
+ 
+# Driver Code
+if __name__ == '__main__':
+    root = Node(10)
+    root.left = Node(12)
+    root.right = Node(15)
+    root.left.left = Node(25)
+    root.left.right = Node(30)
+    root.right.left = Node(36)
+ 
+    head = BTToDLL(root)
+    print_list(head)
+ 
+# This code is contributed
+# by viveksyngh
+C#
+Javascript
+Output
+
+
+25 12 30 10 36 15 
+Time Complexity: O(n).
+Auxiliary Space: O(1).
+
+Another Approach:
+Algorithm:
+
+Traverse the tree in inorder fashion.
+While visiting each node, keep track of DLL’s head and tail pointers, insert each visited node to the end of DLL using tail pointer.
+Return head of the list.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python3 program for in-place
+# conversion of Binary Tree to DLL
+ 
+# A binary tree node has data,
+# and left and right pointers
+class newNode(object):
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+head = None
+tail = None
+# This is the core function to convert Tree to list.
+def bintree2listUtil(root):
+ 
+    if (root == None):
+        return
+ 
+    left = root.left
+    right = root.right
+ 
+    global head
+    global tail
+     
+    bintree2listUtil(root.left)
+ 
+    if (head == None):
+        head = root
+     
+    root.left = tail
+ 
+    if (tail != None):
+        tail.right = root
+         
+    tail = root
+     
+    bintree2listUtil(root.right)
+ 
+# The main function that first calls
+# bintree2listUtil()
+def bintree2list(root):
+    # Base case
+    global head
+    if (root == None):
+        head = root
+ 
+    bintree2listUtil(root)
+ 
+# Function to print nodes in a given doubly linked list
+def printList():
+    global head
+    while head:
+        print(head.data, end = " ")
+        head = head.right
+ 
+# Driver Code
+if __name__ == '__main__':
+    root = newNode(10)
+    root.left = newNode(12)
+    root.right = newNode(15)
+    root.left.left = newNode(25)
+    root.left.right = newNode(30)
+    root.right.left = newNode(36)
+ 
+    bintree2list(root)
+    printList()
+ 
+# This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Output
+25 12 30 10 36 15 
+Time Complexity: O(n)  where n is the number of nodes in given Binary Tree.
+Auxiliary Space: O(h) where h is the height of given Binary Tree due to Recursion
+
+This article is compiled by Ashish Mangla and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+You may also like to see Convert a given Binary Tree to Doubly Linked List | Set 2 for another simple and efficient solution.
+ 
+
+
+
+
+
+Like
+78
+Previous
+Construct Full Binary Tree from given preorder and postorder traversals
+Next
+Convert a given tree to its Sum Tree
+Related Articles
+1.
+Convert Binary Tree to Doubly Linked List using Morris Traversal
+2.
+Calculate height of Binary Tree using Inorder and Level Order Traversal
+3.
+Preorder, Postorder and Inorder Traversal of a Binary Tree using a single Stack
+4.
+Cartesian tree from inorder traversal | Segment Tree
+5.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+6.
+Construct Special Binary Tree from given Inorder traversal
+7.
+Inorder Non-threaded Binary Tree Traversal without Recursion or Stack
+8.
+Check if Inorder traversal of a Binary Tree is palindrome or not
+9.
+Binary Tree Iterator for Inorder Traversal
+10.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+viveksyngh
+shrikanth13
+rathbhupendra
+prakhar jauhari
+ankitshuklatiwari1
+umadevi9616
+bittu06
+arorakashish0911
+GauravRajput1
+simmytarika5
+amartyaghoshgfg
+gauravgupta092002
+abhijeet19403
+surajrasr7277
+kirtiagarwal23121999
+Article Tags :
+Amazon
+doubly linked list
+Goldman Sachs
+Microsoft
+Linked List
+Tree
+Practice Tags :
+Amazon
+Goldman Sachs
+Microsoft
+Linked List
+Tree
+Improve Article
+Report Issue

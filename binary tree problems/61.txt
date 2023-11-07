@@ -1,0 +1,216 @@
+Construct tree from ancestor matrix
+
+Difficulty Level : Hard
+Last Updated : 19 Dec, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given an ancestor matrix mat[n][n] where Ancestor matrix is defined as below. 
+
+mat[i][j] = 1 if i is ancestor of j
+mat[i][j] = 0, otherwise
+Construct a Binary Tree from a given ancestor matrix where all its values of nodes are from 0 to n-1.
+
+It may be assumed that the input provided the program is valid and tree can be constructed out of it.
+Many Binary trees can be constructed from one input. The program will construct any one of them.
+Examples: 
+
+Input: 0 1 1
+       0 0 0 
+       0 0 0 
+Output: Root of one of the below trees.
+    0                0
+  /   \     OR     /   \
+ 1     2          2     1
+
+Input: 0 0 0 0 0 0 
+       1 0 0 0 1 0 
+       0 0 0 1 0 0 
+       0 0 0 0 0 0 
+       0 0 0 0 0 0 
+       1 1 1 1 1 0
+Output: Root of one of the below trees.
+      5              5               5
+   /    \           / \            /   \
+  1      2   OR    2   1    OR    1     2  OR ....
+ /  \   /        /    /  \       / \    /
+0   4  3        3    0    4     4   0  3
+There are different possible outputs because ancestor
+matrix doesn't store that which child is left and which
+is right.
+We strongly recommend you to minimize your browser and try this yourself first. 
+
+Observations used in the solution: 
+
+The rows that correspond to leaves have all 0’s
+The row that corresponds to root has maximum number of 1’s.
+Count of 1’s in i’th row indicates number of descendants of node i.
+The idea is to construct the tree in bottom up manner.
+
+Create an array of node pointers node[].
+Store row numbers that correspond to a given count. We have used multimap for this purpose.
+Process all entries of multimap from smallest count to largest (Note that entries in map and multimap can be traversed in sorted order). Do following for every entry.
+Create a new node for current row number.
+If this node is not a leaf node, consider all those descendants of it whose parent is not set, make current node as its parent.
+The last processed node (node with maximum sum) is root of tree.
+Below is the implementation of the above approach:
+
+
+
+C++
+Java
+Python3
+# key structure to store a binary tree node
+class Node:
+    def __init__(self, key, left = None, right = None):
+        self.key = key
+        self.left = left
+        self.right = right
+  
+# Utility function to print binary tree nodes in-order fashion
+def inorder(node):
+    if node:
+        inorder(node.left)
+        print(node.key, end = ' ')
+        inorder(node.right)
+  
+# Function to construct a binary tree
+# from specified ancestor matrix
+def constructBT(mat):
+    
+    # get number of rows in the matrix
+    N = len(mat)
+  
+    # create an empty multi-dict
+    dict = {}
+  
+    # Use sum as key and row numbers as values in the multi-dict
+    for i in range(N):
+  
+        # find the sum of the current row
+        total = sum(mat[i])
+  
+        # insert the sum and row number into the dict
+        dict.setdefault(total, []).append(i)
+  
+    # node[i] will store node for i in constructed tree
+    node = [Node(-1)] * N
+    last = 0
+  
+    # the value of parent[i] is true if parent is set for i'th node
+    parent = [False] * N
+  
+    # Traverse the dictionary in sorted order (default behavior)
+    for key in dict.keys():
+        for row in dict.get(key):
+            last = row
+              
+            # create a new node
+            node[row] = Node(row)
+  
+            # if leaf node, do nothing
+            if key == 0:
+                continue
+  
+            # traverse row
+            for i in range(N):
+                
+                # do if parent is not set and ancestor exits
+                if not parent[i] and mat[row][i] == 1:
+                    
+                    # check for the unoccupied node
+                    if node[row].left is None:
+                        node[row].left = node[i]
+                    else:
+                        node[row].right = node[i]
+  
+                    # set parent for i'th node
+                    parent[i] = True
+  
+    # last processed node is the root
+    return node[last]
+  
+# Construct a Binary Tree from Ancestor Matrix
+if __name__ == '__main__':
+  
+    mat = [[0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 1, 0],
+        [0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [1, 1, 1, 1, 0, 0]]
+  
+    root = constructBT(mat)
+    inorder(root)
+  
+# This code is contributed by Priyadarshini Kumari
+C#
+Javascript
+Output
+0 1 4 5 3 2
+Time Complexity: O(N2), where N is the number of nodes in the tree.
+Space Complexity: O(N2), where N is the number of nodes in the tree.
+
+Note that we can also use an array of vectors in place of multimap. We have used multimap for simplicity. Array of vectors would improve performance as inserting and accessing elements would take O(1) time.
+
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+18
+Next
+Construct Ancestor Matrix from a Given Binary Tree
+Related Articles
+1.
+Construct Ancestor Matrix from a Given Binary Tree
+2.
+Construct Binary Tree from Ancestor Matrix | Top Down Approach
+3.
+Lowest Common Ancestor in a Binary Search Tree.
+4.
+Lowest Common Ancestor in a Binary Tree
+5.
+Maximum difference between node and its ancestor in Binary Tree
+6.
+Query for ancestor-descendant relationship in a tree
+7.
+K-th ancestor of a node in Binary Tree
+8.
+Kth ancestor of a node in binary tree | Set 2
+9.
+Lowest Common Ancestor in a Binary Tree | Set 3 (Using RMQ)
+10.
+K-th ancestor of a node in Binary Tree | Set 3
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ManasChhabra2
+amarsomani
+pawki
+Rajput-Ji
+itsok
+rohitmishra051000
+hardikkoriintern
+Article Tags :
+Matrix
+Tree
+Practice Tags :
+Matrix
+Tree

@@ -1,0 +1,307 @@
+Level Order Binary Tree Traversal
+
+Difficulty Level : Easy
+Last Updated : 26 Dec, 2022
+Read
+Discuss(380+)
+Courses
+Practice
+Video
+Given the root of the Binary Tree. The task is to print the Level order traversal of a tree is breadth first traversal for the tree. 
+
+Input:
+
+
+
+Output:
+1
+2 3
+4 5 
+
+Input:
+
+
+
+Output:
+20
+8 22
+4 12
+10 14
+
+
+
+Recommended Problem
+Level order traversal
+Tree
+Data Structures
+Flipkart
+Morgan Stanley
++10 more
+Solve Problem
+Submission count: 1.4L
+Level Order Binary Tree Traversal using Recursion:
+Below is the idea to solve the problem:
+
+Print the level order traversal of the tree using recursive function to traverse all nodes of a level. Find height of tree and run depth first search and maintain current height, print nodes for every height from root and for 1 to height and match if the current height is equal to height of the iteration then print node’s data.
+
+Follow the below steps to Implement the idea:
+
+Run a for loop for counter i, i.e. current height from 1 to h (height of the tree).
+Use DFS to traverse the tree and maintain height for the current node.
+If the Node is NULL then return;
+If level is 1 print(tree->data);
+Else if the level is greater than 1, then
+Recursively call to for tree->left, level-1.
+Recursively call to for tree->right, level-1.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Recursive Python program for level
+# order traversal of Binary Tree
+ 
+# A node structure
+ 
+ 
+class Node:
+ 
+    # A utility function to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+ 
+# Function to  print level order traversal of tree
+def printLevelOrder(root):
+    h = height(root)
+    for i in range(1, h+1):
+        printCurrentLevel(root, i)
+ 
+ 
+# Print nodes at a current level
+def printCurrentLevel(root, level):
+    if root is None:
+        return
+    if level == 1:
+        print(root.data, end=" ")
+    elif level > 1:
+        printCurrentLevel(root.left, level-1)
+        printCurrentLevel(root.right, level-1)
+ 
+ 
+""" Compute the height of a tree--the number of nodes
+    along the longest path from the root node down to
+    the farthest leaf node
+"""
+ 
+ 
+def height(node):
+    if node is None:
+        return 0
+    else:
+        # Compute the height of each subtree
+        lheight = height(node.left)
+        rheight = height(node.right)
+ 
+        # Use the larger one
+        if lheight > rheight:
+            return lheight+1
+        else:
+            return rheight+1
+ 
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+ 
+print("Level order traversal of binary tree is -")
+printLevelOrder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Level Order traversal of binary tree is 
+1 2 3 4 5 
+Time Complexity: O(N2), where N is the number of nodes in the skewed tree. So time complexity of printLevelOrder() is O(n) + O(n-1) + O(n-2) + .. + O(1) which is O(N2). 
+Auxiliary Space:  O(N) in the worst case. For a skewed tree, printGivenLevel() uses O(n) space for the call stack. For a Balanced tree, the call stack uses O(log n) space, (i.e., the height of the balanced tree). 
+
+Level Order Binary Tree Traversal Using Queue
+For each node, first, the node is visited and then it’s child nodes are put in a FIFO queue. Then again the first node is popped out and then it’s child nodes are put in a FIFO queue and repeat until queue becomes empty.
+
+Follow the below steps to Implement the above idea:
+
+Create an empty queue q and push root in q.
+Run While loop until q is not empty. 
+Initialize temp_node = q.front() and print temp_node->data.
+Push temp_node’s children i.e. temp_node -> left then temp_node -> right to q
+Pop front node from q.
+Below is the Implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to print level
+# order traversal using Queue
+ 
+# A node structure
+ 
+ 
+class Node:
+    # A utility function to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# Iterative Method to print the
+# height of a binary tree
+ 
+ 
+def printLevelOrder(root):
+    # Base Case
+    if root is None:
+        return
+ 
+    # Create an empty queue
+    # for level order traversal
+    queue = []
+ 
+    # Enqueue Root and initialize height
+    queue.append(root)
+ 
+    while(len(queue) > 0):
+ 
+        # Print front of queue and
+        # remove it from queue
+        print(queue[0].data, end = " ")
+        node = queue.pop(0)
+ 
+        # Enqueue left child
+        if node.left is not None:
+            queue.append(node.left)
+ 
+        # Enqueue right child
+        if node.right is not None:
+            queue.append(node.right)
+ 
+ 
+# Driver Program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+ 
+print("Level Order Traversal of binary tree is -")
+printLevelOrder(root)
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Level Order traversal of binary tree is 
+1 2 3 4 5 
+Time Complexity: O(N) where n is the number of nodes in the binary tree.
+Auxiliary Space: O(N) where n is the number of nodes in the binary tree.
+
+Please write comments if you find any bugs in the above programs/algorithms or other ways to solve the same problem. 
+
+
+
+
+
+Like
+447
+Previous
+Inorder Tree Traversal without recursion and without stack!
+Next
+Iterative Preorder Traversal
+Related Articles
+1.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+2.
+Level order traversal of Binary Tree using Morris Traversal
+3.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+4.
+Flatten Binary Tree in order of Level Order Traversal
+5.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+6.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+7.
+Insertion in n-ary tree in given order and Level order traversal
+8.
+Connect Nodes at same Level (Level Order Traversal)
+9.
+Perfect Binary Tree Specific Level Order Traversal
+10.
+Check if the given array can represent Level Order Traversal of Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+princiraj1992
+rathbhupendra
+nidhi_biet
+SBVKrishna
+arpanhalder7384
+Vishalmast
+yashyon
+maheshbauri
+singh_teekam
+clintra
+chandra8226
+umadevi9616
+simranarora5sos
+tarunkumar11
+maayanasahanin
+suyashgulati
+hardikkoriintern
+aashutoshparoha
+simmytarika5
+joeyjim999
+Article Tags :
+Amazon
+Cisco
+D-E-Shaw
+Flipkart
+Microsoft
+Morgan Stanley
+Ola Cabs
+Payu
+Qualcomm
+Samsung
+tree-level-order
+Queue
+Tree
+Practice Tags :
+Amazon
+Cisco
+D-E-Shaw
+Flipkart
+Microsoft
+Morgan Stanley
+Ola Cabs
+Payu
+Qualcomm
+Samsung
+Queue
+Tree
+Improve Article
+Report Issue

@@ -1,0 +1,298 @@
+Construct a special tree from given preorder traversal
+
+Difficulty Level : Hard
+Last Updated : 20 Jan, 2023
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Given an array ‘pre[]’ that represents Preorder traversal of a special binary tree where every node has either 0 or 2 children. One more array ‘preLN[]’ is given which has only two possible values ‘L’ and ‘N’. The value ‘L’ in ‘preLN[]’ indicates that the corresponding node in Binary Tree is a leaf node and value ‘N’ indicates that the corresponding node is a non-leaf node. Write a function to construct the tree from the given two arrays.
+
+Example: 
+
+Input:  pre[] = {10, 30, 20, 5, 15},  preLN[] = {‘N’, ‘N’, ‘L’, ‘L’, ‘L’}
+Output: Root of following tree
+
+          10
+
+         /  \
+
+      30   15
+
+      /    \
+
+
+
+   20     5
+
+Recommended Problem
+Construct Tree from Preorder Traversal
+Traversal
+Tree
++2 more
+Amazon
+Hike
+Solve Problem
+Submission count: 17.1K
+Approach: The first element in pre[] will always be root. So we can easily figure out the root. If the left subtree is empty, the right subtree must also be empty, and the preLN[] entry for root must be ‘L’. We can simply create a node and return it. If the left and right subtrees are not empty, then recursively call for left and right subtrees and link the returned nodes to root.  
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# A program to construct Binary
+# Tree from preorder traversal
+ 
+# Utility function to create a
+# new Binary Tree node
+class newNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# A recursive function to create a
+# Binary Tree from given pre[] preLN[]
+# arrays. The function returns root of 
+# tree. index_ptr is used to update
+# index values in recursive calls. index
+# must be initially passed as 0
+def constructTreeUtil(pre, preLN, index_ptr, n):
+     
+    index = index_ptr[0] # store the current value
+                         # of index in pre[]
+ 
+    # Base Case: All nodes are constructed
+    if index == n:
+        return None
+ 
+    # Allocate memory for this node and
+    # increment index for subsequent
+    # recursive calls
+    temp = newNode(pre[index])
+    index_ptr[0] += 1
+ 
+    # If this is an internal node, construct left
+    # and right subtrees and link the subtrees
+    if preLN[index] == 'N':
+        temp.left = constructTreeUtil(pre, preLN,
+                                      index_ptr, n)
+        temp.right = constructTreeUtil(pre, preLN,
+                                       index_ptr, n)
+ 
+    return temp
+ 
+# A wrapper over constructTreeUtil()
+def constructTree(pre, preLN, n):
+     
+    # Initialize index as 0. Value of index is
+    # used in recursion to maintain the current
+    # index in pre[] and preLN[] arrays.
+    index = [0]
+ 
+    return constructTreeUtil(pre, preLN, index, n)
+ 
+# This function is used only for testing
+def printInorder (node):
+    if node == None:
+        return
+ 
+    # first recur on left child
+    printInorder (node.left)
+ 
+    # then print the data of node
+    print(node.data,end=" ")
+ 
+    # now recur on right child
+    printInorder (node.right)
+     
+# Driver Code
+if __name__ == '__main__':
+    root = None
+ 
+    # Constructing tree given in
+    # the above figure
+    #     10
+    #     / \
+    # 30 15
+    # / \
+    # 20 5
+    pre = [10, 30, 20, 5, 15]
+    preLN = ['N', 'N', 'L', 'L', 'L']
+    n = len(pre)
+ 
+    # construct the above tree
+    root = constructTree (pre, preLN, n)
+ 
+    # Test the constructed tree
+    print("Following is Inorder Traversal of",
+          "the Constructed Binary Tree:")
+    printInorder (root)
+     
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Inorder Traversal of the Constructed Binary Tree: 
+20 30 5 10 15 
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Method 2: Using Stack without recursion
+
+Approach: 
+
+As the Pre-order Traversal is given so we first make a root and insert the first value into it.
+Traverse the given pre-order traversal.
+Check the left of stack’s top
+If it  NULL then we add the present node on left
+Otherwise, Add into right if right is NULL.
+If left and right both are not NULL, it means that the node have both left and right so we pop out the nodes until we won’t get any node whose left or right is NULL.
+If the present node is not a leaf node, push node into the stack.
+Finally return the root of the constructed tree.
+Below is the implementation of the above approach: 
+
+C++
+Java
+Javascript
+Python
+# Python program for above approach
+ 
+# A class for a binary tree node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def constructTree(pre, preLN, n):
+    # Taking an empty stack
+    st = []
+ 
+    # Setting up root node
+    root = Node(pre[0])
+    # Checking if root is not a leaf node
+    if preLN[0] != 'L':
+        st.append(root)
+ 
+    # Iterating over the given node values
+    for i in range(1, n):
+        temp = Node(pre[i])
+ 
+        # Checking if the left position is None or not
+        if not st[-1].left:
+            st[-1].left = temp
+ 
+            # Checking for leaf node
+            if preLN[i] != 'L':
+                st.append(temp)
+        # Checking if the right position is None or not
+        elif not st[-1].right:
+            st[-1].right = temp
+            if preLN[i] != 'L':
+                # Checking for leaf node
+                st.append(temp)
+        # If left and right of top node are already filled
+        else:
+            while st[-1].left and st[-1].right:
+                st.pop()
+            st[-1].right = temp
+ 
+            # Checking for leaf node
+            if preLN[i] != 'L':
+                st.append(temp)
+ 
+    # Returning the root of the tree
+    return root
+ 
+# This function is used only for testing
+ 
+ 
+def printInorder(node):
+    if node is None:
+        return
+ 
+    # First recur on left child
+    printInorder(node.left)
+ 
+    # Print the data of node
+    print(node.data)
+ 
+    # Now recur on right child
+    printInorder(node.right)
+ 
+ 
+# Test the constructed tree
+root = constructTree([10, 30, 20, 5, 15], ['N', 'N', 'L', 'L', 'L'], 5)
+print("Inorder Traversal of the Constructed Binary Tree: ")
+printInorder(root)
+ 
+# This code is contributed by adityamaharshi21
+C#
+Output
+Inorder Traversal of the Constructed Binary Tree: 
+20 30 5 10 15 
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Construct the full k-ary tree from its preorder traversal
+
+
+
+
+
+Like
+39
+Next
+Construct tree from ancestor matrix
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Construct the full k-ary tree from its preorder traversal
+3.
+Construct a Perfect Binary Tree from Preorder Traversal
+4.
+Construct Special Binary Tree from given Inorder traversal
+5.
+Construct BST from given preorder traversal using Stack
+6.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+7.
+Construct Tree from given Inorder and Preorder traversals
+8.
+Construct Full Binary Tree from given preorder and postorder traversals
+9.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+10.
+Modify a binary tree to get preorder traversal using right pointers only
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+rutvik_56
+vatsaljain316
+shubhamrajput6156
+jana_sayantan
+hardikkoriintern
+adityamaharshi21
+pradeepkumarppk2003
+Article Tags :
+Amazon
+Traversal
+Tree
+Practice Tags :
+Amazon
+Traversal
+Tree

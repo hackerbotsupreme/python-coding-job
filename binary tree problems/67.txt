@@ -1,0 +1,163 @@
+Check if there is a root to leaf path with given sequence
+
+Difficulty Level : Easy
+Last Updated : 22 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a binary tree and an array, the task is to find if the given array sequence is present as a root-to-leaf path in given tree.
+
+ 
+
+ Examples :
+
+Input : arr[] = {5, 2, 4, 8} for above tree
+Output: "Path Exist"
+
+Input :  arr[] = {5, 3, 4, 9} for above tree
+Output: "Path does not Exist"
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution for this problem is to find all root-to-leaf paths in given tree and for each root-to-leaf path check whether path and given sequence in array both are identical or not.
+
+An efficient solution for this problem is to traverse the tree once and while traversing the tree we have to check if path from root to current node is identical to the given sequence of root to leaf path. 
+
+Algorithm:
+
+Start traversing tree in preorder fashion.
+Whenever we moves down in tree then we also move by one index in given sequence of root to leaf path .
+If current node is equal to the arr[index] this means that till this level of tree path is identical.
+Now remaining path will either be in left subtree or in right subtree.
+If any node gets mismatched with arr[index] this means that current path is not identical to the given sequence of root to leaf path, so we return back and move in right subtree.
+Now when we are at leaf node and it is equal to arr[index] and there is no further element in given sequence of root to leaf path, this means that path exist in given tree.
+C++
+Java
+Python3
+# Python program to see if
+# there is a root to leaf path
+# with given sequence
+ 
+# Class of Node
+class Node:
+     
+    # Constructor to create a
+    # node in Binary Tree
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+  
+# Util function  
+def existPathUtil(root, arr, n, index):
+     
+    # If root is NULL or reached
+    # end of the array
+    if not root or index == n:
+        return False
+     
+    # If current node is leaf
+    if not root.left and not root.right:
+        if root.val == arr[index] and index == n-1:
+            return True
+        return False
+     
+    # If current node is equal to arr[index] this means
+    # that till this level path has been matched and
+    # remaining path can be either in left subtree or
+    # right subtree.
+    return ((index < n) and (root.val == arr[index]) and \
+            (existPathUtil(root.left, arr, n, index+1) or \
+            existPathUtil(root.right, arr, n, index+1)))
+ 
+# Function to check given sequence of root to leaf path exist
+# in tree or not.
+# index represents current element in sequence of rooth to
+# leaf path        
+def existPath(root, arr, n, index):
+    if not root:
+        return (n == 0)
+         
+    return existPathUtil(root, arr, n, 0)
+ 
+# Driver Code
+if __name__ == "__main__":
+    arr = [5, 8, 6, 7]
+    n = len(arr)
+    root = Node(5)
+    root.left = Node(3)
+    root.right = Node(8)
+    root.left.left = Node(2)
+    root.left.right = Node(4)
+    root.left.left.left = Node(1)
+    root.right.left = Node(6)
+    root.right.left.right = Node(7)
+     
+    if existPath(root, arr, n, 0):
+        print("Path Exists")
+    else:
+        print("Path does not Exist")
+C#
+Javascript
+Output
+
+
+Path Exists
+Time Complexity: O(N), the time complexity of this algorithm is O(N), where N is the number of nodes in the tree. 
+Auxiliary Space: O(h), where h is the height of the tree, this space is due to the recursive call stack.
+
+ This article is contributed by Shashank Mishra ( Gullu ). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+21
+Previous
+Check for Symmetric Binary Tree (Iterative Approach)
+Next
+Print middle level of perfect binary tree without finding height
+Related Articles
+1.
+Find if there is a pair in root to a leaf path with sum equals to root's data
+2.
+Construct a Tree whose sum of nodes of all the root to leaf path is not divisible by the count of nodes in that path
+3.
+Print all root to leaf paths with there relative positions
+4.
+Root to leaf path sum equal to a given number
+5.
+Root to leaf path product equal to a given number
+6.
+Shortest root to leaf path sum equal to a given number
+7.
+Print the longest leaf to leaf path in a Binary tree
+8.
+Find the maximum sum leaf to root path in a Binary Tree
+9.
+Maximum distinct nodes in a Root to leaf path
+10.
+Print the first shortest root to leaf path in a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_Gaurav_Tiwari
+PranchalKatiyar
+Rajput-Ji
+somaniketan74
+hardikkoriintern
+adityamaharshi21
+factworx4i2
+Article Tags :
+Tree
+Practice Tags :
+Tree

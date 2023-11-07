@@ -1,0 +1,365 @@
+
+Program to Determine if given Two Trees are Identical or not
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss(140+)
+Courses
+Practice
+Video
+Write a function to determine if two trees are identical or not:
+
+Two trees are identical when they have the same data and the arrangement of data is also the same
+
+Examples:
+
+Input:         1                    1
+                 /   \                /   \
+               2      3            2      3
+             /                    /
+           4                   4
+
+Output: Both trees are identical
+
+Input:         1                    1
+                 /   \                /   \
+               2      3            5      3
+                     /             /
+                  4             4
+
+Output: Trees are not identical
+
+
+
+Recommended Problem
+Determine if Two Trees are Identical
+Tree
+Data Structures
+Flipkart
+Amazon
++1 more
+Solve Problem
+Submission count: 1.7L
+Approach: To solve the problem follow the below idea:
+
+To identify if two trees are identical, we need to traverse both trees simultaneously, and while traversing we need to compare data and children of the trees
+
+Follow the given steps to solve the problem:
+
+If both trees are empty then return 1(Base case)
+Else If both trees are non-empty
+Check data of the root nodes (tree1->data ==  tree2->data)
+Check left subtrees recursively
+Check right subtrees recursively
+If the above three statements are true then return 1
+Else return 0 (one is empty and the other is not)
+Below is the implementation of this approach:
+
+C++
+C
+Java
+Python3
+# Python3 program to determine if two trees are identical
+ 
+# A binary tree node has data, pointer to left child
+# and a pointer to right child
+ 
+ 
+class Node:
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+# Given two trees, return true if they are structurally
+# identical
+def identicalTrees(a, b):
+ 
+    # 1. Both empty
+    if a is None and b is None:
+        return True
+ 
+    # 2. Both non-empty -> Compare them
+    if a is not None and b is not None:
+        return ((a.data == b.data) and
+                identicalTrees(a.left, b.left)and
+                identicalTrees(a.right, b.right))
+ 
+    # 3. one empty, one not -- false
+    return False
+ 
+ 
+# Driver code
+root1 = Node(1)
+root2 = Node(1)
+root1.left = Node(2)
+root1.right = Node(3)
+root1.left.left = Node(4)
+root1.left.right = Node(5)
+ 
+root2.left = Node(2)
+root2.right = Node(3)
+root2.left.left = Node(4)
+root2.left.right = Node(5)
+ 
+# Function call
+if __name__ == "__main__":
+  if identicalTrees(root1, root2):
+      print("Both trees are identical")
+  else:
+      print("Trees are not identical")
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Both trees are identical.
+Time Complexity: O(min(N, M)), Where N and M are the sizes of the trees
+Auxiliary Space: O(log min(N, M)), due to auxiliary stack space used by recursion calls
+
+
+Write a function to determine if two trees are identical or not by comparing their traversals:
+To solve the problem follow the below idea:
+
+If two trees are identical, their preorder, inorder and postorder traversals will also be the same
+
+Note: For this, we can find one traversal, say inorder, and if it is the same for both the trees, can we say the given trees are identical?  No, because we can have two trees with the same inorder traversal, still they can be non-identical.
+
+See the below example:
+
+Tree 1:    2                           Tree 2:   1
+            /                                            \
+         1                                                2
+
+Both the trees have inorder traversal as “2  1”, but they are not identical.
+
+To tackle such edge cases, we should find all the traversal for both the trees and see if they are equal. If yes, the given trees are identical else not.
+
+Below is the implementation of this approach:
+
+C++
+Java
+Python3
+# Python program to check if two trees are identical
+ 
+# A binary tree node
+class Node:
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# Utility function to check inorder traversal     
+def inOrder(root, sol):
+    if root is None:
+        return
+    inOrder(root.left, sol)
+    sol.append(root.data)
+    inOrder(root.right, sol)
+     
+# Utility function to check preorder traversal
+def preOrder(root, sol):
+    if root is None:
+        return
+    sol.append(root.data)
+    preOrder(root.left, sol)
+    preOrder(root.right, sol)
+ 
+# Utility function to check postorder traversal
+def postOrder(root, sol):
+    if root is None:
+        return
+    postOrder(root.left, sol)
+    postOrder(root.right, sol)
+    sol.append(root.data)
+ 
+# Function to check if two trees are identical
+def isIdentical(root1, root2):
+    # Code here
+    # Create two vector to store traversal
+    res1 = []
+    res2 = []
+     
+    #check inorder
+    inOrder(root1, res1)
+    inOrder(root2, res2)
+    if res1 != res2:
+        return False
+     
+    # clear previous result to reuse vector
+    res1.clear()
+    res2.clear()
+    # check PreOrder
+    preOrder(root1, res1)
+    preOrder(root2, res2)
+    if res1 != res2:
+        return False
+     
+    # clear previous result to reuse vector
+    res1.clear()
+    res2.clear()
+    # check PostOrder
+    postOrder(root1, res1)
+    postOrder(root2, res2)
+    if res1 != res2:
+        return False
+     
+    return True
+     
+# Driver code
+if __name__ == '__main__':
+    root1 = Node(1)
+    root1.left = Node(2)
+    root1.right = Node(3)
+    root1.left.left = Node(4)
+    root1.left.right = Node(5)
+     
+    root2 = Node(1)
+    root2.left = Node(2)
+    root2.right = Node(3)
+    root2.left.left = Node(4)
+    root2.left.right = Node(5)
+     
+    # Function Call
+    if isIdentical(root1, root2):
+        print("Both the trees are identical.")
+    else:
+        print("Given trees are not identical")
+     
+# This code is contributed by Yash Agarwal(yashagarwal2852002)
+C#
+Javascript
+Output
+Both the trees are identical.
+Time complexity: O(N)
+Auxiliary Space: O(N), since using auxiliary ArrayList and call stack
+
+The Way We Can Determine Trees are Identical Only Using Pre-Order Traversal:
+
+ The Approach:
+
+          Here in this Approach we are storing preorder traversal of tree where we store zero(0)(we can store any another number so that we donot miss any node such as INT_MAX or -10000) for the null node and then we compare both vector if they are same then return true both the trees are identical.
+
+C++
+Java
+Python3
+class Node:
+    def __init__(self, d):
+        self.data = d
+        self.left = None
+        self.right = None
+ 
+def preorder(root, v):
+    if root == None:
+        return
+    v.append(root.data)
+    if root.left:
+        preorder(root.left, v)
+    else:
+        v.append(0)
+    if root.right:
+        preorder(root.right, v)
+    else:
+        v.append(0)
+ 
+def isIdentical(root1, root2):
+    v = []
+    x = []
+    preorder(root1, v)
+    preorder(root2, x)
+    return v == x
+ 
+root1 = Node(1)
+root1.left = Node(2)
+root1.right = Node(3)
+root1.left.left = Node(4)
+root1.left.right = Node(5)
+ 
+root2 = Node(1)
+root2.left = Node(2)
+root2.right = Node(3)
+root2.left.left = Node(4)
+root2.left.right = Node(5)
+ 
+if isIdentical(root1, root2):
+    print("Both the trees are identical.")
+else:
+    print("Given trees are not identical.")
+Javascript
+Output
+Both the trees are identical.
+Time complexity: O(N)+O(M)
+Auxiliary Space: O(N)+O(M) for vectors.
+
+Related Article: Iterative function to check if two trees are identical.
+
+
+
+
+
+Like
+58
+Previous
+Print the longest leaf to leaf path in a Binary tree
+Next
+Sum of all nodes in a binary tree
+Related Articles
+1.
+Iterative function to check if two trees are identical
+2.
+Check if two Binary trees are identical after exactly K changes
+3.
+Total number of possible Binary Search Trees and Binary Trees with n keys
+4.
+Generic Trees(N-ary Trees)
+5.
+Check if all levels of two trees are anagrams or not
+6.
+Iterative Approach to check if two Binary Trees are Isomorphic or not
+7.
+Find largest subtree having identical left and right subtrees
+8.
+How to determine if a binary tree is height-balanced?
+9.
+Determine the count of Leaf nodes in an N-ary tree
+10.
+Construct a Maximum Binary Tree from two given Binary Trees
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rathbhupendra
+divyesh072019
+amartyaghoshgfg
+manasdutta
+akashsingh11
+hardikkoriintern
+polymatir3j
+janardansthox
+adityamaharshi21
+yashagarwal2852002
+sanketgode0
+vikramshirsath177
+Article Tags :
+Amazon
+Microsoft
+tree-traversal
+Trees
+Tree
+Practice Tags :
+Amazon
+Microsoft
+Tree
+Improve Article
+Report Issue

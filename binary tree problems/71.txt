@@ -1,0 +1,238 @@
+Sum of all the numbers that are formed from root to leaf paths
+
+Difficulty Level : Medium
+Last Updated : 20 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a binary tree, where every node value is a Digit from 1-9. Find the sum of all the numbers which are formed from root to leaf paths.
+For example, consider the following Binary Tree. 
+
+           6
+       /      \
+     3          5
+   /   \          \
+  2     5          4  
+      /   \
+     7     4
+  There are 4 leaves, hence 4 root to leaf paths:
+   Path                    Number
+  6->3->2                   632
+  6->3->5->7               6357
+  6->3->5->4               6354
+  6->5>4                    654   
+Answer = 632 + 6357 + 6354 + 654 = 13997 
+Recommended Problem
+Root to leaf paths sum
+Tree
+Data Structures
+Amazon
+Microsoft
++2 more
+Solve Problem
+Submission count: 19.7K
+The idea is to do a preorder traversal of the tree. In the preorder traversal, keep track of the value calculated till the current node, let this value be val. For every node, we update the val as val*10 plus the node’s data. 
+
+Implementation:
+
+C++
+C
+Java
+Python3
+# Python program to find sum of all paths from root to leaves
+ 
+# A Binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Returns sums of all root to leaf paths. The first parameter is root
+# of current subtree, the second paramete"r is value of the number
+# formed by nodes from root to this node
+def treePathsSumUtil(root, val):
+ 
+    # Base Case
+    if root is None:
+        return 0
+ 
+    # Update val
+    val = (val*10 + root.data)
+ 
+    # If current node is leaf, return the current value of val
+    if root.left is None and root.right is None:
+        return val
+ 
+    # Recur sum of values for left and right subtree
+    return (treePathsSumUtil(root.left, val) +
+            treePathsSumUtil(root.right, val))
+ 
+# A wrapper function over treePathSumUtil()
+def treePathsSum(root):
+     
+    # Pass the initial value as 0 as ther is nothing above root
+    return treePathsSumUtil(root, 0)
+ 
+# Driver function to test above function
+root = Node(6)
+root.left = Node(3)
+root.right = Node(5)
+root.left.left = Node(2)
+root.left.right = Node(5)
+root.right.right = Node(4)
+root.left.right.left = Node(7)
+root.left.right.right = Node(4)
+print ("Sum of all paths is", treePathsSum(root))
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Sum of all paths is 13997
+Time Complexity: The above code is a simple preorder traversal code that visits every node exactly once. Therefore, the time complexity is O(n) where n is the number of nodes in the given binary tree.
+Auxiliary Space: O(n)
+
+Another Approach: We can also solve this problem by first finding all the paths from the root to the leaf . Then we convert all paths into numbers. In the end, we will add those numbers.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python program to find sum of all paths from root to leaves
+ 
+# A Binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+def treePathsSumUtil(root, currPath, allPath):
+   
+    # Base Case
+    if root is None:
+        return
+ 
+    # append the root data in string format in currPath
+    currPath.append(str(root.data))
+ 
+    # if we found a leaf node we copy the currPath to allPath
+    if root.left is None and root.right is None:
+        allPath.append(currPath.copy())
+ 
+    # traverse in the left subtree
+    treePathsSumUtil(root.left, currPath, allPath)
+ 
+    # traverse in the right subtree
+    treePathsSumUtil(root.right, currPath, allPath)
+ 
+    # remove the current element from the path
+    del currPath[-1]
+ 
+ 
+def treePathsSum(root):
+    # store all the root to leaf path in allPath
+    allPath = []
+ 
+    treePathsSumUtil(root, [], allPath)
+    # store the sum
+    s = 0
+ 
+    for pathNumber in allPath:
+        # join the pathNumbers to convert them  into the number to calculate sum
+        k = "".join(pathNumber)
+        s += int(k)
+    return s
+ 
+ 
+# Driver function to test above function
+root = Node(6)
+root.left = Node(3)
+root.right = Node(5)
+root.left.left = Node(2)
+root.left.right = Node(5)
+root.right.right = Node(4)
+root.left.right.left = Node(7)
+root.left.right.right = Node(4)
+print("Sum of all paths is", treePathsSum(root))
+ 
+# this code is contributed by Vivek Maddeshiya
+C#
+Javascript
+Output
+Sum of all paths is 13997
+Time Complexity: Time Complexity of this approach will be O(n^2)  because we are traversing the allPath and joining currPath to  the allPath array .
+Auxiliary Space: O(n) 
+
+
+
+Like
+Previous
+Root to leaf path sum equal to a given number
+Next
+Merge Two Binary Trees by doing Node Sum (Recursive and Iterative)
+Related Articles
+1.
+Remove nodes from Binary Tree such that sum of all remaining root-to-leaf paths is atleast K
+2.
+Print all the paths from root to leaf, with a specified sum in Binary tree
+3.
+Print all root to leaf paths with there relative positions
+4.
+Print all root-to-leaf paths with maximum count of even nodes
+5.
+Print all root to leaf paths of an N-ary tree
+6.
+Print all the root-to-leaf paths of a Binary Tree whose XOR is non-zero
+7.
+Given a binary tree, print out all of its root-to-leaf paths one per line.
+8.
+Given a binary tree, print all root-to-leaf paths
+9.
+Find if there is a pair in root to a leaf path with sum equals to root's data
+10.
+Count of Root to Leaf Paths consisting of at most M consecutive Nodes having value K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rathbhupendra
+amartyaghoshgfg
+shinjanpatra
+sagartomar9927
+vivekmaddheshiya205
+hardikkoriintern
+abhijeet19403
+surinderdawra388
+adityamaharshi21
+sayanc170
+karandeep1234
+pradeepkumarppk2003
+Article Tags :
+Amazon
+Google
+Tree
+Practice Tags :
+Amazon
+Google
+Tree
+Report Issue

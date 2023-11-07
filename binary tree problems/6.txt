@@ -1,0 +1,180 @@
+Binary Tree (Array implementation)
+
+Difficulty Level : Easy
+Last Updated : 12 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array that represents a tree in such a way that array indexes are values in tree nodes and array values give the parent node of that particular index (or node). The value of the root node index would always be -1 as there is no parent for root. Construct the standard linked representation of given Binary Tree from this given representation. Do refer in order to understand how to construct binary tree from given parent array representation.
+
+Ways to represent: 
+
+Trees can be represented in two ways as listed below:
+
+Dynamic Node Representation (Linked Representation).
+Array Representation (Sequential Representation).
+Now, we are going to talk about the sequential representation of the trees.  In order to represent a tree using an array, the numbering of nodes can start either from 0–(n-1) or 1– n, consider the below illustration as follows:
+
+Illustration:
+
+       A(0)    
+     /   \
+    B(1)  C(2)  
+  /   \      \
+ D(3)  E(4)   F(6) 
+OR,
+      A(1)    
+     /   \
+    B(2)  C(3)  
+  /   \      \
+ D(4)  E(5)   F(7)  
+Procedure:
+
+Note: father, left_son and right_son are the values of indices of the array.
+
+
+
+ Case 1: (0—n-1) 
+
+if (say)father=p; 
+then left_son=(2*p)+1; 
+and right_son=(2*p)+2;
+Case 2: 1—n
+
+if (say)father=p; 
+then left_son=(2*p); 
+and right_son=(2*p)+1; 
+Implementation:
+
+C++
+Java
+C#
+Python3
+# Python3 implementation of tree using array
+# numbering starting from 0 to n-1.
+tree = [None] * 10
+ 
+ 
+def root(key):
+    if tree[0] != None:
+        print("Tree already had root")
+    else:
+        tree[0] = key
+ 
+ 
+def set_left(key, parent):
+    if tree[parent] == None:
+        print("Can't set child at", (parent * 2) + 1, ", no parent found")
+    else:
+        tree[(parent * 2) + 1] = key
+ 
+ 
+def set_right(key, parent):
+    if tree[parent] == None:
+        print("Can't set child at", (parent * 2) + 2, ", no parent found")
+    else:
+        tree[(parent * 2) + 2] = key
+ 
+ 
+def print_tree():
+    for i in range(10):
+        if tree[i] != None:
+            print(tree[i], end="")
+        else:
+            print("-", end="")
+    print()
+ 
+ 
+# Driver Code
+root('A')
+set_right('C', 0)
+set_left('D', 1)
+set_right('E', 1)
+set_right('F', 2)
+print_tree()
+ 
+# This code is contributed by Gaurav Kumar Tailor
+Javascript
+Output
+Can't set child at 3 , no parent found
+Can't set child at 4 , no parent found
+A-C---F---
+Time complexity: O(log n) since using heap to create a binary tree
+Space complexity: O(n) for array
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+108
+Previous
+Deletion in a Binary Tree
+Next
+Foldable Binary Trees
+Related Articles
+1.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+2.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+3.
+Implementation of Binary Search Tree in Javascript
+4.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+5.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+6.
+Binary Tree to Binary Search Tree Conversion
+7.
+Check if a binary tree is subtree of another binary tree | Set 2
+8.
+Convert a Binary Tree to Threaded binary tree | Set 1 (Using Queue)
+9.
+Convert a Binary Tree to Threaded binary tree | Set 2 (Efficient)
+10.
+Minimum swap required to convert binary tree to binary search tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sanjal_katiyar
+@sanjal_katiyar
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sachin Jain 1
+diegoolalde
+Rajput-Ji
+gaurav_kumar_raghav
+gauravtailorthoi
+hitesh sharma 3
+msr20comp
+simmytarika5
+germanshephered48
+devmittal0407
+technophpfij
+ganeshlakshman
+hardikkoriintern
+lokeshpotta20
+Article Tags :
+Binary Tree
+Java-Array-Programs
+Arrays
+Java
+Technical Scripter
+Tree
+Practice Tags :
+Arrays
+Java
+Tree
+Improve Article
+Report Issue

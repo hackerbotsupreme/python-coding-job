@@ -1,0 +1,293 @@
+Find largest subtree sum in a tree
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary tree, task is to find subtree with maximum sum in tree.
+
+Examples:  
+
+Input :       1
+            /   \
+           2      3
+          / \    / \
+         4   5  6   7
+Output : 28
+As all the tree elements are positive,
+the largest subtree sum is equal to
+sum of all tree elements.
+
+Input :       1
+            /    \
+          -2      3
+          / \    /  \
+         4   5  -6   2
+Output : 7
+Subtree with largest sum is : 
+   -2
+   / \ 
+  4   5
+Also, entire tree sum is also 7.
+Recommended : Please try your approach first on IDE and then look at the solution.
+Approach : Do post order traversal of the binary tree. At every node, find left subtree value and right subtree value recursively. The value of subtree rooted at current node is equal to sum of current node value, left node subtree sum and right node subtree sum. Compare current subtree sum with overall maximum subtree sum so far.
+
+Implementation :  
+
+
+C++
+Java
+Python3
+# Python3 program to find largest subtree
+# sum in a given binary tree.
+ 
+# Function to create new tree node.
+class newNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = self.right = None
+ 
+# Helper function to find largest
+# subtree sum recursively.
+def findLargestSubtreeSumUtil(root, ans):
+     
+    # If current node is None then
+    # return 0 to parent node.
+    if (root == None):
+        return 0
+     
+    # Subtree sum rooted at current node.
+    currSum = (root.key +
+               findLargestSubtreeSumUtil(root.left, ans) +
+               findLargestSubtreeSumUtil(root.right, ans))
+ 
+    # Update answer if current subtree
+    # sum is greater than answer so far.
+    ans[0] = max(ans[0], currSum)
+ 
+    # Return current subtree sum to
+    # its parent node.
+    return currSum
+ 
+# Function to find largest subtree sum.
+def findLargestSubtreeSum(root):
+     
+    # If tree does not exist,
+    # then answer is 0.
+    if (root == None):    
+        return 0
+     
+    # Variable to store maximum subtree sum.
+    ans = [-999999999999]
+ 
+    # Call to recursive function to
+    # find maximum subtree sum.
+    findLargestSubtreeSumUtil(root, ans)
+ 
+    return ans[0]
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    #
+    #         1
+    #         / \
+    #     /     \
+    #     -2     3
+    #     / \     / \
+    #     / \ / \
+    # 4     5 -6     2
+    root = newNode(1)
+    root.left = newNode(-2)
+    root.right = newNode(3)
+    root.left.left = newNode(4)
+    root.left.right = newNode(5)
+    root.right.left = newNode(-6)
+    root.right.right = newNode(2)
+ 
+    print(findLargestSubtreeSum(root))
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+7
+Complexity Analysis:
+
+Time Complexity: O(n), where n is the number of nodes.
+Auxiliary Space: O(n), function call stack size.
+Using DFS approach:
+
+
+
+The idea is to use depth first search recursively call for every subtree in left and right including root node and calculate for maximum sum for the same subtree.
+
+Steps to solve the problem:
+
+initialize ans variable with int min.
+first check for the base condition.
+calculate all the subtree with maximum sum in the left.
+calculate all the subtree with maximum sum in the right.
+store temporarily maximum value of left and right
+update that temporarily stored value with maximum of sum of left , right and root node and that temp value.
+update the ans variable to max(ans,tempmax).
+return the sum.
+Implementation of the approach:
+
+C++
+// C++ program to find largest subtree
+// sum in a given binary tree.
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Structure of a tree node.
+struct Node {
+    int key;
+    Node *left, *right;
+};
+ 
+// Function to create new tree node.
+Node* newNode(int key)
+{
+    Node* temp = new Node;
+    temp->key = key;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+ 
+int ans = INT_MIN;
+int dfs(Node* root)
+{
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL and root->right == NULL)
+        return root->key;
+    // check for every subtree in left
+    int sumleft = dfs(root->left);
+    // check for every subtree in right
+    int sumright = dfs(root->right);
+    // sum of all the nodes in the subtree from root node
+    int sumrootnode = sumleft + sumright + root->key;
+    // temp max value of left and right subtree
+    int tempmax = max(sumleft, sumright);
+ 
+    tempmax = max(tempmax, sumrootnode);
+    // update the answer from temp, ans
+    ans = max(ans, tempmax);
+ 
+    return sumrootnode;
+}
+int findLargestSubtreeSum(Node* root)
+{
+ 
+    // check for the base conditions
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        return root->key;
+    // function call of dfs
+    int x = dfs(root);
+    // return the final answer
+    return ans;
+}
+ 
+// Driver function
+int main()
+{
+    /*
+               1
+             /   \
+            /     \
+          -2       3
+          / \     /  \
+         /   \   /    \
+        4     5 -6     2
+    */
+ 
+    Node* root = newNode(1);
+    root->left = newNode(-2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    root->right->left = newNode(-6);
+    root->right->right = newNode(2);
+ 
+    cout << findLargestSubtreeSum(root);
+    return 0;
+}
+//this code is contributed by Prateek Kumar Singh
+Java
+C#
+Javascript
+Output
+7
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+this approach is contributed by Prateek Kumar Singh (pkrsingh025).
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+70
+Previous
+Maximum sum of nodes in Binary tree such that no two are adjacent
+Next
+Count Subtrees that sum up to a given value X only using single Recursive Function
+Related Articles
+1.
+Largest subtree sum for each vertex of given N-ary Tree
+2.
+Find the largest BST subtree in a given Binary Tree | Set 3
+3.
+Find the largest Complete Subtree in a given Binary Tree
+4.
+Find the largest Perfect Subtree in a given Binary Tree
+5.
+Find largest subtree having identical left and right subtrees
+6.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+7.
+Check if a binary tree is subtree of another binary tree | Set 2
+8.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+9.
+Count of nodes in given N-ary tree such that their subtree is a Binary Tree
+10.
+Check if a Binary tree is Subtree of another Binary tree | Set 3
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nik1996
+@nik1996
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+shrikanth13
+PranchalKatiyar
+divyesh072019
+hardikkoriintern
+bhakatsnehasish8
+pkrsingh025
+kirtiagarwal23121999
+Article Tags :
+Binary Trees Quiz
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

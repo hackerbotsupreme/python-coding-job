@@ -1,0 +1,210 @@
+Construct a tree from Inorder and Level order traversals | Set 1
+
+Difficulty Level : Hard
+Last Updated : 26 Jul, 2022
+Read
+Discuss(120)
+Courses
+Practice
+Video
+Given inorder and level-order traversals of a Binary Tree, construct the Binary Tree. Following is an example to illustrate the problem.
+
+BinaryTree
+
+Input: Two arrays that represent Inorder
+       and level order traversals of a 
+       Binary Tree
+in[]    = {4, 8, 10, 12, 14, 20, 22};
+level[] = {20, 8, 22, 4, 12, 10, 14};
+
+Output: Construct the tree represented 
+        by the two arrays.
+        For the above two arrays, the 
+        constructed tree is shown in 
+        the diagram on right side
+The following post can be considered as a prerequisite for this. 
+Construct Tree from given Inorder and Preorder traversals 
+
+Recommended Problem
+Construct tree from Inorder and LevelOrder
+Tree
+Data Structures
+Solve Problem
+Submission count: 6.9K
+Let us consider the above example.
+
+in[] = {4, 8, 10, 12, 14, 20, 22}; 
+level[] = {20, 8, 22, 4, 12, 10, 14};
+In a Levelorder sequence, the first element is the root of the tree. So we know ’20’ is root for given sequences. By searching ’20’ in Inorder sequence, we can find out all elements on left side of ‘20’ are in left subtree and elements on right are in right subtree. So we know below structure now. 
+
+             20
+           /    \
+          /      \ 
+ {4,8,10,12,14}  {22}
+Let us call {4,8,10,12,14} as left subarray in Inorder traversal and {22} as right subarray in Inorder traversal. 
+In level order traversal, keys of left and right subtrees are not consecutive. So we extract all nodes from level order traversal which are in left subarray of Inorder traversal. To construct the left subtree of root, we recur for the extracted elements from level order traversal and left subarray of inorder traversal. In the above example, we recur for the following two arrays. 
+
+// Recur for following arrays to construct the left subtree
+In[]    = {4, 8, 10, 12, 14}
+level[] = {8, 4, 12, 10, 14}
+Similarly, we recur for the following two arrays and construct the right subtree.
+
+
+
+// Recur for following arrays to construct the right subtree
+In[]    = {22}
+level[] = {22}
+Following is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python program to construct tree using
+# inorder and level order traversals
+ 
+# A binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+ 
+"""Recursive function to construct binary tree of size n from
+Inorder traversal ino[] and Level Order traversal level[].
+The function doesn't do any error checking for cases
+where inorder and levelorder do not form a tree """
+ 
+ 
+def buildTree(level, ino):
+ 
+    # If ino array is not empty
+    if ino:
+ 
+        # Check if that element exist in level order
+        for i in range(0, len(level)):
+ 
+            if level[i] in ino:
+ 
+                # Create a new node with
+                # the matched element
+                node = Node(level[i])
+ 
+                # Get the index of the matched element
+                # in level order array
+                io_index = ino.index(level[i])
+                break
+ 
+        # Construct left and right subtree
+        node.left = buildTree(level, ino[0:io_index])
+        node.right = buildTree(level, ino[io_index + 1:len(ino)])
+        return node
+ 
+    else:
+        return None
+ 
+ 
+def printInorder(node):
+    if node is None:
+        return
+ 
+    # first recur on left child
+    printInorder(node.left)
+ 
+    # then print the data of node
+    print(node.data, end=" ")
+ 
+    # now recur on right child
+    printInorder(node.right)
+ 
+# Driver code
+ 
+ 
+levelorder = [20, 8, 22, 4, 12, 10, 14]
+inorder = [4, 8, 10, 12, 14, 20, 22]
+ 
+ino_len = len(inorder)
+root = buildTree(levelorder, inorder)
+ 
+# Let us test the build tree by
+# printing Inorder traversal
+print("Inorder traversal of the constructed tree is")
+printInorder(root)
+ 
+# This code is contributed by 'Vaibhav Kumar'
+C#
+Javascript
+Output
+Inorder traversal of the constructed tree is 
+4 8 10 12 14 20 20 
+An upper bound on time complexity of above method is O(n3). In the main recursive function, extractNodes() is called which takes O(n2) time.
+
+The code can be optimized in many ways and there may be better solutions. 
+
+Time Complexity: O(n^3)
+
+Space Complexity: O(n) where n is the number of nodes.
+
+Construct a tree from Inorder and Level order traversals | Set 2
+
+
+
+
+
+Like
+54
+Previous
+Construct Tree from given Inorder and Preorder traversals
+Next
+Construct Complete Binary Tree from its Linked List Representation
+Related Articles
+1.
+Construct a tree from Inorder and Level order traversals | Set 2
+2.
+Construct Tree from given Inorder and Preorder traversals
+3.
+Check if given inorder and preorder traversals are valid for any Binary Tree without building the tree
+4.
+Check if given Preorder, Inorder and Postorder traversals are of same tree | Set 2
+5.
+Tree Traversals (Inorder, Preorder and Postorder)
+6.
+Check if given Preorder, Inorder and Postorder traversals are of same tree
+7.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+8.
+Calculate height of Binary Tree using Inorder and Level Order Traversal
+9.
+Preorder from Inorder and Postorder traversals
+10.
+Print Postorder traversal from given Inorder and Preorder traversals
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+gjaiswal108
+leviosa317
+arunsathyanpkd
+aneeketmangal
+ruhelaa48
+simranarora5sos
+shinjanpatra
+hardikkoriintern
+isha307
+Article Tags :
+tree-level-order
+Tree
+Practice Tags :
+Tree

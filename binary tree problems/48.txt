@@ -1,0 +1,334 @@
+Flip Binary Tree
+
+Difficulty Level : Hard
+Last Updated : 02 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+AGiven a binary tree, the task is to flip the binary tree towards the right direction that is clockwise. See the below examples to see the transformation.
+
+In the flip operation, the leftmost node becomes the root of the flipped tree and its parent becomes its right child and the right sibling becomes its left child and the same should be done for all left most nodes recursively. 
+
+tree1
+
+tree2
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is the main rotation code of a subtree 
+
+    root->left->left = root->right;
+    root->left->right = root;
+    root->left = NULL;
+    root->right = NULL; 
+The above code can be understood by the following diagram – 
+
+tree4
+
+
+
+As we are storing root->left in the flipped root, flipped subtree gets stored in each recursive call.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to flip
+# a binary tree
+ 
+# A binary tree node
+class Node:
+     
+    # Constructor to create
+    # a new node
+    def __init__(self, data):
+       
+        self.data = data
+        self.right = None
+        self.left = None
+ 
+def flipBinaryTree(root):
+     
+    # Base Cases
+    if root is None:
+        return root
+     
+    if (root.left is None and
+        root.right is None):
+        return root
+ 
+    # Recursively call the
+    # same method
+    flippedRoot = flipBinaryTree(root.left)
+ 
+    # Rearranging main root Node
+    # after returning from
+    # recursive call
+    root.left.left = root.right
+    root.left.right = root
+    root.left = root.right = None
+ 
+    return flippedRoot
+ 
+# Iterative method to do the level
+# order traversal line by line
+def printLevelOrder(root):
+     
+    # Base Case
+    if root is None:
+        return
+     
+    # Create an empty queue for
+    # level order traversal
+    from Queue import Queue
+    q = Queue()
+     
+    # Enqueue root and initialize
+    # height
+    q.put(root)
+     
+    while(True):
+ 
+        # nodeCount (queue size) indicates
+        # number of nodes at current level
+        nodeCount = q.qsize()
+        if nodeCount == 0:
+            break
+ 
+        # Dequeue all nodes of current
+        # level and Enqueue all nodes
+        # of next level  
+        while nodeCount > 0:
+            node = q.get()
+            print(node.data, end=" ")
+            if node.left is not None:
+                q.put(node.left)
+            if node.right is not None:
+                q.put(node.right)
+            nodeCount -= 1
+ 
+        print
+         
+# Driver code
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.right.left = Node(4)
+root.right.right = Node(5)
+ 
+print("Level order traversal of given tree")
+printLevelOrder(root)
+ 
+root = flipBinaryTree(root)
+ 
+print("\nLevel order traversal of the flipped tree")
+printLevelOrder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Level order traversal of given tree
+1 
+2 3 
+4 5 
+
+Level order traversal of the flipped tree
+2 
+3 1 
+4 5 
+Time Complexity: O(n), where n is the number of nodes in the given binary tree.
+Auxiliary Space: O(n), the size of the queue can grow up to n.
+
+Iterative Approach: This approach is contributed by Pal13. 
+The iterative solution follows the same approach as the recursive one, the only thing we need to pay attention to is saving the node information that will be overwritten. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to flip
+# a binary tree
+from collections import deque
+ 
+# A binary tree node structure
+class Node:
+   
+    def __init__(self, key):
+       
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# method to flip the
+# binary tree
+def flipBinaryTree(root):
+   
+    # Initialization of
+    # pointers
+    curr = root
+    next = None
+    temp = None
+    prev = None
+ 
+    # Iterate through all
+    # left nodes
+    while(curr):
+        next = curr.left
+ 
+        # Swapping nodes now, need temp
+        # to keep the previous right child
+ 
+        # Making prev's right as curr's
+        # left child
+        curr.left = temp
+ 
+        # Storing curr's right child
+        temp = curr.right
+ 
+        # Making prev as curr's right
+        # child
+        curr.right = prev
+ 
+        prev = curr
+        curr = next
+    return prev
+ 
+# Iterative method to do level
+# order traversal line by line
+def printLevelOrder(root):
+   
+    # Base Case
+    if (root == None):
+        return
+ 
+    # Create an empty queue for
+    # level order traversal
+    q = deque()
+ 
+    # Enqueue Root and initialize
+    # height
+    q.append(root)
+ 
+    while (1):
+        # nodeCount (queue size) indicates
+        # number of nodes at current level.
+        nodeCount = len(q)
+        if (nodeCount == 0):
+            break
+ 
+        # Dequeue all nodes of current
+        # level and Enqueue all nodes
+        # of next level
+        while (nodeCount > 0):
+            node = q.popleft()
+            print(node.data, end = " ")
+ 
+            if (node.left != None):
+                q.append(node.left)
+ 
+            if (node.right != None):
+                q.append(node.right)
+            nodeCount -= 1
+ 
+        print()
+ 
+# Driver code
+if __name__ == '__main__':
+   
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.right.left = Node(4)
+    root.right.right = Node(5)
+ 
+    print("Level order traversal of given tree")
+    printLevelOrder(root)
+ 
+    root = flipBinaryTree(root)
+ 
+    print("\nLevel order traversal of the flipped"
+          " tree")
+    printLevelOrder(root)
+ 
+# This code is contributed by Mohit Kumar 29
+C#
+Javascript
+Output
+Level order traversal of given tree
+1 
+2 3 
+4 5 
+
+Level order traversal of the flipped tree
+2 
+3 1 
+4 5 
+Complexity Analysis: 
+
+Time complexity: O(n) as in the worst case, depth of binary tree will be n. 
+Auxiliary Space: O(1).
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+25
+Previous
+Convert Ternary Expression to a Binary Tree
+Next
+Minimum swap required to convert binary tree to binary search tree
+Related Articles
+1.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+2.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+3.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+4.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+5.
+Binary Tree to Binary Search Tree Conversion
+6.
+Check if a binary tree is subtree of another binary tree | Set 2
+7.
+Convert a Binary Tree to Threaded binary tree | Set 1 (Using Queue)
+8.
+Convert a Binary Tree to Threaded binary tree | Set 2 (Efficient)
+9.
+Minimum swap required to convert binary tree to binary search tree
+10.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+shrikanth13
+_Gaurav_Tiwari
+princi singh
+mohit kumar 29
+unknown2108
+anikakapoor
+suresh07
+sweetyty
+hardikkoriintern
+factworx4i2
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

@@ -1,0 +1,186 @@
+Construct the full k-ary tree from its preorder traversal
+
+Difficulty Level : Hard
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array that contains the preorder traversal of the full k-ary tree, construct the full k-ary tree and print its postorder traversal. A full k-ary tree is a tree where each node has either 0 or k children.
+
+Examples: 
+
+Input : preorder[] = {1, 2, 5, 6, 7, 
+                     3, 8, 9, 10, 4}
+        k = 3
+Output : Postorder traversal of constructed 
+         full k-ary tree is: 5 6 7 2 8 9 10 
+         3 4 1 
+         Tree formed is:         1
+                             /   |   \
+                           2     3    4
+                          /|\   /|\
+                         5 6 7 8 9 10
+
+Input : preorder[] = {1, 2, 5, 6, 7, 3, 4}
+        k = 3 
+Output : Postorder traversal of constructed 
+         full k-ary tree is: 5 6 7 2 4 3 1
+         Tree formed is:        1
+                             /  |  \
+                           2    3   4
+                          /|\   
+                         5 6 7  
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed this problem for Binary tree in below post. 
+Construct a special tree from given preorder traversal 
+
+In this post, solution for a k-ary tree is discussed.
+In Preorder traversal, first root node is processed then followed by the left subtree and right subtree. Because of this, to construct a full k-ary tree, we just need to keep on creating the nodes without bothering about the previous constructed nodes. We can use this to build the tree recursively. 
+
+Following are the steps to solve the problem: 
+
+Find the height of the tree. 
+Traverse the preorder array and recursively add each node 
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to build full k-ary tree
+# from its preorder traversal and to print the
+# postorder traversal of the tree.
+from math import ceil, log
+ 
+# Utility function to create a new
+# tree node with k children
+class newNode:
+    def __init__(self, value):
+        self.key = value
+        self.child = []
+ 
+# Function to build full k-ary tree
+def BuildkaryTree(A, n, k, h, ind):
+     
+    # For None tree
+    if (n <= 0):
+        return None
+ 
+    nNode = newNode(A[ind[0]])
+    if (nNode == None):
+        print("Memory error")
+        return None
+ 
+    # For adding k children to a node
+    for i in range(k):
+ 
+        # Check if ind is in range of array
+        # Check if height of the tree is
+        # greater than 1
+        if (ind[0] < n - 1 and h > 1):
+            ind[0] += 1
+ 
+            # Recursively add each child
+            nNode.child.append(BuildkaryTree(A, n, k,
+                                             h - 1, ind))
+        else:
+            nNode.child.append(None)
+    return nNode
+ 
+# Function to find the height of the tree
+def BuildKaryTree(A, n, k, ind):
+    height = int(ceil(log(float(n) * (k - 1) + 1) /
+                                      log(float(k))))
+    return BuildkaryTree(A, n, k, height, ind)
+ 
+# Function to print postorder traversal
+# of the tree
+def postord(root, k):
+    if (root == None):
+        return
+    for i in range(k):
+        postord(root.child[i], k)
+    print(root.key, end = " ")
+ 
+# Driver Code
+if __name__ == '__main__':
+    ind = [0]
+    k = 3
+    n = 10
+    preorder = [ 1, 2, 5, 6, 7, 3, 8, 9, 10, 4]
+    root = BuildKaryTree(preorder, n, k, ind)
+    print("Postorder traversal of constructed",
+                        "full k-ary tree is: ")
+    postord(root, k)
+     
+# This code is contributed by pranchalK
+C#
+Javascript
+Output
+
+
+Postorder traversal of constructed full k-ary tree is: 5 6 7 2 8 9 10 3 4 1 
+Time Complexity: O(n),the time complexity of this algorithm is O(n) where n is the number of elements in the given array. We traverse the given array once and create a k-ary tree from it, which takes linear time.
+
+Auxiliary Space: O(n),the space complexity of this algorithm is also O(n) as we need to create a k-ary tree with the given elements in the array. We also need to store intermediate nodes in the function stack frame.
+
+This article is contributed by Prakriti Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+11
+Previous
+Given a n-ary tree, count number of nodes which have more number of children than parents
+Next
+Construct Binary Tree from String with bracket representation
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Construct a Perfect Binary Tree from Preorder Traversal
+3.
+Construct a special tree from given preorder traversal
+4.
+Construct Full Binary Tree from given preorder and postorder traversals
+5.
+Construct BST from given preorder traversal using Stack
+6.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+7.
+Find Leftmost and Rightmost node of BST from its given preorder traversal
+8.
+Construct the Rooted tree by using start and finish time of its DFS traversal
+9.
+Construct Tree from given Inorder and Preorder traversals
+10.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+andrew1234
+nidhi_biet
+princiraj1992
+divyesh072019
+simmytarika5
+hardikkoriintern
+factworx4i2
+Article Tags :
+n-ary-tree
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

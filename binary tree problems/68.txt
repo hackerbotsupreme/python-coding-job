@@ -1,0 +1,310 @@
+Remove all nodes which don’t lie in any path with sum>= k
+
+Difficulty Level : Medium
+Last Updated : 21 Oct, 2022
+Read
+Discuss(140+)
+Courses
+Practice
+Video
+Given a binary tree, a complete path is defined as a path from root to a leaf. The sum of all nodes on that path is defined as the sum of that path. Given a number K, you have to remove (prune the tree) all nodes which don’t lie in any path with sum>=k. 
+
+Note: A node can be part of multiple paths. So we have to delete it only in case when all paths from it have sum less than K.
+
+Consider the following Binary Tree
+          1 
+      /      \
+     2        3
+   /   \     /  \
+  4     5   6    7
+ / \    /       /
+8   9  12      10
+   / \           \
+  13  14         11
+      / 
+     15 
+
+For input k = 20, the tree should be changed to following
+(Nodes with values 6 and 8 are deleted)
+          1 
+      /      \
+     2        3
+   /   \        \
+  4     5        7
+   \    /       /
+    9  12      10
+   / \           \
+  13  14         11
+      / 
+     15 
+
+For input k = 45, the tree should be changed to following.
+      1 
+    / 
+   2   
+  / 
+ 4  
+  \   
+   9    
+    \   
+     14 
+     /
+    15 
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+The idea is to traverse the tree and delete nodes in bottom up manner. While traversing the tree, recursively calculate the sum of nodes from root to leaf node of each path. For each visited node, check the total calculated sum against given sum “k”. If sum is less than k, then free(delete) that node (leaf node) and return the sum back to the previous node. Since the path is from root to leaf and nodes are deleted in bottom up manner, a node is deleted only when all of its descendants are deleted. Therefore, when a node is deleted, it must be a leaf in the current Binary Tree.
+
+Following is the implementation of the above approach.  
+
+C++
+C
+Java
+Python3
+# A class to create a new Binary Tree
+# node with given data
+class newNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = self.right = None
+ 
+# print the tree in LVR (Inorder traversal) way.
+def Print(root):
+    if (root != None):
+        Print(root.left)
+        print(root.data, end = " ")
+        Print(root.right)
+ 
+# Main function which truncates
+# the binary tree.
+def pruneUtil(root, k, Sum):
+     
+    # Base Case
+    if (root == None):
+        return None
+ 
+    # Initialize left and right Sums as
+    # Sum from root to this node
+    # (including this node)
+    lSum = [Sum[0] + (root.data)]
+    rSum = [lSum[0]]
+ 
+    # Recursively prune left and right
+    # subtrees
+    root.left = pruneUtil(root.left, k, lSum)
+    root.right = pruneUtil(root.right, k, rSum)
+ 
+    # Get the maximum of left and right Sums
+    Sum[0] = max(lSum[0], rSum[0])
+ 
+    # If maximum is smaller than k,
+    # then this node must be deleted
+    if (Sum[0] < k[0]):
+        root = None
+    return root
+ 
+# A wrapper over pruneUtil()
+def prune(root, k):
+    Sum = [0]
+    return pruneUtil(root, k, Sum)
+ 
+# Driver Code
+if __name__ == '__main__':
+    k = [45]
+    root = newNode(1)
+    root.left = newNode(2)
+    root.right = newNode(3)
+    root.left.left = newNode(4)
+    root.left.right = newNode(5)
+    root.right.left = newNode(6)
+    root.right.right = newNode(7)
+    root.left.left.left = newNode(8)
+    root.left.left.right = newNode(9)
+    root.left.right.left = newNode(12)
+    root.right.right.left = newNode(10)
+    root.right.right.left.right = newNode(11)
+    root.left.left.right.left = newNode(13)
+    root.left.left.right.right = newNode(14)
+    root.left.left.right.right.left = newNode(15)
+ 
+    print("Tree before truncation")
+    Print(root)
+    print()
+    root = prune(root, k) # k is 45
+ 
+    print("Tree after truncation")
+    Print(root)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Tree before truncation
+ 8 4 13 9 15 14 2 12 5 1 6 3 10 11 7
+
+Tree after truncation
+ 4 9 15 14 2 1
+Time Complexity: O(n)
+
+The solution does a single traversal of given Binary Tree.
+
+
+
+Auxiliary Space: O(h)
+
+Here h is the height of the tree and the extra space is used due to recursion call stack.
+
+A Simpler Solution: 
+
+The above code can be simplified using the fact that nodes are deleted in bottom up manner. The idea is to keep reducing the sum when traversing down. When we reach a leaf and sum is greater than the leaf’s data, then we delete the leaf. Note that deleting nodes may convert a non-leaf node to a leaf node and if the data for the converted leaf node is less than the current sum, then the converted leaf should also be deleted. 
+Thanks to vicky for suggesting this solution in below comments. 
+
+C++
+C
+Java
+Python3
+"""
+Python program to remove all nodes which don’t
+lie in any path with sum>= k
+"""
+ 
+# binary tree node contains data field , left
+# and right pointer
+class Node:
+     
+    # constructor to create tree node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to remove all nodes which do not
+# lie in th sum path
+def prune(root, sum):
+ 
+    # Base case
+    if root is None:
+        return None
+ 
+    # Recur for left and right subtree
+    root.left = prune(root.left, sum - root.data)
+    root.right = prune(root.right, sum - root.data)
+ 
+    # if node is leaf and sum is found greater
+    # than data than remove node An important
+    # thing to remember is that a non-leaf node
+    # can become a leaf when its children are
+    # removed
+    if root.left is None and root.right is None:
+        if sum > root.data:
+            return None
+ 
+    return root
+ 
+# inorder traversal
+def inorder(root):
+    if root is None:
+        return
+    inorder(root.left)
+    print(root.data, "", end="")
+    inorder(root.right)
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
+root.left.left.left = Node(8)
+root.left.left.right = Node(9)
+root.left.right.left = Node(12)
+root.right.right.left = Node(10)
+root.right.right.left.right = Node(11)
+root.left.left.right.left = Node(13)
+root.left.left.right.right = Node(14)
+root.left.left.right.right.left = Node(15)
+ 
+print("Tree before truncation")
+inorder(root)
+prune(root, 45)
+print("\nTree after truncation")
+inorder(root)
+ 
+# This code is contributed by Shweta Singh
+C#
+Javascript
+Output
+Tree before truncation
+8 4 13 9 15 14 2 12 5 1 6 3 10 11 7 
+
+Tree after truncation
+4 9 15 14 2 1 
+Time Complexity: O(n)
+
+As we are visiting every node only once.
+
+Auxiliary Space: O(h)
+
+Here h is the height of the tree and the extra space is used due to recursion call stack.
+
+
+
+
+
+Like
+35
+Previous
+Sum of nodes on the longest path from root to leaf node
+Next
+Find the maximum path sum between two leaves of a binary tree
+Related Articles
+1.
+Construct a Tree whose sum of nodes of all the root to leaf path is not divisible by the count of nodes in that path
+2.
+Count BST nodes that lie in a given range
+3.
+Sum of all odd nodes in the path connecting two given nodes
+4.
+XOR of path between any two nodes in a Binary Tree
+5.
+Print path between any two nodes in a Binary Tree
+6.
+Implementing a BST where every node stores the maximum number of nodes in the path till any leaf
+7.
+Print path between any two nodes in a Binary Tree | Set 2
+8.
+Count nodes with sum of path made by only left child nodes at least K
+9.
+Count the nodes of the tree which make a pangram when concatenated with the sub-tree nodes
+10.
+Check if all elements of given Linked List corresponds to a downward path from any node in given Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shweta44
+andrew1234
+shrikanth13
+PranchalKatiyar
+Akanksha_Rai
+nidhi_biet
+decode2207
+rdtank
+shivanisinghss2110
+sagar0719kumar
+hardikkoriintern
+abhijeet19403
+vivekedula
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

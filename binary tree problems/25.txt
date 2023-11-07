@@ -1,0 +1,136 @@
+Calculate depth of a full Binary tree from Preorder
+
+Difficulty Level : Medium
+Last Updated : 06 Jul, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given preorder of a binary tree, calculate its depth(or height) [starting from depth 0]. The preorder is given as a string with two possible characters. 
+
+‘l’ denotes the leaf
+‘n’ denotes internal node
+The given tree can be seen as a full binary tree where every node has 0 or two children. The two children of a node can ‘n’ or ‘l’ or mix of both.
+
+Examples :  
+
+Input  : nlnll
+Output : 2
+Explanation :
+
+
+Input  : nlnnlll
+Output : 3
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Preorder of the binary tree is given so traverse 
+
+Also, we would be given a string of char (formed of ‘n’ and ‘l’), so there is no need to implement tree also.
+
+The recursion function would be: 
+
+Base Case: return 0; when tree[i] = ‘l’ or i >= strlen(tree) 
+find_depth( tree[i++] ) //left subtree 
+find_depth( tree[i++] ) //right subtree
+Where i is the index of the string tree. 
+
+Implementation:
+
+C++
+Java
+Python3
+#Python program to find height of full binary tree
+# using preorder
+     
+# function to return max of left subtree height
+# or right subtree height
+def findDepthRec(tree, n, index) :
+ 
+    if (index[0] >= n or tree[index[0]] == 'l'):
+        return 0
+ 
+    # calc height of left subtree (In preorder
+    # left subtree is processed before right)
+    index[0] += 1
+    left = findDepthRec(tree, n, index)
+ 
+    # calc height of right subtree
+    index[0] += 1
+    right = findDepthRec(tree, n, index)
+    return (max(left, right) + 1)
+ 
+# Wrapper over findDepthRec()
+def findDepth(tree, n) :
+ 
+    index = [0]
+    return findDepthRec(tree, n, index)
+ 
+         
+# Driver program to test above functions
+if __name__ == '__main__':
+    tree= "nlnnlll"
+    n = len(tree)
+ 
+    print(findDepth(tree, n))
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+3
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+This article is contributed by Shubham Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Density of Binary Tree in One Traversal
+Next
+Number of Binary Trees for given Preorder Sequence length
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Construct Full Binary Tree from given preorder and postorder traversals
+3.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+4.
+Construct the full k-ary tree from its preorder traversal
+5.
+Check if given inorder and preorder traversals are valid for any Binary Tree without building the tree
+6.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+7.
+Check whether a binary tree is a full binary tree or not
+8.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+9.
+Preorder Successor of a Node in Binary Tree
+10.
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+SHUBHAMSINGH10
+rohitsingh07052
+divyeshrabadiya07
+ubhash11er11
+hardikkoriintern
+Article Tags :
+Tree
+Practice Tags :
+Tree

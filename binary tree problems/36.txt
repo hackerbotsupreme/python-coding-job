@@ -1,0 +1,165 @@
+Subtree with given sum in a Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given a binary tree and a given sum. The task is to check if there exists a subtree whose sum of all nodes is equal to the given sum.
+
+
+Examples : 
+
+// For above tree
+Input : sum = 17
+Output: “Yes”
+// sum of all nodes of subtree {3, 5, 9} = 17
+Input : sum = 11
+Output: “No”
+// no subtree with given sum exist
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to traverse the tree in a Postorder fashion because here we have to think bottom-up. First, calculate the sum of the left subtree then the right subtree, and check if sum_left + sum_right + cur_node = sum is satisfying the condition that means any subtree with a given sum exists. Below is the recursive implementation of the algorithm. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to find if there is a
+# subtree with given sum
+ 
+# Binary Tree Node
+""" utility that allocates a newNode
+with the given key """
+class newnode:
+ 
+    # Construct to create a newNode
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# function to check if there exist any
+# subtree with given sum
+# cur_sum -. sum of current subtree
+#            from ptr as root
+# sum_left -. sum of left subtree from
+#             ptr as root
+# sum_right -. sum of right subtree
+#              from ptr as root
+def sumSubtreeUtil(ptr,cur_sum,sum):
+ 
+    # base condition
+    if (ptr == None):
+        cur_sum[0] = 0
+        return False
+ 
+    # Here first we go to left sub-tree,
+    # then right subtree then first we
+    # calculate sum of all nodes of subtree
+    # having ptr as root and assign it as cur_sum
+    # cur_sum = sum_left + sum_right + ptr.data
+    # after that we check if cur_sum == sum
+    sum_left, sum_right = [0], [0]
+    x=sumSubtreeUtil(ptr.left, sum_left, sum)
+    y=sumSubtreeUtil(ptr.right, sum_right, sum)
+    cur_sum[0] = (sum_left[0] +
+                  sum_right[0] + ptr.data)
+    return ((x or y)or (cur_sum[0] == sum))
+ 
+# Wrapper over sumSubtreeUtil()
+def sumSubtree(root, sum):
+ 
+    # Initialize sum of subtree with root
+    cur_sum = [0]
+ 
+    return sumSubtreeUtil(root, cur_sum, sum)
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    root = newnode(8)
+    root.left = newnode(5)
+    root.right = newnode(4)
+    root.left.left = newnode(9)
+    root.left.right = newnode(7)
+    root.left.right.left = newnode(1)
+    root.left.right.right = newnode(12)
+    root.left.right.right.right = newnode(2)
+    root.right.right = newnode(11)
+    root.right.right.left = newnode(3)
+    sum = 22
+ 
+    if (sumSubtree(root, sum)) :
+        print("Yes" )
+    else:
+        print("No")
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N), As we are visiting every node once.
+Auxiliary space: O(h), Here h is the height of the tree and the extra space is used due to the recursion call stack.
+
+This article is contributed by Shashank Mishra ( Gullu ). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+8
+Next
+Count Subtrees that sum up to a given value X only using single Recursive Function
+Related Articles
+1.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+2.
+Check if a binary tree is subtree of another binary tree | Set 2
+3.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+4.
+Check if a Binary tree is Subtree of another Binary tree | Set 3
+5.
+Count of nodes in given N-ary tree such that their subtree is a Binary Tree
+6.
+Sum of subtree depths for every node of a given Binary Tree
+7.
+Most Frequent Subtree Sum from a given Binary Tree
+8.
+Change a Binary Tree so that every node stores sum of all nodes in left subtree
+9.
+Convert a Binary Tree such that every node stores the sum of all nodes in its right subtree
+10.
+Find the largest BST subtree in a given Binary Tree | Set 3
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+shrikanth13
+SHUBHAMSINGH10
+Rajput-Ji
+abhijeet19403
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

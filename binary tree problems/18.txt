@@ -1,0 +1,250 @@
+Reverse Level Order Traversal
+
+Difficulty Level : Easy
+Last Updated : 21 Dec, 2022
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+We have discussed the level-order traversal of a tree in the previous post. The idea is to print the last level first, then the second last level, and so on. Like Level order traversal, every level is printed from left to right.
+ 
+
+Example Tree
+
+The reverse Level order traversal of the above tree is “4 5 2 3 1”. 
+Both methods for normal level order traversal can be easily modified to do reverse level order traversal.
+
+Recommended Problem
+Reverse Level Order Traversal
+Tree
+Data Structures
+Flipkart
+Amazon
++4 more
+Solve Problem
+Submission count: 90K
+METHOD 1 (Recursive function to print a given level) 
+We can easily modify method 1 of the normal level order traversal. In method 1, we have a method printGivenLevel() which prints a given level number. The only thing we need to change is, instead of calling printGivenLevel() from the first level to the last level, we call it from the last level to the first level. 
+
+
+C++
+C
+Java
+Python
+# A recursive Python program to print REVERSE level order traversal
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Function to print reverse level order traversal
+def reverseLevelOrder(root):
+    h = height(root)
+    for i in reversed(range(1, h+1)):
+        printGivenLevel(root,i)
+ 
+# Print nodes at a given level
+def printGivenLevel(root, level):
+ 
+    if root is None:
+        return
+    if level ==1 :
+        print root.data,
+ 
+    elif level>1:
+        printGivenLevel(root.left, level-1)
+        printGivenLevel(root.right, level-1)
+ 
+# Compute the height of a tree-- the number of
+# nodes along the longest path from the root node
+# down to the farthest leaf node
+def height(node):
+    if node is None:
+        return 0
+    else:
+ 
+        # Compute the height of each subtree
+        lheight = height(node.left)
+        rheight = height(node.right)
+ 
+        # Use the larger one
+        if lheight > rheight :
+            return lheight + 1
+        else:
+            return rheight + 1
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+ 
+print "Level Order traversal of binary tree is"
+reverseLevelOrder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Level Order traversal of binary tree is 
+4 5 2 3 1 
+Time Complexity:  O(n^2)
+Auxiliary Space: O(h), where h is the height of the tree, this space is due to the recursive call stack.
+
+METHOD 2 (Using Queue and Stack) 
+The idea is to use a deque(double-ended queue) to get the reverse level order. A deque allows insertion and deletion at both ends. If we do normal level order traversal and instead of printing a node, push the node to a stack and then print the contents of the deque, we get “5 4 3 2 1” for the above example tree, but the output should be “4 5 2 3 1”. So to get the correct sequence (left to right at every level), we process the children of a node in reverse order, we first push the right subtree to the deque, then process the left subtree.
+
+
+
+C++
+Java
+Python
+# Python program to print REVERSE level order traversal using
+# stack and queue
+ 
+from collections import deque
+# A binary tree node
+ 
+ 
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+# Given a binary tree, print its nodes in reverse level order
+ 
+ 
+def reverseLevelOrder(root):
+  # we can use a double ended queue which provides O(1) insert at the beginning
+  # using the appendleft method
+  # we do the regular level order traversal but instead of processing the
+  # left child first we process the right child first and the we process the left child
+  # of the current Node
+  # we can do this One pass reduce the space usage not in terms of complexity but intuitively
+ 
+    q = deque()
+    q.append(root)
+    ans = deque()
+    while q:
+        node = q.popleft()
+        if node is None:
+            continue
+ 
+        ans.appendleft(node.data)
+ 
+        if node.right:
+            q.append(node.right)
+ 
+        if node.left:
+            q.append(node.left)
+ 
+    return ans
+ 
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
+ 
+print "Level Order traversal of binary tree is"
+deq = reverseLevelOrder(root)
+for key in deq:
+    print (key),
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Level Order traversal of binary tree is 
+4 5 6 7 2 3 1 
+Time Complexity: O(n), where n is the number of nodes in the binary tree. 
+Auxiliary Space: O(n), for stack and queue.
+ 
+
+Please write comments if you find any bug in the above programs/algorithms or other ways to solve the same problem.
+
+
+
+
+
+Like
+108
+Previous
+Level order traversal with direction change after every two levels
+Next
+Reverse tree path
+Related Articles
+1.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+2.
+Level order traversal of Binary Tree using Morris Traversal
+3.
+Connect Nodes at same Level (Level Order Traversal)
+4.
+Reverse Level Order traversal in spiral form
+5.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+6.
+Insertion in n-ary tree in given order and Level order traversal
+7.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+8.
+Level Order Binary Tree Traversal
+9.
+Level order traversal in spiral form
+10.
+Perfect Binary Tree Specific Level Order Traversal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+rathbhupendra
+princiraj1992
+akashgkrishnan
+rdtank
+avanitrachhadiya2155
+clintra
+sayali31889
+factworx4i2
+hkdass001
+Article Tags :
+Adobe
+Amazon
+FactSet
+Flipkart
+Microsoft
+Reverse
+Tree
+Practice Tags :
+Adobe
+Amazon
+FactSet
+Flipkart
+Microsoft
+Reverse
+Tree
+Improve Article
+Report Issue

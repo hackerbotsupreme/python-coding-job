@@ -1,0 +1,211 @@
+Populate Inorder Successor for all nodes
+
+Difficulty Level : Medium
+Last Updated : 21 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given a Binary Tree where each node has the following structure, write a function to populate the next pointer for all nodes. The next pointer for every node should be set to point to in-order successor.
+
+C++
+C
+Java
+Python3
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
+ 
+# This code is contributed by Shubham Singh
+C#
+Javascript
+Initially, all next pointers have NULL values. Your function should fill these next pointers so that they point to inorder successor.
+
+Recommended Problem
+Populate Inorder Successor for all nodes
+Tree
+Data Structures
+Solve Problem
+Submission count: 29.5K
+Solution (Use Reverse Inorder Traversal) 
+Traverse the given tree in reverse inorder traversal and keep track of previously visited node. When a node is being visited, assign a previously visited node as next.
+
+C++
+Java
+Python3
+# Python3 program to populate
+# inorder traversal of all nodes
+ 
+# Tree node
+ 
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+        self.next = None
+ 
+ 
+# The first visited node will be
+# the rightmost node next of the
+# rightmost node will be None
+next = None
+ 
+# Set next of p and all descendants of p
+# by traversing them in reverse Inorder
+ 
+ 
+def populateNext(p):
+ 
+    global next
+ 
+    if (p != None):
+ 
+        # First set the next pointer
+        # in right subtree
+        populateNext(p.right)
+ 
+        # Set the next as previously visited node
+        # in reverse Inorder
+        p.next = next
+ 
+        # Change the prev for subsequent node
+        next = p
+ 
+        # Finally, set the next pointer
+        # in left subtree
+        populateNext(p.left)
+ 
+# UTILITY FUNCTIONS
+# Helper function that allocates
+# a new node with the given data
+# and None left and right pointers.
+ 
+ 
+def newnode(data):
+ 
+    node = Node(0)
+    node.data = data
+    node.left = None
+    node.right = None
+    node.next = None
+ 
+    return(node)
+ 
+# Driver Code
+ 
+ 
+# Constructed binary tree is
+#         10
+#     / \
+#     8     12
+# /
+# 3
+root = newnode(10)
+root.left = newnode(8)
+root.right = newnode(12)
+root.left.left = newnode(3)
+ 
+# Populates nextRight pointer
+# in all nodes
+p = populateNext(root)
+ 
+# Let us see the populated values
+ptr = root.left.left
+while(ptr != None):
+ 
+    out = 0
+    if(ptr.next != None):
+        out = ptr.next.data
+    else:
+        out = -1
+ 
+    # -1 is printed if there is no successor
+    print("Next of", ptr.data, "is", out)
+    ptr = ptr.next
+ 
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output
+Next of 3 is 8
+Next of 8 is 10
+Next of 10 is 12
+Next of 12 is -1
+Time Complexity: O(n)
+Auxiliary Space : O(1)
+
+
+
+
+
+Like
+64
+Previous
+Replace each node in binary tree with the sum of its inorder predecessor and successor
+Next
+Inorder Successor of a node in Binary Tree
+Related Articles
+1.
+Replace each node in binary tree with the sum of its inorder predecessor and successor
+2.
+Inorder Successor of a node in Binary Tree
+3.
+Inorder predecessor and successor for a given key in BST
+4.
+Common nodes in the inorder sequence of a tree between given two nodes in O(1) space
+5.
+Sum of the mirror image nodes of a complete binary tree in an inorder way
+6.
+Preorder Successor of a Node in Binary Tree
+7.
+Postorder successor of a Node in Binary Tree
+8.
+Level Order Successor of a node in Binary Tree
+9.
+Modify Binary Tree by replacing each node with the sum of its Preorder Predecessor and Successor
+10.
+Find all possible binary trees with given Inorder Traversal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+rathbhupendra
+princiraj1992
+shubham_singh
+Akanksha_Rai
+mohit kumar 29
+unknown2108
+avllikhita
+importantly
+avanitrachhadiya2155
+kalrap615
+GauravRajput1
+simranarora5sos
+sweetyty
+SHUBHAMSINGH10
+simmytarika5
+Rajput-Ji
+sharmakavi59
+mukulsomukesh
+tapeshdua420
+surajrasr7277
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

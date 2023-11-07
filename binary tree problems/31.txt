@@ -1,0 +1,201 @@
+Check if a Binary Tree contains duplicate subtrees of size 2 or more
+
+Difficulty Level : Hard
+Last Updated : 27 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a Binary Tree, check whether the Binary tree contains a duplicate sub-tree of size 2 or more. 
+Note: Two same leaf nodes are not considered as the subtree size of a leaf node is one.
+
+Input :  Binary Tree 
+
+               A
+
+             /    \ 
+
+           B        C
+
+         /   \       \    
+
+        D     E       B     
+
+
+
+                     /  \    
+
+                    D    E
+
+Output : Yes
+
+Asked in : Google Interview 
+
+Recommended Problem
+Duplicate subtree in Binary Tree
+Tree
+Data Structures
+Google
+Solve Problem
+Submission count: 45.7K
+ 
+
+Tree
+
+Tree with duplicate Sub-Tree [ highlight by blue color ellipse ]
+
+[ Method 1] 
+A simple solution is that, we pick every node of tree and try to find is any sub-tree of given tree is present in tree which is identical with that sub-tree. Here we can use below post to find if a subtree is present anywhere else in tree. 
+Check if a binary tree is subtree of another binary tree 
+
+[Method 2 ]( Efficient solution ) 
+An Efficient solution based on tree serialization and hashing. The idea is to serialize subtrees as strings and store the strings in hash table. Once we find a serialized tree (which is not a leaf) already existing in hash-table, we return true. 
+
+Below The implementation of above idea. 
+
+C++
+Java
+Python3
+# Python3 program to find if there is
+# a duplicate sub-tree of size 2 or more
+ 
+# Separator node
+MARKER = '$'
+ 
+# Structure for a binary tree node
+class Node:
+     
+    def __init__(self, x):
+         
+        self.key = x
+        self.left = None
+        self.right = None
+ 
+subtrees = {}
+ 
+# This function returns empty if tree
+# contains a duplicate subtree of size
+# 2 or more.
+def dupSubUtil(root):
+     
+    global subtrees
+ 
+    s = ""
+ 
+    # If current node is None, return marker
+    if (root == None):
+        return s + MARKER
+ 
+    # If left subtree has a duplicate subtree.
+    lStr = dupSubUtil(root.left)
+     
+    if (s in lStr):
+       return s
+ 
+    # Do same for right subtree
+    rStr = dupSubUtil(root.right)
+     
+    if (s in rStr):
+       return s
+ 
+    # Serialize current subtree
+    s = s + root.key + lStr + rStr
+ 
+    # If current subtree already exists in hash
+    # table. [Note that size of a serialized tree
+    # with single node is 3 as it has two marker
+    # nodes.
+    if (len(s) > 3 and s in subtrees):
+       return ""
+ 
+    subtrees[s] = 1
+ 
+    return s
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    root = Node('A')
+    root.left = Node('B')
+    root.right = Node('C')
+    root.left.left = Node('D')
+    root.left.right = Node('E')
+    root.right.right = Node('B')
+    root.right.right.right = Node('E')
+    root.right.right.left= Node('D')
+ 
+    str = dupSubUtil(root)
+ 
+    if "" in str:
+        print(" Yes ")
+    else:
+        print(" No ")
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+ Yes 
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+The time complexity of the above program is O(n) where n is the number of nodes in the given binary tree. We are using hashing to store the subtrees which take O(n) space for all the subtrees.
+
+This article is contributed by Nishant Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+73
+Previous
+Check if a Binary Tree (not BST) has duplicate values
+Next
+Serialize and Deserialize a Binary Tree
+Related Articles
+1.
+Count of duplicate Subtrees in an N-ary Tree
+2.
+Find All Duplicate Subtrees
+3.
+Count of subtrees in a Binary Tree having XOR value K
+4.
+Count of subtrees in a Binary Tree having bitwise OR value K
+5.
+Print updated levels of each node of a Complete Binary Tree based on difference in weights of subtrees
+6.
+Remove all subtrees consisting only of even valued nodes from a Binary Tree
+7.
+Minimize absolute difference between sum of subtrees formed after splitting Binary tree into two
+8.
+Check if the Binary Tree contains a balanced BST of size K
+9.
+Count of subtrees possible from an N-ary Tree
+10.
+Replace each node in given N-ary Tree with sum of all its subtrees
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_Gaurav_Tiwari
+29AjayKumar
+mohit kumar 29
+unknown2108
+surajrasr7277
+Article Tags :
+Google
+Tree
+Practice Tags :
+Google
+Tree

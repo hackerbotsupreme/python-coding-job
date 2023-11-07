@@ -1,0 +1,139 @@
+Properties of Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 06 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+ In this post, the properties of a binary tree are discussed:
+
+1. The maximum number of nodes at level ‘l’ of a binary tree is 2l: 
+Note: Here level is the number of nodes on the path from the root to the node (including root and node). The level of the root is 0
+
+This can be proved by induction:
+
+For root, l = 0, number of nodes = 20 = 1 
+Assume that the maximum number of nodes on level ‘l’ is 2l 
+Since in a Binary tree every node has at most 2 children, the next level would have twice nodes, i.e. 2 * 2l 
+
+2. The Maximum number of nodes in a binary tree of height ‘h’ is 2h – 1:
+Note: Here the height of a tree is the maximum number of nodes on the root-to-leaf path. The height of a tree with a single node is considered as 1
+
+This result can be derived from point 2 above. A tree has maximum nodes if all levels have maximum nodes. So the maximum number of nodes in a binary tree of height h is 1 + 2 + 4 + .. + 2h-1. This is a simple geometric series with h terms and the sum of this series is 2h– 1. 
+
+In some books, the height of the root is considered as 0. In this convention, the above formula becomes 2h+1 – 1 
+
+
+
+3. In a Binary Tree with N nodes, the minimum possible height or the minimum number of levels is Log2(N+1):
+Each level should have at least one element, so the height cannot be more than N. A binary tree of height ‘h’ can have a maximum of 2h – 1 nodes (previous property). So the number of nodes will be less than or equal to this maximum value
+
+N <=  2h – 1
+2h >= N+1
+log2(2h) >= log2(N+1)           (Taking log both sides)
+hlog22 >= log2(N+1)       (h is an integer)
+h  >= | log2(N+1) |
+
+So the minimum height possible is | log2(N+1) |
+
+4. A Binary Tree with L leaves has at least | Log2L |+ 1   levels:
+A Binary tree has the maximum number of leaves (and a minimum number of levels) when all levels are fully filled. Let all leaves be at level l, then below is valid for the number of leaves L
+
+L   <=  2l-1  [From Point 1] [Note: Here, consider level of root node as 1]
+l =   | Log2L | + 1 
+where l is the minimum number of levels
+
+5. In a Binary tree where every node has 0 or 2 children, the number of leaf nodes is always one more than nodes with two children:
+L = T + 1
+Where L = Number of leaf nodes
+T = Number of internal nodes with two children
+
+Proof:
+
+No. of leaf nodes (L) i.e. total elements present at the bottom of tree = 2h-1 (h is height of tree)
+No. of internal nodes = {total no. of nodes} – {leaf nodes} = { 2h – 1 } – {2h-1} = 2h-1 (2-1) – 1 = 2h-1 – 1
+So , L = 2h-1
+        T = 2h-1 – 1
+
+Therefore L = T + 1
+Hence proved
+
+6. In a non-empty binary tree, if n is the total number of nodes and e is the total number of edges, then e = n-1:
+Every node in a binary tree has exactly one parent with the exception of the root node. So if n is the total number of nodes then n-1 nodes have exactly one parent. There is only one edge between any child and its parent. So the total number of edges is n-1.
+
+Related Articles:
+See Handshaking Lemma and Tree for proof
+Different types of Binary Trees and their properties
+Introduction to Binary Tree in set 1
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+687
+Previous
+Introduction to Binary Tree - Data Structure and Algorithm Tutorials
+Next
+Types of Binary Tree
+Related Articles
+1.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+2.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+3.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+4.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+5.
+Binary Tree to Binary Search Tree Conversion
+6.
+Check if a binary tree is subtree of another binary tree | Set 2
+7.
+Convert a Binary Tree to Threaded binary tree | Set 1 (Using Queue)
+8.
+Convert a Binary Tree to Threaded binary tree | Set 2 (Efficient)
+9.
+Minimum swap required to convert binary tree to binary search tree
+10.
+Check whether a binary tree is a full binary tree or not | Iterative Approach
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ArjunAshok
+keon
+saipavanbhanu
+code4anshu
+vaibhavjadhav
+mo99
+scisaif
+shreyasgosavi2016
+namanyadav982
+madhavchitlangia
+divyanshmishra101010
+alisha88ouf
+thenitu
+dassnehashish7
+abhijeet19403
+hardikkoriintern
+janardansthox
+dhilipkarthik01
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

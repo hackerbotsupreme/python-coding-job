@@ -1,0 +1,224 @@
+Iterative Preorder Traversal
+
+Difficulty Level : Easy
+Last Updated : 17 Jun, 2022
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Given a Binary Tree, write an iterative function to print the Preorder traversal of the given binary tree.
+Refer to this for recursive preorder traversal of Binary Tree. To convert an inherently recursive procedure to iterative, we need an explicit stack. 
+
+Following is a simple stack based iterative process to print Preorder traversal. 
+
+Create an empty stack nodeStack and push root node to stack. 
+Do the following while nodeStack is not empty. 
+Pop an item from the stack and print it. 
+Push right child of a popped item to stack 
+Push left child of a popped item to stack
+The right child is pushed before the left child to make sure that the left subtree is processed first.
+
+C++
+Java
+Python3
+# Python program to perform iterative preorder traversal
+ 
+# A binary tree node
+class Node:
+ 
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# An iterative process to print preorder traversal of BT
+def iterativePreorder(root):
+     
+    # Base CAse
+    if root is None:
+        return
+ 
+    # create an empty stack and push root to it
+    nodeStack = []
+    nodeStack.append(root)
+ 
+    # Pop all items one by one. Do following for every popped item
+    # a) print it
+    # b) push its right child
+    # c) push its left child
+    # Note that right child is pushed first so that left
+    # is processed first */
+    while(len(nodeStack) > 0):
+         
+        # Pop the top item from stack and print it
+        node = nodeStack.pop()
+        print (node.data, end=" ")
+         
+        # Push right and left children of the popped node
+        # to stack
+        if node.right is not None:
+            nodeStack.append(node.right)
+        if node.left is not None:
+            nodeStack.append(node.left)
+     
+# Driver program to test above function
+root = Node(10)
+root.left = Node(8)
+root.right = Node(2)
+root.left.left = Node(3)
+root.left.right = Node(5)
+root.right.left = Node(2)
+iterativePreorder(root)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output: 
+10 8 3 5 2 2
+ 
+
+Time Complexity: O(N) 
+Auxiliary Space: O(H), where H is the height of the tree.
+
+Another Solution: In the previous solution we can see that the left child is popped as soon as it is pushed to the stack, therefore it is not required to push it into the stack. 
+
+The idea is to start traversing the tree from the root node, and keep printing the left child while exists and simultaneously, push the right child of every node in an auxiliary stack. Once we reach a null node, pop a right child from the auxiliary stack and repeat the process while the auxiliary stack is not-empty. 
+
+
+
+This is a micro-optimization over the previous approach, both the solutions use asymptotically similar auxiliary space.
+
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Tree Node
+class Node:
+ 
+    def __init__(self, data = 0):
+        self.data = data
+        self.left = None
+        self.right = None
+     
+# Iterative function to do Preorder traversal of the tree
+def preorderIterative(root):
+ 
+    if (root == None):
+        return
+ 
+    st = []
+ 
+    # start from root node (set current node to root node)
+    curr = root
+ 
+    # run till stack is not empty or current is
+    # not NULL
+    while (len(st) or curr != None):
+     
+        # Print left children while exist
+        # and keep appending right into the
+        # stack.
+        while (curr != None):
+         
+            print(curr.data, end = " ")
+ 
+            if (curr.right != None):
+                st.append(curr.right)
+ 
+            curr = curr.left
+         
+        # We reach when curr is NULL, so We
+        # take out a right child from stack
+        if (len(st) > 0):
+            curr = st[-1]
+            st.pop()
+             
+# Driver Code
+ 
+root = Node(10)
+root.left = Node(20)
+root.right = Node(30)
+root.left.left = Node(40)
+root.left.left.left = Node(70)
+root.left.right = Node(50)
+root.right.left = Node(60)
+root.left.left.right = Node(80)
+ 
+preorderIterative(root)
+ 
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output: 
+10 20 40 70 80 50 30 60
+ 
+
+Time Complexity: O(N) 
+Auxiliary Space: O(H), where H is the height of the tree.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+113
+Previous
+Level Order Binary Tree Traversal
+Next
+Morris traversal for Preorder
+Related Articles
+1.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+2.
+Check if a binary tree is subtree of another binary tree using preorder traversal : Iterative
+3.
+Morris traversal for Preorder
+4.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+5.
+Construct the full k-ary tree from its preorder traversal
+6.
+Modify a binary tree to get preorder traversal using right pointers only
+7.
+Find n-th node in Preorder traversal of a Binary Tree
+8.
+Preorder Traversal of N-ary Tree Without Recursion
+9.
+Find Leftmost and Rightmost node of BST from its given preorder traversal
+10.
+Preorder, Postorder and Inorder Traversal of a Binary Tree using a single Stack
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+andrew1234
+vivek singh bhadauri
+amit143katiyar
+user282
+itsok
+decode2207
+surinderdawra388
+amartyaghoshgfg
+dhairya bhardwaj
+hardikkoriintern
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

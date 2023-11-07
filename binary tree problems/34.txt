@@ -1,0 +1,167 @@
+Symmetric Tree (Mirror Image of itself)
+
+Difficulty Level : Medium
+Last Updated : 28 Jun, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a binary tree, check whether it is a mirror of itself.
+
+For example, this binary tree is symmetric: 
+
+     1
+   /   \
+  2     2
+ / \   / \
+3   4 4   3
+
+But the following is not:
+    1
+   / \
+  2   2
+   \   \
+   3    3
+Recommended Problem
+Symmetric Tree
+Tree
+Data Structures
+Amazon
+Microsoft
+Solve Problem
+Submission count: 90.5K
+The idea is to write a recursive function isMirror() that takes two trees as an argument and returns true if trees are the mirror and false if trees are not mirrored. The isMirror() function recursively checks two roots and subtrees under the root.
+
+Below is the implementation of the above algorithm.
+
+C++14
+C
+Java
+Python3
+# Python program to check if a
+# given Binary Tree is symmetric or not
+ 
+# Node structure
+ 
+ 
+class Node:
+ 
+    # Utility function to create new node
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+# Returns True if trees
+#with roots as root1 and root 2  are mirror
+ 
+ 
+def isMirror(root1, root2):
+    # If both trees are empty, then they are mirror images
+    if root1 is None and root2 is None:
+        return True
+ 
+    """ For two trees to be mirror images,
+        the following three conditions must be true
+        1 - Their root node's key must be same
+        2 - left subtree of left tree and right subtree
+          of the right tree have to be mirror images
+        3 - right subtree of left tree and left subtree
+           of right tree have to be mirror images
+    """
+    if (root1 is not None and root2 is not None):
+        if root1.key == root2.key:
+            return (isMirror(root1.left, root2.right)and
+                    isMirror(root1.right, root2.left))
+ 
+    # If none of the above conditions is true then root1
+    # and root2 are not mirror images
+    return False
+ 
+ 
+def isSymmetric(root):
+ 
+    # Check if tree is mirror of itself
+    return isMirror(root, root)
+ 
+ 
+# Driver Code
+# Let's construct the tree show in the above figure
+root = Node(1)
+root.left = Node(2)
+root.right = Node(2)
+root.left.left = Node(3)
+root.left.right = Node(4)
+root.right.left = Node(4)
+root.right.right = Node(3)
+print ("Symmetric" if isSymmetric(root) == True else "Not symmetric")
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Symmetric
+Time Complexity: O(N)
+Auxiliary Space: O(h) where h is the maximum height of the tree
+
+
+
+
+
+Like
+100
+Previous
+Evaluation of Expression Tree
+Next
+Check for Symmetric Binary Tree (Iterative Approach)
+Related Articles
+1.
+Convert given Binary Tree to Symmetric Tree by adding minimum number of nodes
+2.
+Sum of the mirror image nodes of a complete binary tree in an inorder way
+3.
+Number of edges in mirror image of Complete binary tree
+4.
+Convert a Binary Tree into its Mirror Tree
+5.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+6.
+Create a mirror tree from the given binary tree
+7.
+Check for Symmetric Binary Tree (Iterative Approach)
+8.
+Check if given Generic N-ary Tree is Symmetric horizontally
+9.
+Symmetric Binary Tree
+10.
+Node having maximum sum of immediate children and itself in n-ary tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+ShubhamDubey7
+ehabnegm2002
+rohitsingh07052
+AakashYadav4
+rrrtnx
+vsachdeva4859
+amartyaghoshgfg
+krisania804
+hardikkoriintern
+Article Tags :
+Amazon
+Tree
+Practice Tags :
+Amazon
+Tree
+Improve Article
+Report Issue

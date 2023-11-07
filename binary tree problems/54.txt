@@ -1,0 +1,573 @@
+Maximum sum of nodes in Binary tree such that no two are adjacent
+
+Difficulty Level : Hard
+Last Updated : 29 Nov, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a binary tree with a value associated with each node, we need to choose a subset of these nodes such that the sum of selected nodes is maximum under a constraint that no two chosen nodes in the subset should be directly connected, that is, if we have taken a node in our sum then we can’t take any of its children in consideration and vice versa
+
+Examples:  
+
+Input:
+
+
+
+Explanation: In the above binary tree, chosen nodes are encircled and are not directly connected, and their sum is the maximum possible
+
+Recommended: Please solve it on “PRACTICE” first before moving on to the solution.
+
+The maximum sum of nodes in a Binary tree such that no two are adjacent using Recursion:
+We can solve this problem by considering the fact that both node and its children can’t be in sum at the same time, so when we take a node into our sum, we will call recursively for its grandchildren or if we don’t take this node then we will call for all its children nodes and finally we will choose maximum from both of the results. 
+
+
+
+It can be seen easily that the above approach can lead to solving the same subproblem many times, for example in the above diagram node 1 calls node 4 and 5 when its value is chosen and node 3 also calls them when its value is not chosen so these nodes are processed more than once. We can stop solving these nodes more than once by memorizing the result at all nodes
+
+Follow the below steps to solve the problem:
+
+Create a map to memorize the results
+Recur to solve the problem for the root node
+If the root is NULL return 0 (Base Case)
+If the answer to this subproblem is already stored in the map, then return it
+Now either include the current node and recur for its grandchildren 
+or don’t take the current node and recur for its left and the right child
+Save the answer to this problem equal to the maximum of the above two cases
+Return the answer
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find
+# maximum sum from a subset
+# of nodes of binary tree
+ 
+# A binary tree node structure
+ 
+ 
+class Node:
+ 
+    def __init__(self, data):
+ 
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Utility function to create
+# a new Binary Tree node
+ 
+ 
+def newNode(data):
+ 
+    temp = Node(data)
+    return temp
+ 
+# method returns maximum sum
+# possible from subtrees rooted
+# at grandChildrens of node 'node'
+ 
+ 
+def sumOfGrandChildren(node, mp):
+ 
+    sum = 0
+ 
+    # call for children of left
+    # child only if it is not NULL
+    if (node.left):
+        sum += (getMaxSumUtil(node.left.left, mp) +
+                getMaxSumUtil(node.left.right, mp))
+ 
+    # call for children of right
+    # child only if it is not NULL
+    if (node.right):
+        sum += (getMaxSumUtil(node.right.left, mp) +
+                getMaxSumUtil(node.right.right, mp))
+ 
+    return sum
+ 
+# Utility method to return
+# maximum sum rooted at node
+# 'node'
+ 
+ 
+def getMaxSumUtil(node, mp):
+ 
+    if (node == None):
+        return 0
+ 
+    # If node is already processed
+    # then return calculated
+    # value from map
+    if node in mp:
+        return mp[node]
+ 
+    # take current node value
+    # and call for all grand children
+    incl = (node.data +
+            sumOfGrandChildren(node, mp))
+ 
+    # don't take current node
+    # value and call for all children
+    excl = (getMaxSumUtil(node.left, mp) +
+            getMaxSumUtil(node.right, mp))
+ 
+    # choose maximum from both
+    # above calls and store that
+    # in map
+    mp[node] = max(incl, excl)
+ 
+    return mp[node]
+ 
+# Returns maximum sum from
+# subset of nodes of binary
+# tree under given constraints
+ 
+ 
+def getMaxSum(node):
+ 
+    if (node == None):
+        return 0
+ 
+    mp = dict()
+    return getMaxSumUtil(node, mp)
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    root = newNode(1)
+    root.left = newNode(2)
+    root.right = newNode(3)
+    root.right.left = newNode(4)
+    root.right.right = newNode(5)
+    root.left.left = newNode(1)
+ 
+    print(getMaxSum(root))
+ 
+# This code is contributed by Rutvik_56
+C#
+Javascript
+Output
+11
+Time complexity: O(N)
+Auxiliary Space: O(N)
+
+The maximum sum of nodes in a Binary tree such that no two are adjacent using pair:
+Return a pair for each node in the binary tree such that the first of the pair indicates the maximum sum when the data of a node is included and the second indicates the maximum sum when the data of a particular node is not included
+
+Follow the below steps to solve the problem:
+
+Recur to solve the problem for the root node
+If the root is NULL return 0 (Base Case)
+Create a pair of <int, int> sum1 and set sum1 equal to the answer of root->left child
+Create a pair of <int, int> sum2 and set sum2 equal to the answer of root->right child
+Create a pair of <int, int> sum and set sum.first equal to sum1.second + sum2.second + root->data
+Set sum.second equal to the maximum of (sum1.first, sum1.second) + maximum of (sum2.first, sum2.second)
+Return sum
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find maximum sum in Binary
+# Tree such that no two nodes are adjacent.
+ 
+# Binary Tree Node
+ 
+""" utility that allocates a newNode
+with the given key """
+ 
+ 
+class newNode:
+ 
+    # Construct to create a newNode
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+ 
+def maxSumHelper(root):
+ 
+    if (root == None):
+ 
+        sum = [0, 0]
+        return sum
+ 
+    sum1 = maxSumHelper(root.left)
+    sum2 = maxSumHelper(root.right)
+    sum = [0, 0]
+ 
+    # This node is included (Left and right
+    # children are not included)
+    sum[0] = sum1[1] + sum2[1] + root.data
+ 
+    # This node is excluded (Either left or
+    # right child is included)
+    sum[1] = (max(sum1[0], sum1[1]) +
+              max(sum2[0], sum2[1]))
+ 
+    return sum
+ 
+ 
+def maxSum(root):
+ 
+    res = maxSumHelper(root)
+    return max(res[0], res[1])
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    root = newNode(10)
+    root.left = newNode(1)
+    root.left.left = newNode(2)
+    root.left.left.left = newNode(1)
+    root.left.right = newNode(3)
+    root.left.right.left = newNode(4)
+    root.left.right.right = newNode(5)
+    print(maxSum(root))
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+21
+Time complexity: O(N)
+Auxiliary Space: O(N)
+
+Thanks to Surbhi Rastogi for suggesting this method.
+
+The maximum sum of nodes in a Binary tree such that no two are adjacent using Dynamic programming:
+Store the maximum sum by including a node or excluding the node in a dp array or unordered map. Recursively call for grandchildren of nodes if the node is included or calls for its neighbors if the node is excluded
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to find maximum sum in Binary Tree
+# such that no two nodes are adjacent.
+ 
+ 
+class Node:
+    def __init__(self, data):
+ 
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+# declare map /dp array as global
+umap = {}
+ 
+ 
+def maxSum(root):
+ 
+    global umap
+ 
+    # base case
+    if (root == None):
+        return 0
+ 
+    # if the max sum from the node is already in
+    # map,return the value
+    if (root in umap):
+        return umap[root]
+ 
+    # if the current node(root) is included in result
+    # then find maximum sum
+    inc = root.data
+ 
+    # if left of node exists, add their grandchildren
+    if (root.left):
+        inc += maxSum(root.left.left) + maxSum(root.left.right)
+ 
+    # if right of node exist,add their grandchildren
+    if (root.right):
+        inc += maxSum(root.right.left) + maxSum(root.right.right)
+ 
+    # if the current node(root) is excluded, find the
+    # maximum sum
+    ex = maxSum(root.left) + maxSum(root.right)
+ 
+    # store the maximum of including & excluding the node
+    # in map
+    umap[root] = max(inc, ex)
+    return max(inc, ex)
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+  root = Node(10)
+  root.left = Node(1)
+  root.left.left = Node(2)
+  root.left.left.left = Node(1)
+  root.left.right = Node(3)
+  root.left.right.left = Node(4)
+  root.left.right.right = Node(5)
+  print(maxSum(root))
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+21
+Time complexity: O(N)
+Auxiliary Space: O(N)
+
+This article is contributed by Harsh.<https://auth.geeksforgeeks.org/user/harshchandekar10/profile>
+
+Approach: To solve the problem follow the below idea:
+
+For every node, we find the following:
+
+The maximum sum of non-adjacent nodes including the node.
+The maximum sum of non-adjacent nodes excluding the node.
+Now, we return both values in the recursive call. The parent node of the previously calculated node gets the maximum sum (including & excluding) of the child node. Accordingly, the parent now calculates the maximum sum(including & excluding) and returns. This process continues till the root node. Finally, we return the max(sum including root, sum excluding root)
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+ 
+ 
+class Solution:
+ 
+    def max_sum(self, root):
+        if not root:
+            return 0, 0
+ 
+        no_root_l, root_l = self.max_sum(root.left)
+        no_root_r, root_r = self.max_sum(root.right)
+ 
+        root_sum_max = max(root.data, root.data+no_root_l,
+                           root.data+no_root_r, root.data+no_root_r+no_root_l)
+        no_root_sum_max = max(root_l, root_r, root_l + root_r, no_root_l+no_root_r,
+                              root_l + no_root_r, root_r + no_root_l)
+ 
+        return no_root_sum_max, root_sum_max
+ 
+    def getMaxSum(self, root):
+        return max(self.max_sum(root))
+C#
+Javascript
+Output
+21
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+This method is contributed by Thatikonda Aditya.
+
+The maximum sum of nodes in a Binary tree such that no two are adjacent using Memorization:
+To solve the problem follow the below idea:
+
+For every node, we can either choose it or leave it and pass on this information to children. Since we are passing on this information about the parent being selected or not, we don’t need to worry about the grandchildren of the node
+
+So for every node, we do the following:
+
+If the parent is selected, we don’t select the current node and move on to the children.
+if the parent is not selected, we will either select or not select this node; in either case, we pass that info to the children
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find maximum sum from a subset of
+# non-adjacent nodes of binary tree
+ 
+# A binary tree node structure
+ 
+ 
+class newNode:
+ 
+    def __init__(self, data):
+ 
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+ 
+dp = [[]]
+ 
+# Variables and function to index the given Binary tree
+# This indexing will be used in dp
+cnt = 0
+temp = newNode(0)
+ 
+ 
+def giveIndex(root):
+ 
+    if (root == None):
+        return None
+    # give the index to the current node and increment the index for next nodes.
+    global cnt
+    cnt += 1
+    newNode1 = newNode(cnt)
+ 
+    # Recursively calling right and left subtree
+    newNode1.left = giveIndex(root.left)
+    newNode1.right = giveIndex(root.right)
+    return newNode1
+ 
+ 
+# Memoization function to store the answer
+def solve(root, b, temp):
+ 
+    if (root == None):
+        return 0
+    # If the answer is already calculated return that answer
+    if (dp[temp.data][b] != -1):
+        return dp[temp.data][b]
+ 
+    # Variable to store the answer for the current node.
+    res = 0
+ 
+    # if the parent is not selected then we can either select ot not select this node.
+    if (b == 0):
+        res = max(root.data + solve(root.right, 1, temp.right) + solve(root.left, 1,
+                                                                       temp.left), solve(root.right, 0, temp.right) + solve(root.left, 0, temp.left))
+ 
+    # If parent is selected then we can't select this node.
+    else:
+        res = solve(root.right, 0, temp.right) + solve(root.left, 0, temp.left)
+ 
+    # return the answer
+    dp[temp.data][b] = res
+    return res
+ 
+ 
+def getMaxSum(root):
+ 
+    # Initialization of the dp
+    global dp
+    dp = [[-1 for x in range(2)] for x in range(100)]
+    # Calling the indexing function
+    temp = giveIndex(root)
+    # calling the solve function for root with parent not selected
+    res = solve(root, 0, temp)
+ 
+    return res
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    # TEST 1
+    root = newNode(1)
+    root.left = newNode(2)
+    root.right = newNode(3)
+    root.right.left = newNode(4)
+    root.right.right = newNode(5)
+    root.left.left = newNode(1)
+    print(getMaxSum(root))
+ 
+    # TEST 2
+    root2 = newNode(10)
+    root2.left = newNode(1)
+    root2.left.left = newNode(2)
+    root2.left.left.left = newNode(1)
+    root2.left.right = newNode(3)
+    root2.left.right.left = newNode(4)
+    root2.left.right.right = newNode(5)
+    print(getMaxSum(root2))
+ 
+# This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Output
+11
+21
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+This method and implementation is contributed by Anirudh Singh.
+
+If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.Memorization
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+129
+Previous
+Find the maximum path sum between two leaves of a binary tree
+Next
+Find largest subtree sum in a tree
+Related Articles
+1.
+Maximum sum of nodes in Binary tree such that no two are adjacent | Dynamic Programming
+2.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+3.
+Count of nodes in given N-ary tree such that their subtree is a Binary Tree
+4.
+Sum of nodes in a binary tree having only the left child nodes
+5.
+Convert a Binary Tree such that every node stores the sum of all nodes in its right subtree
+6.
+Remove nodes from Binary Tree such that sum of all remaining root-to-leaf paths is atleast K
+7.
+Generate Complete Binary Tree in such a way that sum of non-leaf nodes is minimum
+8.
+Count the nodes of the tree which make a pangram when concatenated with the sub-tree nodes
+9.
+Minimum and maximum node that lies in the path connecting two nodes in a Binary Tree
+10.
+Maximum length cycle that can be formed by joining two nodes of a binary tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sai Krishna Chowrigari
+_Gaurav_Tiwari
+SHUBHAMSINGH10
+princiraj1992
+29AjayKumar
+rutvik_56
+reapedjuggler
+itsok
+divyeshrabadiya07
+ganesh227
+harshchandekar10
+taditya3007
+anand00525
+germanshephered48
+saurabh1990aror
+clintra
+shinjanpatra
+anirudhsingh11
+abhijeet19403
+tapeshdua420
+varshagumber28
+sumitgumber28
+adityakumar129
+user_7gr9iodclfx
+janardansthox
+Article Tags :
+Tree
+Practice Tags :
+Tree

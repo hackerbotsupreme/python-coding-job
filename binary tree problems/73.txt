@@ -1,0 +1,136 @@
+Find root of the tree where children id sum for every node is given
+
+Difficulty Level : Hard
+Last Updated : 29 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Consider a binary tree whose nodes have ids from 1 to n where n is the number of nodes in the tree. The tree is given as a collection of n pairs, where every pair represents node id and the sum of children ids.
+
+Examples: 
+
+Input : 1 5
+        2 0
+        3 0
+        4 0
+        5 5
+        6 5
+Output: 6
+Explanation: In this case, two trees can 
+be made as follows and 6 is the root node.
+   6          6
+   \         / \
+    5       1   4
+   / \       \
+  1   4       5
+ / \         / \
+2   3       2   3
+
+Input : 4 0
+Output: 4
+Explanation: Clearly 4 does 
+not have any children and is the
+only node i.e., the root node.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+At first sight, this question appears to be a typical question of a tree data structure but it 
+can be solved as follows.
+
+Every node id appears in children sum except root. So if we do the sum of all ids and subtract it from the sum of all children’s sums, we get the root.
+
+Implementation:
+
+C++
+Java
+Python3
+"""Find root of tree where children
+sum for every node id is given"""
+ 
+def findRoot(arr, n) :
+ 
+    # Every node appears once as an id, and
+    # every node except for the root appears
+    # once in a sum. So if we subtract all
+    # the sums from all the ids, we're left
+    # with the root id.
+    root = 0
+    for i in range(n):
+        root += (arr[i][0] - arr[i][1])
+    return root
+                         
+# Driver Code
+if __name__ == '__main__':
+ 
+    arr = [[1, 5], [2, 0],
+           [3, 0], [4, 0],
+           [5, 5], [6, 5]]
+    n = len(arr)
+    print(findRoot(arr, n))
+ 
+# This code is contributed
+# by SHUBHAMSINGH10
+C#
+Javascript
+Output
+6
+Time Complexity: O(n), Where n is the length of the given array.
+Auxiliary Space: O(1), As no extra space is used.
+
+
+
+This article is contributed by Sunidhi Chaudhary. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+23
+Previous
+Vertical Sum in Binary Tree | Set 2 (Space Optimized)
+Next
+Replace each node in binary tree with the sum of its inorder predecessor and successor
+Related Articles
+1.
+Minimize changes to convert into Tree with root 1, even left children and odd right children
+2.
+Minimize sum of node values by filling given empty Tree such that each node is GCD of its children
+3.
+Node having maximum sum of immediate children and itself in n-ary tree
+4.
+Convert an arbitrary Binary Tree to a tree that holds Children Sum Property - Set 2
+5.
+Convert an arbitrary Binary Tree to a tree that holds Children Sum Property
+6.
+Number of children of given node in n-ary Tree
+7.
+Second unique smallest value of given Binary Tree whose each node is minimum of its children
+8.
+Queries to find sum of distance of a given node to every leaf node in a Weighted Tree
+9.
+Find if there is a pair in root to a leaf path with sum equals to root's data
+10.
+Path from the root node to a given node in an N-ary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+princiraj1992
+bharathmkulkarni
+hardikkoriintern
+abhijeet19403
+Article Tags :
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

@@ -1,0 +1,441 @@
+Find distance between two nodes of a Binary Tree
+
+Difficulty Level : Hard
+Last Updated : 17 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+AucFind the distance between two keys in a binary tree, no parent pointers are given. The distance between two nodes is the minimum number of edges to be traversed to reach one node from another.
+ 
+
+dist
+
+ 
+
+Recommended Practice
+Min distance between two given nodes of a Binary Tree
+Try It!
+The distance between two nodes can be obtained in terms of lowest common ancestor. Following is the formula. 
+
+Dist(n1, n2) = Dist(root, n1) + Dist(root, n2) - 2*Dist(root, lca) 
+'n1' and 'n2' are the two given keys
+'root' is root of given Binary Tree.
+'lca' is lowest common ancestor of n1 and n2
+Dist(n1, n2) is the distance between n1 and n2.
+Following is the implementation of the above approach. The implementation is adopted from the last code provided in Lowest Common Ancestor Post. 
+
+C++
+Java
+Python3
+# Python Program to find distance between
+# n1 and n2 using one traversal
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.right = None
+        self.left = None
+ 
+def pathToNode(root, path, k):
+ 
+    # base case handling
+    if root is None:
+        return False
+ 
+     # append the node value in path
+    path.append(root.data)
+  
+    # See if the k is same as root's data
+    if root.data == k :
+        return True
+  
+    # Check if k is found in left or right
+    # sub-tree
+    if ((root.left != None and pathToNode(root.left, path, k)) or
+            (root.right!= None and pathToNode(root.right, path, k))):
+        return True
+  
+    # If not present in subtree rooted with root,
+    # remove root from path and return False
+    path.pop()
+    return False
+ 
+def distance(root, data1, data2):
+    if root:
+        # store path corresponding to node: data1
+        path1 = []
+        pathToNode(root, path1, data1)
+ 
+        # store path corresponding to node: data2
+        path2 = []
+        pathToNode(root, path2, data2)
+ 
+        # iterate through the paths to find the
+        # common path length
+        i=0
+        while i<len(path1) and i<len(path2):
+            # get out as soon as the path differs
+            # or any path's length get exhausted
+            if path1[i] != path2[i]:
+                break
+            i = i+1
+ 
+        # get the path length by deducting the
+        # intersecting path length (or till LCA)
+        return (len(path1)+len(path2)-2*i)
+    else:
+        return 0
+ 
+# Driver Code to test above functions
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.right.right= Node(7)
+root.right.left = Node(6)
+root.left.right = Node(5)
+root.right.left.right = Node(8)
+ 
+dist = distance(root, 4, 5)
+print ("Distance between node {} & {}: {}".format(4, 5, dist))
+ 
+dist = distance(root, 4, 6)
+print ("Distance between node {} & {}: {}".format(4, 6, dist))
+ 
+dist = distance(root, 3, 4)
+print ("Distance between node {} & {}: {}".format(3, 4, dist))
+ 
+dist = distance(root, 2, 4)
+print ("Distance between node {} & {}: {}".format(2, 4, dist))
+ 
+dist = distance(root, 8, 5)
+print ("Distance between node {} & {}: {}".format(8, 5, dist))
+ 
+# This program is contributed by Aartee
+C#
+Javascript
+Output
+Dist(4, 5) = 2
+Dist(4, 6) = 4
+Dist(3, 4) = 3
+Dist(2, 4) = 1
+Dist(8, 5) = 5
+Time Complexity: O(n), As the method does a single tree traversal. Here n is the number of elements in the tree.
+Auxiliary Space: O(h), Here h is the height of the tree and the extra space is used in recursion call stack.
+
+
+
+Thanks to Atul Singh for providing the initial solution for this post.
+
+Better Solution : 
+We first find the LCA of two nodes. Then we find the distance from LCA to two nodes. 
+
+C++
+Java
+Python3
+"""
+A python program to find distance between n1
+and n2 in binary tree
+"""
+# binary tree node
+ 
+ 
+class Node:
+    # Constructor to create new node
+    def __init__(self, data):
+        self.data = data
+        self.left = self.right = None
+ 
+ 
+# This function returns pointer to LCA of
+# two given values n1 and n2.
+def find_least_common_ancestor(root: Node, n1: int, n2: int) -> Node:
+ 
+    # Base case
+    if root is None:
+        return root
+ 
+    # If either n1 or n2 matches with root's
+    # key, report the presence by returning root
+    if root.data == n1 or root.data == n2:
+        return root
+ 
+    # Look for keys in left and right subtrees
+    left = find_least_common_ancestor(root.left, n1, n2)
+    right = find_least_common_ancestor(root.right, n1, n2)
+ 
+    if left and right:
+        return root
+ 
+    # Otherwise check if left subtree or
+    # right subtree is Least Common Ancestor
+    if left:
+        return left
+    else:
+        return right
+ 
+# function to find distance of any node
+# from root
+ 
+ 
+def find_distance_from_ancestor_node(root: Node, data: int) -> int:
+ 
+    # case when we reach a beyond leaf node
+    # or when tree is empty
+    if root is None:
+        return -1
+ 
+    # Node is found then return 0
+    if root.data == data:
+        return 0
+ 
+    left = find_distance_from_ancestor_node(root.left, data)
+    right = find_distance_from_ancestor_node(root.right, data)
+    distance = max(left, right)
+    return distance+1 if distance >= 0 else -1
+ 
+# function to find distance between two
+# nodes in a binary tree
+ 
+ 
+def find_distance_between_two_nodes(root: Node, n1: int, n2: int):
+ 
+    lca = find_least_common_ancestor(root, n1, n2)
+ 
+    return find_distance_from_ancestor_node(lca, n1) + find_distance_from_ancestor_node(lca, n2) if lca else -1
+ 
+ 
+# Driver program to test above function
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+root.right.left = Node(6)
+root.right.right = Node(7)
+root.right.left.right = Node(8)
+ 
+print("Dist(4,5) = ", find_distance_between_two_nodes(root, 4, 5))
+print("Dist(4,6) = ", find_distance_between_two_nodes(root, 4, 6))
+print("Dist(3,4) = ", find_distance_between_two_nodes(root, 3, 4))
+print("Dist(2,4) = ", find_distance_between_two_nodes(root, 2, 4))
+print("Dist(8,5) = ", find_distance_between_two_nodes(root, 8, 5))
+ 
+# This article is contributed by Shweta Singh.
+# This article is improved by Sreeramachandra
+C#
+Javascript
+Output
+Dist(4, 5) = 2
+Dist(4, 6) = 4
+Dist(3, 4) = 3
+Dist(2, 4) = 1
+Dist(8, 5) = 5
+Time Complexity: O(n), As the method does a single tree traversal. Here n is the number of elements in the tree.
+Auxiliary Space: O(h), Here h is the height of the tree and the extra space is used in recursion call stack.
+
+Thanks to NILMADHAB MONDAL for suggesting this solution.
+
+Another Better Solution (one pass):  
+
+We know that distance between two node(let suppose n1 and n2) = distance between LCA and n1 + distance between LCA and n2.
+
+A general solution using above formula that may come to your mind is  :  
+
+int findDistance(Node* root, int n1, int n2) {
+
+if (!root) return 0;
+
+if (root->data == n1 || root->data == n2)
+
+ return 1;
+
+int left = findDistance(root->left, n1, n2);
+
+int right = findDistance(root->right, n1, n2);
+
+if (left  && right)
+
+ return left + right;
+
+else if (left || right)
+
+ return max(left, right) + 1;
+
+return 0;
+
+}
+
+But this solution has a flaw (a missing edge case)  when  n2 is Descendant of n1 or n1 is Descendant of n2.
+
+Below is dry run of above code with edge case example :
+
+
+
+In the above binary tree expected output is 2 but the function will give output as 3. This situation is overcome in the solution code given below :
+
+Note : both n1 and n2 should be present in Binary Tree.
+
+C++
+Java
+Python3
+# Python Program to find distance between n1 and n2 using one traversal
+ 
+# A Binary Tree Node
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+ 
+# Global variable to store distance between n1 and n2.
+ans = 0
+ 
+# Function that finds distance between two node.
+def _findDistance(root, n1, n2):
+    global ans
+    if not root:
+        return 0
+    left = _findDistance(root.left, n1, n2)
+    right = _findDistance(root.right, n1, n2)
+     
+    # if any node(n1 or n2) is found
+    if root.key == n1 or root.key == n2:
+       
+          # check if there is any descendant(n1 or n2)
+          # if descendant exist then distance between descendant and current root will be our answer.
+        if left or right:
+            ans = max(left, right)
+            return 0
+        else:
+            return 1
+           
+    # if current root is LCA of n1 and n2.
+    elif left and right:
+        ans = left + right
+        return 0
+       
+    # if there is a descendant(n1 or n2).
+    elif left or right:
+       
+        # increment its distance
+        return max(left, right) + 1
+ 
+    # if neither n1 nor n2 exist as descendant.
+    return 0
+ 
+# The main function that returns distance between n1 and n2.
+def findDistance(root, n1, n2):
+    _findDistance(root, n1, n2)
+    return ans
+ 
+# Driver program to test above functions
+if __name__ == '__main__':
+ 
+    # Let us create binary tree given in the above example
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.left = Node(6)
+    root.right.right = Node(7)
+    root.right.left.right = Node(8)
+    print("Dist(4, 5) =", findDistance(root, 4, 5))
+    print("Dist(4, 6) =", findDistance(root, 4, 6))
+    print("Dist(3, 4) =", findDistance(root, 3, 4))
+    print("Dist(2, 4) =", findDistance(root, 2, 4))
+    print("Dist(8, 5) =", findDistance(root, 8, 5))
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output
+Dist(4, 5) = 2
+Dist(4, 6) = 4
+Dist(3, 4) = 3
+Dist(2, 4) = 1
+Dist(8, 5) = 5
+Time Complexity: O(n), where n is the number of nodes in the binary tree.
+Auxiliary Space: O(h), where h is the height of the binary tree.
+
+Thanks to Gurudev Singh for suggesting this solution.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+147
+Previous
+Lowest Common Ancestor in a Binary Tree | Set 3 (Using RMQ)
+Next
+Find LCA in Binary Tree using RMQ
+Related Articles
+1.
+Queries to find distance between two nodes of a Binary tree
+2.
+Queries to find distance between two nodes of a Binary tree - O(logn) method
+3.
+Find distance between two nodes in the given Binary tree for Q queries
+4.
+Shortest distance between two nodes in an infinite binary tree
+5.
+Distance between two nodes of binary tree with node values from 1 to N
+6.
+Count of nodes in a given N-ary tree having distance to all leaf nodes equal in their subtree
+7.
+Minimum distance between two given nodes in an N-ary tree
+8.
+Check if all the Nodes in a Binary Tree having common values are at least D distance apart
+9.
+Count pairs of leaf nodes in a Binary Tree which are at most K distance apart
+10.
+Common nodes in the inorder sequence of a tree between given two nodes in O(1) space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+muthuram85
+shweta44
+shrikanth13
+akshay7797
+GauravRajput1
+mukesh07
+rdtank
+srcdasari
+gurudev620gs
+amartyaghoshgfg
+simranarora5sos
+architgwl2000
+tapeshdua420
+mitalibhola94
+abhijeet19403
+factworx4i2
+lokeshpotta20
+Article Tags :
+Amazon
+LCA
+Linkedin
+MakeMyTrip
+Samsung
+Tree
+Practice Tags :
+Amazon
+Linkedin
+MakeMyTrip
+Samsung
+Tree
+Improve Article
+Report Issue
