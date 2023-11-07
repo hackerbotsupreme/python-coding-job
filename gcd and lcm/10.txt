@@ -1,0 +1,217 @@
+Summation of GCD of all the pairs up to N
+
+Difficulty Level : Hard
+Last Updated : 05 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number N, find sum of all GCDs that can be formed by selecting all the pairs from 1 to N.
+Examples:
+
+Input  : 4
+Output : 7
+Explanation: 
+Numbers from 1 to 4 are: 1, 2, 3, 4
+Result = gcd(1,2) + gcd(1,3) + gcd(1,4) + 
+         gcd(2,3) + gcd(2,4) + gcd(3,4)
+       = 1 + 1 + 1 + 1 + 2 + 1
+       = 7
+
+Input  : 12
+Output : 105
+
+Input  : 1
+Output : 0
+
+Input  : 2
+Output : 1
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A Naive approach is to run two loops one inside the other. Select all pairs one by one, find GCD of every pair and then find sum of these GCDs. Time complexity of this approach is O(N2 * log(N))
+
+Efficient Approach is based on following concepts:
+
+Euler’s Totient function ?(n) for an input n is count of numbers in {1, 2, 3, …, n} that are relatively prime to n, i.e., the numbers whose GCD (Greatest Common Divisor) with n is 1. For example, ?(4) = 2, ?(3) = 2 and ?(5) = 4. There are 2 numbers smaller or equal to 4 that are relatively prime to 4, 2 numbers smaller or equal to 3 that are relatively prime to 3. And 4 numbers smaller than or equal to 5 that are relatively prime to 5.
+The idea is to convert given problem into sum of Euler Totient Functions.
+
+Sum of all GCDs where j is a part of
+pair is and j is greater element in pair:
+Sumj = ?(i=1 to j-1) gcd(i, j)
+Our final result is 
+Result = ?(j=1 to N) Sumj
+
+The above equation can be written as :
+Sumj = ? g * count(g) 
+For every possible GCD 'g' of j. Here count(g)
+represents count of pairs having GCD equals to
+g. For every such pair(i, j), we can write :
+ gcd(i/g, j/g) = 1
+
+We can re-write our previous equation as
+Sumj = ? d * phi(j/d) 
+For every divisor d of j and phi[] is Euler
+Totient number 
+
+Example : j = 12 and d = 3 is one of divisor 
+of j so in order to calculate the sum of count
+of all pairs having 3 as gcd we can simple write
+it as 
+=> 3*phi[12/3]  
+=> 3*phi[4]
+=> 3*2
+=> 6
+
+Therefore sum of GCDs of all pairs where 12 is 
+greater part of pair and 3 is GCD.
+GCD(3, 12) + GCD(9, 12) = 6.
+
+Complete Example : 
+N = 4
+Sum1 = 0
+Sum2 = 1 [GCD(1, 2)]
+Sum3 = 2 [GCD(1, 3) + GCD(2, 3)]
+Sum4 = 4 [GCD(1, 4) + GCD(3, 4) + GCD(2, 4)]
+
+Result = Sum1 + Sum2 + Sum3 + Sum4
+       = 0 + 1 + 2 + 4
+       = 7
+ 
+Below is the implementation of above idea. We pre-compute Euler Totient Functions and result for all numbers till a maximum value. The idea used in implementation is based this post.
+
+C++
+Java
+Python3
+# Python approach of finding
+# sum of GCD of all pairs
+MAX = 100001
+  
+# phi[i] stores euler 
+# totient function for 
+# i result[j] stores 
+# result for value j
+phi = [0] * MAX
+result = [0] * MAX
+  
+# Precomputation of phi[]
+# numbers. Refer below link
+# for details : https://goo.gl/LUqdtY
+def computeTotient():
+  
+    # Refer https://goo.gl/LUqdtY
+    phi[1] = 1
+    for i in range(2, MAX):
+        if not phi[i]:
+            phi[i] = i - 1
+            for j in range(i << 1, MAX, i):
+                if not phi[j]:
+                    phi[j] = j
+                phi[j] = ((phi[j] // i) * 
+                          (i - 1))
+  
+# Precomputes result 
+# for all numbers 
+# till MAX
+def sumOfGcdPairs():
+      
+    # Precompute all phi value
+    computeTotient()
+  
+    for i in range(MAX):
+          
+        # Iterate throght all 
+        # the divisors of i.
+        for j in range(2, MAX):
+            if i * j >= MAX:
+                break
+            result[i * j] += i * phi[j]
+  
+    # Add summation of 
+    # previous calculated sum
+    for i in range(2, MAX):
+        result[i] += result[i - 1]
+  
+# Driver code
+# Function to calculate 
+# sum of all the GCD pairs
+sumOfGcdPairs()
+  
+N = 4
+print("Summation of",N,"=",result[N])
+N = 12
+print("Summation of",N,"=",result[N])
+N = 5000
+print("Summation of",N,"=",result[N])
+  
+# This code is contributed 
+# by Sanjit_Prasad.
+C#
+PHP
+JavaScript
+Output:
+
+Summation of 4 = 7
+Summation of 12 = 105
+Summation of 5000 = 61567426
+Time complexity: O(MAX*log(log MAX))
+Auxiliary space: O(MAX)
+
+
+
+Reference:
+https://www.quora.com/How-can-I-solve-the-problem-GCD-Extreme-on-SPOJ-SPOJ-com-Problem-GCDEX
+
+This article is contributed by Shubham Bansal. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+9
+Next
+Euler's Totient Function
+Related Articles
+1.
+Pair of integers having least GCD among all given pairs having GCD exceeding K
+2.
+Count all possible values of K less than Y such that GCD(X, Y) = GCD(X+K, Y)
+3.
+Smallest subsequence having GCD equal to GCD of given array
+4.
+Find N distinct integers with GCD of sequence as 1 and GCD of each pair greater than 1
+5.
+Generate an N-length array having GCD of all its pairs present in a given 2D array
+6.
+Find minimum GCD of all pairs in an array
+7.
+Find the GCD of LCM of all unique pairs in an Array
+8.
+Count of all possible pairs having sum of LCM and GCD equal to N
+9.
+Maximize GCD of all possible pairs from 1 to N
+10.
+Maximum GCD among all pairs (i, j) of first N natural numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Sanjit_Prasad
+Mithun Kumar
+gautamgoel962
+vinayedula
+Article Tags :
+GCD-LCM
+Mathematical
+Practice Tags :
+Mathematical

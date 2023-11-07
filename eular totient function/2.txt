@@ -1,0 +1,190 @@
+Optimized Euler Totient Function for Multiple Evaluations
+
+Difficulty Level : Medium
+Last Updated : 17 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Euler Totient Function (ETF) Φ(n) for an input n is count of numbers in {1, 2, 3, …, n} that are relatively prime to n, i.e., the numbers whose GCD (Greatest Common Divisor) with n is 1. 
+Examples: 
+ 
+
+Φ(5) = 4
+gcd(1, 5) is 1, gcd(2, 5) is 1, 
+gcd(3, 5) is 1 and gcd(4, 5) is 1
+
+Φ(6) = 2
+gcd(1, 6) is 1 and gcd(5, 6) is 1,
+ 
+
+Recommended Problem
+Euler Totient Function
+Cisco
+Solve Problem
+Submission count: 3.2K
+We have discussed different methods to compute Euler Totient function that work well for single input. In problems where we have to call Euler’s Totient Function many times like 10^5 times, simple solution will result in TLE(Time limit Exceeded). The idea is to use Sieve of Eratosthenes.
+Find all prime numbers upto maximum limit say 10^5 using Sieve of Eratosthenes. 
+To compute Φ(n), we do following. 
+ 
+
+Initialize result as n.
+Iterate through all primes smaller than or equal to square root of n (This is where it is different from simple methods. Instead of iterating through all numbers less than or equal to square root, we iterate through only primes). Let the current prime number be p. We check if p divides n, if yes, we remove all occurrences of p from n by repeatedly dividing it with n. We also reduce our result by n/p (these many numbers will not have GCD as 1 with n).
+Finally we return result.
+ 
+
+
+C++
+Java
+Python3
+# Python3 program to efficiently compute values
+# of euler totient function for multiple inputs.
+ 
+MAX = 100001;
+ 
+# Stores prime numbers upto MAX - 1 values
+p = [];
+ 
+# Finds prime numbers upto MAX-1 and
+# stores them in vector p
+def sieve():
+ 
+    isPrime = [0] * (MAX + 1);
+ 
+    for i in range(2, MAX + 1):
+         
+        # if prime[i] is not marked before
+        if (isPrime[i] == 0):
+             
+            # fill vector for every newly
+            # encountered prime
+            p.append(i);
+ 
+            # run this loop till square root of MAX,
+            # mark the index i * j as not prime
+            j = 2;
+            while (i * j <= MAX):
+                isPrime[i * j]= 1;
+                j += 1;
+ 
+# function to find totient of n
+def phi(n):
+ 
+    res = n;
+ 
+    # this loop runs sqrt(n / ln(n)) times
+    i = 0;
+    while (p[i] * p[i] <= n):
+        if (n % p[i]== 0):
+             
+            # subtract multiples of p[i] from r
+            res -= int(res / p[i]);
+ 
+            # Remove all occurrences of p[i] in n
+            while (n % p[i]== 0):
+                n = int(n / p[i]);
+        i += 1;
+ 
+    # when n has prime factor greater
+    # than sqrt(n)
+    if (n > 1):
+        res -= int(res / n);
+ 
+    return res;
+ 
+# Driver code
+ 
+# preprocess all prime numbers upto 10 ^ 5
+sieve();
+print(phi(11));
+print(phi(21));
+print(phi(31));
+print(phi(41));
+print(phi(51));
+print(phi(61));
+print(phi(91));
+print(phi(101));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+10
+12
+30
+40
+32
+60
+72
+100
+Time Complexity: O(MAX*log(MAX)+sqrt(n/log(n)))
+
+Auxiliary Space: O(MAX)
+
+
+
+This article is contributed by Abhishek Rajput. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Euler's Totient Function
+Next
+Euler's Totient function for all numbers smaller than or equal to n
+Related Articles
+1.
+Euler's Totient function for all numbers smaller than or equal to n
+2.
+Probability of Euler's Totient Function in a range [L, R] to be divisible by M
+3.
+Check if Euler Totient Function is same for a given number and twice of that number
+4.
+Generate an array having sum of Euler Totient Function of all elements equal to N
+5.
+Euler's Totient Function
+6.
+Count integers in a range which are divisible by their euler totient value
+7.
+Count of elements having Euler's Totient value one less than itself
+8.
+Sum of Euler Totient Functions obtained for each divisor of N
+9.
+Highly Totient Number
+10.
+Perfect totient number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+rutvik_56
+amankr0211
+Article Tags :
+euler-totient
+number-theory
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+sieve
+Sieve
+Improve Article
+Report Issue

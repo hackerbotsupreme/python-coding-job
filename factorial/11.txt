@@ -1,0 +1,665 @@
+Program for Fibonacci numbers
+
+Difficulty Level : Medium
+Last Updated : 29 Jan, 2023
+Read
+Discuss(260)
+Courses
+Practice
+Video
+The Fibonacci numbers are the numbers in the following integer sequence.
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..
+
+In mathematical terms, the sequence Fn of Fibonacci numbers is defined by the recurrence relation
+
+Fn = Fn-1 + Fn-2
+with seed values 
+
+F0 = 0 and F1 = 1.
+
+
+Given a number n, print n-th Fibonacci Number. 
+
+Examples: 
+
+Input  : n = 2
+Output : 1
+
+Input  : n = 9
+Output : 34
+Recommended Problem
+Nth Fibonacci Number
+Dynamic Programming
+Mathematical
++2 more
+Amazon
+Microsoft
++6 more
+Solve Problem
+Submission count: 1.6L
+Write a function int fib(int n) that returns Fn. For example, if n = 0, then fib() should return 0. If n = 1, then it should return 1. For n > 1, it should return Fn-1 + Fn-2
+
+
+
+For n = 9
+Output:34
+The following are different methods to get the nth Fibonacci number. 
+
+Method 1 (Use recursion) 
+A simple method that is a direct recursive implementation mathematical recurrence relation is given above.
+
+C++
+C
+Java
+Python3
+# Fibonacci series using recursion
+def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+ 
+ 
+if __name__ == "__main__":
+    n = 9
+    print(fibonacci(n))
+ 
+ # This code is contributed by Manan Tyagi.
+C#
+PHP
+Javascript
+Output
+34
+Time Complexity: Exponential, as every function calls two other functions.
+
+If the original recursion tree were to be implemented then this would have been the tree but now for n times the recursion function is called
+
+Original tree for recursion
+
+                          fib(5)   
+                     /                \
+               fib(4)                fib(3)   
+             /        \              /       \ 
+         fib(3)      fib(2)         fib(2)   fib(1)
+        /    \       /    \        /      \
+  fib(2)   fib(1)  fib(1) fib(0) fib(1) fib(0)
+  /     \
+fib(1) fib(0)
+Optimized tree for recursion for code above
+
+    fib(5) 
+
+    fib(4)
+
+    fib(3)
+
+    fib(2)
+
+    fib(1)
+
+Extra Space: O(n) if we consider the function call stack size, otherwise O(1).
+
+Method 2: (Use Dynamic Programming)
+We can avoid the repeated work done in method 1 by storing the Fibonacci numbers calculated so far. 
+
+C++
+C
+Java
+Python3
+# Fibonacci Series using Dynamic Programming
+def fibonacci(n):
+     
+    # Taking 1st two fibonacci numbers as 0 and 1
+    f = [0, 1]
+     
+     
+    for i in range(2, n+1):
+        f.append(f[i-1] + f[i-2])
+    return f[n]
+     
+print(fibonacci(9))
+C#
+PHP
+Javascript
+Output
+34
+Time complexity: O(n) for given n
+Auxiliary space: O(n)
+
+Method 3: (Space Optimized Method 2)
+We can optimize the space used in method 2 by storing the previous two numbers only because that is all we need to get the next Fibonacci number in series. 
+
+C++
+C
+Java
+Python3
+# Function for nth fibonacci number - Space Optimisation
+# Taking 1st two fibonacci numbers as 0 and 1
+ 
+def fibonacci(n):
+    a = 0
+    b = 1
+    if n < 0:
+        print("Incorrect input")
+    elif n == 0:
+        return a
+    elif n == 1:
+        return b
+    else:
+        for i in range(2,n+1):
+            c = a + b
+            a = b
+            b = c
+        return b
+ 
+# Driver Program
+ 
+print(fibonacci(9))
+ 
+#This code is contributed by Saket Modi
+C#
+PHP
+Javascript
+Output
+34
+Time Complexity: O(n) 
+Extra Space: O(1)
+
+Method 4: Using power of the matrix {{1, 1}, {1, 0}}
+This is another O(n) that relies on the fact that if we n times multiply the matrix M = {{1,1},{1,0}} to itself (in other words calculate power(M, n)), then we get the (n+1)th Fibonacci number as the element at row and column (0, 0) in the resultant matrix.
+The matrix representation gives the following closed expression for the Fibonacci numbers: 
+
+\begin{bmatrix}1 & 1 \\0 & 1 \end{bmatrix}^n = \begin{bmatrix}F_{n+1} & F_n \\F_n & F_{n+1} \end{bmatrix}
+
+C++
+C
+Java
+Python3
+# Helper function that multiplies
+# 2 matrices F and M of size 2*2,
+# and puts the multiplication
+# result back to F[][]
+ 
+# Helper function that calculates
+# F[][] raise to the power n and
+# puts the result in F[][]
+# Note that this function is
+# designed only for fib() and
+# won't work as general
+# power function
+def fib(n):
+    F = [[1, 1],
+         [1, 0]]
+    if (n == 0):
+        return 0
+    power(F, n - 1)
+     
+    return F[0][0]
+ 
+def multiply(F, M):
+ 
+    x = (F[0][0] * M[0][0] +
+         F[0][1] * M[1][0])
+    y = (F[0][0] * M[0][1] +
+         F[0][1] * M[1][1])
+    z = (F[1][0] * M[0][0] +
+         F[1][1] * M[1][0])
+    w = (F[1][0] * M[0][1] +
+         F[1][1] * M[1][1])
+     
+    F[0][0] = x
+    F[0][1] = y
+    F[1][0] = z
+    F[1][1] = w
+ 
+def power(F, n):
+ 
+    M = [[1, 1],
+         [1, 0]]
+ 
+    # n - 1 times multiply the
+    # matrix to {{1,0},{0,1}}
+    for i in range(2, n + 1):
+        multiply(F, M)
+ 
+# Driver Code
+if __name__ == "__main__":
+    n = 9
+    print(fib(n))
+ 
+# This code is contributed
+# by ChitraNayal
+C#
+PHP
+Javascript
+Output
+ 34
+Time Complexity: O(n) 
+Auxiliary Space: O(1) 
+
+Method 5: (Optimized Method 4)
+Method 4 can be optimized to work in O(Logn) time complexity. We can do recursive multiplication to get power(M, n) in the previous method (Similar to the optimization done in this post)
+
+C++
+C
+Java
+Python3
+# Fibonacci Series using
+# Optimized Method
+ 
+# function that returns nth
+# Fibonacci number
+def fib(n):
+     
+    F = [[1, 1],
+         [1, 0]]
+    if (n == 0):
+        return 0
+    power(F, n - 1)
+         
+    return F[0][0]
+     
+def multiply(F, M):
+     
+    x = (F[0][0] * M[0][0] +
+         F[0][1] * M[1][0])
+    y = (F[0][0] * M[0][1] +
+         F[0][1] * M[1][1])
+    z = (F[1][0] * M[0][0] +
+         F[1][1] * M[1][0])
+    w = (F[1][0] * M[0][1] +
+         F[1][1] * M[1][1])
+     
+    F[0][0] = x
+    F[0][1] = y
+    F[1][0] = z
+    F[1][1] = w
+         
+# Optimized version of
+# power() in method 4
+def power(F, n):
+ 
+    if( n == 0 or n == 1):
+        return;
+    M = [[1, 1],
+         [1, 0]];
+         
+    power(F, n // 2)
+    multiply(F, F)
+         
+    if (n % 2 != 0):
+        multiply(F, M)
+     
+# Driver Code
+if __name__ == "__main__":
+    n = 9
+    print(fib(n))
+ 
+# This code is contributed
+# by ChitraNayal
+C#
+Javascript
+Output
+34
+Time Complexity: O(Logn) 
+Auxiliary Space: O(Logn) if we consider the function call stack size, otherwise O(1).
+
+Method 6: (O(Log n) Time)
+Below is one more interesting recurrence formula that can be used to find n’th Fibonacci Number in O(Log n) time.  
+
+If n is even then k = n/2:
+F(n) = [2*F(k-1) + F(k)]*F(k)
+
+If n is odd then k = (n + 1)/2
+F(n) = F(k)*F(k) + F(k-1)*F(k-1)
+How does this formula work? 
+The formula can be derived from the above matrix equation. 
+
+\begin{bmatrix}1 & 1 \\0 & 1 \end{bmatrix}^n = \begin{bmatrix}F_{n+1} & F_n \\F_n & F_{n+1} \end{bmatrix}
+
+Taking determinant on both sides, we get 
+
+(-1)n = Fn+1Fn-1 - Fn2 
+ 
+Moreover, since AnAm = An+m for any square matrix A, 
+the following identities can be derived (they are obtained 
+from two different coefficients of the matrix product)
+
+FmFn + Fm-1Fn-1 = Fm+n-1         ---------------------------(1)
+
+By putting n = n+1 in equation(1),
+FmFn+1 + Fm-1Fn = Fm+n             --------------------------(2)
+
+Putting m = n in equation(1).
+F2n-1 = Fn2 + Fn-12
+Putting m = n in equation(2)
+
+F2n = (Fn-1 + Fn+1)Fn = (2Fn-1 + Fn)Fn (Source: Wiki)   --------
+( By putting Fn+1 = Fn + Fn-1 )
+To get the formula to be proved, we simply need to do the following 
+If n is even, we can put k = n/2 
+If n is odd, we can put k = (n+1)/2
+Below is the implementation of the above idea.  
+
+C++
+Java
+Python3
+# Python3 Program to find n'th fibonacci Number in
+# with O(Log n) arithmetic operations
+MAX = 1000
+ 
+# Create an array for memoization
+f = [0] * MAX
+ 
+# Returns n'th fibonacci number using table f[]
+def fib(n) :
+    # Base cases
+    if (n == 0) :
+        return 0
+    if (n == 1 or n == 2) :
+        f[n] = 1
+        return (f[n])
+ 
+    # If fib(n) is already computed
+    if (f[n]) :
+        return f[n]
+ 
+    if( n & 1) :
+        k = (n + 1) // 2
+    else :
+        k = n // 2
+ 
+    # Applying above formula [Note value n&1 is 1
+    # if n is odd, else 0.
+    if((n & 1) ) :
+        f[n] = (fib(k) * fib(k) + fib(k-1) * fib(k-1))
+    else :
+        f[n] = (2*fib(k-1) + fib(k))*fib(k)
+ 
+    return f[n]
+ 
+ 
+# Driver code
+n = 9
+print(fib(n))
+ 
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+34 
+Time Complexity: O(Log n), as we divide the problem in half in every recursive call.
+Auxiliary Space: O(n)
+
+Method 7: (Another approach(Using Binet’s formula))
+In this method, we directly implement the formula for the nth term in the Fibonacci series. 
+Fn = {[(√5 + 1)/2] ^ n} / √5 
+
+Note: Above Formula gives correct result only upto for n<71. Because as we move forward from n>=71 , rounding error becomes significantly large . Although , using floor function instead of round function will give correct result for n=71 . But after from n=72 , it also fails.
+
+Example: For N=72 , Correct result is 498454011879264 but above formula gives 498454011879265.
+
+Reference: http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibFormula.html 
+
+C++
+C
+Java
+Python3
+# Python3 program to find n'th
+# fibonacci Number
+import math
+ 
+def fibo(n):
+    phi = (1 + math.sqrt(5)) / 2
+ 
+    return round(pow(phi, n) / math.sqrt(5))
+     
+# Driver code   
+if __name__ == '__main__':
+     
+    n = 9
+     
+    print(fibo(n))
+     
+# This code is contributed by prasun_parate
+C#
+PHP
+Javascript
+Output
+34
+Time Complexity: O(logn), this is because calculating phi^n takes logn time
+Auxiliary Space: O(1)
+
+Method 8: DP using memoization(Top down approach)
+
+We can avoid the repeated work done in method 1 by storing the Fibonacci numbers calculated so far. We just need to store all the values in an array.
+
+C++
+Java
+Python3
+# Initialize array of dp
+dp = [-1 for i in range(10)]
+ 
+def fib(n):
+    if (n <= 1):
+        return n;
+    global dp;
+     
+    # Temporary variables to store
+    # values of fib(n-1) & fib(n-2)
+    first = 0;
+    second = 0;
+ 
+    if (dp[n - 1] != -1):
+        first = dp[n - 1];
+    else:
+        first = fib(n - 1);
+    if (dp[n - 2] != -1):
+        second = dp[n - 2];
+    else:
+        second = fib(n - 2);
+    dp[n] = first + second;
+ 
+    # Memoization
+    return dp[n] ;
+ 
+# Driver Code
+if __name__ == '__main__':
+    n = 9;
+    print(fib(n));
+ 
+# This code contributed by Rajput-Ji
+C#
+Javascript
+Output
+34
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Related Articles: 
+Large Fibonacci Numbers in Java
+Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.
+
+References: 
+http://en.wikipedia.org/wiki/Fibonacci_number 
+http://www.ics.uci.edu/~eppstein/161/960109.html
+
+Method 9 : (Kartik’s K sequence) here K=3
+1)  0,1,1,2,3,5,8,13,21,34,55,89,144,….. (Parallel 0 highlighted with Bold)
+
+2)  0,1,1,2,3,5,8,13,21,34,55,89,144,….. (Parallel 1 highlighted with Bold)
+
+3)  0,1,1,2,3,5,8,13,21,34,55,89,144,….. (Parallel 2 highlighted with Bold)
+
+if you observed the bold Numbers  
+
+consider Parallel 0  bold Number form 1)
+
+0,2,8,34,144,…
+
+2 * 4  + 0 = 8  (7th)
+
+8 * 4 + 2 = 34  (10th)
+
+34 * 4 + 8 = 144  (13th)
+
+N+1th * 4 + Nth = N+2th which can be applied to all three Parallel
+and shifting rules
+
+using for F1 and F2 it can be replicated to Lucas sequence as well
+
+in the below  image “Parallel 1” as r1 = 3 and r11=13
+
+Shifting
+
+AND HERE I USED  1,1,5,21,… Parallel 2
+
+Python3
+def nth_fibonnaci(n):
+    if n > 0:
+        n1, n2 = 1, 1
+        if n > 3:
+            for _ in range((n//3)):
+                n1, n2 = n2, (n2 << 2)+n1  # << 2   is multiply by 4
+        if n % 3 == 0:
+            return n1
+        elif n % 3 == 1:
+            return (n2-n1) >> 1  # >> 1   is divide by 2  'F1'
+        elif n % 3 == 2:
+            return (n2+n1) >> 1  # >> 1   is divide by 2  'F2'
+    else:
+        return -1
+ 
+ 
+ 
+ 
+for i in range(1, 9):
+    print(f"{nth_fibonnaci(i)} is {i}", end="th  | ")
+print("")
+for i in range(9, 30, 3):
+    print(f"{nth_fibonnaci(i)} is {i}", end="th  | ")
+Output
+0 is 1th  | 1 is 2th  | 1 is 3th  | 2 is 4th  | 3 is 5th  | 5 is 6th  | 8 is 7th  | 13 is 8th  | 
+21 is 9th  | 89 is 12th  | 377 is 15th  | 1597 is 18th  | 6765 is 21th  | 28657 is 24th  | 121393 is 27th  | 
+Time Complexity: in between O(log n) and O(n) or  (n/3)
+
+Auxiliary Space: O(1) (constant)
+
+Related Articles: 
+
+https://medium.com/@kartikmoyade0901/something-new-for-maths-and-it-researchers-or-professional-1df60058485d
+
+
+
+
+
+Like
+384
+Next
+Program for nth Catalan Number
+Related Articles
+1.
+Check if a M-th fibonacci number divides N-th fibonacci number
+2.
+Check if sum of Fibonacci elements in an Array is a Fibonacci number or not
+3.
+C Program For Fibonacci Numbers
+4.
+Program to find LCM of two Fibonacci Numbers
+5.
+C++ Program For Fibonacci Numbers
+6.
+Program to print first n Fibonacci Numbers | Set 1
+7.
+C++ Program To Find Sum of Fibonacci Numbers at Even Indexes Upto N Terms
+8.
+Count Fibonacci numbers in given range in O(Log n) time and O(1) space
+9.
+Non Fibonacci Numbers
+10.
+GCD and Fibonacci Numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+vt_m
+humblezero
+Mithun Kumar
+ukasp
+LokeshMohanty
+ankthon
+Akanksha_Rai
+princiraj1992
+29AjayKumar
+SoumikMondal
+nidhi_biet
+Code_Mech
+prasun_parate
+bhavneet2000
+shivanisinghss2110
+sujitmeshram
+divyeshrabadiya07
+Rajput-Ji
+surbhityagi15
+mayanktyagi1709
+rutuja2229
+avanitrachhadiya2155
+mukesh07
+amit143katiyar
+rdtank
+GauravRajput1
+sweetyty
+anikaseth98
+cs19b080
+arorakashish0911
+dp0p
+bhawna1997
+amartyaghoshgfg
+briancarrie765
+moontyagi786
+anshitbansal
+rkbhola5
+drea
+guptaanushree821
+animeshdey
+harendrakumar123
+polymatir3j
+100rahulsingh100
+himanshug9119
+hianmoyo3s
+factworx4i2
+Article Tags :
+Amazon
+Bloomberg
+Fibonacci
+MakeMyTrip
+MAQ Software
+matrix-exponentiation
+Modular Arithmetic
+series
+Snapdeal
+Dynamic Programming
+Mathematical
+Practice Tags :
+Amazon
+Bloomberg
+MakeMyTrip
+MAQ Software
+Snapdeal
+Dynamic Programming
+Fibonacci
+Mathematical
+Modular Arithmetic
+modular arithmetic
+series
+Improve Article
+Report Issue

@@ -1,0 +1,232 @@
+Primitive root of a prime number n modulo n
+
+Difficulty Level : Hard
+Last Updated : 08 Mar, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a prime number n, the task is to find its primitive root under modulo n. The primitive root of a prime number n is an integer r between[1, n-1] such that the values of r^x(mod n) where x is in the range[0, n-2] are different. Return -1 if n is a non-prime number.
+
+Examples:  
+
+Input : 7
+Output : Smallest primitive root = 3
+Explanation: n = 7
+3^0(mod 7) = 1
+3^1(mod 7) = 3
+3^2(mod 7) = 2
+3^3(mod 7) = 6
+3^4(mod 7) = 4
+3^5(mod 7) = 5
+
+Input : 761
+Output : Smallest primitive root = 6 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to try all numbers from 2 to n-1. For every number r, compute values of r^x(mod n) where x is in the range[0, n-2]. If all these values are different, then return r, else continue for the next value of r. If all values of r are tried, return -1.
+
+An efficient solution is based on the below facts. 
+If the multiplicative order of a number r modulo n is equal to Euler Totient Function Φ(n) ( note that the Euler Totient Function for a prime n is n-1), then it is a primitive root. 
+
+1- Euler Totient Function phi = n-1 [Assuming n is prime]
+1- Find all prime factors of phi.
+2- Calculate all powers to be calculated further 
+   using (phi/prime-factors) one by one.
+3- Check for all numbered for all powers from i=2 
+   to n-1 i.e. (i^ powers) modulo n.
+4- If it is 1 then 'i' is not a primitive root of n.
+5- If it is never 1 then return i;.
+Although there can be multiple primitive roots for a prime number, we are only concerned with the smallest one. If you want to find all the roots, then continue the process till p-1 instead of breaking up by finding the first primitive root. 
+
+C++
+Java
+Python3
+# Python3 program to find primitive root
+# of a given number n
+from math import sqrt
+ 
+# Returns True if n is prime
+def isPrime( n):
+ 
+    # Corner cases
+    if (n <= 1):
+        return False
+    if (n <= 3):
+        return True
+ 
+    # This is checked so that we can skip
+    # middle five numbers in below loop
+    if (n % 2 == 0 or n % 3 == 0):
+        return False
+    i = 5
+    while(i * i <= n):
+        if (n % i == 0 or n % (i + 2) == 0) :
+            return False
+        i = i + 6
+ 
+    return True
+ 
+""" Iterative Function to calculate (x^n)%p
+    in O(logy) */"""
+def power( x, y, p):
+ 
+    res = 1 # Initialize result
+ 
+    x = x % p # Update x if it is more
+              # than or equal to p
+ 
+    while (y > 0):
+ 
+        # If y is odd, multiply x with result
+        if (y & 1):
+            res = (res * x) % p
+ 
+        # y must be even now
+        y = y >> 1 # y = y/2
+        x = (x * x) % p
+ 
+    return res
+ 
+# Utility function to store prime
+# factors of a number
+def findPrimefactors(s, n) :
+ 
+    # Print the number of 2s that divide n
+    while (n % 2 == 0) :
+        s.add(2)
+        n = n // 2
+ 
+    # n must be odd at this point. So we can 
+    # skip one element (Note i = i +2)
+    for i in range(3, int(sqrt(n)), 2):
+         
+        # While i divides n, print i and divide n
+        while (n % i == 0) :
+ 
+            s.add(i)
+            n = n // i
+         
+    # This condition is to handle the case
+    # when n is a prime number greater than 2
+    if (n > 2) :
+        s.add(n)
+ 
+# Function to find smallest primitive
+# root of n
+def findPrimitive( n) :
+    s = set()
+ 
+    # Check if n is prime or not
+    if (isPrime(n) == False):
+        return -1
+ 
+    # Find value of Euler Totient function
+    # of n. Since n is a prime number, the
+    # value of Euler Totient function is n-1
+    # as there are n-1 relatively prime numbers.
+    phi = n - 1
+ 
+    # Find prime factors of phi and store in a set
+    findPrimefactors(s, phi)
+ 
+    # Check for every number from 2 to phi
+    for r in range(2, phi + 1):
+ 
+        # Iterate through all prime factors of phi.
+        # and check if we found a power with value 1
+        flag = False
+        for it in s:
+ 
+            # Check if r^((phi)/primefactors)
+            # mod n is 1 or not
+            if (power(r, phi // it, n) == 1):
+ 
+                flag = True
+                break
+             
+        # If there was no power with value 1.
+        if (flag == False):
+            return r
+ 
+    # If no primitive root found
+    return -1
+ 
+# Driver Code
+n = 761
+print("Smallest primitive root of",
+         n, "is", findPrimitive(n))
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output:  
+
+Smallest primitive root of 761 is 6
+This article is contributed by Niteesh kumar and Sahil Chhabra (akku). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+5
+Previous
+Euler's Totient function for all numbers smaller than or equal to n
+Next
+Euler's Four Square Identity
+Related Articles
+1.
+Find the number of primitive roots modulo prime
+2.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+3.
+Number of factors of very large number N modulo M where M is any prime number
+4.
+Euler's criterion (Check if square root under modulo p exists)
+5.
+Find Square Root under Modulo p | Set 1 (When p is in form of 4*i + 3)
+6.
+Find Square Root under Modulo p | Set 2 (Shanks Tonelli algorithm)
+7.
+Find Square Root under Modulo p | (When p is product of two primes in the form 4*i + 3)
+8.
+Primitive Abundant Number
+9.
+Smallest root of the equation x^2 + s(x)*x - n = 0, where s(x) is the sum of digits of root x.
+10.
+Digital Root (repeated digital sum) of square of an integer using Digital root of the given integer
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+princiraj1992
+Rajput-Ji
+Akanksha_Rai
+gfgking
+simmytarika5
+Article Tags :
+euler-totient
+Modular Arithmetic
+Prime Number
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Prime Number
+Improve Article
+Report Issue

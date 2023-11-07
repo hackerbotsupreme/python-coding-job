@@ -1,0 +1,191 @@
+Fibonacci Coding
+
+Difficulty Level : Medium
+Last Updated : 18 Oct, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Fibonacci coding encodes an integer into binary number using Fibonacci Representation of the number. The idea is based on Zeckendorf’s Theorem which states that every positive integer can be written uniquely as a sum of distinct non-neighboring Fibonacci numbers (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..). 
+
+The Fibonacci code word for a particular integer is exactly the integer’s Zeckendorf representation with the order of its digits reversed and an additional “1” appended to the end. The extra 1 is appended to indicate the end of code (Note that the code never contains two consecutive 1s as per Zeckendorf’s Theorem. The representation uses Fibonacci numbers starting from 1 (2’nd Fibonacci Number). So the Fibonacci Numbers used are 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 141, …….
+
+Given a number n, print its Fibonacci code.
+
+Examples:
+
+Input: n = 1
+Output: 11
+1 is first Fibonacci number in this representation
+and an extra 1 is appended at the end.
+
+Input:  n = 11
+Output: 001011
+11 is sum of 8 and 3.  The last 1 represents extra 1
+that is always added. A 1 before it represents 8. The
+third 1 (from beginning) represents 3.
+We strongly recommend you to minimize your browser and try this yourself first.
+The following algorithm takes an integer as input and generates a string that stores Fibonacci Encoding.
+Find the largest Fibonacci number f less than or equal to n. Say it is the i’th number in the Fibonacci series. The length of codeword for n will be i+3 characters (One for extra 1 appended at the end, One because i is an index, and one for ‘\0’). Assuming that the Fibonacci series is stored: 
+
+Let f be the largest Fibonacci less than or equal to n, prepend ‘1’ in the binary string. This indicates usage of f in representation for n. Subtract f from n: n = n – f
+Else if f is greater than n, prepend ‘0’ to the binary string.
+Move to the Fibonacci number just smaller than f .
+Repeat until zero remainder (n = 0)
+Append an additional ‘1’ to the binary string. We obtain an encoding such that two consecutive 1s indicate the end of a number (and the start of the next).
+Below is the implementation of above algorithm. 
+
+C++
+C
+Java
+Python3
+# Python3 program for Fibonacci Encoding
+# of a positive integer n
+ 
+# To limit on the largest
+# Fibonacci number to be used
+N = 30
+ 
+# Array to store fibonacci numbers.
+# fib[i] is going to store
+# (i+2)'th Fibonacci number
+fib = [0 for i in range(N)]
+ 
+# Stores values in fib and returns index of
+# the largest fibonacci number smaller than n.
+def largestFiboLessOrEqual(n):
+    fib[0] = 1 # Fib[0] stores 2nd Fibonacci No.
+    fib[1] = 2 # Fib[1] stores 3rd Fibonacci No.
+ 
+    # Keep Generating remaining numbers while
+    # previously generated number is smaller
+    i = 2
+ 
+    while fib[i - 1] <= n:
+        fib[i] = fib[i - 1] + fib[i - 2]
+        i += 1
+ 
+    # Return index of the largest fibonacci number
+    # smaller than or equal to n. Note that the above
+    # loop stopped when fib[i-1] became larger.
+    return (i - 2)
+ 
+# Returns pointer to the char string which
+# corresponds to code for n
+def fibonacciEncoding(n):
+    index = largestFiboLessOrEqual(n)
+ 
+    # allocate memory for codeword
+    codeword = ['a' for i in range(index + 2)]
+ 
+    # index of the largest Fibonacci f <= n
+    i = index
+ 
+    while (n):
+         
+        # Mark usage of Fibonacci f (1 bit)
+        codeword[i] = '1'
+ 
+        # Subtract f from n
+        n = n - fib[i]
+ 
+        # Move to Fibonacci just smaller than f
+        i = i - 1
+ 
+        # Mark all Fibonacci > n as not used (0 bit),
+        # progress backwards
+        while (i >= 0 and fib[i] > n):
+            codeword[i] = '0'
+            i = i - 1
+ 
+    # additional '1' bit
+    codeword[index + 1] = '1'
+ 
+    # return pointer to codeword
+    return "".join(codeword)
+ 
+# Driver Code
+n = 143
+print("Fibonacci code word for", n,
+         "is", fibonacciEncoding(n))
+          
+# This code is contributed by Mohit Kumar
+C#
+Javascript
+Output:
+
+
+
+Fibonacci code word for 143 is 01010101011
+Illustration
+
+FibonacciCoding
+
+Field of application:
+Data Processing & Compression – representing the data (which can be text, image, video…) in such a way that the space needed to store or transmit data is less than the size of input data. Statistical methods use variable-length codes, with the shorter codes assigned to symbols or group of symbols that have a higher probability of occurrence. If the codes are to be used over a noisy communication channel, their resilience to bit insertions, deletions and to bit-flips is of high importance.
+Read more about the application here.
+
+This article is contributed by Yash Varyani. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+5
+Previous
+Print all Good numbers in given range
+Next
+Set in C++ Standard Template Library (STL)
+Related Articles
+1.
+Check if a M-th fibonacci number divides N-th fibonacci number
+2.
+Check if sum of Fibonacci elements in an Array is a Fibonacci number or not
+3.
+MakeMyTrip Interview Experience | Set 6 (Online Coding)
+4.
+Number of open doors | TCS Coding Question
+5.
+Card Shuffle Problem | TCS Digital Advanced Coding Question
+6.
+How to check if a given number is Fibonacci number?
+7.
+G-Fact 18 | Finding nth Fibonacci Number using Golden Ratio
+8.
+Fibonacci Heap | Set 1 (Introduction)
+9.
+Zeckendorf's Theorem (Non-Neighbouring Fibonacci Representation)
+10.
+Count Fibonacci numbers in given range in O(Log n) time and O(1) space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+avanitrachhadiya2155
+rag2127
+unknown2108
+shivanisinghss2110
+rochelledeulley
+Article Tags :
+Fibonacci
+Mathematical
+Practice Tags :
+Fibonacci
+Mathematical
+Improve Article
+Report Issue

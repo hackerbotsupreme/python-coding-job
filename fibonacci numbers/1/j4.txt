@@ -1,0 +1,146 @@
+Find nth Fibonacci number using Golden ratio
+
+Difficulty Level : Easy
+Last Updated : 19 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Fibonacci series = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ……..
+Different methods to find nth Fibonacci number are already discussed. Another simple way of finding nth Fibonacci number is using golden ratio as Fibonacci numbers maintain approximate golden ratio till infinite. 
+Golden ratio: 
+\varphi ={\frac {1+{\sqrt {5}}}{2}}=1.6180339887\ldots        
+Examples: 
+
+Input : n = 9
+Output : 34
+
+Input : n = 7
+Output : 13
+
+ 
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: 
+Golden ratio may give us incorrect answer. 
+We can get correct result if we round up the result at each point. 
+ 
+
+nth fibonacci number = round(n-1th Fibonacci number X golden ratio)
+                  fn = round(fn-1 * \varphi)
+Till 4th term, the ratio is not much close to golden ratio (as 3/2 = 1.5, 2/1 = 2, …). So, we will consider from 5th term to get next fibonacci number. To find out the 9th fibonacci number f9 (n = 9) : 
+ 
+
+     f6 = round(f5 * \varphi) = 8f7 = round(f6 * \varphi) = 13f8 = round(f7 * \varphi) = 21f9 = round(f8 * \varphi) = 34
+Note: This method can calculate first 34 fibonacci numbers correctly. After that there may be difference from the correct value. 
+
+
+
+Below is the implementation of above approach: 
+
+CPP
+C
+Java
+Python3
+# Python3 code to find n-th Fibonacci number
+ 
+# Approximate value of golden ratio
+PHI = 1.6180339
+ 
+# Fibonacci numbers upto n = 5
+f = [ 0, 1, 1, 2, 3, 5 ]
+ 
+# Function to find nth
+# Fibonacci number
+def fib ( n ):
+ 
+    # Fibonacci numbers for n < 6
+    if n < 6:
+        return f[n]
+ 
+    # Else start counting from
+    # 5th term
+    t = 5
+    fn = 5
+     
+    while t < n:
+        fn = round(fn * PHI)
+        t+=1
+     
+    return fn
+ 
+# driver code
+n = 9
+print(n, "th Fibonacci Number =", fib(n))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+9th Fibonacci Number = 34
+Time complexity: O(n)
+Auxiliary space: O(1)
+
+We can optimize above solution work in O(Log n) by using efficient method to compute power.
+The above method may not always produce correct results as floating point computations are involved. This is the reason, this method is not used practically even if it can be optimized to work in O(Log n). Please refer below MIT video for more details.
+https://www.youtube.com/watch?v=-EQTVuAhSFY
+
+
+
+
+
+Like
+8
+Previous
+Interesting facts about Fibonacci numbers
+Next
+Matrix Exponentiation
+Related Articles
+1.
+G-Fact 18 | Finding nth Fibonacci Number using Golden Ratio
+2.
+Deriving the expression of Fibonacci Numbers in terms of golden ratio
+3.
+Why the value of Golden Ratio is 1.618 and how is it related to Binet's formula ?
+4.
+Check whether two numbers are in golden ratio
+5.
+Ratio of mth and nth terms of an A. P. with given ratio of sums
+6.
+Find the number which when added to the given ratio a : b, the ratio changes to c : d
+7.
+Sum of two numbers if the original ratio and new ratio obtained by adding a given number to each number is given
+8.
+Count of unordered pair of indices such that ratio of elements at these indices is same as ratio of indices
+9.
+Count of pairs in given range having their ratio equal to ratio of product of their digits
+10.
+Check if a M-th fibonacci number divides N-th fibonacci number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Sukanta_it
+@Sukanta_it
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+mayanktyagi1709
+ayondip2001
+krisania804
+noviced3vq6
+Article Tags :
+Fibonacci
+Mathematical
+Practice Tags :
+Fibonacci
+Mathematical
+Improve Article
+Report Issue

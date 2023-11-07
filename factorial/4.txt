@@ -1,0 +1,153 @@
+Primorial of a number
+
+Difficulty Level : Basic
+Last Updated : 21 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, the task is to calculate its primorial. Primorial (denoted as Pn#) is a product of first n prime numbers. Primorial of a number is similar to the factorial of a number. In primorial, not all the natural numbers get multiplied only prime numbers are multiplied to calculate the primorial of a number. It is denoted with P#.
+Examples: 
+ 
+
+Input: n = 3
+Output: 30 
+Primorial = 2 * 3 * 5 = 30
+As a side note, factorial is 2 * 3 * 4 * 5
+
+Input: n = 5
+Output: 2310
+Primorial = 2 * 3 * 5 * 7 * 11 
+ 
+
+Recommended Problem
+Primorial of a number
+Mathematical
+Prime Number
++2 more
+Solve Problem
+Submission count: 2.6K
+A naive approach is to check all numbers from 1 to n one by one is prime or not, if yes then store the multiplication in result, similarly store the result of multiplication of primes till n.
+An efficient method is to find all the prime up-to n using Sieve of Sundaram and then just calculate the primorial by multiplying them all.
+ 
+
+C++
+Java
+Python3
+# Python3 program to find Primorial of given numbers
+import math
+MAX = 1000000;
+ 
+# vector to store all prime less than and equal to 10^6
+primes=[];
+ 
+# Function for sieve of sundaram. This function stores all
+# prime numbers less than MAX in primes
+def sieveSundaram():
+  
+    # In general Sieve of Sundaram, produces primes smaller
+    # than (2*x + 2) for a number given number x. Since
+    # we want primes smaller than MAX, we reduce MAX to half
+    # This array is used to separate numbers of the form
+    # i+j+2ij from others where 1 <= i <= j
+    marked=[False]*(int(MAX/2)+1);
+ 
+    # Main logic of Sundaram. Mark all numbers which
+    # do not generate prime number by doing 2*i+1
+    for i in range(1,int((math.sqrt(MAX)-1)/2)+1):
+        for j in range(((i*(i+1))<<1),(int(MAX/2)+1),(2*i+1)):
+            marked[j] = True;
+ 
+    # Since 2 is a prime number
+    primes.append(2);
+ 
+    # Print other primes. Remaining primes are of the
+    # form 2*i + 1 such that marked[i] is false.
+    for i in range(1,int(MAX/2)):
+        if (marked[i] == False):
+            primes.append(2*i + 1);
+ 
+# Function to calculate primorial of n
+def calculatePrimorial(n):
+    # Multiply first n primes
+    result = 1;
+    for i in range(n):
+        result = result * primes[i];
+    return result;
+ 
+# Driver code
+n = 5;
+sieveSundaram();
+for i in range(1,n+1):
+    print("Primorial(P#) of",i,"is",calculatePrimorial(i));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output:  
+
+Primorial(P#) of 1 is 2
+Primorial(P#) of 2 is 6
+Primorial(P#) of 3 is 30
+Primorial(P#) of 4 is 210
+Primorial(P#) of 5 is 2310
+This article is contributed by Sahil Chhabra (KILLER). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Find the Factorial of a large number
+Next
+Expressing factorial n as sum of consecutive numbers
+Related Articles
+1.
+Check if a number is Primorial Prime or not
+2.
+Check Whether a Number is an Anti Prime Number(Highly Composite Number)
+3.
+Number of factors of very large number N modulo M where M is any prime number
+4.
+Permutation of a number whose sum with the original number is equal to another given number
+5.
+Minimum number of moves to make M and N equal by repeatedly adding any divisor of number to itself except 1 and the number
+6.
+Find minimum number to be divided to make a number a perfect square
+7.
+How to check if a given number is Fibonacci number?
+8.
+Find the smallest number whose digits multiply to a given number n
+9.
+Find n'th number in a number system with only 3 and 4
+10.
+Build Lowest Number by Removing n digits from a given number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+gfgking
+sayanc170
+Article Tags :
+factorial
+Prime Number
+prime-factor
+Mathematical
+Practice Tags :
+factorial
+Mathematical
+Prime Number

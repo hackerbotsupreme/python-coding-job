@@ -1,0 +1,262 @@
+Program for factorial of a number
+
+Difficulty Level : Basic
+Last Updated : 17 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is the factorial of a number?
+Factorial of a non-negative integer is the multiplication of all positive integers smaller than or equal to n. For example factorial of 6 is 6*5*4*3*2*1 which is 720. 
+A factorial is represented by a number and a  ” ! ”  mark at the end. It is widely used in permutations and combinations to calculate the total possible outcomes. A French mathematician Christian Kramp firstly used the exclamation.
+ 
+
+
+Recommended Problem
+Factorial
+Mathematical
+Algorithms
+Morgan Stanley
+Samsung
++3 more
+Solve Problem
+Submission count: 85.7K
+Let’s create a factorial program using recursive functions. Until the value is not equal to zero, the recursive function will call itself. Factorial can be calculated using the following recursive formula. 
+ 
+
+n! = n * (n – 1)!
+n! = 1 if n = 0 or n = 1
+
+Below is the implementation: 
+
+C++
+C
+Java
+Python3
+# Python 3 program to find
+# factorial of given number
+ 
+# Function to find factorial of given number
+def factorial(n):
+      
+    if n == 0:
+        return 1
+     
+    return n * factorial(n-1)
+  
+# Driver Code
+num = 5;
+print("Factorial of", num, "is",
+factorial(num))
+  
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+Factorial of 5 is 120
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Iterative Solution to find factorial of a number:
+Factorial can also be calculated iteratively as recursion can be costly for large numbers. Here we have shown the iterative approach using both for and while loops. 
+
+
+
+Approach 1: Using For loop 
+
+Follow the steps to solve the problem:
+
+Using a for loop, we will write a program for finding the factorial of a number. 
+An integer variable with a value of 1 will be used in the program. 
+With each iteration, the value will increase by 1 until it equals the value entered by the user. 
+The factorial of the number entered by the user will be the final value in the fact variable.
+Below is the implementation for the above approach:
+
+C++
+C
+Java
+Python3
+# Python 3 program to find
+# factorial of given number
+ 
+# Function to find factorial of given number
+def factorial(n):
+      
+    res = 1
+     
+    for i in range(2, n+1):
+        res *= i
+    return res
+ 
+# Driver Code
+num = 5;
+print("Factorial of", num, "is",
+factorial(num))
+  
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+Factorial of 5 is 120
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Approach 2: This example uses a while loop to implement the algorithm and find the factorial program.
+
+
+C
+C++
+Java
+Python3
+# Python 3 program to find
+# factorial of given number
+ 
+# Function to find factorial of given number
+def factorial(n):
+    if(n == 0):
+       return 1
+    i = n
+    fact = 1
+     
+    while(n / i != n):
+        fact = fact * i
+        i -= 1
+         
+    return fact
+ 
+# Driver Code
+num = 5;
+print("Factorial of", num, "is",
+factorial(num))
+  
+# This code is contributed by Smitha Dinesh Semwal
+C#
+Javascript
+Output
+Factorial of 5 is 120
+Time complexity: O(N)
+Auxiliary Space: O(1)
+
+Approach 3: A ternary operator can be thought of as a shorthand for an if…else statement. The conditions are provided, along with statements to be executed based on them. Here’s the program for factorial using a ternary operator.
+
+C++
+C
+Java
+Python3
+# Python 3 program to find
+# factorial of given number
+ 
+def factorial(n):
+ 
+    # single line to find factorial
+    return 1 if (n == 1 or n == 0) else n * factorial(n - 1)
+ 
+ 
+# Driver Code
+num = 5
+print ("Factorial of", num, "is",
+      factorial(num))
+ 
+# This code is contributed
+# by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output
+Factorial of 5 is 120
+Time complexity: O(n)
+Auxiliary Space: O(n)
+
+Problems in writing code of factorial
+When the value of n changes increases by 1, the value of the factorial increases by n. So the variable storing the value of factorial should have a large size. Following is the value of n whose factorial can be stored in the respective size.
+
+1. integer –> n<=12
+
+2. long long int –> n<=19
+
+From the above data, we can see that a very small value of n can be calculated because of the faster growth of the factorial function. We can however find the mod value of factorial of larger values by taking mod at each step.
+
+
+
+The above solution cause overflow for large numbers. Please refer factorial of large number for a solution that works for large numbers.
+Please write comments if you find any bug in the above code/algorithm, or find other ways to solve the same problem.
+
+
+
+
+
+Like
+85
+Previous
+Using Chinese Remainder Theorem to Combine Modular equations
+Next
+Sum of divisors of factorial of a number
+Related Articles
+1.
+Find the last digit when factorial of A divides factorial of B
+2.
+C Program To Find Factorial Of A Number
+3.
+Java Program for factorial of a number
+4.
+Python Program for factorial of a number
+5.
+Golang Program to Count Trailing Zeros in Factorial of a Number
+6.
+Python program to find the factorial of a number using recursion
+7.
+Recursive Program to find Factorial of a large number
+8.
+Check if a given number is factorial of any number
+9.
+Count trailing zeroes in factorial of a number
+10.
+Find the Factorial of a large number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+vt_m
+Shivi_Aggarwal
+aspiring_codeking
+nikhilaggarwal3
+shrey_shreyansh
+reapedjuggler
+_saurabh_jaiswal
+lokeshpotta20
+shivanisinghss2110
+adeebkmd
+divyanshmishra101010
+surinderdawra388
+akashish__
+kashishkumar2
+shashankpandey1
+Article Tags :
+factorial
+Inautix
+MAQ Software
+Morgan Stanley
+Samsung
+Wipro
+Mathematical
+School Programming
+Practice Tags :
+MAQ Software
+Morgan Stanley
+Samsung
+Wipro
+factorial
+Mathematical
+Improve Article
+Report Issue

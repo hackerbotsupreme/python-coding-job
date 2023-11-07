@@ -1,0 +1,139 @@
+GCD, LCM and Distributive Property
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three integers x, y, z, the task is to compute the value of GCD(LCM(x,y), LCM(x,z)). 
+Where, GCD = Greatest Common Divisor, LCM = Least Common Multiple
+Examples: 
+ 
+
+Input: x = 15, y = 20, z = 100
+Output: 60
+
+Input: x = 30, y = 40, z = 400
+Output: 120
+ 
+
+Recommended Problem
+GCD, LCM and Distributive Property
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 1.3K
+One way to solve it is by finding GCD(x, y), and using it we find LCM(x, y). Similarly, we find LCM(x, z) and then we finally find the GCD of the obtained results.
+An efficient approach can be done by the fact that the following version of distributivity holds true:
+GCD(LCM (x, y), LCM (x, z)) = LCM(x, GCD(y, z))
+For example, GCD(LCM(3, 4), LCM(3, 10)) = LCM(3, GCD(4, 10)) = LCM(3, 2) = 6 
+This reduces our work to compute the given problem statement. 
+ 
+
+C++
+Java
+Python3
+# Python program to compute
+# value of GCD(LCM(x,y), LCM(x,z))
+ 
+# Recursive function to
+# return gcd of a and b
+def __gcd(a,b):
+     
+    # Everything divides 0
+    if (a == 0 or b == 0):
+        return 0
+  
+    # base case
+    if (a == b):
+        return a
+  
+    # a is greater
+    if (a > b):
+        return __gcd(a-b, b)
+    return __gcd(a, b-a)
+ 
+# Returns value of
+#  GCD(LCM(x,y), LCM(x,z))
+def findValue(x, y, z):
+ 
+    g = __gcd(y, z)
+  
+    # Return LCM(x, GCD(y, z))
+    return (x*g)/__gcd(x, g)
+ 
+# driver code
+x = 30
+y = 40
+z = 400
+print("%d"%findValue(x, y, z))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output: 
+
+120
+Time Complexity: O(log (min(n))) 
+Auxiliary Space: O(log (min(n))) 
+
+As a side note, vice versa is also true, i.e., gcd(x, lcm(y, z)) = lcm(gcd(x, y), gcd(x, z)
+Reference: 
+https://en.wikipedia.org/wiki/Distributive_property#Other_examples
+This article is contributed by Aarti_Rathi and Mazhar Imam Khan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Euclidean algorithms (Basic and Extended)
+Next
+Count number of pairs (A <= N, B <= N) such that gcd (A , B) is B
+Related Articles
+1.
+Sum of LCM(1, n), LCM(2, n), LCM(3, n), ... , LCM(n, n)
+2.
+Minimum replacement of pairs by their LCM required to reduce given array to its LCM
+3.
+Given GCD G and LCM L, find number of possible pairs (a, b)
+4.
+Levelwise Alternating GCD and LCM of nodes in Segment Tree
+5.
+Find any pair with given GCD and LCM
+6.
+Minimum LCM and GCD possible among all possible sub-arrays
+7.
+Print any pair of integers with sum of GCD and LCM equals to N
+8.
+Count of all possible pairs having sum of LCM and GCD equal to N
+9.
+Minimize Y for given N to minimize difference between LCM and GCD
+10.
+Find two pairs such that one's GCD is same as other's LCM and sum equal to N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+vt_m
+amith2o
+GauravRajput1
+codewithrathi
+Article Tags :
+GCD-LCM
+Mathematical
+Practice Tags :
+Mathematical

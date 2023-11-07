@@ -1,0 +1,163 @@
+Tail Recursion for Fibonacci
+
+Difficulty Level : Easy
+Last Updated : 26 May, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Write a tail recursive function for calculating the n-th Fibonacci number. 
+Examples : 
+ 
+
+Input : n = 4
+Output : fib(4) = 3
+
+Input : n = 9
+Output : fib(9) = 34
+Prerequisites : Tail Recursion, Fibonacci numbers
+A recursive function is tail recursive when the recursive call is the last thing executed by the function. 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Writing a tail recursion is little tricky. To get the correct intuition, we first look at the iterative approach of calculating the n-th Fibonacci number. 
+ 
+
+int fib(int n)
+{
+  int a = 0, b = 1, c, i;
+  if (n == 0)
+    return a;
+  for (i = 2; i <= n; i++)
+  {
+     c = a + b;
+     a = b;
+     b = c;
+  }
+  return b;
+}
+Here there are three possibilities related to n :- 
+ 
+
+n == 0
+ 
+
+n == 1
+ 
+
+n > 1
+First two are trivial. We focus on discussion of the case when n > 1. 
+In our iterative approach for n > 1, 
+We start with 
+ 
+
+
+
+a = 0
+b = 1
+For n-1 times we repeat following for ordered pair (a,b) 
+Though we used c in actual iterative approach, but the main aim was as below :- 
+ 
+
+(a, b) = (b, a+b)
+We finally return b after n-1 iterations.
+Hence we repeat the same thing this time with the recursive approach. We set the default values 
+ 
+
+a = 0
+b = 1
+Here we’ll recursively call the same function n-1 times and correspondingly change the values of a and b. 
+Finally, return b.
+If its case of n == 0 OR n == 1, we need not worry much!
+Here is implementation of tail recursive fibonacci code. 
+ 
+
+C++
+Java
+Python3
+# A tail recursive function to
+# calculate n th fibonacci number
+def fib(n, a = 0, b = 1):
+    if n == 0:
+        return a
+    if n == 1:
+        return b
+    return fib(n - 1, b, a + b);
+ 
+# Driver Code
+n = 9;
+print("fib("+str(n)+") = "+str(fib(n)))
+C#
+PHP
+Javascript
+Output : 
+ 
+
+fib(9) = 34
+Analysis of Algorithm 
+ 
+
+Time Complexity: O(n)
+Auxiliary Space : O(n)
+This article is contributed by Pratik Chhajer. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+13
+Previous
+Fibonacci number in an array
+Next
+Nth Even Fibonacci Number
+Related Articles
+1.
+Tail recursion to calculate sum of array elements.
+2.
+Tail Recursion in Python Without Introspection
+3.
+What is Tail Recursion
+4.
+Check if a M-th fibonacci number divides N-th fibonacci number
+5.
+Check if sum of Fibonacci elements in an Array is a Fibonacci number or not
+6.
+Print Fibonacci Series in reverse order using Recursion
+7.
+Tail Call Elimination
+8.
+How to check if a given number is Fibonacci number?
+9.
+G-Fact 18 | Finding nth Fibonacci Number using Golden Ratio
+10.
+Fibonacci Heap | Set 1 (Introduction)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+_saurabh_jaiswal
+sagar0719kumar
+surindertarika1234
+amartyaghoshgfg
+gautamgoel962
+Article Tags :
+Fibonacci
+tail-recursion
+Mathematical
+Practice Tags :
+Fibonacci
+Mathematical
+Improve Article
+Report Issue

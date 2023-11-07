@@ -1,0 +1,234 @@
+Stein’s Algorithm for finding GCD
+
+Difficulty Level : Hard
+Last Updated : 04 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Stein’s algorithm or binary GCD algorithm is an algorithm that computes the greatest common divisor of two non-negative integers. Stein’s algorithm replaces division with arithmetic shifts, comparisons, and subtraction.
+
+Examples: 
+
+Input: a = 17, b = 34 
+Output : 17
+
+Input: a = 50, b = 49
+Output: 1
+Algorithm to find GCD using Stein’s algorithm gcd(a, b) 
+
+If both a and b are 0, gcd is zero gcd(0, 0) = 0.
+gcd(a, 0) = a and gcd(0, b) = b because everything divides 0.
+If a and b are both even, gcd(a, b) = 2*gcd(a/2, b/2) because 2 is a common divisor. Multiplication with 2 can be done with bitwise shift operator.
+If a is even and b is odd, gcd(a, b) = gcd(a/2, b). Similarly, if a is odd and b is even, then 
+gcd(a, b) = gcd(a, b/2). It is because 2 is not a common divisor.
+If both a and b are odd, then gcd(a, b) = gcd(|a-b|/2, b). Note that difference of two odd numbers is even
+Repeat steps 3–5 until a = b, or until a = 0. In either case, the GCD is power(2, k) * b, where power(2, k) is 2 raise to the power of k and k is the number of common factors of 2 found in step 3.
+Iterative Implementation
+
+C++
+Java
+Python3
+# Iterative Python 3 program to
+# implement Stein's Algorithm
+ 
+# Function to implement
+# Stein's Algorithm
+ 
+ 
+def gcd(a, b):
+ 
+    # GCD(0, b) == b; GCD(a, 0) == a,
+    # GCD(0, 0) == 0
+    if (a == 0):
+        return b
+ 
+    if (b == 0):
+        return a
+ 
+    # Finding K, where K is the
+    # greatest power of 2 that
+    # divides both a and b.
+    k = 0
+ 
+    while(((a | b) & 1) == 0):
+        a = a >> 1
+        b = b >> 1
+        k = k + 1
+ 
+    # Dividing a by 2 until a becomes odd
+    while ((a & 1) == 0):
+        a = a >> 1
+ 
+    # From here on, 'a' is always odd.
+    while(b != 0):
+ 
+        # If b is even, remove all
+        # factor of 2 in b
+        while ((b & 1) == 0):
+            b = b >> 1
+ 
+        # Now a and b are both odd. Swap if
+        # necessary so a <= b, then set
+        # b = b - a (which is even).
+        if (a > b):
+ 
+            # Swap u and v.
+            temp = a
+            a = b
+            b = temp
+ 
+        b = (b - a)
+ 
+    # restore common factors of 2
+    return (a << k)
+ 
+ 
+# Driver code
+a = 34
+b = 17
+ 
+print("Gcd of given numbers is ", gcd(a, b))
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Gcd of given numbers is 17
+Time Complexity: O(N*N)
+Auxiliary Space: O(1)
+
+Recursive Implementation
+
+
+
+C++
+Java
+Python3
+# Recursive Python 3 program to
+# implement Stein's Algorithm
+ 
+# Function to implement
+# Stein's Algorithm
+ 
+ 
+def gcd(a, b):
+ 
+    if (a == b):
+        return a
+ 
+    # GCD(0, b) == b; GCD(a, 0) == a,
+    # GCD(0, 0) == 0
+    if (a == 0):
+        return b
+ 
+    if (b == 0):
+        return a
+ 
+    # look for factors of 2
+    # a is even
+    if ((~a & 1) == 1):
+ 
+        # b is odd
+        if ((b & 1) == 1):
+            return gcd(a >> 1, b)
+        else:
+            # both a and b are even
+            return (gcd(a >> 1, b >> 1) << 1)
+ 
+    # a is odd, b is even
+    if ((~b & 1) == 1):
+        return gcd(a, b >> 1)
+ 
+    # reduce larger number
+    if (a > b):
+        return gcd((a - b) >> 1, b)
+ 
+    return gcd((b - a) >> 1, a)
+ 
+ 
+# Driver code
+a, b = 34, 17
+print("Gcd of given numbers is ",
+      gcd(a, b))
+ 
+# This code is contributed
+# by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Gcd of given numbers is 17
+Time Complexity: O(N*N) where N is the number of bits in the larger number.
+Auxiliary Space: O(N*N) where N is the number of bits in the larger number.
+
+You may also like – Basic and Extended Euclidean Algorithm
+
+Advantages over Euclid’s GCD Algorithm
+
+Stein’s algorithm is optimized version of Euclid’s GCD Algorithm.
+it is more efficient by using the bitwise shift operator.
+This article is contributed by Aarti_Rathi and Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+17
+Next
+GCD, LCM and Distributive Property
+Related Articles
+1.
+Finding LCM of more than two (or array) numbers without using GCD
+2.
+Smallest subsequence having GCD equal to GCD of given array
+3.
+Pair of integers having least GCD among all given pairs having GCD exceeding K
+4.
+Count all possible values of K less than Y such that GCD(X, Y) = GCD(X+K, Y)
+5.
+Find N distinct integers with GCD of sequence as 1 and GCD of each pair greater than 1
+6.
+Tomohiko Sakamoto's Algorithm- Finding the day of the week
+7.
+Finding all subsets of a given set in Java
+8.
+Finding number of digits in n'th Fibonacci number
+9.
+Finding sum of digits of a number until sum becomes single digit
+10.
+Finding power of prime number p in n!
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+sodiumcloridep
+GauravRajput1
+code_hunt
+amartyaghoshgfg
+germanshephered48
+amansinghkushwaha2003
+codewithrathi
+bencivengadante
+Article Tags :
+GCD-LCM
+Mathematical
+Practice Tags :
+Mathematical

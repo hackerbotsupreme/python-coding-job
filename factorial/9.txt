@@ -1,0 +1,251 @@
+Last non-zero digit of a factorial
+
+Difficulty Level : Hard
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, find the last non-zero digit in n!.
+Examples: 
+ 
+
+Input  : n = 5
+Output : 2
+5! = 5 * 4 * 3 * 2 * 1 = 120
+Last non-zero digit in 120 is 2.
+
+Input  : n = 33
+Output : 8
+ 
+
+Recommended Problem
+Last non-zero digit in factorial
+Mathematical
+Recursion
++2 more
+Solve Problem
+Submission count: 6.2K
+A Simple Solution is to first find n!, then find the last non-zero digit of n. This solution doesn’t work for even slightly large numbers due to arithmetic overflow.
+A Better Solution is based on the below recursive formula 
+
+Let D(n) be the last non-zero digit in n!
+If tens digit (or second last digit) of n is odd
+    D(n) = 4 * D(floor(n/5)) * D(Unit digit of n) 
+If tens digit (or second last digit) of n is even
+    D(n) = 6 * D(floor(n/5)) * D(Unit digit of n)
+Illustration of the formula: 
+For the numbers less than 10 we can easily find the last non-zero digit by the above simple solution, i.e., first computing n!, then finding the last digit. 
+D(1) = 1, D(2) = 2, D(3) = 6, D(4) = 4, D(5) = 2, 
+D(6) = 2, D(7) = 4, D(8) = 2, D(9) = 8.
+ 
+
+
+D(1) to D(9) are assumed to be precomputed.
+
+Example 1: n = 27 [Second last digit is even]:
+D(27) = 6 * D(floor(27/5)) * D(7)
+      = 6 * D(5) * D(7)
+      = 6 * 2 * 4 
+      = 48
+Last non-zero digit is  8
+
+Example 2: n = 33 [Second last digit is odd]:
+D(33) = 4 * D(floor(33/5)) * D(3)
+      = 4 * D(6) * 6
+      = 4 * 2 * 6
+      = 48
+Last non-zero digit is 8
+How does the above formula work? 
+The below explanation provides intuition behind the formula. Readers may Refer http://math.stackexchange.com/questions/130352/last-non-zero-digit-of-a-factorial for complete proof.
+ 
+
+14! = 14 * 13 * 12 * 11 * 10 * 9 * 8 * 7 * 
+                     6 * 5 * 4 * 3 * 2 * 1
+
+Since we are asked about last non-zero digit, 
+we remove all 5's and equal number of 2's from
+factors of 14!.  We get following:
+
+14! = 14 * 13 * 12 * 11 * 2 * 9 * 8 * 7 *
+                           6 * 3 * 2 * 1
+
+Now we can get last non-zero digit by multiplying
+last digits of above factors!
+In n! a number of 2’s are always more than a number of 5’s. To remove trailing 0’s, we remove 5’s and equal number of 2’s. 
+Let a = floor(n/5), b = n % 5. After removing an equal number of 5’s and 2’s, we can reduce the problem from n! to 2a * a! * b! 
+D(n) = 2a * D(a) * D(b)
+Implementation: 
+ 
+
+C++
+C
+Java
+Python3
+# Python program to find
+# last non-zero digit in n!
+ 
+# Initialize values of
+# last non-zero digit of
+# numbers from 0 to 9
+dig= [1, 1, 2, 6, 4, 2, 2, 4, 2, 8]
+  
+def lastNon0Digit(n):
+    if (n < 10):
+        return dig[n]
+  
+     # Check whether tens (or second last) digit
+     # is odd or even
+     # If n = 375, So n/10 = 37 and (n/10)%10 = 7
+     # Applying formula for even and odd cases.
+    if (((n//10)%10)%2 == 0):
+        return (6*lastNon0Digit(n//5)*dig[n%10]) % 10
+    else:
+        return (4*lastNon0Digit(n//5)*dig[n%10]) % 10
+    return 0
+ 
+# driver code
+n = 14
+ 
+print(lastNon0Digit(n))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+
+
+2
+ A Simple Solution based on recursion having worst-case Time Complexity O(nLog(n)).
+
+Approach:-
+
+It is given that you have to find the last positive digit. Now a digit is made multiple of 10 if there are 2 and 5. They produce a number with last digit 0.
+Now what we can do is divide each array element into its shortest divisible form by 5 and increase count of such occurrences.
+Now divide each array element into its shortest divisible form by 2 and decrease count of such occurrences. This way we are not considering the multiplication of 2 and a 5 in our multiplication(number of 2’s present in multiplication result upto n is always more than number of 5’s).
+Multiply each number(after removing pairs of 2’s and 5’s) now and store just last digit by taking remainder by 10.
+Now call recursively for smaller numbers by (currentNumber – 1) as parameter.
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python3
+# Helper Function to return the rightmost non-zero digit
+def callMeFactorialLastDigit(n, result, sumOf5):
+    number = n # assaigning to new variable.
+    if number == 1:
+        return # base case
+ 
+    # To store the count of times 5 can
+    # divide the number.
+    while (number % 5 == 0):
+        number = int(number / 5)
+        # increase count of 5
+        sumOf5 += 1
+ 
+    # Divide the number by
+    # 2 as much as possible
+    while (sumOf5 != 0 and (number & 1) == 0):
+        number >>= 1 # dividing the number by 2
+        sumOf5 -= 1
+ 
+    """multiplied result and current number(after
+    removing pairs) and do modular division to get the
+    last digit of the resultant number."""
+    result[0] = (result[0] * (number % 10)) % 10
+    # calling again for (currentNumber - 1)
+    callMeFactorialLastDigit(n - 1, result, sumOf5)
+ 
+def lastNon0Digit(n):
+    result = [ 1 ] # single element array.
+    callMeFactorialLastDigit(n, result, 0)
+    return result[0]
+ 
+print(lastNon0Digit(7)) # 3040
+print(lastNon0Digit(12)) # 479001600
+ 
+# This code is contributed by suresh07.
+C#
+Javascript
+Output
+4
+6
+we used single element array (int[] result = {1}) instead of integer as Java is Strictly Pass by Value!. It does not allow pass by reference for primitive data types. That’s why I used a single element array so that the recursive function can change the value of variable(result here). If we would have taken (int result = 1) then this variable remain unaffected.
+
+This article is contributed by Niteesh kumar & KaaL-EL. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+25
+Previous
+Find last digit in factorial
+Next
+Last digit of a number raised to last digit of N factorial
+Related Articles
+1.
+Last digit of a number raised to last digit of N factorial
+2.
+Find the last digit when factorial of A divides factorial of B
+3.
+Find last digit in factorial
+4.
+Count of Numbers in Range where first digit is equal to last digit of the number
+5.
+Count numbers in a range with digit sum divisible by K having first and last digit different
+6.
+Find the remainder when First digit of a number is divided by its Last digit
+7.
+Count of pairs (A, B) in range 1 to N such that last digit of A is equal to the first digit of B
+8.
+Count of N-digit numbers having digit XOR as single digit
+9.
+Find the last two digits of Factorial of a given Number
+10.
+Maximum number with same digit factorial product
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+divyesh072019
+kaalel
+sweetyty
+divyeshrabadiya07
+mukesh07
+rameshtravel07
+suresh07
+allwink45
+ridazouga
+mitalibhola94
+sayanc170
+codearcade
+Article Tags :
+factorial
+Modular Arithmetic
+Mathematical
+Recursion
+Practice Tags :
+factorial
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Recursion
+Improve Article
+Report Issue

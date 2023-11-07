@@ -1,0 +1,401 @@
+Euler’s Totient Function
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Euler’s Totient function Φ (n) for an input n is the count of numbers in {1, 2, 3, …, n-1} that are relatively prime to n, i.e., the numbers whose GCD (Greatest Common Divisor) with n is 1.
+
+Examples :
+
+Φ(1) = 1  
+gcd(1, 1) is 1
+
+Φ(2) = 1
+gcd(1, 2) is 1, but gcd(2, 2) is 2.
+
+Φ(3) = 2
+gcd(1, 3) is 1 and gcd(2, 3) is 1
+
+Φ(4) = 2
+gcd(1, 4) is 1 and gcd(3, 4) is 1
+
+Φ(5) = 4
+gcd(1, 5) is 1, gcd(2, 5) is 1, 
+gcd(3, 5) is 1 and gcd(4, 5) is 1
+
+Φ(6) = 2
+gcd(1, 6) is 1 and gcd(5, 6) is 1, 
+Recommended Problem
+Euler Totient Function
+Cisco
+Solve Problem
+Submission count: 3.2K
+How to compute Φ(n) for an input nΦ
+A simple solution is to iterate through all numbers from 1 to n-1 and count numbers with gcd with n as 1. Below is the implementation of the simple method to compute Euler’s Totient function for an input integer n. 
+
+C++
+C
+Java
+Python3
+# A simple Python3 program
+# to calculate Euler's
+# Totient Function
+ 
+# Function to return
+# gcd of a and b
+def gcd(a, b):
+ 
+    if (a == 0):
+        return b
+    return gcd(b % a, a)
+ 
+# A simple method to evaluate
+# Euler Totient Function
+def phi(n):
+ 
+    result = 1
+    for i in range(2, n):
+        if (gcd(i, n) == 1):
+            result+=1
+    return result
+ 
+# Driver Code
+for n in range(1, 11):
+    print("phi(",n,") = ",
+           phi(n), sep = "")
+            
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output
+phi(1) = 1
+phi(2) = 1
+phi(3) = 2
+phi(4) = 2
+phi(5) = 4
+phi(6) = 2
+phi(7) = 6
+phi(8) = 4
+phi(9) = 6
+phi(10) = 4
+The above code calls gcd function O(n) times. The time complexity of the gcd function is O(h) where “h” is the number of digits in a smaller number of given two numbers. Therefore, an upper bound on the time complexity of the above solution is O(N^2 log N) [HowΦ there can be at most Log10n digits in all numbers from 1 to n]
+
+Auxiliary Space: O(log N)
+
+Below is a Better Solution. The idea is based on Euler’s product formula which states that the value of totient functions is below the product overall prime factors p of n. 
+
+
+
+eulersproduct
+
+The formula basically says that the value of Φ(n) is equal to n multiplied by-product of (1 – 1/p) for all prime factors p of n. For example value of Φ(6) = 6 * (1-1/2) * (1 – 1/3) = 2.
+We can find all prime factors using the idea used in this post. 
+
+1) Initialize : result = n
+2) Run a loop from 'p' = 2 to sqrt(n), do following for every 'p'.
+     a) If p divides n, then 
+           Set: result = result  * (1.0 - (1.0 / (float) p));
+           Divide all occurrences of p in n.
+3) Return result  
+Below is the implementation of Euler’s product formula.  
+
+C++
+C
+Java
+Python3
+# Python 3 program to calculate
+# Euler's Totient Function
+# using Euler's product formula
+ 
+def phi(n) :
+ 
+    result = n   # Initialize result as n
+      
+    # Consider all prime factors
+    # of n and for every prime
+    # factor p, multiply result with (1 - 1 / p)
+    p = 2
+    while p * p<= n :
+ 
+        # Check if p is a prime factor.
+        if n % p == 0 :
+ 
+            # If yes, then update n and result
+            while n % p == 0 :
+                n = n // p
+            result = result * (1.0 - (1.0 / float(p)))
+        p = p + 1
+         
+         
+    # If n has a prime factor
+    # greater than sqrt(n)
+    # (There can be at-most one
+    # such prime factor)
+    if n > 1 :
+        result -= result // n
+  #Since in the set {1,2,....,n-1}, all numbers are relatively prime with n
+  #if n is a prime number
+  
+    return int(result)
+     
+     
+# Driver program to test above function
+for n in range(1, 11) :
+    print("phi(", n, ") = ", phi(n))
+    
+ 
+# This code is contributed
+# by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Phi(1) = 1
+Phi(2) = 1
+Phi(3) = 2
+Phi(4) = 2
+Phi(5) = 4
+Phi(6) = 2
+Phi(7) = 6
+Phi(8) = 4
+Phi(9) = 6
+Phi(10) = 4
+Time Complexity: O(√n log n)
+Auxiliary Space: O(1)
+
+We can avoid floating-point calculations in the above method. The idea is to count all prime factors and their multiples and subtract this count from n to get the totient function value (Prime factors and multiples of prime factors won’t have gcd as 1) 
+
+1) Initialize result as n
+2) Consider every number 'p' (where 'p' varies from 2 to Φn). 
+   If p divides n, then do following
+   a) Subtract all multiples of p from 1 to n [all multiples of p
+      will have gcd more than 1 (at least p) with n]
+   b) Update n by repeatedly dividing it by p.
+3) If the reduced n is more than 1, then remove all multiples
+   of n from result.
+Below is the implementation of the above algorithm. 
+
+C++
+C
+Java
+Python3
+# Python3 program to calculate
+# Euler's Totient Function
+def phi(n):
+     
+    # Initialize result as n
+    result = n;
+ 
+    # Consider all prime factors
+    # of n and subtract their
+    # multiples from result
+    p = 2;
+    while(p * p <= n):
+         
+        # Check if p is a
+        # prime factor.
+        if (n % p == 0):
+             
+            # If yes, then
+            # update n and result
+            while (n % p == 0):
+                n = int(n / p);
+            result -= int(result / p);
+        p += 1;
+ 
+    # If n has a prime factor
+    # greater than sqrt(n)
+    # (There can be at-most
+    # one such prime factor)
+    if (n > 1):
+        result -= int(result / n);
+    return result;
+ 
+# Driver Code
+for n in range(1, 11):
+    print("phi(",n,") =", phi(n));
+     
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output
+Phi(1) = 1
+Phi(2) = 1
+Phi(3) = 2
+Phi(4) = 2
+Phi(5) = 4
+Phi(6) = 2
+Phi(7) = 6
+Phi(8) = 4
+Phi(9) = 6
+Phi(10) = 4
+Time Complexity: O(√n log n)
+Auxiliary Space: O(1)
+
+Let us take an example to understand the above algorithm. 
+
+n = 10. 
+Initialize: result = 10
+
+2 is a prime factor, so n = n/i = 5, result = 5
+3 is not a prime factor.
+
+The for loop stops after 3 as 4*4 is not less than or equal
+to 10.
+
+After for loop, result = 5, n = 5
+Since n > 1, result = result - result/n = 4
+Some Interesting Properties of Euler’s Totient Function 
+1) For a prime number p, \phi(p) = p - 1
+
+Proof :
+
+\phi(p) =  p - 1 , where p is any prime numberWe know that gcd(p, k) = 1 where k is any random number and k \neq p[Tex]\\[/Tex]Total number from 1 to p = p Number for which gcd(p, k) = 1 is 1, i.e the number p itself, so subtracting 1 from p \phi(p) = p - 1
+Examples :  
+
+\phi(5) = 5 - 1 = 4[Tex]\\[/Tex]\phi(13) = 13 - 1 = 12[Tex]\\[/Tex]\phi(29) = 29 - 1 = 28
+2) For two prime numbers a and b \phi(a \cdot b) = \phi(a) \cdot \phi(b) = (a - 1) \cdot (b - 1)           , used in RSA Algorithm
+
+Proof :
+
+\phi(a\cdot b) = \phi(a) \cdot  \phi(b), where a and b are prime numbers\phi(a) = a - 1 , \phi(b) = b - 1[Tex]\\[/Tex]Total number from 1 to ab = ab Total multiples of a from 1 to ab = \frac{a \cdot b} {a} = bTotal multiples of b from 1 to ab = \frac{a \cdot b} {b} = aExample:a = 5, b = 7, ab = 35Multiples of a = \frac {35} {5} = 7 {5, 10, 15, 20, 25, 30, 35}Multiples of b = \frac {35} {7} = 5 {7, 14, 21, 28, 35}\\Can there be any double counting ?(watch above example carefully, try with other prime numbers also for more grasp)Ofcourse, we have counted ab twice in multiples of a and multiples of b so, Total multiples =  a + b - 1 (with which gcd \neq 1 with ab)\\[Tex]\phi(ab) = ab - (a + b - 1)[/Tex] , removing all number with gcd \neq 1 with ab \phi(ab) = a(b - 1) - (b - 1)[Tex]\phi(ab) = (a - 1) \cdot (b - 1)[/Tex]\phi(ab) = \phi(a) \cdot \phi(b)
+Examples :
+
+\phi(5 \cdot 7) = \phi(5) \cdot \phi(7) = (5 - 1) \cdot (7 - 1) = 24[Tex]\\[/Tex]\phi(3 \cdot 5) = \phi(3) \cdot \phi(5) = (3 - 1) \cdot (5 - 1) = 8[Tex]\\[/Tex]\phi(3 \cdot 7) = \phi(3) \cdot \phi(7) = (3 - 1) \cdot (7 - 1) = 12
+3) For a prime number p, \phi(p ^ k) = p ^ k - p ^ {k - 1}
+
+Proof : 
+
+\phi(p^k) = p ^ k - p ^{k - 1} , where p is a prime number\\Total numbers from 1 to p ^ k = p ^ k Total multiples of p = \frac {p ^ k} {p} = p ^ {k - 1}Removing these multiples as with them gcd \neq 1[Tex]\\[/Tex]Example : p = 2, k = 5, p ^ k = 32Multiples of 2 (as with them gcd \neq 1) = 32 / 2 = 16 {2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32}\\[Tex]\phi(p ^ k) = p ^ k - p ^ {k - 1}[/Tex]
+Examples : 
+
+\phi(2 ^ 5) = 2 ^ 5 - 2 ^ {5 - 1} = 32 - 16 = 16[Tex]\\[/Tex]\phi(5 ^ 3) = 5 ^ 3 - 5 ^ {3 - 1} = 125 - 25 = 100[Tex]\\[/Tex]\phi(3 ^ 5) = 3 ^ 5 - 3 ^ {5 - 1} = 243 - 81 = 162
+4) For two number a and b \phi(a \cdot b)            = \phi(a) \cdot \phi(b)            \cdot \frac {gcd(a, b)} {\phi(gcd(a, b))}
+
+Special Case : gcd(a, b) = 1
+
+\phi(a \cdot b) = \phi(a) \cdot \phi(b) \cdot \frac {1} {\phi(1)} = \phi(a) \cdot \phi(b)
+
+Examples :
+
+Special Case : gcd(a, b) = 1, \phi(a \cdot b) = \phi(a) \cdot \phi(b) \phi(2 \cdot 9) = \phi(2) \cdot \phi(9) = 1 \cdot 6 = 6[Tex]\\[/Tex]\phi(8 \cdot 9) = \phi(8) \cdot \phi(9) = 4 \cdot 6 = 24[Tex]\\[/Tex]\phi(5 \cdot 6) = \phi(5) \cdot \phi(6) = 4 \cdot 2 = 8 \\[Tex]\\[/Tex]Normal Case : gcd(a, b) \neq 1, \phi(a \cdot b) = \phi(a) \cdot \phi(b) \cdot \frac {gcd(a, b)} {\phi(gcd(a, b))}[Tex]\\[/Tex]\phi(4 \cdot 6) = \phi(4) \cdot \phi(6) \cdot \frac {gcd(4, 6)} {\phi(gcd(4, 6))} = 2 \cdot 2 \cdot \frac{2}{1} = 2 \cdot 2 \cdot 2 = 8[Tex]\\[/Tex]\phi(4 \cdot 8) = \phi(4) \cdot \phi(8) \cdot \frac {gcd(4, 8)} {\phi(gcd(4, 8))} = 2 \cdot 4 \cdot \frac{4}{2} = 2 \cdot 4 \cdot 2 = 16[Tex]\\[/Tex]\phi(6 \cdot 8) = \phi(6) \cdot \phi(8) \cdot \frac {gcd(6, 8)} {\phi(gcd(6, 8))} = 2 \cdot 4 \cdot \frac{2}{1} = 2 \cdot 4 \cdot 2 = 16
+5) Sum of values of totient functions of all divisors of n is equal to n. 
+ 
+
+gausss
+
+Examples :
+
+n = 6 
+factors = {1, 2, 3, 6} 
+n = \phi(1) + \phi(2) + \phi(3) + \phi(6) = 1 + 1 + 2 + 2 = 6\\n = 8factors = {1, 2, 4, 8}n = \phi(1) + \phi(2) + \phi(4) + \phi(8) = 1 + 1 + 2 + 4 = 8\\n = 10factors = {1, 2, 5, 10}n = \phi(1) + \phi(2) + \phi(5) + \phi(10) = 1 + 1 + 4 + 4 = 10
+6) The most famous and important feature is expressed in Euler’s theorem : 
+
+The theorem states that if n and a are coprime
+(or relatively prime) positive integers, then
+
+aΦ(n) ≡ 1 (mod n) 
+The RSA cryptosystem is based on this theorem:
+In the particular case when m is prime say p, Euler’s theorem turns into the so-called Fermat’s little theorem : 
+
+ap-1 ≡ 1 (mod p) 
+7) Number of generators of a finite cyclic group under modulo n addition is Φ(n).
+
+Related Article: 
+Euler’s Totient function for all numbers smaller than or equal to n 
+Optimized Euler Totient Function for Multiple Evaluations
+
+References: 
+http://e-maxx.ru/algo/euler_function
+http://en.wikipedia.org/wiki/Euler%27s_totient_function
+
+https://cp-algorithms.com/algebra/phi-function.html
+
+http://mathcenter.oxford.memory.edu/site/math125/chineseRemainderTheorem/
+This article is contributed by Ankur. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+64
+Previous
+Succinct Encoding of Binary Tree
+Next
+Optimized Euler Totient Function for Multiple Evaluations
+Related Articles
+1.
+Euler's Totient function for all numbers smaller than or equal to n
+2.
+Optimized Euler Totient Function for Multiple Evaluations
+3.
+Probability of Euler's Totient Function in a range [L, R] to be divisible by M
+4.
+Check if Euler Totient Function is same for a given number and twice of that number
+5.
+Generate an array having sum of Euler Totient Function of all elements equal to N
+6.
+Count integers in a range which are divisible by their euler totient value
+7.
+Highly Totient Number
+8.
+Count of elements having Euler's Totient value one less than itself
+9.
+Perfect totient number
+10.
+Sum of Euler Totient Functions obtained for each divisor of N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Sam007
+jit_t
+Smitha Dinesh Semwal
+Mithun Kumar
+SHUBHAMSINGH10
+lalitvavdara2016
+koulick_sadhu
+_saurabh_jaiswal
+tridib_samanta
+anshkush92
+varshagumber28
+prophet1999
+sanskar84
+abhigyanballavnits
+navyoyo7
+Article Tags :
+euler-totient
+GCD-LCM
+Modular Arithmetic
+number-theory
+Numbers
+Prime Number
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+number-theory
+Numbers
+Prime Number
+sieve
+Sieve

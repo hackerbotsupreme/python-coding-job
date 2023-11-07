@@ -1,0 +1,267 @@
+Interesting facts about Fibonacci numbers
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+We know Fibonacci number, Fn = Fn-1 + Fn-2. 
+First few Fibonacci numbers are 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, …. . 
+Here are some interesting facts about Fibonacci number : 
+
+1. Pattern in Last digits of Fibonacci numbers : 
+Last digits of first few Fibonacci Numbers are : 
+
+0, 1, 1, 2, 3, 5, 8, 3, 1, 4, 5, 9, 4, 3, 7, 0, 7, ... 
+The series of last digits repeats with a cycle length of 60 (Refer this for explanations of this result). 
+
+C++
+C
+Java
+Python3
+# Python3 program to demonstrate that sequence of last
+# digits of Fibonacci numbers repeats after 60.
+ 
+ 
+if __name__=='__main__':
+    max = 100
+    arr = [0 for i in range(max)]
+    arr[0] = 0
+    arr[1] = 1
+ 
+# storing Fibonacci numbers
+    for i in range(2, max):
+        arr[i] = arr[i - 1] + arr[i - 2]
+ 
+    # Traversing through store numbers
+    for i in range(1, max - 1):
+         
+ 
+    # Since first two number are 0 and 1
+    # so, if any two consecutive number encounter 0 and 1
+    # at their unit place, then it clearly means that
+    # number is repeating/ since we just have to find
+    # the sum of previous two number
+        if((arr[i] % 10 == 0) and (arr[i + 1] % 10 == 1)):
+            break
+ 
+    print("Sequence is repeating after index", i)
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output: 
+
+Sequence is repeating after index 60
+2. Factors of Fibonacci number : On careful observation, we can observe the following thing :
+
+Every 3-rd Fibonacci number is a multiple of 2
+Every 4-th Fibonacci number is a multiple of 3
+Every 5-th Fibonacci number is a multiple of 5
+Every 6-th Fibonacci number is a multiple of 8
+Refer this for details. 
+
+C++
+C
+Java
+Python3
+# Python3 program to demonstrate divisibility
+# of Fibonacci numbers.
+MAX = 90;
+ 
+# indexes variable stores index of number
+# that is divisible by 2, 3, 5 and 8
+arr = [0] * (MAX);
+index1 = [0] * (MAX);
+index2 = [0] * (MAX);
+index3 = [0] * (MAX);
+index4 = [0] * (MAX);
+ 
+# storing fibonacci numbers
+arr[0] = 0;
+arr[1] = 1;
+for i in range(2, MAX):
+    arr[i] = arr[i - 1] + arr[i - 2];
+ 
+# c1 keeps track of number of index
+# of number divisible by 2 and others 
+# c2, c3 and c4 for 3, 5 and 8
+c1, c2, c3, c4 = 0, 0, 0, 0;
+ 
+# separating fibonacci number into
+# their respective array
+for i in range(MAX):
+    if (arr[i] % 2 == 0):
+        index1[c1] = i;
+        c1 += 1;
+    if (arr[i] % 3 == 0):
+        index2[c2] = i;
+        c2 += 1;
+    if (arr[i] % 5 == 0):
+        index3[c3] = i;
+        c3 += 1;
+    if (arr[i] % 8 == 0):
+        index4[c4] = i;
+        c4 += 1;
+ 
+# printing index arrays
+print("Index of Fibonacci numbers",
+           "divisible by 2 are :");
+for i in range(c1):
+    print(index1[i], end = " ");
+print("");
+ 
+print("Index of Fibonacci number",
+          "divisible by 3 are :");
+for i in range(c2):
+    print(index2[i], end = " ");
+print("");
+ 
+print("Index of Fibonacci number",
+          "divisible by 5 are :");
+for i in range(c3):
+    print(index3[i], end = " ");
+print("");
+ 
+print("Index of Fibonacci number",
+          "divisible by 8 are :");
+for i in range(c4):
+    print(index4[i], end = " ");
+print("");
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+
+
+
+Index of Fibonacci numbers divisible by 2 are :
+0 3 6 9 12 15 18 21 24 27 30 33 36 39 42 45 
+48 51 54 57 60 63 66 69 72 75 78 81 84 87 
+Index of Fibonacci number divisible by 3 are :
+0 4 8 12 16 20 24 28 32 36 40 44 48 52 
+56 60 64 68 72 76 80 84 88 
+Index of Fibonacci number divisible by 5 are :
+0 5 10 15 20 25 30 35 40 45 50 
+55 60 65 70 75 80 85 
+Index of Fibonacci number divisible by 8 are :
+0 6 12 18 24 30 36 42 48
+54 60 66 72 78 84 
+3. Fibonacci number with index number factor : We have some Fibonacci number like F(1) = 1 which is divisible by 1, F(5) = 5 which is divisible by 5, F(12) = 144 which is divisible by 12, F(24) = 46368 which is divisible by 24, F(25) = 75025 which is divisible by 25. This type of index number follow a certain pattern. First, let’s keep a look on those index number : 
+1, 5, 12, 24, 25, 36, 48, 60, 72, 84, 96, 108, 120, 125, 132, ….. 
+
+On observing it, this series is made up of every number that is multiple of 12 as well as all the number that satisfies the condition of pow(5, k), where k = 0, 1, 2, 3, 4, 5, 6, 7, …….
+
+C++
+C
+Java
+Python3
+# Python3 program to demonstrate that Fibonacci numbers
+# that are divisible by their indexes have indexes
+# as either power of 5 or multiple of 12.
+ 
+if __name__=='__main__':
+    MAX = 100
+# storing Fibonacci numbers
+    arr = [0 for i in range(MAX)]
+    arr[0] = 0
+    arr[1] = 1
+    for i in range(2, MAX):
+        arr[i] = arr[i - 1] + arr[i - 2]
+ 
+    print("Fibonacci numbers divisible by their indexes are :")
+    for i in range(1, MAX):
+        if(arr[i] % i == 0):
+            print(i,end=" ")
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+Javascript
+Output: 
+
+Fibonacci numbers divisible by their indexes are :
+1  5  12  24  25  36  48  60  72  96
+4. Value of f(n-1)*f(n+1) – f(n)*f(n) is (-1)n. Please refer Cassini’s Identity for details.
+
+5. The sum of any ten consecutive Fibonacci numbers is divisible by 11.
+
+    Example: 0+1+1+ 2+3+ 5+ 8+13+21+34 =88 which is divisible by 11.
+
+    Proof: Just write every term in the sum in terms of F1 and F2, keeping in mind that Fn = Fn-1 + Fn-2.
+    F1+F2+(F1+F2)+(F1+2F2)+(2F1+3F2)+(3F1+5F2)+(5F1+8F2)+(8F1+13F2)+(13F1+21F2)+(21F1+34F2)                                                                   Then the sum is clearly equal to 55F1+88F2=11(5F1+8F2), which is divisible by 11.
+ 
+
+Reference : 
+http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibmaths.html
+This article is contributed by Aditya Kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+6
+Previous
+How to check if a given number is Fibonacci number?
+Next
+Find nth Fibonacci number using Golden ratio
+Related Articles
+1.
+Py-Facts - 10 interesting facts about Python
+2.
+Interesting Facts about Macros and Preprocessors in C
+3.
+Interesting facts about strings in Python | Set 1
+4.
+Interesting facts about strings in Python | Set 2 (Slicing)
+5.
+Interesting facts about null in Java
+6.
+Interesting Facts in C Programming
+7.
+Number Theory (Interesting Facts and Algorithms)
+8.
+Interesting facts about data-types and modifiers in C/C++
+9.
+Interesting facts about Increment and Decrement operators in Java
+10.
+Interesting facts about Array assignment in Java
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Sanjit_Prasad
+Mithun Kumar
+GauravRajput1
+simmytarika5
+saurabh1990aror
+shivanisinghss2110
+gautamgoel962
+Article Tags :
+Fibonacci
+interesting-facts
+Mathematical
+Practice Tags :
+Fibonacci
+Mathematical

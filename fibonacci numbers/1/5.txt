@@ -1,0 +1,258 @@
+Matrix Exponentiation
+
+Difficulty Level : Hard
+Last Updated : 30 Jun, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+This is one of the most used techniques in competitive programming. Let us first consider below simple question.
+
+What is the minimum time complexity to find n’th Fibonacci Number? 
+We can find n’th Fibonacci Number in O(Log n) time using Matrix Exponentiation. Refer method 4 of this for details. In this post, a general implementation of Matrix Exponentiation is discussed. 
+
+For solving the matrix exponentiation we are assuming a
+linear recurrence equation like below:
+
+F(n) = a*F(n-1) + b*F(n-2) + c*F(n-3)   for n >= 3 
+                                 . . . . . Equation (1)
+where a, b and c are constants. 
+
+For this recurrence relation, it depends on three previous values. 
+Now we will try to represent Equation (1) in terms of the matrix. 
+
+[First Matrix] = [Second matrix] * [Third Matrix]
+| F(n)   |     =   Matrix 'C'    *  | F(n-1) |
+| F(n-1) |                          | F(n-2) |
+| F(n-2) |                          | F(n-3) |
+ 
+Dimension of the first matrix is 3 x 1 . 
+Dimension of the third matrix is also 3 x 1. 
+
+So the dimension of the second matrix must be 3 x 3 
+[For multiplication rule to be satisfied.]
+
+Now we need to fill the Matrix 'C'. 
+
+So according to our equation. 
+F(n) = a*F(n-1) + b*F(n-2) + c*F(n-3)
+F(n-1) = F(n-1)
+F(n-2) = F(n-2)
+
+C = [a b c
+     1 0 0
+     0 1 0]
+
+Now the relation between matrix becomes : 
+[First Matrix]  [Second matrix]       [Third Matrix]
+| F(n)   |  =  | a b c |  *           | F(n-1) |
+| F(n-1) |     | 1 0 0 |              | F(n-2) |
+| F(n-2) |     | 0 1 0 |              | F(n-3) |
+
+Lets assume the initial values for this case :- 
+F(0) = 0
+F(1) = 1
+F(2) = 1
+
+So, we need to get F(n) in terms of these values.
+
+So, for n = 3 Equation (1) changes to 
+| F(3) |  =  | a b c |  *           | F(2) |
+| F(2) |     | 1 0 0 |              | F(1) |
+| F(1) |     | 0 1 0 |              | F(0) |
+
+Now similarly for n = 4 
+| F(4) |  =  | a b c |  *           | F(3) |
+| F(3) |     | 1 0 0 |              | F(2) |
+| F(2) |     | 0 1 0 |              | F(1) |
+
+             - - - -  2 times - - -
+| F(4) |  =  | a b c |  * | a b c | *       | F(2) |
+| F(3) |     | 1 0 0 |    | 1 0 0 |         | F(1) |
+| F(2) |     | 0 1 0 |    | 0 1 0 |         | F(0) |
+
+
+So for n, the Equation (1) changes to 
+
+                - - - - - - - - n -2 times - - - -  -       
+| F(n)   |  =  | a b c | * | a b c | * ... * | a b c | * | F(2) |
+| F(n-1) |     | 1 0 0 |   | 1 0 0 |         | 1 0 0 |   | F(1) |
+| F(n-2) |     | 0 1 0 |   | 0 1 0 |         | 0 1 0 |   | F(0) |
+
+
+| F(n)   |  =  [ | a b c | ] ^ (n-2)   *  | F(2) |
+| F(n-1) |     [ | 1 0 0 | ]              | F(1) |
+| F(n-2) |     [ | 0 1 0 | ]              | F(0) |
+So we can simply multiply our Second matrix n-2 times and then multiply it with the third matrix to get the result. Multiplication can be done in (log n) time using Divide and Conquer algorithm for power (See this or this)
+
+Let us consider the problem of finding n’th term of a series defined using below recurrence. 
+
+n'th term,
+    F(n) = F(n-1) + F(n-2) + F(n-3), n >= 3
+Base Cases :
+    F(0) = 0, F(1) = 1, F(2) = 1
+We can find n’th term using following : 
+
+Putting a = 1, b = 1 and c = 1 in above formula
+
+| F(n)   |  =  [ | 1 1 1 | ] ^ (n-2)   *  | F(2) |
+| F(n-1) |     [ | 1 0 0 | ]              | F(1) |
+| F(n-2) |     [ | 0 1 0 | ]              | F(0) |
+Recommended Practice
+Matrix Exponentiation
+Try It!
+Below is the implementation of above idea.
+
+C++
+Java
+Python3
+# Python3 program to find value of f(n)
+# where f(n) is defined as
+# F(n) = F(n-1) + F(n-2) + F(n-3), n >= 3
+# Base Cases :
+# F(0) = 0, F(1) = 1, F(2) = 1
+ 
+# A utility function to multiply two
+# matrices a[][] and b[][]. Multiplication
+# result is stored back in b[][]
+def multiply(a, b):
+     
+    # Creating an auxiliary matrix
+    # to store elements of the
+    # multiplication matrix
+    mul = [[0 for x in range(3)]
+              for y in range(3)];
+    for i in range(3):
+        for j in range(3):
+            mul[i][j] = 0;
+            for k in range(3):
+                mul[i][j] += a[i][k] * b[k][j];
+ 
+    # storing the multiplication
+    # result in a[][]
+    for i in range(3):
+        for j in range(3):
+            a[i][j] = mul[i][j]; # Updating our matrix
+    return a;
+ 
+# Function to compute F raise
+# to power n-2.
+def power(F, n):
+ 
+    M = [[1, 1, 1], [1, 0, 0], [0, 1, 0]];
+ 
+    # Multiply it with initial values i.e
+    # with F(0) = 0, F(1) = 1, F(2) = 1
+    if (n == 1):
+        return F[0][0] + F[0][1];
+ 
+    power(F, int(n / 2));
+ 
+    F = multiply(F, F);
+ 
+    if (n % 2 != 0):
+        F = multiply(F, M);
+ 
+    # Multiply it with initial values i.e
+    # with F(0) = 0, F(1) = 1, F(2) = 1
+    return F[0][0] + F[0][1] ;
+ 
+# Return n'th term of a series defined
+# using below recurrence relation.
+# f(n) is defined as
+# f(n) = f(n-1) + f(n-2) + f(n-3), n>=3
+# Base Cases :
+# f(0) = 0, f(1) = 1, f(2) = 1
+def findNthTerm(n):
+    F = [[1, 1, 1], [1, 0, 0], [0, 1, 0]];
+ 
+    return power(F, n - 2);
+ 
+# Driver code
+n = 5;
+ 
+print("F(5) is",
+      findNthTerm(n));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output
+
+
+F(5) is 7
+Time Complexity: O(logN)
+Auxiliary Space: O(logN) 
+
+
+
+
+
+Like
+78
+Previous
+Find nth Fibonacci number using Golden ratio
+Next
+N-bonacci Numbers
+Related Articles
+1.
+Find Nth term (A matrix exponentiation example)
+2.
+Expected number of moves to reach the end of a board | Matrix Exponentiation
+3.
+Modular Exponentiation (Power in Modular Arithmetic)
+4.
+Modular exponentiation (Recursive)
+5.
+Modular Exponentiation of Complex Numbers
+6.
+Fast Exponentiation using Bit Manipulation
+7.
+Generate a Matrix such that given Matrix elements are equal to Bitwise OR of all corresponding row and column elements of generated Matrix
+8.
+Generate matrix from given Sparse Matrix using Linked List and reconstruct the Sparse Matrix
+9.
+Maximize sum of N X N upper left sub-matrix from given 2N X 2N matrix
+10.
+Circular Matrix (Construct a matrix with numbers 1 to m*n in spiral way)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+nidhi_biet
+Akanksha_Rai
+ManasUniyal
+princi singh
+pankajsharmagfg
+hardikkoriintern
+Article Tags :
+Fibonacci
+matrix-exponentiation
+Modular Arithmetic
+series
+Algorithms
+Competitive Programming
+Dynamic Programming
+Mathematical
+Matrix
+Practice Tags :
+Algorithms
+Dynamic Programming
+Fibonacci
+Mathematical
+Matrix
+Modular Arithmetic
+modular arithmetic
+series
+Improve Article
+Report Issue

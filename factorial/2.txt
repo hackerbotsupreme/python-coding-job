@@ -1,0 +1,133 @@
+Legendre’s formula (Given p and n, find the largest x such that p^x divides n!)
+
+Difficulty Level : Medium
+Last Updated : 05 Nov, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given an integer n and a prime number p, find the largest x such that px (p raised to power x) divides n! (factorial) 
+Examples: 
+ 
+
+Input:  n = 7, p = 3
+Output: x = 2
+32 divides 7! and 2 is the largest such power of 3.
+
+Input:  n = 10, p = 3
+Output: x = 4
+34 divides 10! and 4 is the largest such power of 3.
+ 
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+n! is multiplication of {1, 2, 3, 4, …n}.
+How many numbers in {1, 2, 3, 4, ….. n} are divisible by p? 
+Every p’th number is divisible by p in {1, 2, 3, 4, ….. n}. Therefore in n!, there are ⌊n/p⌋ numbers divisible by p. So we know that the value of x (largest power of p that divides n!) is at-least ⌊n/p⌋. 
+Can x be larger than ⌊n/p⌋ ? 
+Yes, there may be numbers which are divisible by p2, p3, … 
+How many numbers in {1, 2, 3, 4, ….. n} are divisible by p2, p3, …? 
+There are ⌊n/(p2)⌋ numbers divisible by p2 (Every p2‘th number would be divisible). Similarly, there are ⌊n/(p3)⌋ numbers divisible by p3 and so on.
+What is the largest possible value of x? 
+So the largest possible power is ⌊n/p⌋ + ⌊n/(p2)⌋ + ⌊n/(p3)⌋ + …… 
+Note that we add only ⌊n/(p2)⌋ only once (not twice) as one p is already considered by expression ⌊n/p⌋. Similarly, we consider ⌊n/(p3)⌋ (not thrice). 
+Below is implementation of above idea. 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program to find largest
+# x such that p*x divides n!
+ 
+# Returns largest power of p that divides n!
+def largestPower(n, p):
+     
+    # Initialize result
+    x = 0
+ 
+    # Calculate x = n/p + n/(p^2) + n/(p^3) + ....
+    while n:
+        n /= p
+        x += n
+    return x
+ 
+# Driver program
+n = 10; p = 3
+print ("The largest power of %d that divides %d! is %d\n"%
+                                (p, n, largestPower(n, p)))
+         
+# This code is contributed by Shreyanshi Arun.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+The largest power of 3 that divides 10! is 4
+Time complexity: O(logpn)
+
+Auxiliary Space: O(1)
+What to do if p is not prime? 
+We can find all prime factors of p and compute result for every prime factor. Refer Largest power of k in n! (factorial) where k may not be prime for details.
+Source: 
+http://e-maxx.ru/algo/factorial_divisors
+This article is contributed by Ankur. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+14
+Previous
+Largest power of k in n! (factorial) where k may not be prime
+Next
+Find maximum power of a number that divides a factorial
+Related Articles
+1.
+Find two co-prime integers such that the first divides A and the second divides B
+2.
+Count of triplets (a, b, c) in the Array such that a divides b and b divides c
+3.
+Section formula (Point that divides a line in given ratio)
+4.
+Find the largest composite number that divides N but is strictly lesser than N
+5.
+Find a distinct pair (x, y) in given range such that x divides y
+6.
+Largest number that divides x and is co-prime with y
+7.
+Count of pairs in an array such that the highest power of 2 that divides their product is 1
+8.
+Partitions possible such that the minimum element divides all the other elements of the partition
+9.
+Find the last digit when factorial of A divides factorial of B
+10.
+Find element in array that divides all array elements
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+SHUBHAMSINGH10
+_saurabh_jaiswal
+subham348
+Article Tags :
+factorial
+number-theory
+Mathematical
+Practice Tags :
+factorial
+Mathematical
+number-theory

@@ -1,0 +1,145 @@
+Check if a number is a Krishnamurthy Number or not
+
+Difficulty Level : Easy
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A Krishnamurthy number is a number whose sum of the factorial of digits is equal to the number itself.
+For example, 145 is the sum of the factorial of each digit.
+1! + 4! + 5! = 1 + 24 + 120 = 145
+
+Examples: 
+
+Input : 145
+Output : YES
+Explanation: 1! + 4! + 5! = 
+1 + 24 + 120 = 145, which is equal to input,
+hence YES.
+
+Input : 235
+Output : NO
+Explanation: 2! + 3! + 5! = 
+2 + 6 + 120 = 128, which is not equal to input, 
+hence NO.
+Recommended Problem
+Krishnamurthy number
+Mathematical
+factorial
++1 more
+Solve Problem
+Submission count: 7K
+The idea is simple, we compute the sum of factorials of all digits and then compare the sum with n. 
+
+C++
+Java
+Python3
+# Python program to check if a number
+# is a krishnamurthy number
+ 
+# function to calculate the factorial
+# of any number
+def factorial(n) :
+    fact = 1
+    while (n != 0) :
+        fact = fact * n
+        n = n - 1
+    return fact
+ 
+# function to Check if number is
+# krishnamurthy/special
+def isKrishnamurthy(n) :
+    sum = 0
+    temp = n
+    while (temp != 0) :
+ 
+        # calculate factorial of last digit
+        # of temp and add it to sum
+        rem = temp%10
+        sum = sum + factorial(rem)
+ 
+        # replace value of temp by temp / 10
+        temp = temp // 10
+         
+    # Check if number is krishnamurthy
+    return (sum == n)
+ 
+# Driver code
+n = 145
+if (isKrishnamurthy(n)) :
+    print("YES")
+else :
+    print("NO")
+ 
+ 
+# This code is contributed by Prashant Aggarwal
+C#
+PHP
+Javascript
+Output
+YES
+Time Complexity: O(n log10n) where n is a given number
+Auxiliary Space: O(1)
+Interestingly, there are exactly four Krishnamurthy numbers i.e. 1, 2, 145, and 40585 known to us. 
+
+This article is contributed by DANISH KALEEM. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+2
+Previous
+Largest power of k in n! (factorial) where k may not be prime
+Next
+Count digits in a factorial using Logarithm
+Related Articles
+1.
+Largest number not exceeding N that does not contain any of the digits of S
+2.
+Check Whether a number is Duck Number or not
+3.
+Program to check whether the given number is Buzz Number or not
+4.
+Check if given number is Emirp Number or not
+5.
+Check if a number with even number of digits is palindrome or not
+6.
+Program to check whether a number is Proth number or not
+7.
+Check whether the given number is Euclid Number or not
+8.
+Check if the given number is Ore number or not
+9.
+Check if a number is an Unusual Number or not
+10.
+Check if a number is an Achilles number or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+prshntaggrwl
+_saurabh_jaiswal
+kumargaurav97520
+mitalibhola94
+Article Tags :
+factorial
+Mathematical
+School Programming
+Practice Tags :
+factorial
+Mathematical
+Improve Article
+Report Issue

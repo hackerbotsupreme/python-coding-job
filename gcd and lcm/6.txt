@@ -1,0 +1,141 @@
+Count number of pairs (A <= N, B <= N) such that gcd (A , B) is B
+
+Difficulty Level : Hard
+Last Updated : 27 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n. We need to find the number of ordered pairs of a and b such gcd(a, b) is b itself
+Examples : 
+
+Input : n = 2
+Output : 3
+(1, 1) (2, 2) and (2, 1) 
+
+Input : n = 3
+Output : 5
+(1, 1) (2, 2) (3, 3) (2, 1) and (3, 1)
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive approach: gcd(a, b) = b means b is a factor of a. So the total number of pairs will be equal to sum of divisors for each a = 1 to n. Please refer find all divisors of a natural number for implementation.
+Efficient approach: gcd(a, b) = b means that a is a multiple of b. So the total number of pairs will be sum of number of multiples of each b (where b varies from 1 to n) which are less than or equal to n. 
+For a number i, a number of multiples of i is less than or equal to floor(n/i). So what we need to do is just sum the floor(n/i) for each i = 1 to n and print it. But more optimizations can be done. floor(n/i) can have atmost 2*sqrt(n) values for i >= sqrt(n). floor(n/i) can vary from 1 to sqrt(n) and similarly for i = 1 to sqrt(n) floor(n/i) can have values from 1 to sqrt(n). So total of 2*sqrt(n) distinct values 
+ 
+
+let floor(n/i) = k
+k <= n/i < k + 1
+n/k+1 < i <= n/k
+floor(n/k+1) < i <= floor(n/k)
+Thus for given k the largest value of i for 
+which the floor(n/i) = k is floor(n/k)
+and all the set of i for which the 
+floor(n/i) = k are consecutive
+ 
+
+CPP
+Java
+Python3
+# Python implementation of counting
+# pairs such that gcd (a, b) = b
+ 
+# returns number of valid pairs
+def CountPairs(n):
+     
+    # initialize k
+    k = n
+ 
+    # loop till imin <= n
+    imin = 1
+ 
+    # Initialize result
+    ans = 0
+ 
+    while(imin <= n):
+ 
+        # max i with given k floor(n / k)
+        imax = n / k
+ 
+        # adding k*(number of i with
+        # floor(n / i) = k to ans
+        ans += k * (imax - imin + 1)
+ 
+        # set imin = imax + 1 and
+        # k = n / imin
+        imin = imax + 1
+        k = n / imin
+ 
+    return ans
+     
+# Driver code
+print(CountPairs(1))
+print(CountPairs(2))
+print(CountPairs(3))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+1
+3
+5
+Time complexity: O(n). This is because the while loop takes O(n) time to complete since it is looping over all elements of the array. 
+Auxiliary space: O(1), as no extra space is used.
+
+This article is contributed by Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+GCD, LCM and Distributive Property
+Next
+Program to find GCD of floating point numbers
+Related Articles
+1.
+Count all possible values of K less than Y such that GCD(X, Y) = GCD(X+K, Y)
+2.
+Pair of integers having least GCD among all given pairs having GCD exceeding K
+3.
+Find the number of pairs such that their gcd is equals to 1
+4.
+Find N - 1 pairs from given array such that GCD of all pair-sums is greater than 1
+5.
+Find two pairs such that one's GCD is same as other's LCM and sum equal to N
+6.
+Count pairs of natural numbers with GCD equal to given number
+7.
+Smallest subsequence having GCD equal to GCD of given array
+8.
+Find N distinct integers with GCD of sequence as 1 and GCD of each pair greater than 1
+9.
+Maximize count of pairs whose bitwise XOR is even by replacing such pairs with their Bitwise XOR
+10.
+Maximize count of pairs whose Bitwise AND exceeds Bitwise XOR by replacing such pairs with their Bitwise AND
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+mayanktyagi1709
+agfro1cac
+surajrasr7277
+Article Tags :
+GCD-LCM
+number-theory
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+Report Issue

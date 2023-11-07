@@ -1,0 +1,326 @@
+Euler’s Four Square Identity
+
+Last Updated : 05 May, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+According to Euler’s four square identity, the product of any two numbers a and b can be expressed as a sum of four squares if a and b both can individually be expressed as the sum of four squares.
+Mathematically, if a = c1^2 + c2^2 + c3^2 + c4^2    and b = d1^2 + d2^2 + d3^2 + d4^2    
+Then, a * b = e1^2 + e2^2 + e3^2 + e4^2    
+where c1, c2, c3, c4, d1, d2, d3, d4, e1, e2, e3, e4 are any integer.
+ 
+
+Some examples are,
+
+a = 1^2 + 2^2 + 3^2 + 4^2 = 30
+b = 1^2 + 1^2 + 1^2 + 1^2 = 4
+ab = a * b = 120 = 2^2 + 4^2 + 6^2 + 8^2
+a = 1^2 + 2^2 + 3^2 + 1^2 = 15
+b = 2^2 + 3^2 + 4^2 + 5^2 = 24
+ab = a * b = 810 = 1^2 + 4^2 + 8^2 + 27^2
+a = 1^2 + 2^2 + 3^2 + 1^2 = 15
+b = 2^2 + 3^2 + 2^2 + 3^2 = 26
+ab = a * b = 390 = 4^2 + 7^2 + 10^2 + 15^2
+Example: 
+
+Input: a = 1 * 1 + 2 * 2 + 3 * 3 + 4 * 4
+       b = 1 * 1 + 1 * 1 + 1 * 1 + 1 * 1
+  
+Output: i = 0
+j = 2
+k = 4
+l = 10
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 0 * 0 + 2 * 2 + 4 * 4 + 10 * 10
+
+i = 2
+j = 4
+k = 6
+l = 8
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 2 * 2 + 4 * 4 + 6 * 6 + 8 * 8
+Explanation : 
+The product of the 2 numbers a(30) and b(4) can be represented as the sum of 4 squares as stated by Euler’s four square identity. The above are the 2 representations of the product a * b in the sum of 4 squares form. All possible representations of the product a*b in the sum of four squares form are shown. 
+
+Input: a = 1*1 + 2*2 + 3*3 + 1*1
+       b = 1*1 + 2*2 + 1*1 + 1*1
+
+Output: i = 0
+j = 1
+k = 2
+l = 10
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 0*0 + 1*1 + 2*2 + 10*10
+
+i = 0
+j = 4
+k = 5
+l = 8
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 0*0 + 4*4 + 5*5 + 8*8
+
+i = 1
+j = 2
+k = 6
+l = 8
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 1*1 + 2*2 + 6*6 + 8*8
+
+i = 2
+j = 2
+k = 4
+l = 9
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 2*2 + 2*2 + 4*4 + 9*9
+
+i = 2
+j = 4
+k = 6
+l = 7
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 2*2 + 4*4 + 6*6 + 7*7
+
+i = 3
+j = 4
+k = 4
+l = 8
+Product of 15 and 7 can be written as sum of squares of i, j, k, l
+105 = 3*3 + 4*4 + 4*4 + 8*8
+Approach : 
+Brute Force : 
+A given number(a*b) can be represented in a sum of 4 squares form by using 4 loops i, j, k, l to find each of the four squares. This gives all possible combinations to form a*b as a sum of four squares. At each iteration of the innermost loop(l loop), check the sum with the product a*b. If there is a match, then print the 4 numbers(i, j, k, and l) whose sum of squares equals a*b. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to verify euler's
+# four square identity
+ 
+# function to check euler
+# four square identity
+def check_euler_four_square_identity(a, b, ab):
+ 
+    s = 0;
+     
+    # loops checking the sum of squares
+    i = 0;
+    while (i * i <= ab):
+     
+        s = i * i;
+        j = i;
+        while (j * j <= ab):
+             
+            # sum of 2 squares
+            s = j * j + i * i;
+            k = j;
+            while (k * k <= ab):
+                 
+                # sum of 3 squares
+                s = k * k + j * j + i * i;
+                l = k;
+                while (l * l <= ab):
+                     
+                    # sum of 4 squares
+                    s = l * l + k * k + j * j + i * i;
+ 
+                    # product of 2 numbers represented
+                    # as sum of four squares i, j, k, l
+                    if (s == ab):
+                         
+                        # product of 2 numbers a and b
+                        # represented as sum of four
+                        # squares i, j, k, l
+                        print("i =", i);
+                        print("j =", j);
+                        print("k =", k);
+                        print("l =", l);
+                        print("Product of ", a,
+                              "and", b, end = "");
+                        print(" can be written as sum of",
+                                  "squares of i, j, k, l");
+                        print(ab, "= ", end = "");
+                        print(i, "*", i, "+ ", end = "");
+                        print(j, "*", j, "+ ", end = "");
+                        print(k, "*", k, "+ ", end = "");
+                        print(l, "*", l);
+                        print("");
+                    l += 1;
+                k += 1;
+            j += 1;
+        i += 1;
+ 
+# Driver code
+ 
+# a and b such that they can be expressed
+# as sum of squares of numbers
+a = 30; # 1*1 + 2*2 + 3*3 + 4*4;
+b = 4; # 1*1 + 1*1 + 1*1 + 1*1;
+ 
+# given numbers can be represented as
+# sum of 4 squares By euler's four
+# square identity product also can be
+# represented as sum of 4 squares
+ab = a * b;
+ 
+check_euler_four_square_identity(a, b, ab);
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output: 
+i = 0
+j = 2
+k = 4
+l = 10
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 0*0 + 2*2 + 4*4 + 10*10
+
+i = 2
+j = 4
+k = 6
+l = 8
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 2*2 + 4*4 + 6*6 + 8*8
+ 
+
+Improved Algorithm:
+The time complexity of the above algorithm is O((a*b)^4)    in the worst case. This can be reduced to O((a*b)^3) by subtracting the squares of i, j, and k from the product a*b for all (i, j, k) and checking if that value is a perfect square or not. If it is a perfect square, then we have found the solution. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to verify Euler's four-square identity
+# This function prints the four numbers if a solution is found
+# Else prints solution doesn't exist
+def checkEulerFourSquareIdentity(a, b):
+ 
+    # Number for which we want to find a solution
+    ab = a*b
+    flag = False
+     
+    i = 0
+    while i*i <= ab: # loop for first number
+         
+        j = i
+        while i*i + j*j <= ab: # loop for second number
+         
+            k = j
+            while i*i + j*j + k*k <= ab: # loop for third number
+                 
+                # Calculate the fourth number and apply square root
+                l = (ab - (i*i + j*j + k*k))**(0.5)
+                 
+                # Check if the fourthNum is Integer or not
+                # If yes, then solution is found
+                if l == int(l) and l >= k:
+                    flag = True
+                    print("i = ",i)
+                    print("j = ",j)
+                    print("k = ",k)
+                    print("l = ",l)
+                    print("Product of", a , "and" , b ,
+                          "can be written as sum of squares of i, j, k, l" )
+                    print(ab," = ",i,"*",i,"+",j,"*",j,"+",
+                          k,"*",k,"+",l,"*",l)
+                     
+                     
+                k += 1
+             
+            j += 1
+         
+        i += 1
+         
+    # Solution cannot be found
+    if flag == False:
+        print("Solution doesn't exist!")
+        return
+ 
+a, b = 30, 4
+checkEulerFourSquareIdentity(a,b)
+C#
+PHP
+Javascript
+Output:  
+
+
+
+ 
+i = 0
+j = 2
+k = 4
+l = 10
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 0*0 + 2*2 + 4*4 + 10*10
+i = 2
+j = 4
+k = 6
+l = 8
+Product of 30 and 4 can be written as sum of squares of i, j, k, l
+120 = 2*2 + 4*4 + 6*6 + 8*8
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+2
+Previous
+Primitive root of a prime number n modulo n
+Next
+Compute nCr%p using Lucas Theorem
+Related Articles
+1.
+How to check if given four points form a square
+2.
+Lagrange's four square theorem
+3.
+Find Four points such that they form a square whose sides are parallel to x and y axes
+4.
+Find the area of the shaded region formed by the intersection of four semicircles in a square
+5.
+Significance of Pascal’s Identity
+6.
+Cassini’s Identity
+7.
+Program for Identity Matrix
+8.
+Brahmagupta Fibonacci Identity
+9.
+Proizvolov's Identity
+10.
+C++ Program for Identity Matrix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+jaideeppyne1997
+@jaideeppyne1997
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+jit_t
+rituraj_jain
+Akanksha_Rai
+Mithun Kumar
+mukesh07
+divyeshrabadiya07
+Article Tags :
+number-theory
+Mathematical
+Practice Tags :
+Mathematical
+number-theory

@@ -1,0 +1,144 @@
+Largest Subset with GCD 1
+
+Difficulty Level : Medium
+Last Updated : 16 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given n integers, we need to find size of the largest subset with GCD equal to 1. 
+Input Constraint : 
+
+n <= 10^5
+A[i] <= 10^5
+Examples: 
+
+Input : A = {2, 3, 5}
+Output : 3
+
+Input : A = {3, 18, 12}
+Output : -1
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+Naive Solution :
+We find GCD of all possible subsets and find the largest subset whose GCD is 1. Total time taken will be equal to the time taken to evaluate GCD of all possible subsets. Total possible subsets are 2n. In worst case there are n elements in subset and time taken to calculate its GCD will be n * log(n) 
+Extra space required to hold current subset is O(n)
+ 
+
+Time complexity : O(n * log(n) * 2^n)
+Space Complexity : O(n)
+ 
+
+Optimized O(n) solution :
+Let say we find a subset with GCD 1, if we add a new element to it then GCD still remains 1. Hence if a subset exists with GCD 1 then GCD of the complete set is also 1. Hence we first find GCD of the complete set, if its 1 then complete set is that subset else no subset exist with GCD 1. 
+ 
+
+
+
+C++
+Java
+Python3
+# python program to find size of the
+# largest subset with GCD 1
+ 
+# Function to return gcd of a and b
+def gcd( a, b):
+     
+    if (a == 0):
+        return b
+         
+    return gcd(b%a, a)
+ 
+ 
+# Function to find largest subset
+# with GCD 1
+def largestGCD1Subset(A, n):
+     
+    # finding gcd of whole array
+    currentGCD = A[0];
+    for i in range(1, n):
+         
+        currentGCD = gcd(currentGCD, A[i])
+ 
+        # If current GCD becomes 1 at
+        # any moment, then whole
+        # array has GCD 1.
+        if (currentGCD == 1):
+            return n
+    return 0
+ 
+# Driver code
+A = [2, 18, 6, 3]
+n = len(A)
+print (largestGCD1Subset(A, n))
+ 
+# This code is Contributed by Sam007.
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity : O(n* log(n))
+Space Complexity : O(1)
+
+This article is contributed by Pratik Chhajer. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+1
+Previous
+Find pair with maximum GCD in an array
+Next
+Largest subsequence having GCD greater than 1
+Related Articles
+1.
+Sum of maximum and minimum of Kth subset ordered by increasing subset sum
+2.
+Maximum size of subset such that product of all subset elements is a factor of N
+3.
+Array with GCD of any of its subset belongs to the given array
+4.
+Smallest subsequence having GCD equal to GCD of given array
+5.
+Pair of integers having least GCD among all given pairs having GCD exceeding K
+6.
+Count all possible values of K less than Y such that GCD(X, Y) = GCD(X+K, Y)
+7.
+Find N distinct integers with GCD of sequence as 1 and GCD of each pair greater than 1
+8.
+Find the length of the Largest subset such that all elements are Pairwise Coprime
+9.
+Largest subset having with sum less than equal to sum of respective indices
+10.
+Split array into equal length subsets with maximum sum of Kth largest element of each subset
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+_saurabh_jaiswal
+surinderdawra388
+agfro1cac
+Article Tags :
+GCD-LCM
+Mathematical
+School Programming
+Practice Tags :
+Mathematical

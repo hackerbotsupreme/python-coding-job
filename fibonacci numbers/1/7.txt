@@ -1,0 +1,115 @@
+Cassini’s Identity
+
+Difficulty Level : Medium
+Last Updated : 18 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number N, the task is to evaluate below expression. Expected time complexity is O(1).
+
+ f(n-1)*f(n+1) - f(n)*f(n)
+Where f(n) is the n-th Fibonacci number with n >= 1. First few Fibonacci numbers are 0, 1, 1, 2, 3, 5, 8, 13, ………..i.e. (considering 0 as 0th Fibonacci number) Examples :
+
+Input : n = 5
+Output : -1
+f(5-1=4) = 3
+f(5+1=6) = 8
+f(5)*f(5)= 5*5 = 25
+f(4)*f(6)- f(5)*f(5)= 24-25= -1
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution.
+Although the task is simple i.e. find n-1th, nth and (n+1)-th Fibonacci numbers. Evaluate the expression and display the result. But this can be done in O(1) time using Cassini’s Identity which states that:
+
+           f(n-1)*f(n+1) - f(n*n) = (-1)^n 
+So, we don’t need to calculate any Fibonacci term,the only thing is to check whether n is even or odd. How does above formula work? The formula is based on matrix representation of Fibonacci numbers. fibo 
+
+C/C++
+
+ 
+C++
+Java
+Python3
+# Python implementation
+# to demonstrate working
+# of Cassini’s Identity
+ 
+# Returns (-1)^n
+def cassini(n):
+ 
+   return -1 if (n & 1) else 1
+  
+# Driver program
+  
+n = 5
+print(cassini(n))
+    
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+JavaScript
+Output :
+
+-1
+Time complexity: O(1) since only constant operations are performed 
+
+
+
+Auxiliary Space: O(1)
+
+Reference : https://en.wikipedia.org/wiki/Cassini_and_Catalan_identities This article is contributed by Sahil Chhabra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+0
+Previous
+Count numbers with difference between number and its digit sum greater than specific value
+Next
+Represent a given set of points by the best possible straight line
+Related Articles
+1.
+Significance of Pascal’s Identity
+2.
+Program for Identity Matrix
+3.
+Euler's Four Square Identity
+4.
+Brahmagupta Fibonacci Identity
+5.
+Proizvolov's Identity
+6.
+C++ Program for Identity Matrix
+7.
+C Program for Identity Matrix
+8.
+Java Program for Identity Matrix
+9.
+Php Program for Identity Matrix
+10.
+Python Program for Identity Matrix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+_saurabh_jaiswal
+kumargaurav97520
+phasing17
+Article Tags :
+Fibonacci
+Mathematical
+Practice Tags :
+Fibonacci
+Mathematical

@@ -1,0 +1,181 @@
+LCM of given array elements
+
+Difficulty Level : Easy
+Last Updated : 09 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of n numbers, find the LCM of it. 
+
+ Example:
+
+Input : {1, 2, 8, 3}
+Output : 24
+
+Input : {2, 7, 3, 9, 4}
+Output : 252
+Recommended Problem
+LCM of given array elements
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 2.4K
+Method 1 :
+
+We know, LCM(a, b)=\frac{a*b}{gcd(a, b)}                
+The above relation only holds for two numbers, 
+LCM(a, b, c)\neq \frac{a*b*c}{gcd(a, b, c)}                
+
+The idea here is to extend our relation for more than 2 numbers. Let’s say we have an array arr[] that contains n elements whose LCM needed to be calculated.
+
+The main steps of our algorithm are: 
+
+Initialize ans = arr[0].
+Iterate over all the elements of the array i.e. from i = 1 to i = n-1 
+At the ith iteration ans = LCM(arr[0], arr[1], …….., arr[i-1]). This can be done easily as LCM(arr[0], arr[1], …., arr[i]) = LCM(ans, arr[i]). Thus at i’th iteration we just have to do ans = LCM(ans, arr[i]) = ans x arr[i] / gcd(ans, arr[i]) 
+ 
+Below is the implementation of the above algorithm : 
+
+
+
+C++
+Java
+Python
+# Python Program to find LCM of n elements
+ 
+def find_lcm(num1, num2):
+    if(num1>num2):
+        num = num1
+        den = num2
+    else:
+        num = num2
+        den = num1
+    rem = num % den
+    while(rem != 0):
+        num = den
+        den = rem
+        rem = num % den
+    gcd = den
+    lcm = int(int(num1 * num2)/int(gcd))
+    return lcm
+     
+l = [2, 7, 3, 9, 4]
+ 
+num1 = l[0]
+num2 = l[1]
+lcm = find_lcm(num1, num2)
+ 
+for i in range(2, len(l)):
+    lcm = find_lcm(lcm, l[i])
+     
+print(lcm)
+ 
+# Code contributed by Mohit Gupta_OMG
+C#
+PHP
+Javascript
+Output
+252
+Time Complexity: O(n * log(min(a, b))), where n represents the size of the given array.
+Auxiliary Space: O(n*log(min(a, b))) due to recursive stack space.
+
+Below is the implementation of the above algorithm Recursively :
+
+C++
+Java
+Python3
+def __gcd(a, b):
+    if (a == 0):
+        return b
+    return __gcd(b % a, a)
+ 
+# recursive implementation
+def LcmOfArray(arr, idx):
+   
+    # lcm(a,b) = (a*b/gcd(a,b))
+    if (idx == len(arr)-1):
+        return arr[idx]
+    a = arr[idx]
+    b = LcmOfArray(arr, idx+1)
+    return int(a*b/__gcd(a,b)) # __gcd(a,b) is inbuilt library function
+ 
+arr = [1,2,8,3]
+print(LcmOfArray(arr, 0))
+arr = [2,7,3,9,4]
+print(LcmOfArray(arr,0))
+ 
+# This code is contributed by divyeshrabadiya07.
+C#
+Javascript
+Output
+24
+252
+Time Complexity: O(n * log(max(a, b)), where n represents the size of the given array.
+Auxiliary Space: O(n) due to recursive stack space.
+
+Related Article : 
+
+Finding LCM of more than two (or array) numbers without using GCD
+Inbuilt function for calculating LCM in C++
+This article is contributed by Madhur Modi. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+61
+Previous
+Program to find LCM of two numbers
+Next
+Finding LCM of more than two (or array) numbers without using GCD
+Related Articles
+1.
+Sum of LCM(1, n), LCM(2, n), LCM(3, n), ... , LCM(n, n)
+2.
+Minimum replacement of pairs by their LCM required to reduce given array to its LCM
+3.
+Count Subarray of size K in given Array with given LCM
+4.
+Construct longest possible sequence of unique elements with given LCM
+5.
+Prime factors of LCM of array elements
+6.
+LCM of unique elements present in an array
+7.
+Check if LCM of array elements is divisible by a prime number or not
+8.
+Remove an element to minimize the LCM of the given array
+9.
+Minimum LCM of all pairs in a given array
+10.
+Find the ratio of LCM to GCD of a given Array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+ukasp
+mayanktyagi1709
+moneshsannareddy
+decode2207
+divyeshrabadiya07
+suresh07
+GauravRajput1
+samim2000
+hkdass001
+Article Tags :
+GCD-LCM
+Mathematical
+Practice Tags :
+Mathematical

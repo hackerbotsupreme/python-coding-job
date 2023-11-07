@@ -1,0 +1,164 @@
+Largest power of k in n! (factorial) where k may not be prime
+
+Difficulty Level : Medium
+Last Updated : 06 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers k and n, find the largest power of k that divides n!  Constraints:  K > 1
+
+Examples: 
+
+Input : n = 7, k = 2
+Output : 4
+Explanation : 7! = 5040
+The largest power of 2 that
+divides 5040 is 24.
+
+Input : n = 10, k = 9
+Output :  2
+The largest power of 9 that
+divides 10! is 92.
+Recommended Problem
+Power of K in N! where K may be Non Prime
+number-theory
+Mathematical
++1 more
+Solve Problem
+Submission count: 370
+We have discussed a solution in below post when k is always prime.
+Legendre’s formula (Given p and n, find the largest x such that p^x divides n!)
+Now to find the power of any non-prime number k in n!, we first find all the prime factors of the number k along with the count of number of their occurrences. Then for each prime factor, we count occurrences using Legendre’s formula which states that the largest possible power of a prime number p in n is ⌊n/p⌋ + ⌊n/(p2)⌋ + ⌊n/(p3)⌋ + ……
+Over all the prime factors p of K, the one with the minimum value of findPowerOfK(n, p)/count will be our answer where count is number of occurrences of p in k.
+ 
+
+C++
+Java
+Python3
+# Python3 program to find the largest power
+# of k that divides n!
+import sys
+ 
+# To find the power of a prime p in
+# factorial N
+def findPowerOfP(n, p) :
+ 
+    count = 0
+    r = p
+    while (r <= n) :
+ 
+        # calculating floor(n/r)
+        # and adding to the count
+        count += (n // r)
+ 
+        # increasing the power of p
+        # from 1 to 2 to 3 and so on
+        r = r * p
+      
+    return count
+ 
+# returns all the prime factors of k
+def primeFactorsofK(k) :
+ 
+    # vector to store all the prime factors
+    # along with their number of occurrence
+    # in factorization of k
+    ans = []
+    i = 2
+    while k != 1 :
+        if k % i == 0 :
+            count = 0
+            while k % i == 0 :
+                k = k // i
+                count += 1
+            ans.append([i , count])
+        i += 1
+ 
+    return ans
+ 
+# Returns largest power of k that
+# divides n!
+def largestPowerOfK(n, k) :
+ 
+    vec = primeFactorsofK(k)
+    ans = sys.maxsize
+    for i in range(len(vec)) :
+ 
+        # calculating minimum power of all
+        # the prime factors of k
+        ans = min(ans, findPowerOfP(n, vec[i][0]) // vec[i][1])
+ 
+    return ans
+ 
+print(largestPowerOfK(7, 2))
+print(largestPowerOfK(10, 9))
+ 
+# This code is contributed by divyesh072019
+C#
+Javascript
+Output
+4
+2
+Time Complexity: O(k*log(n))
+Auxiliary Space: O(k)
+This article is contributed by ShivamKD. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+1
+Previous
+Trailing number of 0s in product of two factorials
+Next
+Check if a number is a Krishnamurthy Number or not
+Related Articles
+1.
+Find the last digit when factorial of A divides factorial of B
+2.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+3.
+Find power of power under mod of a prime
+4.
+Find maximum power of a number that divides a factorial
+5.
+Number of digits in N factorial to the power N
+6.
+Check if N is a Factorial Prime
+7.
+Check if the remainder of N-1 factorial when divided by N is N-1 or not
+8.
+Check if a subarray of length K with sum equal to factorial of a number exists or not
+9.
+Largest number not greater than N which can become prime after rearranging its digits
+10.
+Sum of largest divisor of numbers upto N not divisible by given prime number P
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+divyesh072019
+rag2127
+pushpeshrajdx01
+Article Tags :
+factorial
+number-theory
+prime-factor
+Mathematical
+Practice Tags :
+factorial
+Mathematical
+number-theory
