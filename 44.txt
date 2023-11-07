@@ -1,0 +1,245 @@
+Hamiltonian Cycle
+
+Difficulty Level : Hard
+Last Updated : 18 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Hamiltonian Path in an undirected graph is a path that visits each vertex exactly once. A Hamiltonian cycle (or Hamiltonian circuit) is a Hamiltonian Path such that there is an edge (in the graph) from the last vertex to the first vertex of the Hamiltonian Path. Determine whether a given graph contains Hamiltonian Cycle or not. If it contains, then prints the path. Following are the input and output of the required function.
+Input: 
+A 2D array graph[V][V] where V is the number of vertices in graph and graph[V][V] is adjacency matrix representation of the graph. A value graph[i][j] is 1 if there is a direct edge from i to j, otherwise graph[i][j] is 0.
+Output: 
+An array path[V] that should contain the Hamiltonian Path. path[i] should represent the ith vertex in the Hamiltonian Path. The code should also return false if there is no Hamiltonian Cycle in the graph.
+For example, a Hamiltonian Cycle in the following graph is {0, 1, 2, 4, 3, 0}.
+
+(0)--(1)--(2)
+ |   / \   |
+ |  /   \  | 
+ | /     \ |
+(3)-------(4)
+And the following graph doesn’t contain any Hamiltonian Cycle.
+
+(0)--(1)--(2)
+ |   / \   |
+ |  /   \  | 
+ | /     \ |
+(3)      (4) 
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Naive Algorithm 
+Generate all possible configurations of vertices and print a configuration that satisfies the given constraints. There will be n! (n factorial) configurations.
+
+while there are untried conflagrations
+{
+   generate the next configuration
+   if ( there are edges between two consecutive vertices of this
+      configuration and there is an edge from the last vertex to 
+      the first ).
+   {
+      print this configuration;
+      break;
+   }
+}
+Backtracking Algorithm 
+Create an empty path array and add vertex 0 to it. Add other vertices, starting from the vertex 1. Before adding a vertex, check for whether it is adjacent to the previously added vertex and not already added. If we find such a vertex, we add the vertex as part of the solution. If we do not find a vertex then we return false.
+
+Implementation of Backtracking solution 
+Following are implementations of the Backtracking solution.  
+
+C++
+C
+Java
+Python3
+# Python program for solution of
+# hamiltonian cycle problem
+ 
+class Graph():
+    def __init__(self, vertices):
+        self.graph = [[0 for column in range(vertices)]
+                            for row in range(vertices)]
+        self.V = vertices
+ 
+    ''' Check if this vertex is an adjacent vertex
+        of the previously added vertex and is not
+        included in the path earlier '''
+    def isSafe(self, v, pos, path):
+        # Check if current vertex and last vertex
+        # in path are adjacent
+        if self.graph[ path[pos-1] ][v] == 0:
+            return False
+ 
+        # Check if current vertex not already in path
+        for vertex in path:
+            if vertex == v:
+                return False
+ 
+        return True
+ 
+    # A recursive utility function to solve
+    # hamiltonian cycle problem
+    def hamCycleUtil(self, path, pos):
+ 
+        # base case: if all vertices are
+        # included in the path
+        if pos == self.V:
+            # Last vertex must be adjacent to the
+            # first vertex in path to make a cycle
+            if self.graph[ path[pos-1] ][ path[0] ] == 1:
+                return True
+            else:
+                return False
+ 
+        # Try different vertices as a next candidate
+        # in Hamiltonian Cycle. We don't try for 0 as
+        # we included 0 as starting point in hamCycle()
+        for v in range(1,self.V):
+ 
+            if self.isSafe(v, pos, path) == True:
+ 
+                path[pos] = v
+ 
+                if self.hamCycleUtil(path, pos+1) == True:
+                    return True
+ 
+                # Remove current vertex if it doesn't
+                # lead to a solution
+                path[pos] = -1
+ 
+        return False
+ 
+    def hamCycle(self):
+        path = [-1] * self.V
+ 
+        ''' Let us put vertex 0 as the first vertex
+            in the path. If there is a Hamiltonian Cycle,
+            then the path can be started from any point
+            of the cycle as the graph is undirected '''
+        path[0] = 0
+ 
+        if self.hamCycleUtil(path,1) == False:
+            print ("Solution does not exist\n")
+            return False
+ 
+        self.printSolution(path)
+        return True
+ 
+    def printSolution(self, path):
+        print ("Solution Exists: Following",
+                 "is one Hamiltonian Cycle")
+        for vertex in path:
+            print (vertex, end = " ")
+        print (path[0], "\n")
+ 
+# Driver Code
+ 
+''' Let us create the following graph
+    (0)--(1)--(2)
+    | / \ |
+    | / \ |
+    | /     \ |
+    (3)-------(4) '''
+g1 = Graph(5)
+g1.graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
+            [0, 1, 0, 0, 1,],[1, 1, 0, 0, 1],
+            [0, 1, 1, 1, 0], ]
+ 
+# Print the solution
+g1.hamCycle();
+ 
+''' Let us create the following graph
+    (0)--(1)--(2)
+    | / \ |
+    | / \ |
+    | /     \ |
+    (3)     (4) '''
+g2 = Graph(5)
+g2.graph = [ [0, 1, 0, 1, 0], [1, 0, 1, 1, 1],
+        [0, 1, 0, 0, 1,], [1, 1, 0, 0, 0],
+        [0, 1, 1, 0, 0], ]
+ 
+# Print the solution
+g2.hamCycle();
+ 
+# This code is contributed by Divyanshu Mehta
+C#
+PHP
+Javascript
+Output: 
+
+Solution Exists: Following is one Hamiltonian Cycle
+ 0  1  2  4  3  0
+
+Solution does not exist
+Time Complexity : O(N!), where N is number of vertices.
+Auxiliary Space : O(1), since no extra space used.
+
+
+
+Note that the above code always prints a cycle starting from 0. The starting point should not matter as the cycle can be started from any point. If you want to change the starting point, you should make two changes to the above code. 
+Change “path[0] = 0;” to “path[0] = s;” where s is your new starting point. Also change loop “for (int v = 1; v < V; v++)” in hamCycleUtil() to “for (int v = 0; v < V; v++)”.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+115
+Previous
+m Coloring Problem
+Next
+Sudoku | Backtracking-7
+Related Articles
+1.
+Number of Hamiltonian cycle
+2.
+Proof that Hamiltonian Cycle is NP-Complete
+3.
+Proof that Hamiltonian Path is NP-Complete
+4.
+Print all Hamiltonian Cycles in an Undirected Graph
+5.
+Hamiltonian Path ( Using Dynamic Programming )
+6.
+Count all Hamiltonian paths in a given directed graph
+7.
+Detect Cycle in a Directed Graph
+8.
+Detect cycle in an undirected graph
+9.
+Detect Cycle in a directed graph using colors
+10.
+Find minimum weight cycle in an undirected graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Vidhayak_Chacha
+Rajput-Ji
+rathbhupendra
+md1844
+Mithun Kumar
+Akanksha_Rai
+rdtank
+rajeev0719singh
+germanshephered48
+akshaytripathi19410
+Article Tags :
+Amazon
+DFS
+Backtracking
+Graph
+Practice Tags :
+Amazon
+Backtracking
+DFS
+Graph
