@@ -1,0 +1,61 @@
+what does a logarithm do
+
+A logarithm (or log) is the mathematical expression used to answer the question: How many times must one “base” number be multiplied by itself to get some other particular number? For instance, how many times must a base of 10 be multiplied by itself to get 1,000? The answer is 3 (1,000 = 10 × 10 × 10).
+
+
+
+real life applications of logarithms
+Logarithms Applications
+They are also used in calculations such as measuring the loudness (decibels), the intensity of the earthquake regarding the Richter scale, in radioactive decay, to find the acidity (pH= -log10[H+]), etc.
+
+
+advantages  of logarithms
+Logarithms can be used to solve exponential equations and to explore the properties of exponential functions. They will also become extremely valuable in calculus, where they will be used to calculate the slope of certain functions and the area bounded by certain curves.
+How are logarithms useful in daily life?
+Using Logarithmic Functions
+
+Much of the power of logarithms is their usefulness in solving exponential equations. Some examples of this include sound (decibel measures), earthquakes (Richter scale), the brightness of stars, and chemistry (pH balance, a measure of acidity and alkalinity).
+
+
+
+dis advantages of logarithm
+Disadvantages
+Easy to make errors plotting.
+Difficult to analyse.
+Zero cannot be plotted.
+Negative and positive values cannot be displayed on the same graph.
+What is the disadvantage of logarithmic?
+Logarithmic scales are divided into a number of cycles, each representing a 10-fold change in the range of values, e.g 0.01 to 0.1; 0.1 to 1.0; 1.0 to 10; 10 to 100 etc. Disadvantages: These graphs do have some limitations. Thus, zero cannot be plotted, neither can positive and negative values on the same graph.
+
+
+expressions of logarithms
+A logarithm base b of a positive number x is such that: for b > 0, b≠ 1, logb x = y if and only if by = x. The log bx is read "log base b of x". The logarithm y is the exponent to which b must be raised to get x.
+
+
+Logarithms - Laws of Operations
+(Simplifying Logarithmic Expressions)
+In this section we learn the rules for operations with logarithms, which are commonly called the laws of logarithms.
+
+These rules will allow us to simplify logarithmic expressions, those are expressions involving logarithms.
+
+For instance, by the end of this section, we'll know how to show that the expression:
+3.log2(3)−log2(9)+log2(5)
+can be simplified and written:
+log2(15)
+To do this we learn three rules:
+
+the addition rule for logarithms
+the subtraction rule for logarithms
+the power rule for logarithms
+we'll state the rule and see a detailed tutorial for each of these rules as well as learn a few "must-know tricks" along the way.
+Let's get started.
+
+Addition Law
+When adding two logarithms, in the same base b
+, the following simplification can always be made:
+logb(a)+logb(c)=logb(a×c)
+Example
+The expression:
+log3(5)+log3(8)
+can be simplied and written:
+log3(5)+log3(8)=log3(5×8)=log3(40)

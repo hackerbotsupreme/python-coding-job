@@ -1,0 +1,183 @@
+GCD of more than two (or array) numbers
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(20)
+Courses
+Practice
+Video
+Given an array of numbers, find GCD of the array elements. In a previous post we find GCD of two number.
+
+Examples:
+
+Input  : arr[] = {1, 2, 3}
+Output : 1
+
+Input  : arr[] = {2, 4, 6, 8}
+Output : 2
+Recommended Problem
+Magic numbers
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 8.9K
+The GCD of three or more numbers equals the product of the prime factors common to all the numbers, but it can also be calculated by repeatedly taking the GCDs of pairs of numbers. 
+
+gcd(a, b, c) = gcd(a, gcd(b, c)) 
+             = gcd(gcd(a, b), c) 
+             = gcd(gcd(a, c), b)
+For an array of elements, we do the following. We will also check for the result if the result at any step becomes 1 we will just return the 1 as gcd(1,x)=1. 
+
+result = arr[0]
+For i = 1 to n-1
+   result = GCD(result, arr[i])
+Below is the implementation of the above idea.
+
+C++
+Java
+Python
+# GCD of more than two (or array) numbers
+  
+# Function implements the Euclidean 
+# algorithm to find H.C.F. of two number
+def find_gcd(x, y):
+      
+    while(y):
+        x, y = y, x % y
+      
+    return x
+          
+# Driver Code        
+l = [2, 4, 6, 8, 16]
+  
+num1 = l[0]
+num2 = l[1]
+gcd = find_gcd(num1, num2)
+  
+for i in range(2, len(l)):
+    gcd = find_gcd(gcd, l[i])
+      
+print(gcd)
+  
+# Code contributed by Mohit Gupta_OMG
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(N * log(N)), where N is the largest element of the array
+Auxiliary Space: O(1)
+
+Recursive Method: Implementation of Algorithm recursively :
+
+
+
+C++
+Java
+Python3
+# To find GCD of an array by recursive approach       
+import math
+  
+# Recursive Implementation
+def GcdOfArray(arr, idx):
+    if idx == len(arr)-1:
+        return arr[idx]
+        
+    a = arr[idx]
+    b = GcdOfArray(arr,idx+1)
+      
+    return math.gcd(a, b)
+  
+# Driver Code 
+arr = [1, 2, 3]
+print(GcdOfArray(arr,0))
+  
+arr = [2, 4, 6, 8]
+print(GcdOfArray(arr,0))
+  
+# Code contributed by Gautam goel (gautamgoel962)
+C#
+Javascript
+Output
+1
+2
+Time Complexity: O(N * log(N)), where N is the largest element of the array
+Auxiliary Space: O(N)
+
+This article is contributed by DANISH_RAZA . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+120
+Previous
+Program to find LCM of two numbers
+Next
+Euclidean algorithms (Basic and Extended)
+Related Articles
+1.
+Finding LCM of more than two (or array) numbers without using GCD
+2.
+Java Program for GCD of more than two (or array) numbers
+3.
+C++ Program for GCD of more than two (or array) numbers
+4.
+Length of longest subarray in which elements greater than K are more than elements not greater than K
+5.
+Count all possible values of K less than Y such that GCD(X, Y) = GCD(X+K, Y)
+6.
+Find N distinct integers with GCD of sequence as 1 and GCD of each pair greater than 1
+7.
+For each A[i] find smallest subset with all elements less than A[i] sum more than B[i]
+8.
+Split N natural numbers into two sets having GCD of their sums greater than 1
+9.
+Smallest subsequence having GCD equal to GCD of given array
+10.
+Count of Numbers in Range where the number does not contain more than K non zero digits
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Prasad_Kshirsagar
+nkmishra1997
+divyanshsinghxi
+MohammadAli1
+prakharbansal11
+rrlinus
+mayanktyagi1709
+moneshsannareddy
+GauravRajput1
+joaquin144
+sulthan309
+simranarora5sos
+gautamgoel962
+phasing17
+adityapatil12
+hardikkoriintern
+Article Tags :
+Amazon
+GCD-LCM
+Nagarro
+SAP Labs
+Arrays
+Mathematical
+Practice Tags :
+Amazon
+Nagarro
+SAP Labs
+Arrays
+Mathematical
+Improve Article
+Report Issue

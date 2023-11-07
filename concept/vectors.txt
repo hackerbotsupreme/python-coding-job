@@ -1,0 +1,26 @@
+A vector is an object that has both a magnitude and a direction. Geometrically, we can picture a vector as a directed line segment, whose length is the magnitude of the vector and with an arrow indicating the direction. The direction of the vector is from its tail to its head.
+
+
+Vectors have many real-life applications, including situations involving force or velocity. For example, consider the forces acting on a boat crossing a river. The boat's motor generates a force in one direction, and the current of the river generates a force in another direction.
+Daily Life Applications of Vectors
+
+Navigating by air and by boat is generally done using vectors. Planes are given a vector to travel, and they use their speed to determine how far they need to go before turning or landing. Flight plans are made using a series of vectors. Sports instructions are based on using vectors.
+Why is the study of vector important?
+A vector is a mathematical object that has both a magnitude (size) and direction. You can use them to represent the velocity and acceleration of a moving object, so vectors are very important in physics, engineering and mechanics.
+
+
+The dot product of two vectors is given by the formula →a. →b=|a||b|cos(θ) a → . b → = | a | | b | cos ⁡ The dot product of two vectors is a scalar and lies in the plane of the two vectors.
+The dot product, also called scalar product, is a measure of how closely two vectors align, in terms of the directions they point. The measure is a scalar number (single value) that can be used to compare the two vectors and to understand the impact of repositioning one or both of them.
+
+
+
+A \times B=\left\| A \right\| \left\| B \right\| \sin \theta n
+\left\| A \right\|	=	length of vector A
+\left\| B \right\|	=	length of vector B
+\theta	=	angle between A and B
+n	=	unit vector perpendicular to the plane containing a and b
+How do you find the cross product of a vector?
+Cross product of two vectors is equal to the product of their magnitude, which represents the area of a rectangle with sides X and Y. If two vectors are perpendicular to each other, then the cross product formula becomes:θ = 90 degreesWe know that, sin 90° = 1.
+The cross product is mostly used to determine the vector, which is perpendicular to the plane surface spanned by two vectors, whereas the dot product is used to find the angle between two vectors or the length of the vector.
+
+

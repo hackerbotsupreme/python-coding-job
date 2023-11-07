@@ -1,0 +1,44 @@
+linear equation
+A linear equation is an equation in which the highest power of the variable is always 1.
+ It is also known as a one-degree equation. The standard form of a linear equation in one variable is of the form Ax + B = 0. Here, x is a variable,
+ A is a coefficient and B is constant.
+
+
+How do you find the root of a linear equation?
+To find where the function intersects the x-axis, set f(x)=0 and solve the equation for x. If the function is a linear function of degree 1, f(x)=mx+b and
+ the x-intercept is the root of the equation, found by solving the equation for x.
+
+A linear equation in two variables can be described as a linear relationship between x and y, that is, two variables in which the value of one of them (usually y) depends on the value of the other one (usually x).
+
+ In this case, x is the independent variable, and y depends on it, so y is called the dependent variable.
+What does a linear function tell us?
+A linear function refers to when the dependent variable (usually expressed by 'y') 
+changes by a constant amount as the independent variable (usually 'x') also changes by a constant amount.
+ For example, the number of times the second hand on a clock ticks over time, is a linear function.
+What does a linear line indicate?
+The word 'linear' means straight. Linear graphs are straight line graphs to represent the relationship between 
+two quantities. This graph helps in depicting a result in single straight lines. There is no use of curves, dots, 
+bars, etc., and a straight line is denoted by the term linear.
+
+What best describes linear equation?
+A linear equation is an equation with two variables whose graph is a line. The graph of the linear equation is a 
+set of points in the coordinate plane that all are solutions to the equation.
+
+
+roots of a linear equation 
+A root is where the line intercepts the x-axis. The y coordinate for any point on the x-axis is zero. Therefore, we can find the root of an equation algebraically by subbing in y as zero into the equation.
+What is the root of linear function?
+To find where the function intersects the x-axis, set f(x)=0 and solve the equation for x. If the function is a linear function of degree 1, f(x)=mx+b and the x-intercept is the root of the equation, found by solving the equation for x.
+What is the equation of roots?
+Roots of Quadratic Equation. The values of variables satisfying the given quadratic equation are called its roots. In other words, x = α is a root of the quadratic equation f(x), if f(α) = 0. The real roots of an equation f(x) = 0 are the x-coordinates of the points where the curve y = f(x) intersect the x-axis.
+The discriminant is the product of a2 and the square of the difference of the roots. If a, b, c are rational numbers, then the discriminant is the square of a rational number if and only if the two roots are rational numbers.
+
+
+
+discriminants 
+The discriminant is the part of the quadratic formula underneath the square root symbol: b²-4ac.
+
+
+As well as being a formula that yields the zeros of any parabola, the quadratic formula can also be used to identify the axis of symmetry of the parabola, and the number of real zeros the quadratic equation contains. If b2 − 4ac > 0 then there are two distinct real roots or solutions to the equation ax2 + bx + c = 0.
+
+

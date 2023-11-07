@@ -1,0 +1,163 @@
+Check if a large number is divisible by 6 or not
+
+Difficulty Level : Basic
+Last Updated : 14 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number, the task is to check if a number is divisible by 6 or not. The input number may be large and it may not be possible to store even if we use long long int.
+
+Examples: 
+
+Input  : n = 2112
+Output: Yes
+
+Input : n = 1124
+Output : No
+
+Input  : n = 363588395960667043875487
+Output : No
+C++
+Java
+Python3
+# Python code
+# To check whether the given number is divisible by 6 or not
+ 
+#input
+n=363588395960667043875487
+# the above input can also be given as n=input() -> taking input from user
+# finding given number is divisible by 6 or not
+if int(n)%6==0:
+  print("Yes")
+else:
+  print("No")
+C#
+Javascript
+PHP
+Output
+No
+Time complexity: O(1) as it is performing constant operations
+Auxiliary Space: O(1) as it is using constant space for variables
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Since input number may be very large, we cannot use n % 6 to check if a number is divisible by 6 or not, especially in languages like C/C++. The idea is based on following fact. 
+
+A number is divisible by 6 it's divisible by 2 and 3. 
+a)  A number is divisible by 2 if its last digit is divisible by 2.
+b)  A number is divisible by 3 if sum of digits is divisible by 3.
+Below is the implementation based on above steps. 
+
+C++
+Java
+Python3
+# Python 3 program to find
+# if a number is divisible
+# by 6 or not
+ 
+# Function to find that number
+# is divisible by 6 or not
+def check(st) :
+    n = len(st)
+     
+     
+    # Return false if number
+    # is not divisible by 2.
+    if (((int)(st[n-1])%2) != 0) :
+        return False
+  
+    # If we reach here, number
+    # is divisible by 2. Now
+    # check for 3.
+  
+    # Compute sum of digits
+    digitSum = 0
+    for i in range(0, n) :
+        digitSum = digitSum + (int)(st[i])
+  
+    # Check if sum of digits
+    # is divisible by 3
+    return (digitSum % 3 == 0)
+ 
+ 
+# Driver code
+st = "1332"
+if(check(st)) :
+    print("Yes")
+else :
+    print("No ")
+     
+# This article is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Yes
+Time Complexity: O(logN) where N is the given number
+Auxiliary Space: O(1) since no extra space is being used
+
+This article is contributed by DANISH_RAZA . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Java Program for GCD of more than two (or array) numbers
+Next
+Count rotations divisible by 4
+Related Articles
+1.
+Check if a large number is divisible by 8 or not
+2.
+Check if a large number is divisible by 5 or not
+3.
+Check a large number is divisible by 16 or not
+4.
+Check if a large number is divisible by 13 or not
+5.
+Check if the large number formed is divisible by 41 or not
+6.
+Check if any large number is divisible by 19 or not
+7.
+Check if any large number is divisible by 17 or not
+8.
+Check if a large number is divisible by 2, 3 and 5 or not
+9.
+Check if a large number is divisible by 75 or not
+10.
+Check whether a large number is divisible by 53 or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+parashar
+nitin mittal
+ManasChhabra2
+splevel62
+CoderSaty
+rohitsingh07052
+laxmigangarajula03
+lokeshpotta20
+uomkar369
+satwik4409
+ksrikanth0498
+noviced3vq6
+kumargaurav97520
+lokeshmvs21
+Article Tags :
+divisibility
+large-numbers
+number-digits
+Mathematical
+Practice Tags :
+Mathematical

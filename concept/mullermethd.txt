@@ -1,0 +1,22 @@
+Muller's method is a root-finding algorithm, a numerical method for solving equations of the form f(x) = 0. It was first presented by David E. Muller in 1956. Muller's method is based on the secant method, which constructs at every iteration a line through two points on the graph of f.
+
+
+what does muller method do ?
+Muller's method is a root-finding algorithm, a numerical method for solving equations of the form f(x) = 0. It was first presented by David E. Muller in 1956. Muller's method is based on the secant method, which constructs at every iteration a line through two points on the graph of f.
+
+
+Can Muller method find complex roots?
+The power of Muller Method comes from the fact that it finds the complex roots of the functions. This property makes it more useful when compared with the other methods. (like Bisection, Newton, Regula-Falsi …)
+
+
+Which is the best method to find root of equation?
+The simplest root-finding algorithm is the bisection method. Let f be a continuous function, for which one knows an interval [a, b] such that f(a) and f(b) have opposite signs (a bracket). Let c = (a +b)/2 be the middle of the interval (the midpoint or the point that bisects the interval).
+
+
+Benefit of learning Muller method?
+The rate of convergence in Muller method is higher than other methods. ...
+As it is slower than Newton-Raphson, which has rate of convergence of 2, but the computation of derivate at each step is better in Muller method.
+
+Disadvantages. Not always more efficient than Secant or other methods. Can find extraneous roots. Generate the Langrage Interpolating Polynomial for the quadratic of form ax^2+bx+c that will pass through three initial guesses: (x0, f(x0)) (x1, f(x1)) (x2, f(x2)).
+
+

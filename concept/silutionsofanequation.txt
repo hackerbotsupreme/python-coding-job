@@ -1,0 +1,28 @@
+A solution is an assignment of values to the unknown variables that makes the equality in the equation true. In other words, a solution is a value or a collection of values (one for each unknown) such that, when substituted for the unknowns, the equation becomes an equality.
+
+
+What is a solution to an equation example?
+A solution to an equation is a number that can be plugged in for the variable to make a true number statement. 3(2)+5=11 , which says 6+5=11 ; that's true! So 2 is a solution.
+
+Advantages of solving a system of linear equations by graphing. You can determine the solution easily from the graph. It is easy to graphing the equations ...
+
+What are some real life uses for solving equations?
+Applications of Linear Equations in Real life
+It can be used to solve age related problems.
+It is used to calculate speed, distance and time of a moving object.
+Geometry related problems can be solved.
+It is used to calculate money and percentage related problems.
+Work, time and wages problems can be solved.
+
+
+how we can find solutions of equations
+Substitute the number for the variable in the equation. Simplify the expressions on both sides of the equation. Determine whether the resulting equation is true. If it is true, the number is a solution.
+
+
+
+What are the 4 ways to solve an equation?
+We have 4 ways of solving one-step equations: Adding, Substracting, multiplication and division. If we add the same number to both sides of an equation, both sides will remain equal.
+
+What are the 3 methods for solving equations?
+There are three methods used to solve systems of equations: graphing, substitution, and elimination. To solve a system by graphing, you simply graph the given equations and find the point(s) where they all intersect.
+

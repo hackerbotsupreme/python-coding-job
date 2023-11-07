@@ -1,0 +1,110 @@
+In mathematics, the Chinese remainder theorem states that if one knows the remainders of the Euclidean division of an integer n by several integers, then one can determine uniquely the remainder of the division of n by the product of these integers, under the condition that the divisors are pairwise coprime (no two divisors share a common factor other than 1).
+
+For example, if we know that the remainder of n divided by 3 is 2, the remainder of n divided by 5 is 3, and the remainder of n divided by 7 is 2, then without knowing the value of n, we can determine that the remainder of n divided by 105 (the product of 3, 5, and 7) is 23. Importantly, this tells us that if n is a natural number less than 105, then 23 is the only possible value of n.
+
+The earliest known statement of the theorem is by the Chinese mathematician Sun-tzu in the Sun-tzu Suan-ching in the 3rd century CE.
+
+The Chinese remainder theorem is widely used for computing with large integers, as it allows replacing a computation for which one knows a bound on the size of the result by several similar computations on small integers.
+
+The Chinese remainder theorem (expressed in terms of congruences) is true over every principal ideal domain. It has been generalized to any ring, with a formulation involving two-sided ideals.
+
+History
+The earliest known statement of the theorem, as a problem with specific numbers, appears in the 3rd-century book Sun-tzu Suan-ching by the Chinese mathematician Sun-tzu:[1]
+
+There are certain things whose number is unknown. If we count them by threes, we have two left over; by fives, we have three left over; and by sevens, two are left over. How many things are there?[2]
+
+Sun-tzu's work contains neither a proof nor a full algorithm.[3] What amounts to an algorithm for solving this problem was described by Aryabhata (6th century).[4] Special cases of the Chinese remainder theorem were also known to Brahmagupta (7th century), and appear in Fibonacci's Liber Abaci (1202).[5] The result was later generalized with a complete solution called Da-yan-shu (大衍術) in Ch'in Chiu-shao's 1247 Mathematical Treatise in Nine Sections (數書九章, Shu-shu Chiu-chang)[6] which was translated into English in early 19th century by British missionary Alexander Wylie.[7]
+
+
+The Chinese remainder theorem appears in Gauss's 1801 book Disquisitiones Arithmeticae.[8]
+The notion of congruences was first introduced and used by Carl Friedrich Gauss in his Disquisitiones Arithmeticae of 1801.[9] Gauss illustrates the Chinese remainder theorem on a problem involving calendars, namely, "to find the years that have a certain period number with respect to the solar and lunar cycle and the Roman indiction."[10] Gauss introduces a procedure for solving the problem that had already been used by Leonhard Euler but was in fact an ancient method that had appeared several times.[11]
+
+Statement
+Let n1, ..., nk be integers greater than 1, which are often called moduli or divisors. Let us denote by N the product of the ni.
+
+The Chinese remainder theorem asserts that if the ni are pairwise coprime, and if a1, ..., ak are integers such that 0 ≤ ai < ni for every i, then there is one and only one integer x, such that 0 ≤ x < N and the remainder of the Euclidean division of x by ni is ai for every i.
+
+This may be restated as follows in terms of congruences: If the 
+�
+�
+n_{i} are pairwise coprime, and if a1, ..., ak are any integers, then the system
+
+�
+≡
+�
+1
+(
+mod
+�
+1
+)
+⋮
+�
+≡
+�
+�
+(
+mod
+�
+�
+)
+,
+{\displaystyle {\begin{aligned}x&\equiv a_{1}{\pmod {n_{1}}}\\&\,\,\,\vdots \\x&\equiv a_{k}{\pmod {n_{k}}},\end{aligned}}}
+has a solution, and any two solutions, say x1 and x2, are congruent modulo N, that is, x1 ≡ x2 (mod N ).[12]
+
+In abstract algebra, the theorem is often restated as: if the ni are pairwise coprime, the map
+
+�
+mod
+�
+↦
+(
+�
+mod
+�
+1
+,
+…
+,
+�
+mod
+�
+�
+)
+{\displaystyle x{\bmod {N}}\;\mapsto \;(x{\bmod {n}}_{1},\,\ldots ,\,x{\bmod {n}}_{k})}
+defines a ring isomorphism[13]
+
+�
+/
+�
+�
+≅
+�
+/
+�
+1
+�
+×
+⋯
+×
+�
+/
+�
+�
+�
+{\displaystyle \mathbb {Z} /N\mathbb {Z} \cong \mathbb {Z} /n_{1}\mathbb {Z} \times \cdots \times \mathbb {Z} /n_{k}\mathbb {Z} }
+between the ring of integers modulo N and the direct product of the rings of integers modulo the ni. This means that for doing a sequence of arithmetic operations in 
+�
+/
+�
+�
+,
+{\displaystyle \mathbb {Z} /N\mathbb {Z} ,} one may do the same computation independently in each 
+�
+/
+�
+�
+�
+{\displaystyle \mathbb {Z} /n_{i}\mathbb {Z} } and then get the result by applying the isomorphism (from the right to the left). This may be much faster than the direct computation if N and the number of operations are large. This is widely used, under the name multi-modular computation, for linear algebra over the integers or the rational numbers.
+
+go to geeks for geeks

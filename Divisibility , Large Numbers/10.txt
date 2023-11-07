@@ -1,0 +1,98 @@
+Number is divisible by 29 or not
+
+Difficulty Level : Easy
+Last Updated : 23 May, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a large number n, find if the number is divisible by 29.
+Examples : 
+ 
+
+Input : 363927598
+Output : No
+
+Input : 292929002929
+Output : Yes
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+A quick solution to check if a number is divisible by 29 or not is to add 3 times of last digit to rest number and repeat this process until number comes 2 digit. The given number is divisible by 29 if the obtained two digit number is divisible by 29.
+Number is 348, 
+Three times of last digit + Rest of the number = 8*3 + 34 = 58
+Since 58 is divisible by 29, 348 is also divisible by 29. 
+ 
+
+ 
+
+C++
+Java
+Python3
+# Python3 program to demonstrate above
+# method to check divisibility by 29.
+ 
+# Returns true if n is divisible
+# by 29 else returns false.
+def isDivisible(n):
+ 
+    # add the lastdigit*3 to renaming
+    # number until number comes only
+    # 2 digit
+    while (int(n / 100)) :
+        last_digit = int(n % 10)
+        n = int(n / 10)
+        n += last_digit * 3
+     
+    # return true if number is
+    # divisible by 29 another
+    return (n % 29 == 0)
+ 
+# Driver Code
+n = 348
+ 
+if(isDivisible(n) != 0):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output : 
+Yes
+ 
+
+
+
+
+
+Like
+0
+Next
+Check if a large number is divisible by 20
+Related Articles
+1.
+Find permutation of n which is divisible by 3 but not divisible by 6
+2.
+Count the number of pairs (i, j) such that either arr[i] is divisible by arr[j] or arr[j] is divisible by arr[i]
+3.
+Largest divisor of a number not divisible by another given number
+4.
+Find a triplet (X, Y, Z) such that all are divisible by A, exactly one is divisible by both A and B, and X + Y = Z
+5.
+Check if a large number is divisible by 8 or not
+6.
+Check if a large number is divisible by 6 or not
+7.
+Check if a large number is divisible by 5 or not
+8.
+Check a large number is divisible by 16 or not
+9.
+Number of substrings divisible by 8 but not by 3
+10.
+Check if a large number is divisible by 13 or not

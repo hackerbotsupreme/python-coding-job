@@ -1,0 +1,13 @@
+Dyck Path A Dyck Path is a series of equal length steps that form a staircase walk from (0, 0) to (n, n) that will lie strictly below, or touching, the diagonal x = y.
+
+What is Dyck path specification?
+Definition. A Dyck path is a path on Z2 from (0, 0) to (n, 0) that never steps below the line y = 0 with steps from the set {(1, 1), (1, −1)}. The weight of a Dyck path is the total number of steps.
+
+What is generating function for Dyck paths?
+Generating function methods are used to count the number of paths as well as bijective methods are used to prove patterns between different parameters. Definition. A Dyck path is a path on the square lettice with steps (1, 1) and (1, -1) from (0, 0) to (2n, 0) that never falls below the x-axis. Definition.
+
+use of dyck path
+
+A Dyck Path is a series of up and down steps. The path will begin and end on the same level; and as the path moves from left to right it will rise and fall, never dipping below the height it began on. You can see, in Figure 1, that paths with these limitations can begin to look like mountain ranges.
+
+go to geeks for geeks 

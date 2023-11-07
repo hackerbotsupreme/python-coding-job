@@ -1,0 +1,296 @@
+Cyclic Redundancy Check and Modulo-2 Division
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+CRC or Cyclic Redundancy Check is a method of detecting accidental changes/errors in the communication channel. 
+CRC uses Generator Polynomial which is available on both sender and receiver side. An example generator polynomial is of the form like x3 + x + 1. This generator polynomial represents key 1011. Another example is x2 + 1 that represents key 101. 
+
+n : Number of bits in data to be sent 
+    from sender side.  
+k : Number of bits in the key obtained 
+    from generator polynomial.
+Sender Side (Generation of Encoded Data from Data and Generator Polynomial (or Key)): 
+
+The binary data is first augmented by adding k-1 zeros in the end of the data
+Use modulo-2 binary division to divide binary data by the key and store remainder of division.
+Append the remainder at the end of the data to form the encoded data and send the same
+ Receiver Side (Check if there are errors introduced in transmission)
+Perform modulo-2 division again and if the remainder is 0, then there are no errors. 
+
+In this article we will focus only on finding the remainder i.e. check word and the code word.
+
+Modulo 2 Division:
+The process of modulo-2 binary division is the same as the familiar division process we use for decimal numbers. Just that instead of subtraction, we use XOR here.
+
+In each step, a copy of the divisor (or data) is XORed with the k bits of the dividend (or key).
+The result of the XOR operation (remainder) is (n-1) bits, which is used for the next step after 1 extra bit is pulled down to make it n bits long.
+When there are no bits left to pull down, we have a result. The (n-1)-bit remainder which is appended at the sender side.
+Illustration:
+Example 1 (No error in transmission): 
+
+Data word to be sent - 100100
+Key - 1101 [ Or generator polynomial x3 + x2 + 1]
+
+Sender Side:
+sender
+
+
+
+Therefore, the remainder is 001 and hence the encoded 
+data sent is 100100001.
+
+Receiver Side:
+Code word received at the receiver side  100100001
+receiver y
+
+Therefore, the remainder is all zeros. Hence, the
+data received has no error.
+ 
+Example 2: (Error in transmission) 
+
+Data word to be sent - 100100
+Key - 1101
+
+Sender Side:
+sender
+
+Therefore, the remainder is 001 and hence the 
+code word sent is 100100001.
+
+Receiver Side
+Let there be an error in transmission media
+Code word received at the receiver side - 100000001
+receiver n
+
+Since the remainder is not all zeroes, the error
+is detected at the receiver side.
+
+Implementation:
+
+Below implementation for generating code word from given binary data and key.
+
+C++
+Java
+Python3
+# Returns XOR of 'a' and 'b'
+# (both of same length)
+def xor(a, b):
+ 
+    # initialize result
+    result = []
+ 
+    # Traverse all bits, if bits are
+    # same, then XOR is 0, else 1
+    for i in range(1, len(b)):
+        if a[i] == b[i]:
+            result.append('0')
+        else:
+            result.append('1')
+ 
+    return ''.join(result)
+ 
+ 
+# Performs Modulo-2 division
+def mod2div(dividend, divisor):
+ 
+    # Number of bits to be XORed at a time.
+    pick = len(divisor)
+ 
+    # Slicing the dividend to appropriate
+    # length for particular step
+    tmp = dividend[0 : pick]
+ 
+    while pick < len(dividend):
+ 
+        if tmp[0] == '1':
+ 
+            # replace the dividend by the result
+            # of XOR and pull 1 bit down
+            tmp = xor(divisor, tmp) + dividend[pick]
+ 
+        else:   # If leftmost bit is '0'
+            # If the leftmost bit of the dividend (or the
+            # part used in each step) is 0, the step cannot
+            # use the regular divisor; we need to use an
+            # all-0s divisor.
+            tmp = xor('0'*pick, tmp) + dividend[pick]
+ 
+        # increment pick to move further
+        pick += 1
+ 
+    # For the last n bits, we have to carry it out
+    # normally as increased value of pick will cause
+    # Index Out of Bounds.
+    if tmp[0] == '1':
+        tmp = xor(divisor, tmp)
+    else:
+        tmp = xor('0'*pick, tmp)
+ 
+    checkword = tmp
+    return checkword
+ 
+# Function used at the sender side to encode
+# data by appending remainder of modular division
+# at the end of data.
+def encodeData(data, key):
+ 
+    l_key = len(key)
+ 
+    # Appends n-1 zeroes at end of data
+    appended_data = data + '0'*(l_key-1)
+    remainder = mod2div(appended_data, key)
+ 
+    # Append remainder in the original data
+    codeword = data + remainder
+    print("Remainder : ", remainder)
+    print("Encoded Data (Data + Remainder) : ",
+          codeword)
+ 
+# Driver code
+data = "100100"
+key = "1101"
+encodeData(data, key)
+C#
+Javascript
+Output
+Remainder : 001
+Encoded Data (Data + Remainder) :100100001
+Output:
+
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+Note that CRC is mainly designed and used to protect against common of errors on communication channels and NOT suitable protection against intentional alteration of data (See reasons here)
+
+Implementation using Bit Manipulation:
+CRC codeword generation can also be done using bit manipulation methods as follows:
+
+C++
+Java
+Python3
+# Python3 program to generate CRC codeword
+from math import log, ceil
+ 
+def CRC(dataword, generator):
+    dword = int(dataword, 2)
+    l_gen = len(generator)
+ 
+    # append 0s to dividend
+    dividend = dword << (l_gen - 1)   
+ 
+    # shft specifies the no. of least significant
+    # bits not being XORed
+    shft = ceil(log(dividend + 1, 2)) - l_gen    
+ 
+    # ceil(log(dividend+1 , 2)) is the no. of binary
+    # digits in dividend
+    generator = int(generator, 2)
+ 
+    while dividend >= generator or shft >= 0:
+ 
+        # bitwise XOR the MSBs of dividend with generator
+        # replace the operated MSBs from the dividend with
+        # remainder generated
+        rem = (dividend >> shft) ^ generator   
+        dividend = (dividend & ((1 << shft) - 1)) | (rem << shft)
+         
+        # change shft variable
+        shft = ceil(log(dividend+1, 2)) - l_gen
+ 
+    # finally, AND the initial dividend with the remainder (=dividend)
+    codeword = dword << (l_gen-1)|dividend
+    print("Remainder:", bin(dividend).lstrip("-0b"))
+    print("Codeword :", bin(codeword).lstrip("-0b"))
+ 
+# Driver code
+dataword = "10011101"
+generator = "1001"
+CRC(dataword, generator)
+C#
+Javascript
+Output
+Remainder: 100
+Codeword : 10011101100
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+References:
+https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+
+This article is contributed by Jay Patel. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+38
+Previous
+Implementation of Chinese Remainder theorem (Inverse Modulo based implementation)
+Next
+Using Chinese Remainder Theorem to Combine Modular equations
+Related Articles
+1.
+Cyclic shifts of integer N by another integer m
+2.
+Check if N leaves only distinct remainders on division by all values up to K
+3.
+Calculate 7n/8 without using division and multiplication operators
+4.
+Divide two integers without using multiplication, division and mod operator
+5.
+Find X to minimize XOR of N and division of N by 2 raised to power X
+6.
+Compute modulus division by a power-of-2-number
+7.
+Modular Division
+8.
+Fast average of two numbers without division
+9.
+Trick for modular division ( (x1 * x2 .... xn) / b ) mod (m)
+10.
+First number to leave an odd remainder after repetitive division by 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+AndrewFurman
+VarunSharma12
+Akanksha_Rai
+MuskanKalra1
+surinderdawra388
+gautamgoel962
+ranjanrohit840
+phasing17
+mj4629mj
+ruhelaa48
+mayank_sharma_18
+sweetyty
+Article Tags :
+Modular Arithmetic
+Bit Magic
+Practice Tags :
+Bit Magic
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

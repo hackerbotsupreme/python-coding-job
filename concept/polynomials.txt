@@ -1,0 +1,11 @@
+3 How to add polynomials that have more than one variable?
+3.1 Example 1: Add: (4x2 – 12xy + 9y2) + (25x2 + 4xy – 32y2)
+3.2 Example 2: Add (3x + 2y – 4z ) + (45x – y + 75z)
+4 How to subtract the polynomials that have more than one variable?
+4.1 Example 3: Subtract (14x3y2 – 5xy + 14y) – (7x3y2 – 8xy + 10y)
+4.2 Example 4: Subtract (10a3 + 5b2 – 5c + 10) – (15 + 5c – 15b2 + 10a3)
+5 How to multiply polynomials that have more than one variable?
+5.1 Example 5: Multiply (4x – 7xy)(2y + 3x)
+5.2 Example 6: Multiply (9b – ab)(5a2b + 7ab – b)
+5.3 Example 7: Solve (9b – ab)(5a2b + 7ab – b) in vertical format.
+6 How to divide polynomials that have more than one variable?

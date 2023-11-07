@@ -1,0 +1,33 @@
+Pythagorean triples are a2+b2 = c2 where a, b and c are the three positive integers. These triples are represented as (a,b,c). Here, a is the perpendicular, b is the base and c is the hypotenuse of the right-angled triangle. The most known and smallest triplets are (3,4,5). Learn Pythagoras theorem for more details.
+
+Pythagoras who was a mathematician was interested in mathematics, science, and philosophy. He was born in Greece in about 570 BC. He is famous for a property of triangles with a right angle i.e 900 angles, and the property is known as Pythagoras Theorem. In a right-angled triangle, the hypotenuse is the side ‘r’, the side opposite the right angle. Adjacent to the right angle the shorter of the two sides is the side p. In this article, let us discuss what is Pythagorean triples, its formula, list, steps to find the triples, examples, and proof.
+
+
+
+What are Pythagorean Triples?
+The integer solutions to the Pythagorean Theorem, a2 + b2 = c2 are called Pythagorean Triples which contains three positive integers a, b, and c.
+
+Example: (3, 4, 5)
+
+By evaluating we get:
+
+32 + 42 = 52
+
+9+16 = 25
+
+Hence, 3,4 and 5 are the Pythagorean triples.
+
+You can say “triplets,” but “triples” are the favoured term. Let’s start this topic by an introduction of Pythagoras theorem.
+
+
+Some of the important real-life uses of the Pythagorean theorem are as follows:
+Used in construction and architecture.
+Used in two-dimensional navigation to find the shortest distance.
+Used to survey the steepness of the slopes of mountains or hills.
+To calculate the length of staircase required to reach a window.
+
+
+
+Interestingly, the Pythagorean Triples produce errors which are derived from a high share of prime numbers. When the matrix starts from a Pythagorean Triple, the error oscillates between ZERO and SQUARE (often prime²).
+
+

@@ -1,0 +1,141 @@
+what is correlation coefficient in statistics
+A correlation coefficient is a number between -1 and 1 that tells you the strength and direction of a relationship between variables. In other words, it reflects how similar the measurements of two or more variables are across a dataset.
+
+
+What is meant by correlation coefficient?
+A correlation coefficient is a statistical measure of the degree to which changes to the value of one variable predict change to the value of another. In positively correlated variables, the value increases or decreases in tandem.
+
+
+What is correlation coefficient used for in statistics?
+In summary, correlation coefficients are used to assess the strength and direction of the linear relationships between pairs of variables. When both variables are normally distributed use Pearson's correlation coefficient, otherwise use Spearman's correlation coefficient.
+
+
+What does correlation mean in statistics?
+Correlation is a statistical measure (expressed as a number) that describes the size and direction of a relationship between two or more variables. A correlation between variables, however, does not automatically mean that the change in one variable is the cause of the change in the values of the other variable.
+
+
+Why is the correlation coefficient useful?
+Good question.
+
+First - you should remember that its utility is limited, but that it is nonetheless a very important statistic.
+
+Second - the correlation coefficients (for there are more than one!) are important since they give us an idea of how well the variables we’re investigating hang together. The higher the number, the better the ‘togetherness’ of the ‘hanging’ (as it were!).
+
+It cannot, in and of itself, determine a causal direction between any two variables; but it can tell how well related those variables are in their mathematical behaviour.
+
+
+Why is the correlation coefficient important?
+The correlation coefficient gives the essential geometric ingredient that relates two unknowns. Picture two arrows in space emanating from a common point. Their lengths and the angle between them is all that matters for their relationship to each other. Geometrically, the correlation coefficient tells the cosine of the angle between their deviations from their means. The standard deviation gives the length of the deviation. The mean tells you what to subtract to calculate the deviation. Let A be the set of all unknowns of interest in a given setting. Any two unknowns X and Y in A can be added to give X+Y and multiplied to give XY, and the usual rules of algebra hold in A. If R is the set of constant numbers, we regard R as a subset of A. If X is in A, then E(X) is in R. In particular, if c is in R, then E(c)=c. Thus
+
+E(E(X))=E(X), for every X in A.
+
+Also,
+
+E(X+Y)=E(X)+E(Y),
+
+but in general,
+
+E(XY) is NOT EQUAL to E(X)E(Y).
+
+We can picture unknowns in A as arrows in space with tails at the zero unknown, 0, which of course is in R. Picture X+Y as the diagonal of the parallelogram formed with edges X and Y. If c is in R and c is positive, picture cX as the result of magnifying X by the factor c. We picture -X as the result of reversing the direction of X. The space we are dealing with may be more than three dimensional however, but that is not a problem. If you have only three arrows in space, it does not matter how many dimensions there are, you can picture them as living in ordinary three dimensional space. Notice so far, there is no picture for the product XY. For two unknowns X and Y in A notice that their picture simply determines a plane in that space, an ordinary two dimensional plane. But XY in general is not in that plane, so we would need three dimensions to represent X, Y, and XY. Now arrows in space are what we call vectors, and for two vectors in the ordinary Euclidean plane with tails at a common point, we can form their dot product which is the product of their lengths multiplied by the cosine of the angle between their directions. This gives a geometry to the vectors. In particular, if they point in the same direction, their dot product is just the product of their lengths, whereas their dot product is zero if and only if they are perpendicular. Notice then that the dot product of any vector with itself is the square of its length. This means you can calculate the length of an arrow as the square root of its dot product with itself. Then we can think of the separation distance of two arrows as the length of their difference. Thus using the dot product and subtraction you can calculate the geometry of vectors in space. It turns out that we can think of the expected product
+
+E(XY)
+
+as being like the dot product of two vectors in space. We call it the inner product of the unknowns. If we put x=E(X) and y=E(Y), then X-x is the deviation of X from its mean and Y-y is the deviation of Y from its mean. Now notice thinking interns of arrows, for X you have 0, x, and X as three points in A, so they determine a plane in A, just like an ordinary Euclidean plane. The line through 0 and 1 is R contained in A, and x is in R, so this plane is really just the plane determined by the line R and the point or arrow X in A. Likewise, R and Y determine a plane. But BOTH of these planes contain the line R, so the relation between the two planes is determined by the angle at which the two planes meet. To calculate that angle, you need a unknowns perpendicular to the common line R in each of the two planes so that the angle between the two planes is then the angle between the two unknowns which we calculate with the inner product. Now, the deviation X-x of X from its mean is in the plane of R and X, since any parallelogram formed with three points in a plane stays entirely in that plane. Also,
+
+E(1[X-x])=E(X)-E(x)=x-x=0,
+
+and this means X-x is perpendicular to 1, that is perpendicular to the arrow with tail at 0 and tip at 1. But this arrow lies entirely in R and therefore X-x is perpendicular to R. This means EVERY deviation of any unknown from its own mean is perpendicular to R. The length of X-x is called the STANDARD DEVIATION of X, which I will denote as SD(X). Notice that if you divide any arrow by its length you get an arrow of unit length. We call X-x divided by its length, SD(X), the STANDARDIZATION of X and denote it by Z(X). Therefore,
+
+Z(X)=[X-x]/SD(X)
+
+is a unit length unknown in the plane of R and X which is perpendicular to R. Likewise, Z(Y) is a unit length unknown in the plane of R and Y which is perpendicular to R. Therefore, the cosine of the angle between these two planes is simply the inner product of these two standardizations,
+
+E[Z(X)Z(Y)]=\rho,
+
+the TEX symbols for the Greek letter rho, that is the correlation coefficient. Thus the correlation coefficient is telling you the angle between the two planes determined by X, Y and the line R. If you have to guess the value of X and you decide to guess r in R, then X-r is your error so your expected squared error is
+
+E([X-r]^2)=[length(X)]^2.
+
+Notice that in the plane of R and X you now have three points, x, r, and X. The line from X to x is perpendicular to R, so the line from r to X is the hypotenuse of a right triangle whose squared length is just given in the previous formula. By the Pythagorean Theorem, that squared length is therefore the square of x-r plus the square of SD(X), which is the VARIANCE of X, denoted Var(X). Since squares can never be negative, this means you minimize your expected squared error if you choose r=x. When you do that, your expected squared error is the variance, that is the best you can do unless you have more information. Statistics is really all about minimizing expected squared errors.
+
+Now, suppose that you have an easy way of determining the value of the unknown X in every case. Suppose we have determined all expected values of all unknowns in A. That means we also know all variances and standard deviations. If Y is any unknown, the distance from Y to R is SD(Y), so the mean is the closest thing you know. But, if you know X, then you can find the value of any point in the plane of R and X, so the closest point of this plane to Y could be closer to Y than y. This means you can reduce your expected squared error by using the value of X somehow. Clearly you want to find the closest point of the plane of R and X to Y. Thinking geometrically, we just drop a perpendicular from Y to the plane of X and R. We can imagine doing this for EVERY unknown Y in A. Let Q(Y) be the result of dropping a perpendicular to the plane of R and X, for each Y in A. Therefore, we can think of Q(Y) as like the shadow of Y on that plane if the sun is directly overhead. Notice if you stretch Y you stretch its shadow, so
+
+Q(cY)=cQ(Y).
+
+Also, the shadow of a parallelogram is also a parallelogram which means
+
+Q(W+Y)=Q(W)+Q(Y), all W, Y in A.
+
+In fact, if Y is in the plane of R and X, then obviously the closest point in that plane to Y is Y itself, so Q(Y)=Y, if Y happens to be in the plane of X and R. Now, let s=SD(X) and t=SD(Y). Since R is contained in the plane of X and R, we have Q(c)=c , for every c in R. In particular, as y is in R, Q(y)=y. BUT,
+
+Y=y+tZ(Y) and X=x+sZ(X),
+
+so
+
+Q(Y)=y+tQ(Z(Y)).
+
+Let r=\rho be the correlation coefficient of X and Y. Notice that Q(Z(Y)) is a point on the line from 0 to Z(X), because both Z(Y) and Z(X) are perpendicular to R. Thus it is easy to see that
+
+Q(Z(Y))=rZ(X).
+
+This means we finally have
+
+Q(Y)=y+trZ(X)=y+(tr/s)(X-x).
+
+So, using the easily obtained value of X, you can calculate the value of Q(Y) and use that as a better guess than y for the value of Y. The geometry shows that your expected squared error is “ discounted” by r^2, a quantity called the COEFFICIENT OF DETERMINATION. To see this, just use similar triangles and the Pythagorean Theorem. The first triangle has vertices 0, rZ(X), and Z(Y). This is a right triangle with hypotenuse the line from 0 to Z(Y), which therefore has length 1. It’s vertical side therefore has length 1-r^2. The second right triangle has vertices at y, Q(Y), and Y. Since the line from Q(Y) to Y is perpendicular to the plane of R and X, this is a right triangle with hypotenuse the line from y to Y, this means the length of the hypotenuse is SD(Y). The square of the hypotenuse is therefore the Variance of Y=Var(Y). Thus the squared distance from Y to Q(Y) by similar triangles is
+
+(1-r^2)Var(Y).
+
+Thus, we get a reduction in expected squared error by using the value of Q(Y) as guess for the value of Y whenever we know the value of X, in fact it is discounted by exactly the coefficient of determination.
+
+
+
+What is the advantage of a correlation coefficient?
+
+A correlation close to -1 or 1 tells us that there is a strong relationship between the variables. It is useful to know this. Strictly speaking, it applies to a linear relationship, but the correlation can be high even for an obviously curvilinear relationship. But at least you would know that the relationship is strong in such cases.
+
+There are two caveats.
+
+Firstly a strong relationship does not necessarily mean that one variable affects the other (the two could be related to a third variable) and if one does affect the other, the correlation doesn’t tells us which one causes the other.
+
+Secondly and unfortunately, you can have a strong relationship and a correlation close to zero. It is always worth graphing the data to visually check what is happening.
+
+
+What does correlation coefficient mean?
+
+The correlation coefficient is a statistical measure of the strength of the relationship between the relative movements of two variables. The values range between -1.0 and 1.0. ... A correlation of -1.0 shows a perfect negative correlation, while a correlation of 1.0 shows a perfect positive correlation.
+
+Advantages
+
+Can show strength of relationship between two variables.
+Study behaviour that you cannot study.
+Gain quantitative data which can be easily analysed.
+Disadvantages of the correlation coefficient are that it only measures linear relationhips between X and Y and for any relationship to exist, any change in X has to have a constant proportional change in Y. If the relationship is not linear then the result is inaccurate.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

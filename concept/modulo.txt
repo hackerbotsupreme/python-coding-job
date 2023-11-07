@@ -1,0 +1,144 @@
+Modulo
+Updated: 10/07/2019 by Computer Hope
+Modulo animation
+Modulo is a math operation that finds the remainder when one integer is divided by another. In writing, it is frequently abbreviated as mod, or represented by the symbol %.
+
+For two integers a and b:
+
+a mod b = r
+Where a is the dividend, b is the divisor (or modulus), and r is the remainder.
+
+Examples
+11 mod 4 = 3, because 11 divides by 4 (twice), with 3 remaining.
+
+25 mod 5 = 0, because 25 divides by 5 (five times), with 0 remaining.
+
+3 mod 2 = 1, because 3 divides by 2 (once), with 1 remaining.
+
+5 mod 2 = 1, because all odd numbers yield a remainder of 1 when divided by 2.
+
+Modular arithmetic and cryptography
+Modular arithmetic is the field of mathematics which concerns these types of operations, where values "wrap around" (reset to zero) when they reach a modulus value. Modular arithmetic is extremely important in the field of cryptography, which encodes information using modulo operations with a very large modulus.
+
+Computer ab
+
+
+How is modulo calculated?
+How to Do a Modulo Calculation. The modulo operation finds the remainder of a divided by b. To do this by hand just divide two numbers and note the remainder. If you needed to find 27 mod 6, divide 27 by 6.
+
+I was introduced to the modulo operator in my first real programming job (longer ago than I care to admit). The problem I had was that I needed to generate a calendar as a simple HTML table (remember when all website layout was done with tables?) and needed to layout columns in multiples of 7.
+
+I shared my dilemma with Felix, a more experienced and knowledgeable programmer at work who taught me about the modulus operator.
+
+The modulus operator returns the remainder of a division of one number by another. In most programming languages, modulo is indicated with a percent sign. For example, "4 mod 2" or "4%2" returns 0, because 2 divides into 4 perfectly, without a remainder. "5%2", however, returns 1 because 1 is the remainder of 5 divided by 2 (2 divides into 5 2 times, with 1 left over).
+
+That doesn't sound like much, but it turns out that knowing the remainder of a division is immensely useful in certain situations.
+
+
+Example 1: Is a number even?
+Since any even number divided by 2 has a remainder of 0, we can use modulo to determine the even-ess of a number. This can be used to make every other row in a table a certain color, for example.
+
+for (x = 1; x < 11; x++) {
+
+    if (x%2 == 0) {
+        // Yes! this is an even row
+        rowColor = #CCCCCC; // grey
+    
+    } else {
+        // This is an odd row
+        rowColor = #FFFFFF; // white
+    }
+}
+
+
+Example 2: Do something every nth time.
+If you have a for loop and want to report on the state of the loop, but not every cycle through, you can use modulo:
+
+for (x=0; x <100000; x++) {
+
+    // do regular stuff here
+ 
+    // do something special every 9th time through
+    // the loop
+    if (x % 9 == 0) {
+        // important stuff here
+    }
+}
+
+Example 3: Prepare seconds for display as Hours, Minutes and seconds.
+If you need to turn an elapsed number of seconds into Hours, Minutes and Seconds, modulo comes in handy.
+
+hours:int   = seconds / 3600;
+minutes:int = (seconds / 60) % 60;
+seconds:int = seconds % 60;
+
+starting with 582 seconds:
+
+hours   = 582 / 3600 = 0 // integer would round this to 0
+minutes = (582 / 60) % 60 = (9.7) % 60 = 9
+seconds = 582 % 60 = 42
+
+Thus, 582 seconds is 9 minutes, 42 seconds.
+
+
+Example 4: Force a number to be a multiple of another number
+Another way of thinking of this example is forcing a number to be evenly divisible by another number.
+
+Let's say you need to have a number that is always a multiple of 10. You can use modulo in this way to accomplish it:
+
+multipleOfTen = x - (x % 10);
+
+By subtracting the remainder of a value x divided by 10 from x we get a value that is always divisible by 10. It's a neat mathematical trick.
+
+For x=1 through x=9, for example, x%10 is always x. Thus:
+multipleOfTen = 1 - (1 % 10) = 1 - (1) = 0;
+multipleOfTen = 2 - (2 % 10) = 2 - (2) = 0;
+multipleOfTen = 3 - (3 % 10) = 3 - (3) = 0;
+...
+multipleOfTen = 9 - (9 % 10) = 9 - (9) = 0;
+
+once we hit 10, we get:
+multipleOfTen = 10 - (10 % 10) = 10 - (0) = 10;
+
+and once we hit 20 we get:
+multipleOfTen = 20 - (20 % 10) = 20 - (0) = 20;
+
+
+But...how is this useful? Well, imagine that you need to work with a data structure that is made up of values grouped in multiples. One such data structure is a ByteArray representing an audio file. Often times programming languages give you access to binary files as ByteArrays so that they are easy to operate upon (upload, write to the file system or perform data conversions).
+
+Now, if you record 32-bit audio, you're capturing data 4 bytes at a time. That means that every audio sample, the smallest unit of data, is 4 bytes wide. Indexes 0 through 3 of the ByteArray would represent one sample.
+
+If you were to split a byte array representing a 32-bit audio file in the middle of a 4-byte unit, you would "break" the audio file. When played back, you would either get an end of file error and/or it would sound like a screech.
+
+In order to safely edit the audio ByteArray, you can only edit in multiples of 4, at the beginning or end of a 4 byte block, not in the middle.
+
+So, let's say we want to trim some bytes from the start of the audio file. What's a safe starting index in the array?
+
+Since the data is chunked in groups of 4, we can say:
+safeStartIndex = startIndex - (startIndex%4)
+
+A start index of 0 would yield a safeStartIndex of:
+safeStartIndex = 0 - (0%4) = 0 - (0) = 0
+
+A start index of 1 would yield:
+safeStartIndex = 1 - (1%4) = 1 - (1) = 0
+
+A start index of 2 would yield:
+safeStartIndex = 2 - (2%4) = 2 - (2) = 0
+
+A start index of 3 would yield:
+safeStartIndex = 3 - (3%4) = 3 - (3) = 0
+
+A start index of 4 would yield:
+safeStartIndex = 4 - (4%4) = 4 - (0) = 4
+
+Notice that by using modulo, we can automatically adjust non-safe ByteArray indexes to an index which is divisible by 4 and won't split the audio file represented by our array in the wrong place (ie. in the middle of a sample group).
+
+Final Words
+The WatchHogStories blog has another way of describing modulo which I really like. As Dotun, the author of the blog, says (with a slight modification):
+
+* a is zero or a positive number.
+* n is a positive number.
+* if a / n equals a whole number then a % n  always equals 0
+* if a is and less than n then a % n always equals a
+* if a is greater than n then a % n always equals a value between 1 and n-1

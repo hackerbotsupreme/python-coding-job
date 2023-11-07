@@ -1,0 +1,176 @@
+Using Chinese Remainder Theorem to Combine Modular equations
+
+Difficulty Level : Hard
+Last Updated : 19 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given N modular equations: A ≅ x1mod(m1) . . A ≅ xnmod(mn) Find x in the equation A ≅ xmod(m1*m2*m3..*mn) where mi is prime, or a power of a prime, and i takes values from 1 to n. The input is given as two arrays, the first being an array containing values of each xi, and the second array containing the set of values of each prime. mi Output an integer for the value of x in the final equation. Examples : 
+
+Consider the two equations
+A ≅ 2mod(3)
+A ≅ 3mod(5)
+Input : 
+2 3
+3 5
+Output : 
+8
+
+Consider the four equations,
+A ≅ 3mod(4)
+A ≅ 4mod(7)
+A ≅ 1mod(9) (32)
+A ≅ 0mod(11)
+Input :
+3 4 1 0
+4 7 9 11
+Output :
+1243
+Explanation : We aim to solve these equations two at a time. We take the first two equations, combine it, and use that result to combine with the third equation, and so on. The process of combining two equations is explained as follows, by taking example 2 for reference:
+
+A ≅ 3mod(4) and A ≅ 4mod(7) are the two equations that we are provided with at first. Let the resulting equation be some A0 ≅ x0 mod(m1 * m2).
+A0 is given by m1‘ * m1 * x0 + m0‘ * m0 * x1 where m1‘ = modular inverse of m1 modulo m0 and m0‘ = modular inverse of m0 modulo m1
+We can calculate modular inverse using extended euclidean algorithm.
+We find x0 to be A0 mod (m1 * m2)
+We get our new equation to be A ≅ 11mod(28), where A is 95
+We now try to combine this with equation 3, and by a similar method, we get A ≅ 235mod(252), where A = 2503
+And finally, on combining this with equation 4, we get A ≅ 1243mod(2772) where A = 59455 and x = 1243
+We observe that 2772 is rightly equal to 4 * 7 * 9 * 11. We have thus found the value of x for the final equation. You can refer to Extended Euclidean Algorithm and Modular multiplicative inverse for extra information on these topics. 
+
+C++
+Python
+# Python 2.x program to combine modular equations
+# using Chinese Remainder Theorem
+ 
+# function that implements Extended euclidean
+# algorithm
+def extended_euclidean(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = extended_euclidean(b % a, a)
+        return (g, x - (b // a) * y, y)
+ 
+# modular inverse driver function
+def modinv(a, m):
+    g, x, y = extended_euclidean(a, m)
+    return x % m
+ 
+# function implementing Chinese remainder theorem
+# list m contains all the modulii
+# list x contains the remainders of the equations
+def crt(m, x):
+ 
+    # We run this loop while the list of
+    # remainders has length greater than 1
+    while True:
+         
+        # temp1 will contain the new value
+        # of A. which is calculated according
+        # to the equation m1' * m1 * x0 + m0'
+        # * m0 * x1
+        temp1 = modinv(m[1],m[0]) * x[0] * m[1] + \
+                modinv(m[0],m[1]) * x[1] * m[0]
+ 
+        # temp2 contains the value of the modulus
+        # in the new equation, which will be the
+        # product of the modulii of the two
+        # equations that we are combining
+        temp2 = m[0] * m[1]
+ 
+        # we then remove the first two elements
+        # from the list of remainders, and replace
+        # it with the remainder value, which will
+        # be temp1 % temp2
+        x.remove(x[0])
+        x.remove(x[0])
+        x = [temp1 % temp2] + x
+ 
+        # we then remove the first two values from
+        # the list of modulii as we no longer require
+        # them and simply replace them with the new
+        # modulii that  we calculated
+        m.remove(m[0])
+        m.remove(m[0])
+        m = [temp2] + m
+ 
+        # once the list has only one element left,
+        # we can break as it will only  contain
+        # the value of our final remainder
+        if len(x) == 1:
+            break
+ 
+    # returns the remainder of the final equation
+    return x[0]
+ 
+# driver segment
+m = [4, 7, 9, 11]
+x = [3, 4, 1, 0]
+print crt(m, x)
+Javascript
+Output
+1243
+Time Complexity : O(l) ,where l is the size of remainder list.
+
+
+Space Complexity : O(1) ,as we are not using any extra space.
+
+This theorem and algorithm has excellent applications. One very useful application is in calculating nCr % m where m is not a prime number, and Lucas Theorem cannot be directly applied. In such a case, we can calculate the prime factors of m, and use the prime factors one by one as a modulus in our nCr % m equation which we can calculate using Lucas Theorem, and then combine the resulting equations together using the above shown Chinese Remainder Theorem. This article is contributed by Deepak Srivatsav. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Cyclic Redundancy Check and Modulo-2 Division
+Next
+Program for factorial of a number
+Related Articles
+1.
+Compute nCr % p | Set 4 (Chinese Remainder theorem with Lucas Theorem)
+2.
+Introduction to Chinese Remainder Theorem
+3.
+Implementation of Chinese Remainder theorem (Inverse Modulo based implementation)
+4.
+Modular Exponentiation (Power in Modular Arithmetic)
+5.
+Number of solutions to Modular Equations
+6.
+Quotient Remainder Theorem
+7.
+How to avoid overflow in modular multiplication?
+8.
+Modular Division
+9.
+Find modular node in a linked list
+10.
+Modular multiplicative inverse from 1 to n
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+gautamgoel962
+adityapatil12
+phasing17
+Article Tags :
+Modular Arithmetic
+Competitive Programming
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Report Issue

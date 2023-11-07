@@ -1,0 +1,10 @@
+factorial, in mathematics, the product of all positive integers less than or equal to a given positive integer and denoted by that integer and an exclamation point. Thus, factorial seven is written 7!, meaning 1 × 2 × 3 × 4 × 5 × 6 × 7.
+Factorials can be simple to compute and have many practical applications in the real world. For example, some companies use factorials to look at permutations and combinations for business purposes, like determining the number of trucks needed to supply their stores in each district.
+
+
+What are the applications of factorials?
+In mathematical analysis, factorials are used in power series for the exponential function and other functions, and they also have applications in algebra, number theory, probability theory, and computer science.
+
+
+The Pros and Cons of Factorial Design
+As well as highlighting the relationships between variables, it also allows the effects of manipulating a single variable to be isolated and analyzed singly. The main disadvantage is the difficulty of experimenting with more than two factors, or many levels.9th
