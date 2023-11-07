@@ -1,0 +1,227 @@
+Partition of a set into K subsets with equal sum
+
+Difficulty Level : Hard
+Last Updated : 11 Jul, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given an integer array of N elements, the task is to divide this array into K non-empty subsets such that the sum of elements in every subset is same. All elements of this array should be part of exactly one partition. 
+Examples: 
+ 
+
+Input : arr = [2, 1, 4, 5, 6], K = 3
+Output : Yes
+we can divide above array into 3 parts with equal
+sum as [[2, 4], [1, 5], [6]]
+
+Input  : arr = [2, 1, 5, 5, 6], K = 3
+Output : No
+It is not possible to divide above array into 3
+parts with equal sum
+ 
+
+Recommended Problem
+Partition array to K subsets
+Dynamic Programming
+Backtracking
++1 more
+Amazon
+Solve Problem
+Submission count: 30.2K
+We can solve this problem recursively, we keep an array for sum of each partition and a boolean array to check whether an element is already taken into some partition or not. 
+First we need to check some base cases, 
+If K is 1, then we already have our answer, complete array is only subset with same sum. 
+If N < K, then it is not possible to divide array into subsets with equal sum, because we can’t divide the array into more than N parts. 
+If sum of array is not divisible by K, then it is not possible to divide the array. We will proceed only if k divides sum. Our goal reduces to divide array into K parts where sum of each part should be array_sum/K 
+In below code a recursive method is written which tries to add array element into some subset. If sum of this subset reaches required sum, we iterate for next part recursively, otherwise we backtrack for different set of elements. If number of subsets whose sum reaches the required sum is (K-1), we flag that it is possible to partition array into K parts with equal sum, because remaining elements already have a sum equal to required sum. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to check whether an array can be
+# partitioned into K subsets of equal sum
+ 
+# Recursive Utility method to check K equal sum
+# subsetition of array
+ 
+"""*
+array     - given input array
+subsetSum array - sum to store each subset of the array
+taken     -boolean array to check whether element
+is taken into sum partition or not
+K         - number of partitions needed
+N         - total number of element in array
+curIdx     - current subsetSum index
+limitIdx     - lastIdx from where array element should
+be taken """
+ 
+def isKPartitionPossibleRec(arr, subsetSum, taken,
+                            subset, K, N, curIdx, limitIdx):
+    if subsetSum[curIdx] == subset:
+         
+        """ current index (K - 2) represents (K - 1)
+        subsets of equal sum last partition will
+        already remain with sum 'subset'"""
+        if (curIdx == K - 2):
+            return True
+         
+        # recursive call for next subsetition
+        return isKPartitionPossibleRec(arr, subsetSum, taken,
+                                       subset, K, N, curIdx + 1 , N - 1)
+     
+    # start from limitIdx and include
+    # elements into current partition
+    for i in range(limitIdx, -1, -1):
+         
+        # if already taken, continue
+        if (taken[i]):
+            continue
+        tmp = subsetSum[curIdx] + arr[i]
+         
+        # if temp is less than subset, then only
+        # include the element and call recursively
+        if (tmp <= subset):
+             
+            # mark the element and include into
+            # current partition sum
+            taken[i] = True
+            subsetSum[curIdx] += arr[i]
+            nxt = isKPartitionPossibleRec(arr, subsetSum, taken,
+                                          subset, K, N, curIdx, i - 1)
+                                           
+            # after recursive call unmark the element and
+            # remove from subsetition sum
+            taken[i] = False
+            subsetSum[curIdx] -= arr[i]
+            if (nxt):
+                return True
+    return False
+ 
+# Method returns True if arr can be
+# partitioned into K subsets with equal sum
+def isKPartitionPossible(arr, N, K):
+     
+    # If K is 1,
+    # then complete array will be our answer
+    if (K == 1):
+        return True
+     
+    # If total number of partitions are more than N,
+    # then division is not possible
+    if (N < K):
+        return False
+         
+    # if array sum is not divisible by K then
+    # we can't divide array into K partitions
+    sum = 0
+    for i in range(N):
+        sum += arr[i]
+    if (sum % K != 0):
+        return False
+     
+    # the sum of each subset should be subset (= sum / K)
+    subset = sum // K
+    subsetSum = [0] * K
+    taken = [0] * N
+     
+    # Initialize sum of each subset from 0
+    for i in range(K):
+        subsetSum[i] = 0
+         
+    # mark all elements as not taken
+    for i in range(N):
+        taken[i] = False
+         
+    # initialize first subset sum as 
+    # last element of array and mark that as taken
+    subsetSum[0] = arr[N - 1]
+    taken[N - 1] = True
+     
+    # call recursive method to check
+    # K-substitution condition
+    return isKPartitionPossibleRec(arr, subsetSum, taken,
+                                   subset, K, N, 0, N - 1)
+     
+# Driver Code
+arr = [2, 1, 4, 5, 3, 3 ]
+N = len(arr)
+K = 3
+if (isKPartitionPossible(arr, N, K)):
+    print("Partitions into equal sum is possible.\n")
+else:
+    print("Partitions into equal sum is not possible.\n")
+ 
+# This code is contributed by SHUBHAMSINGH8410
+C#
+Javascript
+Output: 
+ 
+
+Partitions into equal sum is possible.
+Complexity Analysis: 
+
+Time Complexity: O(2^(N * K)). 
+Because if we have K trees stacked on top of each other, the new height of the tree is K * n. i.e one subset is not independent from other.
+Space Complexity: O(N). 
+Extra space is required for visited array.
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Minimize number of unique characters in string
+Next
+Longest Possible Route in a Matrix with Hurdles
+Related Articles
+1.
+Count of Subsets that can be partitioned into two non empty sets with equal Sum
+2.
+Sum of subsets of all the subsets of an array | O(3^N)
+3.
+Sum of subsets of all the subsets of an array | O(N)
+4.
+Sum of subsets of all the subsets of an array | O(2^N)
+5.
+Minimize sum of incompatibilities of K equal-length subsets made up of unique elements
+6.
+Print all possible ways to split an array into K subsets
+7.
+Sum of all subsets whose sum is a Perfect Number from a given array
+8.
+Number of times an array can be partitioned repetitively into two subarrays with equal sum
+9.
+Maximize sum of subsets from two arrays having no consecutive values
+10.
+Find all distinct subsets of a given set using BitMasking Approach
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ayush0824
+princi singh
+jit_t
+SHUBHAMSINGH10
+_saurabh_jaiswal
+surinderdawra388
+simmytarika5
+shyamji_18
+Article Tags :
+Microsoft
+Backtracking
+Practice Tags :
+Microsoft
+Backtracking
+Report Issue

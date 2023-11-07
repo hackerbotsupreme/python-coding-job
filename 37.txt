@@ -1,0 +1,211 @@
+Print all longest common sub-sequences in lexicographical order
+
+Difficulty Level : Hard
+Last Updated : 14 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given two strings, the task is to print all the longest common sub-sequences in lexicographical order.
+
+Examples: 
+
+Input : str1 = "abcabcaa", str2 = "acbacba"
+Output: ababa
+        abaca
+        abcba
+        acaba
+        acaca
+        acbaa
+        acbca
+Recommended Problem
+Print all LCS sequences
+Dynamic Programming
+Backtracking
++1 more
+Solve Problem
+Submission count: 11.1K
+This problem is an extension of longest common subsequence. We first find the length of LCS and store all LCS in a 2D table using Memoization (or Dynamic Programming). Then we search all characters from ‘a’ to ‘z’ (to output sorted order) in both strings. If a character is found in both strings and the current positions of the character lead to LCS, we recursively search all occurrences with current LCS length plus 1. 
+
+Below is the implementation of the algorithm. 
+
+C++
+Java
+Python3
+# Python3 program to find all LCS of two strings in
+# sorted order.
+MAX=100
+lcslen = 0
+ 
+# dp matrix to store result of sub calls for lcs
+dp=[[-1 for i in range(MAX)] for i in range(MAX)]
+ 
+# A memoization based function that returns LCS of
+# str1[i..len1-1] and str2[j..len2-1]
+def lcs(str1, str2, len1, len2, i, j):
+ 
+    # base condition
+    if (i == len1 or j == len2):
+        dp[i][j] = 0
+        return dp[i][j]
+ 
+    # if lcs has been computed
+    if (dp[i][j] != -1):
+        return dp[i][j]
+ 
+    ret = 0
+ 
+    # if characters are same return previous + 1 else
+    # max of two sequences after removing i'th and j'th
+    # char one by one
+    if (str1[i] == str2[j]):
+        ret = 1 + lcs(str1, str2, len1, len2, i + 1, j + 1)
+    else:
+        ret = max(lcs(str1, str2, len1, len2, i + 1, j),
+                  lcs(str1, str2, len1, len2, i, j + 1))
+    dp[i][j] = ret
+    return ret
+ 
+# Function to print all routes common sub-sequences of
+# length lcslen
+def printAll(str1, str2, len1, len2,data, indx1, indx2, currlcs):
+     
+    # if currlcs is equal to lcslen then print
+    if (currlcs == lcslen):
+        print("".join(data[:currlcs]))
+        return
+ 
+    # if we are done with all the characters of both string
+    if (indx1 == len1 or indx2 == len2):
+        return
+ 
+    # here we have to print all sub-sequences lexicographically,
+    # that's why we start from 'a'to'z' if this character is
+    # present in both of them then append it in data[] and same
+    # remaining part
+    for ch in range(ord('a'),ord('z') + 1):
+ 
+        # done is a flag to tell that we have printed all the
+        # subsequences corresponding to current character
+        done = False
+ 
+        for i in range(indx1,len1):
+            # if character ch is present in str1 then check if
+            # it is present in str2
+            if (chr(ch)==str1[i]):
+              for j in range(indx2, len2):
+ 
+                # if ch is present in both of them and
+                # remaining length is equal to remaining
+                # lcs length then add ch in sub-sequence
+                if (chr(ch) == str2[j] and dp[i][j] == lcslen-currlcs):
+                  data[currlcs] = chr(ch)
+                  printAll(str1, str2, len1, len2, data, i + 1, j + 1, currlcs + 1)
+                  done = True
+                  break
+ 
+            # If we found LCS beginning with current character.
+            if (done):
+                break
+ 
+# This function prints all LCS of str1 and str2
+# in lexicographic order.
+def prinlAllLCSSorted(str1, str2):
+    global lcslen
+    # Find lengths of both strings
+    len1,len2 = len(str1),len(str2)
+ 
+    lcslen = lcs(str1, str2, len1, len2, 0, 0)
+ 
+    # Print all LCS using recursive backtracking
+    # data[] is used to store individual LCS.
+    data = ['a' for i in range(MAX)]
+    printAll(str1, str2, len1, len2, data, 0, 0, 0)
+ 
+# Driver program to run the case
+if __name__ == '__main__':
+    str1 = "abcabcaa"
+    str2 = "acbacba"
+    prinlAllLCSSorted(str1, str2)
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+ababa
+abaca
+abcba
+acaba
+acaca
+acbaa
+acbca
+Time Complexity: O(m*n*p), where ‘m’ is the length of the characters array, ‘n’ is the length of array1, and ‘p’ is the length of array2.
+Space Complexity: O(m*n), because we are using m*n size 2D matrix for storing the result.
+ 
+
+This article is contributed by Shashak Mishra ( Gullu ). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Print all possible strings that can be made by placing spaces
+Next
+Find shortest safe route in a path with landmines
+Related Articles
+1.
+Print all distinct circular strings of length M in lexicographical order
+2.
+Print all the combinations of a string in lexicographical order
+3.
+Print all numbers up to N in words in lexicographical order
+4.
+Generate all numbers up to N in Lexicographical Order
+5.
+Generate all the numbers up to N in Lexicographical Order using Stack
+6.
+Print all lexicographical greater permutations of a given string
+7.
+Sort the words in lexicographical order in Python
+8.
+Find the k-th string in lexicographical order consisting of n-2 X's and 2 Y's
+9.
+Traverse graph in lexicographical order of nodes using DFS
+10.
+Sort file names in lexicographical order of their extensions
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+divyeshrabadiya07
+divyesh072019
+unknown2108
+chirags_30
+sagartomar9927
+varshagumber28
+adnanirshad158
+kanheremahesh1729
+vforviksvy5
+factworx4i2
+Article Tags :
+LCS
+lexicographic-ordering
+subsequence
+Backtracking
+Dynamic Programming
+Recursion
+Practice Tags :
+Backtracking
+Dynamic Programming
+LCS
+Recursion

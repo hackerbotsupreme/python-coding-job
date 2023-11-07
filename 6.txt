@@ -1,0 +1,227 @@
+Rat in a Maze
+
+Difficulty Level : Medium
+Last Updated : 12 Jan, 2023
+Read
+Discuss(70)
+Courses
+Practice
+Video
+We have discussed Backtracking and Knight’s tour problem in Set 1. Let us discuss Rat in a Maze as another example problem that can be solved using Backtracking.
+
+A Maze is given as N*N binary matrix of blocks where source block is the upper left most block i.e., maze[0][0] and destination block is lower rightmost block i.e., maze[N-1][N-1]. A rat starts from source and has to reach the destination. The rat can move only in two directions: forward and down. 
+
+In the maze matrix, 0 means the block is a dead end and 1 means the block can be used in the path from source to destination. Note that this is a simple version of the typical Maze problem. For example, a more complex version can be that the rat can move in 4 directions and a more complex version can be with a limited number of moves.
+
+Following is an example maze.  
+
+ Gray blocks are dead ends (value = 0).
+
+
+Following is a binary matrix representation of the above maze. 
+
+{1, 0, 0, 0}
+{1, 1, 0, 1}
+{0, 1, 0, 0}
+{1, 1, 1, 1}
+Following is a maze with highlighted solution path.
+
+
+
+Following is the solution matrix (output of program) for the above input matrix. 
+
+{1, 0, 0, 0}
+{1, 1, 0, 0}
+{0, 1, 0, 0}
+{0, 1, 1, 1}
+All entries in solution path are marked as 1.
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Backtracking Algorithm: Backtracking is an algorithmic-technique for solving problems recursively by trying to build a solution incrementally. Solving one piece at a time, and removing those solutions that fail to satisfy the constraints of the problem at any point of time (by time, here, is referred to the time elapsed till reaching any level of the search tree) is the process of backtracking.
+
+Approach: Form a recursive function, which will follow a path and check if the path reaches the destination or not. If the path does not reach the destination then backtrack and try other paths. 
+
+Algorithm:  
+
+Create a solution matrix, initially filled with 0’s.
+Create a recursive function, which takes initial matrix, output matrix and position of rat (i, j).
+if the position is out of the matrix or the position is not valid then return.
+Mark the position output[i][j] as 1 and check if the current position is destination or not. If destination is reached print the output matrix and return.
+Recursively call for position (i+1, j) and (i, j+1).
+Unmark position (i, j), i.e output[i][j] = 0.
+C++
+C
+Java
+Python3
+# Python3 program to solve Rat in a Maze
+# problem using backtracking
+  
+# Maze size
+n = 4
+  
+# A utility function to check if x, y is valid
+# index for N * N Maze
+  
+  
+def isValid(n, maze, x, y, res):
+    if x >= 0 and y >= 0 and x < n and y < n and maze[x][y] == 1 and res[x][y] == 0:
+        return True
+    return False
+  
+# A recursive utility function to solve Maze problem
+  
+  
+def RatMaze(n, maze, move_x, move_y, x, y, res):
+    # if (x, y is goal) return True
+    if x == n-1 and y == n-1:
+        return True
+    for i in range(4):
+        # Generate new value of x
+        x_new = x + move_x[i]
+  
+        # Generate new value of y
+        y_new = y + move_y[i]
+  
+        # Check if maze[x][y] is valid
+        if isValid(n, maze, x_new, y_new, res):
+  
+            # mark x, y as part of solution path
+            res[x_new][y_new] = 1
+            if RatMaze(n, maze, move_x, move_y, x_new, y_new, res):
+                return True
+            res[x_new][y_new] = 0
+    return False
+  
+  
+def solveMaze(maze):
+    # Creating a 4 * 4 2-D list
+    res = [[0 for i in range(n)] for i in range(n)]
+    res[0][0] = 1
+  
+    # x matrix for each direction
+    move_x = [-1, 1, 0, 0]
+  
+    # y matrix for each direction
+    move_y = [0, 0, -1, 1]
+  
+    if RatMaze(n, maze, move_x, move_y, 0, 0, res):
+        for i in range(n):
+            for j in range(n):
+                print(res[i][j], end=' ')
+            print()
+    else:
+        print('Solution does  not exist')
+  
+  
+# Driver program to test above function
+if __name__ == "__main__":
+    # Initialising the maze
+    maze = [[1, 0, 0, 0],
+             [1, 1, 0, 1],
+             [0, 1, 0, 0],
+             [1, 1, 1, 1]]
+  
+    solveMaze(maze)
+  
+# This code is contributed by Anvesh Govind Saxena
+C#
+Javascript
+Output: 
+The 1 values show the path for rat 
+
+ 1  0  0  0 
+ 1  1  0  0 
+ 0  1  0  0 
+ 0  1  1  1
+Complexity Analysis: 
+
+Time Complexity: O(2^(n^2)). 
+The recursion can run upper-bound 2^(n^2) times.
+Auxiliary Space: O(n^2). 
+Output matrix is required so an extra space of size n*n is needed.
+ 
+Below is an extended version of this problem. Count number of ways to reach destination in a Maze
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+The Knight's tour problem
+Next
+N Queen Problem | Backtracking-3
+Related Articles
+1.
+Rat in a Maze Problem when movement in all possible directions is allowed
+2.
+Rat in a Maze with multiple steps or jump allowed
+3.
+Rat in a Maze | Backtracking using Stack
+4.
+A variation of Rat in a Maze : multiple steps or jumps allowed
+5.
+Shortest path in a Binary Maze
+6.
+Find paths from corner cell to middle cell in maze
+7.
+Count number of ways to reach destination in a Maze
+8.
+Count number of ways to reach destination in a maze
+9.
+Count number of ways to reach destination in a Maze using BFS
+10.
+Geek in a Maze
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Kakashi11
+Debomit Dey
+andrew1234
+GauravRajput1
+khushboogoyal499
+sumitu0812
+avanitrachhadiya2155
+sweetyty
+rajatjain0807
+adityakumar129
+sumitgumber28
+rahulnitpatnacse
+anveshsaxena
+hardikkoriintern
+ritikbharti4388
+wasaybcws
+Article Tags :
+Amazon
+Drishti-Soft
+Expedia
+Flipkart
+Grofers
+MakeMyTrip
+Numerify
+Paytm
+Visa
+Yatra.com
+Zycus
+Backtracking
+Matrix
+Practice Tags :
+Amazon
+Drishti-Soft
+Expedia
+Flipkart
+Grofers
+MakeMyTrip
+Paytm
+Visa
+Yatra.com
+Zycus
+Backtracking
+Matrix
+Report Issue

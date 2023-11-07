@@ -1,0 +1,332 @@
+Find paths from corner cell to middle cell in maze
+
+Difficulty Level : Hard
+Last Updated : 01 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a square maze containing positive numbers, find all paths from a corner cell (any of the extreme four corners) to the middle cell. We can move exactly n steps from a cell in 4 directions i.e. North, East, West and South where n is value of the cell, 
+
+We can move to mat[i+n][j], mat[i-n][j], mat[i][j+n], and mat[i][j-n] from a cell mat[i][j] where n is value of mat[i][j].
+
+Example
+
+Input:  9 x 9 maze
+[ 3, 5, 4, 4, 7, 3, 4, 6, 3 ]
+[ 6, 7, 5, 6, 6, 2, 6, 6, 2 ]
+[ 3, 3, 4, 3, 2, 5, 4, 7, 2 ]
+[ 6, 5, 5, 1, 2, 3, 6, 5, 6 ]
+[ 3, 3, 4, 3, 0, 1, 4, 3, 4 ]
+[ 3, 5, 4, 3, 2, 2, 3, 3, 5 ]
+[ 3, 5, 4, 3, 2, 6, 4, 4, 3 ]
+[ 3, 5, 1, 3, 7, 5, 3, 6, 4 ]
+[ 6, 2, 4, 3, 4, 5, 4, 5, 1 ]
+
+Output:
+(0, 0) -> (0, 3) -> (0, 7) -> 
+(6, 7) -> (6, 3) -> (3, 3) -> 
+(3, 4) -> (5, 4) -> (5, 2) -> 
+(1, 2) -> (1, 7) -> (7, 7) ->
+(7, 1) -> (2, 1) -> (2, 4) -> 
+(4, 4) -> MID
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use backtracking. We start with each corner cell of the maze and recursively checks if it leads to the solution or not. Following is the Backtracking algorithm –
+If destination is reached
+
+print the path
+Else
+
+Mark current cell as visited and add it to path array.
+Move forward in all 4 allowed directions and recursively check if any of them leads to a solution.
+If none of the above solutions work then mark this cell as not visited and remove it from path array.
+Below is the implementation of the above approach:
+
+C++
+// C++ program to find a path from corner cell to
+// middle cell in maze containing positive numbers
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Rows and columns in given maze
+#define N 9
+ 
+// check whether given cell is a valid cell or not.
+bool isValid(set<pair<int, int> > visited,
+             pair<int, int> pt)
+{
+    // check if cell is not visited yet to
+    // avoid cycles (infinite loop) and its
+    // row and column number is in range
+    return (pt.first >= 0) && (pt.first  < N) &&
+           (pt.second >= 0) && (pt.second < N) &&
+           (visited.find(pt) == visited.end());
+}
+ 
+// Function to print path from source to middle coordinate
+void printPath(list<pair<int, int> > path)
+{
+    for (auto it = path.begin(); it != path.end(); it++)
+        cout << "(" << it->first << ", "
+             << it->second << ") -> ";
+ 
+    cout << "MID" << endl << endl;
+}
+ 
+// For searching in all 4 direction
+int row[] = {-1, 1, 0, 0};
+int col[] = { 0, 0, -1, 1};
+ 
+// Coordinates of 4 corners of matrix
+int _row[] = { 0, 0, N-1, N-1};
+int _col[] = { 0, N-1, 0, N-1};
+ 
+void findPathInMazeUtil(int maze[N][N],
+                list<pair<int, int> > &path,
+                set<pair<int, int> > &visited,
+                pair<int, int> &curr)
+{
+    // If we have reached the destination cell.
+    // print the complete path
+    if (curr.first == N / 2 && curr.second == N / 2)
+    {
+        printPath(path);
+        return;
+    }
+ 
+    // consider each direction
+    for (int i = 0; i < 4; ++i)
+    {
+        // get value of current cell
+        int n = maze[curr.first][curr.second];
+ 
+        // We can move N cells in either of 4 directions
+        int x = curr.first + row[i]*n;
+        int y = curr.second + col[i]*n;
+ 
+        // Constructs a pair object with its first element
+        // set to x and its second element set to y
+        pair<int, int> next = make_pair(x, y);
+ 
+        // if valid pair
+        if (isValid(visited, next))
+        {
+            // mark cell as visited
+            visited.insert(next);
+ 
+            // add cell to current path
+            path.push_back(next);
+ 
+            // recurse for next cell
+            findPathInMazeUtil(maze, path, visited, next);
+ 
+            // backtrack
+            path.pop_back();
+             
+            // remove cell from current path
+            visited.erase(next);
+        }
+    }
+}
+ 
+// Function to find a path from corner cell to
+// middle cell in maze containing positive numbers
+void findPathInMaze(int maze[N][N])
+{
+    // list to store complete path
+    // from source to destination
+    list<pair<int, int> > path;
+ 
+    // to store cells already visited in current path
+    set<pair<int, int> > visited;
+ 
+    // Consider each corners as the starting
+    // point and search in maze
+    for (int i = 0; i < 4; ++i)
+    {
+        int x = _row[i];
+        int y = _col[i];
+ 
+        // Constructs a pair object
+        pair<int, int> pt = make_pair(x, y);
+ 
+        // mark cell as visited
+        visited.insert(pt);
+ 
+        // add cell to current path
+        path.push_back(pt);
+ 
+        findPathInMazeUtil(maze, path, visited, pt);
+ 
+        // backtrack
+        path.pop_back();
+ 
+        // remove cell from current path
+        visited.erase(pt);
+    }
+}
+ 
+int main()
+{
+    int maze[N][N] =
+    {
+        { 3, 5, 4, 4, 7, 3, 4, 6, 3 },
+        { 6, 7, 5, 6, 6, 2, 6, 6, 2 },
+        { 3, 3, 4, 3, 2, 5, 4, 7, 2 },
+        { 6, 5, 5, 1, 2, 3, 6, 5, 6 },
+        { 3, 3, 4, 3, 0, 1, 4, 3, 4 },
+        { 3, 5, 4, 3, 2, 2, 3, 3, 5 },
+        { 3, 5, 4, 3, 2, 6, 4, 4, 3 },
+        { 3, 5, 1, 3, 7, 5, 3, 6, 4 },
+        { 6, 2, 4, 3, 4, 5, 4, 5, 1 }
+    };
+ 
+    findPathInMaze(maze);
+ 
+    return 0;
+}
+Output : 
+
+
+
+(0, 0) -> (0, 3) -> (0, 7) -> 
+(6, 7) -> (6, 3) -> (3, 3) -> 
+(3, 4) -> (5, 4) -> (5, 2) -> 
+(1, 2) -> (1, 7) -> (7, 7) ->
+(7, 1) -> (2, 1) -> (2, 4) -> 
+(4, 4) -> MID
+A better approach:  
+
+C++
+Java
+Python3
+# Python program to find a path from corner cell to
+# middle cell in maze containing positive numbers
+def printPath(maze, i, j, ans):
+ 
+    # If we reach the center cell
+    if (i == len(maze) // 2 and j == len(maze) // 2):
+ 
+        # Make the final answer, Print
+        # final answer and Return
+        ans += "(" + str(i) + ", " + str(j) + ") -> MID";
+        print(ans);
+        return;
+     
+    # If the element at the current position
+    # in maze is 0, simply Return as it has
+    # been visited before.
+    if (maze[i][j] == 0):
+        return;
+     
+    # If element is non-zero, then note
+    # the element in variable 'k'
+    k = maze[i][j];
+ 
+    # Mark the cell visited by making the
+    # element 0. Don't worry, the element
+    # is safe in 'k'
+    maze[i][j] = 0;
+ 
+    # Make recursive calls in all 4
+    # directions pro-actively i.e. if the next
+    # cell lies in maze or not. Right call
+    if (j + k < len(maze)):
+        printPath(maze, i, j + k, ans + "(" + str(i) + ", " + str(j) + ") -> ");
+     
+    # down call
+    if (i + k < len(maze)):
+        printPath(maze, i + k, j, ans + "(" + str(i) + ", " + str(j) + ") -> ");
+     
+    # left call
+    if (j - k > 0):
+        printPath(maze, i, j - k, ans + "(" + str(i) + ", " + str(j) + ") -> ");
+     
+    # up call
+    if (i - k > 0):
+        printPath(maze, i - k, j, ans + "(" + str(i) + ", " + str(j) + ") -> ");
+     
+    # Unmark the visited cell by substituting
+    # its original value from 'k'
+    maze[i][j] = k;
+ 
+    # Driver code
+if __name__ == '__main__':
+ 
+    # Creating the maze
+    maze = [[ 3, 5, 4, 4, 7, 3, 4, 6, 3 ],[ 6, 7, 5, 6, 6, 2, 6, 6, 2 ],[ 3, 3, 4, 3, 2, 5, 4, 7, 2 ],
+            [ 6, 5, 5, 1, 2, 3, 6, 5, 6 ],[ 3, 3, 4, 3, 0, 1, 4, 3, 4 ],[ 3, 5, 4, 3, 2, 2, 3, 3, 5 ],
+            [ 3, 5, 4, 3, 2, 6, 4, 4, 3 ],[ 3, 5, 1, 3, 7, 5, 3, 6, 4 ],[ 6, 2, 4, 3, 4, 5, 4, 5, 1 ]] ;
+ 
+    # Calling the printPath function
+    printPath(maze, 0, 0, "");
+ 
+# This code contributed by gauravrajput1
+C#
+Javascript
+Output : 
+
+(0, 0) -> (0, 3) -> (0, 7) -> 
+(6, 7) -> (6, 3) -> (3, 3) ->
+(3, 4) -> (5, 4) -> (5, 2) ->
+(1, 2) -> (1, 7) -> (7, 7) -> 
+(7, 1) -> (2, 1) -> (2, 4) -> 
+(4, 4) -> MID
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+10
+Next
+Hamiltonian Cycle
+Related Articles
+1.
+Rat in a Maze Problem when movement in all possible directions is allowed
+2.
+Rat in a Maze with multiple steps or jump allowed
+3.
+Rat in a Maze | Backtracking using Stack
+4.
+Count number of ways to reach destination in a maze
+5.
+Rat in a Maze
+6.
+Maze With N doors and 1 Key
+7.
+Shortest path from a source cell to a destination cell of a Binary Matrix through cells consisting only of 1s
+8.
+Longest path in a Matrix from a specific source cell to destination cell
+9.
+Shortest path in a Matrix from top-left to bottom right-corner with neighbors exceeding at most K
+10.
+Middle To Up-Down Order traversal of a Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+raghavbansal011
+GauravRajput1
+saurabh1990aror
+varshagumber28
+unknown2108
+khushboogoyal499
+as5853535
+shinjanpatra
+sweetyty
+Article Tags :
+Backtracking
+Practice Tags :
+Backtracking

@@ -1,0 +1,185 @@
+Word Break Problem using Backtracking
+
+Difficulty Level : Hard
+Last Updated : 06 Jul, 2022
+Read
+Discuss(50)
+Courses
+Practice
+Video
+Given a valid sentence without any spaces between the words and a dictionary of valid English words, find all possible ways to break the sentence into individual dictionary words.
+
+Example:
+
+Consider the following dictionary 
+{ i, like, sam, sung, samsung, mobile, ice, 
+  and, cream, icecream, man, go, mango}
+
+Input: "ilikesamsungmobile"
+Output: i like sam sung mobile
+        i like samsung mobile
+
+Input: "ilikeicecreamandmango"
+Output: i like ice cream and man go
+        i like ice cream and mango
+        i like icecream and man go
+        i like icecream and mango
+Recommended Practice
+Word Break – Part 2
+Try It!
+We have discussed a Dynamic Programming solution in the below post. 
+Dynamic Programming | Set 32 (Word Break Problem)
+
+The Dynamic Programming solution only finds whether it is possible to break a word or not. Here we need to print all possible word breaks.
+
+We start scanning the sentence from the left. As we find a valid word, we need to check whether the rest of the sentence can make valid words or not. Because in some situations the first found word from the left side can leave a remaining portion that is not further separable. So, in that case, we should come back and leave the currently found word and keep on searching for the next word. And this process is recursive because to find out whether the right portion is separable or not, we need the same logic. So we will use recursion and backtracking to solve this problem. To keep track of the found words we will use a stack. Whenever the right portion of the string does not make valid words, we pop the top string from the stack and continue finding.
+
+Below is the implementation of the above idea:
+
+C++
+Java
+Python3
+# A recursive program to print all possible
+# partitions of a given string into dictionary
+# words
+ 
+# A utility function to check whether a word
+# is present in dictionary or not.  An array of
+# strings is used for dictionary.  Using array
+# of strings for dictionary is definitely not
+# a good idea. We have used for simplicity of
+# the program
+def dictionaryContains(word):
+    dictionary = {"mobile", "samsung", "sam", "sung", "man",
+                  "mango", "icecream", "and", "go", "i", "love", "ice", "cream"}
+    return word in dictionary
+ 
+# Prints all possible word breaks of given string
+def wordBreak(string):
+   
+    # Last argument is prefix
+    wordBreakUtil(string, len(string), "")
+ 
+# Result store the current prefix with spaces
+# between words
+def wordBreakUtil(string, n, result):
+ 
+    # Process all prefixes one by one
+    for i in range(1, n + 1):
+       
+        # Extract substring from 0 to i in prefix
+        prefix = string[:i]
+         
+        # If dictionary contains this prefix, then
+        # we check for remaining string. Otherwise
+        # we ignore this prefix (there is no else for
+        # this if) and try next
+        if dictionaryContains(prefix):
+           
+            # If no more elements are there, print it
+            if i == n:
+ 
+                # Add this element to previous prefix
+                result += prefix
+                print(result)
+                return
+            wordBreakUtil(string[i:], n - i, result+prefix+" ")
+ 
+# Driver Code
+if __name__ == "__main__":
+    print("First Test:")
+    wordBreak("iloveicecreamandmango")
+ 
+    print("\nSecond Test:")
+    wordBreak("ilovesamsungmobile")
+ 
+# This code is contributed by harshitkap00r
+C#
+Javascript
+Output
+
+
+First Test:
+i love ice cream and man go
+i love ice cream and mango
+i love icecream and man go
+i love icecream and mango
+
+Second Test:
+i love sam sung mobile
+i love samsung mobile
+Complexities: 
+
+Time Complexity: O(2n). Because there are 2n combinations in The Worst Case.
+Auxiliary Space: O(n2). Because of the Recursive Stack of wordBreakUtil(…) function in The Worst Case.
+Where n is the length of the input string.
+
+This article is contributed by Raghav Jajodia. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+60
+Previous
+N Queen in O(n) space
+Next
+Write a program to print all Permutations of given String
+Related Articles
+1.
+Word Break Problem | DP-32
+2.
+Word Break Problem | (Trie solution)
+3.
+Word Break Problem | DP-32 | Set - 2
+4.
+Travelling Salesman Problem implementation using BackTracking
+5.
+Minimum Word Break
+6.
+N Queen Problem | Backtracking-3
+7.
+Longest Common Prefix using Word by Word Matching
+8.
+C++ Program To Find Longest Common Prefix Using Word By Word Matching
+9.
+Python Program To Find Longest Common Prefix Using Word By Word Matching
+10.
+Javascript Program To Find Longest Common Prefix Using Word By Word Matching
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sreejithsankar55
+pratikraut0000
+harshitkap00r
+mohitjha727
+pushvind_1
+avanitrachhadiya2155
+anikakapoor
+divyeshrabadiya07
+hardikkoriintern
+Article Tags :
+D-E-Shaw
+Google
+IBM
+Backtracking
+Recursion
+Strings
+Practice Tags :
+D-E-Shaw
+Google
+IBM
+Backtracking
+Recursion
+Strings
+Improve Article
+Report Issue

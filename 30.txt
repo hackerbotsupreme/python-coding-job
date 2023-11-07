@@ -1,0 +1,191 @@
+N Queen in O(n) space
+
+Difficulty Level : Medium
+Last Updated : 03 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given n, of a n x n chessboard, find the proper placement of queens on chessboard.
+Previous Approach : N Queen
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Algorithm : 
+
+Place(k, i)
+// Returns true if a queen can be placed
+// in kth row and ith column. Otherwise it
+// returns false. X[] is a global array
+// whose first (k-1) values have been set.
+// Abs( ) returns absolute value of r
+{
+   for j := 1 to k-1 do
+
+        // Two in the same column
+        // or in the same diagonal
+        if ((x[j] == i)  or
+            (abs(x[j] – i) = Abs(j – k)))
+           then return false;
+
+   return true;
+}
+Algorithm nQueens(k, n) : 
+
+// Using backtracking, this procedure prints all 
+// possible placements of n queens on an n×n 
+// chessboard so that they are nonattacking.
+{
+      for i:= 1 to n do
+      {
+         if Place(k, i) then
+         {
+             x[k] = i;
+             if (k == n)
+                write (x[1:n]);
+             else 
+               NQueens(k+1, n);
+         }
+      }
+} 
+Implementation:
+
+
+C++
+Java
+Python3
+# Python code to for n Queen placement
+class GfG:
+    def __init__(self):
+        self.MAX = 10
+        self.arr = [0] * self.MAX
+        self.no = 0
+ 
+    def breakLine(self):
+        print("\n------------------------------------------------")
+ 
+    def canPlace(self, k, i):
+         
+        # Helper Function to check
+        # if queen can be placed
+        for j in range(1, k):
+            if (self.arr[j] == i or
+               (abs(self.arr[j] - i) == abs(j - k))):
+                return False
+        return True
+ 
+    def display(self, n):
+         
+        # Function to display placed queen
+        self.breakLine()
+        self.no += 1
+        print("Arrangement No.", self.no, end = " ")
+        self.breakLine()
+ 
+        for i in range(1, n + 1):
+            for j in range(1, n + 1):
+                if self.arr[i] != j:
+                    print("\t_", end = " ")
+                else:
+                    print("\tQ", end = " ")
+            print()
+ 
+        self.breakLine()
+ 
+    def nQueens(self, k, n):
+         
+        # Function to check queens placement
+        for i in range(1, n + 1):
+            if self.canPlace(k, i):
+                self.arr[k] = i
+                if k == n:
+                    self.display(n)
+                else:
+                    self.nQueens(k + 1, n)
+ 
+# Driver Code
+if __name__ == '__main__':
+    n = 4
+    obj = GfG()
+    obj.nQueens(1, n)
+ 
+# This code is contributed by vibhu4agarwal
+C#
+Javascript
+Output: 
+---------------------------------
+Arrangement No. 1
+---------------------------------
+    _    Q    _    _
+    _    _    _    Q
+    Q    _    _    _
+    _    _    Q    _
+
+---------------------------------
+
+---------------------------------
+Arrangement No. 2
+---------------------------------
+    _    _    Q    _
+    Q    _    _    _
+    _    _    _    Q
+    _    Q    _    _
+
+---------------------------------
+ 
+
+
+
+Like
+Previous
+Magnet Puzzle
+Next
+Word Break Problem using Backtracking
+Related Articles
+1.
+Find position of Queen in chessboard from given attack lines of queen
+2.
+8 queen problem
+3.
+Check if a Queen can attack a given cell on chessboard
+4.
+N-Queen Problem | Local Search using Hill climbing with random neighbour
+5.
+Count positions in a chessboard that can be visited by the Queen which are not visited by the King
+6.
+Printing all solutions in N-Queen Problem
+7.
+N Queen Problem using Branch And Bound
+8.
+Number of cells a queen can move with obstacles on the chessboard
+9.
+N Queen Problem | Backtracking-3
+10.
+Print n x n spiral matrix using O(1) extra space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Abhishek Bakare
+@Abhishek Bakare
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+29AjayKumar
+Rajput-Ji
+vibhu4agarwal
+sanjoy_62
+hardikkoriintern
+Article Tags :
+chessboard-problems
+Backtracking
+Matrix
+Recursion
+Practice Tags :
+Backtracking
+Matrix
+Recursion

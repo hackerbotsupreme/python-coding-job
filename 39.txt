@@ -1,0 +1,240 @@
+Warnsdorff’s algorithm for Knight’s tour problem
+
+Difficulty Level : Expert
+Last Updated : 24 Nov, 2022
+Read
+Discuss(20)
+Courses
+Practice
+Video
+Problem : A knight is placed on the first block of an empty board and, moving according to the rules of chess, must visit each square exactly once. 
+
+Following is an example path followed by Knight to cover all the cells. The below grid represents a chessboard with 8 x 8 cells. Numbers in cells indicate move number of Knight. 
+ 
+
+knight-tour-problem
+
+We have discussed Backtracking Algorithm for solution of Knight’s tour. In this post Warnsdorff’s heuristic is discussed. 
+Warnsdorff’s Rule: 
+
+We can start from any initial position of the knight on the board.
+We always move to an adjacent, unvisited square with minimal degree (minimum number of unvisited adjacent).
+This algorithm may also more generally be applied to any graph. 
+
+Some definitions:  
+
+A position Q is accessible from a position P if P can move to Q by a single Knight’s move, and Q has not yet been visited.
+The accessibility of a position P is the number of positions accessible from P.
+Algorithm:  
+
+Set P to be a random initial position on the board
+Mark the board at P with the move number “1”
+Do following for each move number from 2 to the number of squares on the board: 
+let S be the set of positions accessible from P.
+Set P to be the position in S with minimum accessibility
+Mark the board at P with the current move number
+Return the marked board — each square will be marked with the move number on which it is visited.
+Below is implementation of above algorithm.  
+
+C++
+Java
+Python3
+# Python program to for Knight's tour problem using
+# Warnsdorff's algorithm
+import random
+ 
+class Cell:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+ 
+N = 8
+ 
+# Move pattern on basis of the change of
+# x coordinates and y coordinates respectively
+cx = [1, 1, 2, 2, -1, -1, -2, -2]
+cy = [2, -2, 1, -1, 2, -2, 1, -1]
+ 
+# function restricts the knight to remain within
+# the 8x8 chessboard
+def limits(x, y):
+    return ((x >= 0 and y >= 0) and (x < N and y < N))
+ 
+# Checks whether a square is valid and empty or not
+def isempty(a, x, y):
+    return (limits(x, y)) and (a[y * N + x] < 0)
+ 
+# Returns the number of empty squares adjacent to (x, y)
+def getDegree(a, x, y):
+    count = 0
+    for i in range(N):
+        if isempty(a, (x + cx[i]), (y + cy[i])):
+            count += 1
+    return count
+ 
+# Picks next point using Warnsdorff's heuristic.
+# Returns false if it is not possible to pick
+# next point.
+def nextMove(a, cell):
+    min_deg_idx = -1
+    c = 0
+    min_deg = (N + 1)
+    nx = 0
+    ny = 0
+ 
+    # Try all N adjacent of (*x, *y) starting
+    # from a random adjacent. Find the adjacent
+    # with minimum degree.
+    start = random.randint(0, 1000) % N
+    for count in range(0, N):
+        i = (start + count) % N
+        nx = cell.x + cx[i]
+        ny = cell.y + cy[i]
+        c = getDegree(a, nx, ny)
+        if ((isempty(a, nx, ny)) and c < min_deg):
+            min_deg_idx = i
+            min_deg = c
+ 
+    # IF we could not find a next cell
+    if (min_deg_idx == -1):
+        return None
+ 
+    # Store coordinates of next point
+    nx = cell.x + cx[min_deg_idx]
+    ny = cell.y + cy[min_deg_idx]
+ 
+    # Mark next move
+    a[ny * N + nx] = a[(cell.y) * N + (cell.x)] + 1
+ 
+    # Update next point
+    cell.x = nx
+    cell.y = ny
+ 
+    return cell
+ 
+# displays the chessboard with all the legal knight's moves
+def printA(a):
+    for i in range(N):
+        for j in range(N):
+            print("%d\t" % a[j * N + i], end="")
+        print()
+ 
+# checks its neighbouring squares
+# If the knight ends on a square that is one knight's move from the beginning square,then tour is closed
+def neighbour(x, y, xx, yy):
+    for i in range(N):
+        if ((x + cx[i]) == xx) and ((y + cy[i]) == yy):
+            return True
+    return False
+ 
+#  Generates the legal moves using warnsdorff's heuristics. Returns false if not possible
+def findClosedTour():
+    # Filling up the chessboard matrix with -1's
+    a = [-1] * N * N
+ 
+    # initial position
+    sx = 3
+    sy = 2
+ 
+    # Current points are same as initial points
+    cell = Cell(sx, sy)
+ 
+    a[cell.y * N + cell.x] = 1  # Mark first move.
+ 
+    # Keep picking next points using Warnsdorff's heuristic
+    ret = None
+    for i in range(N * N - 1):
+        ret = nextMove(a, cell)
+        if ret == None:
+            return False
+ 
+    # Check if tour is closed (Can end at starting point)
+    if not neighbour(ret.x, ret.y, sx, sy):
+        return False
+    printA(a)
+    return True
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    # While we don't get a solution
+    while not findClosedTour():
+        pass
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output: 
+
+59    14    63    32    1    16    19    34    
+62    31    60    15    56    33    2    17    
+13    58    55    64    49    18    35    20    
+30    61    42    57    54    51    40    3    
+43    12    53    50    41    48    21    36    
+26    29    44    47    52    39    4    7    
+11    46    27    24    9    6    37    22    
+28    25    10    45    38    23    8    5    
+The Hamiltonian path problem is NP-hard in general. In practice, Warnsdorff’s heuristic successfully finds a solution in linear time.
+
+Do you know? 
+“On an 8 × 8 board, there are exactly 26,534,728,821,064 directed closed tours (i.e. two tours along the same path that travel in opposite directions are counted separately, as are rotations and reflections). The number of undirected closed tours is half this number, since every tour can be traced in reverse!”
+
+This article is contributed by Uddalak Bhaduri. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Print all subsets of a given Set or Array
+Next
+Printing all solutions in N-Queen Problem
+Related Articles
+1.
+The Knight's tour problem
+2.
+Maximum non-attacking Knights that can be placed on an N*M Chessboard
+3.
+Count Knights that can attack a given pawn in an N * N board
+4.
+Place K-knights such that they do not attack each other
+5.
+Print all Knight's tour possible from a starting point on NxN chessboard
+6.
+8 queen problem
+7.
+Word Break Problem using Backtracking
+8.
+Rat in a Maze Problem when movement in all possible directions is allowed
+9.
+Travelling Salesman Problem implementation using BackTracking
+10.
+Perfect Sum Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SaeedZarinfam
+rajeev0719singh
+anikakapoor
+varshagumber28
+simmytarika5
+shruti456rawal
+tapeshdua420
+Article Tags :
+chessboard-problems
+Backtracking
+Practice Tags :
+Backtracking

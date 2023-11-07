@@ -1,0 +1,181 @@
+Combinational Sum
+
+Difficulty Level : Medium
+Last Updated : 23 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given an array of positive integers arr[] and an integer x, The task is to find all unique combinations in arr[] where the sum is equal to x. 
+The same repeated number may be chosen from arr[] an unlimited number of times. Elements in a combination (a1, a2, …, ak) must be printed in non-descending order. (ie, a1 <= a2 <= … <= ak). If there is no combination possible print “Empty”.
+
+Examples: 
+
+Input: arr[] = 2, 4, 6, 8, x = 8
+Output: 
+[2, 2, 2, 2]
+[2, 2, 4]
+[2, 6]
+[4, 4]
+[8]
+
+Recommended Problem
+Combination Sum
+Recursion
+Backtracking
++1 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 69K
+Approach:
+
+Recursively find all combinations and if the current combination sums up to give X then add this combination in the final set of combinations.
+
+Follow the below steps to implement the idea:
+
+Sort the array arr[] and remove all the duplicates from the arr[] then create a temporary vector r. to store every combination and a vector of vector res.
+Recursively follow: 
+If at any time sub-problem sum == 0 then add that array to the res (vector of vectors).
+Run a while loop till the sum – arr[I] is not negative and i is less than arr.size().
+Push arr[i] in r and recursively call for i and sum-arr[i] ,then increment i by 1.
+pop r[i] from back and backtrack. 
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python3 program to find all combinations that
+# sum to a given value
+ 
+def combinationSum(arr, sum):
+    ans = []
+    temp = []
+ 
+    # first do hashing nothing but set{}
+    # since set does not always sort
+    # removing the duplicates using Set and
+    # Sorting the List
+    arr = sorted(list(set(arr)))
+    findNumbers(ans, arr, temp, sum, 0)
+    return ans
+ 
+def findNumbers(ans, arr, temp, sum, index):
+     
+    if(sum == 0):
+         
+        # Adding deep copy of list to ans
+        ans.append(list(temp))
+        return
+       
+    # Iterate from index to len(arr) - 1
+    for i in range(index, len(arr)):
+ 
+        # checking that sum does not become negative
+        if(sum - arr[i]) >= 0:
+ 
+            # adding element which can contribute to
+            # sum
+            temp.append(arr[i])
+            findNumbers(ans, arr, temp, sum-arr[i], i)
+ 
+            # removing element from list (backtracking)
+            temp.remove(arr[i])
+ 
+ 
+# Driver Code
+arr = [2, 4, 6, 8]
+sum = 8
+ans = combinationSum(arr, sum)
+ 
+# If result is empty, then
+if len(ans) <= 0:
+    print("empty")
+     
+# print all combinations stored in ans
+for i in range(len(ans)):
+ 
+    print("(", end=' ')
+    for j in range(len(ans[i])):
+        print(str(ans[i][j])+" ", end=' ')
+    print(")", end=' ')
+ 
+ 
+# This Code Is Contributed by Rakesh(vijayarigela09)
+C#
+Javascript
+Output
+ ( 2 2 2 2 ) ( 2 2 4 ) ( 2 6 ) ( 4 4 ) ( 8 )
+Time Complexity: O(k*(2^n)) where n is the size of array, and k is average length
+Auxiliary Space: O(k*x) where is x is number of possible combinations
+
+This article is contributed by Aditya Nihal Kumar Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+Like
+Previous
+8 queen problem
+Next
+Power Set in Lexicographic order
+Related Articles
+1.
+Count of n digit numbers whose sum of digits equals to given sum
+2.
+Finding sum of digits of a number until sum becomes single digit
+3.
+Perfect Sum Problem (Print all subsets with given sum)
+4.
+Subset Sum Problem in O(sum) space
+5.
+Smallest number with given sum of digits and sum of square of digits
+6.
+Count of possible arrays from prefix-sum and suffix-sum arrays
+7.
+Sum of sum-series of first N Natural numbers
+8.
+Sum of series formed by difference between product and sum of N natural numbers
+9.
+Maximize sum of remaining elements after every removal of the array half with greater sum
+10.
+Sum of nodes having sum of subtrees of opposite parities
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ss801101
+msharma04
+ashishrajput1952
+rakesh419
+NikitaRana07
+SHUBHAMSINGH10
+girikgarg8
+_saurabh_jaiswal
+raghav_maheshwari
+shivamanandrj9
+aashutoshparoha
+Article Tags :
+Adobe
+Amazon
+Microsoft
+Backtracking
+Combinatorial
+Recursion
+Practice Tags :
+Adobe
+Amazon
+Microsoft
+Backtracking
+Combinatorial
+Recursion
+Report Issue

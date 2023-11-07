@@ -1,0 +1,176 @@
+Find all distinct subsets of a given set using BitMasking Approach
+
+Difficulty Level : Hard
+Last Updated : 20 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of integers arr[], The task is to find all its subsets. The subset can not contain duplicate elements, so any repeated subset should be considered only once in the output.
+
+Examples: 
+
+Input:  S = {1, 2, 2}
+Output:  {}, {1}, {2}, {1, 2}, {2, 2}, {1, 2, 2}
+Explanation: The total subsets of given set are – {}, {1}, {2}, {2}, {1, 2}, {1, 2}, {2, 2}, {1, 2, 2}
+Here {2} and {1, 2} are repeated twice so they are considered only once in the output
+
+Input:  S = {1, 2}
+Output:  {}, {1}, {2}, {1, 2}
+Explanation: The total subsets of given set are – {}, {1}, {2}, {1, 2}
+
+
+Recommended Problem
+Unique Subsets
+Sorting
+subset
++2 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 31.2K
+Prerequisite: Power Set
+
+Approach: Below is the idea to solve the problem:
+
+The idea is to use a bit-mask pattern to generate all the combinations as discussed in post. To avoid printing duplicate subsets construct a string out of given subset such that subsets having similar elements will result in same string. Maintain a list of such unique strings and finally decode all such string to print its individual elements.
+
+
+
+Illustration :
+
+S = {1, 2, 2}
+
+The binary digits from 0 to 7 are
+
+0 –> 000    –> number formed with no setbits                              –> { }
+1 –> 001    –> number formed with setbit at position 0                –> { 1 }
+2 –> 010    –> number formed with setbit at position 1                –> { 2 }
+3 –> 011    –> number formed with setbit at position 0  and 1     –> { 1 , 2 }
+4 –> 100    –> number formed with setbit at position 2                –>  { 2 }
+5 –> 101    –> number formed with setbit at position 0 and 2      –> { 1 , 2}
+6 –> 110    –> number formed with setbit at position 1 and 2      –> { 2 , 2}
+7 –> 111    –> number formed with setbit at position 0 , 1 and 2  –> {1 , 2 , 2}
+
+After removing duplicates final result will be { }, { 1 }, { 2 }, { 1 , 2 }, { 2 , 2 }, { 1 , 2 , 2}
+
+Note: This method will only work on sorted arrays. 
+
+
+Follow the below steps to Implement the idea:
+
+Initialize a variable pow_set_size as 2 raise to size of array and a vector of vector ans to store all subsets.
+Iterate over all bitmasks from 0 to pow_set_size  – 1.
+For every bitmask include the elements of array of indices where bits are set into a subset vector.
+If this subset doesn’t already exist then push the subset in the ans vector.
+Return ans.
+Below is the implementation of the above approach:  
+
+C++14
+Java
+Python3
+# Python3 program to find all subsets of
+# given set. Any repeated subset is
+# considered only once in the output
+ 
+ 
+def printPowerSet(arr, n):
+ 
+    # Function to find all subsets of given set.
+    # Any repeated subset is considered only
+    # once in the output
+    _list = []
+ 
+    # Run counter i from 000..0 to 111..1
+    for i in range(2**n):
+        subset = ""
+ 
+        # consider each element in the set
+        for j in range(n):
+ 
+            # Check if jth bit in the i is set.
+            # If the bit is set, we consider
+            # jth element from set
+            if (i & (1 << j)) != 0:
+                subset += str(arr[j]) + "|"
+ 
+        # if subset is encountered for the first time
+        # If we use set<string>, we can directly insert
+        if subset not in _list and len(subset) > 0:
+            _list.append(subset)
+ 
+    # consider every subset
+    for subset in _list:
+ 
+        # split the subset and print its elements
+        arr = subset.split('|')
+        for string in arr:
+            print(string, end=" ")
+        print()
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [10, 12, 12]
+    n = len(arr)
+    printPowerSet(arr, n)
+ 
+# This code is contributed by vibhu4agarwal
+C#
+Javascript
+Output
+10 
+12 
+10 12 
+12 12 
+10 12 12 
+Time Complexity: O(N*2N)
+Auxiliary Space: O(N*N)
+
+Analysis:
+
+If M       is the total number of steps in the code, then the loop to generate all binary combinations runs till, and then the inner loop run till log(i).
+Hence, M = \sum_{i=1}^{2^n}{log[i]}   , Raising to the power of two on both sides 
+ 2^M = 2^{\sum_{i=1}^{2^N}{log[i]}} = \prod_{i=1}^{2^N}{2^{log[i]}} = \prod_{i=1}^{2^N}{i} = (2^N)!    
+Using log on both sides and applying Sterling’s approximation,
+M = log(2^{N}!) \approx N2^N - 2^N = N2^N   
+Hence the time complexity is O(N*2^N)
+
+Find all distinct subsets of a given set using BitMasking Approach using Backtracking
+Refer to the article https://www.geeksforgeeks.org/backtracking-to-find-all-subsets/ to solve the problem using the backtracking approach.
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.GeeksforGeeks.org or mail your article to contribute@GeeksforGeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+44
+Next
+Print all subsets of a given Set or Array
+Related Articles
+1.
+Count ways to select N pairs of candies of distinct colors (Dynamic Programming + Bitmasking)
+2.
+Sum of subsets of all the subsets of an array | O(3^N)
+3.
+Sum of subsets of all the subsets of an array | O(N)
+4.
+Sum of subsets of all the subsets of an array | O(2^N)
+5.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+6.
+Find all unique subsets of a given set using C++ STL
+7.
+Find all Unique Subsets of a given Set
+8.
+Python program to get all subsets of given size of a set
+9.
+Print all subsets of a given Set or Array
+10.
+Print all subsets of given size of a set

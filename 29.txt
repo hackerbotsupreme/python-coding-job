@@ -1,0 +1,226 @@
+Rat in a Maze with multiple steps or jump allowed
+
+Difficulty Level : Medium
+Last Updated : 08 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+This is the variation of Rat in Maze 
+
+A Maze is given as N*N binary matrix of blocks where source block is the upper left most block i.e., maze[0][0] and destination block is lower rightmost block i.e., maze[N-1][N-1]. A rat starts from source and has to reach destination. The rat can move only in two directions: forward and down. 
+
+In the maze matrix, 0 means the block is dead end and non-zero number means the block can be used in the path from source to destination. The non-zero value of mat[i][j] indicates number of maximum jumps rat can make from cell mat[i][j].
+
+In this variation, Rat is allowed to jump multiple steps at a time instead of 1. 
+
+Examples:  
+
+Input : { {2, 1, 0, 0},
+         {3, 0, 0, 1},
+         {0, 1, 0, 1},
+          {0, 0, 0, 1}
+        }
+Output : { {1, 0, 0, 0},
+           {1, 0, 0, 1},
+           {0, 0, 0, 1},
+           {0, 0, 0, 1}
+         }
+
+Explanation 
+Rat started with M[0][0] and can jump upto 2 steps right/down. 
+Let's try in horizontal direction - 
+M[0][1] won't lead to solution and M[0][2] is 0 which is dead end. 
+So, backtrack and try in down direction. 
+Rat jump down to M[1][0] which eventually leads to solution.  
+
+Input : { 
+      {2, 1, 0, 0},
+      {2, 0, 0, 1},
+      {0, 1, 0, 1},
+      {0, 0, 0, 1}
+    }
+Output : Solution doesn't exist
+Naive Algorithm:
+
+The Naive Algorithm is to generate all paths from source to destination and one by one check if the generated path satisfies the constraints. 
+
+while there are untried paths
+{
+   generate the next path
+   if this path has all blocks as non-zero
+   {
+      print this path;
+   }
+}
+Backtracking Algorithm: 
+
+If destination is reached
+    print the solution matrix
+Else
+   a) Mark current cell in solution matrix as 1. 
+   b) Move forward/jump (for each valid steps) in horizontal direction 
+      and recursively check if this move leads to a solution. 
+   c) If the move chosen in the above step doesn't lead to a solution
+       then move down and check if this move leads to a solution. 
+   d) If none of the above solutions work then unmark this cell as 0 
+       (BACKTRACK) and return false.
+Implementation of Backtracking solution
+
+C++
+Java
+Python3
+""" Python3 program to solve Rat in a
+Maze problem using backtracking """
+ 
+# Maze size
+N = 4
+ 
+""" A utility function to print solution matrix
+sol """
+def printSolution(sol):
+    for i in range(N):
+        for j in range(N):
+            print(sol[i][j], end = " ")
+        print()
+         
+""" A utility function to check if
+x, y is valid index for N*N maze """
+def isSafe(maze, x, y):
+     
+    # if (x, y outside maze) return false
+    if (x >= 0 and x < N and y >= 0 and
+         y < N and maze[x][y] != 0):
+        return True
+    return False
+ 
+""" This function solves the Maze problem using
+Backtracking. It mainly uses solveMazeUtil() to
+solve the problem. It returns false if no path
+is possible, otherwise return True and prints
+the path in the form of 1s. Please note that
+there may be more than one solutions,
+this function prints one of the feasible solutions."""
+def solveMaze(maze):
+    sol = [[0, 0, 0, 0],
+           [0, 0, 0, 0],
+           [0, 0, 0, 0],
+           [0, 0, 0, 0]]
+    if (solveMazeUtil(maze, 0, 0, sol) == False):
+        print("Solution doesn't exist")
+        return False
+    printSolution(sol)
+    return True
+     
+""" A recursive utility function
+to solve Maze problem """
+def solveMazeUtil(maze, x, y, sol):
+     
+    # if (x, y is goal) return True
+    if (x == N - 1 and y == N - 1) :
+        sol[x][y] = 1
+        return True
+         
+    # Check if maze[x][y] is valid
+    if (isSafe(maze, x, y) == True):
+         
+        # mark x, y as part of solution path
+        sol[x][y] = 1
+         
+        """ Move forward in x direction """
+        for i in range(1, N):
+            if (i <= maze[x][y]):
+                 
+                """ Move forward in x direction """
+                if (solveMazeUtil(maze, x + i,
+                                  y, sol) == True):
+                    return True
+                     
+                """ If moving in x direction doesn't give
+                solution then Move down in y direction """
+                if (solveMazeUtil(maze, x,
+                                  y + i, sol) == True):
+                    return True
+                     
+        """ If none of the above movements work then
+        BACKTRACK: unmark x, y as part of solution
+        path """
+        sol[x][y] = 0
+        return False
+    return False
+ 
+# Driver Code
+maze = [[2, 1, 0, 0],
+        [3, 0, 0, 1],
+        [0, 1, 0, 1],
+        [0, 0, 0, 1]]
+solveMaze(maze)
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output: 
+1  0  0  0 
+1  0  0  1 
+0  0  0  1 
+0  0  0  1
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Write a program to print all Permutations of given String
+Next
+Print all possible paths from top left to bottom right of a mXn matrix
+Related Articles
+1.
+A variation of Rat in a Maze : multiple steps or jumps allowed
+2.
+Rat in a Maze Problem when movement in all possible directions is allowed
+3.
+Rat in a Maze | Backtracking using Stack
+4.
+Rat in a Maze
+5.
+Shortest path in a Binary Maze
+6.
+Find paths from corner cell to middle cell in maze
+7.
+Count number of ways to reach destination in a Maze
+8.
+Count number of ways to reach destination in a maze
+9.
+Count number of ways to reach destination in a Maze using BFS
+10.
+Geek in a Maze
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Ajay Verma
+@Ajay Verma
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princi singh
+29AjayKumar
+SHUBHAMSINGH10
+splevel62
+khushboogoyal499
+surinderdawra388
+hardikkoriintern
+Article Tags :
+Backtracking
+Matrix
+Practice Tags :
+Backtracking
+Matrix

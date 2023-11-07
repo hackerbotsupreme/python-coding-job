@@ -1,0 +1,237 @@
+Write a program to print all Permutations of given String
+
+Difficulty Level : Medium
+Last Updated : 06 Dec, 2022
+Read
+Discuss(790+)
+Courses
+Practice
+Video
+Given a string S, the task is to write a program to print all permutations of a given string. 
+
+A permutation also called an “arrangement number” or “order,” is a rearrangement of the elements of an ordered list S into a one-to-one correspondence with S itself. A string of length N has N! permutations. 
+
+Examples:
+
+Input: S = “ABC”
+Output: “ABC”, “ACB”, “BAC”, “BCA”, “CBA”, “CAB”
+
+Input: S = “XY”
+Output: “XY”, “YX”
+
+Recommended Problem
+Permutations of a given string
+Strings
+Recursion
++3 more
+Zoho
+Accolite
++9 more
+Solve Problem
+Submission count: 1.9L
+Print permutations of a given string using backtracking:
+NewPermutation
+
+Follow the given steps to solve the problem:
+
+Create a function permute() with parameters as input string, starting index of the string, ending index of the string
+Call this function with values input string, 0, size of string – 1
+In this function, if the value of  L and R is the same then print the same string
+Else run a for loop from L to R and swap the current element in the for loop with the inputString[L]
+Then again call this same function by increasing the value of L by 1
+After that again swap the previously swapped values to initiate backtracking
+Below is the implementation of the above approach:
+
+C++14
+C
+Java
+Python3
+# Python3 program to print all permutations with
+# duplicates allowed
+ 
+ 
+def toString(List):
+    return ''.join(List)
+ 
+# Function to print permutations of string
+# This function takes three parameters:
+# 1. String
+# 2. Starting index of the string
+# 3. Ending index of the string.
+ 
+ 
+def permute(a, l, r):
+    if l == r:
+        print(toString(a))
+    else:
+        for i in range(l, r):
+            a[l], a[i] = a[i], a[l]
+            permute(a, l+1, r)
+            a[l], a[i] = a[i], a[l]  # backtrack
+ 
+ 
+# Driver code
+string = "ABC"
+n = len(string)
+a = list(string)
+ 
+# Function call
+permute(a, 0, n)
+ 
+# This code is contributed by Bhavya Jain
+C#
+PHP
+Javascript
+Output
+ABC
+ACB
+BAC
+BCA
+CBA
+CAB
+Time Complexity: O(N * N!) Note that there are N! permutations and it requires O(N) time to print a permutation.
+Auxiliary Space: O(R – L)
+
+Note: The above solution prints duplicate permutations if there are repeating characters in the input string. Please see the below link for a solution that prints only distinct permutations even if there are duplicates in input.
+
+Print all distinct permutations of a given string with duplicates. 
+Permutations of a given string using STL
+Another approach by concatenating Substrings: 
+
+Follow the below idea:
+
+Create a recursive function and pass the input string and a string that stores the permutation (which is initially empty when called from the main function).
+If the length of the string is 0, print the permutation.
+Otherwise, run a loop from i = 0 to N:
+Consider S[i], to be a part of the permutation.
+Remove this from the current string and append it to the end of the permutation.
+Call the recursive function with the current string which does not contain S[i] and the current permutation.
+Below is the implementation of this approach:
+
+C++
+Java
+Python3
+def permute(s, answer):
+    if (len(s) == 0):
+        print(answer, end="  ")
+        return
+ 
+    for i in range(len(s)):
+        ch = s[i]
+        left_substr = s[0:i]
+        right_substr = s[i + 1:]
+        rest = left_substr + right_substr
+        permute(rest, answer + ch)
+ 
+ 
+# Driver Code
+answer = ""
+ 
+s = "ABC"
+ 
+print("All possible strings are : ")
+permute(s, answer)
+ 
+# This code is contributed by Harshit Srivastava
+C#
+Javascript
+Output
+All possible strings are : ABC  ACB  BAC  BCA  CAB  CBA  
+Time Complexity: O(N * N!) i.e. there are N! permutations and it requires O(N) time to print a permutation.
+Auxiliary Space: O(|S|)
+
+Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.
+
+
+
+Like
+Previous
+Word Break Problem using Backtracking
+Next
+Rat in a Maze with multiple steps or jump allowed
+Related Articles
+1.
+Generate all binary permutations such that there are more or equal 1's than 0's before every point in all permutations
+2.
+C++ Program To Print All Permutations Of A Given String
+3.
+Print all the palindromic permutations of given string in alphabetic order
+4.
+Print all lexicographical greater permutations of a given string
+5.
+Print all distinct permutations of a given string with duplicates
+6.
+Print all palindrome permutations of a string
+7.
+Print all permutations of a string in Java
+8.
+Print all the permutations of a string without repetition using Collections in Java
+9.
+Java Program to print distinct permutations of a string
+10.
+Print all permutations with repetition of characters
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+ArindamDuttagupta
+rathbhupendra
+nikhilchhipa9
+imsushant12
+srivastavaharshit848
+adityapande88
+avanitrachhadiya2155
+GauravRajput1
+subhammahato348
+amartyaghoshgfg
+code_hunt
+codessrivastava
+ishankhandelwals
+tejasvigupta723
+janardansthox
+ayushpandey830
+Article Tags :
+Accolite
+Amazon
+Apple
+Cisco
+Citrix
+MAQ Software
+OYO Rooms
+permutation
+Samsung
+Snapdeal
+Walmart
+Backtracking
+Combinatorial
+Greedy
+Mathematical
+Recursion
+Strings
+Practice Tags :
+Accolite
+Amazon
+Apple
+Cisco
+Citrix
+MAQ Software
+OYO Rooms
+Samsung
+Snapdeal
+Walmart
+Backtracking
+Combinatorial
+Greedy
+Mathematical
+permutation
+Recursion
+Strings
+Report Issue

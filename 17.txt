@@ -1,0 +1,200 @@
+Check if a given string is sum-string
+
+Difficulty Level : Hard
+Last Updated : 22 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a string of digits, determine whether it is a ‘sum-string’. A string S is called a sum-string if the rightmost substring can be written as the sum of two substrings before it and the same is recursively true for substrings before it. 
+
+Examples:
+
+“12243660” is a sum string. 
+Explanation : 24 + 36 = 60, 12 + 24 = 36
+
+“1111112223” is a sum string. 
+Explanation: 111+112 = 223, 1+111 = 112 
+
+“2368” is not a sum string
+In general, a string S is called sum-string if it satisfies the following properties:
+
+sub-string(i, x) + sub-string(x+1, j) 
+ = sub-string(j+1, l)
+and 
+sub-string(x+1, j)+sub-string(j+1, l) 
+ = sub-string(l+1, m) 
+and so on till end. 
+Recommended Problem
+Sum-string
+Strings
+Recursion
++3 more
+Nutanix
+Solve Problem
+Submission count: 3.4K
+From the examples, we can see that our decision depends on the first two chosen numbers. So we choose all possible first two numbers for a given string. Then for every chosen two numbers, we check whether it is sum-string or not? So the approach is very simple. We generate all possible first two numbers using two substrings s1 and s2 using two loops. then we check whether it is possible to make the number s3 = (s1 + s2) or not. If we can make s3 then we recursively check for s2 + s3 and so on. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python code for the above approach
+ 
+# this is function for finding sum of two
+# numbers as string
+def string_sum(str1, str2):
+ 
+    if (len(str1) < len(str2)):
+        str1, str2 = str2,str1
+ 
+    m = len(str1)
+    n = len(str2)
+    ans = ""
+ 
+    # sum the str2 with str1
+    carry = 0
+    for i in range(n):
+ 
+        # Sum of current digits
+        ds = ((ord(str1[m - 1 - i]) - ord('0')) +
+                (ord(str2[n - 1 - i]) - ord('0')) +
+                carry) % 10
+ 
+        carry = ((ord(str1[m - 1 - i]) - ord('0')) +
+                (ord(str2[n - 1 - i]) - ord('0')) +
+                carry) // 10
+ 
+        ans = str(ds) + ans
+ 
+    for i in range(n,m):
+        ds = (ord(str1[m - 1 - i]) - ord('0') +
+                carry) % 10
+        carry = (ord(str1[m - 1 - i]) - ord('0') +
+                carry) // 10
+        ans = str(ds) + ans
+ 
+    if (carry):
+        ans = str(carry) + ans
+    return ans
+ 
+# Returns True if two substrings of given
+# lengths of str[beg..] can cause a positive
+# result.
+def checkSumStrUtil(Str, beg,len1, len2):
+ 
+    # Finding two substrings of given lengths
+    # and their sum
+    s1 = Str[beg: beg+len1]
+    s2 = Str[beg + len1: beg + len1 +len2]
+    s3 = string_sum(s1, s2)
+ 
+    s3_len = len(s3)
+ 
+    # if number of digits s3 is greater than
+    # the available string size
+    if (s3_len > len(Str) - len1 - len2 - beg):
+        return False
+ 
+    # we got s3 as next number in main string
+    if (s3 == Str[beg + len1 + len2: beg + len1 + len2 +s3_len]):
+ 
+        # if we reach at the end of the string
+        if (beg + len1 + len2 + s3_len == len(Str)):
+            return True
+ 
+        # otherwise call recursively for n2, s3
+        return checkSumStrUtil(Str, beg + len1, len2,s3_len)
+ 
+    # we do not get s3 in main string
+    return False
+ 
+# Returns True if str is sum string, else False.
+def isSumStr(Str):
+ 
+    n = len(Str)
+ 
+    # choosing first two numbers and checking
+    # whether it is sum-string or not.
+    for i in range(1,n):
+        for j in range(1,n-i):
+            if (checkSumStrUtil(Str, 0, i, j)):
+                return True
+ 
+    return False
+ 
+ 
+# Driver code
+print(isSumStr("1212243660"))
+print(isSumStr("123456787"))
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+True
+False
+Time Complexity: O(n*n*n), where n is the length of the string.
+Auxiliary Space: O(n), where n is the length of the string.
+
+This article is contributed by Jay Prakash Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Power Set in Lexicographic order
+Next
+Fill 8 numbers in grid with given conditions
+Related Articles
+1.
+Check if any permutation of a given string is lexicographically larger than the other given string
+2.
+Check if a string can become empty by recursively deleting a given sub-string
+3.
+Check if the given string is shuffled substring of another string
+4.
+Check if left and right shift of any string results into given string
+5.
+Check if a given string is a Reverse Bitonic String or not
+6.
+Check if given string is a substring of string formed by repeated concatenation of z to a
+7.
+Check if a string is concatenation of another given string
+8.
+Check if a string can be converted to another given string by removal of a substring
+9.
+Generate string by incrementing character of given string by number present at corresponding index of second string
+10.
+Check whether given string can be generated after concatenating given strings
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+simmytarika5
+shinjanpatra
+anandkumarshivam2266
+abhijeet19403
+tapeshdua420
+hardikkoriintern
+mitalibhola94
+Article Tags :
+Nutanix
+Backtracking
+Recursion
+Strings
+Practice Tags :
+Nutanix
+Backtracking
+Recursion
+Strings
+Report Issue

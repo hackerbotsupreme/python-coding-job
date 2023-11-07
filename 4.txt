@@ -1,0 +1,91 @@
+What is the difference between Backtracking and Recursion?
+
+Difficulty Level : Basic
+Last Updated : 18 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is Recursion?
+The process in which a function calls itself directly or indirectly is called recursion and the corresponding function is called a recursive function.
+
+Properties of Recursion:
+Performing the same operations multiple times with different inputs.
+In every step, we try smaller inputs to make the problem smaller.
+A base condition is needed to stop the recursion otherwise infinite loop will occur.
+What is Backtracking?
+Backtracking is an algorithmic technique for solving problems recursively by trying to build a solution incrementally, one piece at a time, removing those solutions that fail to satisfy the constraints of the problem at any point in time (by time, here, is referred to the time elapsed till reaching any level of the search tree). 
+
+Backtracking can be defined as a general algorithmic technique that considers searching every possible combination in order to solve a computational problem.
+
+There are three types of problems in backtracking:  
+Decision Problem – In this, we search for a feasible solution.
+Optimization Problem – In this, we search for the best solution.
+Enumeration Problem – In this, we find all feasible solutions.
+What is the difference between Backtracking and Recursion?
+Sl. No.	Recursion	Backtracking
+1	Recursion does not always need backtracking	Backtracking always uses recursion to solve problems
+2	A recursive function solves a particular problem by calling a copy of itself and solving smaller subproblems of the original problems.	Backtracking at every step eliminates those choices that cannot give us the solution and proceeds to those choices that have the potential of taking us to the solution.
+3	Recursion is a part of backtracking itself and it is simpler to write.	Backtracking is comparatively complex to implement.
+4	Applications of recursion are Tree and Graph Traversal, Towers of Hanoi, Divide and Conquer Algorithms, Merge Sort, Quick Sort, and Binary Search.	Application of Backtracking is N Queen problem, Rat in a Maze problem, Knight’s Tour Problem, Sudoku solver, and Graph coloring problems.
+Related Articles:
+
+Introduction to Recursion – Data Structures and Algorithms Tutorials
+Introduction to Backtracking – Data Structures and Algorithms Tutorials
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+9
+Previous
+Find sum of difference of Indices with the same value for each Array element
+Next
+Bootstrap 5 Flex Wrap
+Related Articles
+1.
+Difference between Backtracking and Branch-N-Bound technique
+2.
+Why is Tail Recursion optimization faster than normal Recursion?
+3.
+Introduction to Backtracking - Data Structure and Algorithm Tutorials
+4.
+Word Break Problem using Backtracking
+5.
+Top 20 Backtracking Algorithm Interview Questions
+6.
+A backtracking approach to generate n bit Gray Codes
+7.
+Rat in a Maze | Backtracking using Stack
+8.
+Travelling Salesman Problem implementation using BackTracking
+9.
+Maximal independent set from a given Graph using Backtracking
+10.
+Maximum size subset with given sum using Backtracking
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+akashjha2671
+@akashjha2671
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Technical Scripter 2022
+Algorithms
+Backtracking
+Recursion
+Technical Scripter
+Practice Tags :
+Algorithms
+Backtracking
+Recursi

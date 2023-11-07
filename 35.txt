@@ -1,0 +1,320 @@
+Print all palindromic partitions of a string
+
+Difficulty Level : Hard
+Last Updated : 24 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a string s, partition s such that every string of the partition is a palindrome. Return all possible palindrome partitioning of s. 
+
+Example : 
+
+Input  : s = "bcc"
+Output : [["b", "c", "c"], ["b", "cc"]]
+
+Input  : s = "geeks"
+Output : [["g", "e", "e", "k", "s"], 
+          ["g", "ee", "k", "s"]]
+Recommended Problem
+Find all possible palindromic partitions of a String
+Strings
+Dynamic Programming
++5 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 12.2K
+Easy to Understand And StraightForward Approach(Backtracking):
+
+The Approach: In this approach, we try over all partitions recursively.
+
+C++
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+ 
+bool check_palindrome(string s, int index, int i)
+{
+    while (index <= i) {
+        if (s[index++] != s[i--])
+            return 0;
+    }
+    return 1;
+}
+// by refer
+void the_helper(vector<vector<string> >& result,
+                vector<string>& dump, string s, int n,
+                int index)
+{
+    // base case avoid >= because here we need only unique
+    // combination not repeating just 1 at 2 and 2 at 1.
+    if (index == n) {
+        result.push_back(dump);
+        return;
+    }
+    // main worker of the program.
+    for (int i = index; i < n; i++) {
+        // if s.substr till i from index is palindrome.
+        if (check_palindrome(s, index, i)) {
+            dump.push_back(s.substr(index, i - index + 1));
+            the_helper(result, dump, s, n, i + 1);
+            // backtracting.
+            dump.pop_back();
+        }
+    }
+}
+int main()
+{
+    string s = "bcc";
+    // size of string.
+    int n = s.size();
+    // where all possible partitions we store.
+    vector<vector<string> > result;
+    // for temporary storage.
+    vector<string> dump;
+    // The Helper function call.
+    the_helper(result, dump, s, n, 0);
+    int row_l = result.size();
+    cout << "All Possible palindromic partitions of a "
+            "string : "
+         << endl;
+    cout << "[";
+    for (int i = 0; i < row_l; i++) {
+        cout << "[";
+        int m = result[i].size();
+        for (int j = 0; j < m; j++) {
+            if (j == m - 1) {
+                cout << result[i][j];
+                continue;
+            }
+            cout << result[i][j] << ",";
+        }
+        if (i == row_l - 1) {
+            cout << "]";
+            continue;
+        }
+        cout << "],";
+    }
+    cout << "]";
+    // code by Sanket Gode
+    return 0;
+}
+Output
+All Possible palindromic partitions of a string : 
+[[b,c,c],[b,cc]]
+Complexity Analysis:
+
+Time Complexity: O(2*n).(backtracking).
+
+
+
+Space Complexity: O(n*2).
+
+We have to list the all possible partitions so we will think in the direction of recursion. When we are on index i, we incrementally check all substrings starting from i for being palindromic. If found, we recursively solve the problem for the remaining string and add this in our solution. 
+
+Following is the solution-
+
+We will maintain a 2-dimensional vector for storing all possible partitions and a temporary vector for storing the current partition, new starting index of string to check partitions as we have already checked partitions before this index.
+Now keep on iterating further on string and check if it is palindrome or not.
+If it is a palindrome than add this string in current partitions vector. Recurse on this new string if it is not the end of the string. After coming back again change the current partition vector to the old one as it might have changed in the recursive step.
+If we reach the end of string while iterating than we have our partitions in our temporary vector so we will add it in results.
+To check whether it’s a palindrome or not, iterate on string by taking two pointers. Initialize the first to start and other to end of string. If both characters are same increase the first and decrease the last pointer and keep on iterating until first is less than last one. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to print all palindromic
+# partitions of a given string.
+def checkPalindrome(string):
+     
+    # Returns true if str is palindrome,
+    # else false
+    length = len(string)
+    length -= 1
+    for i in range(length):
+        if string[i] != string[length]:
+            return False
+        length -= 1
+    return True
+ 
+def printSolution(partitions):
+    for i in range(len(partitions)):
+        for j in range(len(partitions[i])):
+            print(partitions[i][j], end = " ")
+        print()
+ 
+def addStrings(v, s, temp, index):
+     
+    # Goes through all indexes and
+    # recursively add remaining partitions
+    # if current string is palindrome.
+    length = len(s)
+    string = ""
+ 
+    current = temp[:]
+ 
+    if index == 0:
+        temp = []
+    for i in range(index, length):
+        string += s[i]
+        if checkPalindrome(string):
+            temp.append(string)
+            if i + 1 < length:
+                addStrings(v, s, temp[:], i + 1)
+            else:
+                v.append(temp)
+            temp = current
+ 
+def partition(s, v):
+     
+    # Generates all palindromic partitions
+    # of 's' and stores the result in 'v'.
+    temp = []
+    addStrings(v, s, temp[:], 0)
+    printSolution(v)
+ 
+# Driver Code
+if __name__ == "__main__":
+    s = "geeks"
+    partitions = []
+    partition(s, partitions)
+ 
+# This code is contributed by
+# vibhu4agarwal
+C#
+Javascript
+Output
+g e e k s 
+g ee k s 
+Time complexity : O(n2) 
+Auxiliary Space : O(n)
+
+Related Article: Dynamic Programming | Set 17 (Palindrome Partitioning) 
+
+This article is contributed by Anshul Goyal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+C++
+Java
+Python3
+# Python3 program to print all palindromic
+# partitions of a given string.
+def checkPalindrome(string):
+     
+    # Returns true if str is palindrome,
+    # else false
+    length = len(string)
+    length -= 1
+    for i in range(length):
+        if string[i] != string[length]:
+            return False
+        length -= 1
+    return True
+ 
+def printSolution(partitions):
+    for i in range(len(partitions)):
+        for j in range(len(partitions[i])):
+            print(partitions[i][j], end = " ")
+        print()
+ 
+def addStrings(v, s, temp, index):
+     
+    # Goes through all indexes and
+    # recursively add remaining partitions
+    # if current string is palindrome.
+    length = len(s)
+    string = ""
+ 
+    current = temp[:]
+ 
+    if index == 0:
+        temp = []
+    for i in range(index, length):
+        string += s[i]
+        if checkPalindrome(string):
+            temp.append(string)
+            if i + 1 < length:
+                addStrings(v, s, temp[:], i + 1)
+            else:
+                v.append(temp)
+            temp = current
+ 
+def partition(s, v):
+     
+    # Generates all palindromic partitions
+    # of 's' and stores the result in 'v'.
+    temp = []
+    addStrings(v, s, temp[:], 0)
+    printSolution(v)
+ 
+# Driver Code
+if __name__ == "__main__":
+    s = "geeks"
+    partitions = []
+    partition(s, partitions)
+ 
+# This code is contributed by
+# vibhu4agarwal
+C#
+Javascript
+
+
+
+
+Like
+11
+Previous
+Longest Palindromic Substring using Dynamic Programming
+Next
+Minimum characters to be added at front to make string palindrome
+Related Articles
+1.
+Given a string, print all possible palindromic partitions
+2.
+Minimum cuts required to convert a palindromic string to a different palindromic string
+3.
+Make palindromic string non-palindromic by rearranging its letters
+4.
+Lengths of maximized partitions of a string such that each character of the string appears in one substring
+5.
+Maximized partitions of a string such that each character of the string appears in one substring
+6.
+Minimize partitions in given string to get another string
+7.
+Longest Palindromic Substring using Palindromic Tree | Set 3
+8.
+Print all the palindromic permutations of given string in alphabetic order
+9.
+Print all possible palindromic string formed using any pair of given strings
+10.
+Minimum partitions of String such that each part is at most K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vibhu4agarwal
+princiraj1992
+youmailmahibagi
+shinjanpatra
+hardikkoriintern
+codearcade
+Article Tags :
+palindrome
+Backtracking
+Strings
+Practice Tags :
+Backtracking
+palindrome
+Palindrome
+Strings

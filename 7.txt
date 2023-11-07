@@ -1,0 +1,508 @@
+N Queen Problem | Backtracking-3
+
+Difficulty Level : Hard
+Last Updated : 27 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+We have discussed Knight’s tour and Rat in a Maze problem in Set 1 and Set 2 respectively. Let us discuss N Queen as another example problem that can be solved using backtracking. 
+The N Queen is the problem of placing N chess queens on an N×N chessboard so that no two queens attack each other. For example, the following is a solution for the 4 Queen problem.
+
+The expected output is in form of a matrix that has ‘Q’s for the blocks where queens are placed and the empty spaces  are represented by ‘.’s . For example, the following is the output matrix for the above 4 queen solution.
+
+. . Q . 
+Q . . . 
+. . . Q 
+. Q . . 
+
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution. 
+ 
+Naive Algorithm 
+Generate all possible configurations of queens on board and print a configuration that satisfies the given constraints.
+
+while there are untried configurations
+{
+   generate the next configuration
+   if queens don't attack in this configuration then
+   {
+      print this configuration;
+   }
+}
+Backtracking Algorithm Method 1:
+The idea is to place queens one by one in different columns, starting from the leftmost column. When we place a queen in a column, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.
+
+Method 1:
+1) Start in the leftmost column
+2) If all queens are placed
+    return true
+3) Try all rows in the current column. 
+   Do following for every tried row.
+    a) If the queen can be placed safely in this row 
+       then mark this [row, column] as part of the 
+       solution and recursively check if placing
+       queen here leads to a solution.
+    b) If placing the queen in [row, column] leads to
+       a solution then return true.
+    c) If placing queen doesn't lead to a solution then
+       unmark this [row, column] (Backtrack) and go to 
+       step (a) to try other rows.
+4) If all rows have been tried and nothing worked,
+   return false to trigger backtracking.
+Implementation of Backtracking solution by method 1:
+
+C++
+C
+Java
+Python3
+# Python3 program to solve N Queen
+# Problem using backtracking
+global N
+N = 4
+ 
+def printSolution(board):
+    for i in range(N):
+        for j in range(N):
+            print(board[i][j], end = " ")
+        print()
+ 
+# A utility function to check if a queen can
+# be placed on board[row][col]. Note that this
+# function is called when "col" queens are
+# already placed in columns from 0 to col -1.
+# So we need to check only left side for
+# attacking queens
+def isSafe(board, row, col):
+ 
+    # Check this row on left side
+    for i in range(col):
+        if board[row][i] == 1:
+            return False
+ 
+    # Check upper diagonal on left side
+    for i, j in zip(range(row, -1, -1),
+                    range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+ 
+    # Check lower diagonal on left side
+    for i, j in zip(range(row, N, 1),
+                    range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+ 
+    return True
+ 
+def solveNQUtil(board, col):
+     
+    # base case: If all queens are placed
+    # then return true
+    if col >= N:
+        return True
+ 
+    # Consider this column and try placing
+    # this queen in all rows one by one
+    for i in range(N):
+ 
+        if isSafe(board, i, col):
+             
+            # Place this queen in board[i][col]
+            board[i][col] = 1
+ 
+            # recur to place rest of the queens
+            if solveNQUtil(board, col + 1) == True:
+                return True
+ 
+            # If placing queen in board[i][col
+            # doesn't lead to a solution, then
+            # queen from board[i][col]
+            board[i][col] = 0
+ 
+    # if the queen can not be placed in any row in
+    # this column col then return false
+    return False
+ 
+# This function solves the N Queen problem using
+# Backtracking. It mainly uses solveNQUtil() to
+# solve the problem. It returns false if queens
+# cannot be placed, otherwise return true and
+# placement of queens in the form of 1s.
+# note that there may be more than one
+# solutions, this function prints one of the
+# feasible solutions.
+def solveNQ():
+    board = [ [0, 0, 0, 0],
+              [0, 0, 0, 0],
+              [0, 0, 0, 0],
+              [0, 0, 0, 0] ]
+ 
+    if solveNQUtil(board, 0) == False:
+        print ("Solution does not exist")
+        return False
+ 
+    printSolution(board)
+    return True
+ 
+# Driver Code
+solveNQ()
+ 
+# This code is contributed by Divyanshu Mehta
+C#
+Javascript
+Output
+
+
+. . Q . 
+Q . . . 
+. . . Q 
+. Q . . 
+Time Complexity: O(N!)
+Auxiliary Space: O(N2)
+
+Backtracking Algorithm Method 2:
+The idea is to place queens one by one in different rows, starting from the topmost row. When we place a queen in a row, we check for clashes with already placed queens. In the current column, if we find a row for which there is no clash, we mark this row and column as part of the solution. If we do not find such a row due to clashes, then we backtrack and return false.
+
+Method 2:
+0) Make a board, make a space to collect all solution states.
+1) Start in the topmost row.
+2) Make a recursive function which takes state of board and the current row number
+  as its parameter.
+3) Fill a queen in a safe place and use this state of board to advance to next recursive
+  call, add 1 to the current row. Revert the state of board after making the call.
+  a) Safe function checks the current column, left top diagonal and right top diagonal.
+  b) If no queen is present then fill else return false and stop exploring that state 
+     and track back to the next possible solution state
+4) Keep calling the function till the current row is out of bound.
+5) If current row reaches the number of rows in the board then the board is filled.
+6) Store the state and return.
+
+Implementation of Backtracking solution by Method 2:
+
+C++
+Python3
+import time
+ 
+# print the board
+def print_board(board, n):
+    for i in range(n):
+        for j in range(n):
+            print(board[i][j], end = " ")
+        print()
+ 
+# joining '.' and 'Q'
+# making combined 2D Array
+#For output in desired format
+def add_sol(board, ans, n):
+    temp = []
+    for i in range(n):
+        string = ""
+        for j in range(n):
+            string += board[i][j]
+        temp.append(string)
+    ans.append(temp)
+     
+     
+# we need to check in three directions
+# 1. in the same column above the current position
+# 2. in the left top diagonal from the given cell
+# 3. in the right top diagonal from the given cell
+def  is_safe(row, col, board, n):
+    x = row
+    y = col
+    #check for same upper col
+    while(x>=0):
+        if board[x][y] == "Q":
+            return False
+        else:
+            x -= 1
+             
+    #Check for Upper Right Diagonal
+    x = row
+    y = col
+    while(y<n and x>=0):
+        if board[x][y] == "Q":
+            return False
+        else:
+            y += 1
+            x -= 1
+             
+    #check for Upper Left diagonal
+    x = row
+    y = col
+    while(y>=0 and x>=0):
+        if board[x][y] == "Q":
+            return False
+        else:
+            x -= 1
+            y -= 1
+    return True   
+ 
+ 
+# function to solve n queens
+# solveNQueens function here will fill the queens
+# 1. there can be only one queen in one row
+# 2. if we filled the final row in the board then row will
+# be equal to total number of rows in board
+# 3. push that board configuration in answer set because
+# there will be more than one answers for filling the board
+# with n-queens
+def solveNQueens(row, ans, board, n):
+    #base Case
+    #Queen is depicted by "Q"
+    # adding solution to final answer array
+    if row == n:
+        add_sol(board, ans, n)
+        return
+     
+    #solve 1 case and rest recursion will follow
+    for col in range(n):
+        # for each position check if it is safe and if it
+        # is safe make a recursive call with
+        # row+1, board[i][j]='Q' and then revert the change
+        # in board that is make the board[i][j]='.' again to
+        # generate more solutions
+        if is_safe(row, col, board, n):
+            # if placing Queen is safe
+            board[row][col] = "Q"
+            solveNQueens(row+1, ans, board, n)
+            # Backtrack
+            board[row][col] = "."
+             
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+    # size 4x4 is taken and we can pass some other
+    # dimension for chess board as well
+    n = 4
+     
+    # 2D array of string will make our board
+    #  which is initially all empty
+    board = [["." for i in range(n)] for j in range(n)]
+    # store all the possible answers
+    ans = []
+    start = time.time()
+     
+    solveNQueens(0, ans, board, n)
+    end = time.time()
+    time_taken = end - start
+     
+    if ans == []:
+        print("Solution does not exist")
+    else:
+        print(len(ans))
+        print(f"{time_taken:.06f} time was taken(in miliseconds)")
+        print(f"Out Of {len(ans)} solutions one is following")
+        print_board(ans[0], n)
+         
+    # This code is contributed by Priyank Namdeo
+        
+Output
+2
+0.000107 time was taken(in miliseconds)
+Out of 2 solutions one is following
+. . Q . 
+Q . . . 
+. . . Q 
+. Q . . 
+Time Complexity: O(N!)
+Auxiliary Space: O(N2)
+
+Optimization in is_safe() function 
+The idea is not to check every element in right and left diagonal, instead use the property of diagonals: 
+1. The sum of i and j is constant and unique for each right diagonal, where i is the row of elements and j is the 
+column of elements. 
+2. The difference between i and j is constant and unique for each left diagonal, where i and j are row and column of element respectively.
+Implementation of Backtracking solution(with optimization) 
+ 
+
+C++
+C
+Java
+Python3
+""" Python3 program to solve N Queen Problem using
+backtracking """
+N = 4
+ 
+""" ld is an array where its indices indicate row-col+N-1
+(N-1) is for shifting the difference to store negative
+indices """
+ld = [0] * 30
+ 
+""" rd is an array where its indices indicate row+col
+and used to check whether a queen can be placed on
+right diagonal or not"""
+rd = [0] * 30
+ 
+"""column array where its indices indicates column and
+used to check whether a queen can be placed in that
+    row or not"""
+cl = [0] * 30
+ 
+""" A utility function to print solution """
+def printSolution(board):
+    for i in range(N):
+        for j in range(N):
+            print(board[i][j], end = " ")
+        print()
+ 
+""" A recursive utility function to solve N
+Queen problem """
+def solveNQUtil(board, col):
+     
+    """ base case: If all queens are placed
+        then return True """
+    if (col >= N):
+        return True
+         
+    """ Consider this column and try placing
+        this queen in all rows one by one """
+    for i in range(N):
+         
+        """ Check if the queen can be placed on board[i][col] """
+        """ A check if a queen can be placed on board[row][col].
+        We just need to check ld[row-col+n-1] and rd[row+coln]
+        where ld and rd are for left and right diagonal respectively"""
+        if ((ld[i - col + N - 1] != 1 and
+             rd[i + col] != 1) and cl[i] != 1):
+                  
+            """ Place this queen in board[i][col] """
+            board[i][col] = 1
+            ld[i - col + N - 1] = rd[i + col] = cl[i] = 1
+             
+            """ recur to place rest of the queens """
+            if (solveNQUtil(board, col + 1)):
+                return True
+                 
+            """ If placing queen in board[i][col]
+            doesn't lead to a solution,
+            then remove queen from board[i][col] """
+            board[i][col] = 0 # BACKTRACK
+            ld[i - col + N - 1] = rd[i + col] = cl[i] = 0
+             
+            """ If the queen cannot be placed in
+            any row in this column col then return False """
+    return False
+     
+""" This function solves the N Queen problem using
+Backtracking. It mainly uses solveNQUtil() to
+solve the problem. It returns False if queens
+cannot be placed, otherwise, return True and
+prints placement of queens in the form of 1s.
+Please note that there may be more than one
+solutions, this function prints one of the
+feasible solutions."""
+def solveNQ():
+    board = [[0, 0, 0, 0],
+             [0, 0, 0, 0],
+             [0, 0, 0, 0],
+             [0, 0, 0, 0]]
+    if (solveNQUtil(board, 0) == False):
+        printf("Solution does not exist")
+        return False
+    printSolution(board)
+    return True
+     
+# Driver Code
+solveNQ()
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+ 0  0  1  0 
+ 1  0  0  0 
+ 0  0  0  1 
+ 0  1  0  0 
+Time Complexity: O(N!) 
+Auxiliary Space: O(N)
+
+Printing all solutions in N-Queen Problem
+ Sources: 
+http://see.stanford.edu/materials/icspacs106b/H19-RecBacktrackExamples.pdf 
+http://en.literateprograms.org/Eight_queens_puzzle_%28C%29 
+http://en.wikipedia.org/wiki/Eight_queens_puzzle
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+223
+Previous
+Rat in a Maze
+Next
+Subset Sum problem
+Related Articles
+1.
+Find position of Queen in chessboard from given attack lines of queen
+2.
+8 queen problem
+3.
+N-Queen Problem | Local Search using Hill climbing with random neighbour
+4.
+Printing all solutions in N-Queen Problem
+5.
+N Queen Problem using Branch And Bound
+6.
+N Queen in O(n) space
+7.
+Check if a Queen can attack a given cell on chessboard
+8.
+Count positions in a chessboard that can be visited by the Queen which are not visited by the King
+9.
+Number of cells a queen can move with obstacles on the chessboard
+10.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+AniruddhaPandey
+Parimal7
+harminder3027
+SHUBHAMSINGH10
+princi singh
+Rajput-Ji
+clintra
+as5853535
+meena13091999
+shinjanpatra
+adityakumar129
+sanjoy_62
+ankita_saini
+sagartomar9927
+devendrasalunke
+sahurasmita409
+jaysheth5290
+namananand891
+user_7gr9iodclfx
+Article Tags :
+Accolite
+Amazon
+Amdocs
+chessboard-problems
+MAQ Software
+Twitter
+Visa
+Backtracking
+Practice Tags :
+Accolite
+Amazon
+Amdocs
+MAQ Software
+Twitter
+Visa
+Backtracking
+Improve Article
+Report Issue

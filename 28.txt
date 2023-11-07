@@ -1,0 +1,281 @@
+Find Maximum number possible by doing at-most K swaps
+
+Difficulty Level : Hard
+Last Updated : 23 Sep, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given two positive integers M and K, find the maximum integer possible by doing at-most K swap operations on its digits.
+
+Examples: 
+
+Input: M = 254, K = 1
+Output: 524
+Explanation: Swap 5 with 2 so number becomes 524
+
+Input: M = 254, K = 2
+Output: 542
+Explanation: Swap 5 with 2 so number becomes 524, Swap 4 with 2 so number becomes 542
+
+Input: M = 68543, K = 1 
+Output: 86543
+Explanation: Swap 8 with 6 so number becomes 86543
+
+Input: M = 7599, K = 2
+Output: 9975
+Explanation: Swap 9 with 5 so number becomes 7995, Swap 9 with 7 so number becomes 9975
+
+Input: M = 76543, K = 1 
+Output: 76543
+Explanation: No swap is required.
+
+Input: M = 129814999, K = 4
+Output: 999984211
+Explanation: Swap 9 with 1 so number becomes 929814991, Swap 9 with 2 so number becomes 999814291, Swap 9 with 8 so number becomes 999914281, Swap 1 with 8 so number becomes 999984211
+
+Recommended Practice
+Largest number in K swaps
+Try It!
+Naive solution for the Largest number in K swaps:
+The idea is to consider every digit and swap it with digits following it one at a time and see if it leads to the maximum number. The process is repeated K times. The code can be further optimized, if the current digit is swapped with a digit less than the following digit.
+
+Follow the below steps to Implement the idea:
+
+Create a global variable that will store the maximum string or number.
+Define a recursive function that takes the string as a number and value of k
+Run a nested loop, the outer loop from 0 to the length of string -1, and the inner loop from i+1 to the end of the string.
+Swap the ith and jth character and check if the string is now maximum and update the maximum string.
+Call the function recursively with parameters: string and k-1.
+Now again swap back the ith and jth character.
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find maximum
+# integer possible by doing at-most
+# K swap operations on its digits.
+ 
+# utility function to swap two
+# characters of a string
+def swap(string, i, j):
+ 
+    return (string[:i] + string[j] +
+            string[i + 1:j] +
+            string[i] + string[j + 1:])
+ 
+# function to find maximum integer
+# possible by doing at-most K swap
+# operations on its digits
+def findMaximumNum(string, k, maxm):
+     
+    # return if no swaps left
+    if k == 0:
+        return
+ 
+    n = len(string)
+ 
+    # consider every digit
+    for i in range(n - 1):
+ 
+        # and compare it with all digits after it
+        for j in range(i + 1, n):
+ 
+            # if digit at position i is less than
+            # digit at position j, swap it and
+            # check for maximum number so far and
+            # recurse for remaining swaps
+            if string[i] < string[j]:
+ 
+                # swap string[i] with string[j]
+                string = swap(string, i, j)
+ 
+                # If current num is more than
+                # maximum so far
+                if string > maxm[0]:
+                    maxm[0] = string
+ 
+                # recurse of the other k - 1 swaps
+                findMaximumNum(string, k - 1, maxm)
+ 
+                # backtrack
+                string = swap(string, i, j)
+ 
+# Driver Code
+if __name__ == "__main__":
+    string = "129814999"
+    k = 4
+    maxm = [string]
+    findMaximumNum(string, k, maxm)
+    print(maxm[0])
+ 
+# This code is contributed
+# by vibhu4agarwal
+C#
+Javascript
+Output
+999984211
+Time Complexity: O((N2)k). For every digit, N2 recursive calls are generated until the value of k is 0 Thus O((N2)k).
+Auxiliary Space: O(N). This is the space required to store the output string.
+
+
+Find the Maximum number possible by doing at-most K swaps by swapping with the maximum element on the right:
+It can be observed that to make the maximum string, the maximum digit is shifted to the front. So, instead of trying all pairs, try only those pairs where one of the elements is the maximum digit that is not yet swapped to the front. 
+
+Follow the below steps to Implement the idea:: 
+
+Create a global variable that will store the maximum string or number.
+Define a recursive function that takes the string as a number, the value of k, and the current index.
+Find the index of the maximum element in the range current index to end.
+if the index of the maximum element is not equal to the current index then decrement the value of k.
+Run a loop from the current index to the end of the array
+If the ith digit is equal to the maximum element
+Swap the ith and element at the current index and check if the string is now maximum and update the maximum string.
+Call the function recursively with parameters: string and k.
+Now again swap back the ith and element at the current index.
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find maximum
+# integer possible by doing at-most
+# K swap operations on its digits.
+ 
+# function to find maximum integer
+# possible by doing at-most K swap
+# operations on its digits
+def findMaximumNum(string, k, maxm, ctr):
+      
+    # return if no swaps left
+    if k == 0:
+        return
+  
+    n = len(string)
+    # Consider every digit after
+    # the cur position
+    mx = string[ctr]
+ 
+    for i in range(ctr+1,n):
+        # Find maximum digit greater
+        # than at ctr among rest
+        if int(string[i]) > int(mx):
+            mx=string[i]
+             
+    # If maxm is not equal to str[ctr],
+    # decrement k       
+    if(mx!=string[ctr]):
+        k=k-1
+     
+    # search this maximum among the rest from behind
+    # first swap the last maximum digit if it occurs more than 1 time
+    # example str= 1293498 and k=1 then max string is 9293418 instead of 9213498
+    for i in range(ctr,n):
+        # If digit equals maxm swap
+        # the digit with current
+        # digit and recurse for the rest
+        if(string[i]==mx):
+            # swap str[ctr] with str[j]
+            string[ctr], string[i] = string[i], string[ctr]
+            new_str = "".join(string)
+            # If current num is more than
+            # maximum so far
+            if int(new_str) > int(maxm[0]):
+                  maxm[0] = new_str
+  
+            # recurse of the other k - 1 swaps
+            findMaximumNum(string, k , maxm, ctr+1)
+ 
+            # backtrack
+            string[ctr], string[i] = string[i], string[ctr]
+  
+# Driver Code
+if __name__ == "__main__":
+    string = "129814999"
+    k = 4
+    maxm = [string]
+    string = [char for char in string]
+    findMaximumNum(string, k, maxm, 0)
+    print(maxm[0])
+  
+# This code is contributed Aarti_Rathi
+C#
+Output
+999984211
+Time Complexity: O(Nk), For every recursive call N recursive calls are generated until the value of k is 0, Thus O((Nk).
+Auxiliary Space: O(N). The space required to store the output string.
+
+Exercise:  
+
+Find the minimum integer possible by doing at least K swap operations on its digits.
+Find the maximum/minimum integer possible by doing exactly K swap operations on its digits.
+This article is contributed by Aarti Rathi and Aditya Goel.If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Find paths from corner cell to middle cell in maze
+Next
+Match a pattern and String without using regular expressions
+Related Articles
+1.
+Points to focus on while doing Competitive Programming
+2.
+Queries to find the Minimum Weight from a Subtree of atmost D-distant Nodes from Node X
+3.
+Maximize sum of given array by rearranging array such that the difference between adjacent elements is atmost 1
+4.
+Minimum swaps to group similar characters side by side?
+5.
+Minimize swaps of pairs of characters required such that no two adjacent characters in the string are same
+6.
+Find maximum possible stolen value from houses
+7.
+Largest even number possible by using one swap operation in given number
+8.
+Smallest subset of maximum sum possible by splitting array into two subsets
+9.
+Maximum length of all possible K equal length ropes generated by cutting N ropes
+10.
+Find all strings in lexicographic order possible by replacing digits with 'x', 'y' or 'z'
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vibhu4agarwal
+machinepainter
+andrew1234
+29AjayKumar
+GauravRajput1
+RohitOberoi
+unknown2108
+harsh_walia
+shikhasingrajput
+adi1212
+surinderdawra388
+aashutoshparoha
+Article Tags :
+Amazon
+MakeMyTrip
+Morgan Stanley
+Walmart
+Backtracking
+Practice Tags :
+Amazon
+MakeMyTrip
+Morgan Stanley
+Walmart
+Backtracking
+Report Issue
