@@ -1,0 +1,152 @@
+Minimum rotations to unlock a circular lock
+
+Difficulty Level : Easy
+Last Updated : 10 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given a lock which is made up of n-different circular rings and each ring has 0-9 digit printed serially on it. Initially all n-rings together show a n-digit integer but there is particular code only which can open the lock. You can rotate each ring any number of time in either direction. You have to find the minimum number of rotation done on rings of lock to open the lock.
+ 
+
+
+
+Examples: 
+ 
+
+Input : Input = 2345, Unlock code = 5432 
+Output : Rotations required = 8
+Explanation : 1st ring is rotated thrice as 2->3->4->5
+              2nd ring is rotated once as 3->4
+              3rd ring is rotated once as 4->3
+              4th ring is rotated thrice as 5->4->3->2
+
+Input : Input = 1919, Unlock code = 0000 
+Output : Rotations required = 4
+Explanation : 1st ring is rotated once as 1->0
+              2nd ring is rotated once as 9->0
+              3rd ring is rotated once as 1->0
+              4th ring is rotated once as 9->0
+ 
+
+Recommended Problem
+Minimum rotations to unlock a circular lock
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 1.4K
+For a single ring we can rotate it in any of two direction forward or backward as: 
+ 
+
+0->1->2….->9->0
+9->8->….0->9
+But we are concerned with minimum number of rotation required so we should choose min (abs(a-b), 10-abs(a-b)) as a-b denotes the number of forward rotation and 10-abs(a-b) denotes the number of backward rotation for a ring to rotate from a to b. Further we have to find minimum number for each ring that is for each digit. So starting from right most digit we can easily the find minimum number of rotation required for each ring and end up at left most digit. 
+ 
+
+C++
+Java
+Python3
+# Python3 program for min rotation to unlock
+ 
+# function for min rotation
+def minRotation(input, unlock_code):
+ 
+    rotation = 0;
+ 
+    # iterate till input and unlock
+    # code become 0
+    while (input > 0 or unlock_code > 0):
+ 
+        # input and unlock last digit
+        # as reminder
+        input_digit = input % 10;
+        code_digit = unlock_code % 10;
+ 
+        # find min rotation
+        rotation += min(abs(input_digit - code_digit),
+                    10 - abs(input_digit - code_digit));
+ 
+        # update code and input
+        input = int(input / 10);
+        unlock_code = int(unlock_code / 10);
+ 
+    return rotation;
+ 
+# Driver Code
+input = 28756;
+unlock_code = 98234;
+print("Minimum Rotation =",
+       minRotation(input, unlock_code));
+     
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+
+
+Minimum Rotation = 12
+Time Complexity: O(log(input))
+
+Auxiliary Space: O(1)
+
+This article is contributed by Shivam Pradhan (anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+7
+Previous
+Divide 1 to n into two groups with minimum sum difference
+Next
+Minimum rooms for m events of n batches with given schedule
+Related Articles
+1.
+Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+2.
+C++ Program to Find Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+3.
+Java Program to Find Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+4.
+Minimum rotations that have maximum elements with value at most its index
+5.
+Minimum rotations required to delete both Strings
+6.
+Count rotations divisible by 4
+7.
+Count rotations divisible by 8
+8.
+Generating numbers that are divisor of their right-rotations
+9.
+Check whether all the rotations of a given number is greater than or equal to the given number or not
+10.
+Generate all rotations of a number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+vt_m
+Mithun Kumar
+susmitakundugoaldanga
+raj2002
+Article Tags :
+Greedy
+Mathematical
+Practice Tags :
+Greedy
+Mathematical

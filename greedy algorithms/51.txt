@@ -1,0 +1,191 @@
+Minimum cost for acquiring all coins with k extra coins allowed with every coin
+
+Difficulty Level : Easy
+Last Updated : 19 Nov, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+You are given a list of N coins of different denominations. You can pay an amount equivalent to any 1 coin and can acquire that coin. In addition, once you have paid for a coin, we can choose at most K more coins and can acquire those for free. The task is to find the minimum amount required to acquire all the N coins for a given value of K.
+
+Examples : 
+
+Input : coin[] = {100, 20, 50, 10, 2, 5}, 
+        k = 3
+Output : 7
+
+Input : coin[] = {1, 2, 5, 10, 20, 50}, 
+        k = 3
+Output : 3
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+As per the question, we can see that at a cost of 1 coin, we can acquire at most K+1 coins. Therefore, in order to acquire all the n coins, we will be choosing ceil(n/(k+1)) coins and the cost of choosing coins will be minimum if we choose the smallest ceil(n/(k+1)) ( Greedy approach). The smallest ceil(n/(k+1)) coins can be found by simply sorting all the N values in increasing order. 
+If we should check for time complexity (n log n) is for sorting element and (k) is for adding the total amount. So, finally Time Complexity: O(n log n). 
+
+C++
+Java
+Python3
+# Python3 program to
+# acquire all n coins
+ 
+import math
+ 
+# function to calculate min cost
+def minCost(coin, n, k):
+ 
+    # sort the coins value
+    coin.sort()
+ 
+    # calculate no. of
+    # coins needed
+    coins_needed = math.ceil(1.0 * n //
+                            (k + 1));
+ 
+    # calculate sum of all
+    # selected coins
+    ans = 0
+    for i in range(coins_needed - 1 + 1):
+        ans += coin[i]
+     
+    return ans
+ 
+# Driver code
+coin = [8, 5, 3, 10,
+        2, 1, 15, 25]
+n = len(coin)
+k = 3
+ 
+print(minCost(coin, n, k))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output : 
+
+3
+Time Complexity: O(n log n)
+
+Auxiliary Space: O(1)
+Note that there are more efficient approaches to find the given number of smallest values. For example, method 6 of m largest(or smallest) elements in an array can find m’th smallest element in (n-m) Log m + m Log m).
+
+How to handle multiple queries for a single predefined array? 
+In this case, if you are asked to find the above answer for many values of K, you have to compute it fast and our time complexity got increased as per the number of queries for k. For the purpose to serve, we can maintain a prefix sum array after sorting all the N values and can answer queries easily and quickly. 
+Suppose 
+
+
+
+C++
+Java
+Python3
+# Python3 program to acquire all n coins at
+# minimum cost with multiple values of k.
+import math as mt
+ 
+# Converts coin[] to prefix sum array
+def preprocess(coin, n):
+ 
+    # sort the coins values
+    coin.sort()
+     
+    # maintain prefix sum array
+    for i in range(1, n):
+        coin[i] += coin[i - 1]
+     
+# Function to calculate min cost when we can 
+# get k extra coins after paying cost of one.
+def minCost(coin, n, k):
+     
+    # calculate no. of coins needed
+    coins_needed = mt.ceil(1.0 * n / (k + 1))
+     
+    # return sum of from prefix array
+    return coin[coins_needed - 1]
+     
+# Driver code
+coin = [8, 5, 3, 10, 2, 1, 15, 25]
+ 
+n = len(coin)
+ 
+preprocess(coin, n)
+k = 3
+ 
+print(minCost(coin, n, k))
+ 
+k = 7
+ 
+print(minCost(coin, n, k))
+ 
+# This code is contributed
+# by Mohit kumar 29
+C#
+PHP
+Javascript
+Output : 
+
+3
+1
+Time Complexity: O(n log n)
+
+Auxiliary Space: O(1)
+After preprocessing, every query for a k takes O(1) time.
+This article is contributed by Shivam Pradhan (anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+13
+Previous
+Minimum cost to make array size 1 by removing larger of pairs
+Next
+Minimum number of bracket reversals needed to make an expression balanced | Set - 2
+Related Articles
+1.
+Check if two piles of coins can be emptied by repeatedly removing 2 coins from a pile and 1 coin from the other
+2.
+Minimum Cost Path with Left, Right, Bottom and Up moves allowed
+3.
+Minimum cost to reach a point N from 0 with two different operations allowed
+4.
+Minimize Cost with Replacement with other allowed
+5.
+Minimum cost to empty Array where cost of removing an element is 2^(removed_count) * arr[i]
+6.
+Minimum cost to complete given tasks if cost of 1, 7 and 30 days are given
+7.
+Minimum Cost To set Digital Clock Timer with given movement and push cost
+8.
+Minimum number of coins needed to remove all the elements of the array based on given rules
+9.
+Minimize cost to split an array into K subsets such that the cost of each element is its product with its position in the subset
+10.
+Minimize cost to connect the graph by connecting any pairs of vertices having cost at least 0
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+vt_m
+mohit kumar 29
+ukasp
+noob2000
+rag2127
+rohitsingh07052
+Article Tags :
+prefix-sum
+Greedy
+Practice Tags :
+Greedy
+prefix-sum

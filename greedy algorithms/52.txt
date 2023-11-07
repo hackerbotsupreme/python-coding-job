@@ -1,0 +1,148 @@
+Minimum increment by k operations to make all elements equal
+
+Difficulty Level : Easy
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given an array of n-elements, you have to find the number of operations needed to make all elements of array equal. Where a single operation can increment an element by k. If it is not possible to make all elements equal print -1.
+
+Example : 
+
+Input : arr[] = {4, 7, 19, 16},  k = 3
+Output : 10
+
+Input : arr[] = {4, 4, 4, 4}, k = 3
+Output : 0
+
+Input : arr[] = {4, 2, 6, 8}, k = 3
+Output : -1
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+To solve this question we require to check whether all elements can became equal or not and that too only by incrementing k from elements value. For this we have to check that the difference of any two elements should always be divisible by k. If it is so, then all elements can become equal otherwise they can not became equal in any case by incrementing k from them. Also, the number of operations required can be calculated by finding value of (max – Ai)/k for all elements. where max is maximum element of array.
+
+Algorithm : 
+
+// iterate for all elements
+for (int i=0; i<n; i++)
+{
+    // check if element can make equal to max
+    //  or not if not then return -1
+    if ((max - arr[i]) % k != 0 )
+        return -1;
+
+    // else update res for required operations
+    else
+        res += (max - arr[i]) / k ;
+}
+
+return res;
+Implementation:
+
+C++
+Java
+Python3
+# Python3 Program to make all array equal
+ 
+# function for calculating min operations
+def minOps(arr, n, k):
+ 
+    # max elements of array
+    max1 = max(arr)
+    res = 0
+ 
+    # iterate for all elements
+    for i in range(0, n):
+ 
+        # check if element can make equal to
+        # max or not if not then return -1
+        if ((max1 - arr[i]) % k != 0):
+            return -1
+ 
+        # else update res for
+        # required operations
+        else:
+            res += (max1 - arr[i]) / k
+     
+    # return result
+    return int(res)
+ 
+# driver program
+arr = [21, 33, 9, 45, 63]
+n = len(arr)
+k = 6
+print(minOps(arr, n, k))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+24
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+
+
+
+
+
+
+Like
+5
+Previous
+Find relative complement of two sorted arrays
+Next
+Minimize (max(A[i], B[j], C[k]) - min(A[i], B[j], C[k])) of three different sorted arrays
+Related Articles
+1.
+Minimize increment or increment and decrement of Pair to make all Array elements equal
+2.
+Minimum number of increment-other operations to make all array elements equal.
+3.
+Count minimum decrement prefix or suffix or increment all operations to make Array equal to 0
+4.
+Minimum increment operations to make K elements equal
+5.
+Minimum increment and decrement by K of each pair elements required to make all array elements equal
+6.
+Minimum number of increment operations required to make two Strings equal
+7.
+Minimum Increment / decrement to make array elements equal
+8.
+Minimum cost to make Array equal by increment/decrementing elements
+9.
+Minimum number of increment/decrement operations such that array contains all elements from 1 to N
+10.
+Minimum increment operations to make the array in increasing order
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+manishshaw1
+niimisshhh_
+rutvik_56
+rishavnitro
+simmytarika5
+hardikkoriintern
+Article Tags :
+Arrays
+Greedy
+Searching
+Practice Tags :
+Arrays
+Greedy
+Searching
+Improve Article
+Report Issue

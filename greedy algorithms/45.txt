@@ -1,0 +1,168 @@
+Find maximum equal sum of every three stacks
+
+Difficulty Level : Easy
+Last Updated : 11 Sep, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given three stacks of the positive numbers, the task is to find the possible equal maximum sum of the stacks with the removal of top elements allowed. Stacks are represented as an array, and the first index of the array represent the top element of the stack.
+
+Examples: 
+
+Input : stack1[] = { 3, 10}
+  stack2[] = { 4, 5 }
+  stack3[] = { 2, 1 }
+Output : 0
+Sum can only be equal after removing all elements 
+from all stacks.
+find-maximum-sum-possible-equal-sum-of-three-stacks
+
+Recommended Problem
+Find Maximum Equal sum of Three Stacks
+Greedy
+Stack
++2 more
+Solve Problem
+Submission count: 9.2K
+The idea is to compare the sum of each stack, if they are not same, remove the top element of the stack having the maximum sum.
+
+Algorithm for solving this problem: 
+
+Find the sum of all elements of in individual stacks.
+If the sum of all three stacks is the same, then this is the maximum sum.
+Else remove the top element of the stack having the maximum sum among three of stacks. Repeat step 1 and step 2.
+The approach works because elements are positive. To make sum equal, we must remove some element from stack having more sum, and we can only remove from the top.
+
+Below is the implementation of this approach: 
+
+
+
+C++
+Java
+Python3
+# Python program to calculate maximum sum with equal
+# stack sum.
+# Returns maximum possible equal sum of three stacks
+# with removal of top elements allowed
+def maxSum(stack1, stack2, stack3, n1, n2, n3):
+    sum1, sum2, sum3 = 0, 0, 0
+   
+  # Finding the initial sum of stack1.
+    for i in range(n1):
+        sum1 += stack1[i]
+  
+  # Finding the initial sum of stack2.
+    for i in range(n2):
+        sum2 += stack2[i]
+  
+  # Finding the initial sum of stack3.
+    for i in range(n3):
+        sum3 += stack3[i]
+  
+  # As given in question, first element is top
+  # of stack..
+    top1, top2, top3 = 0, 0, 0
+    ans = 0
+    while (1):
+      # If any stack is empty
+        if (top1 == n1 or top2 == n2 or top3 == n3):
+            return 0
+  
+      # If sum of all three stack are equal.
+        if (sum1 == sum2 and sum2 == sum3):
+            return sum1
+      
+      # Finding the stack with maximum sum and
+      # removing its top element.
+        if (sum1 >= sum2 and sum1 >= sum3):
+            sum1 -= stack1[top1]
+            top1=top1+1
+        else if (sum2 >= sum1 and sum2 >= sum3):
+            sum2 -= stack2[top2]
+            top2=top2+1
+        else if (sum3 >= sum2 and sum3 >= sum1):
+            sum3 -= stack3[top3]
+            top3=top3+1
+  
+# Driven Program
+stack1 = [ 3, 2, 1, 1, 1 ]
+stack2 = [ 4, 3, 2 ]
+stack3 = [ 1, 1, 4, 1 ]
+  
+n1 = len(stack1)
+n2 = len(stack2)
+n3 = len(stack3)
+  
+print (maxSum(stack1, stack2, stack3, n1, n2, n3))
+ 
+#This code is contributed by Afzal Ansari
+C#
+PHP
+Javascript
+Output
+5
+Time Complexity : O(n1 + n2 + n3) where n1, n2 and n3 are sizes of three stacks.
+
+Auxiliary space: O(1) because using constant space for variables
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+57
+Previous
+Find next Smaller of next Greater in an array
+Next
+Count natural numbers whose all permutation are greater than that number
+Related Articles
+1.
+Maximum count of integers to be chosen from given two stacks having sum at most K
+2.
+Check if two Stacks are equal or not without alteration
+3.
+Maximize sum of topmost elements of S stacks by popping at most N elements
+4.
+Implement two Stacks in an Array
+5.
+Iterative Postorder Traversal | Set 1 (Using Two Stacks)
+6.
+Bubble sort using two Stacks
+7.
+Sorting array using Stacks
+8.
+Merging and Sorting Two Unsorted Stacks
+9.
+Infix to Prefix conversion using two stacks
+10.
+Add two numbers represented by Stacks
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+yakshitbindal
+vallalasaivishwaja
+souravghosh0416
+chillycoder
+amartyaghoshgfg
+simmytarika5
+hardikkoriintern
+himanshiyadav7011
+Article Tags :
+Greedy
+Stack
+Practice Tags :
+Greedy
+Stack

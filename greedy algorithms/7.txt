@@ -1,0 +1,286 @@
+Job Sequencing Problem
+
+Difficulty Level : Medium
+Last Updated : 22 Aug, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given an array of jobs where every job has a deadline and associated profit if the job is finished before the deadline. It is also given that every job takes a single unit of time, so the minimum possible deadline for any job is 1. Maximize the total profit if only one job can be scheduled at a time.
+
+Examples: 
+
+Input: Four Jobs with following deadlines and profits
+
+JobID  Deadline  Profit
+
+
+  a           4          20   
+  b           1          10
+  c           1          40  
+  d          1          30
+
+Output: Following is maximum profit sequence of jobs: c, a   
+
+Input:  Five Jobs with following deadlines and profits
+
+
+
+JobID   Deadline  Profit
+
+  a            2          100
+  b            1          19
+  c            2          27
+ d            1          25
+ e            3          15
+
+Output: Following is maximum profit sequence of jobs: c, a, e
+
+Recommended Practice
+Job Sequencing Problem
+Try It!
+Naive Approach: To solve the problem follow the below idea:
+
+Generate all subsets of a given set of jobs and check individual subsets for the feasibility of jobs in that subset. Keep track of maximum profit among all feasible subsets.
+
+Greedy approach for job sequencing problem:
+Greedily choose the jobs with maximum profit first, by sorting the jobs in decreasing order of their profit. This would help to maximize the total profit as choosing the job with maximum profit for every time slot will eventually maximize the total profit
+
+
+Follow the given steps to solve the problem:
+
+Sort all jobs in decreasing order of profit. 
+Iterate on jobs in decreasing order of profit.For each job , do the following : 
+Find a time slot i, such that slot is empty and i < deadline and i is greatest.Put the job in 
+this slot and mark this slot filled. 
+If no such i exists, then ignore the job. 
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+# Python3 code for the above approach
+ 
+# function to schedule the jobs take 2
+# arguments array and no of jobs to schedule
+ 
+ 
+def printJobScheduling(arr, t):
+ 
+    # length of array
+    n = len(arr)
+ 
+    # Sort all jobs according to
+    # decreasing order of profit
+    for i in range(n):
+        for j in range(n - 1 - i):
+            if arr[j][2] < arr[j + 1][2]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+ 
+    # To keep track of free time slots
+    result = [False] * t
+ 
+    # To store result (Sequence of jobs)
+    job = ['-1'] * t
+ 
+    # Iterate through all given jobs
+    for i in range(len(arr)):
+ 
+        # Find a free slot for this job
+        # (Note that we start from the
+        # last possible slot)
+        for j in range(min(t - 1, arr[i][1] - 1), -1, -1):
+ 
+            # Free slot found
+            if result[j] is False:
+                result[j] = True
+                job[j] = arr[i][0]
+                break
+ 
+    # print the sequence
+    print(job)
+ 
+ 
+# Driver's Code
+if __name__ == '__main__':
+    arr = [['a', 2, 100],  # Job Array
+              ['b', 1, 19],
+              ['c', 2, 27],
+              ['d', 1, 25],
+              ['e', 3, 15]]
+ 
+ 
+    print("Following is maximum profit sequence of jobs")
+ 
+    # Function Call
+    printJobScheduling(arr, 3)
+ 
+# This code is contributed
+# by Anubhav Raj Singh
+C#
+Javascript
+Output
+Following is maximum profit sequence of jobs 
+c a e 
+Time Complexity: O(N2)
+Auxiliary Space: O(N)
+
+Job sequencing problem using Priority-Queue (Max-Heap):
+Sort the jobs in the increasing order of their deadlines and then calculate the available slots between every two consecutive deadlines while iterating from the end. Include the profit of the job at the root of the Max-Heap while the empty slots are available and Heap is not empty, as this would help to choose the jobs with maximum profit for every set of available slots.
+
+Follow the given steps to solve the problem:
+
+Sort the jobs based on their deadlines.
+Iterate from the end and calculate the available slots between every two consecutive deadlines. Insert the profit, deadline, and job ID of ith job in the max heap.
+While the slots are available and there are jobs left in the max heap, include the job ID with maximum profit and deadline in the result.
+Sort the result array based on their deadlines.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program for the above approach
+import heapq
+ 
+ 
+def printJobScheduling(arr):
+    n = len(arr)
+ 
+    # arr[i][0] = job_id, arr[i][1] = deadline, arr[i][2] = profit
+ 
+    # sorting the array on the
+    # basis of their deadlines
+    arr.sort(key=lambda x: x[1])
+ 
+    # initialise the result array and maxHeap
+    result = []
+    maxHeap = []
+ 
+    # starting the iteration from the end
+    for i in range(n - 1, -1, -1):
+ 
+        # calculate slots between two deadlines
+        if i == 0:
+            slots_available = arr[i][1]
+        else:
+            slots_available = arr[i][1] - arr[i - 1][1]
+ 
+        # include the profit of job(as priority), deadline
+        # and job_id in maxHeap
+        # note we push negative value in maxHeap to convert
+        # min heap to max heap in python
+        heapq.heappush(maxHeap, (-arr[i][2], arr[i][1], arr[i][0]))
+ 
+        while slots_available and maxHeap:
+ 
+            # get the job with max_profit
+            profit, deadline, job_id = heapq.heappop(maxHeap)
+ 
+            # reduce the slots
+            slots_available -= 1
+ 
+            # include the job in the result array
+            result.append([job_id, deadline])
+ 
+    # jobs included might be shuffled
+    # sort the result array by their deadlines
+    result.sort(key=lambda x: x[1])
+ 
+    for job in result:
+        print(job[0], end=" ")
+    print()
+ 
+ 
+# Driver's Code
+if __name__ == '__main__':
+    arr = [['a', 2, 100],  # Job Array
+           ['b', 1, 19],
+           ['c', 2, 27],
+           ['d', 1, 25],
+           ['e', 3, 15]]
+ 
+    print("Following is maximum profit sequence of jobs")
+ 
+    # Function Call
+    printJobScheduling(arr)
+ 
+# This code is contributed
+# by Shivam Bhagat
+Output
+Following is maximum profit sequence of jobs
+a c e 
+Time Complexity: O(N log N)
+Auxiliary Space: O(N)
+
+It can also be optimized using Disjoint Set Data Structure. Please refer to the below post for details.
+Job Sequencing Problem | Set 2 (Using Disjoint Set)
+ 
+
+This article is contributed by Shubham. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+157
+Previous
+Greedy Algorithm for Egyptian Fraction
+Next
+Job Selection Problem - Loss Minimization Strategy | Set 2
+Related Articles
+1.
+Job Sequencing Problem using Disjoint Set
+2.
+Job Sequencing Problem - Loss Minimization
+3.
+Job Selection Problem - Loss Minimization Strategy | Set 2
+4.
+Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)
+5.
+Job Scheduling with two jobs allowed at a time
+6.
+Minimum time taken by each job to be completed given by a Directed Acyclic Graph
+7.
+Shortest Job First (or SJF) CPU Scheduling Non-preemptive algorithm using Segment Tree
+8.
+Activity Selection Problem | Greedy Algo-1
+9.
+The Stock Span Problem
+10.
+Greedy Approximate Algorithm for K Centers Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+anubhavraj_08
+coder72
+PrateekGupta10
+siddharthchauhan
+rohitsingh07052
+umeshg17
+avanitrachhadiya2155
+surinderdawra388
+sumitgumber28
+shivampkrr
+karandeep1234
+mreeturaj1234
+adityakumar129
+janardansthox
+Article Tags :
+Accolite
+Greedy
+Practice Tags :
+Accolite
+Greedy
+Improve Article
+Report Issue

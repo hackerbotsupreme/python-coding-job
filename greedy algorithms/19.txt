@@ -1,0 +1,225 @@
+Minimum increment/decrement to make array non-Increasing
+
+Difficulty Level : Hard
+Last Updated : 20 Dec, 2022
+Read
+Discuss(30)
+Courses
+Practice
+Video
+Given an array a, your task is to convert it into a non-increasing form such that we can either increment or decrement the array value by 1 in the minimum changes possible.
+
+Examples : 
+
+Input : a[] = {3, 1, 2, 1}
+Output : 1
+Explanation : We can convert the array into 3 1 1 1 by changing 3rd element of array i.e. 2  into its previous integer 1 in one step hence only one step is required.
+
+Input : a[] = {3, 1, 5, 1}
+Output : 4
+Explanation : We need to decrease 5 to 1 to make array sorted in non-increasing order.
+
+Input : a[] = {1, 5, 5, 5}
+Output : 4
+Explanation : We need to increase 1 to 5.
+
+Recommended Problem
+Minimum increment/decrement to make array non-Increasing
+Arrays
+priority-queue
++1 more
+Amazon
+Solve Problem
+Submission count: 6.4K
+Brute-Force approach: We consider both possibilities for every element and find a minimum of two possibilities. 
+
+Efficient Approach Method 1 (Using Min-Heap):
+Calculate the sum of absolute differences between the final array elements and the current array elements. Thus, the answer will be the sum of the difference between the ith element and the smallest element that occurred until then. For this, we can maintain a min-heap to find the smallest element encountered till then. In the min-priority queue, we will put the elements, and new elements are compared with the previous minimum. If the new minimum is found we will update it, this is done because each of the next elements which are coming should be smaller than the current minimum element found till now. Here, we calculate the difference so that we can get how much we have to change the current number so that it will be equal or less than previous numbers encountered. Lastly, the sum of all these differences will be our answer as this will give the final value up to which we have to change the elements.
+
+
+
+Below is the implementation of the above approach:
+
+C++14
+Java
+Python3
+# Python3 code to count the change required to
+# convert the array into non-increasing array
+from queue import PriorityQueue
+ 
+def DecreasingArray(a, n):
+     
+    ss, dif = (0,0)
+     
+    # min heap
+    pq = PriorityQueue()
+ 
+    # Here in the loop we will
+    # check that whether the upcoming
+    # element of array is less than top
+    # of priority queue. If yes then we
+    # calculate the difference. After
+    # that we will remove that element
+    # and push the current element in
+    # queue. And the sum is incremented
+    # by the value of difference
+    for i in range(n):
+        tmp = 0
+         
+        if not pq.empty():
+            tmp = pq.get()
+            pq.put(tmp)
+         
+        if not pq.empty() and tmp < a[i]:
+            dif = a[i] - tmp
+            ss += dif
+            pq.get()
+            pq.put(a[i])
+         
+        pq.put(a[i])
+       
+    return ss
+     
+# Driver code   
+if __name__=="__main__":
+     
+    a = [ 3, 1, 2, 1 ]
+    n = len(a)
+  
+    print(DecreasingArray(a, n))
+     
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output
+1
+Complexity Analysis:
+
+Time Complexity: O(n log(n)) 
+Auxiliary Space: O(n)
+Method 2: Using Max-Heap:
+
+Traverse in reverse order in the given array and keep maintaining the increasing property. If any element is smaller than the maximum of existing elements till that index then, we need to make some decrement operation on that maximum element so that it also follows the increasing property from back traversal and add the required operation in the answer.
+
+Implementation:
+
+C++
+// CPP code to count the change required to
+// convert the array into non-increasing array
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int DecreasingArray(int arr[], int n)
+{
+    int ans = 0;
+ 
+    // max heap
+    priority_queue<int> pq;
+ 
+    // Here in the loop we will
+    // check that whether the top
+    // of priority queue is greater than the upcoming array
+    // element. If yes then we calculate the difference.
+    // After that we will remove that element and push the
+    // current element in queue. And the sum is incremented
+    // by the value of difference
+ 
+    for (int i = n - 1; i >= 0; i--) {
+        if (!pq.empty() and pq.top() > arr[i]) {
+            ans += abs(arr[i] - pq.top());
+            pq.pop();
+            pq.push(arr[i]);
+        }
+        pq.push(arr[i]);
+    }
+    return ans;
+}
+ 
+// Driver Code
+int main()
+{
+    int a[] = { 3, 1, 2, 1 };
+    int n = sizeof(a) / sizeof(a[0]);
+ 
+    cout << DecreasingArray(a, n);
+ 
+    return 0;
+}
+Java
+C#
+Javascript
+Output
+1
+Complexity Analysis:
+
+Time Complexity: O(n log(n)) 
+Auxiliary Space: O(n)
+Also see : Convert to strictly increasing array with minimum changes. 
+
+
+
+
+
+Like
+36
+Previous
+Minimum sum of absolute difference of pairs of two arrays
+Next
+Making elements of two arrays same with minimum increment/decrement
+Related Articles
+1.
+Minimum operations to make Array sum at most S from given Array
+2.
+Minimum sum of values subtracted from array elements to make all array elements equal
+3.
+Minimum increments to make all array elements equal with sum same as the given array after exactly one removal
+4.
+Minimum increments to modify array such that value of any array element can be splitted to make all remaining elements equal
+5.
+Minimum prefix increments required to make all elements of an array multiples of another array
+6.
+Make all array elements equal by reducing array elements to half minimum number of times
+7.
+Minimum decrements to make an Array at most 0 such that all array elements are cyclically decremented after a number is reduced to 0
+8.
+Count of iterations to make minimum as 0 by rotating Array followed by reducing it from original Array
+9.
+Minimum cost to make array size 1 by removing larger of pairs
+10.
+Minimum operations to make GCD of array a multiple of k
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanskar27jain
+sanjeev2552
+rutvik_56
+karthikgrsoft
+divyeshrabadiya07
+rrrtnx
+ritobroto11
+ishankhandelwals
+rohit768
+hardikkoriintern
+lokeshmvs21
+Article Tags :
+cpp-priority-queue
+priority-queue
+Algorithms
+Greedy
+Heap
+Practice Tags :
+Algorithms
+Greedy
+Heap
+priority-queue
+Improve Article
+Report Issue

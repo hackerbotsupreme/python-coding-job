@@ -1,0 +1,245 @@
+Find the minimum and maximum amount to buy all N candies
+
+Difficulty Level : Easy
+Last Updated : 24 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+In a candy store, there are N different types of candies available and the prices of all the N different types of candies are provided. There is also an attractive offer by the candy store. We can buy a single candy from the store and get at most K other candies (all are different types) for free.
+
+Find the minimum amount of money we have to spend to buy all the N different candies.
+Find the maximum amount of money we have to spend to buy all the N different candies.
+In both cases, we must utilize the offer and get the maximum possible candies back. If k or more candies are available, we must take k candies for every candy purchase. If less than k candies are available, we must take all candies for a candy purchase.
+
+Examples: 
+
+Input :  
+price[] = {3, 2, 1, 4}
+k = 2
+Output :  
+Min = 3, Max = 7
+Explanation :
+Since k is 2, if we buy one candy we can take 
+atmost two more for free.
+So in the first case we buy the candy which 
+costs 1 and take candies worth 3 and 4 for 
+free, also you buy candy worth 2 as well.
+So min cost = 1 + 2 = 3.
+In the second case we buy the candy which 
+costs 4 and take candies worth 1 and 2 for 
+free, also We buy candy worth 3 as well.
+So max cost = 3 + 4 = 7.
+Recommended Problem
+Shop in Candy Store
+Greedy
+Sorting
++1 more
+Solve Problem
+Submission count: 55.4K
+One important thing to note is, we must use the offer and get maximum candies back for every candy purchase. So if we want to minimize the money, we must buy candies at minimum cost and get candies of maximum costs for free. To maximize the money, we must do the reverse. Below is an algorithm based on this.
+
+First Sort the price array.
+
+For finding minimum amount :
+  Start purchasing candies from starting 
+  and reduce k free candies from last with
+  every single purchase.
+
+For finding maximum amount : 
+   Start purchasing candies from the end 
+   and reduce k free candies from starting 
+   in every single purchase.
+Below image is an illustration of the above approach:
+
+Minimum amount : 
+
+Minimum amount to buy all N candies
+
+
+
+Maximum amount : 
+
+maximum amount to buy all N candies
+
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python implementation
+# to find the minimum
+# and maximum amount
+ 
+# Function to find
+# the minimum amount
+# to buy all candies
+ 
+ 
+def findMinimum(arr, n, k):
+ 
+    res = 0
+    i = 0
+    while(i<n):
+ 
+        # Buy current candy
+        res += arr[i]
+ 
+        # And take k
+        # candies for free
+        # from the last
+        n = n-k
+        i += 1
+    return res
+ 
+# Function to find
+# the maximum amount
+# to buy all candies
+ 
+ 
+def findMaximum(arr, n, k):
+ 
+    res = 0
+    index = 0
+    i = n-1
+    while(i >= index):
+ 
+        # Buy candy with
+        # maximum amount
+        res += arr[i]
+ 
+        # And get k candies
+        # for free from
+        # the starting
+        index += k
+        i -= 1
+ 
+    return res
+ 
+# Driver code
+arr = [1,2,3,4,5,6,7,8,9,10]
+n = len(arr)
+k = 0
+ 
+arr.sort()
+ 
+# Function call
+print(findMinimum(arr, n, k), " ",
+      findMaximum(arr, n, k))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+3 7
+Time Complexity : O(nlogn) 
+Auxiliary Space: O(1)
+
+Another Implementation:
+We can use the help of The Least integer function (Ceiling function) using built-in ceil() function to implement:
+
+Below is the implementation in Python:
+
+C++
+Java
+Python3
+# Python implementation
+# to find the minimum
+# and maximum amount
+ 
+#import ceil function
+from math import ceil
+ 
+# function to find the maximum
+# and the minimum cost required
+def find(arr,n,k):
+     
+    # Sort the array
+    arr.sort()
+    b = int(ceil(n/k))
+     
+    # print the minimum cost
+    print("minimum ",sum(arr[:b]))
+     
+    # print the maximum cost
+    print("maximum ", sum(arr[-b:]))
+     
+     
+# Driver Code
+arr = [3, 2, 1, 4]
+n = len(arr)
+k = 2
+ 
+# Function call
+find(arr,n,k)
+C#
+Javascript
+Output
+('minimum ', 3)
+('maximum ', 7)
+Time Complexity: O(nlog(n))
+Auxiliary Space: O(1)
+
+This article is contributed by Sahil Chhabra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+11
+Previous
+Buy Maximum Stocks if i stocks can be bought on i-th day
+Next
+Maximum elements that can be made equal with k updates
+Related Articles
+1.
+Distributed C candies among N boys such that difference between maximum and minimum candies received is K
+2.
+Find minimum number of currency notes and values that sum to given amount
+3.
+Buy minimum items without change and given coins
+4.
+Maximum types of candies a person can eat if only N/2 of them can be eaten
+5.
+Maximum number of candies that can be bought
+6.
+Count maximum number of consumable candies
+7.
+Maximum candies two friends can eat
+8.
+Minimum number of candies required to distribute among children based on given conditions
+9.
+Buy Maximum Stocks if i stocks can be bought on i-th day
+10.
+Find the winner of a game of donating i candies in every i-th move
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+nitin mittal
+_praveen_
+mohit kumar 29
+patel2127
+unknown2108
+ukasp
+shivanisinghss2110
+pushpeshrajdx01
+Article Tags :
+Greedy
+Sorting
+Practice Tags :
+Greedy
+Sorting

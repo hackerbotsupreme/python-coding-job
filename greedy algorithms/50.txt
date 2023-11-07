@@ -1,0 +1,116 @@
+Minimum cost to make array size 1 by removing larger of pairs
+
+Difficulty Level : Easy
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n integers. We need to reduce size of array to one. We are allowed to select a pair of integers and remove the larger one of these two. This decreases the array size by 1. Cost of this operation is equal to value of smaller one. Find out minimum sum of costs of operations needed to convert the array into a single element.
+
+Examples: 
+
+Input: 4 3 2 
+Output: 4
+Explanation: 
+Choose (4, 2) so 4 is removed, new array 
+= {2, 3}. Now choose (2, 3) so 3 is removed. 
+So total cost = 2 + 2 = 4
+
+Input: 3 4
+Output: 3
+Explanation: choose 3, 4, so cost is 3. 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to always pick minimum value as part of the pair and remove larger value. This minimizes cost of reducing array to size 1.
+
+Below is the implementation of the above approach: 
+
+CPP
+Java
+Python3
+# Python program to find minimum
+# cost to reduce array size to 1
+ 
+# function to calculate the
+# minimum cost
+def cost(a, n):
+ 
+    # Minimum cost is n-1 multiplied
+    # with minimum element.
+    return ( (n - 1) * min(a) )
+ 
+ 
+# driver code
+a = [ 4, 3, 2 ]
+n = len(a)
+print(cost(a, n))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity: O(N), as we are using a min function which will cost O(N).
+Auxiliary Space: O(1), as we are not using any extra space.
+
+This article is contributed by Striver. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+2
+Previous
+Minimum cost to process m tasks where switching costs
+Next
+Minimum cost for acquiring all coins with k extra coins allowed with every coin
+Related Articles
+1.
+Minimum cost to empty Array where cost of removing an element is 2^(removed_count) * arr[i]
+2.
+Minimum cost to convert all elements of a K-size subarray to 0 from given Ternary Array with subarray sum as cost
+3.
+Reduce an array to a single element by repeatedly removing larger element from a pair with absolute difference at most K
+4.
+Minimize cost to empty given array where cost of removing an element is its absolute difference with Time instant
+5.
+Why global array has a larger size than the local array?
+6.
+Minimum cost to make parity of elements same by removing Subarray
+7.
+Check if mapping is possible to make sum of first array larger than second array
+8.
+Minimize cost by splitting given Array into subsets of size K and adding highest K/2 elements of each subset into cost
+9.
+Count pairs from an array whose quotient of division of larger number by the smaller number does not exceed K
+10.
+Find minimum pair sum by selecting element from 2nd array at index larger than 1st array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+parashar
+vt_m
+splevel62
+rohitsingh57
+hardikkoriintern
+Article Tags :
+Arrays
+Greedy
+Practice Tags :
+Arrays
+Greedy

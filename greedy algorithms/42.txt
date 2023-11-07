@@ -1,0 +1,170 @@
+Split n into maximum composite numbers
+
+Difficulty Level : Easy
+Last Updated : 15 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given n, print the maximum number of composite numbers that sum up to n. First few composite numbers are 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, ……… 
+Examples: 
+ 
+
+Input: 90   
+Output: 22
+Explanation: If we add 21 4's, then we 
+get 84 and then add 6 to it, we get 90.
+
+Input: 10
+Output: 2
+Explanation: 4 + 6 = 10
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below are some important observations. 
+ 
+
+If the number is less than 4, it won’t have any combinations.
+If the number is 5, 7, 11, it wont have any splitting.
+Since smallest composite number is 4, it makes sense to use maximum number of 4s.
+For numbers that don’t leave a composite remainder when divided by 4, we do following. If remainder is 1, we subtract 9 from it to get the number which is perfectly divisible by 4. If the remainder is 2, then subtract 6 from it to make n a number which is perfectly divisible by 4. If the remainder is 3, then subtract 15 from it to make n perfectly divisible by 4, and 15 can be made up by 9 + 6.
+So the main observation is to make n such that is composes of maximum no of 4’s and the remaining can be made up by 6 and 9. We won’t need composite numbers more than that, as the composite numbers above 9 can be made up of 4, 6, and 9.
+Below is the implementation of the above approach 
+ 
+
+C++
+Java
+Python3
+# Python3 program to split a number into
+# maximum number of composite numbers.
+ 
+# Function to calculate the maximum number
+# of composite numbers adding upto n
+def count(n):
+ 
+    # 4 is the smallest composite number
+    if (n < 4):
+        return -1
+ 
+    # stores the remainder when n 
+    # is divided n is divided by 4
+    rem = n % 4
+ 
+    # if remainder is 0, then it is 
+    # perfectly divisible by 4.
+    if (rem == 0):
+        return n // 4
+ 
+    # if the remainder is 1
+    if (rem == 1):
+ 
+        # If the number is less than 9, that
+        # is 5, then it cannot be expressed as
+        # 4 is the only composite number less
+        # than 5
+        if (n < 9):
+            return -1
+ 
+        # If the number is greater than 8, and
+        # has a remainder of 1, then express n
+        # as n-9 a and it is perfectly divisible
+        # by 4 and for 9, count 1.
+        return (n - 9) // 4 + 1
+     
+ 
+     
+    # When remainder is 2, just subtract 6 from n,
+    # so that n is perfectly divisible by 4 and
+    # count 1 for 6 which is subtracted.
+    if (rem == 2):
+        return (n - 6) // 4 + 1
+ 
+ 
+    # if the number is 7, 11 which cannot be
+    # expressed as sum of any composite numbers
+    if (rem == 3):
+        if (n < 15):
+            return -1
+ 
+        # when the remainder is 3, then subtract
+        # 15 from it and n becomes perfectly
+        # divisible by 4 and we add 2 for 9 and 6,
+        # which is getting subtracted to make n
+        # perfectly divisible by 4.
+        return (n - 15) // 4 + 2
+ 
+# Driver Code
+n = 90
+print(count(n))
+ 
+n = 143
+print(count(n))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+22 
+34 
+Time complexity: O(1) 
+Auxiliary Space: O(1) 
+This article is contributed by Raja Vikramaditya. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+12
+Previous
+Fractional Knapsack Problem
+Next
+Buy Maximum Stocks if i stocks can be bought on i-th day
+Related Articles
+1.
+Minimum length of a rod that can be split into N equal parts that can further be split into given number of equal parts
+2.
+Split array into maximum possible subsets having product of their length with the maximum element at least K
+3.
+Find the maximum number of composite summands of a number
+4.
+Find a range of composite numbers of given length
+5.
+Generate a list of n consecutive composite numbers (An interesting method)
+6.
+Sum and Product of all Composite numbers which are divisible by k in an array
+7.
+Product of all the Composite Numbers in an array
+8.
+Sum and product of k smallest and k largest composite numbers in the array
+9.
+Composite numbers with digit sum 1
+10.
+Queries for the difference between the count of composite and prime numbers in a given range
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+_saurabh_jaiswal
+mitalibhola94
+simmytarika5
+Article Tags :
+Greedy
+Mathematical
+Practice Tags :
+Greedy
+Mathematical

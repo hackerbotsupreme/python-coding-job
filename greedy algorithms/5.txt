@@ -1,0 +1,93 @@
+Comparison among Greedy, Divide and Conquer and Dynamic Programming algorithm
+
+Last Updated : 08 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Greedy Algorithm:
+Greedy algorithm is defined as a method for solving optimization problems by taking decisions that result in the most evident and immediate benefit irrespective of the final outcome. It is a simple, intuitive algorithm that is used in optimization problems.
+
+Divide and conquer Algorithm:
+Divide and conquer is an algorithmic paradigm in which the problem is solved using the Divide, Conquer, and Combine strategy. A typical Divide and Conquer algorithm solve a problem using the following three steps:
+
+Divide: This involves dividing the problem into smaller sub-problems.
+Conquer: Solve sub-problems by calling recursively until solved.
+Combine: Combine the sub-problems to get the final solution of the whole problem.
+
+Dynamic Programming:
+Dynamic Programming is mainly an optimization over plain recursion. Wherever we see a recursive solution that has sometimes repeated calls for the same input states, we can optimize it using Dynamic Programming. The idea is to simply store the results of subproblems so that we do not have to re-compute them when needed later. This simple optimization reduces time complexities from exponential to polynomial.
+
+
+Greedy Algorithm vs Divide and Conquer Algorithm vs Dynamic Algorithm:
+Sl.No	Greedy Algorithm	Divide and conquer	Dynamic Programming 
+1	Follows Top-down approach	Follows Top-down approach	Follows bottom-up approach
+2	Used to solve optimization problem	Used to solve decision problem	Used to solve optimization problem
+3	The optimal solution is generated without revisiting previously generated solutions; thus, it avoids the re-computation	Solution of subproblem is computed recursively more than once.	The solution of subproblems is computed once and stored in a table for later use.
+4	It may or may not generate an optimal solution.	 It is used to obtain a solution to the given problem, it does not aim for the optimal solution	It always generates optimal solution.
+5	Iterative in nature.	Recursive in nature.	Recursive in nature.
+6	 efficient and fast than divide and conquer.	less efficient and slower.	more efficient and faster than greedy.
+7	extra memory is not required.	some memory is required.	more memory is required to store subproblems for later use.
+8	Examples: Fractional Knapsack problem,
+Activity selection problem,
+Job sequencing problem.	Examples: Merge sort,
+Quick sort,
+Strassen’s matrix multiplication.	Examples: 0/1 Knapsack,
+All pair shortest path,
+Matrix-chain multiplication.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Find difference between count of Prime and Composite in given Range
+Next
+Count ways to form N sized Strings with at most two adjacent different pair
+Related Articles
+1.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+2.
+Dynamic Programming vs Divide-and-Conquer
+3.
+Divide and Conquer Optimization in Dynamic Programming
+4.
+Introduction to Divide and Conquer Algorithm - Data Structure and Algorithm Tutorials
+5.
+Karatsuba algorithm for fast multiplication using Divide and Conquer algorithm
+6.
+Search in a Row-wise and Column-wise Sorted 2D Array using Divide and Conquer algorithm
+7.
+Tiling Problem using Divide and Conquer algorithm
+8.
+The Skyline Problem using Divide and Conquer algorithm
+9.
+Longest Common Prefix using Divide and Conquer Algorithm
+10.
+Convex Hull using Divide and Conquer Algorithm
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+harshraghav718
+@harshraghav718
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Technical Scripter 2022
+Algorithms
+Divide and Conquer
+Dynamic Programming
+Greedy
+Technical Scripter
+Practice Tags :
+Algorithms
+Divide and Conquer
+Dynamic Programming
+Greedy
+Report Issue

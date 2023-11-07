@@ -1,0 +1,101 @@
+Greedy Algorithms (General Structure and Applications)
+
+Difficulty Level : Easy
+Last Updated : 22 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Greedy Algorithms work step-by-step, and always choose the steps which provide immediate profit/benefit. It chooses the “locally optimal solution”, without thinking about future consequences. Greedy algorithms may not always lead to the optimal global solution, because it does not consider the entire data. The choice made by the greedy approach does not consider future data and choices. In some cases making a decision that looks right at that moment gives the best solution (Greedy), but in other cases, it doesn’t. The greedy technique is used for optimization problems (where we have to find the maximum or minimum of something). The Greedy technique is best suited for looking at the immediate situation.
+
+All greedy algorithms follow a basic structure: 
+declare an empty result = 0.
+We make a greedy choice to select, If the choice is feasible add it to the final result.
+return the result.
+Why choose Greedy Approach:
+The greedy approach has a few tradeoffs, which may make it suitable for optimization. One prominent reason is to achieve the most feasible solution immediately. In the activity selection problem (Explained below), if more activities can be done before finishing the current activity, these activities can be performed within the same time.  Another reason is to divide a problem recursively based on a condition, with no need to combine all the solutions. In the activity selection problem, the “recursive division” step is achieved by scanning a list of items only once and considering certain activities.
+
+Greedy choice property: 
+This property says that the globally optimal solution can be obtained by making a locally optimal solution (Greedy). The choice made by a Greedy algorithm may depend on earlier choices but not on the future. It iteratively makes one Greedy choice after another and reduces the given problem to a smaller one.
+
+Optimal substructure:
+A problem exhibits optimal substructure if an optimal solution to the problem contains optimal solutions to the subproblems. That means we can solve subproblems and build up the solutions to solve larger problems.
+
+Note: Making locally optimal choices does not always work. Hence, Greedy algorithms will not always give the best solutions.
+
+Characteristics of Greedy approach:
+There is an ordered list of resources(profit, cost, value, etc.) 
+Maximum of all the resources(max profit, max value, etc.) are taken. 
+For example, in the fractional knapsack problem, the maximum value/weight is taken first according to available capacity. 
+Applications of Greedy Algorithms:
+Finding an optimal solution (Activity selection, Fractional Knapsack, Job Sequencing, Huffman Coding). 
+Finding close to the optimal solution for NP-Hard problems like TSP. 
+Advantages of the Greedy Approach: 
+The greedy approach is easy to implement.
+Typically have less time complexity.
+Greedy algorithms can be used for optimization purposes or finding close to optimization in case of Hard problems.
+Disadvantages of the Greedy Approach:
+The local optimal solution may not always be globally optimal.
+Standard Greedy Algorithms :
+Prim’s Algorithm
+Kruskal’s Algorithm
+Dijkstra’s Algorithm
+ 
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+7
+Previous
+Find all divisors of N2 using N
+Next
+Count of elements in an Array whose set bits are in a multiple of K
+Related Articles
+1.
+Top 20 Greedy Algorithms Interview Questions
+2.
+Correctness of Greedy Algorithms
+3.
+Scheduling in Greedy Algorithms
+4.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+5.
+Comparison among Greedy, Divide and Conquer and Dynamic Programming algorithm
+6.
+Maximum profit by buying and selling a share at most K times | Greedy Approach
+7.
+Introduction to Greedy Algorithm - Data Structures and Algorithm Tutorials
+8.
+Activity Selection Problem | Greedy Algo-1
+9.
+Efficient Huffman Coding for Sorted Input | Greedy Algo-4
+10.
+Prim’s MST for Adjacency List Representation | Greedy Algo-6
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+simranjenny84
+@simranjenny84
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+imsushant12
+geeky01adarsh
+garvitpr1hev
+Article Tags :
+Algorithms
+Greedy
+Practice Tags :
+Algorithms
+Greedy

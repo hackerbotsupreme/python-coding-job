@@ -1,0 +1,181 @@
+Greedy Algorithm for Egyptian Fraction
+
+Difficulty Level : Medium
+Last Updated : 31 Oct, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Every positive fraction can be represented as sum of unique unit fractions. A fraction is unit fraction if numerator is 1 and denominator is a positive integer, for example 1/3 is a unit fraction. Such a representation is called Egyptian Fraction as it was used by ancient Egyptians. 
+
+Following are a few examples: 
+
+Egyptian Fraction Representation of 2/3 is 1/2 + 1/6
+Egyptian Fraction Representation of 6/14 is 1/3 + 1/11 + 1/231
+Egyptian Fraction Representation of 12/13 is 1/2 + 1/3 + 1/12 + 1/156
+We can generate Egyptian Fractions using Greedy Algorithm. For a given number of the form ‘nr/dr’ where dr > nr, first find the greatest possible unit fraction, then recur for the remaining part. For example, consider 6/14, we first find ceiling of 14/6, i.e., 3. So the first unit fraction becomes 1/3, then recur for (6/14 – 1/3) i.e., 4/42. 
+
+Below is the implementation of the above idea.
+
+C++
+Java
+Python3
+# Python3 program to print a fraction
+# in Egyptian Form using Greedy
+# Algorithm
+ 
+# import math package to use
+# ceiling function
+import math
+ 
+# define a function egyptianFraction
+# which receive parameter nr as
+# numerator and dr as denominator
+def egyptianFraction(nr, dr):
+ 
+    print("The Egyptian Fraction " +
+          "Representation of {0}/{1} is".
+                format(nr, dr), end="\n")
+ 
+    # empty list ef to store
+    # denominator
+    ef = []
+ 
+    # while loop runs until
+    # fraction becomes 0 i.e,
+    # numerator becomes 0
+    while nr != 0:
+ 
+        # taking ceiling
+        x = math.ceil(dr / nr)
+ 
+        # storing value in ef list
+        ef.append(x)
+ 
+        # updating new nr and dr
+        nr = x * nr - dr
+        dr = dr * x
+ 
+    # printing the values
+    for i in range(len(ef)):
+        if i != len(ef) - 1:
+            print(" 1/{0} +" .
+                    format(ef[i]), end = " ")
+        else:
+            print(" 1/{0}" .
+                    format(ef[i]), end = " ")
+ 
+# calling the function
+egyptianFraction(6, 14)
+ 
+# This code is contributed
+# by Anubhav Raj Singh
+C#
+Javascript
+PHP
+Output
+Egyptian Fraction representation of 6/14 is
+1/3 + 1/11 + 1/231
+The recursive solution in Python is as follows:
+
+C++
+Python3
+import math
+ 
+ 
+def getEgyptianFraction(numerator, denominator):
+    str = ""
+    output = getEgyptianFractionUtil(numerator, denominator, [])
+    for denom in output:
+        str += "1/{0} + ".format(denom)
+    strCopy = str[:-3]  # removing the last + sign
+    return strCopy
+ 
+ 
+def getEgyptianFractionUtil(numerator, denominator, listOfDenoms):
+    if numerator == 0:
+        return listOfDenoms
+    newDenom = math.ceil(denominator/numerator)
+    # append in output list
+    listOfDenoms.append(newDenom)
+    listOfDenoms = getEgyptianFractionUtil(numerator*newDenom - denominator,
+                                           newDenom*denominator, listOfDenoms)
+    return listOfDenoms
+ 
+ 
+print(getEgyptianFraction(6, 14))
+# Code contributed by
+# Mayur Sonowal
+Output
+
+
+1/3 + 1/11 + 1/231
+The Greedy algorithm works because a fraction is always reduced to a form where denominator is greater than numerator and numerator doesn’t divide denominator. For such reduced forms, the highlighted recursive call is made for reduced numerator. So the recursive calls keep on reducing the numerator till it reaches 1. 
+
+This article is contributed by Shubham. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+101
+Previous
+Activity Selection Problem | Greedy Algo-1
+Next
+Job Sequencing Problem
+Related Articles
+1.
+Find ΔX which is added to numerator and denominator both of fraction (a/b) to convert it to another fraction (c/d)
+2.
+Find the closest Fraction to given fraction having minimum absolute difference
+3.
+Find the largest co-prime fraction less than the given fraction
+4.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+5.
+Introduction to Greedy Algorithm - Data Structures and Algorithm Tutorials
+6.
+Dijkstra’s Algorithm for Adjacency List Representation | Greedy Algo-8
+7.
+Graph Coloring | Set 2 (Greedy Algorithm)
+8.
+Greedy Approximate Algorithm for K Centers Problem
+9.
+Greedy Approximate Algorithm for Set Cover Problem
+10.
+Boruvka's algorithm | Greedy Algo-9
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+DhruvitJakasaniya
+anubhavraj_08
+Akanksha_Rai
+Rajput-Ji
+jit_t
+divyeshrabadiya07
+mayursonowal1997
+soumajyoti_sarkar
+abhijeet19403
+Article Tags :
+Fraction
+Greedy
+Mathematical
+Practice Tags :
+Greedy
+Mathematical
+Improve Article
+Report Issue

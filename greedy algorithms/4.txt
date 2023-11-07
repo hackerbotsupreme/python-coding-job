@@ -1,0 +1,145 @@
+Greedy approach vs Dynamic programming
+
+Difficulty Level : Medium
+Last Updated : 12 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Greedy approach:
+A Greedy algorithm is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to a global solution is the best fit for Greedy. 
+
+Example: In Fractional Knapsack Problem the local optimal strategy is to choose the item that has maximum value vs weight ratio. This strategy also leads to global optimal solution because we allowed taking fractions of an item. 
+
+Characteristics of Greedy approach:
+A problem that can be solved using the Greedy approach follows the below-mentioned properties:
+
+Optimal substructure property. 
+Minimization or Maximization of quantity is required.
+Ordered data is available such as data on increasing profit, decreasing cost, etc.
+Non-overlapping subproblems.
+Standard problems on Greedy Approach:
+
+S.No.	Article 	Practice 
+1.	Fractional Knapsack Problem 	link
+2.	Activity Selection Problem 	link
+3.	
+Water Connection Problem
+
+link
+4.	
+Dijkstra’s Shortest Path Algorithm
+
+link
+Dynamic Programming:
+Dynamic programming is mainly an optimization over plain recursion. Wherever we see a recursive solution that has repeated calls for the same inputs, we can optimize it using Dynamic Programming. The idea is to simply store the results of subproblems so that we do not have to re-compute them when needed later. This simple optimization reduces time complexities from exponential to polynomial.
+
+
+
+Example: If we write a simple recursive solution for Fibonacci Numbers, we get exponential time complexity and to optimize it by storing solutions of subproblems, time complexity reduces to linear this can be achieved by Tabulation or Memoization method of Dynamic programming. 
+
+Characteristics of Dynamic Programming:
+A problem that can be solved using Dynamic Programming must follow the below mentioned properties:
+
+Optimal substructure property. 
+Overlapping subproblems.
+Standard problems on Dynamic Programming:
+
+S.No.	Article 	Practice 
+1.	Coin Change 	link
+2.	Edit Distance	link
+3.	Longest Common Subsequence	link
+4.	Count ways to reach the n’th stair	link
+Below are some major differences between Greedy method and Dynamic programming:  
+Feature
+
+Greedy method	Dynamic programming
+Feasibility 
+
+In a greedy Algorithm, we make whatever choice seems best at the moment in the hope that it will lead to global optimal solution.	In Dynamic Programming we make decision at each step considering current problem and solution to previously solved sub problem to calculate optimal solution .
+Optimality
+
+
+In Greedy Method, sometimes there is no such guarantee of getting Optimal Solution.	It is guaranteed that Dynamic Programming will generate an optimal solution as it generally considers all possible cases and then choose the best.
+Recursion
+
+A greedy method follows the problem solving heuristic of making the locally optimal choice at each stage.	A Dynamic programming is an algorithmic technique which is usually based on a recurrent formula that uses some previously calculated states.
+Memoization                                   
+
+It is more efficient in terms of memory as it never look back or revise previous choices	It requires Dynamic Programming table for Memoization and it increases it’s memory complexity.
+    Time        complexity                    
+
+Greedy methods are generally faster. For example, Dijkstra’s shortest path algorithm takes O(ELogV + VLogV) time.	Dynamic Programming is generally slower. For example, Bellman Ford algorithm takes O(VE) time.
+Fashion
+
+The greedy method computes its solution by making its choices in a serial forward fashion, never looking back or revising previous choices.	Dynamic programming computes its solution bottom up or top down by synthesizing them from smaller optimal sub solutions.
+Example
+
+Fractional knapsack . 
+ 	0/1 knapsack problem 
+ 
+Related Articles:
+
+Greedy Algorithm
+Dynamic programming
+Optimal substructure
+Overlapping subproblem
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+63
+Next
+0-1 Knapsack Problem | DP-10
+Related Articles
+1.
+Comparison among Greedy, Divide and Conquer and Dynamic Programming algorithm
+2.
+Coin game of two corners (Greedy Approach)
+3.
+Maximum profit by buying and selling a share at most K times | Greedy Approach
+4.
+Travelling Salesman Problem | Greedy Approach
+5.
+Longest subsequence with a given OR value : Dynamic Programming Approach
+6.
+Difference Between Pessimistic Approach and Optimistic Approach in DBMS
+7.
+Difference between Interlingua Approach and Transfer Approach
+8.
+Activity Selection Problem | Greedy Algo-1
+9.
+Efficient Huffman Coding for Sorted Input | Greedy Algo-4
+10.
+Prim’s MST for Adjacency List Representation | Greedy Algo-6
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+gyanendra371
+@gyanendra371
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Shivam_k
+sbhat2
+aashutoshparoha
+surinderdawra388
+Article Tags :
+knapsack
+Difference Between
+Dynamic Programming
+Greedy
+Practice Tags :
+Dynamic Programming
+Greedy
+Improve Article
+Report Issue

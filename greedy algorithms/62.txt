@@ -1,0 +1,211 @@
+Largest palindromic number by permuting digits
+
+Difficulty Level : Medium
+Last Updated : 23 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given N(very large), the task is to print the largest palindromic number obtained by permuting the digits of N. If it is not possible to make a palindromic number, then print an appropriate message. 
+
+Examples : 
+
+Input : 313551
+Output : 531135
+Explanations : 531135 is the largest number 
+which is a palindrome, 135531, 315513 and other 
+numbers can also be formed but we need the highest 
+of all of the palindromes. 
+
+Input : 331
+Output : 313
+
+Input : 3444
+Output : Palindrome cannot be formed 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive Approach: The naive approach will be to try all the permutations possible, and print the largest of such combinations, which is a palindrome. 
+
+Efficient Approach: 
+
+An efficient approach will be to use the Greedy algorithm. Since the number is large, store the number in a string. Store the count of occurrences of every digit in the given number on a map. Check if it is possible to form a palindrome or not. If the digits of the given number can be rearranged to form a palindrome, then apply the greedy approach to obtain the number. Check for the occurrence of every digit (9 to 0), and place every available digit at the front and back. 
+
+Initially, the front pointer will be at index 0, as the largest digit will be placed at first to make the number a large one. With every step, move the front pointer 1 position ahead. If the digit occurs an odd number of times, then place one digit in the middle and the rest of the even number of digits at front and back. Keep repeating the process (map[digit]/2) the number of times for a single digit. After placing a particular digit that occurs an even number of times at the front and back, move the front pointer one step ahead. The placing is done till map[digit] is 0. The char array will have the largest palindromic number possible after the completion of the placing of digits greedily. 
+
+In the worst case, the time complexity will be O(10 * (length of string/2)), in case the number consists of the same digit at every position. 
+
+
+
+Below is the implementation of the above idea: 
+
+C++
+Java
+Python3
+# Python3 program to print the largest palindromic
+# number by permuting digits of a number
+from collections import defaultdict
+ 
+# Function to check if a number can be
+# permuted to form a palindrome number
+def possibility(m, length, s):
+ 
+    # counts the occurrence of
+    # number which is odd
+    countodd = 0
+    for i in range(0, length):
+ 
+        # if occurrence is odd
+        if m[int(s[i])] & 1:
+            countodd += 1
+ 
+        # if number exceeds 1
+        if countodd > 1:
+            return False
+     
+    return True
+ 
+# Function to print the largest palindromic
+# number by permuting digits of a number
+def largestPalindrome(s):
+ 
+    # string length
+    l = len(s)
+ 
+    # map that marks the occurrence of a number
+    m = defaultdict(lambda:0)
+    for i in range(0, l):
+        m[int(s[i])] += 1
+ 
+    # check the possibility of a
+    # palindromic number
+    if possibility(m, l, s) == False:
+        print("Palindrome cannot be formed")
+        return
+     
+    # string array that stores the largest
+    # permuted palindromic number
+    largest = [None] * l
+ 
+    # pointer of front
+    front = 0
+ 
+    # greedily start from 9 to 0 and place the
+    # greater number in front and odd in the middle
+    for i in range(9, -1, -1):
+ 
+        # if the occurrence of number is odd
+        if m[i] & 1:
+ 
+            # place one odd occurring number
+            # in the middle
+            largest[l // 2] = chr(i + 48)
+ 
+            # decrease the count
+            m[i] -= 1
+ 
+            # place the rest of numbers greedily
+            while m[i] > 0:
+                largest[front] = chr(i + 48)
+                largest[l - front - 1] = chr(i + 48)
+                m[i] -= 2
+                front += 1
+             
+        else:
+ 
+            # if all numbers occur even times,
+            # then place greedily
+            while m[i] > 0:
+ 
+                # place greedily at front
+                largest[front] = chr(i + 48)
+                largest[l - front - 1] = chr(i + 48)
+ 
+                # 2 numbers are placed,
+                # so decrease the count
+                m[i] -= 2
+ 
+                # increase placing position
+                front += 1
+ 
+    # print the largest string thus formed
+    for i in range(0, l):
+        print(largest[i], end = "")
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    s = "313551"
+    largestPalindrome(s)
+     
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output
+531135
+Time Complexity: O(N), as we are using loop to traverse N times.
+Auxiliary Space: O(N), as we are using extra space for map m and largest array.
+
+
+
+
+
+Like
+5
+Previous
+Minimum difference between groups of size two
+Next
+Minimum Fibonacci terms with sum equal to K
+Related Articles
+1.
+Check if B can be formed by permuting the binary digits of A
+2.
+Find the Largest number with given number of digits and sum of digits
+3.
+Longest Palindromic Substring using Palindromic Tree | Set 3
+4.
+Make palindromic string non-palindromic by rearranging its letters
+5.
+Minimum cuts required to convert a palindromic string to a different palindromic string
+6.
+Form the largest palindromic number using atmost two swaps
+7.
+Largest palindromic number in an array
+8.
+Check if sum of digits in the left half is divisible by sum of digits in the right half in the largest permutation of N
+9.
+Next higher palindromic number using the same set of digits
+10.
+Find Nth even length palindromic number formed using digits X and Y
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rituraj_jain
+rutvik_56
+Rajput-Ji
+SHUBHAMSINGH10
+rohitsingh07052
+hardikkoriintern
+chrysaor_07
+Article Tags :
+cpp-unordered_map
+palindrome
+Greedy
+Hash
+Strings
+Practice Tags :
+Greedy
+Hash
+palindrome
+Palindrome
+Strings
+Improve Article
+Report Issue

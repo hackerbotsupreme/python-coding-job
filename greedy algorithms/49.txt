@@ -1,0 +1,130 @@
+Minimum rooms for m events of n batches with given schedule
+
+Difficulty Level : Basic
+Last Updated : 17 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+There are n student groups at the school. On each day in school, there are m time slots. A student group may or may not be free during a time slot. We are given n binary string where each binary string is of length m. A character at j-th position in i-th string is 0 if i-th group is free in j-th slot and 1 if i-th group is busy. 
+
+Our task is to determine the minimum number of rooms needed to hold classes for all groups on a single study day. Note that one room can hold at most one group class in a single time slot.
+
+Examples:  
+
+Input : n = 2, m = 7, slots[] = {“0101010”, “1010101”} 
+Output : 1 
+Explanation : Both group can hold their classes in a single room as they have alternative classes.
+
+Input : n = 3, m = 7, slots[] = {“0101011”, “0011001”, “0110111”} 
+Output : 3  
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach used: 
+
+Here we traverse through each character of strings we have and while traversing maintaining a count of the number of 1’s at each position of the strings and hence we know the number of coinciding classes at each particular time slot. Then we just need to find the maximum number of coinciding classes amongst all time slots. 
+
+
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find minimum
+# number of rooms required
+ 
+# Returns minimum number of
+# rooms required to perform
+# classes of n groups in m
+# slots with given schedule.
+def findMinRooms(slots, n, m):
+ 
+    # Store count of classes
+    # happening in every slot.
+    counts = [0] * m;
+    for i in range(n):
+        for j in range(m):
+            if (slots[i][j] == '1'):
+                counts[j] += 1;
+     
+    # Number of rooms required is
+    # equal to maximum classes
+    # happening in a particular slot.
+    return max(counts);
+ 
+# Driver Code
+n = 3;
+m = 7;
+slots = ["0101011", "0011001", "0110111"];
+print(findMinRooms(slots, n, m));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output
+3
+Complexity Analysis:
+
+Time Complexity: O(m * n) 
+Auxiliary Space: O(m)
+
+
+
+
+Like
+2
+Previous
+Minimum rotations to unlock a circular lock
+Next
+Connect n ropes with minimum cost
+Related Articles
+1.
+Maximum number of groups that can receive fresh donuts distributed in batches of size K
+2.
+Minimum time required to schedule K processes
+3.
+Minimum number of days required to schedule all exams
+4.
+Schedule jobs so that each server gets equal load
+5.
+OYO Rooms Interview Experience | Set 6 (For Senior Software Developer)
+6.
+OYO Rooms Interview Experience (On-Campus)
+7.
+Minimum distance between the maximum and minimum element of a given Array
+8.
+Minimum given operations required to convert a given binary string to all 1's
+9.
+Minimum number of substrings the given string can be splitted into that satisfy the given conditions
+10.
+Minimum change in given value so that it lies in all given Ranges
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sachinbisht939
+@sachinbisht939
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+nitin mittal
+Mithun Kumar
+avijitmondal1998
+arorakashish0911
+hardikkoriintern
+Article Tags :
+binary-string
+Arrays
+Greedy
+Strings
+Practice Tags :
+Arrays
+Greedy
+Strings

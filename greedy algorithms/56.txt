@@ -1,0 +1,176 @@
+Minimum Fibonacci terms with sum equal to K
+
+Difficulty Level : Medium
+Last Updated : 31 May, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number k, find the required minimum number of Fibonacci terms whose sum equal to k. We can choose a Fibonacci number multiple times.
+
+Examples: 
+
+Input : k = 4
+Output : 2
+Fibonacci term added twice that is
+2 + 2 = 4. 
+Other combinations are 
+1 + 1 + 2. 
+1 + 1 + 1 + 1
+Among all cases first case has the 
+minimum number of terms = 2.
+
+Input : k = 17
+Output : 3
+Recommended : Please try your approach first on IDE and then look at the solution
+We can get any sum using Fibonacci numbers as 1 is a Fibonacci number. For example, to get n, we can n times add 1. Here we need to minimize the count of Fibonacci numbers that contribute to sum. So this problem is basically coin change problem with coins having Fibonacci values. By taking some examples, we can notice that With Fibonacci coin values Greedy approach works.
+Firstly we calculate Fibonacci terms till less than or equal to k. then start from the last term and keep subtracting that term from k until k >(nth term). Also along with this keep increasing the count of the number of terms. 
+
+When k < (nth Fibonacci term) move to next Fibonacci term which is less than or Equal to k. at last, print the value of count.
+The stepwise algorithm is: 
+
+  1. Find all Fibonacci Terms less than or equal to K.
+  2. Initialize count = 0.
+  3. j = Index of last calculated Fibonacci Term.
+  4. while K > 0 do:
+    
+      // Greedy step
+      count += K / (fibo[j])     // Note that division 
+                                 // is repeated subtraction.
+      K = K % (fibo[j])
+      j--;
+  5. Print count.
+Below is the implementation of the above approach. 
+
+C++
+Java
+Python3
+# Python3 code to find minimum number
+# of Fibonacci terms that sum to K.
+ 
+# Function to calculate Fibonacci Terms
+def calcFiboTerms(fiboTerms, K):
+ 
+    i = 3
+    fiboTerms.append(0)
+    fiboTerms.append(1)
+    fiboTerms.append(1)
+     
+    # Calculate all Fibonacci terms
+    # which are less than or equal to K.
+    while True:
+        nextTerm = (fiboTerms[i - 1] +
+                    fiboTerms[i - 2])
+ 
+        # If next term is greater than K
+        # do not push it in vector and return.
+        if nextTerm > K:
+            return
+ 
+        fiboTerms.append(nextTerm)
+        i += 1
+     
+# Function to find the minimum number of
+# Fibonacci terms having sum equal to K.
+def findMinTerms(K):
+ 
+    # Vector to store Fibonacci terms.
+    fiboTerms = []
+    calcFiboTerms(fiboTerms, K)
+ 
+    count, j = 0, len(fiboTerms) - 1
+ 
+    # Subtract Fibonacci terms from
+    # sum K until sum > 0.
+    while K > 0:
+         
+        # Divide sum K by j-th Fibonacci
+        # term to find how many terms it
+        # contribute in sum.
+        count += K // fiboTerms[j]
+        K %= fiboTerms[j]
+ 
+        j -= 1
+     
+    return count
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    K = 17
+    print(findMinTerms(K))
+ 
+# This code is contributed
+# by Rituraj Jain
+C#
+Javascript
+Output: 
+3
+ 
+
+Time Complexity: O(k), where k represents the given input.
+Auxiliary Space: O(k), where k represents the given input.
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+14
+Previous
+Largest palindromic number by permuting digits
+Next
+Count numbers that don't contain 3
+Related Articles
+1.
+Find n terms of Fibonacci type series with given first two terms
+2.
+Sum of nth terms of Modified Fibonacci series made by every pair of two arrays
+3.
+Sum of Fibonacci numbers at even indexes upto N terms
+4.
+Sum of the first N terms of XOR Fibonacci series
+5.
+Check if sum of Fibonacci elements in an Array is a Fibonacci number or not
+6.
+Deriving the expression of Fibonacci Numbers in terms of golden ratio
+7.
+Check if a M-th fibonacci number divides N-th fibonacci number
+8.
+Find minimum and maximum number of terms to divide N as sum of 4 or 6
+9.
+Minimum number of elements to be replaced to make the given array a Fibonacci Sequence
+10.
+Minimum number of Fibonacci jumps to reach end
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nik1996
+@nik1996
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rituraj_jain
+Akanksha_Rai
+princiraj1992
+SoumikMondal
+simmytarika5
+samim2000
+Article Tags :
+dp-coin-change
+Fibonacci
+Greedy
+Practice Tags :
+Fibonacci
+Greedy

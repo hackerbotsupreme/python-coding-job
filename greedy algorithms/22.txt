@@ -1,0 +1,156 @@
+Largest lexicographic array with at-most K consecutive swaps
+
+Difficulty Level : Medium
+Last Updated : 09 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array arr[], find the lexicographically largest array that can be obtained by performing at-most k consecutive swaps. 
+
+Examples : 
+
+Input : arr[] = {3, 5, 4, 1, 2}
+        k = 3
+Output : 5, 4, 3, 2, 1
+Explanation :     Array given : 3 5 4 1 2
+                After swap 1 : 5 3 4 1 2
+                After swap 2 : 5 4 3 1 2
+                After swap 3 : 5 4 3 2 1
+Input : arr[] = {3, 5, 1, 2, 1}
+        k = 3
+Output : 5, 3, 2, 1, 1
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Brute Force Approach : Generate all permutation of the array and then pick the one which satisfies the condition of at most K swaps. The time complexity of this approach is O(n!).
+
+Optimized Approach : In this greedy approach, first find the largest element present in the array which is greater than(if the 1st position element is not the greatest) the 1st position and which can be placed at the 1st position with at-most K swaps. After finding that element, note its index. Then, swap elements of the array and update K value. Apply this procedure for other positions till k is non-zero or array becomes lexicographically largest.
+
+Below is the implementation of above approach : 
+
+C++
+Java
+Python3
+# Python program to find
+# lexicographically
+# maximum value after
+# k swaps.
+ 
+arr = [3, 5, 4, 1, 2]
+ 
+# Function which
+# modifies the array
+def KSwapMaximum(n, k) :
+     
+    global arr
+    for i in range(0, n - 1) :
+        if (k > 0) :
+         
+            # Here, indexPosition
+            # is set where we want to
+            # put the current largest
+            # integer
+            indexPosition = i
+            for j in range(i + 1, n) :        
+     
+                # If we exceed the Max swaps
+                # then break the loop
+                if (k <= j - i) :
+                    break
+     
+                # Find the maximum value
+                # from i+1 to max k or n
+                # which will replace
+                # arr[indexPosition]
+                if (arr[j] > arr[indexPosition]) :
+                    indexPosition = j
+             
+            # Swap the elements from
+            # Maximum indexPosition
+            # we found till now to
+            # the ith index
+            for j in range(indexPosition, i, -1) :
+                t = arr[j]
+                arr[j] = arr[j - 1]
+                arr[j - 1] = t
+     
+            # Updates k after swapping
+            # indexPosition-i elements
+            k = k - indexPosition - i
+ 
+# Driver code
+n = len(arr)
+k = 3
+ 
+KSwapMaximum(n, k)
+ 
+# Print the final Array
+for i in range(0, n) :
+    print ("{} " .
+            format(arr[i]),
+                 end = "")
+     
+# This code is contributed by
+# Manish Shaw(manishshaw1)
+C#
+PHP
+Javascript
+Output
+5 4 3 1 2 
+Time Complexity: O(N*N) 
+Auxiliary Space: O(1)
+
+
+
+Like
+Previous
+Lexicographically smallest array after at-most K consecutive swaps
+Next
+Largest permutation after at most k swaps
+Related Articles
+1.
+Largest lexicographic triplet from a given Array that forms a triangle
+2.
+Minimum swaps to reach permuted array with at most 2 positions left swaps allowed
+3.
+Minimize swaps required to place largest and smallest array elements at first and last array indices
+4.
+Lexicographically smallest array after at-most K consecutive swaps
+5.
+Minimize swaps required to make the first and last elements the largest and smallest elements in the array respectively
+6.
+Lexicographical smallest number after at most K consecutive swaps
+7.
+Print all permutations in sorted (lexicographic) order
+8.
+Generating distinct subsequences of a given string in lexicographic order
+9.
+Find a string in lexicographic order which is in between given two strings
+10.
+Print a number as string of 'A' and 'B' in lexicographic order
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+nidhi_biet
+code_hunt
+ankita_saini
+arorakashish0911
+hardikkoriintern
+Article Tags :
+lexicographic-ordering
+Arrays
+Greedy
+Practice Tags :
+Arrays
+Greedy
+Report Issue

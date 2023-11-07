@@ -1,0 +1,160 @@
+Divide 1 to n into two groups with minimum sum difference
+
+Difficulty Level : Medium
+Last Updated : 27 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a positive integer n such that n > 2. Divide numbers from 1 to n in two groups such that absolute difference of sum of each group is minimum. Print any two groups with their size in first line and in next line print elements of that group.
+Examples: 
+ 
+
+Input : 5
+Output : 2
+         5 2
+         3
+         4 3 1
+Here sum of group 1 is 7 and sum of group 2 is 8.
+Their absolute difference is 1 which is minimum.
+We can have multiple correct answers. (1, 2, 5) and 
+(3, 4) is another such group.
+
+Input : 6
+Output : 2
+         6 4
+         4
+         5 3 2 1
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can always divide sum of n integers in two groups such that their absolute difference of their sum is 0 or 1. So sum of group at most differ by 1. We define sum of group1 as half of n elements sum.
+Now run a loop from n to 1 and insert i into group1 if inserting an element doesn’t exceed group1 sum otherwise insert that i into group2. 
+ 
+
+C++
+Java
+Python3
+# Python program to divide n integers
+# in two groups such that absolute
+# difference of their sum is minimum
+import math
+ 
+# To print vector along size
+def printVector( v):
+ 
+    # Print vector size
+    print(len(v))
+ 
+    # Print vector elements
+    for i in range( 0, len(v)):
+        print(v[i] , end =  " ")
+ 
+    print()
+ 
+ 
+# To divide n in two groups such that
+# absolute difference of their sum is
+# minimum
+def findTwoGroup(n):
+ 
+    # Find sum of all elements upto n
+    sum = n * (n + 1) / 2
+ 
+    # Sum of elements of group1
+    group1Sum = sum / 2
+ 
+    group1=[]
+    group2=[]
+    for i in range(n, 0, -1):
+ 
+        # If sum is greater then or equal
+        # to 0 include i in group 1
+        # otherwise include in group2
+        if (group1Sum - i >= 0) :
+            group1.append(i)
+ 
+            # Decrease sum of group1
+            group1Sum -= i
+         
+        else :
+            group2.append(i)
+ 
+    # Print both the groups
+    printVector(group1)
+    printVector(group2)
+ 
+# driver code
+n = 5
+findTwoGroup(n)
+ 
+# This code is contributed by Gitanjali.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+2
+5 2
+3
+4 3 1
+Time Complexity: O(n)
+
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+5
+Previous
+Maximum number of customers that can be satisfied with given quantity
+Next
+Minimum rotations to unlock a circular lock
+Related Articles
+1.
+Divide Matrix into K groups of adjacent cells having minimum difference between maximum and minimum sized groups
+2.
+Divide maximum element in N groups so that received and required has difference atmost K
+3.
+Ways of dividing a group into two halves such that two elements are in different groups
+4.
+Partition the array into two odd length groups with minimized absolute difference between their median
+5.
+Number of ways of distributing N identical objects in R distinct groups with no groups empty
+6.
+Count the number of ways to divide N in k groups incrementally
+7.
+Divide a number into two parts such that sum of digits is maximum
+8.
+Count number of ways to divide an array into two halves with same sum
+9.
+Divide array into two arrays which does not contain any pair with sum K
+10.
+Minimum difference between groups of size two
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nuclode
+@nuclode
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+itsok
+pushpeshrajdx01
+Article Tags :
+number-theory
+Greedy
+Mathematical
+Practice Tags :
+Greedy
+Mathematical
+number-theory

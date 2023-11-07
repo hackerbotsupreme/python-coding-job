@@ -1,0 +1,445 @@
+Shortest Superstring Problem
+
+Difficulty Level : Expert
+Last Updated : 30 Dec, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given a set of n strings arr[], find the smallest string that contains each string in the given set as substring. We may assume that no string in arr[] is substring of another string.
+Examples: 
+
+Input:  arr[] = {"geeks", "quiz", "for"}
+Output: geeksquizfor
+
+Input:  arr[] = {"catg", "ctaagt", "gcta", "ttca", "atgcatc"}
+Output: gctaagttcatgcatc
+Shortest Superstring Greedy Approximate Algorithm 
+
+Shortest Superstring Problem is a NP Hard problem. A solution that always finds shortest superstring takes exponential time. Below is an Approximate Greedy algorithm. 
+
+Let arr[] be given set of strings.
+
+1) Create an auxiliary array of strings, temp[].  Copy contents
+   of arr[] to temp[]
+
+2) While temp[] contains more than one strings
+     a) Find the most overlapping string pair in temp[]. Let this
+        pair be 'a' and 'b'. 
+     b) Replace 'a' and 'b' with the string obtained after combining
+        them.
+
+3) The only string left in temp[] is the result, return it.
+Two strings are overlapping if prefix of one string is same suffix of other string or vice versa. The maximum overlap mean length of the matching prefix and suffix is maximum.
+
+Working of above Algorithm: 
+
+arr[] = {"catgc", "ctaagt", "gcta", "ttca", "atgcatc"}
+Initialize:
+temp[] = {"catgc", "ctaagt", "gcta", "ttca", "atgcatc"}
+
+The most overlapping strings are "catgc" and "atgcatc"
+(Suffix of length 4 of "catgc" is same as prefix of "atgcatc")
+Replace two strings with "catgcatc", we get
+temp[] = {"catgcatc", "ctaagt", "gcta", "ttca"}
+
+The most overlapping strings are "ctaagt" and "gcta"
+(Prefix of length 3 of "ctaagt" is same as suffix of "gcta")
+Replace two strings with "gctaagt", we get
+temp[] = {"catgcatc", "gctaagt", "ttca"}
+
+The most overlapping strings are "catgcatc" and "ttca"
+(Prefix of length 2 of "catgcatc" as suffix of "ttca")
+Replace two strings with "ttcatgcatc", we get
+temp[] = {"ttcatgcatc", "gctaagt"}
+
+Now there are only two strings in temp[], after combing
+the two in optimal way, we get tem[] = {"gctaagttcatgcatc"}
+
+Since temp[] has only one string now, return it.
+Below is the implementation of the above algorithm.  
+
+C++
+// C++ program to find shortest
+// superstring using Greedy
+// Approximate Algorithm
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Utility function to calculate
+// minimum of two numbers
+int min(int a, int b)
+{
+    return (a < b) ? a : b;
+}
+ 
+// Function to calculate maximum
+// overlap in two given strings
+int findOverlappingPair(string str1,
+                     string str2, string &str)
+{
+     
+    // Max will store maximum
+    // overlap i.e maximum
+    // length of the matching
+    // prefix and suffix
+    int max = INT_MIN;
+    int len1 = str1.length();
+    int len2 = str2.length();
+ 
+    // Check suffix of str1 matches
+    // with prefix of str2
+    for (int i = 1; i <=
+                      min(len1, len2); i++)
+    {
+         
+        // Compare last i characters
+        // in str1 with first i
+        // characters in str2
+        if (str1.compare(len1-i, i, str2,
+                                 0, i) == 0)
+        {
+            if (max < i)
+            {
+                // Update max and str
+                max = i;
+                str = str1 + str2.substr(i);
+            }
+        }
+    }
+ 
+    // Check prefix of str1 matches
+    // with suffix of str2
+    for (int i = 1; i <=
+                        min(len1, len2); i++)
+    {
+         
+        // compare first i characters
+        // in str1 with last i
+        // characters in str2
+        if (str1.compare(0, i, str2,
+                              len2-i, i) == 0)
+        {
+            if (max < i)
+            {
+                 
+                // Update max and str
+                max = i;
+                str = str2 + str1.substr(i);
+            }
+        }
+    }
+ 
+    return max;
+}
+ 
+// Function to calculate
+// smallest string that contains
+// each string in the given
+// set as substring.
+string findShortestSuperstring(string arr[],
+                                    int len)
+{
+     
+    // Run len-1 times to
+    // consider every pair
+    while(len != 1)
+    {
+         
+        // To store  maximum overlap
+        int max = INT_MIN;  
+       
+        // To store array index of strings
+        int l, r;   
+       
+        // Involved in maximum overlap
+        string resStr;   
+       
+        // Maximum overlap
+        for (int i = 0; i < len; i++)
+        {
+            for (int j = i + 1; j < len; j++)
+            {
+                string str;
+ 
+                // res will store maximum
+                // length of the matching
+                // prefix and suffix str is
+                // passed by reference and
+                // will store the resultant
+                // string after maximum
+                // overlap of arr[i] and arr[j],
+                // if any.
+                int res = findOverlappingPair(arr[i],
+                                         arr[j], str);
+ 
+                // check for maximum overlap
+                if (max < res)
+                {
+                    max = res;
+                    resStr.assign(str);
+                    l = i, r = j;
+                }
+            }
+        }
+ 
+        // Ignore last element in next cycle
+        len--;  
+ 
+        // If no overlap, append arr[len] to arr[0]
+        if (max == INT_MIN)
+            arr[0] += arr[len];
+        else
+        {
+           
+            // Copy resultant string to index l
+            arr[l] = resStr; 
+           
+            // Copy string at last index to index r
+            arr[r] = arr[len]; 
+        }
+    }
+    return arr[0];
+}
+ 
+// Driver program
+int main()
+{
+    string arr[] = {"catgc", "ctaagt",
+                    "gcta", "ttca", "atgcatc"};
+    int len = sizeof(arr)/sizeof(arr[0]);
+ 
+    // Function Call
+    cout << "The Shortest Superstring is "
+         << findShortestSuperstring(arr, len);
+ 
+    return 0;
+}
+// This code is contributed by Aditya Goel
+Java
+C#
+Output
+
+
+The Shortest Superstring is gctaagttcatgcatc
+Performance of above algorithm: 
+
+The above Greedy Algorithm is proved to be 4 approximate (i.e., length of the superstring generated by this algorithm is never beyond 4 times the shortest possible superstring). This algorithm is conjectured to 2 approximate (nobody has found case where it generates more than twice the worst). Conjectured worst case example is {abk, bkc, bk+1}. For example {“abb”, “bbc”, “bbb”}, the above algorithm may generate “abbcbbb” (if “abb” and “bbc” are picked as first pair), but the actual shortest superstring is “abbbc”. Here ratio is 7/5, but for large k, ration approaches 2.
+
+Another Approach:
+
+By “greedy approach” I mean: each time we merge the two strings with a maximum length of overlap, remove them from the string array, and put the merged string into the string array.
+
+Then the problem becomes to: find the shortest path in this graph which visits every node exactly once. This is a Travelling Salesman Problem.
+
+Apply Travelling Salesman Problem DP solution. Remember to record the path.
+
+Below is the implementation of the above approach:
+
+Java
+// Java program for above approach
+import java.io.*;
+import java.util.*;
+ 
+class Solution
+{
+ 
+  // Function to calculate shortest
+  // super string
+  public static String shortestSuperstring(
+                                   String[] A)
+  {
+    int n = A.length;
+    int[][] graph = new int[n][n];
+ 
+    // Build the graph
+    for (int i = 0; i < n; i++)
+    {
+      for (int j = 0; j < n; j++)
+      {
+        graph[i][j] = calc(A[i], A[j]);
+        graph[j][i] = calc(A[j], A[i]);
+      }
+    }
+ 
+    // Creating dp array
+    int[][] dp = new int[1 << n][n];
+ 
+    // Creating path array
+    int[][] path = new int[1 << n][n];
+    int last = -1, min = Integer.MAX_VALUE;
+ 
+    // start TSP DP
+    for (int i = 1; i < (1 << n); i++)
+    {
+      Arrays.fill(dp[i], Integer.MAX_VALUE);
+       
+      // Iterate j from 0 to n - 1
+      for (int j = 0; j < n; j++)
+      {
+        if ((i & (1 << j)) > 0)
+        {
+          int prev = i - (1 << j);
+           
+          // Check if prev is zero
+          if (prev == 0)
+          {
+            dp[i][j] = A[j].length();
+          }
+          else
+          {
+             
+            // Iterate k from 0 to n - 1
+            for (int k = 0; k < n; k++)
+            {
+              if (dp[prev][k] < Integer.MAX_VALUE &&
+                  dp[prev][k] + graph[k][j] < dp[i][j])
+              {
+                dp[i][j] = dp[prev][k] + graph[k][j];
+                path[i][j] = k;
+              }
+            }
+          }
+        }
+        if (i == (1 << n) - 1 && dp[i][j] < min)
+        {
+          min = dp[i][j];
+          last = j;
+        }
+      }
+    }
+     
+    // Build the path
+    StringBuilder sb = new StringBuilder();
+    int cur = (1 << n) - 1;
+     
+    // Creating a stack
+    Stack<Integer> stack = new Stack<>();
+     
+    // Until cur is zero
+    // push last
+    while (cur > 0)
+    {
+      stack.push(last);
+      int temp = cur;
+      cur -= (1 << last);
+      last = path[temp][last];
+    }
+ 
+    // Build the result
+    int i = stack.pop();
+    sb.append(A[i]);
+     
+    // Until stack is empty
+    while (!stack.isEmpty())
+    {
+      int j = stack.pop();
+      sb.append(A[j].substring(A[j].length() -
+                                graph[i][j]));
+      i = j;
+    }
+    return sb.toString();
+  }
+ 
+  // Function to check
+  public static int calc(String a, String b)
+  {
+    for (int i = 1; i < a.length(); i++)
+    {
+      if (b.startsWith(a.substring(i)))
+      {
+        return b.length() - a.length() + i;
+      }
+    }
+     
+    // Return size of b
+    return b.length();
+  }
+   
+  // Driver Code
+  public static void main(String[] args)
+  {
+    String[] arr = { "catgc", "ctaagt",
+                    "gcta", "ttca", "atgcatc" };
+     
+    // Function Call
+    System.out.println("The Shortest Superstring is " +
+                    shortestSuperstring(arr));
+   }
+}
+Output
+The Shortest Superstring is gctaagttcatgcatc
+Time complexity: O(n^2 * 2^n), where N is the length of the string array.
+Auxiliary Space: O(2^N * N).
+
+There exist better approximate algorithms for this problem. Please refer to below link. 
+Shortest Superstring Problem | Set 2 (Using Set Cover)
+
+Applications: 
+Useful in the genome project since it will allow researchers to determine entire coding regions from a collection of fragmented sections.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+11
+Previous
+Greedy Approximate Algorithm for K Centers Problem
+Next
+Approximate solution for Travelling Salesman Problem using MST
+Related Articles
+1.
+Print shortest path to print a string on screen
+2.
+Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)
+3.
+Minimum insertions to form shortest palindrome
+4.
+Find shortest unique prefix for every word in a given list | Set 2 (Using Sorting)
+5.
+Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm
+6.
+Shortest possible combination of two strings
+7.
+Shortest substring of a string containing all given words
+8.
+Shortest distance to every other character from given character
+9.
+Dijkstra's shortest path with minimum edges
+10.
+Sum of the shortest distance between all 0s to 1 in given binary string
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+spongebobqq
+sagar0719kumar
+adnanirshad158
+shivanisinghss2110
+sweetyty
+simmytarika5
+hardikkoriintern
+surajrasr7277
+Article Tags :
+NPHard
+Greedy
+Strings
+Practice Tags :
+Greedy
+Strings
+Improve Article
+Report Issue

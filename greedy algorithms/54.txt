@@ -1,0 +1,145 @@
+Smallest subset with sum greater than all other elements
+
+Difficulty Level : Easy
+Last Updated : 22 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of non-negative integers, the task is to find the minimum number of elements such that their sum should be greater than the sum of the rest of the elements of the array.
+
+Example: 
+
+Input: arr[] = [ 3 , 1 , 7, 1 ]
+Output: 1
+Explanation: Smallest subset is {7}. Sum of this subset is greater than the sum of all other elements left after removing subset {7} from the array
+
+Input:  arr[] = [ 2 , 1 , 2 ]
+Output: 2
+Explanation: Smallest subset is {2 , 1}. Sum of this subset is greater than the sum of all other elements left after removing subset {2 , 1} from the array
+
+Recommended Problem
+Smallest Subset with Greater Sum
+Arrays
+Greedy
++3 more
+Solve Problem
+Submission count: 35.3K
+Smallest subset with sum greater than all other elements using Sorting
+The approach is to take the largest elements from the array , in that way we can decrease the size of the subset that has sum greater than the sum of rest of the elements of the array , so we sort the array in descending order, then take the largest elements, until we get strictly more than half of total sum of the given array. 
+
+Follow the steps mentioned below to implement the idea:
+
+Create a variable halfSum to store half of the overall sum of the array arr[].
+Sort the array in descending order.
+Create a variable curr_sum and increase the value of curr_sum by arr[i] while traversing the array from index 0 till the value of curr_sum is less than halfSum
+When curr_sum is greater than halfSum return index+1. 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code to find minimum number of
+# elements such that their sum is greater
+# than sum of remaining elements of the array.
+ 
+# function to find minimum elements needed.
+ 
+ 
+def minElements(arr, n):
+ 
+    # calculating HALF of array sum
+    halfSum = 0
+    for i in range(n):
+        halfSum = halfSum + arr[i]
+ 
+    halfSum = int(halfSum / 2)
+ 
+    # sort the array in descending order.
+    arr.sort(reverse=True)
+ 
+    res = 0
+    curr_sum = 0
+    for i in range(n):
+ 
+        curr_sum += arr[i]
+        res += 1
+ 
+        # current sum greater than sum
+        if curr_sum > halfSum:
+            return res
+ 
+    return res
+ 
+ 
+# driver code
+arr = [3, 1, 7, 1]
+n = len(arr)
+print(minElements(arr, n))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+
+
+1
+Time Complexity: O(N*log(N)). 
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+29
+Previous
+Lexicographically largest subsequence such that every character occurs at least k times
+Related Articles
+1.
+Length of longest subarray in which elements greater than K are more than elements not greater than K
+2.
+For each A[i] find smallest subset with all elements less than A[i] sum more than B[i]
+3.
+Smallest subarray of size greater than K with sum greater than a given value
+4.
+Count of elements whose absolute difference with the sum of all the other elements is greater than k
+5.
+Smallest subarray having an element with frequency greater than that of other elements
+6.
+Number of positions such that adding K to the element is greater than sum of all other elements
+7.
+Largest possible Subset from an Array such that no element is K times any other element in the Subset
+8.
+Sum of all array elements less than X and greater than Y for Q queries
+9.
+Longest subsequence with first and last element greater than all other elements
+10.
+Minimize swap of elements such that one Array has greater sum than other
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Sagar Shukla
+@Sagar Shukla
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ihritik
+nidhi_biet
+divyeshrabadiya07
+garvitpr1hev
+mitalibhola94
+Article Tags :
+Arrays
+Greedy
+Sorting
+Practice Tags :
+Arrays
+Greedy
+Sorting

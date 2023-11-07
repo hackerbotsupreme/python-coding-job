@@ -1,0 +1,342 @@
+Activity Selection Problem | Greedy Algo-1
+
+Difficulty Level : Easy
+Last Updated : 23 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. Greedy algorithms are used for optimization problems. 
+
+An optimization problem can be solved using Greedy if the problem has the following property: 
+
+At every step, we can make a choice that looks best at the moment, and we get the optimal solution to the complete problem. 
+If a Greedy Algorithm can solve a problem, then it generally becomes the best method to solve that problem as the Greedy algorithms are in general more efficient than other techniques like Dynamic Programming. But Greedy algorithms cannot always be applied. For example, the Fractional Knapsack problem can be solved using Greedy, but 0-1 Knapsack cannot be solved using Greedy.
+
+Following are some standard algorithms that are Greedy algorithms:
+1) Kruskal’s Minimum Spanning Tree (MST): 
+In Kruskal’s algorithm, we create an MST by picking edges one by one. The Greedy Choice is to pick the smallest weight edge that doesn’t cause a cycle in the MST constructed so far
+
+2) Prim’s Minimum Spanning Tree: 
+In Prim’s algorithm also, we create a MST by picking edges one by one. We maintain two sets: a set of the vertices already included in MST and the set of the vertices not yet included. The Greedy Choice is to pick the smallest weight edge that connects the two sets
+
+
+3) Dijkstra’s Shortest Path: 
+Dijkstra’s algorithm is very similar to Prim’s algorithm. The shortest-path tree is built up, edge by edge. We maintain two sets: a set of the vertices already included in the tree and a set of the vertices not yet included. The Greedy Choice is to pick the edge that connects the two sets and is on the smallest weight path from the source to the set that contains not yet included vertices
+
+4) Huffman Coding: 
+Huffman Coding is a loss-less compression technique. It assigns variable-length bit codes to different characters. The Greedy Choice is to assign the least bit length code to the most frequent character.
+
+The greedy algorithms are sometimes also used to get an approximation for Hard optimization problems. For example, Traveling Salesman Problem is an NP-Hard problem. A Greedy choice for this problem is to pick the nearest unvisited city from the current city at every step. These solutions don’t always produce the best optimal solution but can be used to get an approximately optimal solution.
+
+
+
+Here let us see one such problem that can be solved using Greedy algorithm
+
+Problem:
+You are given n activities with their start and finish times. Select the maximum number of activities that can be performed by a single person, assuming that a person can only work on a single activity at a time. 
+
+Examples:  
+
+Input: start[]  =  {10, 12, 20}, finish[] =  {20, 25, 30}
+Output: 0 2
+Explanation: A person can perform at most two activities. The 
+maximum set of activities that can be executed 
+is {0, 2} [ These are indexes in start[] and finish[] ]
+
+Input: start[]  =  {1, 3, 0, 5, 8, 5}, finish[] =  {2, 4, 6, 7, 9, 9};
+Output: 0 1 3 4
+Explanation: A person can perform at most four activities. The 
+maximum set of activities that can be executed 
+is {0, 1, 3, 4} [ These are indexes in start[] and finish[]
+
+Recommended Problem
+Activity Selection
+Dynamic Programming
+Binary Search
++1 more
+Flipkart
+Morgan Stanley
++1 more
+Solve Problem
+Submission count: 89.3K
+Approach: To solve the problem follow the below idea:
+
+
+The greedy choice is to always pick the next activity whose finish time is the least among the remaining activities and the start time is more than or equal to the finish time of the previously selected activity. We can sort the activities according to their finishing time so that we always consider the next activity as the minimum finishing time activity
+
+Follow the given steps to solve the problem:
+
+Sort the activities according to their finishing time 
+Select the first activity from the sorted array and print it 
+Do the following for the remaining activities in the sorted array
+If the start time of this activity is greater than or equal to the finish time of the previously selected activity then select this activity and print it
+Note: In the implementation, it is assumed that the activities are already sorted according to their finish time
+
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Python3 program for activity selection problem.
+ 
+# The following implementation assumes that the activities
+# are already sorted according to their finish time
+ 
+# Prints a maximum set of activities that can be done
+# by a single person, one at a time
+def printMaxActivities(s, f):
+    n = len(f)
+    print("Following activities are selected")
+ 
+    # The first activity is always selected
+    i = 0
+    print(i, end=' ')
+ 
+    # Consider rest of the activities
+    for j in range(1, n):
+ 
+        # If this activity has start time greater than
+        # or equal to the finish time of previously
+        # selected activity, then select it
+        if s[j] >= f[i]:
+            print(j, end=' ')
+            i = j
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    s = [1, 3, 0, 5, 8, 5]
+    f = [2, 4, 6, 7, 9, 9]
+ 
+    # Function call
+    printMaxActivities(s, f)
+ 
+# This code is contributed by Nikhil Kumar Singh
+C#
+PHP
+Javascript
+Output
+Following activities are selected
+0 1 3 4 
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+How does Greedy Choice work for Activities sorted according to finish time? 
+Let the given set of activities be S = {1, 2, 3, …n}, and activities are sorted by finish time. The greedy choice is to always pick activity 1. How come activity 1 always provides one of the optimal solutions?
+
+ We can prove it by showing that if there is another solution B with the first activity other than 1, then there is also a solution A of the same size as activity 1 as the first activity. Let the first activity selected by B be k, then there always exist A = {B – {k}} U {1}.
+
+Note: The activities in B are independent and k has the smallest finishing time among all. Since k is not 1, finish(k) >= finish(1))
+
+How to implement when given activities are not sorted? 
+We create a structure/class for activities. We sort all activities by finish time (Refer sort in C++ STL). Once we have the activities sorted, we apply the same algorithm.
+
+Below image is an illustration of the above approach: 
+
+Approach for Solving Activity Selection ProblemBelow is the implementation of the above approach:
+
+C++
+Java
+Python3
+''' Python program for activity selection problem
+ when input activities may not be sorted.'''
+ 
+ 
+def MaxActivities(arr, n):
+    selected = []
+ 
+    # Sort jobs according to finish time
+    Activity.sort(key=lambda x: x[1])
+ 
+    # The first activity always gets selected
+    i = 0
+    selected.append(arr[i])
+ 
+    for j in range(1, n):
+ 
+        '''If this activity has start time greater than or
+           equal to the finish time of previously selected
+           activity, then select it'''
+        if arr[j][0] >= arr[i][1]:
+            selected.append(arr[j])
+            i = j
+    return selected
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    Activity = [[5, 9], [1, 2], [3, 4], [0, 6], [5, 7], [8, 9]]
+    n = len(Activity)
+ 
+    # Function call
+    selected = MaxActivities(Activity, n)
+    print("Following activities are selected :")
+    print(selected[0], end = "");
+    for i in range (1, len(selected)):
+        print(",", end = " ")
+        print(selected[i], end = "")
+ 
+# This code is contributed by kshitijjainm
+C#
+Javascript
+Output
+Following activities are selected :
+(1, 2), (3, 4), (5, 7), (8, 9)
+Time Complexity: O(N log N), If input activities may not be sorted. It takes O(n) time when it is given that input activities are always sorted.
+Auxiliary Space: O(1)
+
+Activity Selection Problem using Priority-Queue:
+We can use Min-Heap to get the activity with minimum finish time. Min-Heap can be implemented using priority-queue
+
+Follow the given steps to solve the problem:
+
+Create a priority queue (Min-Heap) and push the activities into it.
+Push the top of the priority queue into the answer vector and set the variable start to the start time of the first activity and end to the finish time of the activity
+While priority is not empty do the following:
+Take the top of the priority queue and check
+If the start time of this activity is greater than or equal to the finish time of the last chosen activity then push this activity into the answer vector
+Else ignore it
+Print the activities chosen, stored in the answer vector
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python3
+# Python3 program for activity selection problem
+# when input activities may not be sorted.
+from heapq import heappop, heappush
+ 
+# Function to select activites
+ 
+ 
+def SelectActivities(s, f):
+    ans = []
+    p = []
+ 
+    # Pushing elements in the list
+    for i, j in zip(s, f):
+        heappush(p, (j, i))
+ 
+    it = heappop(p)
+    start = it[1]
+    end = it[0]
+    ans.append(it)
+ 
+    # Sorting process
+    while p:
+        it = heappop(p)
+        if it[1] >= end:
+            start = it[1]
+            end = it[0]
+            ans.append(it)
+ 
+    print("Following Activities should be selected.\n")
+    for f, s in ans:
+        print(f"Activity started at {s} and ends at {f}")
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+    s = [1, 3, 0, 5, 8, 5]
+    finish = [2, 4, 6, 7, 9, 9]
+ 
+    # Function call
+    SelectActivities(s, finish)
+ 
+# This code is contributed by kraanzu.
+C#
+Javascript
+Output
+Following Activities should be selected. 
+
+Activity started at: 1 and ends at  2
+Activity started at: 3 and ends at  4
+Activity started at: 5 and ends at  7
+Activity started at: 8 and ends at  9
+Time Complexity: O(N * log N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+360
+Next
+Greedy Algorithm for Egyptian Fraction
+Related Articles
+1.
+Activity selection problem with K persons
+2.
+Greedy Approximate Algorithm for K Centers Problem
+3.
+Greedy Approximate Algorithm for Set Cover Problem
+4.
+Travelling Salesman Problem | Greedy Approach
+5.
+Job Selection Problem - Loss Minimization Strategy | Set 2
+6.
+Efficient Huffman Coding for Sorted Input | Greedy Algo-4
+7.
+Prim’s MST for Adjacency List Representation | Greedy Algo-6
+8.
+Dijkstra’s Algorithm for Adjacency List Representation | Greedy Algo-8
+9.
+Graph Coloring | Set 2 (Greedy Algorithm)
+10.
+Greedy Algorithm for Egyptian Fraction
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+Akanksha_Rai
+zafir_ahmad
+kshitijjainm
+shivanisinghss2110
+dharanendralv23
+Kingash
+avanitrachhadiya2155
+rohitsingh07052
+rag2127
+surajv
+tejaskanikdaley1996
+amartyaghoshgfg
+kraanzu
+mitalibhola94
+surinderdawra388
+spirited_coder
+MonikaAnandan
+prabaljhs
+janardansthox
+sayanc170
+phasing17
+Article Tags :
+Activity Selection Problem
+Amazon
+Facebook
+Flipkart
+MakeMyTrip
+Morgan Stanley
+Visa
+Greedy
+Practice Tags :
+Amazon
+Facebook
+Flipkart
+MakeMyTrip
+Morgan Stanley
+Visa
+Greedy
+Improve Article
+Report Issue

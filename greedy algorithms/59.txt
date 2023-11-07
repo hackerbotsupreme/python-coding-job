@@ -1,0 +1,188 @@
+Minimum difference between groups of size two
+
+Difficulty Level : Medium
+Last Updated : 18 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of even number of elements, form groups of 2 using these array elements such that the difference between the group with the highest sum and the one with the lowest sum is minimum. 
+
+Note: An element can be a part of one group only and it has to be a part of at least 1 group.
+
+Examples:  
+
+Input : arr[] = {2, 6, 4, 3}
+Output : 1
+Groups formed will be (2, 6) and (4, 3), 
+the difference between highest sum group
+(2, 6) i.e 8 and lowest sum group (3, 4)
+i.e 7 is 1.
+
+Input : arr[] = {11, 4, 3, 5, 7, 1}
+Output : 3
+Groups formed will be (1, 11), (4, 5) and
+(3, 7), the difference between highest 
+sum group (1, 11) i.e 12 and lowest sum 
+group (4, 5) i.e 9 is 3.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Simple Approach: 
+
+A simple approach would be to try against all combinations of array elements and check against each set of combination difference between the group with the highest sum and the one with the lowest sum. A total of n*(n-1)/2 such groups would be formed (nC2). 
+
+Time Complexity: O(n^3) To generate groups n^2 iterations will be needed and to check against each group n iterations will be needed and hence n^3 iterations will be needed in the worst case.
+
+Efficient Approach: 
+
+
+
+Efficient approach would be to use the greedy approach. Sort the whole array and generate groups by selecting one element from the start of the array and one from the end.  
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find minimum
+# difference between groups of
+# highest and lowest sums.
+def calculate(a, n):
+     
+    # Sorting the whole array.
+    a.sort();
+ 
+    # Generating sum groups.
+    s = [];
+    i = 0;
+    j = n - 1;
+    while(i < j):
+        s.append((a[i] + a[j]));
+        i += 1;
+        j -= 1;
+ 
+    mini = min(s);
+    maxi = max(s);
+ 
+    return abs(maxi - mini);
+ 
+# Driver Code
+a = [ 2, 6, 4, 3 ];
+n = len(a);
+print(calculate(a, n));
+ 
+# This is contributed by mits
+C#
+PHP
+Javascript
+Output
+1
+Complexity Analysis:
+
+Time Complexity: O (n * log n) 
+Auxiliary Space: O(n)
+Optimizing the above approach: 
+
+We can modify the above efficient approach by reducing the auxiliary space from O(n) to O(1). Instead of pushing all the groups in a vector we can directly traverse through the array and keep the track of maximum and minimum element groups.
+
+Below is the code for the above approach:
+
+C++
+Java
+Python3
+# Python code for the above approach
+def calculate(a, n):
+   
+    # sort the array
+    a.sort()
+ 
+    mini = a[0] + a[n-1]
+    maxi = a[0] + a[n-1]
+ 
+    j = n-1
+    for i in range(1, j):
+        if(a[i] + a[j] > maxi):
+            maxi = a[i] + a[j]
+        if(a[i] + a[j] < mini):
+            mini = a[i] + a[j]
+        j -= 1
+ 
+    return abs(maxi - mini)
+ 
+a = [2, 6, 4, 3]
+n = len(a)
+print(calculate(a, n))
+ 
+# This code is contributed by lokeshmvs21.
+C#
+Javascript
+Output
+1
+Complexity Analysis:
+
+Time Complexity: O (n*log(n))
+Auxiliary Space: O(1)
+Asked in: Inmobi
+
+
+
+
+
+Like
+5
+Previous
+Maximum difference between groups of size two
+Next
+Largest palindromic number by permuting digits
+Related Articles
+1.
+Maximum difference between groups of size two
+2.
+C++ Program for Maximum difference between groups of size two
+3.
+Java Program for Maximum difference between groups of size two
+4.
+Python Program for Maximum difference between groups of size two
+5.
+Php Program for Maximum difference between groups of size two
+6.
+Javascript Program for Maximum difference between groups of size two
+7.
+Maximize groups to be formed such that product of size of group with its minimum element is at least K
+8.
+Divide 1 to n into two groups with minimum sum difference
+9.
+Minimum groups to split Array such that their each pair value difference and position difference are same
+10.
+Partition the array into two odd length groups with minimized absolute difference between their median
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Aditya Gupta 4
+@Aditya Gupta 4
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+29AjayKumar
+Rajput-Ji
+nidhi_biet
+avijitmondal1998
+_shinchancode
+pushpeshrajdx01
+lokeshmvs21
+hardikkoriintern
+aadityapburujwale
+Article Tags :
+Arrays
+Competitive Programming
+Greedy
+Sorting
+Practice Tags :
+Arrays
+Greedy
+Sorting

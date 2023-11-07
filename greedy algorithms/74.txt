@@ -1,0 +1,92 @@
+Top 20 Greedy Algorithms Interview Questions
+
+Difficulty Level : Medium
+Last Updated : 09 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. Greedy algorithms are used for optimization problems.
+
+‘Recent Articles’ on Greedy Algorithms
+
+‘Coding Problems’ on Greedy Algorithms
+
+‘Quiz’ on Greedy Algorithms
+
+‘Videos’ on Greedy Algorithms
+
+ 
+
+Activity Selection Problem
+Kruskal’s Minimum Spanning Tree Algorithm
+Huffman Coding
+Efficient Huffman Coding for Sorted Input
+Prim’s Minimum Spanning Tree Algorithm
+Prim’s MST for Adjacency List Representation
+Dijkstra’s Shortest Path Algorithm
+Dijkstra’s Algorithm for Adjacency List Representation
+Job Sequencing Problem
+Greedy Algorithm to find Minimum number of Coins
+K Centers Problem
+Minimum Number of Platforms Required for a Railway/Bus Station
+Connect n ropes with minimum cost
+Graph coloring
+Fractional Knapsack Problem
+Minimize Cash Flow among a given set of friends who have borrowed money from each other
+Find minimum time to finish all jobs with given constraints
+Find maximum sum possible equal to sum of three stacks
+Dail’s Algorithm
+Boruvka’s algorithm
+This article is contributed by Ayushmaan Bansal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Minimum cost for acquiring all coins with k extra coins allowed with every coin
+Next
+Assign Mice to Holes
+Related Articles
+1.
+Correctness of Greedy Algorithms
+2.
+Greedy Algorithms (General Structure and Applications)
+3.
+Scheduling in Greedy Algorithms
+4.
+Top 10 algorithms in Interview Questions
+5.
+Top 10 algorithms in Interview Questions | Set 2
+6.
+Activity Selection Problem | Greedy Algo-1
+7.
+Efficient Huffman Coding for Sorted Input | Greedy Algo-4
+8.
+Prim’s MST for Adjacency List Representation | Greedy Algo-6
+9.
+Dijkstra’s Algorithm for Adjacency List Representation | Greedy Algo-8
+10.
+Graph Coloring | Set 2 (Greedy Algorithm)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+interview-preparation
+placement preparation
+Greedy
+Practice Tags :
+Greedy

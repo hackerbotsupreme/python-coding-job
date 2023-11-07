@@ -1,0 +1,107 @@
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+
+Difficulty Level : Basic
+Last Updated : 04 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Divide and conquer Algorithm:
+Divide and Conquer is an algorithmic paradigm in which the problem is solved using the Divide, Conquer, and Combine strategy.
+
+A typical Divide and Conquer algorithm solves a problem using the following three steps:
+
+Divide: This involves dividing the problem into smaller sub-problems.
+Conquer: Solve sub-problems by calling recursively until solved.
+Combine: Combine the sub-problems to get the final solution of the whole problem.
+Greedy Algorithm:
+Greedy algorithm is defined as a method for solving optimization problems by taking decisions that result in the most evident and immediate benefit irrespective of the final outcome. It is a simple, intuitive algorithm that is used in optimization problems.
+
+Difference between the Greedy Algorithm and the Divide and Conquer Algorithm:
+
+
+Sl.No	
+Divide and conquer
+
+
+Greedy Algorithm
+
+1
+
+Divide and conquer is used to obtain a solution to the given problem, it does not aim for the optimal solution.	The greedy method is used to obtain an optimal solution to the given problem.
+2
+
+In this technique, the problem is divided into small subproblems. These subproblems are solved independently. Finally, all the solutions to subproblems are collected together to get the solution to the given problem.	In Greedy Method, a set of feasible solutions are generated and pick up one feasible solution is the optimal solution.
+3
+
+Divide and conquer is less efficient and slower because it is recursive in nature.	A greedy method is comparatively efficient and faster as it is iterative in nature.
+4
+
+Divide and conquer may generate duplicate solutions.	In the Greedy method, the optimal solution is generated without revisiting previously generated solutions, thus it avoids the re-computation 
+5
+
+Divide and conquer algorithms mostly run in polynomial time.	Greedy algorithms also run in polynomial time but take less time than Divide and conquer
+6
+
+Examples: Merge sort,
+Quick sort,
+Strassen’s matrix multiplication.	Examples: Fractional Knapsack problem,
+Activity selection problem,
+Job sequencing problem.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+10
+Previous
+How to Change Port in Flask app
+Next
+Split Array into maximum Subarrays so that sum of alternating sums is 0
+Related Articles
+1.
+Comparison among Greedy, Divide and Conquer and Dynamic Programming algorithm
+2.
+Introduction to Divide and Conquer Algorithm - Data Structure and Algorithm Tutorials
+3.
+Karatsuba algorithm for fast multiplication using Divide and Conquer algorithm
+4.
+Search in a Row-wise and Column-wise Sorted 2D Array using Divide and Conquer algorithm
+5.
+Tiling Problem using Divide and Conquer algorithm
+6.
+The Skyline Problem using Divide and Conquer algorithm
+7.
+Longest Common Prefix using Divide and Conquer Algorithm
+8.
+Convex Hull using Divide and Conquer Algorithm
+9.
+Maximum Subarray Sum using Divide and Conquer algorithm
+10.
+Closest Pair of Points using Divide and Conquer algorithm
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+harshraghav718
+@harshraghav718
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Technical Scripter 2022
+Algorithms
+Divide and Conquer
+Greedy
+Technical Scripter
+Practice Tags :
+Algorithms
+Divide and Conquer
+Greedy

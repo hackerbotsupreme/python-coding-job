@@ -1,0 +1,147 @@
+Job Scheduling with two jobs allowed at a time
+
+Difficulty Level : Easy
+Last Updated : 29 Apr, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given N jobs, and their starting and ending times. We can do two jobs simultaneously at a particular moment. If one job ends at the same moment some other show starts then we can’t do them. We need to check if it is possible to complete all the jobs or not.
+Examples: 
+ 
+
+Input :  Start and End times of Jobs
+         1 2 
+         2 3
+         4 5 
+Output : Yes
+By the time third job starts, both jobs
+are finished. So we can schedule third
+job.
+
+Input : Start and End times of Jobs
+        1 5
+        2 4
+        2 6
+        1 7
+Output : No
+All 4 jobs needs to be scheduled at time
+3 which is not possible.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We first sort the jobs according to their starting time. Then we start two jobs simultaneously and check if the starting time of third job and so on is greater than the ending time of and of the previous two jobs. 
+The implementation the above idea is given below. 
+ 
+
+C++
+Python3
+# Python3 program to check if all
+# jobs can be scheduled if two jobs
+# are allowed at a time.
+ 
+def checkJobs(startin, endin, n):
+ 
+    # making a pair of starting and
+    # ending time of job
+    a = []
+    for i in range(0, n):
+        a.append([startin[i], endin[i]])
+         
+    # sorting according to starting
+    # time of job
+    a.sort()
+ 
+    # starting first and second job
+    # simultaneously
+    tv1 = a[0][1]
+    tv2 = a[1][1]
+ 
+    for i in range(2, n):
+         
+        # Checking if starting time of next
+        # new job is greater than ending time
+        # of currently scheduled first job
+        if (a[i][0] >= tv1) :
+ 
+            tv1 = tv2
+            tv2 = a[i][1]
+ 
+        # Checking if starting time of next
+        # new job is greater than ending time
+        # of currently scheduled second job
+        else if (a[i][0] >= tv2) :
+            tv2 = a[i][1]
+ 
+        else:
+            return 0
+     
+    return 1
+ 
+# Driver Code
+if __name__ == '__main__':
+    startin = [1, 2, 4] # starting time of jobs
+    endin = [2, 3, 5] # ending times of jobs
+    n = 3
+    print(checkJobs(startin, endin, n))
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+Output: 
+ 
+
+1
+An alternate solution is to find maximum number of jobs that needs to be scheduled at any time. If this count is more than 2, return false. Else return true.
+This article is contributed by Sarthak Kohli. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Next
+Scheduling priority tasks in limited time and minimizing loss
+Related Articles
+1.
+Find minimum time to finish all jobs with given constraints
+2.
+Program for Shortest Job First (or SJF) CPU Scheduling | Set 1 (Non- preemptive)
+3.
+Shortest Job First (or SJF) CPU Scheduling Non-preemptive algorithm using Segment Tree
+4.
+Schedule jobs so that each server gets equal load
+5.
+Maximize jobs that can be completed under given constraint
+6.
+Minimum time to reach from Node 1 to N if travel is allowed only when node is Green
+7.
+Minimum time taken by each job to be completed given by a Directed Acyclic Graph
+8.
+Shortest Remaining Time First (Preemptive SJF) Scheduling Algorithm
+9.
+Scheduling priority tasks in limited time and minimizing loss
+10.
+Longest Remaining Time First (LRTF) CPU Scheduling Program
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+AnkitSharma
+simmytarika5
+surinderdawra388
+Article Tags :
+Greedy
+Practice Tags :
+Greedy

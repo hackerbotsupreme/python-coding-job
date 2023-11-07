@@ -1,0 +1,125 @@
+Divide cuboid into cubes such that sum of volumes is maximum
+
+Difficulty Level : Easy
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the length, breadth, height of a cuboid. The task is to divide the given cuboid in minimum number of cubes such that size of all cubes is same and sum of volumes of cubes is maximum. 
+Examples: 
+ 
+
+Input : l = 2, b = 4, h = 6
+Output : 2 6
+A cuboid of length 2, breadth 4 and 
+height 6 can be divided into 6 cube 
+of side equal to 2.
+Volume of cubes = 6*(2*2*2) = 6*8 = 48.
+Volume of cuboid = 2*4*6 = 48.
+
+Input : 1 2 3
+Output : 1 6
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+First of all, we are not allowed to waste volume of cuboid as we meed maximum volume sum. So, each side should be completely divide among all cubes. And since each of three side of cubes are equal, so each side of the cuboid need to be divisible by same number, say x, which will going to be the side of the cube. So, we have to maximize this x, which will divide given length, breadth and height. This x will be maximum only if it is greatest common divisor of given length, breadth and height. So, the length of the cube will be GCD of length, breadth and height.
+Now, to compute number of cubes, we know total volume of cuboid and can find volume of one cube (since side is already calculated). So, total number of cubes is equal to (volume of cuboid)/(volume of cube) i.e (l * b * h)/(x * x * x). 
+Below is implementation of this approach: 
+ 
+
+C++
+Java
+Python3
+# Python3 code to find optimal way to break
+# cuboid into cubes.
+from fractions import gcd
+ 
+# Print the maximum side and no of cube.
+def maximizecube( l , b , h ):
+ 
+    # GCD to find side.
+    side = gcd(l, gcd(b, h))
+     
+    # dividing to find number of cubes.
+    num = int(l / side)
+    num = int(num * b / side)
+    num = int(num * h / side)
+     
+    print(side, num)
+ 
+# Driver code
+l = 2
+b = 4
+h = 6
+ 
+maximizecube(l, b, h)
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output: 
+ 
+
+2 6
+ Time Complexity: O(log2n), where n is the upper limit of b and h.
+Auxiliary Space: O(1)
+
+Please suggest if someone has a better solution which is more efficient in terms of space and time.
+This article is contributed by Aarti_Rathi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+4
+Next
+Maximum number of customers that can be satisfied with given quantity
+Related Articles
+1.
+Length of longest rod that can fit into a cuboid
+2.
+Find maximum volume of a cuboid from the given perimeter and area
+3.
+Maximize volume of cuboid with given sum of sides
+4.
+Program for Volume and Surface Area of Cuboid
+5.
+Divide 1 to n into two groups with minimum sum difference
+6.
+Divide array into two arrays which does not contain any pair with sum K
+7.
+Check if a line at 45 degree can divide the plane into two equal weight parts
+8.
+Minimum cuts required to divide the Circle into equal parts
+9.
+Divide a number into two parts
+10.
+Divide array into increasing and decreasing subsequence without changing the order
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+anuj0503
+@anuj0503
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+sanjoy_62
+adi1212
+Article Tags :
+area-volume-programs
+Geometric
+Greedy
+Practice Tags :
+Geometric
+Greedy
+Improve Article
+Report Issue

@@ -1,0 +1,189 @@
+Minimum product subset of an array
+
+Difficulty Level : Easy
+Last Updated : 20 Sep, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given array a, we have to find the minimum product possible with the subset of elements present in the array. The minimum product can be a single element also.
+
+Examples: 
+
+Input : a[] = { -1, -1, -2, 4, 3 }
+Output : -24
+Explanation : Minimum product will be ( -2 * -1 * -1 * 4 * 3 ) = -24
+
+Input : a[] = { -1, 0 }
+Output : -1
+Explanation : -1(single element) is minimum product possible
+
+ Input : a[] = { 0, 0, 0 }
+Output : 0
+
+A simple solution is to generate all subsets, find the product of every subset and return the minimum product.
+
+A better solution is to use the below facts.  
+
+
+
+If there are even number of negative numbers and no zeros, the result is the product of all except the largest valued negative number.
+If there are an odd number of negative numbers and no zeros, the result is simply the product of all.
+If there are zeros and positive, no negative, the result is 0. The exceptional case is when there is no negative number and all other elements positive then our result should be the first minimum positive number.
+Implementation:
+
+C++
+C
+Java
+Python3
+# Python3 program to find maximum
+# product of a subset.
+ 
+# def to find maximum
+# product of a subset
+ 
+ 
+def minProductSubset(a, n):
+    if (n == 1):
+        return a[0]
+ 
+    # Find count of negative numbers,
+    # count of zeros, maximum valued
+    # negative number, minimum valued
+    # positive number and product
+    # of non-zero numbers
+    max_neg = float('-inf')
+    min_pos = float('inf')
+    count_neg = 0
+    count_zero = 0
+    prod = 1
+    for i in range(0, n):
+ 
+        # If number is 0, we don't
+        # multiply it with product.
+        if (a[i] == 0):
+            count_zero = count_zero + 1
+            continue
+ 
+        # Count negatives and keep
+        # track of maximum valued
+        # negative.
+        if (a[i] < 0):
+            count_neg = count_neg + 1
+            max_neg = max(max_neg, a[i])
+ 
+        # Track minimum positive
+        # number of array
+        if (a[i] > 0):
+            min_pos = min(min_pos, a[i])
+ 
+        prod = prod * a[i]
+ 
+    # If there are all zeros
+    # or no negative number
+    # present
+    if (count_zero == n or (count_neg == 0
+                            and count_zero > 0)):
+        return 0
+ 
+    # If there are all positive
+    if (count_neg == 0):
+        return min_pos
+ 
+    # If there are even number of
+    # negative numbers and count_neg
+    # not 0
+    if ((count_neg & 1) == 0 and
+            count_neg != 0):
+ 
+        # Otherwise result is product of
+        # all non-zeros divided by
+        # maximum valued negative.
+        prod = int(prod / max_neg)
+ 
+    return prod
+ 
+ 
+# Driver code
+a = [-1, -1, -2, 4, 3]
+n = len(a)
+print(minProductSubset(a, n))
+# This code is contributed by
+# Manish Shaw (manishshaw1)
+C#
+PHP
+Javascript
+Output
+-24
+Complexity Analysis:
+
+Time Complexity: O(n) 
+Auxiliary Space: O(1)
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+55
+Previous
+Fitting Shelves Problem
+Next
+Maximize array sum after K negations using Sorting
+Related Articles
+1.
+Maximum size of subset such that product of all subset elements is a factor of N
+2.
+Split Array into K non-overlapping subset such that maximum among all subset sum is minimum
+3.
+Sum of maximum and minimum of Kth subset ordered by increasing subset sum
+4.
+Largest possible Subset from an Array such that no element is K times any other element in the Subset
+5.
+C++ Program for Minimum product subset of an array
+6.
+Java Program for Minimum product subset of an array
+7.
+Python Program for Minimum product subset of an array
+8.
+Php Program for Minimum product subset of an array
+9.
+Javascript Program for Minimum product subset of an array
+10.
+Split array into minimum number of subsets with every element of a subset divisible by its minimum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+andrew1234
+manishshaw1
+j9rex
+rameshtravel07
+simmytarika5
+anshulaverma
+krisania804
+bhaimasthai
+hardikkoriintern
+gigibean
+Article Tags :
+Arrays
+Greedy
+Sorting
+Technical Scripter
+Practice Tags :
+Arrays
+Greedy
+Sorting

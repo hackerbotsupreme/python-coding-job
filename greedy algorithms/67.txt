@@ -1,0 +1,173 @@
+Minimum Cost to cut a board into squares
+
+Difficulty Level : Hard
+Last Updated : 10 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A board of length m and width n is given, we need to break this board into m*n squares such that cost of breaking is minimum. cutting cost for each edge will be given for the board. In short, we need to choose such a sequence of cutting such that cost is minimized. 
+Examples: 
+ 
+
+Minimum Cost to cut a board into squares
+
+For above board optimal way to cut into square is:
+Total minimum cost in above case is 42. It is 
+evaluated using following steps.
+
+Initial Value : Total_cost = 0
+Total_cost = Total_cost + edge_cost * total_pieces
+
+Cost 4 Horizontal cut         Cost = 0 + 4*1 = 4
+Cost 4 Vertical cut        Cost = 4 + 4*2 = 12
+Cost 3 Vertical cut        Cost = 12 + 3*2 = 18
+Cost 2 Horizontal cut        Cost = 18 + 2*3 = 24
+Cost 2 Vertical cut        Cost = 24 + 2*3 = 30
+Cost 1 Horizontal cut        Cost = 30 + 1*4 = 34
+Cost 1 Vertical cut        Cost = 34 + 1*4 = 38
+Cost 1 Vertical cut        Cost = 38 + 1*4 = 42
+Recommended Problem
+Minimum Cost to cut a board into squares
+Greedy
+Algorithms
+Solve Problem
+Submission count: 11.8K
+This problem can be solved using greedy approach, If total cost is denoted by S, then S = a1w1 + a2w2 … + akwk, where wi is a cost of certain edge cutting and ai is corresponding coefficient, The coefficient ai is determined by the total number of cuts we have competed using edge wi at the end of the cutting process. Notice that sum of the coefficients is always constant, hence we want to find a distribution of ai obtainable such that S is minimum. To do so we perform cuts on highest cost edge as early as possible, which will reach to optimal S. If we encounter several edges having the same cost, we can cut any one of them first. 
+Below is the solution using above approach, first we sorted the edge cutting costs in reverse order, then we loop in them from higher-cost to lower-cost building our solution. Each time we choose an edge, counterpart count is incremented by 1, which is to be multiplied each time with corresponding edge cutting cost. 
+Notice below used sort method, sending greater() as 3rd argument to sort method sorts number in non-increasing order, it is predefined function of the library. 
+ 
+
+C++
+Java
+Python3
+# Python program to divide a board into m*n squares
+ 
+# Method returns minimum cost to 
+# break board into m*n squares
+def minimumCostOfBreaking(X, Y, m, n):
+ 
+    res = 0
+ 
+    # sort the horizontal cost in reverse order
+    X.sort(reverse = True)
+ 
+    # sort the vertical cost in reverse order
+    Y.sort(reverse = True)
+ 
+    # initialize current width as 1
+    hzntl = 1; vert = 1
+ 
+    # loop until one or both
+    # cost array are processed
+    i = 0; j = 0
+    while (i < m and j < n):
+     
+        if (X[i] > Y[j]):
+         
+            res += X[i] * vert
+ 
+            # increase current horizontal
+            # part count by 1
+            hzntl += 1
+            i += 1
+         
+        else:
+            res += Y[j] * hzntl
+ 
+            # increase current vertical
+            # part count by 1
+            vert += 1
+            j += 1
+ 
+    # loop for horizontal array, if remains
+    total = 0
+    while (i < m):
+        total += X[i]
+        i += 1
+    res += total * vert
+ 
+    #loop for vertical array, if remains
+    total = 0
+    while (j < n):
+        total += Y[j]
+        j += 1
+    res += total * hzntl
+ 
+    return res
+     
+# Driver program
+m = 6; n = 4
+X = [2, 1, 3, 1, 4]
+Y = [4, 1, 2]
+ 
+print(minimumCostOfBreaking(X, Y, m-1, n-1))
+ 
+ 
+# This code is contributed by Anant Agarwal.
+C#
+Javascript
+Output:  
+
+42
+Time Complexity: O(mlogm + nlogn), where n and m are the sizes of the given arrays.
+Auxiliary Space: O(1)
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+59
+Previous
+Maximize array sum after K negations using Sorting
+Next
+Minimum edges to reverse to make path from a source to a destination
+Related Articles
+1.
+Paper Cut into Minimum Number of Squares
+2.
+Minimize cost by splitting given Array into subsets of size K and adding highest K/2 elements of each subset into cost
+3.
+Minimize cost to split an array into K subsets such that the cost of each element is its product with its position in the subset
+4.
+Minimum cost to empty Array where cost of removing an element is 2^(removed_count) * arr[i]
+5.
+Minimum cost to complete given tasks if cost of 1, 7 and 30 days are given
+6.
+Minimum Cost To set Digital Clock Timer with given movement and push cost
+7.
+Count Knights that can attack a given pawn in an N * N board
+8.
+Minimize cost to connect the graph by connecting any pairs of vertices having cost at least 0
+9.
+Maximize cost of segment having weight at most K from given weight and cost of N items
+10.
+Minimize cost to travel from source to destination in a Matrix based on given row change and column change cost
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princi singh
+avijitmondal1998
+ruhelaa48
+khushboogoyal499
+tapeshdua420
+Article Tags :
+Greedy
+Practice Tags :
+Greedy
+Improve Article
+Report Issue

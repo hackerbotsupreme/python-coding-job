@@ -1,0 +1,178 @@
+Assign Mice to Holes
+
+Difficulty Level : Easy
+Last Updated : 01 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+There are N Mice and N holes are placed in a straight line. Each hole can accommodate only 1 mouse. A mouse can stay at his position, move one step right from x to x + 1, or move one step left from x to x -1. Any of these moves consumes 1 minute. Assign mice to holes so that the time when the last mouse gets inside a hole is minimized.
+
+Examples: 
+
+Input : positions of mice are:
+          4 -4 2
+        positions of holes are:
+          4 0 5
+Output :  4
+Assign mouse at position x = 4 to hole at 
+position x = 4 : Time taken is 0 minutes 
+Assign mouse at position x=-4 to hole at 
+position x = 0 : Time taken is 4 minutes 
+Assign mouse at position x=2 to hole at 
+position x = 5 : Time taken is 3 minutes 
+After 4 minutes all of the mice are in the holes.
+Since, there is no combination possible where
+the last mouse's time is less than 4, 
+answer = 4.
+
+Input :  positions of mice are:
+        -10, -79, -79, 67, 93, -85, -28, -94 
+          positions of holes are:
+         -2, 9, 69, 25, -31, 23, 50, 78 
+Output : 102
+Recommended Problem
+Assign Mice Holes
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 6.1K
+This problem can be solved using greedy strategy. We can put every mouse to its nearest hole to minimize the time. This can be done by sorting the positions of mice and holes. This allows us to put the ith mice to the corresponding hole in the holes list. We can then find the maximum difference between the mice and corresponding hole position. 
+
+In example 2, on sorting both the lists, we find that the mouse at position -79 is the last to travel to hole 23 taking time 102.
+
+
+sort mice positions (in any order)
+sort hole positions 
+
+Loop i = 1 to N:
+    update ans according to the value 
+    of |mice(i) - hole(i)|. It should
+    be maximum of all differences.
+Proof of correctness: 
+Let i1 < i2 be the positions of two mice and let j1 < j2 be the positions of two holes. 
+It suffices to show via case analysis that 
+
+max(|i1-j1|, |i2-j2|) <= max(|i1-j2|, |i2-j1|), 
+   where '|a - b|' represent absolute value of (a - b)
+Since it follows by induction that every assignment can be transformed by a series of swaps into the sorted assignment, where none of these swaps increases the span. 
+
+C++
+C
+Java
+Python3
+# Python3 program to find the minimum
+# time to place all mice in all holes.
+ 
+# Returns minimum time required
+# to place mice in holes.
+def assignHole(mices, holes, n, m):
+     
+    # Base Condition
+    # No. of mouse and holes should be same
+    if (n != m):
+        return -1
+     
+    # Sort the arrays
+    mices.sort()
+    holes.sort()
+     
+    # Finding max difference between
+    # ith mice and hole
+    Max = 0
+     
+    for i in range(n):
+        if (Max < abs(mices[i] - holes[i])):
+            Max = abs(mices[i] - holes[i])
+     
+    return Max
+     
+# Driver code   
+ 
+# Position of mouses
+mices = [ 4, -4, 2 ]
+ 
+# Position of holes
+holes = [ 4, 0, 5 ]
+ 
+# Number of mouses
+n = len(mices)
+ 
+# Number of holes
+m = len(holes)
+ 
+# The required answer is returned
+# from the function
+minTime = assignHole(mices, holes, n, m)
+ 
+print("The last mouse gets into the hole in time:", minTime)
+ 
+# This code is contributed by divyeshrabadiya07
+C#
+Javascript
+Output
+
+
+The last mouse gets into the hole in time: 4
+ Time Complexity: O(nlog(n))
+ Auxiliary Space: O(1), since no extra space has been taken.
+
+ This article is contributed by Saloni Baweja. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+19
+Previous
+Fitting Shelves Problem
+Next
+Minimum product subset of an array
+Related Articles
+1.
+Program to find the number from given holes
+2.
+Find minimum value to assign all array elements so that array product becomes greater
+3.
+Assign N tasks to N persons to minimize total time
+4.
+Find maximum sum by replacing the Subarray in given range
+5.
+Maximum sum of a Node with any number of neighbours in given Graph
+6.
+Minimize sum of distinct elements of all prefixes by rearranging Array
+7.
+Damerau–Levenshtein distance
+8.
+Total time to pick elements with given time interval
+9.
+Check if players can meet on the same cell of the matrix in odd number of operations
+10.
+Find an integer such that if it is multiplied by any of the given integers they form G.P.
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+aayushgarg06
+divyeshrabadiya07
+divyesh072019
+mukesh07
+rexomkar
+prabaljhs
+Article Tags :
+Greedy
+Mathematical
+Practice Tags :
+Greedy
+Mathematical

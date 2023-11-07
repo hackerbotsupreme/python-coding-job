@@ -1,0 +1,303 @@
+Policemen catch thieves
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given an array of size n that has the following specifications: 
+
+Each element in the array contains either a policeman or a thief.
+Each policeman can catch only one thief.
+A policeman cannot catch a thief who is more than K units away from the policeman.
+We need to find the maximum number of thieves that can be caught.
+Examples: 
+ 
+
+Input : arr[] = {'P', 'T', 'T', 'P', 'T'},
+            k = 1.
+Output : 2.
+Here maximum 2 thieves can be caught, first
+policeman catches first thief and second police-
+man can catch either second or third thief.
+
+Input : arr[] = {'T', 'T', 'P', 'P', 'T', 'P'}, 
+            k = 2.
+Output : 3.
+
+Input : arr[] = {'P', 'T', 'P', 'T', 'T', 'P'},
+            k = 3.
+Output : 3.
+Recommended Problem
+Police and Thieves
+Greedy
+Algorithms
+Microsoft
+Solve Problem
+Submission count: 15K
+A brute force approach would be to check all feasible sets of combinations of police and thief and return the maximum size set among them. Its time complexity is exponential and it can be optimized if we observe an important property. 
+An efficient solution is to use a greedy algorithm. But which greedy property 
+to use can be tricky. We can try using: “For each policeman from the left catch the nearest possible thief.” This works for example three given above but fails for example two as it outputs 2 which is incorrect. 
+We may also try: “For each policeman from the left catch the farthest possible thief”. This works for example two given above but fails for example three as it outputs 2 which is incorrect. A symmetric argument can be applied to show that traversing for these from the right side of the array also fails. We can observe that thinking irrespective of the 
+policeman and focusing on just the allotment works: 
+1. Get the lowest index of policeman p and thief t. Make an allotment 
+if |p-t| <= k and increment to the next p and t found. 
+2. Otherwise increment min(p, t) to the next p or t found. 
+3. Repeat above two steps until next p and t are found. 
+4. Return the number of allotments made.
+Below is the implementation of the above algorithm. It uses vectors to 
+store the indices of police and thief in the array and processes them. 
+ 
+
+C++
+Java
+C#
+Python3
+# Python3 program to find maximum
+# number of thieves caught
+ 
+# Returns maximum number of thieves
+# that can be caught.
+ 
+ 
+def policeThief(arr, n, k):
+    i = 0
+    l = 0
+    r = 0
+    res = 0
+    thi = []
+    pol = []
+ 
+    # store indices in list
+    while i < n:
+        if arr[i] == 'P':
+            pol.append(i)
+        elif arr[i] == 'T':
+            thi.append(i)
+        i += 1
+ 
+    # track lowest current indices of
+    # thief: thi[l], police: pol[r]
+    while l < len(thi) and r < len(pol):
+ 
+        # can be caught
+        if (abs(thi[l] - pol[r]) <= k):
+            res += 1
+            l += 1
+            r += 1
+ 
+        # increment the minimum index
+        elif thi[l] < pol[r]:
+            l += 1
+        else:
+            r += 1
+ 
+    return res
+ 
+ 
+# Driver program
+if __name__ == '__main__':
+    arr1 = ['P', 'T', 'T', 'P', 'T']
+    k = 2
+    n = len(arr1)
+    print(("Maximum thieves caught: {}".
+           format(policeThief(arr1, n, k))))
+ 
+    arr2 = ['T', 'T', 'P', 'P', 'T', 'P']
+    k = 2
+    n = len(arr2)
+    print(("Maximum thieves caught: {}".
+           format(policeThief(arr2, n, k))))
+ 
+    arr3 = ['P', 'T', 'P', 'T', 'T', 'P']
+    k = 3
+    n = len(arr3)
+    print(("Maximum thieves caught: {}".
+           format(policeThief(arr3, n, k))))
+ 
+# This code is contributed by `jahid_nadim`
+Javascript
+Output
+Maximum thieves caught: 2
+Maximum thieves caught: 3
+Maximum thieves caught: 3
+Time Complexity: O(N) 
+Auxiliary Space: O(N)
+
+Following method works in O(1) space complexity
+
+Approach:
+
+This approach takes the following steps:
+
+
+
+First find the left most police and thief and store the indices. There can be two cases:
+CASE 1: If the distance between the police and thief <= k (given), the thief can be caught, so increment the res counter
+CASE 2: If the distance between the police and thief >= k, the current thief cannot be caught by the current police
+For CASE 2, if the police is behind the thief, we need to find the next police and check if it can catch the current thief
+if the thief is behind the police, we need to find the next thief and check if the current police can catch the thief
+Repeat the process until we find the next police and thief pair, and increment result counter if conditions are met, i,e, CASE 1.
+Algorithm:
+1. Initialize the current lowest indices of policeman in pol and thief in thi variable as -1.
+2 Find the lowest index of policeman and thief.
+3 If lowest index of either policeman or thief remain -1 then return 0.
+4 If |pol – thi| <=k then make an allotment and find the next policeman and thief.
+5 Else increment the min(pol , thi) to the next policeman or thief found.
+6 Repeat the above two steps until we can find the next policeman and thief.
+7 Return the number of allotments made.
+Below is the implementation of the above algorithm.
+
+C++
+C
+Java
+Python3
+# Python program to find maximum number of thieves caught
+ 
+# Returns maximum number of thieves that can be caught.
+ 
+ 
+def policeThief(arr, n, k):
+ 
+    # Initialize the current lowest indices of
+    # policeman in pol and thief in thi variable as -1
+    pol, thi, res = -1, -1, 0
+ 
+    # Find the lowest index of policemen
+    for i in range(n):
+        if (arr[i] == 'P'):
+            pol = i
+            break
+ 
+  # Find the lowest index of thief
+    for i in range(n):
+        if (arr[i] == 'T'):
+            thi = i
+            break
+ 
+    # If lowest index of either policemen or thief remain
+    # -1 then return 0
+    if (thi == -1 or pol == -1):
+        return 0
+    while (pol < n and thi < n):
+ 
+        # can be caught
+        if (abs(pol - thi) <= k):
+ 
+            pol = pol + 1
+            while (pol < n and arr[pol] != 'P'):
+                pol = pol + 1
+ 
+            thi = thi + 1
+            while (thi < n and arr[thi] != 'T'):
+                thi = thi + 1
+ 
+            res += 1
+ 
+        # increment the current min(pol , thi) to
+        # the next policeman or thief found
+        elif (thi < pol):
+            thi = thi + 1
+            while (thi < n and arr[thi] != 'T'):
+                thi = thi + 1
+        else:
+            pol = pol + 1
+            while (pol < n and arr[pol] != 'P'):
+                pol = pol + 1
+    return res
+ 
+# driver code
+ 
+ 
+arr1 = ['P', 'T', 'T', 'P', 'T']
+k = 2
+n = len(arr1)
+print("Maximum thieves caught: " + str(policeThief(arr1, n, k)))
+ 
+arr2 = ['T', 'T', 'P', 'P', 'T', 'P']
+k = 2
+n = len(arr2)
+print("Maximum thieves caught: " + str(policeThief(arr2, n, k)))
+ 
+arr3 = ['P', 'T', 'P', 'T', 'T', 'P']
+k = 3
+n = len(arr3)
+print("Maximum thieves caught: " + str(policeThief(arr3, n, k)))
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Maximum thieves caught: 2
+Maximum thieves caught: 3
+Maximum thieves caught: 3
+Time Complexity: O(N)
+ Auxiliary Space: O(1)
+
+This article is contributed by Satish Srinivas. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+83
+Previous
+Water Connection Problem
+Next
+Fitting Shelves Problem
+Related Articles
+1.
+Find maximum sum by replacing the Subarray in given range
+2.
+Maximum sum of a Node with any number of neighbours in given Graph
+3.
+Minimize sum of distinct elements of all prefixes by rearranging Array
+4.
+Total time to pick elements with given time interval
+5.
+Find maximum LCM that can be obtained from four numbers less than or equal to N
+6.
+Reduce the value of integer N by appending digit X any number of times
+7.
+Sort the elements by minimum number of operations
+8.
+Compute AND value by doing XOR of given arrays
+9.
+Check if the Array elements can be made 0 with given conditions
+10.
+Find the Maximum sum of the Array by performing the given operations
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jahid_nadim
+sankalpvairat2
+sandeepsingh27
+harshjusharma
+surindertarika1234
+simmytarika5
+surinderdawra388
+adityakumar129
+shinjanpatra
+shruti456rawal
+awdheshkumar2
+user_7gr9iodclfx
+ruhelaa48
+Article Tags :
+National Instruments
+Greedy
+Practice Tags :
+National Instruments
+Greedy

@@ -1,0 +1,143 @@
+Partition into two subsets of lengths K and (N – k) such that the difference of sums is maximum
+
+Difficulty Level : Easy
+Last Updated : 27 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of non-negative integers of length N and an integer K. Partition the given array into two subsets of length K and N – K so that the difference between the sum of both subsets is maximum.
+
+Examples :  
+
+Input : arr[] = {8, 4, 5, 2, 10}
+        k = 2
+Output : 17
+Explanation :
+Here, we can make first subset of length k = {4, 2}
+and second subset of length N - k = {8, 5, 10}. Then,
+the max_difference = (8 + 5 + 10) - (4 + 2) = 17.
+
+Input : arr[] = {1, 1, 1, 1, 1, 1, 1, 1}
+        k = 3
+Output : 2
+Explanation :
+Here, subsets would be {1, 1, 1, 1, 1} and {1, 1, 1}.
+So, max_difference would be 2
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Choose k numbers with the largest possible sum. Then the solution obviously is k largest numbers. So that here greedy algorithm works – at each step we choose the largest possible number until we get all K numbers.
+
+In this problem, we should divide the array of N numbers into two subsets of k and N – k numbers respectively. Consider two cases:
+
+The subset with the largest sum, among these two subsets, is a subset of K numbers. Then we want to maximize the sum in it since the sum in the second subset will only decrease if the sum in the first subarray will increase. So we are now in the sub-problem considered above and should choose k largest numbers.
+The subset with the largest sum, among these two subsets, is a subset of N – k numbers. Similar to the previous case, we then have to choose N – k largest numbers among all numbers.
+Now, Let’s think about which of the two above cases actually gives the answer. We can easily see that a larger difference would be when more numbers are included in the group of largest numbers. Hence we could set M = max(k, N – k), find the sum of M largest numbers (let it be S1) and then the answer is S1 – (S – S1), where S is the sum of all numbers.
+
+Below is the implementation of the above approach :  
+
+C++
+Java
+Python3
+# Python3 code to calculate max_difference
+# between the sum of two subset of
+# length k and N - k
+ 
+# Function to calculate max_difference
+def maxDifference(arr, N, k ):
+    S = 0
+    S1 = 0
+    max_difference = 0
+     
+    # Sum of the array
+    for i in range(N):
+        S += arr[i]
+     
+    # Sort the array in descending order
+    arr.sort(reverse=True)
+    M = max(k, N - k)
+    for i in range( M):
+        S1 += arr[i]
+     
+    # Calculating max_difference
+    max_difference = S1 - (S - S1)
+    return max_difference
+     
+# Driver Code
+arr = [ 8, 4, 5, 2, 10 ]
+N = len(arr)
+k = 2
+print(maxDifference(arr, N, k))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+
+
+17
+Time Complexity: O(N log N), to sort the array 
+Auxiliary Space: O(1), as no extra space is used
+
+Further Optimizations : We can use Heap (or priority queue) to find M largest elements efficiently. Refer k largest(or smallest) elements in an array for details.
+
+
+
+
+
+Like
+13
+Previous
+Find maximum height pyramid from the given array of objects
+Next
+Minimum sum of absolute difference of pairs of two arrays
+Related Articles
+1.
+Partition a set into two non-empty subsets such that the difference of subset sums is maximum
+2.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+3.
+Partition a set into two subsets such that difference between max of one and min of other is minimized
+4.
+Partition array into two subsets with minimum Bitwise XOR between their maximum and minimum
+5.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+6.
+Partition an array into two subsets with equal count of unique elements
+7.
+Partition Array into 3 Subarrays to maximize the product of sums
+8.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+9.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+10.
+Partition of a set into K subsets with equal sum using BitMask and DP
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Sagar Shukla
+@Sagar Shukla
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+SURENDRA_GANGWAR
+mohit kumar 29
+divyeshrabadiya07
+pranshukas
+singhh3010
+hardikkoriintern
+Article Tags :
+subarray
+subarray-sum
+Arrays
+Greedy
+Technical Scripter
+Practice Tags :
+Arrays
+Greedy

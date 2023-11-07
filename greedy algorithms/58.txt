@@ -1,0 +1,151 @@
+Paper Cut into Minimum Number of Squares
+
+Difficulty Level : Medium
+Last Updated : 15 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a paper of size, A x B. Task is to cut the paper into squares of any size. Find the minimum number of squares that can be cut from the paper. 
+Examples: 
+ 
+
+Input  : 13 x 29
+Output : 9
+Explanation : 
+2 (squares of size 13x13) + 
+4 (squares of size 3x3) + 
+3 (squares of size 1x1)=9
+
+Input  : 4 x 5
+Output : 5
+Explanation : 
+1 (squares of size 4x4) + 
+4 (squares of size 1x1)
+ 
+
+Recommended Practice
+Cutting Rectangles
+Try It!
+We know that if we want to cut a minimum number of squares from the paper then we would have to cut the largest square possible from the paper first and the largest square will have the same side as the smaller side of the paper. For example, if the paper has the size 13 x 29, then the maximum square will be of side 13. so we can cut 2 square of size 13 x 13 (29/13 = 2). Now remaining paper will have size 3 x 13. Similarly, we can cut the remaining paper by using 4 squares of size 3 x 3 and 3 squares of 1 x 1. So a minimum of 9 squares can be cut from the Paper of size 13 x 29.
+ 
+
+dig1
+
+Below is the implementation of the above approach. 
+ 
+
+C++
+Java
+Python3
+# Python 3 program to find minimum
+# number of squares to cut a paper.
+ 
+# Returns min number of squares needed
+def minimumSquare(a, b):
+ 
+    result = 0
+    rem = 0
+ 
+    # swap if a is small size side .
+    if (a < b):
+        a, b = b, a
+ 
+    # Iterate until small size side is
+    # greater than 0
+    while (b > 0):
+     
+        # Update result
+        result += int(a / b)
+ 
+        rem = int(a % b)
+        a = b
+        b = rem
+ 
+    return result
+ 
+# Driver code
+n = 13
+m = 29
+ 
+print(minimumSquare(n, m))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+Javascript
+Output: 
+
+9
+Time Complexity: O(log(max(a,b))) 
+Auxiliary Space: O(1)
+
+
+
+Note that the above Greedy solution doesn’t always produce an optimal result. For example, if the input is 36 x 30, the above algorithm would produce output 6, but we can cut the paper into 5 squares 
+1) Three squares of size 12 x 12 
+2) Two squares of size 18 x 18.
+
+Thanks to Sergey V. Pereslavtsev for pointing out the above case.
+This article is contributed by Aarti_Rathi and Kuldeep Singh(kulli_d_coder). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+13
+Previous
+Program for Area Of Square
+Next
+Circle and Lattice Points
+Related Articles
+1.
+Minimum Cost to cut a board into squares
+2.
+Minimum squares to evenly cut a rectangle
+3.
+Maximum given sized rectangles that can be cut out of a sheet of paper
+4.
+Number of ways to cut a stick of length N into K pieces
+5.
+Number of ways to cut a stick of length N into in even length at most K units long pieces
+6.
+Split squares of first N natural numbers into two sets with minimum absolute difference of their sums
+7.
+Count number of triangles cut by the given horizontal and vertical line segments
+8.
+Minimum number of squares whose sum equals to given number n
+9.
+Minimum number of squares whose sum equals to given number N | set 2
+10.
+Minimum number of squares whose sum equals to a given number N | Set-3
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+rishavmahato348
+codewithrathi
+simmytarika5
+Article Tags :
+Combinatorial
+Geometric
+Greedy
+Mathematical
+Practice Tags :
+Combinatorial
+Geometric
+Greedy
+Mathematical

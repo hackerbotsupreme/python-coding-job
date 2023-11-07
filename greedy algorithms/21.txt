@@ -1,0 +1,197 @@
+Sum of Areas of Rectangles possible for an array
+
+Difficulty Level : Hard
+Last Updated : 23 Feb, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array, the task is to compute the sum of all possible maximum area rectangles which can be formed from the array elements. Also, you can reduce the elements of the array by at most 1. 
+
+Examples: 
+
+Input: a = {10, 10, 10, 10, 11, 
+            10, 11, 10}
+Output: 210
+Explanation: 
+We can form two rectangles one square (10 * 10) 
+and one (11 * 10). Hence, total area = 100 + 110 = 210.
+
+Input: a = { 3, 4, 5, 6 }
+Output: 15
+Explanation: 
+We can reduce 4 to 3 and 6 to 5 so that we got 
+rectangle of (3 * 5). Hence area = 15.
+
+Input: a = { 3, 2, 5, 2 }
+Output: 0
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive Approach: Check for all possible four elements of the array and then whichever can form a rectangle. In these rectangles, separate all those rectangles which are of the maximum area formed by these elements. After getting the rectangles and their areas, sum them all to get our desired solution.
+
+Efficient Approach: To get the maximum area rectangle, first sort the elements of the array in the non-increasing array. After sorting, start the procedure to select the elements of the array. Here, selection of two elements of array (as length of rectangle) is possible if elements of array are equal (a[i] == a[i+1]) or if length of smaller element a[i+1] is one less than a[i] (in this case we have our length a[i+1] because a[i] is decreased by 1). One flag variable is maintained to check that whether we get length and breadth both. After getting the length, set the flag variable, now calculate the breadth in the same way as we have done for length, and sum the area of the rectangle. After getting length and breadth both, again set the flag variable false so that we will now search for a new rectangle. This process is repeated and lastly, the final sum of the area is returned. 
+
+C++
+Java
+Python3
+# Python3 code to find sum
+# of all area rectangle
+# possible
+ 
+# Function to find
+# area of rectangles
+def MaxTotalRectangleArea(a, n) :
+     
+    # sorting the array in
+    # descending order
+    a.sort(reverse = True)
+ 
+    # store the final sum of
+    # all the rectangles area
+    # possible
+    sum = 0
+    flag = False
+ 
+    # temporary variable to store
+    # the length of rectangle
+    len = 0
+    i = 0
+     
+    while (i < n-1) :
+        if(i != 0) :
+            i = i + 1
+             
+        # Selecting the length of
+        # rectangle so that difference
+        # between any two number is 1
+        # only. Here length is selected
+        # so flag is set
+        if ((a[i] == a[i + 1] or
+             a[i] - a[i + 1] == 1)
+              and flag == False) :
+                   
+            # flag is set means
+            # we have got length of
+            # rectangle
+            flag = True
+ 
+            # length is set to
+            # a[i+1] so that if
+            # a[i+1] is less than a[i]
+            # by 1 then also we have
+            # the correct choice for length
+            len = a[i + 1]
+ 
+            # incrementing the counter
+            # one time more as we have
+            # considered a[i+1] element
+            # also so.
+            i = i + 1
+ 
+        # Selecting the width of rectangle
+        # so that difference between any
+        # two number is 1 only. Here width
+        # is selected so now flag is again
+        # unset for next rectangle
+        elif ((a[i] == a[i + 1] or
+              a[i] - a[i + 1] == 1)
+                and flag == True) :
+                     
+            # area is calculated for
+            # rectangle
+            sum = sum + a[i + 1] * len
+             
+            # flag is set false
+            # for another rectangle
+            # which we can get from
+            # elements in array
+            flag = False
+ 
+            # incrementing the counter
+            # one time more as we have
+            # considered a[i+1] element
+            # also so.
+            i = i + 1
+         
+    return sum
+ 
+# Driver code
+a = [ 10, 10, 10, 10, 11, 10,
+          11, 10, 9, 9, 8, 8 ]
+n = len(a)
+ 
+print (MaxTotalRectangleArea(a, n))
+ 
+# This code is contributed by
+# Manish Shaw (manishshaw1)
+C#
+PHP
+Javascript
+Output
+282
+Time Complexity: O(nlog(n)) 
+Auxiliary Space: O(1)
+ 
+
+
+
+
+
+Like
+3
+Previous
+Sorting array with reverse around middle
+Next
+Array element moved by k using single moves
+Related Articles
+1.
+Count pairs of similar rectangles possible from a given array
+2.
+Check if it is possible to rearrange rectangles in a non-ascending order of breadths
+3.
+Count of rectangles possible from N and M straight lines parallel to X and Y axis respectively
+4.
+Find vertex coordinates of all possible rectangles with a given vertex and dimensions
+5.
+Count of maximum distinct Rectangles possible with given Perimeter
+6.
+Maximum of sum of length of rectangles and squares formed by given sticks
+7.
+Find if two rectangles overlap
+8.
+Create a matrix with alternating rectangles of O and X
+9.
+Number of unique rectangles formed using N unit squares
+10.
+Number of rectangles in N*M grid
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+manishshaw1
+sanskar27jain
+gvkrishna33
+jana_sayantan
+sagartomar9927
+varshagumber28
+Article Tags :
+area-volume-programs
+square-rectangle
+Geometric
+Greedy
+Mathematical
+Sorting
+Practice Tags :
+Geometric
+Greedy
+Mathematical
+Sorting

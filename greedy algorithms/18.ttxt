@@ -1,0 +1,154 @@
+Minimum sum of absolute difference of pairs of two arrays
+
+Difficulty Level : Basic
+Last Updated : 08 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two arrays a[] and b[] of equal length n. The task is to pair each element of array a to an element in array b, such that sum S of absolute differences of all the pairs is minimum.
+Suppose, two elements a[i] and a[j] (i != j) of a are paired with elements b[p] and b[q] of b respectively, 
+then p should not be equal to q.
+
+Examples: 
+
+Input :  a[] = {3, 2, 1}
+         b[] = {2, 1, 3}
+Output : 0
+Explanation :
+ 1st pairing: |3 - 2| + |2 - 1| + |1 - 3|
+         = 1 + 1 + 2 = 4
+ 2nd pairing: |3 - 2| + |1 - 1| + |2 - 3|
+         = 1 + 0 + 1 = 2
+ 3rd pairing: |2 - 2| + |3 - 1| + |1 - 3|
+         = 0 + 2 + 2 = 4
+ 4th pairing: |1 - 2| + |2 - 1| + |3 - 3|
+         = 1 + 1 + 0 = 2
+ 5th pairing: |2 - 2| + |1 - 1| + |3 - 3|
+         = 0 + 0 + 0 = 0
+ 6th pairing: |1 - 2| + |3 - 1| + |2 - 3|
+         = 1 + 2 + 1 = 4
+ Therefore, 5th pairing has minimum sum of
+ absolute difference.
+
+Input :  n = 4
+         a[] = {4, 1, 8, 7}
+         b[] = {2, 3, 6, 5}
+Output : 6
+Recommended Problem
+Minimum Sum of Absolute Differences of Pairs
+Arrays
+Greedy
++3 more
+Solve Problem
+Submission count: 19.7K
+The solution to the problem is a simple greedy approach. It consists of two steps. 
+
+Step 1 : Sort both the arrays in O (n log n) time. 
+Step 2 : Find absolute difference of each pair of corresponding elements (elements at same index) of both arrays and add the result to the sum S. The time complexity of this step is O(n).
+Hence, the overall time complexity of the program is O(n log n). 
+
+C++
+C
+Java
+Python3
+# Python3 program to find minimum sum
+# of absolute differences of two arrays.
+def findMinSum(a, b, n):
+ 
+    # Sort both arrays
+    a.sort()
+    b.sort()
+ 
+    # Find sum of absolute differences
+    sum = 0
+     
+    for i in range(n):
+        sum = sum + abs(a[i] - b[i])
+ 
+    return sum
+ 
+# Driver program
+     
+# Both a[] and b[] must be of same size.
+a = [4, 1, 8, 7]
+b = [2, 3, 6, 5]
+n = len(a)
+ 
+print(findMinSum(a, b, n))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+6
+Time Complexity: O(n * logn)
+Auxiliary Space: O(1)
+
+This article is contributed by Sahil Bajaj. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+
+
+Like
+33
+Previous
+Partition into two subsets of lengths K and (N - k) such that the difference of sums is maximum
+Next
+Minimum increment/decrement to make array non-Increasing
+Related Articles
+1.
+Minimum possible sum of absolute difference of pairs from given arrays
+2.
+Minimum sum of absolute differences of pairs in a triplet from three arrays
+3.
+Minimize sum of absolute difference between all pairs of array elements by decrementing and incrementing pairs by 1
+4.
+Maximum absolute difference between sum of two contiguous sub-arrays
+5.
+Calculate absolute difference between minimum and maximum sum of pairs in an array
+6.
+Maximize Array sum by subtracting absolute of odd and adding absolute of even elements
+7.
+Check if array can be divided into two sub-arrays such that their absolute difference is K
+8.
+Minimum value of maximum absolute difference of all adjacent pairs in an Array
+9.
+Count of all pairs in an Array with minimum absolute difference
+10.
+Count pairs from an array with absolute difference not less than the minimum element in the pair
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+parashar
+nitin mittal
+subhammahato348
+code_hunt
+shreyanshdokania
+samim2000
+kk9826225
+rexomkar
+hardikkoriintern
+Article Tags :
+Arrays
+Greedy
+Sorting
+Practice Tags :
+Arrays
+Greedy
+Sorting
+Improve Article
+Report Issue

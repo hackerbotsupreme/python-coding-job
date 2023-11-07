@@ -1,0 +1,164 @@
+Program for First Fit algorithm in Memory Management
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Prerequisite : Partition Allocation Methods
+In the first fit, the partition is allocated which is first sufficient from the top of Main Memory.
+Example : 
+
+Input : blockSize[]   = {100, 500, 200, 300, 600};
+        processSize[] = {212, 417, 112, 426};
+Output:
+Process No.    Process Size    Block no.
+   1               212            2
+   2               417            5
+   3               112            3
+   4               426        Not Allocated
+ 
+
+Its advantage is that it is the fastest search as it searches only the first block i.e. enough to assign a process.
+It may have problems of not allowing processes to take space even if it was possible to allocate. Consider the above example, process number 4 (of size 426) does not get memory. However it was possible to allocate memory if we had allocated using best fit allocation [block number 4 (of size 300) to process 1, block number 2 to process 2, block number 3 to process 3 and block number 5 to process 4].
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+Implementation:
+1- Input memory blocks with size and processes with size.
+2- Initialize all memory blocks as free.
+3- Start by picking each process and check if it can
+   be assigned to current block. 
+4- If size-of-process <= size-of-block if yes then 
+   assign and check for next process.
+5- If not then keep checking the further blocks.
+ 
+
+first-fit
+
+Below is an implementation of above steps.
+ 
+
+C++
+Java
+Python3
+# Python3 implementation of First-Fit algorithm
+ 
+# Function to allocate memory to
+# blocks as per First fit algorithm
+def firstFit(blockSize, m, processSize, n):
+     
+    # Stores block id of the
+    # block allocated to a process
+    allocation = [-1] * n
+ 
+    # Initially no block is assigned to any process
+ 
+    # pick each process and find suitable blocks
+    # according to its size ad assign to it
+    for i in range(n):
+        for j in range(m):
+            if blockSize[j] >= processSize[i]:
+                 
+                # allocate block j to p[i] process
+                allocation[i] = j
+ 
+                # Reduce available memory in this block.
+                blockSize[j] -= processSize[i]
+ 
+                break
+ 
+    print(" Process No. Process Size      Block no.")
+    for i in range(n):
+        print(" ", i + 1, "         ", processSize[i],
+                          "         ", end = " ")
+        if allocation[i] != -1:
+            print(allocation[i] + 1)
+        else:
+            print("Not Allocated")
+ 
+# Driver code
+if __name__ == '__main__':
+    blockSize = [100, 500, 200, 300, 600]
+    processSize = [212, 417, 112, 426]
+    m = len(blockSize)
+    n = len(processSize)
+ 
+    firstFit(blockSize, m, processSize, n)
+     
+# This code is contributed by PranchalK
+C#
+Javascript
+C
+Output : 
+ 
+
+Process No.    Process Size    Block no.
+1              212             2
+2              417             5        
+3              112             2
+4              426             Not Allocated
+Time complexity of First Fit algorithm is O(n*m), where n is the number of processes and m is the number of memory blocks. The outer for loop runs for n times and the inner for loop runs for m times.
+Auxiliary Space of First Fit algorithm is O(n), where n is the number of processes. The allocation array is used to store the block number allocated to the process, which takes a space of O(n).
+ 
+
+
+
+This article is contributed by Sahil Chhabra (akku). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Program for Worst Fit algorithm in Memory Management
+Next
+Program for Next Fit algorithm in Memory Management
+Related Articles
+1.
+First Fit algorithm in Memory Management using Linked List
+2.
+Program for Worst Fit algorithm in Memory Management
+3.
+Program for Next Fit algorithm in Memory Management
+4.
+Program for Best Fit algorithm in Memory Management using Linked List
+5.
+Program for Best Fit algorithm in Memory Management
+6.
+Minimum number of bins required to place N items ( Using Best Fit algorithm )
+7.
+First-Fit Allocation in Operating Systems
+8.
+Introduction to memory and memory units
+9.
+Why Linked List is implemented on Heap memory rather than Stack memory?
+10.
+Partition Allocation Methods in Memory Management
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+PranchalKatiyar
+priyanshuanand166
+akashish__
+209x1a0598
+learnsmtgnewvysh
+Article Tags :
+memory-management
+Greedy
+Practice Tags :
+Greedy

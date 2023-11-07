@@ -1,0 +1,156 @@
+Fitting Shelves Problem
+
+Difficulty Level : Medium
+Last Updated : 11 Jun, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given length of wall w and shelves of two lengths m and n, find the number of each type of shelf to be used and the remaining empty space in the optimal solution so that the empty space is minimum. The larger of the two shelves is cheaper so it is preferred. However cost is secondary and first priority is to minimize empty space on wall.
+
+Examples: 
+
+Input : w = 24 m = 3 n = 5
+Output : 3 3 0
+We use three units of both shelves
+and 0 space is left.
+3 * 3 + 3 * 5 = 24
+So empty space  = 24 - 24 = 0
+Another solution could have been 8 0 0
+but since the larger shelf of length 5
+is cheaper the former will be the answer.
+
+Input : w = 29 m = 3 n = 9 
+Output : 0 3 2
+0 * 3 + 3 * 9 = 27
+29 - 27 = 2
+
+Input : w = 24 m = 4 n = 7 
+Output : 6 0 0
+6 * 4 + 0 * 7 = 24
+24 - 24 = 0
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple and efficient approach will be to try all possible combinations of shelves that fit within the length of the wall. 
+To implement this approach along with the constraint that larger shelf costs less than the smaller one, starting from 0, we increase no of larger type shelves till they can be fit. For each case we calculate the empty space and finally store that value which minimizes the empty space. if empty space is same in two cases we prefer the one with more no of larger shelves. 
+
+Below is its implementation. 
+
+
+C++
+C
+Java
+Python3
+def minSpacePreferLarge(w, m, n):
+ 
+    # initialize result variables
+    num_m = 0
+    num_n = 0
+    rem = w
+ 
+    # p and q are no of shelves of length m &
+    # n respectively. r is the remainder uncovered
+    # wall length
+    p = w//m
+    q = 0
+    rem=w%m;
+    num_m=p;
+    num_n=q;
+    min_empty=rem;
+    while (w >= n):
+        q += 1;
+        w-= n;
+        p = w // m
+        r = w % m
+        if (r <= rem):
+            num_m = p
+            num_n = q
+            rem = r
+        q += 1
+        w -= n
+    print( str(int(num_m)) + " " + str(num_n) + " " + str(rem))
+ 
+# Driver code
+w = 24
+m = 3
+n = 5
+minSpacePreferLarge(w, m, n)
+ 
+w = 24
+m = 4
+n = 7
+minSpacePreferLarge(w, m, n)
+C#
+PHP
+Javascript
+Output
+0 3 2
+6 7 0
+Time Complexity: O(w/max(n,m))
+
+Space Complexity: O(1)
+
+
+
+References: Sumologic Internship question
+This article is contributed by Aditi Sharma. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+12
+Previous
+Policemen catch thieves
+Next
+Minimum product subset of an array
+Related Articles
+1.
+Activity Selection Problem | Greedy Algo-1
+2.
+Job Sequencing Problem
+3.
+Greedy Approximate Algorithm for K Centers Problem
+4.
+Greedy Approximate Algorithm for Set Cover Problem
+5.
+Job Sequencing Problem using Disjoint Set
+6.
+Max Flow Problem Introduction
+7.
+Job Sequencing Problem - Loss Minimization
+8.
+Job Selection Problem - Loss Minimization Strategy | Set 2
+9.
+Water Connection Problem
+10.
+Problem Solving for Minimum Spanning Trees (Kruskal’s and Prim’s)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+BonnyHaveliwala
+jit_t
+moinaleeahmad
+suresh07
+amartyaghoshgfg
+varunh92
+rexomkar
+Article Tags :
+Sumologic
+Greedy
+Practice Tags :
+SumoLogic
+Greedy
+Improve Article
+Report Issue

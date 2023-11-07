@@ -1,0 +1,173 @@
+Minimum sum of product of two arrays
+
+Difficulty Level : Medium
+Last Updated : 13 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Find the minimum sum of Products of two arrays of the same size, given that k modifications are allowed on the first array. In each modification, one array element of the first array can either be increased or decreased by 2.
+Examples: 
+
+Input : a[] = {1, 2, -3}
+        b[]  = {-2, 3, -5}
+           k = 5
+Output : -31
+Explanation:
+Here n = 3 and k = 5. 
+So, we modified a[2], which is -3 and 
+increased it by 10 (as 5 modifications 
+are allowed).
+Final sum will be :
+(1 * -2) + (2 * 3) + (7 * -5)
+   -2    +    6    -    35
+             -31
+(which is the minimum sum of the array 
+with given conditions)
+
+Input : a[] = {2, 3, 4, 5, 4}
+        b[] = {3, 4, 2, 3, 2}
+        k = 3
+Output : 25
+Explanation: 
+Here, total numbers are 5 and total 
+modifications allowed are 3. So, modify 
+a[1], which is 3 and decreased it by 6 
+(as 3 modifications are allowed).
+Final sum will be :
+(2 * 3) + (-3 * 4) + (4 * 2) + (5 * 3) + (4 * 2)
+   6    –    12    +    8    +    15   +    8
+                        25
+(which is the minimum sum of the array with 
+given conditions)
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Since we need to minimize the product sum, we find the maximum product and reduce it. By taking some examples, we observe that making 2*k changes to only one element is enough to get the minimum sum. Based on this observation, we consider every element as the element on which we apply all k operations and keep track of the element that reduces result to minimum.  
+
+C++
+C
+Java
+Python3
+# Python program to find
+# minimum sum of product
+# of two arrays with k
+# operations allowed on
+# first array.
+ 
+# Function to find the minimum product
+def minproduct(a,b,n,k):
+ 
+    diff = 0
+    res = 0
+    for i in range(n):
+ 
+        # Find product of current
+        # elements and update result.
+        pro = a[i] * b[i]
+        res = res + pro
+ 
+        # If both product and
+        # b[i] are negative,
+        # we must increase value
+        # of a[i] to minimize result.
+        if (pro < 0 and b[i] < 0):
+            temp = (a[i] + 2 * k) * b[i]
+ 
+        # If both product and
+        # a[i] are negative,
+        # we must decrease value
+        # of a[i] to minimize result.
+        elif (pro < 0 and a[i] < 0):
+            temp = (a[i] - 2 * k) * b[i]
+ 
+        # Similar to above two cases
+        # for positive product.
+        elif (pro > 0 and a[i] < 0):
+            temp = (a[i] + 2 * k) * b[i]
+        elif (pro > 0 and a[i] > 0):
+            temp = (a[i] - 2 * k) * b[i]
+ 
+        # Check if current difference
+        # becomes higher
+        # than the maximum difference so far.
+        d = abs(pro - temp)
+ 
+        if (d > diff):
+            diff = d      
+    return res - diff
+ 
+# Driver function
+a = [ 2, 3, 4, 5, 4 ]
+b = [ 3, 4, 2, 3, 2 ]
+n = 5
+k = 3
+ 
+print(minproduct(a, b, n, k))
+ 
+# This code is contributed
+# by Azkia Anam.
+C#
+PHP
+Javascript
+Output :
+
+25
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+This article is contributed by Abhishek Sharma. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+Like
+Previous
+Partition into two subsets of lengths K and (N - k) such that the difference of sums is maximum
+Next
+Minimum sum by choosing minimum of pairs from array
+Related Articles
+1.
+Minimize sum of product of same-indexed elements of two arrays by reversing a subarray of one of the two arrays
+2.
+De-arrangements for minimum product sum of two arrays
+3.
+Kth smallest number in array formed by product of any two elements from two arrays
+4.
+Minimum sum of two elements from two arrays such that indexes are not same
+5.
+Minimize the sum of product of two arrays with permutations allowed
+6.
+Maximize sum of product of same-indexed elements of equal length subarrays obtained from two given arrays
+7.
+Split the given array into K sub-arrays such that maximum sum of all sub arrays is minimum
+8.
+Maximum OR sum of sub-arrays of two different arrays
+9.
+Find sub-arrays from given two arrays such that they have equal sum
+10.
+Count of possible arrays from prefix-sum and suffix-sum arrays
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+firoz_kumar
+sanjoy_62
+arunabhguptamin20
+krisania804
+pushpeshrajdx01
+Article Tags :
+Arrays
+Greedy
+Technical Scripter
+Practice Tags :
+Arrays
+Greedy
+Report Issue

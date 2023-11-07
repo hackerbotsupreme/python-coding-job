@@ -1,0 +1,190 @@
+Introduction to Greedy Algorithm – Data Structures and Algorithm Tutorials
+
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Greedy Algorithm is defined as a method for solving optimization problems by taking decisions that result in the most evident and immediate benefit irrespective of the final outcome. It works for cases where minimization or maximization leads to the required solution.
+
+Characteristics of Greedy algorithm
+For a problem to be solved using the Greedy approach, it must follow a few major characteristics:
+
+There is an ordered list of resources(profit, cost, value, etc.) 
+Maximum of all the resources(max profit, max value, etc.) are taken. 
+For example, in the fractional knapsack problem, the maximum value/weight is taken first according to available capacity. 
+Introduction to Greedy Algorithm - Data Structures and Algorithm Tutorials
+Introduction to Greedy Algorithm – Data Structures and Algorithm Tutorials
+
+All greedy algorithms follow a basic structure: 
+Declare an empty result = 0.
+We make a greedy choice to select, If the choice is feasible add it to the final result.
+return the result.
+Why choose Greedy Approach?
+The greedy approach has a few tradeoffs, which may make it suitable for optimization. One prominent reason is to achieve the most feasible solution immediately. In the activity selection problem (Explained below), if more activities can be done before finishing the current activity, these activities can be performed within the same time.  Another reason is to divide a problem recursively based on a condition, with no need to combine all the solutions. In the activity selection problem, the “recursive division” step is achieved by scanning a list of items only once and considering certain activities.
+
+Greedy Algorithm Example:
+Some Famous problems that exhibit Optimal substructure property and can be solved using Greedy approach are –
+
+1) Job sequencing Problem:
+Greedily choose the jobs with maximum profit first, by sorting the jobs in decreasing order of their profit. This would help to maximize the total profit as choosing the job with maximum profit for every time slot will eventually maximize the total profit
+
+2) Prim’s algorithm to find Minimum Spanning Tree:
+It starts with an empty spanning tree. The idea is to maintain two sets of vertices. The first set contains the vertices already included in the MST, the other set contains the vertices not yet included. At every step, it considers all the edges that connect the two sets and picks the minimum weight edge from these edges. After picking the edge, it moves the other endpoint of the edge to the set containing MST. 
+
+How does the Greedy Algorithm works?
+When the choice to apply the greedy method is made without conducting a thorough examination, the decision to utilize it can be somewhat difficult and occasionally even result in failure. In some cases taking the local best choice may lead to losing the global optimal solution. 
+
+
+
+For example: 
+
+One such example where the Greedy Approach fails is to find the Maximum weighted path of nodes in the given graph.
+Graph with weighted vertices
+Graph with weighted vertices
+
+In the above graph starting from the root node 10 if we greedily select the next node to obtain the most weighted path the next selected node will be 5 that will take the total sum to 15 and the path will end as there is no child of 5 but the path 10 -> 5 is not the maximum weight path.
+
+Greedy Approach fails
+
+In order to find the most weighted path all possible path sum must be computed and their path sum must be compared to get the desired result, it is visible that the most weighted path in the above graph is 10 -> 1 -> 30 that gives the path sum 41. 
+
+Correct Approach
+
+In such cases Greedy approach wouldn’t work instead complete paths from root to leaf node has to be considered to get the correct answer i.e. the most weighted path, This can be achieved by recursively checking all the paths and calculating their weight. 
+Thus to use Greedy algorithm the problem must not contain overlapping subproblems.
+
+Greedy Algorithm Vs Dynamic Programming
+Greedy algorithm and Dynamic programming are two of the most widely used algorithm paradigms for solving complex programming problems, While Greedy approach works for problems where local optimal choice leads to global optimal solution Dynamic Programming works for problems having overlapping subproblems structure where answer to a subproblem is needed for solving several other subproblems. Detailed differences are given in the table below: 
+
+Feature
+
+Greedy Algorithm	Dynamic Programming
+Feasibility 
+
+In a Greedy Algorithm, we make whatever choice seems best at the moment in the hope that it will lead to global optimal solution.	In Dynamic Programming we make decision at each step considering current problem and solution to previously solved sub problem to calculate optimal solution .
+Optimality
+
+In Greedy Method, sometimes there is no such guarantee of getting Optimal Solution.	It is guaranteed that Dynamic Programming will generate an optimal solution as it generally considers all possible cases and then choose the best.
+Recursion
+
+A greedy method follows the problem solving heuristic of making the locally optimal choice at each stage.	A Dynamic programming is an algorithmic technique which is usually based on a recurrent formula that uses some previously calculated states.
+Memoization                                   
+
+It is more efficient in terms of memory as it never look back or revise previous choices	It requires Dynamic Programming table for Memoization and it increases it’s memory complexity.
+    Time        complexity                    
+
+Greedy methods are generally faster. For example, Dijkstra’s shortest path algorithm takes O(ELogV + VLogV) time.	Dynamic Programming is generally slower. For example, Bellman Ford algorithm takes O(VE) time.
+Fashion
+
+The greedy method computes its solution by making its choices in a serial forward fashion, never looking back or revising previous choices.	Dynamic programming computes its solution bottom up or top down by synthesizing them from smaller optimal sub solutions.
+Example
+
+Fractional knapsack. 
+ 	0/1 knapsack problem 
+ 
+Greedy Algorithm Most Asked Interview Problems:
+Some of the popular problems on the Greedy Approach that are widely asked in interviews are:
+
+Activity Selection Problem
+Kruskal’s Minimum Spanning Tree Algorithm
+Huffman Coding
+Efficient Huffman Coding for Sorted Input
+Prim’s Minimum Spanning Tree Algorithm
+Prim’s MST for Adjacency List Representation
+Dijkstra’s Shortest Path Algorithm
+Dijkstra’s Algorithm for Adjacency List Representation
+Job Sequencing Problem
+Greedy Algorithm to find Minimum number of Coins
+K Centers Problem
+Minimum Number of Platforms Required for a Railway/Bus Station
+Connect n ropes with minimum cost
+Graph coloring
+Fractional Knapsack Problem
+Minimize Cash Flow among a given set of friends who have borrowed money from each other
+Find minimum time to finish all jobs with given constraints
+Find maximum sum possible equal to sum of three stacks
+Dail’s Algorithm
+Boruvka’s algorithm
+Applications of Greedy Algorithms:
+Finding an optimal solution (Activity selection, Fractional Knapsack, Job Sequencing, Huffman Coding). 
+Finding close to the optimal solution for NP-Hard problems like TSP. 
+Greedy algorithm is used to select the jobs that will be completed before their respective deadlines and maximizes the profit.
+Greedy algorithms are used to cluster data points together based on certain criteria, such as distance or similarity.
+ The problem is broken down into smaller subproblems that are solved independently, but many of these subproblems are identical or overlapping.
+Advantages of the Greedy Approach: 
+The greedy approach is easy to implement.
+Typically have less time complexity.
+Greedy algorithms can be used for optimization purposes or finding close to optimization in case of Hard problems.
+The greedy approach can be very efficient, as it does not require exploring all possible solutions to the problem.
+The greedy approach can provide a clear and easy-to-understand solution to a problem, as it follows a step-by-step process.
+The solutions to subproblems can be stored in a table, which can be reused for similar problems.
+Disadvantages of the Greedy Approach:
+The local optimal solution may not always be globally optimal.
+Lack of proof of optimality.
+The greedy approach is only applicable to problems that have the property of greedy-choice property meaning not all problems can be solved using this approach.
+The greedy approach is not easily adaptable to changing problem conditions.
+Related Articles:
+Greedy Algorithms (General Structure and Applications)
+Top 20 Greedy Algorithms Interview Questions
+Most recent published articles on Greedy Algorithm
+Practice problems on Greedy Algorithms
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+9
+Previous
+Get Hired at CaratLane - Exclusive Job-a-Thon Hiring For SDE-2 Role
+Next
+Best IDEs For Machine Learning
+Related Articles
+1.
+Introduction to Dynamic Programming - Data Structures and Algorithm Tutorials
+2.
+Introduction to Arrays - Data Structure and Algorithm Tutorials
+3.
+Introduction to Linked List - Data Structure and Algorithm Tutorials
+4.
+Introduction to Strings - Data Structure and Algorithm Tutorials
+5.
+Introduction to Hashing - Data Structure and Algorithm Tutorials
+6.
+Introduction to Trie - Data Structure and Algorithm Tutorials
+7.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+8.
+Comparison among Greedy, Divide and Conquer and Dynamic Programming algorithm
+9.
+Introduction to Branch and Bound - Data Structures and Algorithms Tutorial
+10.
+Introduction to Bitwise Algorithms - Data Structures and Algorithms Tutorial
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mitalibhola94
+germanshephered48
+Article Tags :
+Algorithms-Greedy Algorithms
+Greedy Algorithms
+Algorithms
+GBlog
+Greedy
+Practice Tags :
+Algorithms
+Greedy
+Improve Article
+Report Issue
