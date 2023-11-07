@@ -1,0 +1,207 @@
+Sum of squares of binomial coefficients
+
+Difficulty Level : Easy
+Last Updated : 06 May, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given a positive integer n. The task is to find the sum of square of Binomial Coefficient i.e 
+nC02 + nC12 + nC22 + nC32 + ……… + nCn-22 + nCn-12 + nCn2 
+Examples: 
+ 
+
+Input : n = 4
+Output : 70
+
+Input : n = 5
+Output : 252
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: (Brute Force) 
+The idea is to generate all the terms of binomial coefficient and find the sum of square of each binomial coefficient.
+Below is the implementation of this approach: 
+ 
+
+C++
+Java
+Python3
+# Python Program to find
+# the sum of square of
+# binomial coefficient.
+ 
+# Return the sum of
+# square of binomial
+# coefficient
+def sumofsquare(n) :
+     
+    C = [[0 for i in range(n + 1)]
+            for j in range(n + 1)]
+             
+    # Calculate value of
+    # Binomial Coefficient
+    # in bottom up manner
+    for i in range(0, n + 1) :
+     
+        for j in range(0, min(i, n) + 1) :
+                     
+            # Base Cases
+            if (j == 0 or j == i) :
+                C[i][j] = 1
+ 
+            # Calculate value
+            # using previously
+            # stored values
+            else :
+                C[i][j] = (C[i - 1][j - 1] +
+                           C[i - 1][j])
+ 
+     
+    # Finding the sum of
+    # square of binomial
+    # coefficient.
+    sum = 0
+    for i in range(0, n + 1) :
+        sum = sum + (C[n][i] *
+                     C[n][i])
+     
+    return sum
+ 
+ 
+# Driver Code
+n = 4
+print (sumofsquare(n), end="\n")
+     
+# This code is contributed by
+# Manish Shaw(manishshaw1)
+C#
+PHP
+Javascript
+Output:  
+
+
+70
+Method 2: (Using Formula) 
+^nC^2_0 + ^nC^2_1 + ^nC^2_2 + .... + ^nC^2_n-1 + ^nC^2_n    
+= ^2nC_n    
+= \frac{(2n)!}{(n!)^2}    
+Proof, 
+ 
+
+We know,
+(1 + x)n = nC0 + nC1 x + nC2 x2 + ......... + nCn-1 xn-1 + nCn-1 xn
+Also,
+(x + 1)n = nC0 xn + nC1 xn-1 + nC2 xn-2 + ......... + nCn-1 x + nCn
+
+Multiplying above two equations,
+(1 + x)2n = [nC0 + nC1 x + nC2 x2 + ......... + nCn-1 xn-1 + nCn-1 xn] X 
+            [nC0 xn + nC1 xn-1 + nC2 xn-2 + ......... + nCn-1 x + nCn]
+
+Equating coefficients of xn on both sides, we get
+2nCn = nC02 + nC12 + nC22 + nC32 + ......... + nCn-22 + nCn-12 + nCn2
+
+Hence, sum of the squares of coefficients = 2nCn = (2n)!/(n!)2.
+Also, (2n)!/(n!)2 = (2n * (2n – 1) * (2n – 2) * ….. * (n+1))/(n * (n – 1) * (n – 2) *….. * 1).
+Below is the implementation of this approach: 
+ 
+
+C++
+Java
+Python
+# Python 3 Program to find the sum of
+# square of binomial coefficient.
+ 
+# function to return product of number
+# from start to end.
+def factorial(start, end):
+ 
+    res = 1
+     
+    for i in range(start, end + 1):
+        res *= i
+         
+    return res
+ 
+# Return the sum of square of binomial
+# coefficient
+def sumofsquare(n):
+ 
+    return int(factorial(n + 1, 2 * n)
+                     /factorial(1, n))
+ 
+# Driven Program
+ 
+n = 4
+print(sumofsquare(n))
+ 
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output:  
+
+
+
+70
+ 
+
+
+
+
+
+Like
+2
+Previous
+Probability for three randomly chosen numbers to be in AP
+Next
+Find sum of even index binomial coefficients
+Related Articles
+1.
+Sum of Binomial coefficients
+2.
+Find sum of even index binomial coefficients
+3.
+Sum of product of consecutive Binomial Coefficients
+4.
+Sum of all products of the Binomial Coefficients of two numbers up to K
+5.
+Sum of binomial coefficients (nCr) in a given range
+6.
+Mathematics | PnC and Binomial Coefficients
+7.
+Program for Binomial Coefficients table
+8.
+Count odd and even Binomial Coefficients of N-th power
+9.
+Sum of product of r and rth Binomial Coefficient (r * nCr)
+10.
+Minimize the sum of the squares of the sum of elements of each group the array is divided into
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+anuj0503
+@anuj0503
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+manishshaw1
+code_hunt
+suresh07
+Article Tags :
+binomial coefficient
+Combinatorial
+Mathematical
+Practice Tags :
+Combinatorial
+Mathematical
+Improve Article
+Report Issue

@@ -1,0 +1,165 @@
+Modular Division
+
+Difficulty Level : Medium
+Last Updated : 27 May, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three positive numbers a, b and m. Compute a/b under modulo m. The task is basically to find a number c such that (b * c) % m = a % m.
+Examples: 
+
+Input  : a  = 8, b = 4, m = 5
+Output : 2
+
+Input  : a  = 8, b = 3, m = 5
+Output : 1
+Note that (1*3)%5 is same as 8%5
+
+Input  : a  = 11, b = 4, m = 5
+Output : 4
+Note that (4*4)%5 is same as 11%5
+Following articles are prerequisites for this. 
+Modular multiplicative inverse 
+Extended Euclidean algorithms 
+Can we always do modular division? 
+The answer is “NO”. First of all, like ordinary arithmetic, division by 0 is not defined. For example, 4/0 is not allowed. In modular arithmetic, not only 4/0 is not allowed, but 4/12 under modulo 6 is also not allowed. The reason is, 12 is congruent to 0 when modulus is 6.
+When is modular division defined? 
+Modular division is defined when modular inverse of the divisor exists. The inverse of an integer ‘x’ is another integer ‘y’ such that (x*y) % m = 1 where m is the modulus. 
+When does inverse exist? As discussed here, inverse a number ‘a’ exists under modulo ‘m’ if ‘a’ and ‘m’ are co-prime, i.e., GCD of them is 1.
+How to find modular division? 
+
+The task is to compute a/b under modulo m.
+1) First check if inverse of b under modulo m exists or not. 
+    a) If inverse doesn't exists (GCD of b and m is not 1), 
+          print "Division not defined"
+    b) Else return  "(inverse * a) % m" 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program to do modular division
+import math
+ 
+# Function to find modulo inverse of b. It returns
+# -1 when inverse doesn't
+# modInverse works for prime m
+def modInverse(b,m):
+    g = math.gcd(b, m)
+    if (g != 1):
+        # print("Inverse doesn't exist")
+        return -1
+    else:
+        # If b and m are relatively prime,
+        # then modulo inverse is b^(m-2) mode m
+        return pow(b, m - 2, m)
+ 
+ 
+# Function to compute a/b under modulo m
+def modDivide(a,b,m):
+    a = a % m
+    inv = modInverse(b,m)
+    if(inv == -1):
+        print("Division not defined")
+    else:
+        print("Result of Division is ",(inv*a) % m)
+ 
+# Driver Program
+a = 8
+b = 3
+m = 5
+modDivide(a, b, m)
+ 
+# This code is Contributed by HarendraSingh22
+C#
+Javascript
+PHP
+Output: 
+
+Result of division is 1
+Modular division is different from addition, subtraction and multiplication. 
+One difference is division doesn’t always exist (as discussed above). Following is another difference. 
+ 
+
+Below equations are valid
+(a * b) % m = ((a % m) * (b % m)) % m
+(a + b) % m = ((a % m) + (b % m)) % m
+
+// m is added to handle negative numbers
+(a - b + m) % m = ((a % m) - (b % m) + m) % m 
+
+But, 
+(a / b) % m may NOT be same as ((a % m)/(b % m)) % m
+
+For example, a = 10, b = 5, m = 5. 
+   (a / b) % m is 2, but ((a % m) / (b % m)) % m 
+                          is not defined.
+References: 
+http://www.doc.ic.ac.uk/~mrh/330tutor/ch03.html
+This article is contributed by Dheeraj Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+26
+Previous
+Modular Exponentiation (Power in Modular Arithmetic)
+Next
+Find Square Root under Modulo p | Set 1 (When p is in form of 4*i + 3)
+Related Articles
+1.
+Modular Exponentiation (Power in Modular Arithmetic)
+2.
+Trick for modular division ( (x1 * x2 .... xn) / b ) mod (m)
+3.
+How to avoid overflow in modular multiplication?
+4.
+Using Chinese Remainder Theorem to Combine Modular equations
+5.
+Find modular node in a linked list
+6.
+Modular multiplicative inverse from 1 to n
+7.
+Number of solutions to Modular Equations
+8.
+Modular exponentiation (Recursive)
+9.
+Modular Exponentiation of Complex Numbers
+10.
+Modular Multiplication
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+dungeonmaster10110
+khushboogoyal499
+mayunitp
+phasing17
+gautamgoel962
+Article Tags :
+Modular Arithmetic
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

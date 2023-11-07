@@ -1,0 +1,149 @@
+Decimal to binary conversion without using arithmetic operators
+
+Difficulty Level : Medium
+Last Updated : 16 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Find the binary equivalent of the given non-negative number n without using arithmetic operators.
+
+Examples: 
+
+Input : n = 10
+Output : 1010
+
+Input : n = 38
+Output : 100110
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Note that + in below algorithm/program is used for concatenation purpose. 
+Algorithm: 
+
+decToBin(n)
+    if n == 0
+        return "0"
+    Declare bin = ""
+    Declare ch
+    while n > 0
+        if (n & 1) == 0
+            ch = '0'
+        else
+            ch = '1'
+        bin = ch + bin
+        n = n >> 1
+    return bin
+ Below is the implementation of above approach:
+
+C++
+Java
+Python3
+# Python3 implementation of
+# decimal to binary conversion
+# without using arithmetic operators
+ 
+# function for decimal to
+# binary conversion without
+# using arithmetic operators
+def decToBin(n):
+    if(n == 0):
+        return "0";
+         
+    # to store the binary
+    # equivalent of decimal
+    bin = "";
+     
+    while (n > 0):
+         
+        # to get the last binary
+        # digit of the number 'n'
+        # and accumulate it at
+        # the beginning of 'bin'
+        if (n & 1 == 0):
+            bin = '0' + bin;
+        else:
+            bin = '1' + bin;
+         
+        # right shift 'n' by 1
+        # It also gives n//2 .
+        n = n >> 1;
+     
+    # required binary number
+    return bin;
+ 
+# Driver Code
+n = 38;
+print(decToBin(n));
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+
+
+100110
+Time complexity: O(num), where num is the number of bits in the binary representation of n.
+Auxiliary space: O(num), for using extra space for string bin.
+
+This article is contributed by Ayush Jauhari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+3
+Previous
+Difference between two given times
+Next
+Program to print multiplication table of a number
+Related Articles
+1.
+Decimal to octal conversion with minimum use of arithmetic operators
+2.
+How to sum two integers without using arithmetic operators in C/C++?
+3.
+Add two numbers without using arithmetic operators
+4.
+Subtract 1 without arithmetic operators
+5.
+Program for Decimal to Binary Conversion
+6.
+Program for Binary To Decimal Conversion
+7.
+Decimal to Binary using recursion and without using power operator
+8.
+Program for Octal to Decimal Conversion
+9.
+Program for Decimal to Octal Conversion
+10.
+Program for decimal to hexadecimal conversion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+shikhasingrajput
+himanshiyadav7011
+raizuddin2104
+Article Tags :
+base-conversion
+Mathematical
+Practice Tags :
+Mathematical
+Improve Article
+Report Issue

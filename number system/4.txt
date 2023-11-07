@@ -1,0 +1,150 @@
+Check if a number is power of k using base changing method
+
+Difficulty Level : Basic
+Last Updated : 07 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+This program checks whether a number n can be expressed as power of k and if yes, then to what power should k be raised to make it n. Following example will clarify : 
+Examples: 
+ 
+
+Input :   n = 16, k = 2 
+Output :  yes : 4
+Explanation : Answer is yes because 16 can 
+be expressed as power of 2. 
+                        
+Input :   n = 27, k = 3 
+Output :  yes : 3
+Explanation : Answer is yes as 27 can be
+expressed as power of 3.
+
+Input :  n = 20, k = 5
+Output : No
+Explanation : Answer is No as 20 cannot 
+be expressed as power of 5.  
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed two methods in below post 
+:Check if a number is a power of another number
+In this post, a new Base Changing method is discussed.
+In Base Changing Method, we simply change the base of number n to k and check if the first digit of Changed number is 1 and remaining all are zero.
+Example for this : Let’s take n = 16 and k = 2. 
+Change 16 to base 2. i.e. (10000)2. Since first digit is 1 and remaining are zero. Hence 16 can be expressed as power of 2. Count the length of (10000)2 and subtract 1 from it, that’ll be the number to which 2 must be raised to make 16. In this case 5 – 1 = 4.
+Another example : Let’s take n = 20 and k = 3. 
+20 in base 3 is (202)3. Since there are two non-zero digit, hence 20 cannot be expressed as power of 3.
+ 
+
+C++
+Java
+Python3
+# Python program to
+# check if a number can be
+# raised to k
+ 
+def isPowerOfK(n, k):
+ 
+    # loop to change base
+    # n to base = k
+    oneSeen = False
+    while (n > 0):
+  
+        # Find current digit in base k
+        digit = n % k
+  
+        # If digit is neither 0 nor 1
+        if (digit > 1):
+            return False
+  
+        # Make sure that only one 1
+        # is present.
+        if (digit == 1):
+         
+            if (oneSeen):
+                return False
+            oneSeen = True
+  
+        n //= k
+     
+    return True
+     
+# Driver code
+ 
+n = 64
+k = 4
+  
+if (isPowerOfK(n , k)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+Yes
+Time Complexity: O(logn)
+
+Space Complexity: O(1)
+This article is contributed by Shubham Rana. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+3
+Next
+Convert a binary number to hexadecimal number
+Related Articles
+1.
+Given a number N in decimal base, find number of its digits in any base (base b)
+2.
+Find the Nth digit from right in base B of the given number in Decimal base
+3.
+Given a number N in decimal base, find the sum of digits in any base B
+4.
+Convert a number from base A to base B
+5.
+Convert a number from base 2 to base 6
+6.
+C++ program to find all numbers less than n, which are palindromic in base 10 and base 2.
+7.
+Add two integers of different base and represent sum in smaller base of the two
+8.
+Multiply two numbers of different base and represent product in another given base
+9.
+Check if given number is a power of d where d is a power of 2
+10.
+Check if a given number can be represented in given a no. of digits in any base
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+code_hunt
+isha307
+Article Tags :
+base-conversion
+Mathematical
+Practice Tags :
+Mathematical
+Improve Article
+Report Issue

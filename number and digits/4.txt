@@ -1,0 +1,171 @@
+Find element using minimum segments in Seven Segment Display
+
+Difficulty Level : Easy
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A Seven Segment Display can be used to display numbers. Given an array of n natural numbers. The task is to find the number in the array which is using minimum segments to display number. If multiple numbers have a minimum number of segments, output the number having the smallest index.
+
+Seven Segment Display 
+
+Examples :  
+
+Input : arr[] = { 1, 2, 3, 4, 5 }.
+Output : 1
+1 uses on 2 segments to display.
+
+Input : arr[] = { 489, 206, 745, 123, 756 }.
+Output : 745
+Recommended Problem
+7 Segment Display
+Greedy
+Mathematical
++1 more
+Solve Problem
+Submission count: 5.5K
+Precompute the number of segment used by digits from 0 to 9 and store it. Now for each element of the array sum the number of segment used by each digit. Then find the element which is using the minimum number of segments.
+
+The number of segment used by digit: 
+0 -> 6 
+1 -> 2 
+2 -> 5 
+3 -> 5 
+4 -> 4 
+5 -> 5 
+6 -> 6 
+7 -> 3 
+8 -> 7 
+9 -> 6
+Below is the implementation of this approach: 
+
+C++
+Java
+Python3
+# Python implementation of
+# the above approach
+ 
+# Precomputed values of segment
+# used by digit 0 to 9.
+seg = [6, 2, 5, 5, 4,
+       5, 6, 3, 7, 6]
+ 
+# Return the number of
+# segments used by x.
+def computeSegment(x):
+    if(x == 0):
+        return seg[0]
+ 
+    count = 0
+ 
+    # Finding sum of the segment
+    # used by each digit of a number.
+    while(x):
+        count += seg[x % 10]
+        x = x // 10
+ 
+    return count
+ 
+# function to return minimum sum index
+def elementMinSegment(arr, n):
+ 
+    # Initialising the minimum
+    # segment and minimum number index.
+    minseg = computeSegment(arr[0])
+    minindex = 0
+ 
+    # Finding and comparing segment
+    # used by each number arr[i].
+    for i in range(1, n):
+        temp = computeSegment(arr[i])
+ 
+        # If arr[i] used less segment
+        # then update minimum segment
+        # and minimum number.
+        if(temp < minseg):
+ 
+            minseg = temp
+            minindex = i
+ 
+    return arr[minindex]
+ 
+# Driver Code
+arr = [489, 206, 745, 123, 756]
+n = len(arr)
+ 
+# function print required answer
+print(elementMinSegment(arr, n))
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output
+745
+Time Complexity: O(n * log10n)
+Auxiliary Space: O(10)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+4
+Previous
+Maximum number on 7-segment display using N segments : Recursive
+Next
+Check if number can be displayed using seven segment led
+Related Articles
+1.
+Maximum number that can be display on Seven Segment Display using N segments
+2.
+Check if mirror image of a number is same if displayed in seven segment display
+3.
+Minimize segments required to be removed such that at least one segment intersects with all remaining segments
+4.
+Maximum number on 7-segment display using N segments : Recursive
+5.
+Check if number can be displayed using seven segment led
+6.
+Minimum number of segments required such that each segment has distinct elements
+7.
+Maximum sum of segments among all segments formed in array after Q queries
+8.
+Find the segment that overlaps with maximum number of segments
+9.
+Divide an array into k segments to maximize maximum of segment minimums
+10.
+Partition the array in K segments such that bitwise AND of individual segment sum is maximized
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+Sanjit_Prasad
+Akanksha_Rai
+subham348
+divyesh072019
+saurabh1990aror
+hardikkoriintern
+Article Tags :
+number-digits
+Arrays
+Greedy
+Mathematical
+Practice Tags :
+Arrays
+Greedy
+Mathematical
+Improve Article
+Report Issue

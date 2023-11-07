@@ -1,0 +1,150 @@
+Check if a given number can be represented in given a no. of digits in any base
+
+Difficulty Level : Medium
+Last Updated : 14 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number and no. of digits to represent the number, find if the given number can be represented in given no. of digits in any base from 2 to 32.
+Examples : 
+ 
+
+Input: 8 4  
+Output: Yes
+Possible in base 2 as 8 in base 2 is 1000
+
+Input: 8 2 
+Output: Yes 
+Possible in base 3 as 8 in base 3 is 22
+
+Input: 8 3  
+Output: No
+Not possible in any base
+We strongly recommend you minimize your browser and try this yourself first.
+The idea is to check all bases one by one starting from base 2 to base 32. How do we check for a given base? Following are simple steps. 
+1) IF the number is smaller than the base and the digit is 1, then return true. 
+2) Else if the digit is more than 1 and the number is more than base, then remove the last digit from num by doing num/base, reduce the number of digits and recur. 
+3) Else return false
+Below is the implementation of the above idea. 
+ 
+
+C++
+Java
+Python3
+# Python program to check
+# if a given number can be
+# represented in given number
+# of digits in any base
+ 
+# Returns true if 'num' can
+# be represented using 'dig'
+# digits in 'base'
+def checkUtil(num,dig,base):
+     
+    # Base case
+    if (dig==1 and num < base):
+        return True
+  
+    # If there are more than 1
+    # digits left and number
+    # is more than base, then
+    # remove last digit by doing
+    # num/base, reduce the number
+    # of digits and recur
+    if (dig > 1 and num >= base):
+        return checkUtil(num/base, --dig, base)
+  
+    return False
+  
+# return true of num can
+# be represented in 'dig'
+# digits in any base from 2 to 32
+def check(num,dig):
+ 
+    # Check for all bases one by one
+    for base in range(2,33):
+ 
+        if (checkUtil(num, dig, base)):
+            return True
+    return False
+ 
+# driver code
+num = 8
+dig = 3
+if(check(num, dig)==True):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output : 
+
+No
+Time Complexity: O(32*32)
+Auxiliary Space: O(1)
+This article is contributed by Mehboob Elahi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+2
+Previous
+MakeMyTrip Interview Experience | Set 6 (Online Coding)
+Next
+MakeMyTrip Interview Experience | Set 7 (On-Campus)
+Related Articles
+1.
+Given a number N in decimal base, find number of its digits in any base (base b)
+2.
+Given a number N in decimal base, find the sum of digits in any base B
+3.
+Find the Nth digit from right in base B of the given number in Decimal base
+4.
+Convert a number from base A to base B
+5.
+Convert a number from base 2 to base 6
+6.
+Multiply two numbers of different base and represent product in another given base
+7.
+Find the smallest positive number which can not be represented by given digits
+8.
+C++ program to find all numbers less than n, which are palindromic in base 10 and base 2.
+9.
+Add two integers of different base and represent sum in smaller base of the two
+10.
+Check if the number is even or odd whose digits and base (radix) is given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+Rajput-Ji
+rohitsingh07052
+kashishsoda
+agfro1cac
+Article Tags :
+number-digits
+Mathematical
+Practice Tags :
+Mathematical

@@ -1,0 +1,201 @@
+Convert from any base to decimal and vice versa
+
+Difficulty Level : Medium
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number and its base, convert it to decimal. The base of number can be anything such that all digits can be represented using 0 to 9 and A to Z. The value of A is 10, the value of B is 11 and so on. Write a function to convert the number to decimal.
+
+Examples: 
+
+Input number is given as string and output is an integer.
+
+Input: str = "1100", base = 2 
+Output: 12
+
+Input: str = "11A", base = 16
+Output: 282
+
+Input: str = "123",  base = 8
+Output: 83 
+We strongly recommend you to minimize your browser and try this yourself first. 
+We can always use the below formula to convert from any base to decimal.
+
+"str" is input number as a string 
+"base" is the base of the input number.
+
+Decimal Equivalent is,
+  1*str[len-1] + base*str[len-2] + (base)2*str[len-3] + ...
+Below is implementation of above formula.  
+
+C++
+C
+Java
+Python3
+# Python program to convert a
+# number from any base to decimal
+ 
+# To return value of a char.
+# For example, 2 is returned
+# for '2'. 10 is returned for 'A',
+# 11 for 'B'
+def val(c):
+    if c >= '0' and c <= '9':
+        return ord(c) - ord('0')
+    else:
+        return ord(c) - ord('A') + 10;
+ 
+# Function to convert a number
+# from given base 'b' to decimal
+def toDeci(str,base):
+    llen = len(str)
+    power = 1 #Initialize power of base
+    num = 0     #Initialize result
+ 
+    # Decimal equivalent is str[len-1]*1 +
+    # str[len-2]*base + str[len-3]*(base^2) + ...
+    for i in range(llen - 1, -1, -1):
+         
+        # A digit in input number must
+        # be less than number's base
+        if val(str[i]) >= base:
+            print('Invalid Number')
+            return -1
+        num += val(str[i]) * power
+        power = power * base
+    return num
+     
+# Driver code
+strr = "11A"
+base = 16
+print('Decimal equivalent of', strr,
+              'in base', base, 'is',
+                 toDeci(strr, base))
+ 
+# This code is contributed
+# by Sahil shelangia
+C#
+PHP
+Javascript
+Output : 
+
+Decimal equivalent of 11A in base 16 is 282
+Time Complexity: O(N) n represents the length of string
+
+Auxiliary Space: O(1)
+
+
+
+How to do reverse? 
+
+Let the given input decimal number be “inputNum” and target base be “base”. We repeatedly divide inputNum by base and store the remainder. We finally reverse the obtained string. Below is C implementation.
+
+C++
+C
+Java
+Python3
+# Python3 Program to convert decimal to
+# any given base
+ 
+# To return char for a value. For example
+# '2' is returned for 2. 'A' is returned
+# for 10. 'B' for 11
+def reVal(num):
+ 
+    if (num >= 0 and num <= 9):
+        return chr(num + ord('0'));
+    else:
+        return chr(num - 10 + ord('A'));
+ 
+# Utility function to reverse a string
+def strev(str):
+ 
+    len = len(str);
+    for i in range(int(len / 2)):
+        temp = str[i];
+        str[i] = str[len - i - 1];
+        str[len - i - 1] = temp;
+ 
+# Function to convert a given decimal
+# number to a base 'base' and
+def fromDeci(res, base, inputNum):
+ 
+    index = 0; # Initialize index of result
+ 
+    # Convert input number is given base
+    # by repeatedly dividing it by base
+    # and taking remainder
+    while (inputNum > 0):
+        res+= reVal(inputNum % base);
+        inputNum = int(inputNum / base);
+ 
+    # Reverse the result
+    res = res[::-1];
+ 
+    return res;
+ 
+# Driver Code
+inputNum = 282;
+base = 16;
+res = "";
+print("Equivalent of", inputNum, "in base",
+       base, "is", fromDeci(res, base, inputNum));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output :
+
+Equivalent of 282 in base 16 is  11A
+Method: Using int function
+Python3
+n = "1100"
+b = 2
+print(int(n, b))
+Output
+12
+Time complexity: O(N) Convert input number is given base by repeatedly inputNum dividing it by base and taking remainder takes O(n) complexity 
+
+Auxiliary Space: O(1)
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+19
+Previous
+Count of Binary Digit numbers smaller than N
+Next
+Program to find LCM of two numbers
+Related Articles
+1.
+Given a number N in decimal base, find number of its digits in any base (base b)
+2.
+Binary to decimal and vice-versa in python
+3.
+Program to Convert Km/hr to miles/hr and vice versa
+4.
+Given a number N in decimal base, find the sum of digits in any base B
+5.
+Minimize cost to modify the Array such that even indices have even elements and vice versa
+6.
+Count unique Strings by replacing Consonant with closest Vowel and vice versa
+7.
+Minimize changes to make all characters equal by changing vowel to consonant and vice versa
+8.
+Check if array sum of first half is divisible by sum of other half or vice versa
+9.
+Count subarrays with elements in alternate increasing-decreasing order or vice-versa
+10.
+Find the Nth digit from right in base B of the given number in Decimal base

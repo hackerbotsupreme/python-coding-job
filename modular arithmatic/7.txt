@@ -1,0 +1,174 @@
+Exponential Squaring (Fast Modulo Multiplication)
+
+Difficulty Level : Medium
+Last Updated : 21 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers base and exp, we need to compute baseexp under Modulo 10^9+7 Examples:
+
+Input : base = 2, exp = 2
+Output : 4
+
+Input  : base = 5, exp = 100000
+Output : 754573817
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+In competitions, for calculating large powers of a number we are given a modulus value(a large prime number) because as the values of x^y    is being calculated it can get very large so instead we have to calculate (x^y    %modulus value.) We can use the modulus in our naive way by using modulus on all the intermediate steps and take modulus at the end, but in competitions it will definitely show TLE. So, what we can do. The answer is we can try exponentiation by squaring which is a fast method for calculating exponentiation of a number. Here we will be discussing two most common/important methods:
+
+Basic Method(Binary Exponentiation)
+2^k    -ary method.
+Binary Exponentiation
+
+As described in this article we will be using following formula to recursively calculate (x^y    %modulus value): {\displaystyle x^{n}={\begin{cases}x\,(x^{2})^{\frac {n-1}{2}},&{\mbox{if }}n{\mbox{ is odd}}\\(x^{2})^{\frac {n}{2}},&{\mbox{if }}n{\mbox{ is even}}.\end{cases}}} 
+
+C++
+Java
+Python3
+# Python3 program to compute
+# exponential value under
+# modulo using binary
+# exponentiation.
+ 
+# prime modulo value
+N = 1000000007;
+     
+# Function code
+def exponentiation(bas, exp):
+    if (exp == 0):
+        return 1;
+    if (exp == 1):
+        return bas % N;
+     
+    t = exponentiation(bas, int(exp / 2));
+    t = (t * t) % N;
+     
+    # if exponent is
+    # even value
+    if (exp % 2 == 0):
+        return t;
+         
+    # if exponent is
+    # odd value
+    else:
+        return ((bas % N) * t) % N;
+ 
+# Driver code
+bas = 5;
+exp = 100000;
+ 
+modulo = exponentiation(bas, exp);
+print(modulo);
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output :
+
+754573817
+   -ary method:
+
+In this algorithm we will be expanding the exponent in base 2^k    (k>=1), which is somehow similar to above method except we are not using recursion this method uses comparatively less memory and time. 
+
+
+
+C++
+Java
+Python3
+# Python3 program to compute
+# exponential value
+# using (2^k) -ary method.
+ 
+# prime modulo value
+N = 1000000007;
+ 
+def exponentiation(bas, exp):
+    t = 1;
+    while(exp > 0):
+ 
+        # for cases where exponent
+        # is not an even value
+        if (exp % 2 != 0):
+            t = (t * bas) % N;
+ 
+        bas = (bas * bas) % N;
+        exp = int(exp / 2);
+    return t % N;
+ 
+# Driver Code
+bas = 5;
+exp = 100000;
+ 
+modulo = exponentiation(bas,exp);
+print(modulo);
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output :
+
+754573817
+Applications: Besides fast calculation of x^y    this method have several other advantages, like it is used in cryptography, in calculating Matrix Exponentiation et cetera.
+
+
+
+
+
+Like
+6
+Next
+Modular Exponentiation (Power in Modular Arithmetic)
+Related Articles
+1.
+Count of ways to convert 2 into N by squaring, adding 1 or multiplying with 2
+2.
+Fast Fourier Transformation for polynomial multiplication
+3.
+Karatsuba Algorithm for fast Multiplication of Large Decimal Numbers represented as Strings
+4.
+Exponential notation of a decimal number
+5.
+Find the larger exponential among two exponentials
+6.
+Count of exponential paths in a Binary Tree
+7.
+Print all Exponential Levels of a Binary Tree
+8.
+Exponential factorial of N
+9.
+Find all ranges of consecutive numbers from Array | Set -2 (using Exponential BackOff)
+10.
+Fast method to calculate inverse square root of a floating point number in IEEE 754 format
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sanjal_katiyar
+@sanjal_katiyar
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+Mithun Kumar
+Rajput-Ji
+gautamgoel962
+phasing17
+Article Tags :
+Modular Arithmetic
+Mathematical
+Technical Scripter
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

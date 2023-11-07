@@ -1,0 +1,215 @@
+Modular Exponentiation (Power in Modular Arithmetic)
+
+Difficulty Level : Medium
+Last Updated : 24 Jun, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given three numbers x, y and p, compute (xy) % p. 
+
+Examples : 
+
+Input:  x = 2, y = 3, p = 5
+Output: 3
+Explanation: 2^3 % 5 = 8 % 5 = 3.
+
+Input:  x = 2, y = 5, p = 13
+Output: 6
+Explanation: 2^5 % 13 = 32 % 13 = 6.
+Recommended Problem
+Modular Exponentiation for large numbers
+Divide and Conquer
+Binary Search
++1 more
+Google
+Solve Problem
+Submission count: 18.1K
+We have discussed recursive and iterative solutions for power.
+
+Below is discussed iterative solution. 
+
+C++14
+Java
+Python3
+# Iterative Function to calculate (x^y)%p in O(log y)
+def power(x, y, p):
+ 
+    # Initialize result
+    res = 1
+ 
+    while (y > 0):
+ 
+        # If y is odd, multiply x with result
+        if ((y & 1) != 0):
+            res = res * x
+ 
+        # y must be even now
+        y = y >> 1  # y = y/2
+        x = x * x  # Change x to x^2
+ 
+    return res % p
+ 
+  # Driver Code
+ 
+ 
+x = 2
+y = 5
+p = 13
+print("Power is ", power(x, y, p))
+# This code is contributed by Khushboogoyal499
+Javascript
+C#
+Output
+Power is 6
+Time Complexity: O(log2y), where y represents the value of the given input.
+Auxiliary Space: O(1), no extra space is required, so it is a constant.
+ 
+
+Efficient Approach:
+
+
+
+The problem with the above solutions is, overflow may occur for large values of n or x. Therefore, power is generally evaluated under the modulo of a large number.
+
+Below is the fundamental modular property that is used for efficiently computing power under modular arithmetic. 
+
+(ab) mod p = ( (a mod p) (b mod p) ) mod p 
+
+For example a = 50,  b = 100, p = 13
+50  mod 13  = 11
+100 mod 13  = 9
+
+(50 * 100) mod 13 = ( (50 mod 13) * (100 mod 13) ) mod 13 
+or (5000) mod 13 = ( 11 * 9 ) mod 13
+or 8 = 8
+Below is the implementation based on the above property.  
+
+C++14
+Java
+Python3
+# Iterative Python3 program
+# to compute modular power
+ 
+# Iterative Function to calculate
+# (x^y)%p in O(log y)
+def power(x, y, p) :
+    res = 1     # Initialize result
+ 
+    # Update x if it is more
+    # than or equal to p
+    x = x % p
+     
+    if (x == 0) :
+        return 0
+ 
+    while (y > 0) :
+         
+        # If y is odd, multiply
+        # x with result
+        if ((y & 1) == 1) :
+            res = (res * x) % p
+ 
+        # y must be even now
+        y = y >> 1      # y = y/2
+        x = (x * x) % p
+         
+    return res
+     
+ 
+# Driver Code
+ 
+x = 2; y = 5; p = 13
+print("Power is ", power(x, y, p))
+ 
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Power is 6
+Time Complexity: O(Log y), where y represents the value of the given input.
+
+Auxiliary Space: O(1), as we are not using any extra space.
+
+Modular exponentiation (Recursive)
+This article is contributed by Shivam Agrawal. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+219
+Previous
+Nth Even Fibonacci Number
+Next
+Modular Division
+Related Articles
+1.
+Modular exponentiation (Recursive)
+2.
+Modular Exponentiation of Complex Numbers
+3.
+Modular Arithmetic
+4.
+Matrix Exponentiation
+5.
+Find Nth term (A matrix exponentiation example)
+6.
+Expected number of moves to reach the end of a board | Matrix Exponentiation
+7.
+Fast Exponentiation using Bit Manipulation
+8.
+How to avoid overflow in modular multiplication?
+9.
+Modular Division
+10.
+Using Chinese Remainder Theorem to Combine Modular equations
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+rd10
+Mithun Kumar
+gp6
+SHUBHAMSINGH10
+ankit_tiwari_
+suryalinkin
+dharanendralv23
+_saurabh_jaiswal
+khushboogoyal499
+yaswanth0412
+prasanna1995
+rohitsingh07052
+samim2000
+rishavnitro
+ateevduggal
+Article Tags :
+Google
+large-numbers
+Modular Arithmetic
+Divide and Conquer
+Mathematical
+Practice Tags :
+Google
+Divide and Conquer
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

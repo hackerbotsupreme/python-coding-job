@@ -1,0 +1,155 @@
+Check if a number is jumbled or not
+
+Difficulty Level : Basic
+Last Updated : 22 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Write a program to check if a given integer is jumbled or not. A number is said to be Jumbled if for every digit, its neighbours digit differs by max 1. 
+
+Examples : 
+
+Input : 6765
+Output : True
+All neighbour digits differ by atmost 1.
+
+Input : 1223
+Output : True
+
+Input : 1235
+Output : False
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach:
+
+Find the adjacent digits in the number while num > 0
+if the absolute difference of the digits is greater than 1.
+Return false
+Return True
+Below is the implementation of the above idea : 
+
+C++
+Java
+Python3
+# Python code to check if
+# a number is jumbled or not
+ 
+# Function to check if a
+# number is jumbled or not
+def checkJumbled(num):
+ 
+    # Single digit number
+    if (num // 10 == 0):
+        return True
+ 
+    # Checking every digit
+    # through a loop
+    while (num != 0):
+         
+        # All digits were checked
+        if (num // 10 == 0):
+            return True
+ 
+        # Digit at index i
+        digit1 = num % 10
+ 
+        # Digit at index i-1
+        digit2 = (num // 10) % 10
+ 
+        # If difference is
+        # greater than 1
+        if (abs(digit2 - digit1) > 1):
+            return False
+ 
+        num = num // 10
+         
+    # Number checked
+    return True
+     
+# Driver code
+ 
+# -1234 to be checked
+num = -1234
+if (checkJumbled(abs(num))):
+    print (True)
+else:
+    print (False)
+     
+# -1247 to be checked
+num = -1247
+if (checkJumbled(abs(num))):
+    print (True)
+else:
+    print (False)
+ 
+# This code is contributed
+# by Sachin Bisht
+C#
+PHP
+Javascript
+Output
+True 
+False 
+Time complexity: O(log10N), where N is the given number.
+Auxiliary space: O(1), as constant space is being used.
+
+Related Article : 
+Stepping Numbers
+This article is contributed by Rohit Thapliyal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Reverse a number using stack
+Next
+Count n digit numbers not having a particular digit
+Related Articles
+1.
+Digits whose alphabetic representations are jumbled in a given string
+2.
+Check if a number is a Krishnamurthy Number or not
+3.
+Check Whether a number is Duck Number or not
+4.
+Check if given number is Emirp Number or not
+5.
+Check if a number with even number of digits is palindrome or not
+6.
+Program to check whether a number is Proth number or not
+7.
+Check whether the given number is Euclid Number or not
+8.
+Check if the given number is Ore number or not
+9.
+Check if a number is an Unusual Number or not
+10.
+Check if a number is an Achilles number or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+rameshtravel07
+amartyaghoshgfg
+noviced3vq6
+Article Tags :
+series
+Mathematical
+Practice Tags :
+Mathematical
+series

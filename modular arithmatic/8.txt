@@ -1,0 +1,204 @@
+Trick for modular division ( (x1 * x2 …. xn) / b ) mod (m)
+
+Difficulty Level : Hard
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given integers x1, x2, x3……xn, b, and m, we are supposed to find the result of ((x1*x2….xn)/b)mod(m). 
+Example 1: Suppose that we are required to find (55C5)%(1000000007) i.e ((55*54*53*52*51)/120)%1000000007 
+Naive Method : 
+
+Simply calculate the product (55*54*53*52*51)= say x,
+Divide x by 120 and then take its modulus with 1000000007
+Using Modular Multiplicative Inverse : 
+The above method will work only when x1, x2, x3….xn have small values. 
+Suppose we are required to find the result where x1, x2, ….xn fall in the range of ~1000000(10^6). So we will have to exploit the rule of modular mathematics which says : 
+(a*b)mod(m)=(a(mod(m))*b(mod(m)))mod(m)
+Note that the above formula is valid for modular multiplication. A similar formula for division does not exist. 
+i.e (a/b)mod(m) != a(mod(m))/b(mod(m)) 
+
+So we are required to find out the modular multiplicative inverse of b say i and then multiply ‘i’ with a .
+After this we will have to take the modulus of the result obtained. 
+i.e ((x1*x2….xn)/b)mod(m)=((x1*x2….xn)*i)mod(m)= ((x1)mod(m) * (x2)mod(m) *…. (xn)mod(m) * (i)mod(m))mod(m)
+Note: To find modular multiplicative inverse we can use the Extended Euclidean algorithm or Fermat’s Little Theorem. 
+Example 2 : Let us suppose that we have to find (55555C5)%(1000000007) i.e ((55555*55554*55553*55552*55551)/120)%1000000007. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to implement
+# the above approach
+ 
+# multiplicative-inverse-under-modulo-m/
+def modular_inverse(a, m):
+      
+    for x in range(1, m):
+        if (((a%m) * (x%m)) % m == 1):
+            return x
+    return -1
+ 
+ 
+if __name__ == '__main__':
+     
+    # naive method-calculating the
+    # result in a single line
+    naive_answer = (((55555 * 55554 *
+                      55553 * 55552 *
+                      55551) // 120) %
+                      1000000007)
+ 
+    ans = 1
+ 
+    # modular_inverse() is a user
+    # defined function that calculates
+    # inverse of a number
+    i = modular_inverse(120, 10000007)
+ 
+    # it will use extended Euclidean
+    # algorithm or Fermat's Little
+    # Theorem for calculation.
+    # MMI of 120 under division by
+    # 1000000007 will be 808333339
+    for j in range(5):
+        ans = ((ans *
+               (55555 - j)) %
+                1000000007)
+ 
+    ans = (ans * i) % 1000000007
+ 
+    print("Answer using naive method:",
+           naive_answer)
+    print("Answer using multiplicative" +
+          "modular inverse concept:", ans)
+ 
+# This code is contributed by Gautam goel (gautamgoel962)
+C#
+Javascript
+Different Languages give different result for the naive approach. 
+
+C++
+Input : 
+Output:
+    Answer using naive method: 18446744073703577963
+    Answer using multiplicative modular inverse concept: 125376140
+    
+Python 
+Input:
+Output:
+    Answer using naive method: 300820513
+    Answer using multiplicative modular inverse concept: 125376140
+    
+JavaScript:
+Input:
+Output:
+    Answer using naive method: 301201761
+    Answer using multiplicative modular inverse concept: 125376140
+It is clear from the above example that the naive method will lead to an overflow of data resulting in an incorrect answer. Moreover, using modular inverse will give us the correct answer.
+Without Using Modular Multiplicative Inverse : 
+But it is interesting to note that a slight change in code will discard the use of finding modular multiplicative inverse. 
+ 
+
+C++
+Java
+Python3
+ans = 1
+mod = 1000000007 * 120
+ 
+for i in range(0, 5) :
+    ans = (ans * (55555 - i)) % mod
+     
+ans = int(ans / 120)
+ 
+print("Answer using shortcut: ", ans)
+ 
+# This code is contributed by Smitha.
+C#
+PHP
+Javascript
+Output
+Answer using shortcut: 300820513
+Why did it work? 
+This will work only in case when the denominator is a factor of numerator i.e. when a % b = 0 following the rule: 
+If b | a, then we can write (a/b) % p as (a % p*b)/b. 
+This rule proves useful for small values of b.
+Let us consider a = x1*x2*x3…….xn 
+We have to find ans = (a/b)%1000000007 
+
+
+
+Let result of a%(1000000007*b) be y. To avoid overflow, we use modular multiplicative property. This can be represented as 
+a = (1000000007*b)q + y where y < (1000000007*b) and q is an integer
+Now dividing LHS and RHS by b, we get 
+y/b = a/b -(1000000007*b)*q/b 
+= a/b -1000000007*q < 1000000007 (From 1) 
+Therefore, y/b is equivalent to (a/b)mod(b*1000000007). 🙂
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+7
+Previous
+Number of digits in the nth number made of given four digits
+Next
+Program for Gauss-Jordan Elimination Method
+Related Articles
+1.
+Modular Exponentiation (Power in Modular Arithmetic)
+2.
+Modular Division
+3.
+Divide two integers without using multiplication, division and mod operator | Set2
+4.
+How to avoid overflow in modular multiplication?
+5.
+Using Chinese Remainder Theorem to Combine Modular equations
+6.
+Find modular node in a linked list
+7.
+Modular multiplicative inverse from 1 to n
+8.
+Number of solutions to Modular Equations
+9.
+Modular exponentiation (Recursive)
+10.
+Modular Exponentiation of Complex Numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+PiyushKumar
+@PiyushKumar
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+vt_m
+Arnav Srivastava 1
+himanshu77
+Kirti_Mangal
+akshaysingh98088
+arorakashish0911
+gautamgoel962
+phasing17
+Article Tags :
+Modular Arithmetic
+Competitive Programming
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

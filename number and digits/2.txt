@@ -1,0 +1,130 @@
+Print first k digits of 1/n where n is a positive integer
+
+Difficulty Level : Easy
+Last Updated : 03 Nov, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given a positive integer n, print first k digits after point in value of 1/n. Your program should avoid overflow and floating point arithmetic.
+Examples : 
+ 
+
+Input:   n = 3, k = 3
+Output:  333
+
+Input:   n = 50, k = 4
+Output:  0200
+We strongly recommend to minimize the browser and try this yourself first.
+Let us consider an example n = 7, k = 3. The first digit of 1/7 is ‘1’, it can be obtained by doing integer value of 10/7. Remainder of 10/7 is 3. Next digit is 4 which can be obtained by taking integer value of 30/7. Remainder of 30/7 is 2. Next digits is 2 which can be obtained by taking integer value of 20/7 
+ 
+
+C++
+Java
+Python3
+# Python code to Print first k
+# digits of 1/n where n is a
+# positive integer
+import math
+ 
+# Function to print first k digits
+# after dot in value of 1/n. n is
+# assumed to be a positive integer.
+def Print(n, k):
+    rem = 1 # Initialize remainder
+     
+    # Run a loop k times to print
+    # k digits
+    for i in range(0, k):
+        # The next digit can always
+        # be obtained as doing
+        # (10*rem)/10
+        print(math.floor(((10 * rem)
+                       / n)), end="")
+         
+        # Update remainder
+        rem = (10*rem) % n
+ 
+# Driver program to test
+# above function
+n = 7
+k = 3
+Print(n, k);
+print(" ")
+n = 21
+k = 4
+Print(n, k);
+ 
+# This code is contributed by Sam007.
+C#
+PHP
+Javascript
+Output : 
+
+142
+0476
+Time Complexity: O(k)
+
+Auxiliary Space: O(1)
+
+Reference: 
+Algorithms And Programming: Problems And Solutions by Alexander Shen
+This article is contributed by Sachin. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+4
+Previous
+Count digits in given number N which divide N
+Next
+Find next greater number with same set of digits
+Related Articles
+1.
+Smallest positive number made up of non-repeating digits whose sum of digits is N
+2.
+Count of digits after concatenation of first N positive integers
+3.
+Generate an array with K positive numbers such that arr[i] is either -1 or 1 and sum of the array is positive
+4.
+Find the last positive element remaining after repeated subtractions of smallest positive element from all Array elements
+5.
+Numbers of Length N having digits A and B and whose sum of digits contain only digits A and B
+6.
+Minimum digits to be removed to make either all digits or alternating digits same
+7.
+Minimum positive integer to divide a number such that the result is an odd
+8.
+Minimum positive integer value possible of X for given A and B in X = P*A + Q*B
+9.
+Minimum positive integer divisible by C and is not in range [A, B]
+10.
+Maximum positive integer divisible by C and is in the range [A, B]
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+rohitsingh07052
+rishavmahato348
+Article Tags :
+number-digits
+Mathematical
+Practice Tags :
+Mathematical

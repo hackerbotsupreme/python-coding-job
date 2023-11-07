@@ -1,0 +1,163 @@
+Minimum digits to remove to make a number Perfect Square
+
+Difficulty Level : Hard
+Last Updated : 13 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an integer n, we need to find how many digits remove from the number to make it a perfect square.
+
+Examples : 
+
+Input : 8314 
+Output: 81 2 
+Explanation: If we remove 3 and 4 number becomes 81 which is a perfect square.
+
+Input : 57 
+Output : -1
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to generate all possible subsequences and return the optimal string using set bits. Let’s suppose we have a string 8314. And using set bits we form all possible subsequences i.e.,
+8, 3, 83, 1, 81, 31, 831, 4, 84, 34, 834, 14, 814, 314, 8314.
+After forming all possible subsequences, we check which one is the perfect square. And we return a perfect square number that has the minimum length.
+
+In the above example, three perfect squares are 1 4, and 81, so the answer would be 81 because 81 has the max length of 2.  
+
+C++
+Java
+Python3
+# C++ program to find required minimum
+# digits need to remove to make a
+# number perfect square
+ 
+import math
+# function to check minimum number of
+# digits should be removed to make
+# this number a perfect square
+def perfectSquare(s) :
+     
+    # size of the string
+    n = len(s)
+ 
+    # our final answer
+    ans = -1
+ 
+    # to store string which is
+    # perfect square.
+    num = ""
+ 
+    # We make all possible subsequences
+    for i in range(1, (1 << n)) :
+        str = ""
+         
+        for j in range(0, n) :
+             
+            # to check jth bit is
+            # set or not.
+            if ((i >> j) & 1) :
+                str = str + s[j]
+ 
+        # we do not consider a number
+        # with leading zeros
+        if (str[0] != '0') :
+             
+            # convert our temporary
+            # string into integer
+            temp = 0;
+            for j in range(0, len(str)) :
+                temp = (temp * 10 +
+                 (ord(str[j]) - ord('0')))
+ 
+            k = int(math.sqrt(temp))
+ 
+            # checking temp is perfect
+            # square or not.
+            if (k * k == temp) :
+                 
+                # taking maximum sized
+                # string
+                if (ans < len(str)) :
+                    ans = len(str)
+                    num = str
+ 
+    if (ans == -1) :
+        return ans
+    else :        
+         
+        # print PerfectSquare
+        print ("{} ".format(num), end="")
+        return n - ans
+     
+# Driver code
+print (perfectSquare("8314"))
+print (perfectSquare("753"));
+ 
+# This code is contributed by
+# manishshaw1.
+C#
+PHP
+Javascript
+Output
+
+
+81 2
+-1
+Time Complexity: O(n * 2n)
+Auxiliary Space: O(2n)
+
+
+
+
+
+Like
+3
+Next
+Count digits in given number N which divide N
+Related Articles
+1.
+Check if a number is a perfect square having all its digits as a perfect square
+2.
+Find smallest perfect square number A such that N + A is also a perfect square number
+3.
+Smallest N digit number whose sum of square of digits is a Perfect Square
+4.
+Count integers whose square lie in given range and digits are perfect square
+5.
+Find minimum number to be divided to make a number a perfect square
+6.
+Print all Perfect Numbers from an array whose sum of digits is also a Perfect Number
+7.
+Count numbers upto N which are both perfect square and perfect cube
+8.
+Count of numbers in range [L, R] having sum of digits of its square equal to square of sum of digits
+9.
+Check if a number is perfect square without finding square root
+10.
+Minimum digits to be removed to make either all digits or alternating digits same
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+pawan_asipu
+@pawan_asipu
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+gfgking
+abhishek0719kadiyan
+phasing17
+Article Tags :
+maths-perfect-square
+number-digits
+Bit Magic
+Competitive Programming
+Mathematical
+Practice Tags :
+Bit Magic
+Mathematicals

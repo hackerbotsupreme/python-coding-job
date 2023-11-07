@@ -1,0 +1,234 @@
+Rencontres Number (Counting partial derangements)
+
+Difficulty Level : Hard
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers, n >= 0 and 0 <= k <= n, count the number of derangements with k fixed points.
+Examples: 
+ 
+
+Input : n = 3, k = 0
+Output : 2
+Since k = 0, no point needs to be on its
+original position. So derangements
+are {3, 1, 2} and {2, 3, 1}
+
+Input : n = 3, k = 1
+Output : 3
+Since k = 1, one point needs to be on its
+original position. So partial derangements
+are {1, 3, 2}, {3, 2, 1} and {2, 1, 3}
+
+Input : n = 7, k = 2
+Output : 924
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+In combinatorial mathematics, the rencontres number< or D(n, k) represents count of partial derangements.
+The recurrence relation to find Rencontres Number Dn, k:
+ 
+
+D(0, 0) = 1 
+D(0, 1) = 0 
+D(n+2, 0) = (n+1) * (D(n+1, 0) + D(n, 0)) 
+D(n, k) = nCk * D(n-k, 0))
+
+Given the two positive integer n and k. The task is find rencontres number D(n, k) for giver n and k.
+Below is Recursive solution of this approach:
+ 
+
+C++
+Java
+Python3
+# Recursive CPP program to find
+# n-th Rencontres Number
+ 
+# Returns value of Binomial Coefficient C(n, k)
+def binomialCoeff(n, k):
+ 
+    # Base Cases
+    if (k == 0 or k == n):
+        return 1
+ 
+    # Recurrence relation
+    return (binomialCoeff(n - 1, k - 1)
+          + binomialCoeff(n - 1, k))
+ 
+# Return Recontres number D(n, m)
+def RencontresNumber(n, m):
+ 
+    # base condition
+    if (n == 0 and m == 0):
+        return 1
+ 
+    # base condition
+    if (n == 1 and m == 0):
+        return 0
+ 
+    # base condition
+    if (m == 0):
+        return ((n - 1) * (RencontresNumber(n - 1, 0)
+                         + RencontresNumber(n - 2, 0)))
+ 
+    return (binomialCoeff(n, m) *
+            RencontresNumber(n - m, 0))
+ 
+# Driver Program
+n = 7; m = 2
+print(RencontresNumber(n, m))
+ 
+# This code is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output: 
+924
+ 
+
+Time Complexity: O(n * m), where n and m represents the given integers.
+Auxiliary Space: O(n*m), due to recursive stack space.
+
+
+
+Below is the implementation using Dynamic Programming: 
+ 
+
+C++
+Java
+Python 3
+# DP based Python 3 program to find n-th
+# Rencontres Number
+ 
+MAX = 100
+ 
+# Fills table C[n+1][k+1] such that C[i][j]
+# represents table of binomial coefficient
+# iCj
+def binomialCoeff(C, n, k) :
+     
+    # Calculate value of Binomial Coefficient
+    # in bottom up manner
+    for i in range(0, n + 1) :
+        for j in range(0, min(i, k) + 1) :
+             
+            # Base Cases
+            if (j == 0 or j == i) :
+                C[i][j] = 1
+ 
+            # Calculate value using previously
+            # stored values
+            else :
+                C[i][j] = (C[i - 1][j - 1]
+                               + C[i - 1][j])
+                 
+ 
+# Return Recontres number D(n, m)
+def RencontresNumber(C, n, m) :
+    w, h = m+1, n+1
+    dp= [[0 for x in range(w)] for y in range(h)]
+     
+ 
+    for i in range(0, n+1) :
+        for j in range(0, m+1) :
+            if (j <= i) :
+                 
+                # base case
+                if (i == 0 and j == 0) :
+                    dp[i][j] = 1
+ 
+                # base case
+                elif (i == 1 and j == 0) :
+                    dp[i][j] = 0
+ 
+                elif (j == 0) :
+                    dp[i][j] = ((i - 1) *
+                     (dp[i - 1][0] + dp[i - 2][0]))
+                else :
+                    dp[i][j] = C[i][j] * dp[i - j][0]
+                     
+    return dp[n][m]
+ 
+ 
+# Driver Program
+n = 7
+m = 2
+C = [[0 for x in range(MAX)] for y in range(MAX)]
+ 
+binomialCoeff(C, n, m)
+ 
+print(RencontresNumber(C, n, m))
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+924
+ 
+
+Time Complexity: O(n * m), where n and m represents the given integers.
+Auxiliary Space: O(n * m), where n and m represents the given integers.
+
+
+
+
+
+Like
+1
+Previous
+Entringer Number
+Next
+Jacobsthal and Jacobsthal-Lucas numbers
+Related Articles
+1.
+Count Derangements (Permutation such that no element appears in its original position)
+2.
+Count of Derangements of given Array with Repetition
+3.
+Partial derivative of a polynomial using Doubly Linked List
+4.
+Counting pairs when a person can form pair with at most one
+5.
+Counting sets of 1s and 0s in a binary matrix
+6.
+Counting numbers of n digits that are monotone
+7.
+Counting numbers whose difference from reverse is a product of k
+8.
+Sand Timer Flip Counting Problem
+9.
+Orbit counting theorem or Burnside's Lemma
+10.
+Counting Rock Samples | TCS Codevita 2020
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+anuj0503
+@anuj0503
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Nikita tiwari
+Smitha Dinesh Semwal
+jit_t
+Mithun Kumar
+_saurabh_jaiswal
+shinjanpatra
+samim2000
+Article Tags :
+Combinatorial
+Dynamic Programming
+Mathematical
+Practice Tags :
+Combinatorial
+Dynamic Programming
+Mathematical
+Improve Article
+Report Issue

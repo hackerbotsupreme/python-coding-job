@@ -1,0 +1,213 @@
+Convert a binary number to hexadecimal number
+
+Difficulty Level : Medium
+Last Updated : 07 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Number, the task is to convert the given binary number to its equivalent hexadecimal number. The input could be very large and may not fit even into an unsigned long long int.
+
+Examples: 
+
+Input: 110001110
+Output: 18E
+
+Input: 1111001010010100001.010110110011011
+Output: 794A1.5B36
+ 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach 1: 
+Binary Number: A binary number is a number expressed in the base-2 binary numeral system, which uses only two symbols: which are 0 (zero) and 1 (one).
+
+4HexaDecimal Number: A hexadecimal number is a positional numeral system with a radix, or base, of 16 and uses sixteen distinct symbols: which are 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, and F.
+ 
+
+
+
+
+Convert Binary to HexaDecimal: 
+We all know that, 24 = 16 1. 
+In other words, single digit in base 16 can be represented using 4 digits in base 2.  
+
+
+
+To convert Binary number to HexaDecimal, the below steps are taken: 
+
+Group the given Binary Number into groups of 4 bits, each group taken individually from the left and right of the decimal point.
+Get length of substring to the left and right of the decimal point(‘.’) as left_len and right_len.
+If left_len is not a multiple of 4, i.e., grouping into exact group of 4 bits is not possible, then add minimum number of 0’s in the beginning to make length of left substring a multiple of 4.
+Similarly, If right_len is not a multiple of 4, then add minimum number of 0’s in the end to make length of right substring a multiple of 4.
+Now, from the left, extract each group (substrings of length 4) one by one and add its corresponding Hexadecimal code to the result.
+If in between a decimal(‘.’) is encountered then add it to the result.
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+## Python implementation to
+## convert a binary number to hexadecimal numberh
+ 
+## Function to create map between binary
+## number and its equivalent hexadecimal
+def createMap(um):
+    um["0000"] = '0'
+    um["0001"] = '1'
+    um["0010"] = '2'
+    um["0011"] = '3'
+    um["0100"] = '4'
+    um["0101"] = '5'
+    um["0110"] = '6'
+    um["0111"] = '7'
+    um["1000"] = '8'
+    um["1001"] = '9'
+    um["1010"] = 'A'
+    um["1011"] = 'B'
+    um["1100"] = 'C'
+    um["1101"] = 'D'
+    um["1110"] = 'E'
+    um["1111"] = 'F'
+ 
+## function to find hexadecimal
+## equivalent of binary
+def convertBinToHex(bin):
+ 
+    l = len(bin)
+    t = bin.find('.')
+     
+    ## length of string before '.'
+    len_left =  None
+    if (t != -1):
+        len_left = t
+    else:
+        len_left = l
+     
+    ## add min 0's in the beginning to make
+    ## left substring length divisible by 4
+    for i in range(1, 1 + (4 - len_left % 4) % 4):
+        bin = '0' + bin;
+     
+    ## if decimal point exists
+    if (t != -1):
+        ## length of string after '.'
+        len_right = l - len_left - 1
+         
+        ## add min 0's in the end to make right
+        ## substring length divisible by 4
+        for i in range(1, 1 + (4 - len_right % 4) % 4):
+            bin = bin + '0'
+     
+    ## create map between binary and its
+    ## equivalent hex code
+    bin_hex_map = {}
+    createMap(bin_hex_map)
+     
+    i = 0;
+    hex = ""
+     
+    while True:
+        ## one by one extract from left, substring
+        ## of size 4 and add its hex code
+        hex += bin_hex_map[bin[i: i+4]];
+        i += 4;
+        if (i == len(bin)):
+            break;
+             
+        ## if '.' is encountered add it
+        ## to result
+        if (bin[i] == '.'):
+            hex += '.';
+            i+=1
+     
+    ## required hexadecimal number
+    return hex;
+ 
+## Driver code
+if __name__=='__main__':
+ 
+    bin = "1111001010010100001.010110110011011"
+    print("Hexadecimal number =", convertBinToHex(bin));
+ 
+    # This code is contributed by subhamgoyal2014.
+C#
+Javascript
+Output: 
+
+Hexadecimal number = 794A1.5B36
+Time Complexity: O(n), where n is the length of the string.
+
+Space Complexity: O(n) , space by map
+Approach 2: Another approach to convert Binary Number to Hexadecimal number is to first convert the binary number to decimal number and then convert the obtained decimal number to equivalent hexadecimal number.
+Practice Questions: 
+(1) Convert the binary number 111000 to hexa-decimal. 
+(2) Convert the binary number 100100001 to hexa-decimal. 
+(3) Convert the binary number 1001001111 to hexa-decimal. 
+(4) What is the binary equivalent of hexa-decimal number A7C5. 
+(5) What is the binary equivalent of hexa-decimal number 2A.FF.
+ 
+
+Answers:
+(1) 38
+(2) 121
+(3) 24F
+(4) 1010011111000101
+(5) 101010.11111111
+This article is contributed by Ayush Jauhari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Check if a number is power of k using base changing method
+Next
+Check if a number N starts with 1 in b-base
+Related Articles
+1.
+Program to Convert Hexadecimal Number to Binary
+2.
+Convert Hexadecimal value String to ASCII value String
+3.
+Program to Convert Hexadecimal to Octal
+4.
+Program to Convert Octal to Hexadecimal
+5.
+Hexadecimal equivalents in Binary Valued Graph
+6.
+Count Hexadecimal Number
+7.
+Reverse bytes of a Hexadecimal Number
+8.
+Largest Even and Odd N-digit numbers in Hexadecimal Number System
+9.
+Check if a HexaDecimal number is Even or Odd
+10.
+Program for Hexadecimal to Decimal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+RishabhPrabhu
+swetha_vazhakkat
+jithin
+surinderdawra388
+phasing17
+gautamgoel962
+subhamgoyal2014
+isha307
+Article Tags :
+base-conversion
+binary-representation
+Mathematical
+Practice Tags :
+Mathematical
+Report Issue

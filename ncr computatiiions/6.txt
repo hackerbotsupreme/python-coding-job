@@ -1,0 +1,146 @@
+Space and time efficient Binomial Coefficient
+
+Difficulty Level : Medium
+Last Updated : 16 Aug, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Here the function takes two parameters n and k and returns the value of Binomial Coefficient C(n, k). 
+
+Example: 
+
+Input: n = 4 and k = 2
+Output: 6
+Explanation: 4 C 2 is 4!/(2!*2!) = 6
+Input: n = 5 and k = 2
+Output: 10
+Explanation: 5 C 2 is 5!/(3!*2!) = 10
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed O(n*k) time and O(k) extra space algorithm in this post. The value of C(n, k) can be calculated in O(k) time and O(1) extra space.
+
+Approach:
+
+Change r to n-r if r is greater than n-r. and create a variable to store the answer.
+Run a loop from 0 to r-1
+In every iteration update ans as (ans*(n-i))/(i+1) where i is the loop counter.
+So the answer will be equal to ((n/1)*((n-1)/2)*…*((n-r+1)/r) which is equal to nCr.
+C(n, k) 
+= n! / (n-k)! * k!
+= [n * (n-1) *....* 1]  / [ ( (n-k) * (n-k-1) * .... * 1) * 
+                            ( k * (k-1) * .... * 1 ) ]
+After simplifying, we get
+C(n, k) 
+= [n * (n-1) * .... * (n-k+1)] / [k * (k-1) * .... * 1]
+
+Also, C(n, k) = C(n, n-k)  
+// r can be changed to n-r if r > n-r 
+Following implementation uses the above formula to calculate C(n, k). 
+
+C++
+C
+Java
+Python3
+# Python program to calculate C(n, k)
+ 
+# Returns value of Binomial Coefficient
+# C(n, k)
+def binomialCoefficient(n, k):
+    # since C(n, k) = C(n, n - k)
+    if(k > n - k):
+        k = n - k
+    # initialize result
+    res = 1
+    # Calculate value of
+    # [n * (n-1) *---* (n-k + 1)] / [k * (k-1) *----* 1]
+    for i in range(k):
+        res = res * (n - i)
+        res = res // (i + 1)
+    return res
+ 
+# Driver program to test above function
+n = 8
+k = 2
+res = binomialCoefficient(n, k)
+print("Value of C(% d, % d) is % d" %(n, k, res))
+ 
+# This code is contributed by Aditi Sharma
+C#
+PHP
+Javascript
+Output
+Value of C(8, 2) is 28
+Complexity Analysis: 
+
+
+
+Time Complexity: O(r) A loop has to be run from 0 to r. So, the time complexity is O(r).
+
+Auxiliary Space: O(1) As no extra space is required.
+
+
+
+This article is compiled by Aashish Barnwal and reviewed by the GeeksforGeeks team. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+77
+Previous
+Pascal's Triangle
+Next
+Program for Fibonacci numbers
+Related Articles
+1.
+Sum of product of r and rth Binomial Coefficient (r * nCr)
+2.
+Eggs dropping puzzle (Binomial Coefficient and Binary Search Solution)
+3.
+Maximum binomial coefficient term value
+4.
+Central binomial coefficient
+5.
+Binomial Coefficient | DP-9
+6.
+Space efficient iterative method to Fibonacci number
+7.
+Fibonomial coefficient and Fibonomial triangle
+8.
+Permutation Coefficient
+9.
+Clustering Coefficient in Graph Theory
+10.
+Program to find correlation coefficient
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+jit_t
+rathbhupendra
+nidhi_biet
+andrew1234
+souravghosh0416
+singhalyash8080
+amartyaghoshgfg
+prashankmehta
+dharmiknaik
+Article Tags :
+binomial coefficient
+Dynamic Programming
+Mathematical
+Practice Tags :
+Dynamic Programming
+Mathematical
+Improve Article
+Report Issue

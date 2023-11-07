@@ -1,0 +1,185 @@
+Find sum of modulo K of first N natural number
+
+Difficulty Level : Basic
+Last Updated : 12 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two integer N ans K, the task is to find sum of modulo K of first N natural numbers i.e 1%K + 2%K + ….. + N%K.
+
+Examples : 
+
+Input : N = 10 and K = 2.
+Output : 5
+Sum = 1%2 + 2%2 + 3%2 + 4%2 + 5%2 + 6%2 +
+      7%2 + 8%2 + 9%2 + 10%2
+   = 1 + 0 + 1 + 0 + 1 + 0 + 1 + 0 + 1 + 0
+   = 5.
+Recommended Problem
+Reverse Coding
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 12.8K
+Method 1: 
+
+Iterate a variable i from 1 to N, evaluate and add i%K. 
+
+Below is the implementation of this approach:  
+
+C++
+Java
+Python3
+# Python3 program to find sum
+# of modulo K of first N
+# natural numbers.
+ 
+# Return sum of modulo K of
+# first N natural numbers.
+ 
+def findSum(N, K):
+    ans = 0;
+ 
+    # Iterate from 1 to N &&
+    # evaluating and adding i % K.
+    for i in range(1, N + 1):
+        ans += (i % K);
+ 
+    return ans;
+ 
+# Driver Code
+N = 10;
+K = 2;
+print(findSum(N, K));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output : 
+
+5
+Time Complexity : O(N).
+
+
+
+Auxiliary Space: O(1)
+
+Method 2 : 
+Two cases arise in this method.
+Case 1: When N < K, for each number i, N >= i >= 1, will give i as result when operate with modulo K. So, the required sum will be the sum of the first N natural number, N*(N+1)/2.
+Case 2: When N >= K, then integers from 1 to K in natural number sequence will produce, 1, 2, 3, ….., K – 1, 0 as result when operate with modulo K. Similarly, from K + 1 to 2K, it will produce same result. So, the idea is to count how many numbers of times this sequence appears and multiply it with the sum of first K – 1 natural numbers. 
+
+Below is the implementation of this approach:  
+
+C++
+Java
+Python3
+# Python3 program to find sum of modulo
+# K of first N natural numbers.
+ 
+# Return sum of modulo K of
+# first N natural numbers.
+def findSum(N, K):
+ 
+    ans = 0;
+ 
+    # Counting the number of times
+    # 1, 2, .., K-1, 0 sequence occurs.
+    y = N / K;
+ 
+    # Finding the number of elements
+    # left which are incomplete of
+    # sequence Leads to Case 1 type.
+    x = N % K;
+ 
+    # adding multiplication of number
+    # of times 1, 2, .., K-1, 0
+    # sequence occurs and sum of
+    # first k natural number and
+    # sequence from case 1.
+    ans = ((K * (K - 1) / 2) * y +
+                (x * (x + 1)) / 2);
+ 
+    return int(ans);
+ 
+# Driver Code
+N = 10;
+K = 2;
+print(findSum(N, K));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output : 
+
+5
+Time Complexity : O(1).
+
+Auxiliary Space: O(1)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Squared triangular number (Sum of cubes)
+Next
+Find most significant set bit of a number
+Related Articles
+1.
+Sum of the natural numbers (up to N) whose modulo with K yield R
+2.
+Expressing a fraction as a natural number under modulo 'm'
+3.
+Check if a given number can be expressed as pair-sum of sum of first X natural numbers
+4.
+Find if given number is sum of first n natural numbers
+5.
+Smallest number to be added in first Array modulo M to make frequencies of both Arrays equal
+6.
+Sum of sum of all subsets of a set formed by first N natural numbers
+7.
+Difference between Sum of Cubes and Sum of First N Natural Numbers
+8.
+Sum of sum-series of first N Natural numbers
+9.
+Program to find sum of first n natural numbers
+10.
+Find maximum N such that the sum of square of first N natural numbers is not more than X
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+Mithun Kumar
+nidhi_biet
+code_hunt
+_saurabh_jaiswal
+rishav1329
+Article Tags :
+Modular Arithmetic
+Mathematical
+Practice Tags :
+Mathematical
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

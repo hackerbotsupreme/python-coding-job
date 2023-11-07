@@ -1,0 +1,159 @@
+Numbers having difference with digit sum more than s
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given two positive integer value n and s. You have to find the total number of such integer from 1 to n such that the difference of integer and its digit sum is greater than given s.
+Examples : 
+ 
+
+Input : n = 20, s = 5
+Output :11
+Explanation : Integer from 1 to 9 have 
+diff(integer - digitSum) = 0 but for 10 to 
+20 they have diff(value - digitSum) > 5
+
+Input : n = 20, s = 20
+Output : 0
+Explanation : Integer from 1 to 20 have diff
+(integer - digitSum) >  5
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The very first and basic approach to solve this question is to check for all integer starting from 1 to n and for each check whether integer minus digit sum is greater than s or not. This will become very time costly because we have to traverse 1 to n and for each integer we also have to calculate the digit sum.
+Before moving to better approach lets have some key analysis about this questions and its features: 
+ 
+
+For the largest possible integer (say long long int i.e. 10^18), the maximum possible digit sum is 9*18 (when all of digits are nine) = 162. This means in any case all the integer greater than s + 162 satisfy the condition of integer – digitSum > s.
+All integer less than s can not satisfy the given condition for sure.
+All the integers within a tens range (0-9, 10-19…100-109) does have same value of integer minus digitSum.
+Using above three key features we can shorten our approach and time complexity in a manner where we have to iterate only over s to s+163 integers. Beside checking for all integer within range we only check for each 10th integer (e.g 150, 160, 170..). 
+Algorithm: 
+ 
+
+// if n < s then return 0
+if n<s 
+    return 0
+else
+
+    // iterate for s to min(n, s+163)
+    for i=s to i min(n, s+163)
+
+        // return n-i+1
+        if (i-digitSum)>s
+            return (n-i+1)
+
+// if no such integer found return 0
+return 0
+ 
+
+C++
+Java
+Python3
+# Program to find number
+# of integer such that
+# integer - digSum  > s
+ 
+# function for digit sum
+def digitSum(n):
+ 
+    digSum = 0
+ 
+    while (n>0):
+        digSum += n % 10
+        n //= 10
+   
+    return digSum
+  
+# function to calculate
+# count of integer s.t.
+# integer - digSum > s
+  
+def countInteger(n, s):
+     
+    # if n < s no integer possible
+    if (n < s):
+        return 0
+  
+    # iterate for s range
+    # and then calculate
+    # total count of such
+    # integer if starting
+    # integer is found
+    for i in range(s,min(n, s + 163)+1):
+        if ((i - digitSum(i)) > s):
+            return (n - i + 1)
+  
+    # if no integer found return 0
+    return 0
+ 
+# driver code
+n = 1000
+s = 100
+ 
+print(countInteger(n, s))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output : 
+ 
+
+891
+Time complexity: O(min(n,s+163)*n)
+ 
+
+
+
+Like
+Previous
+Division without using '/' operator
+Next
+Find value of (1^n + 2^n + 3^n + 4^n ) mod 5
+Related Articles
+1.
+Count possible N-digit numbers such that each digit does not appear more than given number of times consecutively
+2.
+Largest number less than N with digit sum greater than the digit sum of N
+3.
+Count of N-digit numbers having digit XOR as single digit
+4.
+Count numbers in a range with digit sum divisible by K having first and last digit different
+5.
+Count n digit numbers not having a particular digit
+6.
+Count of N-digit numbers having each digit as the mean of its adjacent digits
+7.
+Count of divisors having more set bits than quotient on dividing N
+8.
+Count of locations between X and Y having rainfall more than K cms for Q queries
+9.
+Find maximum N such that the sum of square of first N natural numbers is not more than X
+10.
+Count of N-digit Numbers having Sum of even and odd positioned digits divisible by given numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+splevel62
+hasani
+Article Tags :
+number-digits
+Mathematical
+Practice Tags :
+Mathematical

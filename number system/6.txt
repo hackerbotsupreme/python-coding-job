@@ -1,0 +1,180 @@
+Program for decimal to hexadecimal conversion
+
+Difficulty Level : Easy
+Last Updated : 15 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a decimal number as input, we need to write a program to convert the given decimal number into equivalent hexadecimal number. i.e convert the number with base value 10 to base value 16.
+
+Hexadecimal numbers use 16 values to represent a number. Numbers from 0-9 are expressed by digits 0-9 and 10-15 are represented by characters from A – F.
+
+Examples:  
+
+Input : 116
+Output: 74
+
+Input : 10
+Output: A
+
+Input : 33
+Output: 21
+
+Algorithm:
+
+
+
+Store the remainder when the number is divided by 16 in a temporary variable temp. If temp is less than 10, insert (48 + temp) in a character array otherwise if temp is greater than or equals to 10, insert (55 + temp) in the character array.
+Divide the number by 16 now
+Repeat the above two steps until the number is not equal to 0.
+Print the array in reverse order now.
+Example
+
+If the given decimal number is 2545. 
+
+Step 1: Calculate remainder when 2545 is divided by 16 is 1. Therefore, temp = 1. As temp is less than 10. So, arr[0] = 48 + 1 = 49 = ‘1’. 
+Step 2: Divide 2545 by 16. New number is 2545/16 = 159. 
+Step 3: Calculate remainder when 159 is divided by 16 is 15. Therefore, temp = 15. As temp is greater than 10. So, arr[1] = 55 + 15 = 70 = ‘F’. 
+Step 4: Divide 159 by 16. New number is 159/16 = 9. 
+Step 5: Calculate remainder when 9 is divided by 16 is 9. Therefore, temp = 9. As temp is less than 10. So, arr[2] = 48 + 9 = 57 = ‘9’. 
+Step 6: Divide 9 by 16. New number is 9/16 = 0. 
+Step 7: Since number becomes = 0. Stop repeating steps and print the array in reverse order. Therefore, the equivalent hexadecimal number is 9F1.
+
+Below diagram shows an example of converting the decimal number 2545 to an equivalent hexadecimal number.  
+
+
+
+Below is the implementation of the above idea. 
+
+C++
+Java
+Python3
+# Python3 program to
+# convert a decimal
+# number to hexadecimal
+# number
+ 
+# function to convert
+# decimal to hexadecimal
+ 
+ 
+def decToHexa(n):
+ 
+    # char array to store
+    # hexadecimal number
+    hexaDeciNum = ['0'] * 100
+ 
+    # counter for hexadecimal
+    # number array
+    i = 0
+    while(n != 0):
+ 
+        # temporary variable
+        # to store remainder
+        temp = 0
+ 
+        # storing remainder
+        # in temp variable.
+        temp = n % 16
+ 
+        # check if temp < 10
+        if(temp < 10):
+            hexaDeciNum[i] = chr(temp + 48)
+            i = i + 1
+        else:
+            hexaDeciNum[i] = chr(temp + 55)
+            i = i + 1
+        n = int(n / 16)
+ 
+    # printing hexadecimal number
+    # array in reverse order
+    j = i - 1
+    while(j >= 0):
+        print((hexaDeciNum[j]), end="")
+        j = j - 1
+ 
+ 
+# Driver Code
+n = 2545
+decToHexa(n)
+ 
+# This code is contributed
+# by mits.
+C#
+PHP
+Javascript
+Output
+9F1
+Time complexity: O(log16n)
+Auxiliary space: O(1)
+
+Using Predefined function
+
+C++
+Java
+Python3
+# Python program to convert a decimal
+# number to hexadecimal number
+ 
+# function to convert decimal number
+# to equivalent hexadecimal number
+def decToHexa(n):
+  return hex(n).replace("0x","")
+ 
+# Driver Code
+n = 2545
+print(decToHexa(n))
+ 
+# This code is contributed by shahidedu7.
+C#
+Javascript
+Output
+9f1
+Time Complexity: O(log16(n)), because we divide the n by 16 till it becomes zero.
+
+Auxiliary Space: O(1), we cannot use any extra space.
+
+This article is contributed by Harsh Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+13
+Previous
+Convert a binary number to hexadecimal number
+Next
+IEEE Standard 754 Floating Point Numbers
+Related Articles
+1.
+Program for Decimal to Binary Conversion
+2.
+Program for Binary To Decimal Conversion
+3.
+Decimal to binary conversion without using arithmetic operators
+4.
+Convert Decimal To Hexa-Decimal including negative numbers
+5.
+Program to Convert Hexadecimal Number to Binary
+6.
+Program to Convert Octal to Hexadecimal
+7.
+Convert a binary number to hexadecimal number
+8.
+Count Hexadecimal Number
+9.
+Reverse bytes of a Hexadecimal Number
+10.
+Find the count of natural Hexadecimal numbers of size N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks

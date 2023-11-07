@@ -1,0 +1,129 @@
+K-th digit in ‘a’ raised to power ‘b’
+
+Difficulty Level : Easy
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three numbers a, b and k, find k-th digit in ab from right side
+Examples: 
+
+Input : a = 3, b = 3, k = 1
+Output : 7
+Explanation: 3^3 = 27 for k = 1. First digit is 7 in 27
+
+Input : a = 5, b = 2,  k = 2
+Output : 2
+
+Explanation: 5^2 = 25 for k = 2. First digit is 2 in 25
+
+Recommended Problem
+Print the Kth Digit
+Mathematical
+Algorithms
+Flipkart
+Solve Problem
+Submission count: 30.2K
+Method 
+1) Compute a^b 
+2) Iteratively remove the last digit until k-th digit is not meet 
+
+C++
+Java
+Python3
+# Python3 code to compute k-th
+# digit in a^b
+def kthdigit(a, b, k):
+     
+    # computing a^b in python
+    p = a ** b
+    count = 0
+     
+    while (p > 0 and count < k):
+         
+        # getting last digit
+        rem = p % 10
+ 
+        # increasing count by 1
+        count = count + 1
+ 
+        # if current number is
+        # required digit
+        if (count == k):
+            return rem
+ 
+        # remove last digit
+        p = p / 10;
+     
+# driver code   
+a = 5
+b = 2
+k = 1
+ans = kthdigit(a, b, k)
+print (ans)
+ 
+# This code is contributed by Saloni Gupta
+C#
+PHP
+Javascript
+Output: 
+
+5
+Time Complexity: O(log p)
+Auxiliary Space: O(1)
+How to avoid overflow? 
+We can find power under modulo 10sup>k to avoid overflow. After finding the power under modulo, we need to return first digit of the power.
+
+
+
+Like
+Previous
+Count n digit numbers not having a particular digit
+Next
+Time required to meet in equilateral triangle
+Related Articles
+1.
+Larger of a^b or b^a (a raised to power b or b raised to power a)
+2.
+Find the sum of power of bit count raised to the power B
+3.
+Find unit digit of x raised to power y
+4.
+Find last five digits of a given five digit number raised to power five
+5.
+Last digit of a number raised to last digit of N factorial
+6.
+Nth term where K+1th term is product of Kth term with difference of max and min digit of Kth term
+7.
+Check if a number can be expressed as x^y (x raised to power y)
+8.
+Print last k digits of a^b (a raised to power b)
+9.
+Find multiple of x closest to or a ^ b (a raised to power b)
+10.
+Find value of y mod (2 raised to power x)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shahnawaz_Ali
+@Shahnawaz_Ali
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+splevel62
+varshagumber28
+raj2002
+Article Tags :
+Flipkart
+number-digits
+Mathematical
+Practice Tags :
+Flipkart
+Mathematical

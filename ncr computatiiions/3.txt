@@ -1,0 +1,179 @@
+Program to calculate value of nCr
+
+Difficulty Level : Easy
+Last Updated : 29 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Following are the common definitions of Binomial Coefficients. 
+
+A binomial coefficient C(n, k) can be defined as the coefficient of Xk in the expansion of (1 + X)n.
+A binomial coefficient C(n, k) also gives the number of ways, disregarding order, that k objects can be chosen from among n objects; more formally, the number of k-element subsets (or k-combinations) of an n-element set.
+Given two numbers N and r, The task is to find the value of NCr
+
+Examples : 
+
+Input: N = 5, r = 2
+Output: 10 
+Explanation: The value of 5C2 is 10
+
+
+Input: N = 3, r = 1
+Output: 3
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: Below is the idea to solve the problem:
+
+The total number of ways for selecting r elements out of n options are nCr = (n!) / (r! * (n-r)!) 
+where n! = 1 * 2 * . . . * n.
+
+
+
+Below is the Implementation of the above approach:
+
+C++
+C
+Java
+Python 3
+# Python 3 program To calculate
+# The Value Of nCr
+ 
+def nCr(n, r):
+ 
+    return (fact(n) / (fact(r)
+                * fact(n - r)))
+ 
+# Returns factorial of n
+def fact(n):
+    if n == 0:
+        return 1
+    res = 1
+     
+    for i in range(2, n+1):
+        res = res * i
+         
+    return res
+ 
+# Driver code
+n = 5
+r = 3
+print(int(nCr(n, r)))
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output
+10
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+Complexity Analysis:
+
+The time complexity of the above approach is O(N).
+This is because the function fact() has a time complexity of O(N), and it is called twice for each call to nCr().
+
+The space complexity of the above approach is O(1).
+Because the function does not make any recursive calls and only uses a constant amount of memory.
+Another Approach:
+
+The idea is to use a recursive function to calculate the value of nCr. The base cases are:
+
+if r is greater than n, return 0 (there are no combinations possible)
+if r is 0 or r is n, return 1 (there is only 1 combination possible in these cases)
+For other values of n and r, the function calculates the value of nCr by adding the number of combinations possible by including the current element and the number of combinations possible by not including the current element.
+
+Below is the Implementation of the above approach:
+ 
+
+Python3
+def nCr(n, r):
+    if r > n:
+        return 0
+    if r == 0 or r == n:
+        return 1
+    return nCr(n-1, r-1) + nCr(n-1, r)
+ 
+ 
+print(nCr(5, 3))  # Output: 10
+ 
+# This code is contributed by Susobhan Akhuli
+C++
+Output
+10
+Time Complexity: O(2N)
+Auxiliary Space: O(N2)
+
+More Efficient Solutions: 
+Dynamic Programming | Set 9 (Binomial Coefficient) 
+Space and time efficient Binomial Coefficient 
+All Articles on Binomial Coefficient
+
+
+
+
+
+Like
+33
+Previous
+Program to calculate the value of nPr
+Next
+Program for Fibonacci numbers
+Related Articles
+1.
+Program to calculate the value of nCr Efficiently
+2.
+Program to calculate value of nCr using Recursion
+3.
+Calculate nCr using Pascal's Triangle
+4.
+Find a pair from the given array with maximum nCr value
+5.
+Find a pair (n,r) in an integer array such that value of nCr is maximum
+6.
+Introduction and Dynamic Programming solution to compute nCr%p
+7.
+Compute nCr%p using Lucas Theorem
+8.
+Compute nCr%p using Fermat Little Theorem
+9.
+Sum of product of r and rth Binomial Coefficient (r * nCr)
+10.
+Queries of nCr%p in O(1) time complexity
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Kanishk_Verma
+@Kanishk_Verma
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+nitin mittal
+vt_m
+naimishrastogi
+rutvik_56
+opprabhune317
+prophet1999
+himanshusaini1100
+aashutoshparoha
+kumargaurav97520
+susobhanakhuli
+Article Tags :
+binomial coefficient
+factorial
+Combinatorial
+Mathematical
+School Programming
+Practice Tags :
+Combinatorial
+factorial
+Mathematical
+Improve Article
+Report Issue
