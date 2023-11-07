@@ -1,0 +1,60 @@
+Pattern Searching
+Last Updated : 20 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Learn more about Pattern Searching in DSA Self Paced course
+Practice Problems on Pattern Searching
+Recent Articles on Pattern Searching
+
+The Pattern Searching algorithms are sometimes also referred to as String Searching Algorithms and are considered as a part of the String algorithms. These algorithms are useful in the case of searching a string within another string.
+
+Pattern Searching Algorithms
+Topics :
+
+Introduction
+Some Standard algorithms
+Some practice problems
+Quick links
+Introduction:
+
+Introduction to Pattern Searching – Data Structure and Algorithm Tutorial
+Naive Pattern Searching
+Some Standard Algorithms:
+
+Rabin-Karp Algorithm
+KMP Algorithm
+Z algorithm (Linear time pattern searching Algorithm)
+Finite Automata
+Boyer Moore Algorithm – Bad Character Heuristic
+Aho-Corasick Algorithm for Pattern Searching
+Suffix Array
+kasai’s Algorithm for Construction of LCP array from Suffix Array
+Online algorithm for checking palindrome in a stream
+Manacher’s Algorithm – Linear Time Longest Palindromic Substring – Part 4
+Ukkonen’s Suffix Tree Construction – Part 1
+Generalized Suffix Tree
+DSA-Self-Paced
+Some Practice problems:
+
+Pattern Searching using C++ library
+Anagram Substring Search (Or Search for all permutations)
+Pattern Searching using a Trie of all Suffixes
+Dynamic Programming | Wildcard Pattern Matching | Linear Time and Constant Space
+Longest prefix which is also suffix
+Count of number of given string in 2D character array
+Find all the patterns of “1(0+)1” in a given string (General Approach)
+Maximum length prefix of one string that occurs as subsequence in another
+Wildcard Pattern Matching
+Search a Word in a 2D Grid of characters
+String matching where one string contains wildcard characters
+Suffix Tree Application 1 – Substring Check
+Quick Links:
+
+Learn Data Structure and Algorithms | DSA Tutorial
+Practice problems on Pattern Searching
+Recomended:
+
+Learn Data Structure and Algorithms | DSA Tutorial

@@ -1,0 +1,106 @@
+Pattern Searching using C++ library
+
+Difficulty Level : Easy
+Last Updated : 12 Dec, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function that prints all occurrences of pat[] in txt[]. You may assume that n > m.
+Examples: 
+ 
+
+Input : txt[] = "geeks for geeks"
+        pat[] = "geeks"
+Output : Pattern found at index 0
+         Pattern found at index 10
+
+Input : txt[] = "aaaa"
+        pat[] = "aa"
+Output : Pattern found at index 0
+         Pattern found at index 1
+         Pattern found at index 2
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use find() in C++ string class.
+
+CPP
+// CPP program to print all occurrences of a pattern
+// in a text
+#include <bits/stdc++.h>
+using namespace std;
+ 
+void printOccurrences(string txt, string pat)
+{
+    int found = txt.find(pat);
+    while (found != string::npos) {
+        cout << "Pattern found at index " << found << endl;
+        found = txt.find(pat, found + 1);
+    }
+}
+ 
+int main()
+{
+    string txt = "aaaa", pat = "aa";
+    printOccurrences(txt, pat);
+    return 0;
+}
+Output: 
+Pattern found at index 0
+Pattern found at index 1
+Pattern found at index 2
+ 
+
+
+
+
+Like
+14
+Previous
+Pattern Searching using a Trie of all Suffixes
+Next
+Count of number of given string in 2D character array
+Related Articles
+1.
+Pattern Searching using Suffix Tree
+2.
+Pattern Searching using a Trie of all Suffixes
+3.
+KMP Algorithm for Pattern Searching
+4.
+Rabin-Karp Algorithm for Pattern Searching
+5.
+Optimized Algorithm for Pattern Searching
+6.
+Pattern Searching | Set 6 (Efficient Construction of Finite Automata)
+7.
+Finite Automata algorithm for Pattern Searching
+8.
+Boyer Moore Algorithm for Pattern Searching
+9.
+Z algorithm (Linear time pattern searching Algorithm)
+10.
+Aho-Corasick Algorithm for Pattern Searching
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rupayan_nitdgp
+@rupayan_nitdgp
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+kk773572498
+Article Tags :
+cpp-string
+STL
+C++
+C++ Programs
+Pattern Searching
+Practice Tags :
+CPP
+Pattern Searching
+STL

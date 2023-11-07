@@ -1,113 +1,431 @@
-#python program to find missing keys in python dictionaries.
+#problems for printing  pyramid patterns .
+#Patterns can be printed in python using simple for loops. First outer loop is used to handle the number of rows and the Inner nested loop is used to handle the number of columns. Manipulating the print statements, different number patterns, alphabet patterns, or star patterns can be printed. 
 
-#In python, dictionaries are containers that map one key to its value with access time complexity to be O(1). But in many applications, the user doesn’t know all the keys present in the dictionaries. In such instances, if the user tries to access a missing key, an error is popped indicating missing keys. 
+#Some of the Patterns are shown in this article. 
+
+#Simple pyramid pattern
+
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern
+def pypart(n):
+	
+	# outer loop to handle number of rows
+	# n in this case
+	for i in range(0, n):
+	
+		# inner loop to handle number of columns
+		# values changing acc. to outer loop
+		for j in range(0, i+1):
+		
+			# printing stars
+			print("* ",end="")
+	
+		# ending line after each row
+		print("\r")
+
+# Driver Code
+n = 5
+pypart(n)
+
+
+#Output
+# * 
+# * * 
+# * * * 
+# * * * * 
+# * * * * * 
+# Approach 2: Using List in Python 3, this could be done in a simpler way
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern
+def pypart(n):
+	myList = []
+	for i in range(1,n+1):
+		myList.append("*"*i)
+	print("\n".join(myList))
+
+# Driver Code
+n = 5
+pypart(n)
+
+#Output
+# *
+# **
+# ***
+# ****
+# *****
+
+
+# Approach 3: Using recursion
+
+
+#python3 code to print pyra
+
+#python3 code to print pyramid pattern using recursion
+def pypart(n):
+	if n==0:
+		return
+	else:
+		pypart(n-1)
+		print("* "*n)
+
+# Driver Code
+n = 5
+pypart(n)
+#this code is contributed by Shivesh Kumar Dwivedi
+# Output
+# * 
+# * * 
+# * * * 
+# * * * * 
+# * * * * * 
+#Approach 4: Using while loop 
+# python3 code to print pyramid pattern using while loop
+
+# input
+n=5
+
+i=1;j=0
+# while loop check the condition until the
+# condition become false. if it is true then
+# enter in to loop and print the pattern
+while(i<=n):
+	while(j<=i-1):
+		print("* ",end="")
+		j+=1
+	# printing next line for each row
+	print("\r")
+	j=0;i+=1
+
+	
+	
+# this code is contributed by gangarajula laxmi
+#Output
+# * 
+# * * 
+# * * * 
+# * * * * 
+# * * * * * 
+#After 180 degrees rotation
+
+# Python 3.x code to demonstrate star pattern
  
-
-
-# Python code to demonstrate Dictionary and
-
-
-# Python code to demonstrate Dictionary and
-# missing value error
-
-# initializing Dictionary
-d = { 'a' : 1 , 'b' : 2 }
-
-# trying to output value of absent key
-print ("The value associated with 'c' is : ")
-print (d['c'])
-
-#Error : 
+# Function to demonstrate printing pattern
+def pypart2(n):
+     
+    # number of spaces
+    k = 2*n - 2
  
-
-#Traceback (most recent call last):
-#  File "46a9aac96614587f5b794e451a8f4f5f.py", line 9, in 
-#    print (d['c'])
-#KeyError: 'c'
-#In the above example, no key named ‘c’ in the dictionary popped a runtime error. To avoid such conditions, and to make the aware user that a particular key is absent or to pop a default message in that place, there are several methods to handle missing keys.
-
-#Method 1 : Using get()
-#get(key,def_val) method is useful when we have to check for the key. If the key is present, the value associated with the key is printed, else the def_value passed in arguments is returned.
+    # outer loop to handle number of rows
+    for i in range(0, n):
+     
+        # inner loop to handle number spaces
+        # values changing acc. to requirement
+        for j in range(0, k):
+            print(end=" ")
+     
+        # decrementing k after each loop
+        k = k - 2
+     
+        # inner loop to handle number of columns
+        # values changing acc. to outer loop
+        for j in range(0, i+1):
+         
+            # printing stars
+            print("* ", end="")
+     
+        # ending line after each row
+        print("\r")
  
+# Driver Code
+n = 5
+pypart2(n)
+# Output
+#        * 
+#      * * 
+#     * * * 
+#   * * * * 
+# * * * * * 
 
-country_code = {'India' : '0091',
-				'Australia' : '0025',
-				'Nepal' : '00977'}
+#Optimized Solution:
 
-# search dictionary for country code of India
-print(country_code.get('India', 'Not Found'))
+#Here, we have to print a space (height – row) times and then print “*” row times.
 
-# search dictionary for country code of Japan
-print(country_code.get('Japan', 'Not Found'))
+#For example: let height of the pyramid is 5
 
+#then , on the row number 1 we print blank space 4 times(that is 5-1 or height -row)
 
+#and then we print star 1 time(that is row times) and then a new line
 
-#Output: 
+#then , on the row number 2 we print blank space 3 times(that is 5-2 or height -row)
 
-#0091
-#Not Found
-#Method 2 : Using setdefault()
-#setdefault(key, def_value) works in a similar way as to get(), but the difference is that each time a key is absent, a new key is created with the def_value associated with the key passed in arguments.
+#and then we print star 2 times (that is row times) and then a new line
 
-
-country_code = {'India' : '0091',
-				'Australia' : '0025',
-				'Nepal' : '00977'}
-
-# Set a default value for Japan
-country_code.setdefault('Japan', 'Not Present')
-
-# search dictionary for country code of India
-print(country_code['India'])
-
-# search dictionary for country code of Japan
-print(country_code['Japan'])
+#and so on….
 
 
-#Method 3: Using defaultdict
-#“defaultdict” is a container that is defined in a module named “collections“. It takes a function(default factory) as its argument. By default, the default factory is set to “int” i.e 0. If a key is not present in the defaultdict, the default factory value is returned and displayed. It has advantages over get() or setdefault(). 
+#Method: Using while loop
+# python3 code to print pyramid pattern using while loop
+n=5;i=0
+while(i<=n):
+print(" " * (n - i) +"*" * i)
+i+=1
+
+#Output
+     
+#    *
+#   **
+#  ***
+# ****
+#*****
+#Method: Using for loop
+
+#python3 code to implement above approach
+height = 5
+for row in range(1, height+ 1):
+    print(" " * (height - row) +"*" * row)
+#this code is contributed by Shivesh kumar dwivedi
+#Output
+
+#    *
+#   **
+#  ***
+# ****
+#*****
+
+#Printing Triangle
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern triangle
+def triangle(n):
+	
+	# number of spaces
+	k = n - 1
+
+	# outer loop to handle number of rows
+	for i in range(0, n):
+	
+		# inner loop to handle number spaces
+		# values changing acc. to requirement
+		for j in range(0, k):
+			print(end=" ")
+	
+		# decrementing k after each loop
+		k = k - 1
+	
+		# inner loop to handle number of columns
+		# values changing acc. to outer loop
+		for j in range(0, i+1):
+		
+			# printing stars
+			print("* ", end="")
+	
+		# ending line after each row
+		print("\r")
+
+# Driver Code
+n = 5
+triangle(n)
+#Output
+#    * 
+#   * * 
+#  * * * 
+# * * * * 
+#* * * * * 
+#Number Pattern
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern of numbers
+def numpat(n):
+	
+	# initialising starting number
+	num = 1
+
+	# outer loop to handle number of rows
+	for i in range(0, n):
+	
+		# re assigning num
+		num = 1
+	
+		# inner loop to handle number of columns
+			# values changing acc. to outer loop
+		for j in range(0, i+1):
+		
+				# printing number
+			print(num, end=" ")
+		
+			# incrementing number at each column
+			num = num + 1
+	
+		# ending line after each row
+		print("\r")
+
+# Driver code
+n = 5
+numpat(n)
+
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern of numbers
+def numpat(n):
+	
+	# initialising starting number
+	num = 1
+
+	# outer loop to handle number of rows
+	for i in range(0, n):
+	
+		# re assigning num
+		num = 1
+	
+		# inner loop to handle number of columns
+			# values changing acc. to outer loop
+		for j in range(0, i+1):
+		
+				# printing number
+			print(num, end=" ")
+		
+			# incrementing number at each column
+			num = num + 1
+	
+		# ending line after each row
+		print("\r")
+
+# Driver code
+n = 5
+numpat(n)
+
+#Output
+#1 
+#1 2 
+#1 2 3 
+#1 2 3 4 
+#1 2 3 4 5 
+#Numbers without reassigning
+
+
+# Python 3.x code to demonstrate star pattern
+
+# Function to demonstrate printing pattern of numbers
+def contnum(n):
+	
+	# initializing starting number
+	num = 1
+
+	# outer loop to handle number of rows
+	for i in range(0, n):
+	
+		# not re assigning num
+		# num = 1
+	
+		# inner loop to handle number of columns
+		# values changing acc. to outer loop
+		for j in range(0, i+1):
+		
+			# printing number
+			print(num, end=" ")
+		
+			# incrementing number at each column
+			num = num + 1
+	
+		# ending line after each row
+		print("\r")
+
+n = 5
+
+# sending 5 as argument
+# calling Function
+contnum(n)
+#Output
+#1 
+#2 3 
+#4 5 6 
+#7 8 9 10 
+#11 12 13 14 15 
+Character Pattern
+
+# Python 3.x code to demonstrate star pattern
  
-
-#A default value is set at the declaration. There is no need to invoke the function again and again and pass the similar values as arguments. Hence saving time.
-#The implementation of defaultdict is faster than get() or setdefault(). 
+# Function to demonstrate printing pattern of alphabets
+def alphapat(n):
+     
+    # initializing value corresponding to 'A'
+    # ASCII value
+    num = 65
  
-# Example:
-
-# Python code to demonstrate defaultdict
-
-# importing "collections" for defaultdict
-import collections
-
-# declaring defaultdict
-# sets default value 'Key Not found' to absent keys
-defd = collections.defaultdict(lambda : 'Key Not found')
-
-# initializing values
-defd['a'] = 1
-
-# initializing values
-defd['b'] = 2
-
-# printing value
-print ("The value associated with 'a' is : ",end="")
-print (defd['a'])
-
-# printing value associated with 'c'
-print ("The value associated with 'c' is : ",end="")
-print (defd['c'])
-
-#Output : 
+    # outer loop to handle number of rows
+    # 5 in this case
+    for i in range(0, n):
+     
+        # inner loop to handle number of columns
+        # values changing acc. to outer loop
+        for j in range(0, i+1):
+         
+            # explicitly converting to char
+            ch = chr(num)
+         
+            # printing char value
+            print(ch, end=" ")
+     
+        # incrementing number
+        num = num + 1
+     
+        # ending line after each row
+        print("\r")
  
+# Driver Code
+n = 5
+alphapat(n)
 
-#The value associated with 'a' is : 1
-#The value associated with 'c' is : Key Not found
+#Output
+#A 
+#B B 
+#C C C 
+#D D D D 
+#E E E E E 
+
+#Continuous Character pattern
+# Python code 3.x to demonstrate star pattern
+
+# Function to demonstrate printing pattern of alphabets
 
 
+def contalpha(n):
+
+	# initializing value corresponding to 'A'
+	# ASCII value
+	num = 65
 
 
+	# outer loop to handle number of rows
+- for i in range(0, n):
+
+	# inner loop to handle number of columns
+	# values changing acc. to outer loop
+	for j in range(0, i+1):
+
+		# explicitly converting to char
+		ch = chr(num)
+
+		# printing char value
+		print(ch, end=" ")
+
+		# incrementing at each column
+		num = num + 1
+
+	# ending line after each row
+	print("\r")
+
+# Driver code
+n = 5
+contalpha(n)
 
 
+#Output:
 
-
-
-
+#A 
+#B C 
+#D E F 
+#G H I J 
+#K L M N O

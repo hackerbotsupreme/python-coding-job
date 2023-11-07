@@ -1,0 +1,265 @@
+Anagram Substring Search (Or Search for all permutations)
+
+Difficulty Level : Medium
+Last Updated : 17 Nov, 2022
+Read
+Discuss(160+)
+Courses
+Practice
+Video
+Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints all occurrences of pat[] and its permutations (or anagrams) in txt[]. You may assume that n > m. 
+
+Expected time complexity is O(n)
+
+Examples: 
+
+1) Input:  txt[] = "BACDGABCDA"  pat[] = "ABCD"
+   Output:   Found at Index 0
+             Found at Index 5
+             Found at Index 6
+2) Input: txt[] =  "AAABABAA" pat[] = "AABA"
+   Output:   Found at Index 0
+             Found at Index 1
+             Found at Index 4
+We strongly recommend that you click here and practice it, before moving on to the solution.
+This problem is slightly different from the standard pattern-searching problem, here we need to search for anagrams as well. Therefore, we cannot directly apply standard pattern-searching algorithms like KMP, Rabin Karp, Boyer Moore, etc.
+
+Approach 1 :
+
+Brute Force : 
+Consider the Input txt[] = "BACDGABCDA"  pat[] = "ABCD".
+Occurrences of the pat[] and its permutations are found at indexes 0,5,6. 
+The permutations are BACD,ABCD,BCDA. 
+Let's sort the pat[] and the permutations of pat[] in txt[].
+pat[] after sorting becomes : ABCD
+permutations of pat[] in txt[] after sorting becomes : ABCD, ABCD,ABCD.
+So we can say that the sorted version of pat[] and sorted version of its
+permutations yield the same result. 
+INTUITION: The idea is to consider all the substrings of the txt[] with are of lengths equal to the length of pat[] and check whether the sorted version of substring is equal to the sorted version of pat[]. If they are equal then that particular substring is the permutation of the pat[], else not.
+
+C++
+Java
+Python3
+# Python code for the approach
+def search(pat, txt):
+   
+  # finding lengths of strings pat and txt
+  n = len(txt)
+  m = len(pat);
+   
+  # string sortedpat stores the sorted version of pat
+  sortedpat = pat;
+  sortedpat = list(sortedpat);
+  sortedpat.sort()
+  sortedpat = ' '.join([str(elem) for elem in sortedpat])
+   
+  # temp for storing the substring of length equal to pat
+  for i in range(0,n-m+1):
+    temp = txt[i:i+m]
+    temp = list(temp);
+    temp.sort()
+    temp = ' '.join([str(elem) for elem in temp])
+     
+    # checking whether sorted versions are equal or not
+    if (sortedpat == temp):
+      print("Found at Index ",i);
+ 
+# driver code
+txt = "BACDGABCDA";
+pat = "ABCD";
+search(pat, txt);
+ 
+# This code is contributed by kothavvsaakash
+C#
+Javascript
+Output
+
+
+Found at Index 0
+Found at Index 5
+Found at Index 6
+Time Complexity : O(mlogm) + O( (n-m+1)(m + mlogm + m) ) 
+
+mlogm for sorting pat. So O(mlogm)
+
+The for loop runs for n-m+1 times in each iteration we build string temp, which takes O(m) time, and sorting temp, which takes O(mlogm) time, and comparing sorted pat and sorted substring, which takes O(m). So time complexity is O( (n-m+1)*(m+mlogm+m) ) 
+
+Total Time complexity :  O(mlogm) + O( (n-m+1)(m + mlogm + m) ) 
+
+Space Complexity: O(m) As we are using Extra space for strings temp and sortedpat
+
+Approach 2 :
+
+The idea is to modify Rabin Karp Algorithm. For example, we can keep the hash value as sum of ASCII values of all characters under modulo of a big prime number. For every character of text, we can add the current character to hash value and subtract the first character of previous window. This solution looks good, but like standard Rabin Karp, the worst case time complexity of this solution is O(mn). The worst case occurs when all hash values match and we one by one match all characters.
+
+We can achieve O(n) time complexity under the assumption that alphabet size is fixed which is typically true as we have maximum 256 possible characters in ASCII. The idea is to use two count arrays: 
+
+The first count array store frequencies of characters in pattern. 
+The second count array stores frequencies of characters in current window of text.
+The important thing to note is, time complexity to compare two count arrays is O(1) as the number of elements in them are fixed (independent of pattern and text sizes). Following are steps of this algorithm. 
+
+Store counts of frequencies of pattern in first count array countP[]. Also store counts of frequencies of characters in first window of text in array countTW[].
+Now run a loop from i = M to N-1. Do following in loop. 
+If the two count arrays are identical, we found an occurrence. 
+Increment count of current character of text in countTW[] 
+Decrement count of first character in previous window in countWT[]
+The last window is not checked by above loop, so explicitly check it.
+Following is the implementation of above algorithm. 
+Implementation:
+
+C++
+C
+Java
+Python3
+# Python program to search all
+# anagrams of a pattern in a text
+ 
+MAX=256
+ 
+# This function returns true
+# if contents of arr1[] and arr2[]
+# are same, otherwise false.
+def compare(arr1, arr2):
+    for i in range(MAX):
+        if arr1[i] != arr2[i]:
+            return False
+    return True
+     
+# This function search for all
+# permutations of pat[] in txt[] 
+def search(pat, txt):
+ 
+    M = len(pat)
+    N = len(txt)
+ 
+    # countP[]:  Store count of
+    # all characters of pattern
+    # countTW[]: Store count of
+    # current window of text
+    countP = [0]*MAX
+ 
+    countTW = [0]*MAX
+ 
+    for i in range(M):
+        (countP[ord(pat[i]) ]) += 1
+        (countTW[ord(txt[i]) ]) += 1
+ 
+    # Traverse through remaining
+    # characters of pattern
+    for i in range(M,N):
+ 
+        # Compare counts of current
+        # window of text with
+        # counts of pattern[]
+        if compare(countP, countTW):
+            print("Found at Index", (i-M))
+ 
+        # Add current character to current window
+        (countTW[ ord(txt[i]) ]) += 1
+ 
+        # Remove the first character of previous window
+        (countTW[ ord(txt[i-M]) ]) -= 1
+     
+    # Check for the last window in text   
+    if compare(countP, countTW):
+        print("Found at Index", N-M)
+         
+# Driver program to test above function      
+txt = "BACDGABCDA"
+pat = "ABCD"      
+search(pat, txt)  
+ 
+# This code is contributed
+# by Upendra Singh Bartwal
+C#
+Javascript
+Output
+Found at Index 0
+Found at Index 5
+Found at Index 6
+Time Complexity: O(256 * (n – m) + m)
+Auxiliary space: O(m), where m is 256
+
+Please suggest if someone has a better solution which is more efficient in terms of space and time.
+This article is contributed by Aarti_Rathi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+58
+Previous
+Suffix Tree Application 6 - Longest Palindromic Substring
+Next
+Pattern Searching using a Trie of all Suffixes
+Related Articles
+1.
+Anagram Substring Search (Or Search for all permutations) | Set 2
+2.
+Check if a string contains an anagram of another string as its substring
+3.
+is_permutation() in C++ and its application for anagram search
+4.
+Count permutations of given array that generates the same Binary Search Tree (BST)
+5.
+Check whether two Strings are anagram of each other
+6.
+Check if binary representation of a given number and its complement are anagram
+7.
+Minimum Number of Manipulations required to make two Strings Anagram Without Deletion of Character
+8.
+Anagram checking in Python using collections.Counter()
+9.
+Using Counter() in Python to find minimum character removal to make two strings anagram
+10.
+Find the size of largest subset of anagram words
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+disha22
+shrikanth13
+gp6
+rdtank
+adityakumar129
+angajala
+shinjanpatra
+hardikkoriintern
+codewithrathi
+kothavvsaakash
+sagartomar9927
+aadityapburujwale
+user_7gr9iodclfx
+harendrakumar123
+Article Tags :
+Amazon
+anagram
+Microsoft
+permutation
+sliding-window
+Arrays
+Pattern Searching
+Practice Tags :
+Amazon
+Microsoft
+anagram
+Arrays
+Pattern Searching
+permutation
+sliding-window
+Improve Article
+Report Issue
