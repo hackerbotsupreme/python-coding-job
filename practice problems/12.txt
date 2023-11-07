@@ -1,0 +1,153 @@
+Sgn value of a polynomial
+
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a polynomial function f(x) = 1+ a1*x + a2*(x^2) + … an(x^n). Find the Sgn value of these function, when x is given and all the coefficients also. 
+ 
+
+If value of polynomial greater than 0
+   Sign = 1
+Else If value of polynomial less than 0
+   Sign = -1
+Else if value of polynomial is 0
+   Sign = 0
+Examples: 
+ 
+
+Input: poly[] = [1, 2, 3] 
+       x = 1 
+Output:  1 
+Explanation: f(1) = 6 which is > 0 
+hence 1.
+
+Input: poly[] = [1, -1, 2, 3] 
+       x = -2 
+Output: -1 
+Explanation: f(-2)=-11 which is less 
+than 0, hence -1.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A naive approach will be to calculate every power of x and then add it to the answer by multiplying it with its coefficient. Calculating power of x will take O(n) time and for n coefficients. Hence, taking the total complexity to O(n * n), as we will need nested loops for traversing n*n times.
+An efficient approach is to use Horner’s method. We evaluate value of polynomial using Horner’s method. Then we return value according to sign of the value. 
+Below is the implementation of the above approach 
+ 
+
+
+C++
+Java
+Python3
+# Python3 program to find
+# sign value of a
+# polynomial
+ 
+# returns value of poly[0]x(n-1) +
+# poly[1]x(n-2) + .. + poly[n-1]
+def horner( poly, n, x):
+     
+    # Initialize result
+    result = poly[0];
+     
+    # Evaluate value of
+    # polynomial using
+    # Horner's method
+    for i in range(1,n):
+        result = (result * x +
+                     poly[i]);
+    return result;
+ 
+# Returns sign value
+# of polynomial
+def findSign(poly, n, x):
+    result = horner(poly, n, x);
+    if (result > 0):
+        return 1;
+    elif (result < 0):
+        return -1;
+    return 0;
+ 
+# Driver Code
+ 
+# Let us evaluate value
+# of 2x3 - 6x2
+# + 2x - 1 for x = 3
+poly = [2, -6, 2, -1];
+x = 3;
+n = len(poly);
+ 
+print("Sign of polynomial is ",
+         findSign(poly, n, x));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+
+Sign of polynomial is 1
+Time Complexity: O(N), as we are using a loop to traverse N times.
+
+Auxiliary Space: O(1), as we are not using any extra space.
+This article is contributed by Raja Vikramaditya. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+0
+Previous
+Fast Fourier Transformation for polynomial multiplication
+Next
+Count Derangements (Permutation such that no element appears in its original position)
+Related Articles
+1.
+Integration in a Polynomial for a given value
+2.
+Program to find the value of P(N + r) for a polynomial of a degree N such that P(i) = 1 for 1 ≤ i ≤ N and P(N + 1) = a
+3.
+Horner's Method for Polynomial Evaluation
+4.
+Derivatives of Polynomial Functions
+5.
+Program for Derivative of a Polynomial
+6.
+Fast Fourier Transformation for polynomial multiplication
+7.
+Finding nth term of any Polynomial Sequence
+8.
+Minimize the sum of roots of a given polynomial
+9.
+Python | Finding Solutions of a Polynomial Equation
+10.
+Program to find the indefinite Integration of the given Polynomial
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Mithun Kumar
+Kirti_Mangal
+rohan07
+mitalibhola94
+Article Tags :
+maths-polynomial
+Mathematical
+Practice Tags :
+Mathematical
+Improve Article
+Report Issue

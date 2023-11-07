@@ -1,0 +1,158 @@
+Super Prime
+
+Difficulty Level : Easy
+Last Updated : 02 May, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Super-prime numbers (also known as higher order primes) are the subsequence of prime numbers that occupy prime-numbered positions within the sequence of all prime numbers. First few Super-Primes are 3, 5, 11 and 17. 
+The task is to print all the Super-Primes less than or equal to the given positive integer N.
+Examples: 
+ 
+
+Input: 7
+Output: 3 5 
+3 is super prime because it appears at second
+position in list of primes (2, 3, 5, 7, 11, 13, 
+17, 19, 23, ...) and 2 is also prime. Similarly
+5 appears at third position and 3 is a prime.
+
+Input: 17
+Output: 3 5 11 17
+ 
+
+Recommended Problem
+Super Primes
+Searching
+Algorithms
+Solve Problem
+Submission count: 19K
+The idea is to generate all the primes less than or equal to the given number N using Sieve of Eratosthenes. Once we have generated all such primes, we iterate through all numbers and store it in the array. Once we have stored all the primes in the array, we iterate through the array and print all prime number which occupies prime number position in the array. 
+ 
+
+C++
+C
+Java
+Python3
+# Python program to print super primes less than
+# or equal to n.
+ 
+# Generate all prime numbers less than n.
+def SieveOfEratosthenes(n, isPrime):
+    # Initialize all entries of boolean array
+    # as true. A value in isPrime[i] will finally
+    # be false if i is Not a prime, else true
+    # bool isPrime[n+1]
+    isPrime[0] = isPrime[1] = False
+    for i in range(2,n+1):
+        isPrime[i] = True
+  
+    for p in range(2,n+1):
+        # If isPrime[p] is not changed, then it is
+        # a prime
+        if (p*p<=n and isPrime[p] == True):
+            # Update all multiples of p
+            for i in range(p*2,n+1,p):
+                isPrime[i] = False
+                p += 1
+def superPrimes(n):
+     
+    # Generating primes using Sieve
+    isPrime = [1 for i in range(n+1)]
+    SieveOfEratosthenes(n, isPrime)
+  
+    # Storing all the primes generated in a
+    # an array primes[]
+    primes = [0 for i in range(2,n+1)]
+    j = 0
+    for p in range(2,n+1):
+       if (isPrime[p]):
+           primes[j] = p
+           j += 1
+  
+    # Printing all those prime numbers that
+    # occupy prime numbered position in
+    # sequence of prime numbers.
+    for k in range(j):
+        if (isPrime[k+1]):
+            print (primes[k],end=" ")
+ 
+n = 241
+print ("\nSuper-Primes less than or equal to ", n, " are :",)
+superPrimes(n)
+# Contributed by: Afzal
+C#
+PHP
+Javascript
+Output: 
+ 
+
+Super-Primes less than or equal to 241 are :
+3 5 11 17 31 41 59 67 83 109 127 157 179 191 211 241 
+References: https://en.wikipedia.org/wiki/Super-prime
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.-
+ 
+
+
+
+
+
+Like
+5
+Previous
+Circular primes less than n
+Next
+Prime Triplet
+Related Articles
+1.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+2.
+Find the super power of a given Number
+3.
+Super-D Numbers
+4.
+Super-Poulet Number
+5.
+Super Niven Numbers
+6.
+Find coordinates of a prime number in a Prime Spiral
+7.
+Sum of each element raised to (prime-1) % prime
+8.
+Print the nearest prime number formed by adding prime numbers to N
+9.
+Maximize difference between sum of prime and non-prime array elements by left shifting of digits minimum number of times
+10.
+Absolute Difference between the Sum of Non-Prime numbers and Prime numbers of an Array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+code_hunt
+surinderdawra388
+amartyaghoshgfg
+adityakumar129
+Article Tags :
+Prime Number
+sieve
+Mathematical
+Searching
+Practice Tags :
+Mathematical
+Prime Number
+Searching
+sieve
+Sieve
+Improve Article
+Report Issue

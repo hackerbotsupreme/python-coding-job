@@ -1,0 +1,147 @@
+Juggler Sequence
+
+Difficulty Level : Basic
+Last Updated : 21 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Juggler Sequence is a series of integer number in which the first term starts with a positive integer number a and the remaining terms are generated from the immediate previous term using the below recurrence relation : 
+a_{k+1}=\begin{Bmatrix} \lfloor a_{k}^{1/2} \rfloor & for \quad even \quad a_k\\ \lfloor a_{k}^{3/2} \rfloor & for \quad odd \quad a_k \end{Bmatrix}       
+Juggler Sequence starting with number 3: 
+5, 11, 36, 6, 2, 1
+Juggler Sequence starting with number 9: 
+9, 27, 140, 11, 36, 6, 2, 1
+Given a number n we have to print the Juggler Sequence for this number as the first term of the sequence. 
+Examples: 
+ 
+
+Input: 9
+Output: 9, 27, 140, 11, 36, 6, 2, 1
+We start with 9 and use above formula to get
+next terms.
+
+Input: 6
+Output: 6, 2, 1
+Recommended Problem
+Juggler Sequence
+Mathematical
+Recursion
++2 more
+Solve Problem
+Submission count: 8K
+C++
+C
+Java
+Python3
+import math
+ 
+#This function prints the juggler Sequence
+def printJuggler(n) :
+    a = n
+     
+    # print the first term
+    print (a,end=" ")
+     
+    # calculate terms until last term is not 1
+    while (a != 1) :
+        b = 0
+         
+        # Check if previous term is even or odd
+        if (a%2 == 0) :
+             
+            # calculate next term
+            b  = (int)(math.floor(math.sqrt(a)))
+  
+        else :
+            # for odd previous term calculate
+            # next term
+            b = (int) (math.floor(math.sqrt(a)*math.sqrt(a)*
+                                         math.sqrt(a)))
+  
+        print (b,end=" ")
+        a = b
+ 
+printJuggler(3)
+print()
+printJuggler(9)
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+3 5 11 36 6 2 1 
+9 27 140 11 36 6 2 1
+Time complexity: O(nlogn) since using a single while loop and finding square root takes logarithmic time.
+
+Space complexity: O(1) for constant variables
+
+Important Points: 
+
+The terms in Juggler Sequence first increase to a peak value and then start decreasing.
+The last term in Juggler Sequence is always 1.
+Reference: 
+https://en.wikipedia.org/wiki/Juggler_sequence 
+This article is contributed by Harsh Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+4
+Previous
+Program to find remainder when large number is divided by 11
+Next
+Padovan Sequence
+Related Articles
+1.
+Juggler Sequence | Set 2 (Using Recursion)
+2.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+3.
+Count Possible Decodings of a given Digit Sequence
+4.
+Look-and-Say Sequence
+5.
+Farey Sequence
+6.
+Find Recurring Sequence in a Fraction
+7.
+G-Fact 21 | Collatz Sequence
+8.
+Padovan Sequence
+9.
+Aliquot Sequence
+10.
+Recaman's sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+SHUBHAMSINGH10
+avijitmondal1998
+dpbangara
+amartyaghoshgfg
+technophpfij
+Article Tags :
+series
+Mathematical
+Practice Tags :
+Mathematical
+series

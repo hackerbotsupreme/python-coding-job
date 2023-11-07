@@ -1,0 +1,155 @@
+N-th root of a number
+
+Difficulty Level : Hard
+Last Updated : 13 Jul, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers N and A, find N-th root of A. In mathematics, Nth root of a number A is a real number that gives A, when we raise it to integer power N. These roots are used in Number Theory and other advanced branches of mathematics. 
+Refer Wiki page for more information. 
+Examples: 
+ 
+
+Input : A = 81
+        N = 4
+Output : 3 
+3^4 = 81
+ 
+
+Recommended Problem
+Find Nth root of M
+Mathematical
+Algorithms
+Directi
+Accenture
+Solve Problem
+Submission count: 52.8K
+As this problem involves a real valued function A^(1/N) we can solve this using Newton’s method, which starts with an initial guess and iteratively shift towards the result. 
+We can derive a relation between two consecutive values of iteration using Newton’s method as follows, 
+ 
+
+according to newton’s method
+x(K+1) = x(K) – f(x) / f’(x)        
+here    f(x)  = x^(N) – A
+so    f’(x) = N*x^(N - 1)
+and     x(K) denoted the value of x at Kth iteration
+putting the values and simplifying we get,
+x(K + 1) = (1 / N) * ((N - 1) * x(K) + A / x(K) ^ (N - 1))
+Using above relation, we can solve the given problem. In below code we iterate over values of x, until difference between two consecutive values of x become lower than desired accuracy.
+Below is the implementation of above approach: 
+ 
+
+C++
+Java
+Python3
+# Python3 program to calculate
+# Nth root of a number
+import math
+import random
+ 
+# method returns Nth power of A
+def nthRoot(A,N):
+ 
+    # initially guessing a random number between
+    # 0 and 9
+    xPre = random.randint(1,101) % 10
+  
+    #  smaller eps, denotes more accuracy
+    eps = 0.001
+  
+    # initializing difference between two
+    # roots by INT_MAX
+    delX = 2147483647
+  
+    #  xK denotes current value of x
+    xK=0.0
+  
+    #  loop until we reach desired accuracy
+    while (delX > eps):
+ 
+        # calculating current value from previous
+        # value by newton's method
+        xK = ((N - 1.0) * xPre +
+              A/pow(xPre, N-1)) /N
+        delX = abs(xK - xPre)
+        xPre = xK;
+         
+    return xK
+ 
+# Driver code
+N = 4
+A = 81
+nthRootValue = nthRoot(A, N)
+ 
+print("Nth root is ", nthRootValue)
+ 
+## Acalc = pow(nthRootValue, N);
+## print("Error in difference of powers ",
+##             abs(A - Acalc))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output: 
+
+Nth root is 3
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Divisibility Rules
+Next
+Squares and Square Roots
+Related Articles
+1.
+Find Nth positive number whose digital root is X
+2.
+Nth root of a number using log
+3.
+Find Nth root of a number using Bisection method
+4.
+Smallest root of the equation x^2 + s(x)*x - n = 0, where s(x) is the sum of digits of root x.
+5.
+Digital Root (repeated digital sum) of square of an integer using Digital root of the given integer
+6.
+Why do we check up to the square root of a number to determine if that number is Prime?
+7.
+Number of digits in the nth number made of given four digits
+8.
+Find Nth number in a sequence which is not a multiple of a given number
+9.
+Find cubic root of a number
+10.
+Primitive root of a prime number n modulo n
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Mithun Kumar
+souravghosh0416
+simranarora5sos
+ruhelaa48
+Article Tags :
+Accenture
+Directi
+Mathematical
+Practice Tags :
+Accenture
+Directi
+Mathematical

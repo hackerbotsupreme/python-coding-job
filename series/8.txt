@@ -1,0 +1,104 @@
+Sum of the sequence 2, 22, 222, ………
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Find the sum of the following sequence : 2, 22, 222, ……… to n terms. 
+Examples : 
+
+Input : 2
+Output: 23.99868
+
+Input : 3
+Output: 245.98647
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to compute terms one by one and add to the result.
+The above problem can be efficiently solved using the following formula:
+ 
+
+
+ 
+
+ 
+
+C++14
+Java
+Python3
+# Python3 code to find
+# sum of series
+# 2, 22, 222, ..
+import math
+ 
+# function which return
+# the sum of series
+def sumOfSeries( n ):
+    return 0.02469 * ((10*math.pow(10, n) - 1 )- (9 * n))
+     
+# driver code
+n = 3
+print( sumOfSeries(n))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+245.986
+Time complexity: O(log n) since using inbuilt power function.
+ Auxiliary Space: O(1)
+
+
+
+Like
+Previous
+Program to find HCF iteratively
+Next
+Harmonic progression Sum
+Related Articles
+1.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+2.
+Sequence with sum K and minimum sum of absolute differences between consecutive elements
+3.
+Sum of Arithmetic Geometric Sequence
+4.
+Program to find sum of the given sequence
+5.
+Sum of first N terms of Quadratic Sequence 3 + 7 + 13 + ...
+6.
+Generate minimum sum sequence of integers with even elements greater
+7.
+Sum of numbers from 1 to N which are in Lucas Sequence
+8.
+Find a sequence of N prime numbers whose sum is a composite number
+9.
+Print the sequence of size N in which every term is sum of previous K terms
+10.
+Nth term of a sequence formed by sum of current term with product of its largest and smallest digit
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Prateek Bajaj
+@Prateek Bajaj
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+splevel62
+technophpfij
+Article Tags :
+series
+series-sum
+Mathematical
+Practice Tags :
+Mathematical
+series
+Report Issue

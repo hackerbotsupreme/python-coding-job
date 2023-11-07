@@ -1,0 +1,189 @@
+Hoax Number
+
+Difficulty Level : Easy
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number ‘n’, check whether it is a hoax number or not. 
+A Hoax Number is defined as a composite number, whose sum of digits is equal to the sum of digits of its distinct prime factors. It may be noted here that, 1 is not considered a prime number, hence it is not included in the sum of digits of distinct prime factors.
+Examples : 
+ 
+
+Input : 22
+Output : A Hoax Number
+Explanation : The distinct prime factors of 22 
+are 2 and 11. The sum of their digits are 4, 
+i.e 2 + 1 + 1 and sum of digits of 22 is also 4.
+
+Input : 84
+Output : A Hoax Number
+Explanation : The distinct prime factors of 84 
+are 2, 3 and 7. The sum of their digits are 12, 
+i.e 2 + 3 + 4 and sum of digits of 84 is also 12.
+
+Input : 19
+Output : Not a Hoax Number
+Explanation : By definition, a hoax number is 
+a composite number.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The definition of Hoax numbers bears close resemblance with the definition of Smith Numbers. In fact, some of the Hoax numbers are also Smith numbers. It is apparent that those hoax numbers that do not have repeated factors in their prime decomposition, i.e square free number are also eligible Smith numbers.
+Implementation 
+1) First generate all distinct prime factors of the number ‘n’. 
+2) If the ‘n’ is not a prime number, find the sum of digits of the factors obtained in step 1. 
+3) Find the sum of digits of ‘n’. 
+4) Check if the sums obtained in steps 2 and 3 are equal or not. 
+5) If the sums are equal, ‘n’ is a hoax number. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to check if a number is a hoax
+# number or not.
+import math
+ 
+# Function to find distinct prime factors
+# of given number n
+def primeFactors(n) :
+    res = []
+    if (n % 2 == 0) :
+        while (n % 2 == 0) :
+            n = int(n / 2)
+        res.append(2)
+ 
+    # n is odd at this point, since it is no
+    # longer divisible by 2. So we can test
+    # only for the odd numbers, whether they
+    # are factors of n
+    for i in range(3,int(math.sqrt(n)),2):
+        # Check if i is prime factor
+        if (n % i == 0) :
+            while (n % i == 0) :
+                n = int(n / i)
+            res.append(i)
+ 
+    # This condition is to handle the case
+    # when n is a prime number greater than 2
+    if (n > 2) :
+        res.append(n)
+    return res
+ 
+# Function to calculate sum of digits of
+# distinct prime factors of given number n
+# and sum of digits of number n and compare
+# the sums obtained
+def isHoax(n) :
+    # Distinct prime factors of n are being
+    # stored in vector pf
+    pf = primeFactors(n)
+     
+    # If n is a prime number, it cannot be a
+    # hoax number
+    if (pf[0] == n) :
+        return False
+     
+    # Finding sum of digits of distinct prime
+    # factors of the number n
+    all_pf_sum = 0
+    for i in range(0,len(pf)):
+ 
+        # Finding sum of digits in current
+        # prime factor pf[i].
+        pf_sum = 0
+        while (pf[i] > 0):
+            pf_sum += pf[i] % 10
+            pf[i] = int(pf[i] / 10)
+ 
+        all_pf_sum += pf_sum
+     
+ 
+    # Finding sum of digits of number n
+    sum_n = 0;
+    while (n > 0):
+        sum_n += n % 10
+        n = int(n / 10)
+ 
+    # Comparing the two calculated sums
+    return sum_n == all_pf_sum
+ 
+ 
+# Driver Method
+n = 84;
+if (isHoax(n)):
+    print ("A Hoax Number\n")
+else:
+    print ("Not a Hoax Number\n")
+     
+# This code is contributed by Manish Shaw
+# (manishshaw1)
+C#
+PHP
+Javascript
+Output : 
+ 
+
+A Hoax Number
+Time Complexity: O(√n log n) 
+Auxiliary Space: O(n)
+
+Please suggest if someone has a better solution which is more efficient in terms of space and time.
+This article is contributed by Aarti_Rathi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+2
+Previous
+Sphenic Number
+Next
+k-th prime factor of a given number
+Related Articles
+1.
+Check Whether a Number is an Anti Prime Number(Highly Composite Number)
+2.
+Number of factors of very large number N modulo M where M is any prime number
+3.
+Permutation of a number whose sum with the original number is equal to another given number
+4.
+Minimum number of moves to make M and N equal by repeatedly adding any divisor of number to itself except 1 and the number
+5.
+Find minimum number to be divided to make a number a perfect square
+6.
+How to check if a given number is Fibonacci number?
+7.
+Find the smallest number whose digits multiply to a given number n
+8.
+Find n'th number in a number system with only 3 and 4
+9.
+Build Lowest Number by Removing n digits from a given number
+10.
+Minimum number of squares whose sum equals to given number n
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+SaagnikAdhikary
+@SaagnikAdhikary
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+rrrtnx
+codewithshinchan
+Article Tags :
+number-theory
+prime-factor
+Mathematical
+Practice Tags :
+Mathematical
+number-theory

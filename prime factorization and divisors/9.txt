@@ -1,0 +1,211 @@
+Find numbers with n-divisors in a given range
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given three integers a, b, n .Your task is to print number of numbers between a and b including them also which have n-divisors. A number is called n-divisor if it has total n divisors including 1 and itself. 
+Examples: 
+ 
+
+Input  : a = 1, b = 7, n = 2
+Output : 4
+There are four numbers with 2 divisors in 
+range [1, 7]. The numbers are 2, 3, 5, and 7.
+ 
+
+Recommended Problem
+N-divisors
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 1.9K
+Naive Approach: 
+The naive approach is to check all the numbers between a and b how many of them are n-divisor number for doing this find out the number of each divisors for each number . If it is equal to n then it is a n-divisor number
+Efficient Approach: 
+Any number can be written in the form of its prime factorization let the number be x and p1, p2..pm are the prime numbers which divide x so x = p1e1 * p2e2….pmem where e1, e2…em are the exponents of prime numbers p1, p2….pm. So the number of divisors of x will be (e1+1)*(e2+1)…*(em+1). 
+Now the second observation is for prime numbers greater than sqrt(x) their exponent cannot exceed 1. Let’s prove this by contradiction suppose there is a prime number P greater than sqrt(x) and its exponent E in prime factorization of x is greater than one (E >= 2) so P^E sqrt(x) so P^E > (sqrt(x))E and E >= 2 so PE will always be greater than x 
+Third observation is that number of prime numbers greater than sqrt(x) in the prime factorization of x will always be less than equal to 1. This can also be proved similarly by contradiction as above.
+Now to solve this problem 
+Step 1: Apply sieve of eratosthenes and calculate prime numbers upto sqrt(b).
+Step 2: Traverse through each number from a to b and calculate exponents of each prime number in that number by repeatedly dividing that number by prime number and use the formula numberofdivisors(x) = (e1+1)*(e2+1)….(em+1).
+Step 3: If after dividing by all the prime numbers less than equal to square root of that number if number > 1 this means there is a prime number greater than its square root which divides and its exponent will always be one as proved above. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to count numbers
+# with n divisors
+import math;
+ 
+# applying sieve of eratosthenes
+def sieve(primes, x):
+    primes[1] = False;
+     
+    # if a number is prime mark all
+    # its multiples as non prime
+    i = 2;
+    while (i * i <= x):
+        if (primes[i] == True):
+            j = 2;
+            while (j * i <= x):
+                primes[i * j] = False;
+                j += 1;
+        i += 1;
+ 
+# function that returns numbers of number
+# that have n divisors in range from a to b.
+# x is sqrt(b) + 1.
+def nDivisors(primes, x, a, b, n):
+     
+    # result holds number of numbers
+    # having n divisors
+    result = 0;
+ 
+    # vector to hold all the prime
+    # numbers between 1 and sqrt(b)
+    v = [];
+    for i in range(2, x + 1):
+        if (primes[i]):
+            v.append(i);
+ 
+    # Traversing all numbers in given range
+    for i in range(a, b + 1):
+         
+        # initialising temp as i
+        temp = i;
+ 
+        # total holds the number of
+        # divisors of i
+        total = 1;
+        j = 0;
+ 
+        # we need to use that prime numbers that
+        # are less than equal to sqrt(temp)
+        k = v[j];
+        while (k * k <= temp):
+             
+            # holds the exponent of k in prime
+            # factorization of i
+            count = 0;
+ 
+            # repeatedly divide temp by k till it is
+            # divisible and accordingly increase count
+            while (temp % k == 0):
+                count += 1;
+                temp = int(temp / k);
+ 
+            # using the formula no.of divisors =
+            # (e1+1)*(e2+1)....
+            total = total * (count + 1);
+            j += 1;
+            k = v[j];
+ 
+        # if temp is not equal to 1 then there is
+        # prime number in prime factorization of i
+        # greater than sqrt(i)
+        if (temp != 1):
+            total = total * 2;
+ 
+        # if i is a ndivisor number
+        # increase result
+        if (total == n):
+            result += 1;
+    return result;
+ 
+# Returns count of numbers in [a..b]
+# having n divisors.
+def countNDivisors(a, b, n):
+    x = int(math.sqrt(b) + 1);
+ 
+    # primes[i] = true if i is a prime number
+    # initialising each number as prime
+    primes = [True] * (x + 1);
+    sieve(primes, x);
+ 
+    return nDivisors(primes, x, a, b, n);
+ 
+# Driver code
+a = 1;
+b = 7;
+n = 2;
+print(countNDivisors(a, b, n));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+4
+Time Complexity: O(n) 
+Auxiliary Space: O(n)
+ 
+
+ 
+This article is contributed by Aarti_Rathi and Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+XOR of all subarray XORs | Set 2
+Next
+Minimum positive integer to divide a number such that the result is an odd
+Related Articles
+1.
+Find Sum of numbers in given Range when numbers are modified as given
+2.
+Number of ways to obtain each numbers in range [1, b+c] by adding any two numbers in range [a, b] and [b, c]
+3.
+Find the range [L, R] such that sum of numbers in this range equals to N
+4.
+Find longest range from numbers in range [1, N] having positive bitwise AND
+5.
+Count numbers from a given range that can be visited moving any number of steps from the range [L, R]
+6.
+Count of pairs in range [P, Q] with numbers as multiple of R and their product lie in range [P*Q/4, P*Q]
+7.
+Find Permutation of N numbers in range [1, N] such that K numbers have value same as their index
+8.
+Maximum range length such that A[i] is maximum in given range for all i from [1, N]
+9.
+Count pairs from a given range whose sum is a Prime Number in that range
+10.
+Find numbers with K odd divisors in a given range
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+ManasChhabra2
+rutvik_56
+pravesh25pandey
+codewithshinchan
+Article Tags :
+divisibility
+divisors
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+sieve
+Sieve
+Report Issue
+WHAT'S NEW
+
+Master Data Science & ML

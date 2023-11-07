@@ -1,0 +1,200 @@
+Moser-de Bruijn Sequence
+
+Difficulty Level : Easy
+Last Updated : 23 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an integer ‘n’, print the first ‘n’ terms of the Moser-de Bruijn Sequence. Moser-de Bruijn sequence is the sequence obtained by adding up the distinct powers of the number 4 (For example, 1, 4, 16, 64, etc). 
+
+Examples:
+
+Input : 5
+Output : 0 1 4 5 16
+
+Input : 10
+Output : 0 1 4 5 16 17 20 21 64 65
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+It is observed that the terms of the sequence follow the recurrence relation :  
+
+1) S(2 * n) = 4 * S(n)
+2) S(2 * n + 1) = 4 * S(n) + 1
+with S(0) = 0 and S(1) = 1
+It may be noted here that any number which is the sum of non-distinct powers of 4 is not a part of the sequence. For example, 8 is not a part of the sequence because it is formed as the sum of non-distinct powers of 4, which are 4 and 4. 
+Thus, any number which is not a power of 4 and is present in the sequence must be the sum of the distinct powers of 4. 
+For example, 21 is a part of the sequence, even though it is not a power of 4, because it is the sum of the distinct powers of 4, which are 1, 4, and 16.
+
+
+Employ the recurrence relation discussed above to generate the sequence efficiently. 
+
+C++
+Java
+Python3
+# Python code to generate first
+# 'n' terms of the Moser-de
+# Bruijn Sequence
+ 
+# Function to generate nth term
+# of Moser-de Bruijn Sequence
+def gen(n):
+ 
+    # S(0) = 0
+    if n == 0:
+        return 0
+ 
+    # S(1) = 1
+    elif n ==1:
+        return 1
+ 
+    # S(2 * n) = 4 * S(n)
+    elif n % 2 ==0:
+        return 4 * gen(n // 2)
+ 
+    # S(2 * n + 1) = 4 * S(n) + 1
+    elif n % 2 == 1:
+        return 4 * gen(n // 2) +1
+ 
+# Generating the first 'n' terms
+# of Moser-de Bruijn Sequence
+def moserDeBruijn(n):
+    for i in range(n):
+        print(gen(i), end = " ")
+ 
+# Driver Program
+n = 15
+print("First", n, "terms of ",
+       "Moser-de Bruijn Sequence:")
+moserDeBruijn(n)
+ 
+# This code is contributed by Shrikant13
+C#
+PHP
+Javascript
+Output : 
+
+First 15 terms of Moser-de Bruijn Sequence : 
+0 1 4 5 16 17 20 21 64 65 68 69 80 81 84
+Time complexity: O(log2n)
+
+
+
+Auxiliary Space: O(1)
+
+Dynamic Programming Implementation: 
+
+C++
+Java
+Python3
+# python3 code to generate first 'n' terms
+# of the Moser-de Bruijn Sequence
+ 
+# Function to generate nth term
+# of Moser-de Bruijn Sequence
+def gen( n ):
+    S = [0, 1]
+    for i in range(2, n+1):
+         
+        # S(2 * n) = 4 * S(n)
+        if i % 2 == 0:
+            S.append(4 * S[int(i / 2)]);
+             
+        # S(2 * n + 1) = 4 * S(n) + 1
+        else:
+            S.append(4 * S[int(i / 2)] + 1);
+    z = S[n];
+    return z;
+ 
+# Generating the first 'n' terms
+# of Moser-de Bruijn Sequence
+def moserDeBruijn(n):
+    for i in range(n):
+        print(gen(i), end = " ")
+ 
+# Driver Code
+n = 15
+print("First", n, "terms of ",
+    "Moser-de Brujn Sequence:")
+moserDeBruijn(n)
+ 
+# This code is contributed by mits.
+C#
+PHP
+Javascript
+Output : 
+
+First 15 terms of Moser-de Bruijn Sequence : 
+0 1 4 5 16 17 20 21 64 65 68 69 80 81 84
+Time complexity: O(n) since using a for loop
+
+Auxiliary Space: O(n) for array 
+
+
+
+
+
+Like
+10
+Previous
+Golomb sequence
+Next
+Newman-Conway Sequence
+Related Articles
+1.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+2.
+Count Possible Decodings of a given Digit Sequence
+3.
+Look-and-Say Sequence
+4.
+Farey Sequence
+5.
+Find Recurring Sequence in a Fraction
+6.
+Find maximum length Snake sequence
+7.
+Construction of Longest Increasing Subsequence(LIS) and printing LIS sequence
+8.
+G-Fact 21 | Collatz Sequence
+9.
+Longest consecutive sequence in Binary tree
+10.
+Juggler Sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+SaagnikAdhikary
+@SaagnikAdhikary
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+Smitha Dinesh Semwal
+jit_t
+jaideeppyne1997
+vt_m
+Mithun Kumar
+decode2207
+suresh07
+sagar0719kumar
+technophpfij
+amankr0211
+Article Tags :
+number-theory
+series
+Dynamic Programming
+Mathematical
+Recursion
+Practice Tags :
+Dynamic Programming
+Mathematical
+number-theory
+Recursion
+series
+Improve Article
+Report Issue

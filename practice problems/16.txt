@@ -1,0 +1,177 @@
+Implement *, – and / operations using only + arithmetic operator
+
+Difficulty Level : Basic
+Last Updated : 19 May, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers, perform multiplication, subtraction, and division operations on them, using ‘+’ arithmetic operator only.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Operations can be performed as follows: 
+ 
+
+Subtraction :-  a - b = a + (-1)*b.
+Multiplication :- a * b = a + a + a ... b times.
+Division :- a / b =  continuously subtract b from a and 
+                  count how many times we can do that.
+The above steps look simple, but it is slightly challenging as we can’t even use – to subtract. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to illustrate *, -, / using
+# only  '+' arithmetic operator
+ 
+# Function to flip the sign using only "+"
+# operator (It is simple with '*' allowed.
+# We need to do a = (-1)*a
+def flipSign(a):
+ 
+    neg = 0;
+ 
+    # If sign is + ve turn it -ve
+    # and vice-versa
+    tmp = 1 if a < 0 else -1;
+    while (a != 0):
+        neg += tmp;
+        a += tmp;
+ 
+    return neg;
+ 
+# Check if a and b are of different signs
+def areDifferentSign(a, b):
+    return ((a < 0 and b > 0) or
+            (a > 0 and b < 0));
+ 
+# Function to subtract two numbers
+# by negating b and adding them
+def sub(a, b):
+ 
+    # Negating b
+    return a + flipSign(b);
+ 
+# Function to multiply a by b by
+# adding a to itself b times
+def mul(a, b):
+ 
+    # because algo is faster if b<a
+    if (a < b):
+        return mul(b, a);
+ 
+    # Adding a to itself b times
+    sum = 0;
+    for i in range(abs(b), 0, -1):
+        sum += a;
+ 
+    # Check if final sign must
+    # be -ve or + ve
+    if (b < 0):
+        sum = flipSign(sum);
+ 
+    return sum;
+ 
+# Function to divide a by b by counting
+# how many times 'b' can be subtracted
+# from 'a' before getting 0
+def division(a, b):
+ 
+    quotient = 0;
+ 
+    # Negating b to subtract from a
+    divisor = flipSign(abs(b));
+ 
+    # Subtracting divisor from dividend
+    for dividend in range(abs(a),
+                          abs(divisor) + divisor,
+                                         divisor):
+        quotient += 1;
+ 
+    # Check if a and b are of similar
+    # symbols or not
+    if (areDifferentSign(a, b)):
+        quotient = flipSign(quotient);
+    return quotient;
+ 
+# Driver code
+print("Subtraction is", sub(4, -2));
+print("Product is", mul(-9, 6));
+a, b = 8, 2;
+if(b):
+    print("Division is", division(a, b));
+else:
+    print("Exception :- Divide by 0");
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output:  
+
+Subtraction is 6
+Product is -54
+Division is 4
+Related Articles : 
+ 
+
+Add two numbers without using arithmetic operators
+Subtract two numbers without using arithmetic operators
+Multiply two integers without using multiplication, division and bitwise operators, and no loops
+This article is contributed by Sakshi Tiwari. If you like GeeksforGeeks (We know you do!) and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+0
+Previous
+Rotation of a point about another point in C++
+Next
+Number Theory (Interesting Facts and Algorithms)
+Related Articles
+1.
+Convert given Complex Numbers into polar form and perform all arithmetic operations
+2.
+Check if K can be obtained by performing arithmetic operations on any permutation of an Array
+3.
+Minimize arithmetic operations to be performed on adjacent elements of given Array to reduce it
+4.
+Largest element in the longest Subarray consisting of only Even or only Odd numbers
+5.
+Find the only positive or only negative number in the given Array
+6.
+Minimum decrement operations to make Array elements equal by only decreasing K each time
+7.
+Decimal to Binary using recursion and without using power operator
+8.
+Divide two number using Binary search without using any / and % operator
+9.
+Find Harmonic mean using Arithmetic mean and Geometric mean
+10.
+Divide two integers without using multiplication, division and mod operator | Set2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+amit143katiyar
+anikaseth98
+Article Tags :
+Mathematical
+School Programming
+Practice Tags :
+Mathematical

@@ -1,0 +1,146 @@
+Minimize the absolute difference of sum of two subsets
+
+Difficulty Level : Medium
+Last Updated : 08 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, divide first n natural numbers (1, 2, …n) into two subsets such that difference between sums of two subsets is minimum.
+Examples: 
+ 
+
+Input : n = 4
+Output : First subset sum = 5, 
+         Second subset sum = 5.
+         Difference = 0
+Explanation:
+Subset 1: 1 4 
+Subset 2: 2 3 
+
+Input : n = 6 
+Output: First subset sum = 10, 
+        Second subset sum = 11.
+        Difference = 1
+Explanation : 
+Subset 1: 1 3 6 
+Subset 2: 2 4 5 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: 
+The approach is based on the fact that any four consecutive numbers can be divided into two groups by putting middle two elements in one group and corner elements in other group. So, if n is a multiple of 4 then their difference will be 0, hence the summation of one set will be half of the summation of N elements which can be calculated by using sum = n*(n+1)/2
+There are three other cases to consider in which we cannot divide into groups of 4, which will leave a remainder of 1, 2 and 3: 
+a) If it leaves a remainder of 1, then all other n-1 elements are clubbed into group of 4 hence their sum will be int(sum/2) and the other half sum will be int(sum/2+1) and their difference will always be 1. 
+b) Above mentioned steps will be followed in case of n%4 == 2 also. Here we form groups of size 4 for elements from 3 onward. Remaining elements would be 1 and 2. 1 goes in one group and 2 goes in other group. 
+c) When n%4 == 3, then club n-3 elements into groups of 4. The left out elements will be 1, 2 and 3, in which 1 and 2 will go to one set and 3 to the other set which eventually makes the difference to be 0 and summation of each set to be sum/2.
+Below is the implementation of the above approach: 
+ 
+
+CPP
+Java
+Python3
+# Python3 code to Minimize the absolute
+# difference of sum of two subsets
+ 
+# function to print difference
+def subsetDifference( n ):
+ 
+    # summation of n elements
+    s = int(n * (n + 1) / 2)
+     
+    # if divisible by 4
+    if n % 4 == 0:
+        print("First subset sum = ", int(s / 2))
+        print("Second subset sum = ",int(s / 2))
+        print("Difference = " , 0)
+ 
+    else:
+ 
+        # if remainder 1 or 2. In case of remainder
+        # 2, we divide elements from 3 to n in groups
+        # of size 4 and put 1 in one group and 2 in
+        # group. This also makes difference 1.
+        if n % 4 == 1 or n % 4 == 2:
+            print("First subset sum = ",int(s/2))
+            print("Second subset sum = ",int(s/2)+1)
+            print("Difference = ", 1)
+             
+        # We put elements from 4 to n in groups of
+        # size 4. Remaining elements 1, 2 and 3 can
+        # be divided as (1, 2) and (3).
+        else:
+            print("First subset sum = ", int(s / 2))
+            print("Second subset sum = ",int(s / 2))
+            print("Difference = " , 0)
+             
+# driver code to test the above function
+n = 6
+subsetDifference(n)
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+First subset sum = 10
+Second subset sum = 11
+Difference = 1
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+3
+Previous
+Count factorial numbers in a given range
+Next
+Sum of all subsets of a set formed by first n natural numbers
+Related Articles
+1.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+2.
+Minimize difference between sum of two K-length subsets
+3.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+4.
+Sum of subsets of all the subsets of an array | O(3^N)
+5.
+Sum of subsets of all the subsets of an array | O(N)
+6.
+Sum of subsets of all the subsets of an array | O(2^N)
+7.
+Minimize sum of absolute differences of same-indexed elements of two given arrays by at most one replacement
+8.
+Minimize sum of absolute difference between all pairs of array elements by decrementing and incrementing pairs by 1
+9.
+Maximize Array sum by subtracting absolute of odd and adding absolute of even elements
+10.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+_saurabh_jaiswal
+rohitsingh57
+Article Tags :
+number-theory
+subset
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+subset

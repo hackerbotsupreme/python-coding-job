@@ -1,0 +1,146 @@
+Sum of series 1^2 + 3^2 + 5^2 + . . . + (2*n – 1)^2
+
+Last Updated : 15 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a series 12 + 32 + 52 + 72 + . . . + (2*n – 1)2, find sum of the series.
+Examples: 
+
+Input : n = 4
+Output : 84
+Explanation : 
+sum = 12 + 32 + 52 + 72
+    = 1 + 9 + 25 + 49
+    = 84
+
+Input : n = 10 
+Output : 1330
+Explanation :
+sum = 12 + 32 + 52 + 72 + 92 + 112 + 132 + 152 + 172 + 192
+    = 1 + 9 + 24 + 49 + . . . + 361
+    = 1330
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+C++
+Java
+Python3
+# Python Program to find sum of series
+# 1^2 + 3^2 + 5^2 + . . . + (2*n - 1)^2.
+ 
+import math
+ 
+# Function to find sum of series.
+def sumOfSeries(n):
+ 
+    sum = 0
+    for i in range(1,n+1):
+        sum = sum + (2 * i - 1) * (2 * i - 1)
+    return sum
+     
+# driver code
+n= 10
+print(sumOfSeries(n))
+ 
+# This code is contributed by Gitanjali.
+C#
+PHP
+Javascript
+Output: 
+1330
+ 
+
+Time Complexity : O(n)
+
+Auxiliary Space: O(1)
+
+Another approach : Using formula to find sum of series : 
+
+    12 + 32 + 52 + 
+     72 + . . . + (2*n - 1)2 
+      = (n * (2 * n - 1) * (2 * n + 1)) / 3.
+
+
+Please refer sum of squares of even and odd numbers for proof.
+C++
+Java
+Python3
+# Python Program to find sum of series
+# 1^2 + 3^2 + 5^2 + . . . + (2*n - 1)^2.
+ 
+import math
+ 
+# Function to find sum of series.
+def sumOfSeries(n):
+ 
+   # Formula to find sum of series.
+    return int((n * (2 * n - 1) * (2 * n + 1)) / 3)
+  
+# driver code
+n=10
+print(sumOfSeries(n))
+ 
+# This code is contributed by Gitanjali.
+C#
+PHP
+Javascript
+Output: 
+1330
+ 
+
+Time Complexity: O(1)
+
+Auxiliary space: O(1) since using constant variables
+ 
+
+
+
+Like
+Previous
+Sum of the series 5+55+555+.. up to n terms
+Next
+Sum of squares of first n natural numbers
+Related Articles
+1.
+Sum of sum-series of first N Natural numbers
+2.
+Sum of series formed by difference between product and sum of N natural numbers
+3.
+Program to find sum of series 1 + 1/2 + 1/3 + 1/4 + .. + 1/n
+4.
+Efficient Program to Compute Sum of Series 1/1! + 1/2! + 1/3! + 1/4! + .. + 1/n!
+5.
+Find the sum of N terms of the series 1, 4, 13, 40, 121, ...
+6.
+Find the sum of all the terms in the n-th row of the given series
+7.
+Find sum of N terms of series 1, (1+4) , (1+4+4^2), (1+4+4^2+4^3), .....
+8.
+Program for sum of geometric series
+9.
+Program to find the sum of a Series 1/1! + 2/2! + 3/3! + 4/4! +.......+ n/n!
+10.
+Program to find the sum of a Series 1/1! + 2/2! + 3/3! + 4/4! +.......+ n/n!
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Dharmendra_Kumar
+@Dharmendra_Kumar
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+avijitmondal1998
+_saurabh_jaiswal
+polymatir3j
+Article Tags :
+series
+series-sum
+Mathematical
+Practice Tags :
+Mathematical
+series

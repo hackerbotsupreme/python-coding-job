@@ -1,0 +1,157 @@
+Aliquot Sequence
+
+Last Updated : 02 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, the task is to print its Aliquot Sequence. Aliquot Sequence of a number starts with itself, remaining terms of the sequence are sum of proper divisors of immediate previous term. For example, Aliquot Sequence for 10 is 10, 8, 7, 1, 0. The sequence may repeat. For example, for 6, we have an infinite sequence of all 6s. In such cases we print the repeating number and stop. Examples:
+
+Input:  n = 10
+Output: 10 8 7 1 0
+Sum of proper divisors of 10 is  5 + 2 + 1 = 8.
+Sum of proper divisors of 8 is 4 + 2 + 1 = 7.
+Sum of proper divisors of 7 is 1
+Sum of proper divisors of 1 is 0
+Note that there is no proper divisor of 1.
+
+Input  : n = 6
+Output : 6 
+         Repeats with 6
+
+Input : n = 12
+Output : 12 16 15 9 4 3 1 0 
+Important Points:
+
+Numbers which have repeating Aliquot sequence of length 1 are called Perfect Numbers. For example 6, sum of its proper divisors is 6.
+Numbers which have repeating Aliquot sequence of length 2 are called Amicable numbers. For example 220 is a Amicable Number.
+Numbers which have repeating Aliquot sequence of length 3 are called sociable number.
+It is conjectured that every aliquot sequence ends in one of the following ways
+with a prime number which in turn ends with 1 and then 0.
+a perfect number
+a set of amicable or sociable numbers.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The solution mainly lies in the calculation of sum of all the proper divisors of the previous term.
+
+If we observe carefully, the divisors of the number n are present in pairs. For example if n = 100, then all the pairs of divisors are: (1,100), (2,50), (4,25), (5,20), (10,10)
+Using this fact efficiently compute divisors. While checking divisors we will have to be careful if there are two equal divisors as in case of (10, 10).
+In such case we will take only one of them in calculation of sum. This sum will contain sum of all the possible divisors so we have to subtract the number n from the sum of all divisors to get the sum of proper divisors.
+We can generate the sequence by first printing the number n and then calculating the next terms using sum of proper divisors. When we compute next term, we check if we have already seen this term or not. If the term appears again, we have repeating sequence. We print the same and break the loop. 
+
+C++
+Java
+Python3
+# Python implementation of Optimized approach
+# to generate Aliquot Sequence
+ 
+from math import sqrt
+ 
+# Function to calculate sum of all proper divisors
+def getSum(n):
+    summ = 0 # 1 is a proper divisor
+ 
+    # Note that this loop runs till square root
+    # of n
+    for i in range(1, int(sqrt(n)) + 1):
+        if n % i == 0:
+ 
+            # If divisors are equal, take only one
+            # of them
+            if n // i == i:
+                summ += i
+ 
+            # Otherwise take both
+            else:
+                summ += i
+                summ += n // i
+ 
+    # calculate sum of all proper divisors only
+    return summ - n
+ 
+# Function to print Aliquot Sequence for an input n.
+def printAliquot(n):
+ 
+    # Print the first term
+    print(n, end=" ")
+    s = set()
+    s.add(n)
+ 
+    nextt = 0
+    while n > 0:
+ 
+        # Calculate next term from previous term
+        n = getSum(n)
+ 
+        if n in s:
+            print("Repeats with", n)
+            break
+ 
+        # Print next term
+        print(n, end=" ")
+        s.add(n)
+ 
+# Driver Code
+if __name__ == "__main__":
+    printAliquot(12)
+ 
+# This code is contributed by
+# sanjeev2552
+C#
+Javascript
+Output:
+
+12 16 15 9 4 3 1 0 
+Reference: https://en.wikipedia.org/wiki/Aliquot_sequence This article is contributed by Harsh Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+2
+Previous
+Padovan Sequence
+Next
+Sylvester's sequence
+Related Articles
+1.
+Aliquot sum
+2.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+3.
+Count Possible Decodings of a given Digit Sequence
+4.
+Look-and-Say Sequence
+5.
+Farey Sequence
+6.
+Find Recurring Sequence in a Fraction
+7.
+G-Fact 21 | Collatz Sequence
+8.
+Juggler Sequence
+9.
+Padovan Sequence
+10.
+Recaman's sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+princiraj1992
+sanjeev2552
+gautamgoel962
+Article Tags :
+series
+Mathematical
+Practice Tags :
+Mathematical
+series

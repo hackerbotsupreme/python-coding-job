@@ -1,0 +1,175 @@
+Mersenne Prime
+
+Difficulty Level : Easy
+Last Updated : 29 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Mersenne Prime is a prime number that is one less than a power of two. In other words, any prime is Mersenne Prime if it is of the form 2k-1 where k is an integer greater than or equal to 2. First few Mersenne Primes are 3, 7, 31 and 127.
+The task is print all Mersenne Primes smaller than an input positive integer n.
+Examples: 
+ 
+
+Input: 10
+Output: 3 7
+3 and 7 are prime numbers smaller than or
+equal to 10 and are of the form 2k-1
+
+Input: 100
+Output: 3 7 31 
+ 
+
+Recommended Problem
+Mersenne Prime
+Mathematical
+Algorithms
+Solve Problem
+Submission count: 415
+The idea is to generate all the primes less than or equal to the given number n using Sieve of Eratosthenes. Once we have generated all such primes, we iterate through all numbers of the form 2k-1 and check if they are primes or not.
+Below is the implementation of the idea.
+ 
+
+C++
+Java
+Python3
+# Program to generate mersenne primes
+ 
+# Generate all prime numbers
+# less than n.
+def SieveOfEratosthenes(n, prime):
+ 
+    # Initialize all entries of boolean
+    # array as true. A value in prime[i]
+    # will finally be false if i is Not
+    # a prime, else true bool prime[n+1]
+    for i in range(0, n + 1) :
+        prime[i] = True
+ 
+    p = 2
+    while(p * p <= n):
+     
+        # If prime[p] is not changed,
+        # then it is a prime
+        if (prime[p] == True) :
+         
+            # Update all multiples of p
+            for i in range(p * 2, n + 1, p):
+                prime[i] = False
+                 
+        p += 1
+         
+# Function to generate mersenne
+# primes less than or equal to n
+def mersennePrimes(n) :
+ 
+    # Create a boolean array
+    # "prime[0..n]"
+    prime = [0] * (n + 1)
+ 
+    # Generating primes using Sieve
+    SieveOfEratosthenes(n, prime)
+ 
+    # Generate all numbers of the
+    # form 2^k - 1 and smaller
+    # than or equal to n.
+    k = 2
+    while(((1 << k) - 1) <= n ):
+     
+        num = (1 << k) - 1
+ 
+        # Checking whether number
+        # is prime and is one
+        # less than the power of 2
+        if (prime[num]) :
+            print(num, end = " " )
+             
+        k += 1
+     
+# Driver Code
+n = 31
+print("Mersenne prime numbers smaller",
+              "than or equal to " , n )
+mersennePrimes(n)
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output: 
+ 
+
+Mersenne prime numbers smaller than or equal to 31
+3 7 31 
+Time Complexity : O (n*log(logn))
+
+Space Complexity : O(N)
+
+References: 
+https://en.wikipedia.org/wiki/Mersenne_prime
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+6
+Previous
+Left-Truncatable Prime
+Next
+Perfect Number
+Related Articles
+1.
+Sum of all mersenne numbers present in an array
+2.
+Program to find the product of a number with a Mersenne Number
+3.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+4.
+Find coordinates of a prime number in a Prime Spiral
+5.
+Sum of each element raised to (prime-1) % prime
+6.
+Print the nearest prime number formed by adding prime numbers to N
+7.
+Maximize difference between sum of prime and non-prime array elements by left shifting of digits minimum number of times
+8.
+Absolute Difference between the Sum of Non-Prime numbers and Prime numbers of an Array
+9.
+Absolute difference between the Product of Non-Prime numbers and Prime numbers of an Array
+10.
+Check if a prime number can be expressed as sum of two Prime Numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Smitha Dinesh Semwal
+Mithun Kumar
+code_hunt
+devendrasalunke
+mitalibhola94
+simmytarika5
+Article Tags :
+Prime Number
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Prime Number
+sieve
+Sieve

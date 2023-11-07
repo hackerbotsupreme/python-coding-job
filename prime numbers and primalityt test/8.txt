@@ -1,0 +1,217 @@
+Introduction to Primality Test and School Method
+
+Difficulty Level : Easy
+Last Updated : 11 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given a positive integer, check if the number is prime or not. A prime is a natural number greater than 1 that has no positive divisors other than 1 and itself. Examples of the first few prime numbers are {2, 3, 5, …}
+Examples : 
+
+Input:  n = 11
+Output: true
+
+Input:  n = 15
+Output: false
+
+Input:  n = 1
+Output: false
+ 
+
+Recommended Problem
+Prime Number
+Mathematical
+Prime Number
++1 more
+VMWare
+Amazon
++1 more
+Solve Problem
+Submission count: 1.3L
+School Method: A simple solution is to iterate through all numbers from 2 to n-1 and for every number check if it divides n. If we find any number that divides, we return false. 
+
+Below is the implementation of this method. 
+
+C++
+Java
+Python3
+# A school method based Python3
+# program to check if a number
+# is prime
+  
+  
+def isPrime(n):
+  
+    # Corner case
+    if n <= 1:
+        return False
+  
+    # Check from 2 to n-1
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+  
+    return True
+  
+  
+# Driver Program to test above function
+print("true") if isPrime(11) else print("false")
+print("true") if isPrime(14) else print("false")
+  
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+
+
+ true
+ false
+Time complexity: O(n)
+Auxiliary Space: O(1)
+
+Optimized School Method: We can do the following optimizations: Instead of checking till n, we can check till √n because a larger factor of n must be a multiple of a smaller factor that has been already checked. The implementation of this method is as follows:
+
+C++
+Java
+Python3
+# Optimised school method based PYTHON program
+# to check if a number is prime
+# import the math module
+import math
+  
+# function to check whether the number is prime or not
+  
+  
+def isPrime(n):
+  
+    # Corner case
+    if (n <= 1):
+        return False
+  
+    # Check from 2 to square root of n
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if (n % i == 0):
+            return False
+    return True
+  
+  
+# Driver Program to test above function
+print("true") if isPrime(11) else print("false")
+print("true") if isPrime(15) else print("false")
+  
+# This code is contributed by bhoomikavemula
+C#
+Javascript
+Output
+ true
+ false
+Time Complexity: O(√n)
+Auxiliary Space: O(1)
+
+Another approach: It is based on the fact that all primes greater than 3 are of the form 6k ± 1, where k is any integer greater than 0. This is because all integers can be expressed as (6k + i), where i = −1, 0, 1, 2, 3, or 4. And note that 2 divides (6k + 0), (6k + 2), and (6k + 4) and 3 divides (6k + 3). So, a more efficient method is to test whether n is divisible by 2 or 3, then to check through all numbers of the form 6k ± 1 <= √n. This is 3 times faster than testing all numbers up to √n. (Source: wikipedia).  
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to check the given number
+# is prime or not
+  
+# Function to check if the given number
+# is prime or not.
+import math
+  
+def isPrime(n):
+    if n == 2 or n == 3:
+        return True
+    elif n <= 1 or n % 2 == 0 or n % 3 == 0:
+        return False
+        
+        # To check through all numbers of the form 6k ± 1
+    # until i <= square root of n, with step value 6
+    for i in range(5, int(math.sqrt(n))+1, 6):
+        if n % i == 0 or n % (i+2) == 0:
+            return False
+  
+    return True
+  
+# # Driver code
+print(isPrime(11))
+print(isPrime(20))
+  
+# # This code is contributed by Harsh Master
+C#
+Javascript
+Output
+ true
+ false
+Time Complexity: O(√n)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+92
+Previous
+Prime Numbers
+Next
+Fermat Method of Primality Test
+Related Articles
+1.
+Fermat Method of Primality Test
+2.
+Solovay-Strassen method of Primality Test
+3.
+Primality Test | Set 3 (Miller–Rabin)
+4.
+Lucas Primality Test
+5.
+AKS Primality Test
+6.
+Vantieghems Theorem for Primality Test
+7.
+Implementation of Wilson Primality test
+8.
+Primality test for the sum of digits at odd places of a number
+9.
+Primality Test using Lucas-Lehmer Series
+10.
+Program to find GCD or HCF of two numbers using Middle School Procedure
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+mayanktyagi1709
+vikash36905
+sanjoy_62
+bhoomikavemula
+mananbansal1806
+harshmaster07705
+sagar0719kumar
+its_codezada17
+amankr0211
+pushpeshrajdx01
+simmytarika5
+sayanc170
+Article Tags :
+number-theory
+Prime Number
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+Prime Number

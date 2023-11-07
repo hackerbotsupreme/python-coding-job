@@ -1,0 +1,117 @@
+Sylvester’s sequence
+
+Difficulty Level : Basic
+Last Updated : 21 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+In number system, Sylvester’s sequence is an integer sequence in which each member of the sequence is the product of the previous members, plus one. Given a positive integer N. The task is to print the first N member of the sequence. 
+Since numbers can be very big, use %10^9 + 7.
+Examples: 
+ 
+
+Input : N = 6
+Output : 2 3 7 43 1807 3263443
+
+Input : N = 2
+Output : 2 3
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to run a loop and take two variables and initialise them as 1 and 2, one to store the product till now and other to store the current number which is nothing but the first number + 1 and for each step multiply both using arithmetic modular operation i.e (a + b)%N = (a%N + b%N)%N where N is a modular number.
+Below is the implementation of this approach: 
+ 
+
+C++
+Java
+Python
+# Python Code for Sylvester sequence
+ 
+def printSequence(n) :
+    a = 1 # To store the product.
+    ans = 2 # To store the current number.
+    N = 1000000007
+     
+    # Loop till n.
+    i = 1
+    while i <= n :
+        print ans,
+        ans = ((a % N) * (ans % N)) % N
+        a = ans
+        ans = (ans + 1) % N
+        i = i + 1
+         
+ 
+# Driver program to test above function
+n = 6
+printSequence(n)
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+2 3 7 43 1807 3263443
+Time complexity : O(n) 
+Auxiliary Space : O(1)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+2
+Previous
+Aliquot Sequence
+Next
+Abundant Number
+Related Articles
+1.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+2.
+Count Possible Decodings of a given Digit Sequence
+3.
+Look-and-Say Sequence
+4.
+Farey Sequence
+5.
+Find Recurring Sequence in a Fraction
+6.
+G-Fact 21 | Collatz Sequence
+7.
+Juggler Sequence
+8.
+Padovan Sequence
+9.
+Aliquot Sequence
+10.
+Recaman's sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+gfgking
+technophpfij
+Article Tags :
+series
+Mathematical
+School Programming
+Practice Tags :
+Mathematical
+series

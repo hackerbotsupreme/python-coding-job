@@ -1,0 +1,204 @@
+Efficient program to print all prime factors of a given number
+
+Difficulty Level : Easy
+Last Updated : 08 Dec, 2022
+Read
+Discuss(220+)
+Courses
+Practice
+Video
+Given a number n, write an efficient function to print all prime factors of n. For example, if the input number is 12, then the output should be “2 2 3”. And if the input number is 315, then the output should be “3 3 5 7”.
+
+Recommended Problem
+Largest prime factor
+Mathematical
+Prime Number
++2 more
+Yahoo
+Solve Problem
+Submission count: 44.5K
+First Approach:
+
+Following are the steps to find all prime factors. 
+1) While n is divisible by 2, print 2 and divide n by 2. 
+2) After step 1, n must be odd. Now start a loop from i = 3 to the square root of n. While i divides n, print i, and divide n by i. After i fails to divide n, increment i by 2 and continue. 
+3) If n is a prime number and is greater than 2, then n will not become 1 by the above two steps. So print n if it is greater than 2. 
+
+C++
+C
+Java
+Python
+# Python program to print prime factors
+ 
+import math
+ 
+# A function to print all prime factors of
+# a given number n
+def primeFactors(n):
+     
+    # Print the number of two's that divide n
+    while n % 2 == 0:
+        print 2,
+        n = n / 2
+         
+    # n must be odd at this point
+    # so a skip of 2 ( i = i + 2) can be used
+    for i in range(3,int(math.sqrt(n))+1,2):
+         
+        # while i divides n , print i and divide n
+        while n % i== 0:
+            print i,
+            n = n / i
+             
+    # Condition if n is a prime
+    # number greater than 2
+    if n > 2:
+        print n
+         
+# Driver Program to test above function
+ 
+n = 315
+primeFactors(n)
+ 
+# This code is contributed by Harshit Agrawal
+C#
+PHP
+Javascript
+Output
+3 3 5 7 
+Time Complexity: O(sqrt(n))
+
+In the worst case ( when either n or sqrt(n) is prime, for example: take n=11 or n=121 for both the cases for loop runs sqrt(n) times), the for loop runs for sqrt(n) times. The more number of times the while loop iterates on a number it reduces the original n, which also reduces the value of sqrt(n). Although the best case time complexity is O(log(n)), when the prime factors of n is only 2 and 3 or n is of the form (2^x*(3^y) where x>=0 and y>=0.
+
+Auxiliary Space: O(1)
+
+
+
+How does this work? 
+The steps 1 and 2 take care of composite numbers and step 3 takes care of prime numbers. To prove that the complete algorithm works, we need to prove that steps 1 and 2 actually take care of composite numbers. This is clear that step 1 takes care of even numbers. And after step 1, all remaining prime factors must be odd (difference of two prime factors must be at least 2), this explains why i is incremented by 2. 
+
+Now the main part is, the loop runs till the square root of n not till n. To prove that this optimization works, let us consider the following property of composite numbers. 
+
+Every composite number has at least one prime factor less than or equal to the square root of itself. 
+This property can be proved using a counter statement. Let a and b be two factors of n such that a*b = n. If both are greater than √n, then a.b > √n, * √n, which contradicts the expression “a * b = n”. 
+
+In step 2 of the above algorithm, we run a loop and do the following in loop 
+a) Find the least prime factor i (must be less than √n,) 
+b) Remove all occurrences i from n by repeatedly dividing n by i. 
+c) Repeat steps a and b for divided n and i = i + 2. The steps a and b are repeated till n becomes either 1 or a prime number.
+
+Second Approach: This approach is similar to Sieve of Eratosthenes.
+
+We can achieve O(log n) for all composite numbers by consecutive dividing of the given number by an integer starting from 2 representing current factor of that number. This approach works on the fact that all composite numbers have factors in pairs other than 1 or number itself like 6=3 x 2 and 9=3 x 3 whereas for prime numbers there is no such pair other than 1 or the number itself.
+
+Therefore if we start dividing the number by the smallest possible prime number (2) then all of its multiples or composite numbers will automatically be removed before we actually reach that number.
+
+Example: We can divide 12 by 2 two times and remove that factors from 12 to get 3 thus making sure that composite number 4 (multiple of 2) does not occur at any later point of time.
+
+Similarly, if we have a big number that is not divisible by any value of c=2 to n-1 means it is prime like 13 (not divisible from 2 to 12).
+
+C++14
+C
+Java
+C#
+Python3
+def primeFactors(n):
+ 
+    c = 2
+    while(n > 1):
+ 
+        if(n % c == 0):
+            print(c, end=" ")
+            n = n / c
+        else:
+            c = c + 1
+ 
+# Driver code
+n = 315
+primeFactors(n)
+ 
+# This code is contributed by Taranpreet
+Javascript
+Output
+3 3 5 7 
+Time Complexity: This Approach is best for all composite numbers and achieves O(log n) but is O(n) otherwise.
+Auxiliary Space: O(1)
+
+Related Article : 
+Prime Factorization using Sieve O(log n) for multiple queries
+Thanks to Vishwas Garg for suggesting the above algorithm. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+249
+Previous
+Prime Factorization using Sieve O(log n) for multiple queries
+Next
+Prime Factor
+Related Articles
+1.
+Print all numbers whose set of prime factors is a subset of the set of the prime factors of X
+2.
+Efficient program to print the number of factors of n numbers
+3.
+Maximum number of prime factors a number can have with exactly x factors
+4.
+C Program for efficiently print all prime factors of a given number
+5.
+Java Program for efficiently print all prime factors of a given number
+6.
+Check if a number exists having exactly N factors and K prime factors
+7.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+8.
+Count numbers in a given range whose count of prime factors is a Prime Number
+9.
+Find prime factors of Z such that Z is product of all even numbers till N that are product of two distinct prime numbers
+10.
+Find number of factors of N when location of its two factors whose product is N is given
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+NehaChoutapelly
+rathbhupendra
+sudhanshubhogal30299
+surbhityagi15
+chauhandeepakdc9
+ajaykathwate13
+prophet1999
+singhh3010
+sumitgumber28
+rohit768
+in_coder_aps
+ruhelaa48
+agfro1cac
+Article Tags :
+combionatrics
+Prime Number
+prime-factor
+sieve
+Yahoo
+Dynamic Programming
+Mathematical
+Practice Tags :
+Yahoo
+Dynamic Programming
+Mathematical
+Prime Number
+sieve
+Sieve
+Improve Article
+Report Issue

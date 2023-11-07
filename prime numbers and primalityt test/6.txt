@@ -1,0 +1,187 @@
+Rosser’s Theorem
+
+Last Updated : 18 Aug, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+In mathematics, Rosser’s Theorem states that the nth prime number is greater than the product of n and natural logarithm of n for all n greater than 1. 
+Mathematically, 
+For n >= 1, if pn is the nth prime number, then 
+pn > n * (ln n)
+ 
+
+Illustrative Examples:
+      
+       For n = 1, nth prime number = 2
+    2 > 1 * ln(1)
+Explanations, the above relation inherently holds true and it verifies the 
+statement of Rosser's Theorem clearly.
+Some more examples are, 
+       For n = 2, nth prime number = 3
+    3 > 2 * ln(2)
+       For n = 3, nth prime number = 5
+    5 > 3 * ln(3)
+       For n = 4, nth prime number = 7
+    7 > 4 * ln(4)
+       For n = 5, nth prime number = 11
+    11 > 5 * ln(5)
+       For n = 6, nth prime number = 13
+    13 > 6 * ln(6)
+Approach for code: 
+Efficient generation of prime numbers using prime sieve and checking the condition of Rosser’s Theorem for each prime number individually. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to verify Rosser's Theorem
+import math
+prime = [];
+ 
+# Sieve of Eratosthenes
+def sieve():
+     
+    # prime sieve to generate
+    # prime numbers efficiently
+    n = 100001;
+    isprime = [True] * (n + 2);
+    isprime[0] = False;
+    isprime[1] = False;
+    for i in range(2, n + 1):
+        if(isprime[i]):
+            j = i * i;
+            while (j <= n):
+                isprime[j] = False;
+                j += i;
+     
+    # store primes in
+    # prime[] vector
+    for i in range(n + 1):
+        if (isprime[i]):
+            prime.append(i);
+ 
+# Verifies ROSSER'S THEOREM
+# for all numbers smaller than n.
+def verifyRosser(n):
+     
+    print("ROSSER'S THEOREM: nth",
+          "prime number > n * (ln n)");
+    for i in range(n):
+        if (prime[i] > int((i + 1) * math.log(i + 1))):
+            print("For n =", (i + 1), ", nth prime number =",
+                   prime[i], "\n\t", prime[i], " >", (i + 1),
+                                      "* ln(", (i + 1), ")");
+ 
+# Driver Code
+sieve();
+verifyRosser(20);
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output: 
+ROSSER'S THEOREM: nth prime number > n * (ln n)
+For n = 1, nth prime number = 2
+    2 > 1 * ln(1)
+For n = 2, nth prime number = 3
+    3 > 2 * ln(2)
+For n = 3, nth prime number = 5
+    5 > 3 * ln(3)
+For n = 4, nth prime number = 7
+    7 > 4 * ln(4)
+For n = 5, nth prime number = 11
+    11 > 5 * ln(5)
+For n = 6, nth prime number = 13
+    13 > 6 * ln(6)
+For n = 7, nth prime number = 17
+    17 > 7 * ln(7)
+For n = 8, nth prime number = 19
+    19 > 8 * ln(8)
+For n = 9, nth prime number = 23
+    23 > 9 * ln(9)
+For n = 10, nth prime number = 29
+    29 > 10 * ln(10)
+For n = 11, nth prime number = 31
+    31 > 11 * ln(11)
+For n = 12, nth prime number = 37
+    37 > 12 * ln(12)
+For n = 13, nth prime number = 41
+    41 > 13 * ln(13)
+For n = 14, nth prime number = 43
+    43 > 14 * ln(14)
+For n = 15, nth prime number = 47
+    47 > 15 * ln(15)
+For n = 16, nth prime number = 53
+    53 > 16 * ln(16)
+For n = 17, nth prime number = 59
+    59 > 17 * ln(17)
+For n = 18, nth prime number = 61
+    61 > 18 * ln(18)
+For n = 19, nth prime number = 67
+    67 > 19 * ln(19)
+For n = 20, nth prime number = 71
+    71 > 20 * ln(20)
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+0
+Next
+Fermat's little theorem
+Related Articles
+1.
+Compute nCr % p | Set 4 (Chinese Remainder theorem with Lucas Theorem)
+2.
+Introduction to Chinese Remainder Theorem
+3.
+Wilson's Theorem
+4.
+Zeckendorf's Theorem (Non-Neighbouring Fibonacci Representation)
+5.
+Compute nCr%p using Lucas Theorem
+6.
+Implementation of Chinese Remainder theorem (Inverse Modulo based implementation)
+7.
+Combinatorial Game Theory | Set 4 (Sprague - Grundy Theorem)
+8.
+Compute nCr%p using Fermat Little Theorem
+9.
+Using Chinese Remainder Theorem to Combine Modular equations
+10.
+Corollaries of Binomial Theorem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+jaideeppyne1997
+@jaideeppyne1997
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+ihritik
+princiraj1992
+gfgking
+singghakshay
+Article Tags :
+maths-log
+number-theory
+Prime Number
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+Prime Number
+Improve Article
+Report Issue

@@ -1,0 +1,184 @@
+Fermat’s little theorem
+
+Difficulty Level : Medium
+Last Updated : 21 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Fermat’s little theorem states that if p is a prime number, then for any integer a, the number a p – a is an integer multiple of p. 
+
+Here p is a prime number 
+ap ≡ a (mod p).
+
+Special Case: If a is not divisible by p, Fermat’s little theorem is equivalent to the statement that a p-1-1 is an integer multiple of p. 
+ 
+
+ap-1 ≡ 1 (mod p) 
+OR 
+ap-1 % p = 1 
+Here a is not divisible by p. 
+
+Take an Example How Fermat’s little theorem works 
+
+ Example 1:
+
+ P = an integer Prime number   
+ a = an integer which is not multiple of P  
+ Let a = 2 and P = 17 
+ 
+ According to Fermat's little theorem 
+  2 17 - 1     ≡ 1 mod(17)
+ we got  65536 % 17 ≡ 1   
+ that mean (65536-1) is an multiple of 17 
+Example 2:
+
+Find the remainder when you divide 3^100,000 by 53.
+
+Since, 53 is prime number we can apply fermat's little theorem here.
+Therefore:     3^53-1 ≡ 1 (mod 53)
+            3^52 ≡ 1   (mod 53)
+Trick: Raise both sides to a larger power so that it is close to 100,000.
+            100000/52 = Quotient = 1923 and remainder = 4.Multiplying both sides with 1923:            (3^52)^1923 ≡ 1^1923 (mod 53)                    3^99996 ≡ 1  (mod 53)Multiplying both sides with 3^4:                3^100,000 ≡ 3^4  (mod 53)                3^100,000 ≡ 81   (mod 53)                3^100,000 ≡ 28   (mod 53).Therefore, the remainder is 28 when you divide 3^100,000 by 53.
+Use of Fermat’s little theorem
+If we know m is prime, then we can also use Fermat’s little theorem to find the inverse.
+
+        am-1 ≡ 1 (mod m) 
+If we multiply both sides with a-1, we get
+
+        a-1 ≡ a m-2 (mod m) 
+Below is the Implementation of above :
+
+C++
+Java
+Python3
+# Python program to find
+# modular inverse of a
+# under modulo m using
+# Fermat's little theorem.
+# This program works
+# only if m is prime.
+ 
+ 
+def __gcd(a, b):
+ 
+    if(b == 0):
+        return a
+    else:
+        return __gcd(b, a % b)
+ 
+# To compute x^y under modulo m
+ 
+ 
+def power(x, y, m):
+ 
+    if (y == 0):
+        return 1
+    p = power(x, y // 2, m) % m
+    p = (p * p) % m
+ 
+    return p if(y % 2 == 0) else (x * p) % m
+ 
+# Function to find modular
+# inverse of a under modulo m
+# Assumption: m is prime
+ 
+ 
+def modInverse(a, m):
+ 
+    if (__gcd(a, m) != 1):
+        print("Inverse doesn't exist")
+ 
+    else:
+ 
+        # If a and m are relatively prime, then
+        # modulo inverse is a^(m-2) mode m
+        print("Modular multiplicative inverse is ",
+              power(a, m - 2, m))
+ 
+# Driver code
+ 
+ 
+a = 3
+m = 11
+modInverse(a, m)
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output : 
+ 
+
+Modular multiplicative inverse is 4
+Time Complexity: O(log m)
+
+Auxiliary Space: O(log m) because of the internal recursion stack.
+
+Some Article Based on Fermat’s little theorem 
+ 
+
+Compute nCr % p | Set 3 (Using Fermat Little Theorem)
+Modular multiplicative inverse
+Primality Test | Set 2 (Fermat Method)
+Modulo 10^9+7 (1000000007)
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Rosser's Theorem
+Next
+Write an iterative O(Log y) function for pow(x, y)
+Related Articles
+1.
+Compute nCr%p using Fermat Little Theorem
+2.
+Compute nCr % p | Set 4 (Chinese Remainder theorem with Lucas Theorem)
+3.
+Introduction to Chinese Remainder Theorem
+4.
+Wilson's Theorem
+5.
+Zeckendorf's Theorem (Non-Neighbouring Fibonacci Representation)
+6.
+Compute nCr%p using Lucas Theorem
+7.
+Implementation of Chinese Remainder theorem (Inverse Modulo based implementation)
+8.
+Combinatorial Game Theory | Set 4 (Sprague - Grundy Theorem)
+9.
+Using Chinese Remainder Theorem to Combine Modular equations
+10.
+Corollaries of Binomial Theorem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant_Singh
+@Nishant_Singh
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+DeepeshThakur
+prakash_gatiyala
+rutvik_56
+stratonov16
+surinderdawra388
+pushpeshrajdx01
+Article Tags :
+GCD-LCM
+number-theory
+Mathematical
+Practice Tags :
+Mathematical
+number-theory

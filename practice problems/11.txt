@@ -1,0 +1,150 @@
+Program for Derivative of a Polynomial
+
+Difficulty Level : Medium
+Last Updated : 18 Nov, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given a polynomial as a string and a value. Evaluate polynomial’s derivative for the given value. 
+Note: The input format is such that there is a white space between a term and the ‘+’ symbol
+
+The derivative of p(x) = ax^n is p'(x) = a*n*x^(n-1)
+Also, if p(x) = p1(x) + p2(x) 
+Here p1 and p2 are polynomials too 
+p'(x) = p1′(x) + p2′(x) 
+
+Input : 3x^3 + 4x^2 + 6x^1 + 89x^0
+        2             
+Output :58 
+Explanation : Derivative of given
+polynomial is : 9x^2 + 8x^1 + 6
+Now put x = 2
+9*4 + 8*2 + 6 = 36 + 16 + 6 = 58  
+            
+Input : 1x^3
+        3
+Output : 27
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We split the input string into tokens and for each term calculate the derivative separately for each term and add them to get the result. 
+
+C++
+Java
+Python3
+# Python3 program to find
+# value of derivative of
+# a polynomial.
+def derivativeTerm(pTerm, val):
+ 
+    # Get coefficient
+    coeffStr = ""
+ 
+    i = 0
+    while (i < len(pTerm) and
+           pTerm[i] != 'x'):
+        coeffStr += (pTerm[i])
+        i += 1
+         
+    coeff = int(coeffStr)
+ 
+    # Get Power (Skip 2 characters
+    # for x and ^)
+    powStr = ""
+    j = i + 2
+    while j < len(pTerm):
+        powStr += (pTerm[j])
+        j += 1
+    
+    power = int(powStr)
+ 
+    # For ax^n, we return
+    # a(n)x^(n-1)
+    return (coeff * power *
+            pow(val, power - 1))
+ 
+def derivativeVal(poly, val):
+ 
+    ans = 0
+    i = 0
+    stSplit = poly.split("+")
+    
+    while (i < len(stSplit)):     
+        ans = (ans +
+               derivativeTerm(stSplit[i],
+                              val))
+        i += 1
+ 
+    return ans
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    st = "4x^3 + 3x^1 + 2x^2"
+    val = 2   
+    print(derivativeVal(st, val))
+ 
+# This code is contributed by Chitranayal
+C#
+Javascript
+Output: 
+
+59
+This article is contributed by Ankit Jain . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+4
+Previous
+Count all subarrays whose sum can be split as difference of squares of two Integers
+Next
+Horner's Method for Polynomial Evaluation
+Related Articles
+1.
+Partial derivative of a polynomial using Doubly Linked List
+2.
+Program to find the indefinite Integration of the given Polynomial
+3.
+Program to differentiate the given Polynomial
+4.
+Program to find the value of P(N + r) for a polynomial of a degree N such that P(i) = 1 for 1 ≤ i ≤ N and P(N + 1) = a
+5.
+Horner's Method for Polynomial Evaluation
+6.
+Derivatives of Polynomial Functions
+7.
+Sgn value of a polynomial
+8.
+Fast Fourier Transformation for polynomial multiplication
+9.
+Finding nth term of any Polynomial Sequence
+10.
+Minimize the sum of roots of a given polynomial
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+avanitrachhadiya2155
+rag2127
+ab2127
+jainkarmesh1
+Article Tags :
+maths-polynomial
+Mathematical
+Practice Tags :
+Mathematical
+Improve Article
+Report Issu

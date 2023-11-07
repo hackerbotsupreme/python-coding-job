@@ -1,0 +1,345 @@
+Power Set
+
+Difficulty Level : Medium
+Last Updated : 16 Jan, 2023
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Power Set: Power set P(S) of a set S is the set of all subsets of S. For example S = {a, b, c} then P(s) = {{}, {a}, {b}, {c}, {a,b}, {a, c}, {b, c}, {a, b, c}}.
+If S has n elements in it then P(s) will have 2n elements
+
+Example: 
+
+Set  = [a,b,c]
+power_set_size = pow(2, 3) = 8
+Run for binary counter = 000 to 111
+
+Value of Counter            Subset
+   000                    -> Empty set
+   001                    -> a
+   010                    -> b
+   011                    -> ab
+   100                    -> c
+   101                    -> ac
+   110                    -> bc
+   111                    -> abc
+
+Recommended Problem
+Power Set
+Mathematical
+Bit Magic
++2 more
+Snapdeal
+Solve Problem
+Submission count: 39.8K
+Algorithm: 
+
+Input: Set[], set_size
+1. Get the size of power set
+      powet_set_size = pow(2, set_size)
+2  Loop for counter from 0 to pow_set_size
+    (a) Loop for i = 0 to set_size
+         (i) If ith bit in counter is set
+                Print ith element from set for this subset
+   (b) Print separator for subsets i.e., newline
+
+Method 1:
+For a given set[] S, the power set can be found by generating all binary numbers between 0 and 2n-1, where n is the size of the set. 
+For example, for the set S {x, y, z}, generate all binary numbers from 0 to 23-1 and for each generated number, the corresponding set can be found by considering set bits in the number.
+
+
+
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# python3 program for power set
+ 
+import math;
+ 
+def printPowerSet(set,set_size):
+     
+    # set_size of power set of a set
+    # with set_size n is (2**n -1)
+    pow_set_size = (int) (math.pow(2, set_size));
+    counter = 0;
+    j = 0;
+     
+    # Run from counter 000..0 to 111..1
+    for counter in range(0, pow_set_size):
+        for j in range(0, set_size):
+             
+            # Check if jth bit in the
+            # counter is set If set then
+            # print jth element from set
+            if((counter & (1 << j)) > 0):
+                print(set[j], end = "");
+        print("");
+ 
+# Driver program to test printPowerSet
+set = ['a', 'b', 'c'];
+printPowerSet(set, 3);
+ 
+# This code is contributed by mits.
+C#
+PHP
+Javascript
+Output
+a
+b
+ab
+c
+ac
+bc
+abc
+Time Complexity: O(n2n)
+Auxiliary Space: O(1)
+
+Method 2: (sorted by cardinality)
+
+In auxiliary array of bool set all elements to 0. That represent an empty set. Set first element of auxiliary array to 1 and generate all permutations to produce all subsets with one element. Then set the second element to 1 which will produce all subsets with two elements, repeat until all elements are included.
+
+Below is the implementation of the above approach.
+
+
+C++
+Java
+Python3
+# Python3 program for the above approach
+ 
+# A function which gives previous
+# permutation of the array
+# and returns true if a permutation
+# exists.
+def prev_permutation(str):
+ 
+    # Find index of the last
+    # element of the string
+    n = len(str) - 1
+ 
+    # Find largest index i such
+    # that str[i - 1] > str[i]
+    i = n
+    while (i > 0 and str[i - 1] <= str[i]):
+        i -= 1
+ 
+    # If string is sorted in
+    # ascending order we're
+    # at the last permutation
+    if (i <= 0):
+        return False
+ 
+    # Note - str[i..n] is sorted
+    # in ascending order Find
+    # rightmost element's index
+    # that is less than str[i - 1]
+    j = i - 1
+    while (j + 1 <= n and str[j + 1] < str[i - 1]):
+        j += 1
+ 
+    # Swap character at i-1 with j
+    temper = str[i - 1]
+    str[i - 1] = str[j]
+    str[j] = temper
+ 
+    # Reverse the substring [i..n]
+    size = n-i+1
+    for idx in range(int(size / 2)):
+        temp = str[idx + i]
+        str[idx + i] = str[n - idx]
+        str[n - idx] = temp
+ 
+    return True
+ 
+# Function to print all the power set
+def printPowerSet(set, n):
+ 
+    contain = [0 for _ in range(n)]
+ 
+    # Empty subset
+    print()
+ 
+    for i in range(n):
+        contain[i] = 1
+ 
+        # To avoid changing original 'contain'
+        # array creating a copy of it i.e.
+        # "Contain"
+        Contain = contain.copy()
+ 
+        # All permutation
+        while True:
+            for j in range(n):
+                if (Contain[j]):
+                    print(set[j], end="")
+            print()
+            if not prev_permutation(Contain):
+                break
+ 
+# Driver code
+set = ['a', 'b', 'c']
+printPowerSet(set, 3)
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+a
+b
+c
+ab
+ac
+bc
+abc
+Time Complexity: O(n2n)
+Auxiliary Space: O(n)
+
+Method 3: 
+This method is specific to the python programming language. We can iterate a loop over 0 to the length of the set to obtain and generate all possible combinations of that string with the iterable length. The program below will give the implementation of the above idea. 
+ 
+
+Below is the implementation of the above approach.
+
+Python3
+#Python program to find powerset
+from itertools import combinations
+def print_powerset(string):
+    for i in range(0,len(string)+1):
+        for element in combinations(string,i):
+            print(''.join(element))
+string=['a','b','c']
+print_powerset(string)
+Javascript
+Output
+a
+b
+c
+ab
+ac
+bc
+abc
+Method 4:
+
+We can use backtrack here, we have two choices first consider that element then don’t consider that element. 
+
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python3 program to implement the approach
+ 
+# Function to build the power sets
+def findPowerSet(s, res, n):
+    if (n == 0):
+        for i in res:
+            print(i, end="")
+        print()
+        return
+ 
+    # append the subset to result
+    res.append(s[n - 1])
+    findPowerSet(s, res, n - 1)
+    res.pop()
+    findPowerSet(s, res, n - 1)
+ 
+# Function to print the power set
+def printPowerSet(s, n):
+    ans = []
+    findPowerSet(s, ans, n)
+ 
+# Driver code
+set = ['a', 'b', 'c']
+printPowerSet(set, 3)
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+cba
+cb
+ca
+c
+ba
+b
+a
+Time Complexity: O(n2^n)
+
+Space Complexity: O(n)
+
+Recursive program to generate power set
+Refer Power Set in Java for implementation in Java and more methods to print power set.
+References: 
+http://en.wikipedia.org/wiki/Power_set
+ 
+
+If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+138
+Previous
+Sum of average of all subsets
+Next
+Print all subsets of given size of a set
+Related Articles
+1.
+Find power of power under mod of a prime
+2.
+Check if given number is a power of d where d is a power of 2
+3.
+Compute power of power k times % m
+4.
+Larger of a^b or b^a (a raised to power b or b raised to power a)
+5.
+Find the sum of power of bit count raised to the power B
+6.
+Maximize the product of sum and least power by choosing at most K elements from given value and power Arrays
+7.
+Check if a number can be expressed as power | Set 2 (Using Log)
+8.
+Generate a sequence from first X natural numbers which adds up to S on raising 2 to the power of their lowest set bits
+9.
+Minimum size of set having either element in range [0, X] or an odd power of 2 with sum N
+10.
+Highest power of a number that divides other number | Set - 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Mithun Kumar
+Aaditya Kulkarni
+SoumikMondal
+avsadityavardhan
+shikhasingrajput
+khushboogoyal499
+subhammahato348
+zlatkodamijanic
+gautamgoel962
+isha307
+phasing17
+lokeshpotta20
+Article Tags :
+Snapdeal
+Mathematical
+Practice Tags :
+Snapdeal
+Mathematical
+Improve Article
+Report Issue

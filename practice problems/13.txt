@@ -1,0 +1,208 @@
+Check if a number is a power of another number
+
+Difficulty Level : Easy
+Last Updated : 11 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given two positive numbers x and y, check if y is a power of x or not.
+Examples : 
+
+Input:  x = 10, y = 1
+Output: True
+x^0 = 1
+
+Input:  x = 10, y = 1000
+Output: True
+x^3 = 1
+
+Input:  x = 10, y = 1001
+Output: False
+
+Recommended Problem
+Check if a number is power of another number
+Mathematical
+Algorithms
+Zoho
+SAP Labs
+Solve Problem
+Submission count: 30.8K
+A simple solution is to repeatedly compute the powers of x. If a power becomes equal to y, then y is a power, else not. 
+
+C++
+Java
+Python3
+# python program to check
+# if a number is power of
+# another number
+ 
+# Returns true if y is a
+# power of x
+def isPower (x, y):
+     
+    # The only power of 1
+    # is 1 itself
+    if (x == 1):
+        return (y == 1)
+         
+    # Repeatedly compute
+    # power of x
+    pow = 1
+    while (pow < y):
+        pow = pow * x
+ 
+    # Check if power of x
+    # becomes y
+    return (pow == y)
+     
+     
+# Driver Code
+# check the result for
+# true/false and print.
+if(isPower(10, 1)):
+    print(1)
+else:
+    print(0)
+ 
+if(isPower(1, 20)):
+    print(1)
+else:
+    print(0)
+if(isPower(2, 128)):
+    print(1)
+else:
+    print(0)
+if(isPower(2, 30)):
+    print(1)
+else:
+    print(0)
+     
+# This code is contributed
+# by Sam007.
+C#
+PHP
+Javascript
+Output
+1
+0
+1
+0
+Time complexity: O(Logxy)
+Auxiliary space: O(1)
+
+
+
+Optimization: 
+We can optimize above solution to work in O(Log Log y). The idea is to do squaring of power instead of multiplying it with x, i.e., compare y with x^2, x^4, x^8, …etc. If x becomes equal to y, return true. If x becomes more than y, then we do binary search for power of x between previous power and current power, i.e., between x^i and x^(i/2).
+Following are detailed step. 
+
+1) Initialize pow = x, i = 1
+2) while (pow < y)
+   {
+      pow = pow*pow 
+      i *= 2
+   }    
+3) If pow == y
+     return true;
+4) Else construct an array of powers
+   from x^i to x^(i/2)
+5) Binary Search for y in array constructed
+   in step 4. If not found, return false. 
+   Else return true.
+Alternate Solution : 
+The idea is to take log of y in base x. If it turns out to be an integer, we return true. Else false. 
+
+C++
+// CPP program to check given number y
+// is power of x
+#include <iostream>
+#include <math.h>
+using namespace std;
+ 
+bool isPower(int x, int y)
+{
+    // logarithm function to calculate value
+    double res1 = log(y) / log(x);
+    double res2 = log(y) / log(x); // Note : this is double
+ 
+    // compare to the result1 or result2 both are equal
+    return (res1 == res2);
+}
+ 
+// Driven program
+int main()
+{
+    cout << isPower(2, 128) << endl;
+    return 0;
+}
+Java
+PHP
+Output
+1
+Time complexity: O(1)
+Auxiliary space: O(1)
+
+Thanks to Gyayak Jain for suggesting this solution.
+This article is contributed by Manish Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+16
+Previous
+Check if a number can be expressed as x^y (x raised to power y)
+Next
+Highest power of 2 less than or equal to given number
+Related Articles
+1.
+Check if given number is a power of d where d is a power of 2
+2.
+GCD of a number raised to some power and another number
+3.
+Find power of power under mod of a prime
+4.
+Compute power of power k times % m
+5.
+Larger of a^b or b^a (a raised to power b or b raised to power a)
+6.
+Find the sum of power of bit count raised to the power B
+7.
+Maximize the product of sum and least power by choosing at most K elements from given value and power Arrays
+8.
+Count pairs in array such that one element is power of another
+9.
+Check if a large number is divisible by a number which is a power of 2
+10.
+Check if the number is a Prime power number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+Mithun Kumar
+hsagarthegr8
+chinmoy1997pal
+princi singh
+sweetyty
+noviced3vq6
+codearcade
+harendrakumar123
+Article Tags :
+SAP Labs
+Mathematical
+Practice Tags :
+SAP Labs
+Mathematical
+Improve Article
+Report Issue

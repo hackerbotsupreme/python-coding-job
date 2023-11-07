@@ -1,0 +1,180 @@
+Finding power of prime number p in n!
+
+Difficulty Level : Medium
+Last Updated : 23 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number ‘n’ and a prime number ‘p’. We need to find out the power of ‘p’ in the prime factorization of n!
+Examples: 
+ 
+
+Input  : n = 4, p = 2
+Output : 3
+         Power of 2 in the prime factorization
+         of 2 in 4! = 24 is 3
+
+Input  : n = 24, p = 2
+Output : 22
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive approach 
+The naive approach is to find the power of p in each number from 1 to n and add them. Because we know that during multiplication power is added.
+ 
+
+C++
+Java
+Python3
+# Python3 implementation of
+# finding power of p in n!
+ 
+# Returns power of p in n!
+def PowerOFPINnfactorial(n, p):
+ 
+    # initializing answer
+    ans = 0;
+ 
+    # initializing
+    temp = p;
+ 
+    # loop until temp<=n
+    while (temp <= n):
+ 
+        # add number of numbers
+        # divisible by n
+        ans += n / temp;
+ 
+        # each time multiply
+        # temp by p
+        temp = temp * p;
+         
+    return ans;
+ 
+# Driver Code
+print(PowerOFPINnfactorial(4, 2));
+ 
+# This code is contributed by
+# mits
+C#
+PHP
+Javascript
+Kotlin
+Output: 
+
+3
+Time Complexity: O(logpn) 
+Auxiliary Space: O(1)
+
+Efficient Approach 
+Before discussing efficient approach lets discuss a question given a two numbers n, m how many numbers are there from 1 to n that are divisible by m the answer is floor(n/m). 
+Now coming back to our original question to find the power of p in n! what we do is count the number of numbers from 1 to n that are divisible by p then by p^2       then by p^3       till p^k       > n and add them. This will be our required answer. 
+
+   Powerofp(n!) = floor(n/p) + floor(n/p^2) + floor(n/p^3)........ 
+Below is the implementation of the above steps.
+ 
+
+C++
+Java
+Python3
+# Python3 implementation of
+# finding power of p in n!
+ 
+# Returns power of p in n!
+def PowerOFPINnfactorial(n, p):
+ 
+    # initializing answer
+    ans = 0
+ 
+    # initializing
+    temp = p
+ 
+    # loop until temp<=n
+    while (temp <= n) :
+ 
+        # add number of numbers
+        # divisible by n
+        ans += n / temp
+ 
+        # each time multiply
+        # temp by p
+        temp = temp * p
+     
+    return int(ans)
+ 
+# Driver Code
+print(PowerOFPINnfactorial(4, 2))
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Kotlin
+Output: 
+
+3
+Time Complexity :O(log_p       (n))
+Auxiliary Space: O(1)
+This article is contributed by Aarti_Rathi and Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Find largest prime factor of a number
+Next
+Sum of all proper divisors of a natural number
+Related Articles
+1.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+2.
+Find power of power under mod of a prime
+3.
+Finding n-th number made of prime digits (2, 3, 5 and 7) only
+4.
+Check if the number is a Prime power number
+5.
+Check if given number is a power of d where d is a power of 2
+6.
+Finding a Non Transitive Co-prime Triplet in a Range
+7.
+Power of a prime number ‘r’ in n!
+8.
+Count subarrays having product equal to the power of a given Prime Number
+9.
+Compute power of power k times % m
+10.
+Larger of a^b or b^a (a raised to power b or b raised to power a)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Smitha Dinesh Semwal
+Akanksha_Rai
+Mithun Kumar
+nidhi_biet
+_saurabh_jaiswal
+zargon
+codewithshinchan
+Article Tags :
+factorial
+Prime Number
+Mathematical
+Practice Tags :
+factorial
+Mathematical
+Prime Number
+Report Issue

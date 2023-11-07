@@ -1,0 +1,219 @@
+Left-Truncatable Prime
+
+Difficulty Level : Easy
+Last Updated : 09 Jun, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+A Left-truncatable prime is a prime which in a given base (say 10) does not contain 0 and which remains prime when the leading (“left”) digit is successively removed. For example, 317 is left-truncatable prime since 317, 17 and 7 are all prime. There are total 4260 left-truncatable primes.
+The task is to check whether the given number (N >0) is left-truncatable prime or not.
+Examples: 
+ 
+
+Input: 317
+Output: Yes
+
+Input: 293
+Output: No
+293 is not left-truncatable prime because 
+numbers formed are 293, 93 and 3. Here, 293 
+and 3 are prime but 93 is not prime.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to first check whether the number contains 0 as a digit or not and count number of digits in the given number N. If it contains 0, then return false otherwise generate all the primes less than or equal to the given number N using Sieve of Eratosthenes.. Once we have generated all such primes, then we check whether the number remains prime when the leading (“left”) digit is successively removed.
+Below is the implementation of the above approach.
+ 
+
+C++
+Java
+Python3
+# Python3 Program to
+# check whether a
+# given number is left
+# truncatable prime
+# or not.
+ 
+# Function to calculate
+# x raised to the power y
+def power(x, y) :
+     
+    if (y == 0) :
+        return 1
+    elif (y % 2 == 0) :
+        return(power(x, y // 2) *
+               power(x, y // 2))
+    else :
+        return(x * power(x, y // 2) *
+                power(x, y // 2))
+ 
+# Generate all prime
+# numbers less than n.
+def sieveOfEratosthenes(n, isPrime) :
+     
+    # Initialize all entries
+    # of boolean array
+    # as true. A value in
+    # isPrime[i] will finally
+    # be false if i is Not a
+    # prime, else true
+    # bool isPrime[n+1];
+    isPrime[0] = isPrime[1] = False
+    for i in range(2, n+1) :
+        isPrime[i] = True
+         
+    p=2
+    while(p * p <= n) :
+         
+        # If isPrime[p] is not
+        # changed, then it is
+        # a prime
+        if (isPrime[p] == True) :
+             
+            # Update all multiples
+            # of p
+            i=p*2
+            while(i <= n) :
+                isPrime[i] = False
+                i = i + p
+                 
+        p = p + 1
+         
+# Returns true if n is
+# right-truncatable,
+# else false
+def leftTruPrime(n) :
+    temp = n
+    cnt = 0
+ 
+    # Counting number of
+    # digits in the input
+    # number and checking
+    # whether it contains
+    # 0 as digit or not.
+    while (temp != 0) :
+         
+        # counting number
+        # of digits.
+        cnt=cnt + 1
+         
+        # checking whether
+        # digit is 0 or not
+        temp1 = temp % 10;
+        if (temp1 == 0) :
+             
+            # if digit is 0,
+            # return false.
+            return False
+         
+        temp = temp // 10
+ 
+    # Generating primes
+    # using Sieve
+    isPrime = [None] * (n + 1)
+    sieveOfEratosthenes(n, isPrime)
+ 
+    # Checking whether the
+    # number remains prime
+    # when the leading
+    # ("left") digit is
+    # successively removed
+    for i in range(cnt, 0, -1) :
+     
+        # Checking number by
+        # successively removing
+        # leading ("left") digit.
+        # n=113, cnt=3
+        # i=3 mod=1000 n%mod=113
+        # i=2 mod=100 n%mod=13
+        # i=3 mod=10 n%mod=3
+        mod = power(10, i)
+ 
+        # checking prime
+        if (isPrime[n % mod] != True) :
+             
+            # if not prime,
+            # return false
+            return False
+             
+    # if remains prime
+    # , return true
+    return True
+ 
+# Driver program
+n = 113
+ 
+if (leftTruPrime(n)) :
+    print(n, "is left truncatable prime")
+else :
+    print(n, "is not left truncatable prime")
+     
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+113 is left truncatable prime
+Worst Case Complexity: O(N*N) 
+Related Article : 
+Right-Truncatable Prime
+References: https://en.wikipedia.org/wiki/Truncatable_prime
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+0
+Next
+Mersenne Prime
+Related Articles
+1.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+2.
+Find coordinates of a prime number in a Prime Spiral
+3.
+Sum of each element raised to (prime-1) % prime
+4.
+Print the nearest prime number formed by adding prime numbers to N
+5.
+Maximize difference between sum of prime and non-prime array elements by left shifting of digits minimum number of times
+6.
+Absolute Difference between the Sum of Non-Prime numbers and Prime numbers of an Array
+7.
+Absolute difference between the Product of Non-Prime numbers and Prime numbers of an Array
+8.
+Check if a prime number can be expressed as sum of two Prime Numbers
+9.
+Check whether the sum of prime elements of the array is prime or not
+10.
+Print prime numbers with prime sum of digits in an array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+sanjoy_62
+Article Tags :
+Prime Number
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Prime Number
+sieve
+Sieve

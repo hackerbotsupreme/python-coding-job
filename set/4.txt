@@ -1,0 +1,179 @@
+Sum of average of all subsets
+
+Difficulty Level : Hard
+Last Updated : 20 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array arr[] of N integer elements, the task is to find the sum of the average of all subsets of this array.
+
+Example:  
+
+Input  : arr[] = [2, 3, 5]
+Output : 23.33 
+Explanation : Subsets with their average are, 
+[2]        average = 2/1 = 2
+[3]        average = 3/1 = 3
+[5]        average = 5/1 = 5
+[2, 3]        average = (2+3)/2 = 2.5
+[2, 5]        average = (2+5)/2 = 3.5
+[3, 5]        average = (3+5)/2 = 4
+[2, 3, 5]    average = (2+3+5)/3 = 3.33
+
+Sum of average of all subset is, 
+2 + 3 + 5 + 2.5 + 3.5 + 4 + 3.33 = 23.33 
+Recommended Problem
+Sum of average of all subsets
+Dynamic Programming
+Algorithms
+Solve Problem
+Submission count: 1.1K
+Naive approach: A naive solution is to iterate through all possible subsets, get an average of all of them and then add them one by one, but this will take exponential time and will be infeasible for bigger arrays. 
+We can get a pattern by taking an example,  
+
+arr = [a0, a1, a2, a3]
+sum of average = 
+a0/1 + a1/1 + a2/2 + a3/1 +
+(a0+a1)/2 + (a0+a2)/2 + (a0+a3)/2 + (a1+a2)/2 +
+ (a1+a3)/2 + (a2+a3)/2 + 
+(a0+a1+a2)/3 + (a0+a2+a3)/3 + (a0+a1+a3)/3 + 
+ (a1+a2+a3)/3 +
+(a0+a1+a2+a3)/4
+
+If S = (a0+a1+a2+a3), then above expression 
+can be rearranged as below,
+sum of average = (S)/1 + (3*S)/2 + (3*S)/3 + (S)/4
+The coefficient with numerators can be explained as follows, suppose we are iterating over subsets with K elements then denominator will be K and the numerator will be r*S, where ‘r’ denotes the number of times a particular array element will be added while iterating over subsets of the same size. By inspection, we can see that r will be nCr(N – 1, n – 1) because after placing one element in summation, we need to choose (n – 1) elements from (N – 1) elements, so each element will have a frequency of nCr(N – 1, n – 1) while considering subsets of the same size, as all elements are taking part in summation equal number of times, this will the frequency of S also and will be the numerator in the final expression. 
+
+In the below code nCr is implemented using dynamic programming method, you can read more about that here, 
+
+C++
+Java
+Python3
+# Python3 program to get sum
+# of average of all subsets
+ 
+# Returns value of Binomial
+# Coefficient C(n, k)
+def nCr(n, k):
+ 
+    C = [[0 for i in range(k + 1)]
+            for j in range(n + 1)]
+ 
+    # Calculate value of Binomial
+    # Coefficient in bottom up manner
+    for i in range(n + 1):
+     
+        for j in range(min(i, k) + 1):
+         
+            # Base Cases
+            if (j == 0 or j == i):
+                C[i][j] = 1
+ 
+            # Calculate value using
+            # previously stored values
+            else:
+                C[i][j] = C[i-1][j-1] + C[i-1][j]
+     
+    return C[n][k]
+ 
+# Method returns sum of
+# average of all subsets
+def resultOfAllSubsets(arr, N):
+ 
+    result = 0.0 # Initialize result
+ 
+    # Find sum of elements
+    sum = 0
+    for i in range(N):
+        sum += arr[i]
+ 
+    # looping once for all subset of same size
+    for n in range(1, N + 1):
+ 
+        # each element occurs nCr(N-1, n-1) times while
+        # considering subset of size n */
+        result += (sum * (nCr(N - 1, n - 1))) / n
+ 
+    return result
+ 
+# Driver code
+arr = [2, 3, 5, 7]
+N = len(arr)
+print(resultOfAllSubsets(arr, N))
+ 
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+63.75
+Time Complexity: O(n3)
+Auxiliary Space: O(n2)
+
+
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+7
+Previous
+Sum of all subsets of a set formed by first n natural numbers
+Next
+Power Set
+Related Articles
+1.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+2.
+Sum of subsets of all the subsets of an array | O(3^N)
+3.
+Sum of subsets of all the subsets of an array | O(N)
+4.
+Sum of subsets of all the subsets of an array | O(2^N)
+5.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+6.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+7.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+8.
+Perfect Sum Problem (Print all subsets with given sum)
+9.
+Sum of sum of all subsets of a set formed by first N natural numbers
+10.
+Sum of all subsets whose sum is a Perfect Number from a given array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+nitin mittal
+divyesh072019
+hianmoyo3s
+Article Tags :
+binomial coefficient
+subset
+Dynamic Programming
+Mathematical
+Practice Tags :
+Dynamic Programming
+Mathematical
+subset
+Improve Article
+Report Issue

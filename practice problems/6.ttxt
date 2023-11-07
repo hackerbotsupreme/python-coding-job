@@ -1,0 +1,243 @@
+Find ways an Integer can be expressed as sum of n-th power of unique natural numbers
+
+Difficulty Level : Hard
+Last Updated : 27 Apr, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers x and n, find a number of ways x can be expressed as sum of n-th power of unique natural numbers.
+
+Examples : 
+
+Input  : x = 10, n = 2
+Output : 1
+Explanation: 10 = 12 + 32, Hence total 1 possibility
+
+Input  : x = 100, n = 2
+Output : 3
+Explanation: 
+100 = 102 OR 62 + 82 OR 12 + 32 + 42 + 52 + 72 Hence total 3 possibilities
+
+
+Recommended Problem
+Express as sum of power of natural numbers
+Mathematical
+Recursion
++1 more
+Adobe
+Solve Problem
+Submission count: 8.6K
+The idea is simple. We iterate through all number starting from 1. For every number, we recursively try all greater numbers and if we are able to find sum, we increment result
+
+C++
+Java
+Python3
+# Python3 program to count number of ways any
+# given integer x can be expressed as n-th
+# power of unique natural numbers.
+ 
+# Function to calculate and return the
+# power of any given number
+ 
+ 
+def power(num, n):
+ 
+    if(n == 0):
+        return 1
+    elif(n % 2 == 0):
+        return power(num, n // 2) * power(num, n // 2)
+    else:
+        return num * power(num, n // 2) * power(num, n // 2)
+ 
+# Function to check power representations recursively
+ 
+ 
+def checkRecursive(x, n, curr_num=1, curr_sum=0):
+ 
+    # Initialize number of ways to express
+    # x as n-th powers of different natural
+    # numbers
+    results = 0
+ 
+    # Calling power of 'i' raised to 'n'
+    p = power(curr_num, n)
+    while(p + curr_sum < x):
+ 
+        # Recursively check all greater values of i
+        results += checkRecursive(x, n, curr_num + 1, p + curr_sum)
+        curr_num = curr_num + 1
+        p = power(curr_num, n)
+ 
+    # If sum of powers is equal to x
+    # then increase the value of result.
+    if(p + curr_sum == x):
+        results = results + 1
+ 
+    # Return the final result
+    return results
+ 
+ 
+# Driver Code.
+if __name__ == '__main__':
+    x = 10
+    n = 2
+    print(checkRecursive(x, n))
+ 
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output
+1
+Alternate Solution :
+
+
+
+Below is an alternate simpler solution provided by Shivam Kanodia.
+
+C++
+C
+Java
+Python3
+# Python 3 program to find number of ways to express
+# a number as sum of n-th powers of numbers.
+ 
+ 
+def checkRecursive(num, rem_num, next_int, n, ans=0):
+ 
+    if (rem_num == 0):
+        ans += 1
+ 
+    r = int(num**(1 / n))
+ 
+    for i in range(next_int + 1, r + 1):
+        a = rem_num - int(i**n)
+        if a >= 0:
+            ans += checkRecursive(num, rem_num - int(i**n), i, n, 0)
+    return ans
+ 
+# Wrapper over checkRecursive()
+ 
+ 
+def check(x, n):
+    return checkRecursive(x, x, 0, n)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    print(check(10, 2))
+ 
+# This code is contributed by
+# Surendra_Gangwar
+C#
+PHP
+Javascript
+Output
+1
+Simple Recursive Solution:
+
+contributed by Ram Jondhale.
+
+C++
+Java
+Python3
+# Helper function
+def getAllWaysHelper(remainingSum, power, base):
+ 
+    # calculate power
+    result = pow(base, power)
+     
+    if(remainingSum == result):
+        return 1
+    if(remainingSum < result):
+        return 0
+         
+    # Two recursive calls one to include
+    # current base's power in sum another to exclude
+    x = getAllWaysHelper(remainingSum - result, power, base + 1)
+    y = getAllWaysHelper(remainingSum, power, base+1)
+    return x + y
+ 
+def getAllWays(sum, power):
+    return getAllWaysHelper(sum, power, 1)
+ 
+# Driver Code
+x,n = 10,2
+print(getAllWays(x, n))
+ 
+# This code is contributed by shinjanpatra.
+C#
+Javascript
+Output
+1
+This article is contributed by DANISH KALEEM. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+22
+Previous
+Count ways to express a number as sum of powers
+Next
+Check if a number can be expressed as a^b | Set 2
+Related Articles
+1.
+Check if a given number can be expressed as pair-sum of sum of first X natural numbers
+2.
+Elements of Array which can be expressed as power of some integer to given exponent K
+3.
+Count numbers from a given range that can be expressed as sum of digits raised to the power of count of digits
+4.
+Elements of Array which can be expressed as power of prime numbers
+5.
+Check if an integer can be expressed as a sum of two semi-primes
+6.
+Count prime numbers that can be expressed as sum of consecutive prime numbers
+7.
+Check if a number can be expressed as x^y (x raised to power y)
+8.
+Check if a number can be expressed as power | Set 2 (Using Log)
+9.
+Program to check if a number can be expressed as an even power of 2 or not
+10.
+Count numbers up to N that can be expressed as powers of Prime Numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+Sanjit_Prasad
+Mithun Kumar
+SURENDRA_GANGWAR
+vikukej1241
+splevel62
+GauravRajput1
+ramjondhale1
+amartyaghoshgfg
+singhh3010
+rohit768
+shinjanpatra
+Article Tags :
+Mathematical
+Recursion
+Practice Tags :
+Mathematical
+Recursion
+Improve Article
+Report Issue

@@ -1,0 +1,139 @@
+Square root of a number using log
+
+Difficulty Level : Easy
+Last Updated : 25 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+For a given number find the square root using log function. Number may be int, float or double.
+
+Examples: 
+
+Input  : n = 9
+Output : 3
+
+Input  : n = 2.93
+Output : 1.711724
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can find square root of a number using sqrt() method:
+
+C++
+Java
+Python3
+# Python3 program to demonstrate finding
+# square root of a number using sqrt()
+import math
+ 
+if __name__=='__main__':
+    n = 12
+    print(math.sqrt(n))
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output
+3.464102 
+Time complexity: O(log2n), for using sqrt() function.
+Auxiliary space: O(1)
+
+
+
+We can also find square root using log2() library function: 
+
+C++
+Java
+Python
+# Python program to demonstrate finding
+# square root of a number using sqrt()
+import math
+ 
+# function to return squareroot
+def squareRoot(n):
+ 
+    return pow(2, 0.5 * math.log2(n))
+ 
+# Driver program
+ 
+n = 12
+print(squareRoot(n))
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output
+3.464102 
+Time complexity: O(log2log2N), complexity of using log(N) is log(logN), and pow(x,N) is log(N), so pow(2,0.5*log(n)) will be log(logN).
+Auxiliary space: O(1)
+
+How does the above program work? 
+
+ let d be our answer for input number n
+ then n(1/2) = d 
+     apply log2 on both sides
+      log2(n(1/2)) = log2(d)
+      log2(d) = 1/2 * log2(n)
+      d = 2(1/2 * log2(n)) 
+      d = pow(2, 0.5*log2(n))  
+This article is contributed by Tumma Umamaheswararao from Jntuh College of Engineering . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+4
+Previous
+Merge two sorted arrays
+Next
+Perfect cubes in a range
+Related Articles
+1.
+Digital Root (repeated digital sum) of square of an integer using Digital root of the given integer
+2.
+Find minimum number of Log value needed to calculate Log upto N
+3.
+Check if a number is perfect square without finding square root
+4.
+How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?
+5.
+Find Cube root of a number using Log function
+6.
+Nth root of a number using log
+7.
+Why do we check up to the square root of a number to determine if that number is Prime?
+8.
+Find square root of number upto given precision using binary search
+9.
+Square root of a number without using sqrt() function
+10.
+Find square root of a number using Bit Manipulation
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sanjit_Prasad
+jit_t
+Akanksha_Rai
+aashish1995
+divyesh072019
+polymatir3j
+Article Tags :
+Mathematical
+Practice Tags :
+Mathematical

@@ -1,0 +1,120 @@
+Vantieghems Theorem for Primality Test
+
+Difficulty Level : Medium
+Last Updated : 23 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Vantieghems Theorem is a necessary and sufficient condition for a number to be prime. It states that for a natural number n to be prime, the product of 2^i - 1          where 0 < i < n          , is congruent to n~(mod~(2^n - 1))          . 
+In other words, a number n is prime if and only if.
+{\displaystyle \prod _{1\leq i\leq n-1}\left(2^{i}-1\right)\equiv n\mod \left(2^{n}-1\right).}          
+
+Examples:  
+
+For n = 3, final product is (21 – 1) * (22 – 1) = 1*3 = 3. 3 is congruent to 3 mod 7. We get 3 mod 7 from expression 3 * (mod (23 – 1)), therefore 3 is prime.
+For n = 5, final product is 1*3*7*15 = 315. 315 is congruent to 5(mod 31), therefore 5 is prime.
+For n = 7, final product is 1*3*7*15*31*63 = 615195. 615195 is congruent to 7(mod 127), therefore 7 is prime.
+For n = 4, final product 1*3*7 = 21. 21 is not congruent to 4(mod 15), therefore 4 is composite.
+Another way to state above theorem is, if (2^n - 1)          divides \prod _{1\leq i\leq n-1}\left(2^{i}-1\right) - n          , then n is prime. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to verify Vantieghem's Theorem
+def checkVantieghemsTheorem(limit):
+     
+    prod = 1
+    for n in range(2, limit):
+         
+        # Check if above condition is satisfied
+        if n == 2:
+            print(2, "is prime")
+        if (((prod - n) % ((1 << n) - 1)) == 0):
+            print(n, "is prime")
+             
+        # Product of previous powers of 2
+        prod *= ((1 << n) - 1)
+     
+# Driver code
+checkVantieghemsTheorem(10)
+ 
+# This code is contributed by shubhamsingh10
+C#
+Javascript
+Output: 
+2 is prime
+3 is prime
+5 is prime
+7 is prime
+ 
+
+Time Complexity : O(limit)
+Auxiliary Space: O(1)
+
+The above code does not work for values of n higher than 11. It causes overflow in prod evaluation.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+2
+Previous
+Arithmetic Number
+Next
+Position of n among the numbers made of 2, 3, 5 & 7
+Related Articles
+1.
+Primality Test | Set 3 (Miller–Rabin)
+2.
+Lucas Primality Test
+3.
+AKS Primality Test
+4.
+Implementation of Wilson Primality test
+5.
+Primality test for the sum of digits at odd places of a number
+6.
+Introduction to Primality Test and School Method
+7.
+Fermat Method of Primality Test
+8.
+Solovay-Strassen method of Primality Test
+9.
+Primality Test using Lucas-Lehmer Series
+10.
+Compute nCr % p | Set 4 (Chinese Remainder theorem with Lucas Theorem)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+jaideeppyne1997
+@jaideeppyne1997
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+rutvik_56
+pratham76
+jana_sayantan
+amankr0211
+Article Tags :
+number-theory
+Prime Number
+Competitive Programming
+GFacts
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+Prime Number

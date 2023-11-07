@@ -1,0 +1,117 @@
+Sum of the series 0.6, 0.06, 0.006, 0.0006, …to n terms
+
+Difficulty Level : Basic
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the number of terms i.e. n. Find the sum of the series 0.6, 0.06, 0.006, 0.0006, …to n terms.
+Examples: 
+ 
+
+Input : 2
+Output : 0.65934
+
+Input : 3
+Output : 0.665334
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Lets denote the sum by S: 
+Using the formula S_{n}=\frac{a\left ( 1-r^{n} \right )}{1-r}     , we have [since r<1]
+S_{n}=\frac{\frac{6}{10}\left \{ 1-\left ( \frac{1}{10} \right )^n\right \}}{1-\frac{1}{10}}     
+S_{n}=\frac{6}{9}\left ( 1-\frac{1}{10^n} \right )     
+S_{n}=\frac{2}{3}\left ( 1-\frac{1}{10^n} \right )     
+Hence the required sum is S_{n}=\frac{2}{3}\left ( 1-\frac{1}{10^n} \right )     
+Below is the implementation: 
+ 
+
+C++
+Java
+Python3
+# Python3 program to find
+# sum of 0.6, 0.06, 0.006,
+# 0.0006, ...to n terms
+import math
+ 
+# function which return
+# the sum of series
+def sumOfSeries(n):
+    return ((0.666) *
+            (1 - 1 / pow(10, n)));
+ 
+# Driver code
+n = 2;
+print(sumOfSeries(n));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+0.65934
+ Time complexity: O(logn) because using inbuilt pow function
+
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+0
+Previous
+Program to find century for a year
+Next
+Motzkin number
+Related Articles
+1.
+Find n terms of Fibonacci type series with given first two terms
+2.
+Sum of P terms of an AP if Mth and Nth terms are given
+3.
+Number of quadruples where the first three terms are in AP and last three terms are in GP
+4.
+Find the sum of N terms of the series 1, 4, 13, 40, 121, ...
+5.
+Find the sum of all the terms in the n-th row of the given series
+6.
+Find sum of N terms of series 1, (1+4) , (1+4+4^2), (1+4+4^2+4^3), .....
+7.
+Find the sum of the series 1+11+111+1111+..... upto n terms
+8.
+Sum of the series 0.7, 0.77, 0.777, ... upto n terms
+9.
+Sum of series 2/3 - 4/5 + 6/7 - 8/9 + ------- upto n terms
+10.
+Sum of the series 1 / 1 + (1 + 2) / (1 * 2) + (1 + 2 + 3) / (1 * 2 * 3) + - - - - - - upto n terms.
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Sagar Shukla
+@Sagar Shukla
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Mithun Kumar
+aashish1995
+noviced3vq6
+Article Tags :
+series
+series-sum
+Mathematical
+School Programming
+Practice Tags :
+Mathematical
+series
+Improve Article
+Report Issue

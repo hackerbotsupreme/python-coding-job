@@ -1,0 +1,125 @@
+Stern-Brocot Sequence
+
+Difficulty Level : Easy
+Last Updated : 07 May, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Stern Brocot sequence is similar to Fibonacci sequence but it is different in the way fibonacci sequence is generated . 
+Generation of Stern Brocot sequence :
+ 
+
+1. First and second element of the sequence is 1 and 1.
+2. Consider the second member of the sequence . Then, sum the considered member of the sequence and it’s precedent i.e (1 + 1 = 2) . Now 2 is the next element of our series . Sequence will be [ 1, 1, 2 ]
+3. After this element, our next element of the sequence will be the considered element of our second step. Now the sequence will be [ 1, 1, 2, 1 ]
+4. Again we do the step 2, but now the considered element will be 2(3rd element ). So, next number of sequence will be sum of considered number and it’s precedent (2 + 1 = 3). Sequence will be now [ 1, 1, 2, 1, 3 ]
+5. Like step 3, the next element will be the considered element i.e 2 . Thus sequence will be [ 1, 1, 2, 1, 3, 2 ]
+6. Hence this process continues, now next considered element will be 1( 4th element ) . 
+ 
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Here is the simple program to print Stern Brocot sequence . 
+ 
+
+C++
+Java
+Python3
+# Python program to print
+# Brocot Sequence
+import math
+  
+def SternSequenceFunc(BrocotSequence, n):
+     
+    # loop to create sequence
+    for i in range(1,  n):
+         
+        considered_element = BrocotSequence[i]
+        precedent = BrocotSequence[i-1]
+  
+        # adding sum of considered
+        # element and it's precedent
+        BrocotSequence.append(considered_element + precedent)
+          
+        # adding next considered element
+        BrocotSequence.append(considered_element)
+     
+  
+    # printing sequence..
+    for i in range(0, 15):
+        print(BrocotSequence[i] , end=" ")
+ 
+# Driver code
+n = 15
+BrocotSequence = []
+ 
+# adding first two element
+# in the sequence
+BrocotSequence.append(1)
+BrocotSequence.append(1)
+          
+SternSequenceFunc(BrocotSequence, n)
+ 
+# This code is contributed by Gitanjali.
+C#
+PHP
+Javascript
+Output: 
+ 
+
+1 1 2 1 3 2 3 1 4 3 5 2 5 3 4
+References : 
+Github
+ 
+
+
+
+Like
+Previous
+Probability of reaching a point with 2 or 3 steps at a time
+Next
+The Magic of Fibonacci Numbers
+Related Articles
+1.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+2.
+Count Possible Decodings of a given Digit Sequence
+3.
+Look-and-Say Sequence
+4.
+Farey Sequence
+5.
+Find Recurring Sequence in a Fraction
+6.
+G-Fact 21 | Collatz Sequence
+7.
+Juggler Sequence
+8.
+Padovan Sequence
+9.
+Aliquot Sequence
+10.
+Recaman's sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Surya Priy
+@Surya Priy
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+rrrtnx
+Article Tags :
+series
+Mathematical
+Practice Tags :
+Mathematical
+series

@@ -1,0 +1,115 @@
+Find Harmonic mean using Arithmetic mean and Geometric mean
+
+Last Updated : 11 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers, first calculate arithmetic mean and geometric mean of these two numbers. Using the arithmetic mean and geometric mean so calculated, find the harmonic mean between the two numbers.
+
+Examples: 
+
+Input : a = 2
+        b = 4
+Output : 2.666
+
+Input : a = 5
+        b = 15
+Output : 7.500
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Arithmetic Mean: Arithmetic Mean ‘AM’ between two numbers a and b is such a number that AM-a = b-AM. Thus, if we are given these two numbers, the arithmetic mean AM = 1/2(a+b)
+Geometric Mean: Geometric Mean ‘GM’ between two numbers a and b is such a number that GM/a = b/GM. Thus, if we are given these two numbers, the geometric mean GM = sqrt(a*b)
+Harmonic Mean: Harmonic Mean ‘HM’ between two numbers a and b is such a number that 1/HM – 1/a = 1/b – 1/HM. Thus, if we are given these two numbers, the harmonic mean HM = 2ab/a+b
+Now, we also know that GM^2 = AM * HM  
+
+C++
+Java
+Python3
+# Python 3 implementation of computation
+# of arithmetic mean, geometric mean
+# and harmonic mean
+ 
+import math
+ 
+# Function to calculate arithmetic
+# mean, geometric mean and harmonic mean
+def compute( a, b) :
+    AM = (a + b) / 2
+    GM = math.sqrt(a * b)
+    HM = (GM * GM) / AM
+    return HM
+ 
+# Driver function
+a = 5
+b = 15
+HM = compute(a, b)
+print("Harmonic Mean between " , a,
+      " and ", b , " is " , HM )
+ 
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+
+Harmonic Mean between 5 and 15 is 7.500
+Time Complexity: O(log(a*b)), for using sqrt function where a and b represents the given integers. 
+Auxiliary Space: O(1), no extra space is required, so it is a constant.
+
+
+
+
+
+Like
+0
+Previous
+Program for harmonic mean of numbers
+Next
+Geometric mean (Two Methods)
+Related Articles
+1.
+Check whether nodes of Binary Tree form Arithmetic, Geometric or Harmonic Progression
+2.
+Proof: Why the Root Mean Square of two positive numbers is always greater than their Geometric Mean?
+3.
+Program for harmonic mean of numbers
+4.
+Sum of Arithmetic Geometric Sequence
+5.
+Program to calculate sum of an Infinite Arithmetic-Geometric Sequence
+6.
+Program to find the Nth Harmonic Number
+7.
+Program to find sum of harmonic series
+8.
+Geometric mean (Two Methods)
+9.
+Check if Array can be generated where no element is Geometric mean of neighbours
+10.
+Integer part of the geometric mean of the divisors of N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+parthendo
+@parthendo
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Mithun Kumar
+bunnyram19
+simmytarika5
+tamanna17122007
+himanshiyadav7011
+Article Tags :
+series
+Mathematical
+School Programming
+Practice Tags :
+Mathematical
+series

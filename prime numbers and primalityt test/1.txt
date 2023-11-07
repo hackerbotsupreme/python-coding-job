@@ -1,0 +1,326 @@
+Prime Numbers
+
+Difficulty Level : Easy
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+What are prime numbers?
+A prime number is a natural number greater than 1, which is only divisible by 1 and itself. First few prime numbers are: 2 3 5 7 11 13 17 19 23…..
+
+Prime numbers
+
+In other words, the prime number is a positive integer greater than 1 that has exactly two factors, 1 and the number itself.
+There are many prime numbers, such as 2, 3, 5, 7, 11, 13, etc. 
+Keep in mind that 1 cannot be either prime or composite. 
+The remaining numbers, except for 1, are classified as prime and composite numbers. 
+
+DSA Self Paced Course
+
+Some interesting facts about Prime numbers:
+Except for 2, which is the smallest prime number and the only even prime number, all prime numbers are odd numbers.
+Every prime number can be represented in form of 6n + 1 or 6n – 1 except the prime numbers 2 and 3, where n is a natural number.
+Two and Three are only two consecutive natural numbers that are prime.
+Goldbach Conjecture: Every even integer greater than 2 can be expressed as the sum of two primes.
+Wilson Theorem: Wilson’s theorem states that a natural number p > 1 is a prime number if and only if
+(p - 1) ! ≡  -1   mod p 
+OR  (p - 1) ! ≡  (p-1) mod p
+Fermat’s Little Theorem: If n is a prime number, then for every a, 1 <= a < n,
+an-1 ≡ 1 (mod n)
+OR 
+an-1 % n = 1
+Prime Number Theorem: The probability that a given, randomly chosen number n is prime is inversely proportional to its number of digits, or to the logarithm of n.
+Lemoine’s Conjecture: Any odd integer greater than 5 can be expressed as a sum of an odd prime (all primes other than 2 are odd) and an even semiprime. A semiprime number is a product of two prime numbers. This is called Lemoine’s conjecture.
+Properties of prime numbers:
+Every number greater than 1 can be divided by at least one prime number.
+Every even positive integer greater than 2 can be expressed as the sum of two primes.
+Except 2, all other prime numbers are odd. In other words, we can say that 2 is the only even prime number.
+Two prime numbers are always coprime to each other.
+Each composite number can be factored into prime factors and individually all of these are unique in nature.
+Prime numbers and co-prime numbers:
+It is important to distinguish between prime numbers and co-prime numbers. Listed below are the differences between prime and co-prime numbers.
+
+A coprime number is always considered as a pair, whereas a prime number is considered as a single number.
+Co-prime numbers are numbers that have no common factor except 1. In contrast, prime numbers do not have such a condition.
+A co-prime number can be either prime or composite, but its greatest common factor (GCF) must always be 1. Unlike composite numbers, prime numbers have only two factors, 1 and the number itself.
+Example of co-prime: 13 and 15 are co-primes. The factors of 13 are 1 and 13 and the factors of 15 are 1, 3 and 5. We can see that they have only 1 as their common factor, therefore, they are coprime numbers.
+Example of prime: A few examples of prime numbers are 2, 3, 5, 7 and 11 etc.
+How do we check whether a number is Prime or not? 
+Naive Approach: A naive solution is to iterate through all numbers from 2 to sqrt(n) and for every number check if it divides n. If we find any number that divides, we return false.
+
+Below is the implementation:
+
+C++14
+Java
+Python3
+# A school method based Python3 program
+# to check if a number is prime
+ 
+# function check whether a number
+# is prime or not
+ 
+# import sqrt from math module
+from math import sqrt
+ 
+ 
+def isPrime(n):
+ 
+    # Corner case
+    if (n <= 1):
+        return False
+ 
+    # Check from 2 to sqrt(n)
+    for i in range(2, int(sqrt(n))+1):
+        if (n % i == 0):
+            return False
+ 
+    return True
+ 
+ 
+# Driver Code
+if isPrime(11):
+    print("true")
+else:
+    print("false")
+ 
+# This code is contributed by Sachin Bisht
+C#
+PHP
+Javascript
+Output
+ true
+Time Complexity: O(sqrt(n))
+Auxiliary space: O(1)
+
+Efficient approach: To check whether  the number is prime or not follow the below idea:
+
+In the previous approach given if the size of the given number is too large then its square root will be also very large, so to deal with large size input we will deal with a few numbers such as 1, 2, 3, and the numbers which are divisible by 2 and 3 in separate cases and for remaining numbers, we will iterate our loop from 5 to sqrt(n) and check for each iteration whether that  (iteration) or (that iteration + 2) divides n or not. If we find any number that divides, we return false.
+
+
+
+Below is the implementation for the above idea:
+
+C++
+C
+Java
+Python3
+import math
+ 
+def is_prime(n: int) -> bool:
+    # Check if n=1 or n=0
+    if n <= 1:
+        return False
+    # Check if n=2 or n=3
+    if n == 2 or n == 3:
+        return True
+    # Check whether n is divisible by 2 or 3
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    # Check from 5 to square root of n
+    # Iterate i by (i+6)
+    for i in range(5, int(math.sqrt(n))+1, 6):
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+ 
+    return True
+ 
+print(is_prime(11))
+C#
+Javascript
+Output
+true
+Time complexity: O(sqrt(n))
+Auxiliary space: O(1)
+
+Approach 3: To check the number is prime or not using recursion follow the below idea:
+
+Recursion can also be used to check if a number between 2 to n – 1 divides n. If we find any number that divides, we return false.
+
+Below is the implementation for the below idea:
+
+C++
+Java
+Python3
+# Python3 program to check whether a number
+# is prime or not using recursion
+ 
+# Function check whether a number
+# is prime or not
+ 
+ 
+def isPrime(n, i):
+ 
+    # Corner cases
+    if (n == 0 or n == 1):
+        return False
+ 
+    # Checking Prime
+    if (n == i):
+        return True
+ 
+    # Base cases
+    if (n % i == 0):
+        return False
+ 
+    i += 1
+ 
+    return isPrime(n, i)
+ 
+ 
+# Driver Code
+if (isPrime(35, 2)):
+    print("true")
+else:
+    print("false")
+ 
+#  This code is contributed by bunnyram19
+C#
+Javascript
+Output
+ false
+Time Complexity: O(N)
+Auxiliary Space: O(N) 
+
+Approach 4: To check the number is prime or not using Fermat’s little theorem with out using loop
+
+Python3
+# function defination
+def isprime(n):
+  # 2 and 1 will not work for fermat's little theorem
+  if n==2 and n==1:
+    print('true')
+  else:
+    # formula for cheacking prime or not
+    p=(2**n-1)%n
+    if p==1:
+      print ('true')
+    else:
+      print('false')
+# function call
+isprime(4)
+isprime(7)
+isprime(2)
+Output
+false
+true
+true
+Time complexity: O(1)
+Auxiliary space: O(1)
+
+Efficient solutions
+
+Primality Test | Set 1 (Introduction and School Method)
+Primality Test | Set 2 (Fermat Method)
+Primality Test | Set 3 (Miller–Rabin)
+Primality Test | Set 4 (Solovay-Strassen)
+Lucas Primality Test
+Algorithms to find all prime numbers smaller than the N. 
+
+Sieve of Eratosthenes
+Sieve of Eratosthenes in 0(n) time complexity
+Segmented Sieve
+Sieve of Sundaram
+Bitwise Sieve
+Recent Articles on Sieve!
+More problems related to Prime number 
+
+Find two distinct prime numbers with a given product
+Print all prime numbers less than or equal to N
+Recursive program for prime number
+Find two prime numbers with a given sum
+Find the highest occurring digit in prime numbers in a range
+Prime Factorization using Sieve O(log n) for multiple queries
+Program to print all prime factors of a given number
+Least prime factor of numbers till n
+Prime factors of LCM of array elements – GeeksforGeeks
+Program for Goldbach’s Conjecture
+Prime numbers and Fibonacci
+Composite Number
+Recent Articles on Prime Numbers!
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+72
+Previous
+Largest subsequence having GCD greater than 1
+Next
+Introduction to Primality Test and School Method
+Related Articles
+1.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+2.
+Print numbers such that no two consecutive numbers are co-prime and every three consecutive numbers are co-prime
+3.
+Absolute Difference between the Sum of Non-Prime numbers and Prime numbers of an Array
+4.
+Absolute difference between the Product of Non-Prime numbers and Prime numbers of an Array
+5.
+Absolute difference between the XOR of Non-Prime numbers and Prime numbers of an Array
+6.
+Count prime numbers that can be expressed as sum of consecutive prime numbers
+7.
+Count prime numbers up to N that can be represented as a sum of two prime numbers
+8.
+Find prime factors of Z such that Z is product of all even numbers till N that are product of two distinct prime numbers
+9.
+Count of numbers of length N having prime numbers at odd indices and odd numbers at even indices
+10.
+Print the nearest prime number formed by adding prime numbers to N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant_Singh
+@Nishant_Singh
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+gaurav1903arora
+ronakbhensdadia
+shubhamr238
+yashbeersingh42
+wwwsidharth56
+divyesh072019
+divyeshrabadiya07
+bunnyram19
+kunal530
+mayanktyagi1709
+rdtank
+pritammajumder
+amansharma14
+surinderdawra388
+akshayhmulky
+jai00271
+suruchikumarimfp4
+sayanc170
+uomkar369
+kashishkumar2
+simmytarika5
+abhijeet19403
+phasing17
+manjulgfg
+hkdass001
+harendrakumar123
+shaikasif7616
+Article Tags :
+Prime Number
+series
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Prime Number
+series
+sieve
+Sieve

@@ -1,0 +1,254 @@
+k-th prime factor of a given number
+
+Difficulty Level : Medium
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers n and k, print k-th prime factor among all prime factors of n. For example, if the input number is 15 and k is 2, then output should be “5”. And if the k is 3, then output should be “-1” (there are less than k prime factors). 
+Examples: 
+ 
+
+Input : n = 225, k = 2        
+Output : 3
+Prime factors are 3 3 5 5. Second
+prime factor is 3.
+
+Input : n = 81, k = 5
+Output : -1
+Prime factors are 3 3 3 3
+ 
+
+Recommended Problem
+Kth Prime Factor
+Mathematical
+Prime Number
++3 more
+Solve Problem
+Submission count: 5K
+A Simple Solution is to first find prime factors of n. While finding prime factors, keep track of count. If count becomes k, we return current prime factor. 
+ 
+
+C++
+Java
+Python3
+# Python Program to print kth prime factor
+import math
+ 
+# A function to generate prime factors of a
+# given number n and return k-th prime factor
+def kPrimeFactor(n,k) :
+ 
+    # Find the number of 2's that divide k
+    while (n % 2 == 0) :
+        k = k - 1
+        n = n // 2
+        if (k == 0) :
+            return 2
+  
+    # n must be odd at this point. So we can
+    # skip one element (Note i = i +2)
+    i = 3
+    while i <= math.sqrt(n) :
+     
+        # While i divides n, store i and divide n
+        while (n % i == 0) :
+            if (k == 1) :
+                return i
+  
+            k = k - 1
+            n = n // i
+         
+        i = i + 2
+  
+    # This condition is to handle the case
+    # where n is a prime number greater than 2
+    if (n > 2 and k == 1) :
+        return n
+  
+    return -1
+ 
+# Driver Program
+n = 12
+k = 3
+print(kPrimeFactor(n, k))
+ 
+n = 14
+k = 3
+print(kPrimeFactor(n, k))
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output:  
+
+3
+-1
+Time Complexity: O(√n log n) 
+Auxiliary Space: O(1)
+
+An Efficient Solution is to use Sieve of Eratosthenes. Note that this solution is efficient when we need k-th prime factor for multiple test cases. For a single case, previous approach is better. 
+The idea is to do preprocessing and store least prime factor of all numbers in given range. Once we have least prime factors stored in an array, we can find k-th prime factor by repeatedly dividing n with least prime factor while it is divisible, then repeating the process for reduced n. 
+ 
+
+C++
+Java
+Python3
+# python3 program to find k-th prime factor using Sieve Of
+# Eratosthenes. This program is efficient when we have
+# a range of numbers.
+ 
+MAX = 10001
+ 
+# Using SieveOfEratosthenes to find smallest prime
+# factor of all the numbers.
+# For example, if MAX is 10,
+# s[2] = s[4] = s[6] = s[10] = 2
+# s[3] = s[9] = 3
+# s[5] = 5
+# s[7] = 7
+def sieveOfEratosthenes(s):
+ 
+# Create a boolean array "prime[0..MAX]" and
+# initialize all entries in it as false.
+    prime=[False for i in range(MAX+1)]
+ 
+    # Initializing smallest factor equal to 2
+    # for all the even numbers
+    for i in range(2,MAX+1,2):
+        s[i] = 2;
+ 
+    # For odd numbers less then equal to n
+    for i in range(3,MAX,2):
+        if (prime[i] == False):
+        # s(i) for a prime is the number itself
+            s[i] = i
+ 
+        # For all multiples of current prime number
+            for j in range(i,MAX+1,2):
+                if j*j> MAX:
+                    break
+                if (prime[i*j] == False):
+                    prime[i*j] = True
+ 
+                    # i is the smallest prime factor for
+                    # number "i*j".
+                    s[i*j] = i
+ 
+# Function to generate prime factors and return its
+# k-th prime factor. s[i] stores least prime factor
+# of i.
+def kPrimeFactor(n, k, s):
+    # Keep dividing n by least prime factor while
+    # either n is not 1 or count of prime factors
+    # is not k.
+    while (n > 1):
+ 
+        if (k == 1):
+            return s[n]
+ 
+        # To keep track of count of prime factors
+        k-=1
+ 
+        # Divide n to find next prime factor
+        n //= s[n]
+ 
+ 
+    return -1
+ 
+# Driver Program
+ 
+# s[i] is going to store prime factor
+# of i.
+s=[-1 for i in range(MAX+1)]
+ 
+sieveOfEratosthenes(s)
+ 
+n = 12
+k = 3
+print(kPrimeFactor(n, k, s))
+ 
+n = 14
+k = 3
+print(kPrimeFactor(n, k, s))
+ 
+# This code is contributed by mohit kumar 29
+C#
+PHP
+Javascript
+Output:  
+
+3
+-1
+Time Complexity: O(n*log(log(n))) 
+Auxiliary Space: O(n)
+
+This article is contributed by Aarti_Rathi and Afzal Ansari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Euclid Euler Theorem
+Next
+Prime Factorization using Sieve O(log n) for multiple queries
+Related Articles
+1.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+2.
+Kth largest factor of number N
+3.
+Print the kth common factor of two numbers
+4.
+N-th prime factor of a given number
+5.
+Find largest prime factor of a number
+6.
+Sum of largest prime factor of each number less than equal to n
+7.
+Find sum of a number and its maximum prime factor
+8.
+Sum of Maximum and Minimum prime factor of every number in the Array
+9.
+Multiplication table till N rows where every Kth row is table of K upto Kth term
+10.
+Nth term where K+1th term is product of Kth term with difference of max and min digit of Kth term
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Mithun Kumar
+Chandan_Kumar
+mohit kumar 29
+susmitakundugoaldanga
+shikhasingrajput
+gabaa406
+amartyaghoshgfg
+codewithshinchan
+mitalibhola94
+Article Tags :
+factorial
+Prime Number
+prime-factor
+sieve
+Mathematical
+Practice Tags :
+factorial
+Mathematical
+Prime Number
+sieve
+Sieve
+Report Issue

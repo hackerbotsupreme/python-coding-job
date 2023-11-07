@@ -1,0 +1,138 @@
+Padovan Sequence
+
+Difficulty Level : Basic
+Last Updated : 24 Jan, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Padovan Sequence similar to Fibonacci sequence with similar recursive structure. The recursive formula is, 
+ 
+
+  P(n) = P(n-2) + P(n-3)
+  P(0) = P(1) = P(2) = 1 
+Fibonacci Sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55…… 
+Spiral of squares with side lengths which follow the Fibonacci sequence. 
+ 
+
+fibonacci-tiles1
+
+Padovan Sequence: 1, 1, 1, 2, 2, 3, 4, 5, 7, 9, 12, 16, 21, 28, 37,….. 
+Spiral of equilateral triangles with side lengths which follow the Padovan sequence. 
+ 
+
+Padovan_triangles_(1)
+
+Examples: 
+ 
+
+For Padovan Sequence:
+P0 = P1 = P2 = 1 ,
+P(7) = P(5) + P(4)
+     = P(3) + P(2) + P(2) + P(1)
+     = P(2) + P(1) + 1 + 1 + 1
+     = 1 + 1 + 1 + 1 + 1 
+     = 5
+ 
+
+
+
+Recommended Problem
+Padovan Sequence
+Dynamic Programming
+series
++2 more
+Solve Problem
+Submission count: 13K
+ 
+
+C++
+Java
+Python3
+# Python program to find n'th term in Padovan
+# Sequence using Dynamic Programming
+ 
+# Function to calculate padovan number P(n)
+def pad(n):
+ 
+    # 0th ,1st and 2nd number of the series are 1
+    pPrevPrev, pPrev, pCurr, pNext = 1, 1, 1, 1
+ 
+    # Find n'th Padovan number using recursive
+    # formula.
+    for i in range(3, n+1):
+        pNext = pPrevPrev + pPrev
+        pPrevPrev = pPrev
+        pPrev = pCurr
+        pCurr = pNext
+ 
+    return pNext
+ 
+# Driver Code
+print (pad(12))
+C#
+PHP
+Javascript
+Output: 
+ 
+
+21
+This article is contributed by Shivam Pradhan(anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+10
+Previous
+Juggler Sequence
+Next
+Aliquot Sequence
+Related Articles
+1.
+Generate a sequence X from given sequence Y such that Yi = gcd(X1, X2 , ... , Xi)
+2.
+Count Possible Decodings of a given Digit Sequence
+3.
+Look-and-Say Sequence
+4.
+Farey Sequence
+5.
+Find Recurring Sequence in a Fraction
+6.
+Find maximum length Snake sequence
+7.
+Construction of Longest Increasing Subsequence(LIS) and printing LIS sequence
+8.
+G-Fact 21 | Collatz Sequence
+9.
+Juggler Sequence
+10.
+Aliquot Sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+kanjamscholar
+gfgking
+amartyaghoshgfg
+Article Tags :
+Modular Arithmetic
+series
+Dynamic Programming
+Mathematical
+Practice Tags :
+Dynamic Programming
+Mathemati

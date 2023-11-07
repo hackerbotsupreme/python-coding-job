@@ -1,0 +1,177 @@
+Sphenic Number
+
+Difficulty Level : Easy
+Last Updated : 16 Sep, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A Sphenic Number is a positive integer n which is product of exactly three distinct primes. The first few sphenic numbers are 30, 42, 66, 70, 78, 102, 105, 110, 114, … 
+Given a number n, determine whether it is a Sphenic Number or not. 
+
+Examples: 
+
+Input : 30
+Output : Yes
+Explanation : 30 is the smallest Sphenic number, 
+           30 = 2 × 3 × 5 
+           the product of the smallest three primes
+
+Input : 60
+Output : No
+Explanation : 60 = 22 x 3 x 5
+              has exactly 3 prime factors but
+              is not a sphenic number
+Recommended Problem
+Sphenic Number
+Prime Number
+Solve Problem
+Submission count: 2.5K
+Sphenic number can be checked by fact that every sphenic number will have exactly 8 divisor SPHENIC NUMBER 
+So first We will try to find if the number is having exactly 8 divisors if not then simply answer is no.If there are exactly 8 divisors then we will confirm whether the first 3 digits after 1 are prime or not. 
+Eg. 30 (sphenic number) 
+30=p*q*r(i.e p,q and r are three distinct prime no and their product are 30) 
+the set of divisor is (1,2,3,5,6,10,15,30).
+
+Below is the implementation of the idea. 
+
+C++
+Java
+Python3
+# Python3 program to check whether a number
+# is a Sphenic number or not
+ 
+# Create a global array of size 1001;
+arr = [True] * (1001)
+ 
+# This functions finds all primes smaller
+# than 'limit' using simple sieve of
+# eratosthenes.
+def simpleSieve():
+     
+    # Initialize all entries of it as
+    # True. A value in mark[p] will
+    # finally be False if 'p' is Not
+    # a prime, else True.
+    k = 0
+ 
+    # One by one traverse all numbers so
+    # that their multiples can be marked
+    # as composite.
+    for p in range(2, 1001):
+        if (p * p > 1001):
+            break
+             
+        # If p is not changed, then it is a prime
+        if (arr[p]):
+ 
+            # Update all multiples of p
+            for k in range(p, 1001, k + p):
+                arr[k] = False
+         
+def find_sphene(N):
+     
+    # To store the 8 divisors
+    arr1 = [0] * (8)
+     
+    # To count the number of divisor
+    count = 0
+    j = 0
+     
+    for i in range(1, N + 1):
+        if (N % i == 0 and count < 8):
+            count += 1
+            arr1[j] = i
+            j += 1
+             
+    # Finally check if there re 8 divisor and
+    # all the numbers are distinct prime no return 1
+    # else return 0);
+    if (count == 8 and (arr[arr1[1]] and
+       arr[arr1[2]] and arr[arr1[3]])):
+        return 1;
+ 
+    return 0;
+ 
+# Driver code
+if __name__ == '__main__':
+     
+    n = 60
+    simpleSieve()
+    ans = find_sphene(n)
+     
+    if (ans == 1):
+        print("Yes")
+    else:
+        print("NO")
+ 
+# This code is contributed by gauravrajput1
+C#
+Javascript
+Output: 
+
+NO
+Time Complexity: O(√p log p) 
+Auxiliary Space: O(n)
+
+References: 
+1. OEIS 
+2. https://en.wikipedia.org/wiki/Sphenic_number
+
+This article is contributed by Aarti_Rathi and mra11145. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+ 
+
+
+
+Like
+Next
+Hoax Number
+Related Articles
+1.
+Check Whether a Number is an Anti Prime Number(Highly Composite Number)
+2.
+Number of factors of very large number N modulo M where M is any prime number
+3.
+Permutation of a number whose sum with the original number is equal to another given number
+4.
+Minimum number of moves to make M and N equal by repeatedly adding any divisor of number to itself except 1 and the number
+5.
+Find minimum number to be divided to make a number a perfect square
+6.
+How to check if a given number is Fibonacci number?
+7.
+Find the smallest number whose digits multiply to a given number n
+8.
+Find n'th number in a number system with only 3 and 4
+9.
+Build Lowest Number by Removing n digits from a given number
+10.
+Minimum number of squares whose sum equals to given number n
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mohammedansari1111145
+aashish1995
+GauravRajput1
+codewithshinchan
+mitalibhola94
+Article Tags :
+Prime Number
+prime-factor
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Prime Number
+sieve
+Sieve
+Report Issue

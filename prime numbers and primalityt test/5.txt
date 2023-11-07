@@ -1,0 +1,134 @@
+Hardy-Ramanujan Theorem
+
+Last Updated : 09 Apr, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Hardy Ramanujam theorem states that the number of prime factors of n will approximately be log(log(n)) for most natural numbers n
+Examples : 
+ 
+
+5192 has 2 distinct prime factors and log(log(5192)) = 2.1615 
+51242183 has 3 distinct prime facts and log(log(51242183)) = 2.8765
+
+As the statement quotes, it is only an approximation. There are counter examples such as 
+ 
+
+510510 has 7 distinct prime factors but log(log(510510)) = 2.5759 
+1048576 has 1 prime factor but log(log(1048576)) = 2.62922
+
+This theorem is mainly used in approximation algorithms and its proof lead to bigger concepts in probability theory. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to count all
+# prime factors
+import math
+ 
+# A function to count
+# prime factors of
+# a given number n
+def exactPrimeFactorCount(n) :
+    count = 0
+    if (n % 2 == 0) :
+        count = count + 1
+        while (n % 2 == 0) :
+            n = int(n / 2)
+ 
+    # n must be odd at this
+    # point. So we can skip
+    # one element (Note i = i +2)
+    i = 3
+     
+    while (i <= int(math.sqrt(n))) :
+        if (n % i == 0) :    
+            count = count + 1
+            while (n % i == 0) :
+                n = int(n / i)
+        i = i + 2
+ 
+    # This condition is to
+    # handle the case when n
+    # is a prime number greater
+    # than 2
+    if (n > 2) :
+        count = count + 1
+    return count
+ 
+# Driver Code
+n = 51242183
+print ("The number of distinct prime factors is/are {}".
+       format(exactPrimeFactorCount(n), end = "\n"))
+print ("The value of log(log(n)) is {0:.4f}"
+            .format(math.log(math.log(n))))
+ 
+# This code is contributed by Manish Shaw
+# (manishshaw1)
+C#
+PHP
+Javascript
+Output: 
+The number of distinct prime factors is/are 3
+The value of log(log(n)) is 2.8765
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Moser-de Bruijn Sequence
+Next
+Lagrange's four square theorem
+Related Articles
+1.
+Compute nCr % p | Set 4 (Chinese Remainder theorem with Lucas Theorem)
+2.
+Introduction to Chinese Remainder Theorem
+3.
+Wilson's Theorem
+4.
+Zeckendorf's Theorem (Non-Neighbouring Fibonacci Representation)
+5.
+Compute nCr%p using Lucas Theorem
+6.
+Implementation of Chinese Remainder theorem (Inverse Modulo based implementation)
+7.
+Combinatorial Game Theory | Set 4 (Sprague - Grundy Theorem)
+8.
+Compute nCr%p using Fermat Little Theorem
+9.
+Using Chinese Remainder Theorem to Combine Modular equations
+10.
+Corollaries of Binomial Theorem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+VaradaDesikan
+@VaradaDesikan
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+vt_m
+manishshaw1
+_saurabh_jaiswal
+Article Tags :
+number-theory
+Prime Number
+Mathematical
+Practice Tags :
+Mathematical
+number-theory
+Prime Number
+Report Issue

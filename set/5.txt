@@ -1,0 +1,167 @@
+Bell Numbers (Number of ways to Partition a Set)
+
+Difficulty Level : Medium
+Last Updated : 12 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a set of n elements, find number of ways of partitioning it. 
+
+Examples: 
+
+Input:  n = 2
+Output: Number of ways = 2
+Explanation: Let the set be {1, 2}
+            { {1}, {2} } 
+            { {1, 2} }
+
+Input:  n = 3
+Output: Number of ways = 5
+Explanation: Let the set be {1, 2, 3}
+             { {1}, {2}, {3} }
+             { {1}, {2, 3} }
+             { {2}, {1, 3} }
+             { {3}, {1, 2} }
+             { {1, 2, 3} }. 
+Recommended practice
+
+The solution to above questions is Bell Number. 
+
+What is a Bell Number? 
+Let S(n, k) be total number of partitions of n elements into k sets. The value of n’th Bell Number is sum of S(n, k) for k = 1 to n. 
+Bell(n) = \sum_{k=1}^{n}S(n,k)                   
+Value of S(n, k) can be defined recursively as, S(n+1, k) = k*S(n, k) + S(n, k-1)
+
+How does above recursive formula work? 
+When we add a (n+1)’th element to k partitions, there are two possibilities. 
+1) It is added as a single element set to existing partitions, i.e, S(n, k-1) 
+2) It is added to all sets of every partition, i.e., k*S(n, k)
+S(n, k) is called Stirling numbers of the second kind
+First few Bell numbers are 1, 1, 2, 5, 15, 52, 203, …. 
+
+A Simple Method to compute n’th Bell Number is to one by one compute S(n, k) for k = 1 to n and return sum of all computed values. Refer this for computation of S(n, k).
+Below is Dynamic Programming based implementation of the above recursive code using the Stirling number-
+
+
+
+C++
+Java
+Python3
+# python program to find number of ways of partitioning it.
+n = 5
+s = [[0 for _ in range(n+1)] for _ in range(n+1)]
+for i in range(n+1):
+    for j in range(n+1):
+        if j > i:
+            continue
+        elif(i==j):
+            s[i][j] = 1
+        elif(i==0 or j==0):
+            s[i][j]=0
+        else:
+            s[i][j] = j*s[i-1][j] + s[i-1][j-1]
+ans = 0
+for i in range(0,n+1):
+    ans+=s[n][i]
+print(ans)
+C#
+Javascript
+Output
+52
+Time complexity: O(N2) 
+Auxiliary Space: O(N2) 
+
+A Better Method is to use Bell Triangle. Below is a sample Bell Triangle for first few Bell Numbers. 
+
+1
+1 2
+2 3 5
+5 7 10 15
+15 20 27 37 52
+The triangle is constructed using below formula. 
+
+// If this is first column of current row 'i'
+If j == 0
+   // Then copy last entry of previous row
+   // Note that i'th row has i entries
+   Bell(i, j) = Bell(i-1, i-1) 
+
+// If this is not first column of current row
+Else 
+   // Then this element is sum of previous element 
+   // in current row and the element just above the
+   // previous element
+   Bell(i, j) = Bell(i-1, j-1) + Bell(i, j-1)
+Interpretation:
+Then Bell(n, k) counts the number of partitions of the set {1, 2, …, n + 1} in which the element k + 1 is the largest element that can be alone in its set.
+For example, Bell(3, 2) is 3, it is count of number of partitions of {1, 2, 3, 4} in which 3 is the largest singleton element. There are three such partitions:
+
+    {1}, {2, 4}, {3}
+    {1, 4}, {2}, {3}
+    {1, 2, 4}, {3}. 
+Below is Dynamic Programming based implementation of above recursive formula. 
+
+C++14
+Java
+Python3
+# A Python program to find n'th Bell number
+ 
+def bellNumber(n):
+ 
+    bell = [[0 for i in range(n+1)] for j in range(n+1)]
+    bell[0][0] = 1
+    for i in range(1, n+1):
+ 
+        # Explicitly fill for j = 0
+        bell[i][0] = bell[i-1][i-1]
+ 
+        # Fill for remaining values of j
+        for j in range(1, i+1):
+            bell[i][j] = bell[i-1][j-1] + bell[i][j-1]
+ 
+    return bell[n][0]
+ 
+# Driver program
+for n in range(6):
+    print('Bell Number', n, 'is', bellNumber(n))
+ 
+# This code is contributed by Soumen Ghosh
+C#
+PHP
+Javascript
+Output
+Bell Number 0 is 1
+Bell Number 1 is 1
+Bell Number 2 is 2
+Bell Number 3 is 5
+Bell Number 4 is 15
+Bell Number 5 is 52
+Time Complexity: O(N2) 
+Auxiliary Space: O(N2) 
+
+We will soon be discussing other more efficient methods of computing Bell Numbers.
+Another problem that can be solved by Bell Numbers. 
+A number is squarefree if it is not divisible by a perfect square other than 1. For example, 6 is a square free number but 12 is not as it is divisible by 4. 
+Given a squarefree number x, find the number of different multiplicative partitions of x. The number of multiplicative partitions is Bell(n) where n is number of prime factors of x. For example x = 30, there are 3 prime factors of 2, 3 and 5. So the answer is Bell(3) which is 5. The 5 partitions are 1 x 30, 2 x15, 3 x 10, 5 x 6 and 2 x 3 x 5.
+Exercise: 
+The above implementation causes arithmetic overflow for slightly larger values of n. Extend the above program so that results are computed under modulo 1000000007 to avoid overflows.
+Reference: 
+https://en.wikipedia.org/wiki/Bell_number 
+https://en.wikipedia.org/wiki/Bell_triangle
+This article is contributed by Rajeev Agrawal. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+94
+Previous
+Program for nth Catalan Number
