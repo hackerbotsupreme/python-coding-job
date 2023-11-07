@@ -1,0 +1,189 @@
+Minimum number of subsets with distinct elements
+
+Difficulty Level : Easy
+Last Updated : 28 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+You are given an array of n-element. You have to make subsets from the array such that no subset contain duplicate elements. Find out minimum number of subset possible.
+
+Examples : 
+
+Input : arr[] = {1, 2, 3, 4}
+Output :1
+Explanation : A single subset can contains all 
+values and all values are distinct
+
+Input : arr[] = {1, 2, 3, 3}
+Output : 2
+Explanation : We need to create two subsets
+{1, 2, 3} and {3} [or {1, 3} and {2, 3}] such
+that both subsets have distinct elements.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We basically need to find the most frequent element in the array. The result is equal to the frequency of the most frequent element.
+
+A simple solution is to run two nested loops to count frequency of every element and return the frequency of the most frequent element. Time complexity of this solution is O(n2).
+
+A better solution is to first sort the array and then start count number of repetitions of elements in an iterative manner as all repetition of any number lie beside the number itself. By this method you can find the maximum frequency or repetition by simply traversing the sorted array. This approach will cost O(nlogn) time complexity 
+
+Implementation:
+
+C++
+Java
+Python3
+# A sorting based solution to find the
+# minimum number of subsets of a set
+# such that every subset contains distinct
+# elements.
+ 
+# function to count subsets such that all
+# subsets have distinct elements.
+def subset(ar, n):
+ 
+    # take input and initialize res = 0
+    res = 0
+ 
+    # sort the array
+    ar.sort()
+ 
+    # traverse the input array and
+    # find maximum frequency
+    for i in range(0, n) :
+        count = 1
+ 
+        # for each number find its repetition / frequency
+        for i in range(n - 1):
+            if ar[i] == ar[i + 1]:
+                count+=1
+            else:
+                break
+             
+        # update res
+        res = max(res, count)
+     
+    return res
+ 
+ 
+# Driver code
+ar = [ 5, 6, 9, 3, 4, 3, 4 ]
+n = len(ar)
+print(subset(ar, n))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+
+
+2
+Time Complexity: O(n2)
+Auxiliary Space: O(1)
+ 
+An efficient solution is to use hashing. We count frequencies of all elements in a hash table. Finally we return the key with maximum value in hash table.
+
+Implementation:
+
+C++
+Java
+Python3
+# A hashing based solution to find the
+# minimum number of subsets of a set such 
+# that every subset contains distinct
+# elements.
+ 
+# Function to count subsets such that
+# all subsets have distinct elements.
+def subset(arr, n):
+     
+    # Traverse the input array and
+    # store frequencies of elements
+    mp = {i:0 for i in range(10)}
+    for i in range(n):
+        mp[arr[i]] += 1
+     
+    # Find the maximum value in map.
+    res = 0
+    for key, value in mp.items():
+        res = max(res, value)
+ 
+    return res
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [5, 6, 9, 3, 4, 3, 4]
+    n = len(arr)
+    print(subset(arr, n))
+ 
+# This code is contributed by
+# Surendra_Gangwar
+C#
+Javascript
+Output
+2
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+8
+Previous
+Find pair with greatest product in array
+Next
+Remove minimum number of elements such that no common element exist in both array
+Related Articles
+1.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+2.
+Partition array into minimum number of equal length subsets consisting of a single distinct value
+3.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+4.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+5.
+Sum of subsets of all the subsets of an array | O(3^N)
+6.
+Sum of subsets of all the subsets of an array | O(N)
+7.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+8.
+Sum of subsets of all the subsets of an array | O(2^N)
+9.
+Number of distinct subsets of a set
+10.
+Number of distinct pair of edges such that it partitions both trees into same subsets of nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sach_Code
+SURENDRA_GANGWAR
+Rajput-Ji
+chinmoy1997pal
+rdtank
+amankr0211
+hardikkoriintern
+Article Tags :
+Arrays
+Hash
+Sorting
+Practice Tags :
+Arrays
+Hash
+Sorting
+Improve Article
+Report Issue

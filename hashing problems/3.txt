@@ -1,0 +1,161 @@
+Index Mapping (or Trivial Hashing) with negatives allowed
+
+Difficulty Level : Easy
+Last Updated : 21 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Index Mapping (also known as Trivial Hashing) is a simple form of hashing where the data is directly mapped to an index in a hash table. The hash function used in this method is typically the identity function, which maps the input data to itself. In this case, the key of the data is used as the index in the hash table, and the value is stored at that index.
+
+For example, if we have a hash table of size 10 and we want to store the value “apple” with the key “a”, the trivial hashing function would simply map the key “a” to the index “a” in the hash table, and store the value “apple” at that index.
+
+One of the main advantages of Index Mapping is its simplicity. The hash function is easy to understand and implement, and the data can be easily retrieved using the key. However, it also has some limitations. The main disadvantage is that it can only be used for small data sets, as the size of the hash table has to be the same as the number of keys. Additionally, it doesn’t handle collisions, so if two keys map to the same index, one of the data will be overwritten.
+
+Given a limited range array contains both positive and non-positive numbers, i.e., elements are in the range from -MAX to +MAX. Our task is to search if some number is present in the array or not in O(1) time.
+Since the range is limited, we can use index mapping (or trivial hashing). We use values as the index in a big array. Therefore we can search and insert elements in O(1) time.
+ 
+
+hmap
+
+How to handle negative numbers? 
+The idea is to use a 2D array of size hash[MAX+1][2]
+
+Algorithm:
+
+
+
+Assign all the values of the hash matrix as 0.
+
+Traverse the given array:
+
+    If the element ele is non negative assign 
+hash[ele][0] as 1.
+    Else take the absolute value of ele and 
+ assign hash[ele][1] as 1.
+To search any element x in the array. 
+
+If X is non-negative check if hash[X][0] is 1 or not. If hash[X][0] is one then the number is present else not present.
+If X is negative take the absolute value of X and then check if hash[X][1] is 1 or not. If hash[X][1] is one then the number is present
+Below is the implementation of the above idea. 
+
+C++
+Java
+Python3
+# Python3 program to implement direct index
+# mapping with negative values allowed.
+ 
+# Searching if X is Present in the
+# given array or not.
+def search(X):
+ 
+    if X >= 0:
+        return has[X][0] == 1
+ 
+    # if X is negative take the absolute
+    # value of X.
+    X = abs(X)
+    return has[X][1] == 1
+ 
+def insert(a, n):
+ 
+    for i in range(0, n):
+        if a[i] >= 0:
+            has[a[i]][0] = 1
+        else:
+            has[abs(a[i])][1] = 1
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    a = [-1, 9, -5, -8, -5, -2]
+    n = len(a)
+ 
+    MAX = 1000
+     
+    # Since array is global, it is
+    # initialized as 0.
+    has = [[0 for i in range(2)]
+              for j in range(MAX + 1)]
+    insert(a, n)
+ 
+    X = -5
+    if search(X) == True:
+        print("Present")
+    else:
+        print("Not Present")
+ 
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output
+Present
+Time Complexity: The time complexity of the above algorithm is O(N), where N is the size of the given array.
+Space Complexity: The space complexity of the above algorithm is O(N), because we are using an array of max size.
+
+This article is contributed by ShivamKD. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+194
+Previous
+Open Addressing Collision Handling technique in Hashing
+Next
+Double Hashing
+Related Articles
+1.
+Sorting using trivial hash function
+2.
+Maximize the difference between two subsets of a set with negatives
+3.
+Remove all negatives from the given Array
+4.
+Find a Fixed Point (Value equal to index) in a given array | Duplicates Allowed
+5.
+Minimum cost to reach end of array when a maximum jump of K index is allowed
+6.
+Check if mapping is possible to make sum of first array larger than second array
+7.
+Top 20 Hashing Technique based Interview Questions
+8.
+What is Hashing?
+9.
+Separate Chaining Collision Handling Technique in Hashing
+10.
+Practice Problems on Hashing
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+fsociety_|_
+29AjayKumar
+Akanksha_Rai
+rituraj_jain
+noob_programmer
+RahulKumar182
+rag2127
+hardikkoriintern
+akashish__
+factworx4i2
+shreyasnaphad
+Article Tags :
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash

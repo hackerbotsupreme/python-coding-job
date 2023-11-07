@@ -1,0 +1,189 @@
+Count maximum points on same line
+
+Difficulty Level : Hard
+Last Updated : 24 Aug, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given N point on a 2D plane as pair of (x, y) co-ordinates, we need to find maximum number of point which lie on the same line.
+
+Examples: 
+
+Input : points[] = {-1, 1}, {0, 0}, {1, 1}, 
+                    {2, 2}, {3, 3}, {3, 4} 
+Output : 4
+Then maximum number of point which lie on same
+line are 4, those point are {0, 0}, {1, 1}, {2, 2},
+{3, 3}
+Recommended Practice
+Hit most Balloons
+Try It!
+We can solve above problem by following approach – For each point p, calculate its slope with other points and use a map to record how many points have same slope, by which we can find out how many points are on same line with p as their one point. For each point keep doing the same thing and update the maximum number of point count found so far.
+
+Some things to note in implementation are: 
+
+if two point are (x1, y1) and (x2, y2) then their slope will be (y2 – y1) / (x2 – x1) which can be a double value and can cause precision problems. To get rid of the precision problems, we treat slope as pair ((y2 – y1), (x2 – x1)) instead of ratio and reduce pair by their gcd before inserting into map. In below code points which are vertical or repeated are treated separately.
+If we use unordered_map in c++ or HashMap in Java for storing the slope pair, then total time complexity of solution will be O(n^2) and space complexity will be O(n).
+Implementation:
+
+C++
+Java
+Python3
+# python3 program to find maximum number of 2D points that lie on the same line.
+ 
+from collections import defaultdict
+from math import gcd
+from typing import DefaultDict, List, Tuple
+ 
+IntPair = Tuple[int, int]
+ 
+ 
+def normalized_slope(a: IntPair, b: IntPair) -> IntPair:
+    """
+    Returns normalized (rise, run) tuple. We won't return the actual rise/run
+    result in order to avoid floating point math, which leads to faulty
+    comparisons.
+ 
+    See
+    https://en.wikipedia.org/wiki/Floating-point_arithmetic#Accuracy_problems
+    """
+    run = b[0] - a[0]
+ 
+    # normalize undefined slopes to (1, 0)
+    if run == 0:
+        return (1, 0)
+ 
+    # normalize to left-to-right
+    if run < 0:
+        a, b = b, a
+        run = b[0] - a[0]
+ 
+    rise = b[1] - a[1]
+    # Normalize by greatest common divisor.
+    # math.gcd only works on positive numbers.
+    gcd_ = gcd(abs(rise), run)
+    return (
+        rise // gcd_,
+        run // gcd_,
+    )
+ 
+ 
+def maximum_points_on_same_line(points: List[List[int]]) -> int:
+    # You need at least 3 points to potentially have non-collinear points.
+    # For [0, 2] points, all points are on the same line.
+    if len(points) < 3:
+        return len(points)
+ 
+    # Note that every line we find will have at least 2 points.
+    # There will be at least one line because len(points) >= 3.
+    # Therefore, it's safe to initialize to 0.
+    max_val = 0
+ 
+    for a_index in range(0, len(points) - 1):
+        # All lines in this iteration go through point a.
+        # Note that lines a-b and a-c cannot be parallel.
+        # Therefore, if lines a-b and a-c have the same slope, they're the same
+        # line.
+        a = tuple(points[a_index])
+        # Fresh lines already have a, so default=1
+        slope_counts: DefaultDict[IntPair, int] = defaultdict(lambda: 1)
+ 
+        for b_index in range(a_index + 1, len(points)):
+            b = tuple(points[b_index])
+            slope_counts[normalized_slope(a, b)] += 1
+ 
+        max_val = max(
+            max_val,
+            max(slope_counts.values()),
+        )
+ 
+    return max_val
+ 
+ 
+print(maximum_points_on_same_line([
+    [-1, 1],
+    [0, 0],
+    [1, 1],
+    [2, 2],
+    [3, 3],
+    [3, 4],
+]))
+ 
+# This code is contributed by Jose Alvarado Torre
+C#
+Javascript
+Output
+4
+Time Complexity: O(n2logn), where n denoting length of string.
+Auxiliary Space: O(n).
+
+
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+57
+Previous
+Klee's Algorithm (Length Of Union Of Segments of a line)
+Next
+Minimum lines to cover all points
+Related Articles
+1.
+Check whether two points (x1, y1) and (x2, y2) lie on same side of a given line or not
+2.
+Minimize the maximum distance between adjacent points after adding K points anywhere in between
+3.
+Count of obtuse angles in a circle with 'k' equidistant points between 2 given points
+4.
+Count distinct points visited on the number line
+5.
+Count pairs of same parity indexed elements with same MSD after replacing each element by the sum of maximum digit * A and minimum digits * B
+6.
+Number of Integral Points between Two Points
+7.
+Prime points (Points that split a number into two primes)
+8.
+Minimum number of points to be removed to get remaining points on one side of axis
+9.
+Ways to choose three points with distance between the most distant points <= L
+10.
+Steps required to visit M points in order on a circular ring of N points
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PortgasDAce
+RahulSingal
+sagar0719kumar
+josalvatorre
+sweetyty
+gautamgoel962
+shivamanandrj9
+hardikkoriintern
+phasing17
+karandeep1234
+Article Tags :
+Amazon
+Geometric
+Hash
+Mathematical
+Practice Tags :
+Amazon
+Geometric
+Hash
+Mathematical
+Improve Article
+Report Issue

@@ -1,0 +1,247 @@
+Find the length of largest subarray with 0 sum
+
+Difficulty Level : Medium
+Last Updated : 17 Oct, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given an array arr[] of length N, find the length of the longest sub-array with a sum equal to 0.
+
+Examples:
+
+Input: arr[] = {15, -2, 2, -8, 1, 7, 10, 23}
+Output: 5
+Explanation: The longest sub-array with elements summing up-to 0 is {-2, 2, -8, 1, 7}
+
+Input: arr[] = {1, 2, 3}
+Output: 0
+Explanation: There is no subarray with 0 sum
+
+Input:  arr[] = {1, 0, 3}
+Output:  1
+Explanation: The longest sub-array with elements summing up-to 0 is {0}
+
+Recommended Problem
+Largest subarray with 0 sum
+Arrays
+Hash
++1 more
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 1.8L
+Naive Approach: Follow the steps below to solve the problem using this approach:
+
+Consider all sub-arrays one by one and check the sum of every sub-array.
+If the sum of the current subarray is equal to zero then update the maximum length accordingly
+Below is the implementation of the above approach:
+
+
+
+C++
+Java
+Python3
+# Python program for the above approach
+ 
+# returns the length
+def maxLen(arr):
+     
+    # initialize result
+    max_len = 0
+ 
+    # pick a starting point
+    for i in range(len(arr)):
+         
+        # initialize sum for every starting point
+        curr_sum = 0
+         
+        # try all subarrays starting with 'i'
+        for j in range(i, len(arr)):
+         
+            curr_sum += arr[j]
+ 
+            # if curr_sum becomes 0, then update max_len
+            if curr_sum == 0:
+                max_len = max(max_len, j-i + 1)
+ 
+    return max_len
+ 
+# Driver's code
+if __name__ == "__main__":
+# test array
+    arr = [15, -2, 2, -8, 1, 7, 10, 13]
+     
+    # Function call
+    print ("Length of the longest 0 sum subarray is % d" % maxLen(arr))
+C#
+PHP
+Javascript
+Output
+Length of the longest 0 sum subarray is 5
+Time Complexity: O(N2)
+Auxiliary Space: O(1)
+
+Find the length of the largest subarray with 0 sum using hashmap:
+Follow the below idea to solve the problem using this approach: 
+
+Let us say prefixsum of array till index i is represented as Si .
+Now consider two indices i and j (j > i) such that Si = Sj .
+
+So, 
+Si = arr[0] + arr[1] + . . . + arr[i]
+Sj = arr[0] + arr[1] + . . . + arr[i] + arr[i+1] + . . . + arr[j]
+
+Now if we subtract Si from Sj .
+Sj – Si = (arr[0] + arr[1] + . . . + arr[i] + arr[i+1] + . . . + arr[j]) – (arr[0] + arr[1] + . . . + arr[i])
+0 = (arr[0] – arr[0]) + (arr[1] – arr[1]) + . . . + (arr[i] – arr[i]) + arr[i+1] + arr[i+2] + . . . + arr[j]
+0 = arr[i+1] + arr[i+2] + . . . + arr[j]
+
+So we can see if there are two indices i and j (j > i) for which the prefix sum are same then the subarray from i+1 to j has sum = 0.
+
+We can use hashmap to store the prefix sum, and if we reach any index for which there is already a prefix with same sum, we will find a subarray with sum as 0. Compare the length of that subarray with the current longest subarray and update the maximum value accordingly.
+
+Follow the steps mentioned below to implement the approach:
+
+Create a variable (sum), length (max_len), and a hash map (hm) to store the sum-index pair as a key-value pair.
+Traverse the input array and for every index, 
+Update the value of sum = sum + array[i].
+Check every index, if the current sum is present in the hash map or not.
+If present, update the value of max_len to a maximum difference of two indices (current index and index in the hash-map) and max_len.
+Else, put the value (sum) in the hash map, with the index as a key-value pair.
+Print the maximum length (max_len).
+Below is a dry run of the above approach: 
+
+
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program for the above approach
+ 
+# Returns the maximum length
+ 
+ 
+def maxLen(arr):
+ 
+    # NOTE: Dictionary in python is
+    # implemented as Hash Maps
+    # Create an empty hash map (dictionary)
+    hash_map = {}
+ 
+    # Initialize result
+    max_len = 0
+ 
+    # Initialize sum of elements
+    curr_sum = 0
+ 
+    # Traverse through the given array
+    for i in range(len(arr)):
+ 
+        # Add the current element to the sum
+        curr_sum += arr[i]
+ 
+        if curr_sum == 0:
+            max_len = i + 1
+ 
+        # NOTE: 'in' operation in dictionary
+        # to search key takes O(1). Look if
+        # current sum is seen before
+        if curr_sum in hash_map:
+            max_len = max(max_len, i - hash_map[curr_sum])
+        else:
+ 
+            # else put this sum in dictionary
+            hash_map[curr_sum] = i
+ 
+    return max_len
+ 
+ 
+# Driver's code
+if __name__ == "__main__":
+ 
+    # test array
+    arr = [15, -2, 2, -8, 1, 7, 10, 13]
+ 
+    # Function call
+    print("Length of the longest 0 sum subarray is % d" % maxLen(arr))
+C#
+Javascript
+Output
+Length of the longest 0 sum subarray is 5
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+174
+Previous
+Find if there is a subarray with 0 sum
+Next
+Largest subarray with equal number of 0s and 1s
+Related Articles
+1.
+Maximum length of subarray such that sum of the subarray is even
+2.
+Maximize product of min value of subarray and sum of subarray over all subarrays of length K
+3.
+Find the length of largest subarray in which all elements are Autobiographical Numbers
+4.
+Maximum length of subarray such that all elements are equal in the subarray
+5.
+First subarray having sum at least half the maximum sum of any subarray of size K
+6.
+Length of the largest subarray with contiguous elements | Set 1
+7.
+Length of the largest subarray with contiguous elements | Set 2
+8.
+Length of longest subarray for each index in Array where element at that index is largest
+9.
+Length of largest subarray whose all elements are Perfect Number
+10.
+Length of largest subarray whose all elements Powerful number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Mahin_251
+princiraj1992
+andrew1234
+ankitdoot
+decode2207
+target_2
+amartyaghoshgfg
+simmytarika5
+bibhup
+shinjanpatra
+phasing17
+hardikkoriintern
+janardansthox
+Bhavesh Bavdhane
+Article Tags :
+Amazon
+MakeMyTrip
+subarray
+subarray-sum
+Arrays
+Hash
+Practice Tags :
+Amazon
+MakeMyTrip
+Arrays
+Hash

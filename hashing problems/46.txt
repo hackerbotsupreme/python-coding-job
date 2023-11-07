@@ -1,0 +1,181 @@
+Elements to be added so that all elements of a range are present in array
+
+Difficulty Level : Basic
+Last Updated : 23 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of size N. Let A and B be the minimum and maximum in the array respectively. Task is to find how many number should be added to the given array such that all the element in the range [A, B] occur at-least once in the array.
+Examples: 
+ 
+
+Input : arr[] = {4, 5, 3, 8, 6}
+Output : 1
+Only 7 to be added in the list.
+
+Input : arr[] = {2, 1, 3}
+Output : 0
+Recommended Problem
+Incomplete Array
+Hash
+Data Structures
+Solve Problem
+Submission count: 2.8K
+Method 1 (Sorting):
+
+Sort the array. 
+Compare arr[i] == arr[i+1]-1 or not. If not, update count = arr[i+1]-arr[i]-1. 
+Return count. 
+Implementation:
+
+C++
+Java
+Python3
+# python program for above implementation
+ 
+# Function to count numbers to be added
+def countNum(arr, n):
+     
+    count = 0
+ 
+    # Sort the array
+    arr.sort()
+ 
+    # Check if elements are consecutive
+    # or not. If not, update count
+    for i in range(0, n-1):
+        if (arr[i] != arr[i+1] and
+            arr[i] != arr[i + 1] - 1):
+            count += arr[i + 1] - arr[i] - 1;
+ 
+    return count
+ 
+# Drivers code
+arr = [ 3, 5, 8, 6 ]
+n = len(arr)
+print(countNum(arr, n))
+ 
+# This code is contributed by Sam007
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(n log n)
+Auxiliary Space: O(1)
+
+Method 2 (Use Hashing):
+
+Maintain a hash of array elements. 
+Store minimum and maximum element. 
+Traverse from minimum to maximum element in hash 
+And count if element is not in hash. 
+Return count. 
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Function to count numbers to be added
+def countNum(arr, n):
+ 
+    s = dict()
+    count, maxm, minm = 0, -10**9, 10**9
+ 
+    # Make a hash of elements and store
+    # minimum and maximum element
+    for i in range(n):
+        s[arr[i]] = 1
+        if (arr[i] < minm):
+            minm = arr[i]
+        if (arr[i] > maxm):
+            maxm = arr[i]
+     
+    # Traverse all elements from minimum
+    # to maximum and count if it is not
+    # in the hash
+    for i in range(minm, maxm + 1):
+        if i not in s.keys():
+            count += 1
+    return count
+ 
+# Driver code
+arr = [3, 5, 8, 6 ]
+n = len(arr)
+print(countNum(arr, n))
+     
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+5
+Time Complexity: O(n + max – min + 1)
+Auxiliary Space: O(n), for use of set
+
+This article is contributed by Sahil Chhabra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+5
+Previous
+Amazon interview Experience | Set 412 (SDE II)
+Next
+Longest subarray not having more than K distinct elements
+Related Articles
+1.
+Smallest possible integer to be added to N-1 elements in array A such that elements of array B are present in A
+2.
+Count the number of sub-arrays such that the average of elements present in the sub-array is greater than that not present in the sub-array
+3.
+Count of elements in Array which are present K times & their double isn't present
+4.
+Find GCD of each element of array B[] added to all elements of array A[]
+5.
+Find all numbers in range [1, N] that are not present in given Array
+6.
+Minimize elements to be added to a given array such that it contains another given array as its subsequence
+7.
+Minimize elements to be added to a given array such that it contains another given array as its subsequence | Set 2
+8.
+Minimize consecutive elements to be added for each element to make Array of at least C length
+9.
+Find if a crest is present in the index range [L, R] of the given array
+10.
+Count 1s present in a range of indices [L, R] in a given array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Sam007
+mohit kumar 29
+nidhi_biet
+Rajput-Ji
+sanjoy_62
+unknown2108
+_shinchancode
+hardikkoriintern
+Article Tags :
+Arrays
+Hash
+Sorting
+Practice Tags :
+Arrays
+Hash
+Sorting
+Improve Article
+Report Issue

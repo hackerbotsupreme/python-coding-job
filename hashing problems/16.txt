@@ -1,0 +1,198 @@
+Non-overlapping sum of two sets
+
+Difficulty Level : Basic
+Last Updated : 20 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given two arrays A[] and B[] of size n. It is given that both array individually contains distinct elements. We need to find the sum of all elements that are not common.
+
+Examples: 
+
+Input : A[] = {1, 5, 3, 8}
+        B[] = {5, 4, 6, 7}
+Output : 29
+1 + 3 + 4 + 6 + 7 + 8 = 29
+
+Input : A[] = {1, 5, 3, 8}
+        B[] = {5, 1, 8, 3}
+Output : 0
+All elements are common.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Brute Force Method: One simple approach is that for each element in A[] check whether it is present in B[], if it is present in then add it to the result. Similarly, traverse B[] and for every element that is not present in B, add it to result. 
+Time Complexity: O(n2).
+Auxiliary Space: O(1), As constant extra space is used.
+
+Hashing concept: Create an empty hash and insert elements of both arrays into it. Now traverse hash table and add all those elements whose count is 1. (As per the question, both arrays individually have distinct elements)
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find Non-overlapping sum
+from collections import defaultdict
+ 
+# Function for calculating
+# Non-overlapping sum of two array
+def findSum(A, B, n):
+ 
+    # Insert elements of both arrays
+    Hash = defaultdict(lambda:0)
+    for i in range(0, n):
+        Hash[A[i]] += 1
+        Hash[B[i]] += 1
+ 
+    # calculate non-overlapped sum
+    Sum = 0
+    for x in Hash:
+        if Hash[x] == 1:
+            Sum += x
+     
+    return Sum
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    A = [5, 4, 9, 2, 3]
+    B = [2, 8, 7, 6, 3]
+     
+    # size of array
+    n = len(A)
+ 
+    # Function call
+    print(findSum(A, B, n))
+     
+# This code is contributed
+# by Rituraj Jain
+C#
+Javascript
+Output
+39
+Time Complexity: O(n), since inserting in an unordered map is amortized constant.
+Auxiliary Space: O(n).
+
+
+
+Another method: Using set data structure
+
+Insert elements of Array A in the set data structure and add into sum
+Check if B’s elements are there in set if exist then remove current element from set, otherwise add current element to sum
+Finally, return sum
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# python program to find Non-overlapping sum
+ 
+# function for calculating
+# Non-overlapping sum of two array
+def findSum(A, B, n):
+    sum = 0;
+ 
+    # Insert elements of Array A in set
+    # and add into sum
+    st = set();
+    for i in range(0,n):
+        st.add(A[i]);
+        sum += A[i];
+     
+    # Check if B's element are there in set
+    # if exist then remove current element from
+    # set, otherwise add current element into sum
+    for i in range (0, n):
+        if (B[i] in st):
+            sum -= B[i];
+        else :
+            sum += B[i];
+ 
+    # Finally, return sum
+    return sum;
+ 
+# Driver code
+A = [ 5, 4, 9, 2, 3 ];
+B = [ 2, 8, 7, 6, 3 ];
+ 
+# size of array
+n = len(A);
+ 
+# function call
+print(findSum(A, B, n));
+C#
+Javascript
+Output
+39
+Time Complexity: O(n*log n)
+Auxiliary Space: O(n)
+ 
+
+This article is contributed by Aarti_Rathi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+7
+Previous
+How to check if two given sets are disjoint?
+Next
+Check if two arrays are equal or not
+Related Articles
+1.
+Distribute given arrays into K sets such that total sum of maximum and minimum elements of all sets is maximum
+2.
+Count of Subsets that can be partitioned into two non empty sets with equal Sum
+3.
+How to check if two given sets are disjoint?
+4.
+Make two sets disjoint by removing minimum elements
+5.
+Possible two sets from first N natural numbers difference of sums as D
+6.
+Number of K's such that the given array can be divided into two sets satisfying the given conditions
+7.
+Count of ways N elements can form two different sets containing N/2 elements each
+8.
+Equally divide into two sets such that one set has maximum distinct elements
+9.
+Print equal sum sets of array (Partition problem) | Set 1
+10.
+Print equal sum sets of Array (Partition Problem) using Dynamic Programming
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rituraj_jain
+rachana soma
+29AjayKumar
+gfgking
+rohitmishra051000
+codewithmini
+hardikkoriintern
+abhijeet19403
+hkdass001
+user_7gr9iodclfx
+lokeshmvs21
+poojaagrawal2
+imruhrbf8
+Article Tags :
+cpp-unordered_map
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Improve Article
+Report Issue

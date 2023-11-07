@@ -1,0 +1,169 @@
+Maximum array from two given arrays keeping order same
+
+Difficulty Level : Medium
+Last Updated : 28 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two same-sized arrays A[] and B[] (both arrays contain distinct elements individually but may have some common elements), the task is to form a third (or result) array of the same size. The resulting array should have maximum n elements from both arrays. It should have chosen elements of A[] first, then chosen elements of B[] in the same order as they appear in original arrays. If there are common elements, then only one element should be present in res[] and priority should be given to A[].
+
+Examples:  
+
+Input :  A[] =  [ 9 7 2 3 6 ]
+         B[] =  [ 7 4 8 0 1 ]
+Output : res[] = [9 7 6 4 8]
+res[] has maximum n elements of both A[] 
+and B[] such that elements of A[] appear
+first (in same order), then elements of B[].
+Also 7 is common and priority is given to
+A's 7.
+
+Input :  A[] = [ 6 7 5 3 ]
+         B[] = [ 5 6 2 9 ] 
+Output : res[] = [ 6 7 5 9 ]
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Create copies of both arrays and sort the copies in decreasing order. 
+Use a hash to pick unique n maximum elements of both arrays, giving priority to A[]. 
+Initialize result array as empty. 
+Traverse through A[], copy those elements of A[] that are present in the hash. This is done to keep the order of elements the same. 
+Repeat step 4 for B[]. This time we only consider those elements that are not present in A[] (Do not appear twice in the hash).
+Below is the implementation of the above idea. 
+
+C++
+Java
+Python3
+# Python3 program to implement the
+# above approach
+# Make a set of maximum elements
+# from two arrays A[] and B[]
+from collections import defaultdict
+ 
+ 
+def maximizeTheFirstArray(A, B, n):
+ 
+    # Create copies of A[] and B[]
+    # and sort the copies in
+    # descending order.
+    temp1 = A.copy()
+    temp2 = B.copy()
+    temp1.sort(reverse=True)
+    temp2.sort(reverse=True)
+ 
+    # Put maximum n distinct
+    # elements of both sorted
+    # arrays in a map.
+    m = defaultdict(int)
+    i = 0
+    j = 0
+ 
+    while (len(m) < n):
+        if (temp1[i] >= temp2[j]):
+            m[temp1[i]] += 1
+            i += 1
+        else:
+            m[temp2[j]] += 1
+            j += 1
+ 
+    # Copy elements of A[] to that
+    # are present in hash m.
+    res = []
+ 
+    for i in range(n):
+        if (A[i] in m):
+            res.append(A[i])
+ 
+    # Copy elements of B[] to that
+    # are present in hash m. This time
+    # we also check if the element did
+    # not appear twice.
+    for i in range(n):
+        if (B[i] in m and
+                m[B[i]] == 1):
+            res.append(B[i])
+ 
+    # Print result
+    for i in range(n):
+        print(res[i], end=" ")
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    A = [9, 7, 2, 3, 6]
+    B = [7, 4, 8, 0, 1]
+    n = len(A)
+    maximizeTheFirstArray(A, B, n)
+ 
+# This code is contributed by Chitranayal
+C#
+Javascript
+Output
+
+9 7 6 4 8 
+Time complexity: O(n Log n)
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+3
+Previous
+Probability of a random pair being the maximum weighted pair
+Next
+Sparse Table
+Related Articles
+1.
+Minimize Array Sum by replacing pairs with (X, Y) keeping their bitwise OR same
+2.
+Remove duplicates from string keeping the order according to last occurrences
+3.
+Maximize distinct elements by incrementing/decrementing an element or keeping it same
+4.
+Bitwise XOR of same indexed array elements after rearranging an array to make XOR of same indexed elements of two arrays equal
+5.
+Minimize sum of product of same-indexed elements of two arrays by reversing a subarray of one of the two arrays
+6.
+Count elements of same value placed at same indices of two given arrays
+7.
+Maximum length of same indexed subarrays from two given arrays satisfying the given condition
+8.
+Count of possible unique arrays after swapping elements at same index of given Arrays
+9.
+Maximum sum by picking elements from two arrays in order | Set 2
+10.
+Maximum sum by picking elements from two arrays in order
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant_Singh
+@Nishant_Singh
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+rag2127
+avanitrachhadiya2155
+gfgking
+hardikkoriintern
+raj2002
+hkdass001
+Article Tags :
+cpp-unordered_map
+cpp-vector
+Arrays
+Hash
+Sorting
+Practice Tags :
+Arrays
+Hash
+Sorting
+Improve Article
+Report Issue

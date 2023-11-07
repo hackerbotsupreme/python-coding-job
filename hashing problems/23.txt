@@ -1,0 +1,237 @@
+Find all pairs (a, b) in an array such that a % b = k
+
+Difficulty Level : Hard
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array with distinct elements, the task is to find the pairs in the array such that a % b = k, where k is a given integer.
+
+Examples : 
+
+Input  :  arr[] = {2, 3, 5, 4, 7}   
+              k = 3
+Output :  (7, 4), (3, 4), (3, 5), (3, 7)
+7 % 4 = 3
+3 % 4 = 3
+3 % 5 = 3
+3 % 7 = 3
+Recommended Problem
+Mr Modulo and Pairs
+Arrays
+Modular Arithmetic
++2 more
+Solve Problem
+Submission count: 6.4K
+A Naive Solution is to make all pairs one by one and check their modulo is equal to k or not. If equals to k, then print that pair.  
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 implementation to find such pairs
+ 
+# Function to find pair such that (a % b = k)
+def printPairs(arr, n, k):
+ 
+    isPairFound = True
+ 
+    # Consider each and every pair
+    for i in range(0, n):
+     
+        for j in range(0, n):
+         
+            # Print if their modulo equals to k
+            if (i != j and arr[i] % arr[j] == k):
+             
+                print("(", arr[i], ", ", arr[j], ")",
+                                 sep = "", end = " ")
+                isPairFound = True
+             
+    return isPairFound
+ 
+# Driver Code
+arr = [2, 3, 5, 4, 7]
+n = len(arr)
+k = 3
+if (printPairs(arr, n, k) == False):
+    print("No such pair exists")
+ 
+# This article is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output
+(3, 5) (3, 4) (3, 7) (7, 4) 
+Time Complexity : O(n2)
+Auxiliary Space: O(1)
+
+An Efficient solution is based on below observations : 
+
+
+
+If k itself is present in arr[], then k forms a pair with all elements arr[i] where k < arr[i]. For all such arr[i], we have k % arr[i] = k.
+For all elements greater than or equal to k, we use the following fact.
+   If arr[i] % arr[j] = k, 
+   ==> arr[i] = x * arr[j] + k
+   ==> (arr[i] - k) = x * arr[j]
+  We find all divisors of (arr[i] - k)
+  and see if they are present in arr[].
+To quickly check if an element is present in the array, we use hashing. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find all pairs
+# such that a % b = k.
+  
+# Utility function to find the divisors
+# of n and store in vector v[]
+import math as mt
+ 
+def findDivisors(n):
+ 
+    v = []
+ 
+    # Vector is used to store the divisors
+    for i in range(1, mt.floor(n**(.5)) + 1):
+        if (n % i == 0):
+             
+            # If n is a square number, push
+            # only one occurrence
+            if (n / i == i):
+                v.append(i)
+            else:
+                v.append(i)
+                v.append(n // i)
+                 
+    return v
+ 
+# Function to find pairs such that (a%b = k)
+def printPairs(arr, n, k):
+ 
+    # Store all the elements in the map
+    # to use map as hash for finding elements
+    # in O(1) time.
+    occ = dict()
+    for i in range(n):
+        occ[arr[i]] = True
+ 
+    isPairFound = False
+ 
+    for i in range(n):
+         
+        # Print all the pairs with (a, b) as
+        # (k, numbers greater than k) as
+        # k % (num (> k)) = k i.e. 2%4 = 2
+        if (occ[k] and k < arr[i]):
+            print("(", k, ",", arr[i], ")", end = " ")
+            isPairFound = True
+ 
+        # Now check for the current element as 'a'
+        # how many b exists such that a%b = k
+        if (arr[i] >= k):
+             
+            # find all the divisors of (arr[i]-k)
+            v = findDivisors(arr[i] - k)
+ 
+            # Check for each divisor i.e. arr[i] % b = k
+            # or not, if yes then print that pair.
+            for j in range(len(v)):
+                if (arr[i] % v[j] == k and
+                    arr[i] != v[j] and
+                    occ[v[j]]):
+                    print("(", arr[i], ",", v[j],
+                                       ")", end = " ")
+                    isPairFound = True
+ 
+    return isPairFound
+ 
+# Driver Code
+arr = [3, 1, 2, 5, 4]
+n = len(arr)
+k = 2
+ 
+if (printPairs(arr, n, k) == False):
+    print("No such pair exists")
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+(2, 3) (2, 5) (5, 3) (2, 4) 
+Time Complexity: O(n* sqrt(max)) where max is the maximum element in the array.
+Auxiliary Space: O(n)
+
+This article is contributed by Aarti_Rathi and Sahil Chhabra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+18
+Next
+Find all Pairs possible from the given Array
+Related Articles
+1.
+Given an array of pairs, find all symmetric pairs in it
+2.
+Find N - 1 pairs from given array such that GCD of all pair-sums is greater than 1
+3.
+Maximum count of pairs such that element at each index i is included in i pairs
+4.
+Maximize count of pairs whose bitwise XOR is even by replacing such pairs with their Bitwise XOR
+5.
+Maximize count of pairs whose Bitwise AND exceeds Bitwise XOR by replacing such pairs with their Bitwise AND
+6.
+Minimize sum of absolute difference between all pairs of array elements by decrementing and incrementing pairs by 1
+7.
+Find N-1 pairs (X, Y) from given array such that X and Y are different and X modulo Y is not present in array
+8.
+Find the maximum cost of an array of pairs choosing at most K pairs
+9.
+Find indices of K largest pairs in decreasing order of product from given Array of Pairs
+10.
+Minimum decrements required such that sum of all adjacent pairs in an Array does not exceed K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+shrikanth13
+mohit kumar 29
+Akanksha_Rai
+nidhi_biet
+suresh07
+unknown2108
+debbunny98
+sumitgumber28
+simmytarika5
+kothavvsaakash
+codewithmini
+hardikkoriintern
+Article Tags :
+Modular Arithmetic
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Modular Arithmetic
+modular arithmetic
+Improve Article
+Report Issue

@@ -1,0 +1,276 @@
+Smallest subarray with k distinct numbers
+
+Difficulty Level : Hard
+Last Updated : 22 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given an array consisting of n integers and an integer k. We need to find the minimum range in array [l, r] (both l and r are inclusive) such that there are exactly k different numbers. If such subarray doesn’t exist print “Invalid k”.
+Examples: 
+
+Input : arr[] = { 1, 1, 2, 2, 3, 3, 4, 5} 
+            k = 3
+Output : 5 7
+
+Input : arr[] = { 1, 2, 2, 3} 
+            k = 2
+Output : 0 1
+
+Input : arr[] = {1, 1, 2, 1, 2}
+            k = 3
+Output : Invalid k
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach 1 : (Brute Force Method)
+
+The simplest approach in this problem is, try to generate all the subarrays and check for which subarray the size is k. But there are some points we need to take care.
+
+Steps:
+
+Pick each of the elements from the given array as the starting element [ i-th element ] of our required subarray.
+In each iteration initialize an empty set to store the distinct elements of the subarray
+Pick each remaining element [ i, i+1,..n – 1] from the array as the last element [ j-th element ].
+Add the current element to the set.
+If the set size equals k then update the results and break from the inner loop (already found k distinct elements increasing the size of the subarray has 2 possibilities either will get more distinct elements, or increase the subarray size with repeated elements which are not to be considered in the required results).
+If (j == n) or j = size of the array, i.e. we have not found any desired subarray starting from i-th index and going forward we will be having fewer elements to consider.
+( For example : consider given array is 4 5 5 4 5  and k = 3, when start from 0th index we will not find any subarray of k size and j will reach end so that means we won’t get any element that can make a k = 3 size required subarray). 
+So, Break from the outer loop.
+Print the output if found, otherwise, print “Invalid k”.
+Implementation:
+
+C++
+Java
+Python 3
+# Python 3 program to find minimum range
+# that contains exactly k distinct numbers.
+ 
+# Prints the minimum range that contains
+# exactly k distinct numbers.
+def minRange(arr, n, k):
+ 
+    l = 0
+    r = n
+ 
+    # Consider every element as
+    # starting point.
+    for i in range(n):
+ 
+        # Find the smallest window starting
+        # with arr[i] and containing exactly
+        # k distinct elements.
+        s = []
+        for j in range(i, n) :
+            s.append(arr[j])
+            if (len(s) == k):
+                if ((j - i) < (r - l)) :
+                    r = j
+                    l = i
+                 
+                break
+ 
+        # There are less than k distinct
+        # elements now, so no need to continue.
+        if (j == n):
+            break
+ 
+    # If there was no window with k distinct
+    # elements (k is greater than total
+    # distinct elements)
+    if (l == 0 and r == n):
+        print("Invalid k")
+    else:
+        print(l, r)
+ 
+# Driver code
+if __name__ == "__main__":
+     
+    arr = [ 1, 2, 3, 4, 5 ]
+    n = len(arr)
+    k = 3
+    minRange(arr, n, k)
+ 
+# This code is contributed
+# by ChitraNayal
+C#
+Javascript
+Output
+0 2
+Time Complexity : O(N^2) ,where N is the number of elements in the array. Every time picking the end points of the subarray using two nested loops(one inside another) makes the time complexity O(N^2).
+Space Complexity :  O(N), In the worst case, we can have all ‘N’ elements in our set.
+
+
+
+Approach 2 : (Sliding Window Approach)
+
+Optimization is get rid of the repeated work while making all subarray, all subarray will not help to find the resultant. The approach is –
+
+Steps :
+
+Initialize a map to store the frequencies of each element.
+Taking two variables as taken before : start and end of the required subarray.
+And here we are using i and j as the starting and ending index of the window respectively, initializing as i = 0 and j = 0.
+Will traverse the array while the ending pointer of our window reach the end of given array. i.e.  while( j < n)
+Add the current element to the map map[ arr[j] ]++ and make j pointing to the next index
+Consider the window [ i, j-1 ] (reason for ‘j-1’ is as we incremented the value of ‘j’ just after insertion in last step) check whether its size is equal to k
+If window size is lesser than k then continue
+But if window size == k, then check its length whether it is the resultant subarray or not. 
+After that we need to move our window, but in order to move our window, we have to check the starting element of our current window (i.e. i-th). If the i-th element is having a frequency of 1 then erase it from the map and else decrease its frequency by 1. And increase the i-value. Make i to point to the next element.
+( For understanding the reason of erase and decreasing frequency, take an example :  4 2 2 3 4 4 3 and k = 3  when we are dealing with the window 2 2 3 4 then ‘i’ would have pointed to the start of window (first 2) and ‘j’ would have pointed to the last of window (at 4). Now while moving forward (by one position), if the window totally erase 2 from the map, (and make window 2 3 4 4) then map would contain the information that 2 is not in the map but it is wrong so we will decrease the count of 2. Similarly, in case of having frequency == 1, and about to leave the window, the map should not contain the frequency of the element which not there in the window. )
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find the minimum range
+# that contains exactly k distinct numbers.
+from collections import defaultdict
+ 
+# Prints the minimum range that contains
+# exactly k distinct numbers.
+def minRange(arr, n, k):
+  
+    # Initially left and right side is -1
+    # and -1, number of distinct elements
+    # are zero and range is n.
+    l, r = 0, n
+    i = 0
+    j = -1 # Initialize right side
+     
+    hm = defaultdict(lambda:0)
+    while i < n:
+      
+        while j < n:
+          
+            # increment right side.
+            j += 1
+   
+            # if number of distinct elements less than k.
+            if len(hm) < k and j < n:
+                hm[arr[j]] += 1
+   
+            # if distinct elements are equal to k
+            # and length is less than previous length.
+            if len(hm) == k and ((r - l) >= (j - i)):
+              
+                l, r = i, j
+                break
+   
+        # if number of distinct elements less
+        # than k, then break.
+        if len(hm) < k:
+            break
+   
+        # if distinct elements equals to k then
+        # try to increment left side.
+        while len(hm) == k:
+   
+            if hm[arr[i]] == 1:
+                del(hm[arr[i]])
+            else:
+                hm[arr[i]] -= 1
+   
+            # increment left side.
+            i += 1
+   
+            # it is same as explained in above loop.
+            if len(hm) == k and (r - l) >= (j - i):
+              
+                l, r = i, j
+          
+        if hm[arr[i]] == 1:
+            del(hm[arr[i]])
+        else:
+            hm[arr[i]] -= 1
+             
+        i += 1
+   
+    if l == 0 and r == n:
+        print("Invalid k")
+    else:
+        print(l, r)
+  
+# Driver code for above function.
+if __name__ == "__main__":
+  
+    arr = [1, 1, 2, 2, 3, 3, 4, 5] 
+    n = len(arr)
+    k = 3
+    minRange(arr, n, k)
+     
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output
+5 7
+Time Complexity : O(N) ,where N is the number of elements in the array. In the worst case, each element will be added once and removed once from the map.
+Space Complexity :  O(K), In the worst case, we can have only ‘K’ elements in our map.
+
+This article is contributed by Rajdeep Mallick. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+9
+Previous
+Sorting using trivial hash function
+Next
+Clone a Binary Tree with Random Pointers
+Related Articles
+1.
+Smallest pair of indices with product of subarray co-prime with product of the subarray on the left or right
+2.
+Length of longest subarray having only K distinct Prime Numbers
+3.
+Longest subarray not having more than K distinct elements
+4.
+Distinct elements in subarray using Mo's Algorithm
+5.
+Queries for number of distinct elements in a subarray | Set 2
+6.
+Split array into maximum subarrays such that every distinct element lies in a single subarray
+7.
+Maximum distinct prime factors of elements in a K-length subarray
+8.
+Maximum sum of K-length subarray with maximum count of distinct prime factors
+9.
+Count of distinct differences between two maximum elements of every Subarray
+10.
+Maximum sum of K-length subarray consisting of same number of distinct elements as the given array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Kirti_Mangal
+shrikanth13
+ukasp
+rituraj_jain
+jrishabh99
+shikhasingrajput
+avanitrachhadiya2155
+rag2127
+rajdeepmallick999
+sagartomar9927
+hardikkoriintern
+mitalibhola94
+Article Tags :
+cpp-unordered_map
+sliding-window
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+sliding-window
+Improve Article
+Report Issue

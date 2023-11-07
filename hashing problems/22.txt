@@ -1,0 +1,215 @@
+Sort elements by frequency | Set 4 (Efficient approach using hash)
+
+Difficulty Level : Hard
+Last Updated : 27 Jan, 2023
+Read
+Discuss(40)
+Courses
+Practice
+Video
+Print the elements of an array in the decreasing frequency if 2 numbers have the same frequency then print the one which came first.
+
+Examples: 
+
+Input : arr[] = {2, 5, 2, 8, 5, 6, 8, 8}
+Output : arr[] = {8, 8, 8, 2, 2, 5, 5, 6}
+
+Input : arr[] = {2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8}
+Output : arr[] = {8, 8, 8, 2, 2, 5, 5, 6, -1, 9999999}
+ 
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed different approaches in below posts : 
+Sort elements by frequency | Set 1 
+Sort elements by frequency | Set 2 
+Sorting Array Elements By Frequency | Set 3 (Using STL)
+All of the above approaches work in O(n Log n) time where n is total number of elements. In this post, a new approach is discussed that works in O(n + m Log m) time where n is total number of elements and m is total number of distinct elements.
+
+The idea is to use hashing. 
+
+We insert all elements and their counts into a hash. This step takes O(n) time where n is number of elements.
+We copy the contents of hash to an array (or vector) and sort them by counts. This step takes O(m Log m) time where m is total number of distinct elements.
+For maintaining the order of elements if the frequency is the same, we use another hash which has the key as elements of the array and value as the index. If the frequency is the same for two elements then sort elements according to the index.
+The below image is a dry run of the above approach:
+
+
+
+We do not need to declare another map m2, as it does not provide the proper expected result for the problem.
+
+
+
+instead, we need to just check for the first values of the pairs sent as parameters in the sortByVal function.
+
+Below is the implementation of the above approach:
+
+C++
+Python3
+# Used for sorting by frequency. And if frequency is same,
+# then by appearance
+from functools import cmp_to_key
+ 
+def sortByVal(a,b):
+ 
+    # If frequency is same then sort by index
+    if (a[1] == b[1]):
+        return a[0] - b[0]
+ 
+    return b[1] - a[1]
+ 
+# function to sort elements by frequency
+def sortByFreq(a, n):
+    res = []
+    m = {}
+    v = []
+ 
+    for i in range(n):
+ 
+        # Map m is used to keep track of count
+        # of elements in array
+        if(a[i] in m):
+            m[a[i]] = m[a[i]]+1
+        else:
+            m[a[i]] = 1
+ 
+    for key,value in m.items():
+        v.append([key,value])
+ 
+    # Sort the element of array by frequency
+    v.sort(key = cmp_to_key(sortByVal))
+ 
+    for i in range(len(v)):
+        while(v[i][1]):
+            res.append(v[i][0])
+            v[i][1] -= 1
+ 
+    return res
+ 
+ 
+# Driver program
+ 
+a = [ 2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8 ]
+n = len(a)
+res = []
+res = sortByFreq(a, n)
+ 
+for i in range(len(res)):
+    print(res[i],end = " ")
+ 
+ 
+# This code is contributed by shinjanpatra
+Javascript
+Output
+8 8 8 2 2 5 5 -1 6 9999999 
+Time Complexity: O(n) + O(m Log m) where n is total number of elements and m is total number of distinct elements
+Auxiliary Space: O(n)
+
+This article is contributed by Aarti_Rathi and Ankur Singh and improved by Ankur Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Simple way to sort by frequency.
+
+The Approach:
+
+  Here In This approach we first we store the element by there frequency in vector_pair format(Using Mapping stl map) then sort it according to frequency then reverse it and apply bubble sort to make the condition true decreasing frequency if 2 numbers have the same frequency then print the one which came first. then print the vector.
+
+C++
+#include <bits/stdc++.h>
+#include<iostream>
+using namespace std;
+ 
+//map all the number and sort by frequency.
+void the_helper(int a[],vector<pair<int,int>>&res,int n){
+   map<int,int>mp;
+   for(int i=0;i<n;i++)mp[a[i]]++;
+   for(auto it:mp)res.push_back({it.second,it.first});
+   sort(res.begin(),res.end());
+}
+ 
+int main() {
+  int a[] = {2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8};
+  vector<pair<int,int>>res;
+  the_helper(a,res,10);
+  reverse(res.begin(),res.end());
+  for(int i=0;i<res.size();i++){
+    if(res[i].first==res[i+1].first){
+      for(int j=i;j<res.size();j++){
+        if(res[i].second>res[j].second&&res[i].first==res[j].first){
+          swap(res[i],res[j]);
+        }
+      }
+    }
+  }
+  for(int i=0;i<res.size();i++){
+    for(int j=0;j<res[i].first;j++)cout<<res[i].second<<" ";
+  //  cout<<endl;
+  }
+  return 0;
+}
+Javascript
+Output
+8 8 8 2 2 5 5 -1 6 9999999 
+Time Complexity: O(n^2) I.e it take O(n) for getting the frequency sorted vector but for sorting in decreasing frequency if 2 numbers have the same frequency then print the one which came first we use bubble sort so it take O(n^2).
+Auxiliary Space: O(n),for vector.
+
+
+
+
+
+Like
+19
+Previous
+Sort elements by frequency using Binary Search Tree
+Next
+Sort elements by frequency using STL
+Related Articles
+1.
+Sort the given Matrix | Memory Efficient Approach
+2.
+What are Hash Functions and How to choose a good Hash Function?
+3.
+Hash Functions and list/types of Hash functions
+4.
+Sort elements by frequency | Set 5 (using Java Map)
+5.
+Maximum difference between frequency of two elements such that element having greater frequency is also greater
+6.
+Hash Sort Algorithm
+7.
+Sort elements by frequency using Binary Search Tree
+8.
+Sort elements by frequency using STL
+9.
+Check if frequency of character in one string is a factor or multiple of frequency of same character in other string
+10.
+Maximum length prefix such that frequency of each character is atmost number of characters with minimum frequency
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ankurgoel92
+parasagarwal1
+shinjanpatra
+codewithmini
+hardikkoriintern
+sanketgode0
+Article Tags :
+cpp-unordered_map
+featured
+Oracle
+Zycus
+Arrays
+Hash
+Sorting
+Practice Tags :
+Oracle
+Zycus
+Arrays
+Hash
+Sorting
+Improve Article
+Report Issue

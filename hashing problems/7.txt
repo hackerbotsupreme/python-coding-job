@@ -1,0 +1,389 @@
+Load Factor and Rehashing
+
+Difficulty Level : Medium
+Last Updated : 21 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Prerequisites: Hashing Introduction and Collision handling by separate chaining
+
+How hashing works:
+For insertion of a key(K) – value(V) pair into a hash map, 2 steps are required: 
+ 
+
+K is converted into a small integer (called its hash code) using a hash function.
+The hash code is used to find an index (hashCode % arrSize) and the entire linked list at that index(Separate chaining) is first searched for the presence of the K already.
+If found, it’s value is updated and if not, the K-V pair is stored as a new node in the list.
+Complexity and Load Factor
+For the first step, the time taken depends on the K and the hash function. 
+For example, if the key is a string “abcd”, then it’s hash function may depend on the length of the string. But for very large values of n, the number of entries into the map, and length of the keys is almost negligible in comparison to n so hash computation can be considered to take place in constant time, i.e, O(1).
+For the second step, traversal of the list of K-V pairs present at that index needs to be done. For this, the worst case may be that all the n entries are at the same index. So, time complexity would be O(n). But, enough research has been done to make hash functions uniformly distribute the keys in the array so this almost never happens.
+So, on an average, if there are n entries and b is the size of the array there would be n/b entries on each index. This value n/b is called the load factor that represents the load that is there on our map.
+This Load Factor needs to be kept low, so that number of entries at one index is less and so is the complexity almost constant, i.e., O(1).
+Rehashing:
+Rehashing is the process of increasing the size of a hashmap and redistributing the elements to new buckets based on their new hash values. It is done to improve the performance of the hashmap and to prevent collisions caused by a high load factor.
+
+When a hashmap becomes full, the load factor (i.e., the ratio of the number of elements to the number of buckets) increases. As the load factor increases, the number of collisions also increases, which can lead to poor performance. To avoid this, the hashmap can be resized and the elements can be rehashed to new buckets, which decreases the load factor and reduces the number of collisions.
+
+
+During rehashing, all elements of the hashmap are iterated and their new bucket positions are calculated using the new hash function that corresponds to the new size of the hashmap. This process can be time-consuming but it is necessary to maintain the efficiency of the hashmap.
+
+Why rehashing?
+Rehashing is needed in a hashmap to prevent collision and to maintain the efficiency of the data structure.
+
+As elements are inserted into a hashmap, the load factor (i.e., the ratio of the number of elements to the number of buckets) increases. If the load factor exceeds a certain threshold (often set to 0.75), the hashmap becomes inefficient as the number of collisions increases. To avoid this, the hashmap can be resized and the elements can be rehashed to new buckets, which decreases the load factor and reduces the number of collisions. This process is known as rehashing.
+
+
+
+Rehashing can be costly in terms of time and space, but it is necessary to maintain the efficiency of the hashmap.
+
+How Rehashing is done?
+Rehashing can be done as follows:
+
+For each addition of a new entry to the map, check the load factor.
+If it’s greater than its pre-defined value (or default value of 0.75 if not given), then Rehash.
+For Rehash, make a new array of double the previous size and make it the new bucketarray.
+Then traverse to each element in the old bucketArray and call the insert() for each so as to insert it into the new larger bucket array.
+Program to implement Rehashing:
+Java
+Python3
+# Python3 program to implement Rehashing
+ 
+class Map:
+ 
+    class MapNode:
+        def __init__(self,key,value):
+            self.key=key
+            self.value=value
+            self.next=None
+ 
+    # The bucket array where
+    # the nodes containing K-V pairs are stored
+    buckets=list()
+ 
+    # No. of pairs stored - n
+    size=0
+ 
+    # Size of the bucketArray - b
+    numBuckets=0
+ 
+    # Default loadFactor
+    DEFAULT_LOAD_FACTOR = 0.75
+ 
+    def __init__(self):
+        Map.numBuckets = 5
+ 
+        Map.buckets = [None]*Map.numBuckets
+ 
+        print("HashMap created")
+        print("Number of pairs in the Map: " + str(Map.size))
+        print("Size of Map: " + str(Map.numBuckets))
+        print("Default Load Factor : " + str(Map.DEFAULT_LOAD_FACTOR) + "\n")
+ 
+    def getBucketInd(self,key):
+ 
+        # Using the inbuilt function from the object class
+        hashCode = hash(key)
+ 
+        # array index = hashCode%numBuckets
+        return (hashCode % Map.numBuckets)
+ 
+    def insert(self,key,value):
+ 
+        # Getting the index at which it needs to be inserted
+        bucketInd = self.getBucketInd(key)
+ 
+        # The first node at that index
+        head = Map.buckets[bucketInd]
+ 
+        # First, loop through all the nodes present at that index
+        # to check if the key already exists
+        while (head != None):
+ 
+            # If already present the value is updated
+            if (head.key==key):
+                head.value = value
+                return
+            head = head.next
+ 
+        # new node with the K and V
+        newElementNode = Map.MapNode(key, value)
+ 
+        # The head node at the index
+        head = Map.buckets[bucketInd]
+ 
+        # the new node is inserted
+        # by making it the head
+        # and it's next is the previous head
+        newElementNode.next = head
+ 
+        Map.buckets[bucketInd]= newElementNode
+ 
+        print("Pair(\" {} \", \" {} \") inserted successfully.".format(key,value))
+ 
+        # Incrementing size
+        # as new K-V pair is added to the map
+        Map.size+=1
+ 
+        # Load factor calculated
+        loadFactor = (1* Map.size) / Map.numBuckets
+ 
+        print("Current Load factor = " + str(loadFactor))
+ 
+        # If the load factor is > 0.75, rehashing is done
+        if (loadFactor > Map.DEFAULT_LOAD_FACTOR):
+            print(str(loadFactor) + " is greater than " + str(Map.DEFAULT_LOAD_FACTOR))
+            print("Therefore Rehashing will be done.")
+ 
+            # Rehash
+            self.rehash()
+ 
+            print("New Size of Map: " + str(Map.numBuckets))
+ 
+        print("Number of pairs in the Map: " + str(Map.size))
+        print("Size of Map: " + str(Map.numBuckets))
+ 
+    def rehash(self):
+ 
+        print("\n***Rehashing Started***\n")
+ 
+        # The present bucket list is made temp
+        temp = Map.buckets
+ 
+        # New bucketList of double the old size is created
+        buckets =(2 * Map.numBuckets)
+ 
+        for i in range(2 * Map.numBuckets):
+            # Initialised to null
+            Map.buckets.append(None)
+ 
+        # Now size is made zero
+        # and we loop through all the nodes in the original bucket list(temp)
+        # and insert it into the new list
+        Map.size = 0
+        Map.numBuckets *= 2
+ 
+        for i in range(len(temp)):
+ 
+            # head of the chain at that index
+            head = temp[i]
+ 
+            while (head != None):
+                key = head.key
+                val = head.value
+ 
+                # calling the insert function for each node in temp
+                # as the new list is now the bucketArray
+                self.insert(key, val)
+                head = head.next
+ 
+        print("\n***Rehashing Ended***")
+ 
+    def printMap(self):
+ 
+        # The present bucket list is made temp
+        temp = Map.buckets
+ 
+        print("Current HashMap:")
+        # loop through all the nodes and print them
+        for i in range(len(temp)):
+ 
+            # head of the chain at that index
+            head = temp[i]
+ 
+            while (head != None):
+                print("key = \" {} \", val = {}" .format(head.key,head.value))
+ 
+                head = head.next
+        print()
+ 
+ 
+if __name__ == '__main__':
+    # Creating the Map
+    map = Map()
+ 
+    # Inserting elements
+    map.insert(1, "Geeks")
+    map.printMap()
+ 
+    map.insert(2, "forGeeks")
+    map.printMap()
+ 
+    map.insert(3, "A")
+    map.printMap()
+ 
+    map.insert(4, "Computer")
+    map.printMap()
+ 
+    map.insert(5, "Portal")
+    map.printMap()
+ 
+# This code is contributed by Amartya Ghosh
+C++
+Output: 
+HashMap created
+Number of pairs in the Map: 0
+Size of Map: 5
+Default Load Factor : 0.75
+
+Pair(1, Geeks) inserted successfully.
+
+Current Load factor = 0.2
+Number of pairs in the Map: 1
+Size of Map: 5
+
+Current HashMap:
+key = 1, val = Geeks
+
+Pair(2, forGeeks) inserted successfully.
+
+Current Load factor = 0.4
+Number of pairs in the Map: 2
+Size of Map: 5
+
+Current HashMap:
+key = 1, val = Geeks
+key = 2, val = forGeeks
+
+Pair(3, A) inserted successfully.
+
+Current Load factor = 0.6
+Number of pairs in the Map: 3
+Size of Map: 5
+
+Current HashMap:
+key = 1, val = Geeks
+key = 2, val = forGeeks
+key = 3, val = A
+
+Pair(4, Computer) inserted successfully.
+
+Current Load factor = 0.8
+0.8 is greater than 0.75
+Therefore Rehashing will be done.
+
+
+***Rehashing Started***
+
+Pair(1, Geeks) inserted successfully.
+
+Current Load factor = 0.1
+Number of pairs in the Map: 1
+Size of Map: 10
+
+Pair(2, forGeeks) inserted successfully.
+
+Current Load factor = 0.2
+Number of pairs in the Map: 2
+Size of Map: 10
+
+Pair(3, A) inserted successfully.
+
+Current Load factor = 0.3
+Number of pairs in the Map: 3
+Size of Map: 10
+
+Pair(4, Computer) inserted successfully.
+
+Current Load factor = 0.4
+Number of pairs in the Map: 4
+Size of Map: 10
+
+
+***Rehashing Ended***
+
+New Size of Map: 10
+
+Number of pairs in the Map: 4
+Size of Map: 10
+
+Current HashMap:
+key = 1, val = Geeks
+key = 2, val = forGeeks
+key = 3, val = A
+key = 4, val = Computer
+
+Pair(5, Portal) inserted successfully.
+
+Current Load factor = 0.5
+Number of pairs in the Map: 5
+Size of Map: 10
+
+Current HashMap:
+key = 1, val = Geeks
+key = 2, val = forGeeks
+key = 3, val = A
+key = 4, val = Computer
+key = 5, val = Portal
+ 
+
+The time complexity of the insert operation is O(1) and the 
+Auxilairy space :  O(n). 
+
+The time complexity of the rehash operation is O(n) and the 
+Auxiliary space: O(n).
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+48
+Previous
+Double Hashing
+Next
+Union and Intersection of two Linked List using Hashing
+Related Articles
+1.
+Load Factor in HashMap in Java with Examples
+2.
+Numbers with sum of digits equal to the sum of digits of its all prime factor
+3.
+Check if frequency of character in one string is a factor or multiple of frequency of same character in other string
+4.
+Count pairs whose product contains single distinct prime factor
+5.
+Convert a number to another by dividing by its factor or removing first occurrence of a digit from an array
+6.
+Max count of N using digits of M such that 2 and 5, and, 6 and 9 can be treated as same respectively
+7.
+Reduce Array and Maximize sum by deleting one occurrence of A[i] and all occurrences of A[i]+1 and A[i]-1
+8.
+Split array to three subarrays such that sum of first and third subarray is equal and maximum
+9.
+Difference and similarities between HashSet, LinkedHashSet and TreeSet in Java
+10.
+Bitwise AND of the sum of prime numbers and the sum of composite numbers in an array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+me_l
+@me_l
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+amartyaghoshgfg
+kushalgandhi2601
+factworx4i2
+shreyasnaphad
+Article Tags :
+Hash
+Java - util package
+Data Structures
+Hash
+Practice Tags :
+Data Structures
+Hash
+Hash
+Improve Article
+Report Issue

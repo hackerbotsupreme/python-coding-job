@@ -1,0 +1,437 @@
+Find the only repetitive element between 1 to N-1
+
+Difficulty Level : Easy
+Last Updated : 09 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of size N filled with numbers from 1 to N-1 in random order. The array has only one repetitive element. The task is to find the repetitive element.
+
+Examples:
+
+Input: a[] = {1, 3, 2, 3, 4}
+Output: 3
+Explanation: The number 3 is the only repeating element.
+
+Input: a[] = {1, 5, 1, 2, 3, 4}
+Output: 1
+
+Recommended Practice
+Please try your approach on IDE first, before
+moving on to the solution.
+Try It!
+Naive Approach:  To solve the problem follow the below idea:
+
+Use two nested loops. The outer loop traverses through all elements and the inner loop check if the element picked by the outer loop appears anywhere else.
+
+Below is the implementation of the above approach:
+
+
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array where
+# elements are from 1 to N-1.
+
+
+def findRepeating(arr, N):
+    for i in range(N):
+        for j in range(i + 1, N):
+            if (arr[i] == arr[j]):
+                return arr[i]
+
+
+# Driver's Code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+  N = len(arr)
+
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed by Arpit Jain
+C#
+Javascript
+Output
+8
+Time Complexity: O(N2)
+Auxiliary Space: O(1)
+
+Find the only repetitive element using sorting:
+Sort the given input array. Traverse the array and if value of the ith element is not equal to i+1, then the current element is repetitive as value of elements is between 1 and N-1 and every element appears only once except one element.
+
+Follow the below steps to solve the problem:
+
+Sort the given array.
+Traverse the array and  compare the array elements with its index 
+if arr[i] != i+1, it means that arr[i] is repetitive, So Just return arr[i]. 
+Otherwise, the array does not contain duplicates from 1 to n-1, In this case, return -1  
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array where
+# elements are from 1 to N-1.
+
+
+def findRepeating(arr, N):
+    arr.sort()
+    for i in range(1, N):
+        if(arr[i] != i+1):
+            return arr[i]
+
+
+# Driver's Code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+  N = len(arr)
+
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed by Arpit Jain
+C#
+Javascript
+Output
+8
+Time complexity: O(N * log N) 
+Auxiliary Space: O(1)
+
+Find the only repetitive element using the hash set:
+Use a hash table to store elements visited. If an already visited element appears again, return it.
+
+Follow the below steps to solve the problem:
+
+Create a hash set to store the visited elements
+Traverse the array
+If the given element is already present in the hash set then, return this element
+else insert this element into the hash set
+Return -1, if no repeating is found
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array
+# where elements are from 1 to n-1.
+
+
+def findRepeating(arr, N):
+    s = set()
+    for i in range(N):
+        if arr[i] in s:
+            return arr[i]
+        s.add(arr[i])
+
+    # If input is correct, we should
+    # never reach here
+    return -1
+
+
+# Driver code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3]
+  N = len(arr)
+
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed
+# by Shrikant13
+C#
+Javascript
+Output
+8
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Find the only repetitive element using the Sum of first N elements:
+We know sum of first n-1 natural numbers is (N – 1)*N/2. We compute sum of array elements and subtract natural number sum from it to find the only missing element.
+
+Follow the below steps to solve the problem:
+
+Calculate the sum of array elements and the sum of first (N-1) natural numbers
+Return (array sum) – ((N-1) natural numbers sum)
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array where
+# elements are from 1 to N-1.
+
+
+def findRepeating(arr, N):
+
+    # Find array sum and subtract sum
+    # first n-1 natural numbers from it
+    # to find the result.
+    return sum(arr) - (((N - 1) * N) // 2)
+
+
+# Driver's Code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+  N = len(arr)
+
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed
+# by mohit kumar
+C#
+Javascript
+Output
+8
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Note: This approach Causes overflow for large arrays.
+
+Find the only repetitive element using XOR:
+The idea is based on the fact that x ^ x = 0 and if x ^ y = z then x ^ z = y
+
+Follow the below steps to solve the problem:
+
+Compute XOR of elements from 1 to n-1.
+Compute XOR of array elements.
+XOR of the above two would be our result.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array where
+# elements are from 1 to N-1.
+
+
+def findRepeating(arr, N):
+
+    # res is going to store value of
+    # 1 ^ 2 ^ 3 .. ^ (N-1) ^ arr[0] ^
+    # arr[1] ^ .... arr[n-1]
+    res = 0
+    for i in range(0, N-1):
+        res = res ^ (i+1) ^ arr[i]
+    res = res ^ arr[N-1]
+
+    return res
+
+
+# Driver code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+  N = len(arr)
+
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output
+8
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Find the only repetitive element using indexing:
+As there are only positive numbers, so visit the index equal to the current element and make it negative. If an index value is already negative, then it means that current element is repeated
+
+Follow the below steps to solve the problem:
+
+Iterate through the array.
+For every index visit arr[arr[i]], if it is positive change the sign of elements at that index, else print the element.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find the only
+# repeating element in an array
+# where elements are from 1 to N-1.
+
+# Function to find repeated element
+
+
+def findRepeating(arr, N):
+
+    missingElement = 0
+
+    # indexing based
+    for i in range(0, N):
+
+        element = arr[abs(arr[i])]
+
+        if(element < 0):
+            missingElement = arr[i]
+            break
+
+        arr[abs(arr[i])] = -arr[abs(arr[i])]
+
+    return abs(missingElement)
+
+
+# Driver code
+if __name__ == "__main__":
+  arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+  N = len(arr)
+  
+  # Function call
+  print(findRepeating(arr, N))
+
+# This code is contributed by Smitha Dinesh Semwal.
+C#
+PHP
+Javascript
+Output
+8
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Find the only repetitive element using Linked-List cycle method:
+Use two pointers the fast and the slow. The fast one goes forward two steps each time, while the slow one goes only step each time. They must meet the same item when slow==fast. 
+
+In fact, they meet in a circle, the duplicate number must be the entry point of the circle when visiting the array from array[0]. 
+
+Next we just need to find the entry point. We use a point(we can use the fast one before) to visit from the beginning with one step each time, do the same job to slow. When fast==slow, they meet at the entry point of the circle. 
+
+Follow the below steps to solve the problem:
+
+Declare two integer pointers as slow and fast
+Move the slow pointer one time and fast pointer two times, until slow is not equal to fast
+Once they are equal then again start the fast pointer from the start of the array
+Move both the pointers, one step at a time until both of them are equal
+Return slow or fast pointer as the answer
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+class GFG :
+    @staticmethod
+    def  findDuplicate( nums) :
+        slow = nums[0]
+        fast = nums[0]
+        while True :
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if((slow != fast) == False) :
+                    break
+        fast = nums[0]
+        while (slow != fast) :
+            slow = nums[slow]
+            fast = nums[fast]
+        return slow
+    @staticmethod
+    def main( args) :
+        arr = [9, 8, 2, 6, 1, 8, 5, 3, 4, 7]
+        
+        # Function call
+        ans = GFG.findDuplicate(arr)
+        print(ans)
+    
+if __name__=="__main__":
+    GFG.main([])
+    
+    # This code is contributed by aadityaburujwale.
+C#
+Javascript
+Output
+8
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+86
+Previous
+Find the element that appears once in an array where every other element appears twice
+Next
+Check if a pair exists with given sum in given array
+Related Articles
+1.
+Minimum concatenation required to get strictly LIS for array with repetitive elements | Set-2
+2.
+Print all Repetitive elements in given Array within value range [A, B] for Q queries
+3.
+Largest element in the longest Subarray consisting of only Even or only Odd numbers
+4.
+Find the only positive or only negative number in the given Array
+5.
+Count subarrays consisting of only 0's and only 1's in a binary array
+6.
+Remaining array element after repeated removal of last element and subtraction of each element from next adjacent element
+7.
+Find the only repeating element in a sorted array of size n
+8.
+Find the only non-repeating element in a given array
+9.
+Find the only element that appears b times
+10.
+Check if an array contains only one distinct element
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shashank_Pathak
+@Shashank_Pathak
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Smitha Dinesh Semwal
+shrikanth13
+mohit kumar 29
+Rajput-Ji
+rachana soma
+princiraj1992
+29AjayKumar
+sumitgumber28
+lokeshpotta20
+arorakashish0911
+surindertarika1234
+shinjanpatra
+phasing17
+_shinchancode
+111arpit1
+alinizam72
+devendrasalunke
+abhijeet19403
+siddheshborse858
+lokeshmvs21
+aashutoshparoha
+janardansthox
+aarohirai2616
+adityapatil12
+user_7gr9iodclfx
+aadityapburujwale
+hianmoyo3s
+Article Tags :
+Bitwise-XOR
+cpp-unordered_set
+limited-range-elements
+Arrays
+Hash
+Searching
+Practice Tags :
+Arrays
+Hash
+Searching
+Improve Article
+Report Issue

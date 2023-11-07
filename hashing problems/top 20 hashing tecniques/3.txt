@@ -1,0 +1,580 @@
+Check if a pair exists with given sum in given array
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Given an array A[] of n numbers and another number x, the task is to check whether or not there exist two elements in A[] whose sum is exactly x. 
+
+Examples: 
+
+Input: arr[] = {0, -1, 2, -3, 1}, x= -2
+Output: Yes
+Explanation:  If we calculate the sum of the output,1 + (-3) = -2
+
+Input: arr[] = {1, -2, 1, 0, 5}, x = 0
+Output: No
+
+Recommended Problem
+Key Pair
+Arrays
+Hash
++1 more
+Zoho
+Flipkart
++11 more
+Solve Problem
+Submission count: 1.7L
+Naive Approach: The basic approach to solve this problem is by nested traversal.
+
+Traverse the array using a loop
+For each element:
+Check if there exists another in the array with sum as x
+Return true if yes, else continue
+If no such pair is found, return false.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# This python program tells if there exists a pair in array whose sum results in x.
+ 
+# Function to find and print pair
+ 
+ 
+def chkPair(A, size, x):
+    for i in range(0, size - 1):
+        for j in range(i + 1, size):
+            if (A[i] + A[j] == x):
+                return 1
+    return 0
+ 
+ 
+if __name__ == "__main__":
+    A = [0, -1, 2, -3, 1]
+    x = -2
+    size = len(A)
+ 
+    if (chkPair(A, size, x)):
+        print("Yes")
+ 
+    else:
+        print("No")
+ 
+    # This code is contributed by rakeshsahni
+C#
+Javascript
+Go
+Output
+
+
+Yes
+Time Complexity: O(N2), Finding pair for every element in the array of size N.
+Auxiliary Space: O(1)
+
+Two Sum using Sorting and Two-Pointers technique:
+The idea is to use the two-pointer technique. But for using the two-pointer technique, the array must be sorted. Once the array is sorted the two pointers can be taken which mark the beginning and end of the array respectively. If the sum is greater than the sum of those two elements, shift the right pointer to decrease the value of the required sum and if the sum is lesser than the required value, shift the left pointer to increase the value of the required sum.
+
+Illustration:
+
+Let an array be {1, 4, 45, 6, 10, -8} and sum to find be 16
+After sorting the array 
+A = {-8, 1, 4, 6, 10, 45}
+Now, increment ‘l’ when the sum of the pair is less than the required sum and decrement ‘r’ when the sum of the pair is more than the required sum. 
+This is because when the sum is less than the required sum then to get the number which could increase the sum of pair, start moving from left to right(also sort the array) thus “l++” and vice versa.
+Initialize l = 0, r = 5 
+A[l] + A[r] ( -8 + 45) > 16 => decrement r. Now r = 4 
+A[l] + A[r] ( -8 + 10) increment l. Now l = 1 
+A[l] + A[r] ( 1 + 10) increment l. Now l = 2 
+A[l] + A[r] ( 4 + 10) increment l. Now l = 3 
+A[l] + A[r] ( 6 + 10) == 16 => Found candidates (return 1)
+
+Note: If there is more than one pair having the given sum then this algorithm reports only one. Can be easily extended for this though. 
+
+Follow the steps below to solve the problem:
+
+hasArrayTwoCandidates (A[], ar_size, sum)
+Sort the array in non-decreasing order.
+Initialize two index variables to find the candidate 
+elements in the sorted array. 
+Initialize first to the leftmost index: l = 0
+Initialize second the rightmost index: r = ar_size-1
+Loop while l < r. 
+If (A[l] + A[r] == sum) then return 1
+Else if( A[l] + A[r] < sum ) then l++
+Else r–
+No candidates in the whole array – return 0
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python
+# Python program to check for the sum
+# condition to be satisfied
+ 
+ 
+def hasArrayTwoCandidates(A, arr_size, sum):
+ 
+    # sort the array
+    quickSort(A, 0, arr_size-1)
+    l = 0
+    r = arr_size-1
+ 
+    # traverse the array for the two elements
+    while l < r:
+        if (A[l] + A[r] == sum):
+            return 1
+        elif (A[l] + A[r] < sum):
+            l += 1
+        else:
+            r -= 1
+    return 0
+ 
+# Implementation of Quick Sort
+# A[] --> Array to be sorted
+# si  --> Starting index
+# ei  --> Ending index
+ 
+ 
+def quickSort(A, si, ei):
+    if si < ei:
+        pi = partition(A, si, ei)
+        quickSort(A, si, pi-1)
+        quickSort(A, pi + 1, ei)
+ 
+# Utility function for partitioning
+# the array(used in quick sort)
+ 
+ 
+def partition(A, si, ei):
+    x = A[ei]
+    i = (si-1)
+    for j in range(si, ei):
+        if A[j] <= x:
+            i += 1
+ 
+            # This operation is used to swap
+            # two variables is python
+            A[i], A[j] = A[j], A[i]
+ 
+        A[i + 1], A[ei] = A[ei], A[i + 1]
+ 
+    return i + 1
+ 
+ 
+# Driver program to test the functions
+A = [1, 4, 45, 6, 10, -8]
+n = 16
+if (hasArrayTwoCandidates(A, len(A), n)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by __Devesh Agrawal__
+C#
+PHP
+Javascript
+Output
+Yes
+Time Complexity: O(NlogN), Time complexity for sorting the array
+Auxiliary Space: O(1)
+
+Two Sum using Binary Search:
+Sort the array, then traverse the array elements and perform binary search for (target – a[i]) on the remaining part
+
+Follow the below steps to solve the problem:
+
+Sort the array in non-decreasing order.
+Traverse from 0 to N-1
+Initialize searchKey = sum – A[i]
+If(binarySearch(searchKey, A, i + 1, N) == True
+Return True
+Return False
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python program to check for the sum
+# condition to be satisfied
+ 
+ 
+def binarySearch(A, low, high, searchKey):
+    m = 0
+    while (low <= high):
+        m = (high + low) // 2
+        # Check if searchKey is present at mid
+        if (A[m] == searchKey):
+            return 1
+        # If searchKey greater, ignore left half
+        if (A[m] < searchKey):
+            low = m + 1
+        # If searchKey is smaller, ignore right half
+        else:
+            high = m - 1
+    # if we reach here, then element was
+    # not present
+    return 0
+ 
+ 
+def checkTwoSum(A, arr_size, sum):
+ 
+    # sort the array
+    A.sort()
+    l = 0
+    r = arr_size-1
+ 
+    #  Traversing all element in an array search for searchKey
+    i = 0
+    while i < arr_size-1:
+        searchKey = sum-A[i]
+        # calling binarySearch function
+        if(binarySearch(A, i+1, r, searchKey) == 1):
+            return 1
+        i = i+1
+ 
+    return 0
+ 
+ 
+# Driver program to test the functions
+A = [1, 4, 45, 6, 10, -8]
+n = 14
+if (checkTwoSum(A, len(A), n)):
+    print("Yes")
+else:
+    print("No")
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(NlogN)
+Auxiliary Space: O(1)
+
+Two Sum using Hashing:
+This problem can be solved efficiently by using the technique of hashing. Use a hash_map to check for the current array value x(let), if there exists a value target_sum-x which on adding to the former gives target_sum. This can be done in constant time.
+
+Illustration:
+
+arr[] = {0, -1, 2, -3, 1} 
+sum = -2 
+Now start traversing: 
+Step 1: For ‘0’ there is no valid number ‘-2’ so store ‘0’ in hash_map. 
+Step 2: For ‘-1’ there is no valid number ‘-1’ so store ‘-1’ in hash_map. 
+Step 3: For ‘2’ there is no valid number ‘-4’ so store ‘2’ in hash_map. 
+Step 4: For ‘-3’ there is no valid number ‘1’ so store ‘-3’ in hash_map. 
+Step 5: For ‘1’ there is a valid number ‘-3’ so answer is 1, -3 
+
+unordered_set s
+
+for(i=0 to end)
+
+  if(s.find(target_sum – arr[i]) == s.end)
+
+    insert(arr[i] into s)
+
+  else 
+
+    print arr[i], target-arr[i]
+
+Follow the steps below to solve the problem:
+
+Initialize an empty hash table s.
+Do the following for each element A[i] in A[] 
+If s[x – A[i]] is set then print the pair (A[i], x – A[i])
+Insert A[i] into s.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to find if there are
+# two elements with given sum
+ 
+# function to check for the given sum
+# in the array
+ 
+ 
+def printPairs(arr, arr_size, sum):
+ 
+    # Create an empty hash map
+    # using an hashmap allows us to store the indices
+    hashmap = {}
+ 
+    for i in range(0, arr_size):
+        temp = sum-arr[i]
+        if (temp in hashmap):
+            print('Yes')
+            return
+        hashmap[arr[i]] = i
+    print("No")
+ 
+ 
+# driver code
+A = [1, 4, 45, 6, 10, 8]
+n = 16
+printPairs(A, len(A), n)
+ 
+# This code will also work in case the array has the same number twice
+# and target is the sum of those numbers
+# Eg: Array = [4,6,4] Target = 8
+ 
+# This code is contributed by __Achyut Upadhyay__
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N), As the whole array is needed to be traversed only once.
+Auxiliary Space: O(N), A hash map has been used to store array elements.
+
+Note: The solution will work even if the range of numbers includes negative numbers + if the pair is formed by numbers recurring twice in array eg: array = [3,4,3]; pair = (3,3); target sum = 6.
+
+Two Sum Using remainders of the elements less than x:
+The idea is to count the elements with remainders when divided by x, i.e 0 to x-1, each remainder separately. Suppose we have x as 6, then the numbers which are less than 6 and have remainders which add up to 6 gives sum as 6 when added. For example, we have elements, 2,4 in the array and 2%6 = 2 and 4%6 =4, and these remainders add up to give 6. Like that we have to check for pairs with remainders (1,5),(2,4),(3,3). if we have one or more elements with remainder 1 and one or more elements with remainder 5, then surely we get a sum as 6. Here we do not consider (0,6) as the elements for the resultant pair should be less than 6. when it comes to (3,3) we have to check if we have two elements with remainder 3, then we can say that “There exists a pair whose sum is x”. 
+
+Follow the steps below to solve the problem:
+
+1. Create an array with size x. 
+2. Initialize all rem elements to zero.
+3. Traverse the given array
+Do the following if arr[i] is less than x:
+r=arr[i]%x which is done to get the remainder.
+rem[r]=rem[r]+1 i.e. increasing the count of elements that have remainder r when divided with x.
+4. Now, traverse the rem array from 1 to x/2.   
+If(rem[i]> 0 and rem[x-i]>0) then print “YES” and come out of the loop. This means that we have a pair that results in x upon doing.
+5. Now when we reach at x/2 in the above loop   
+If x is even, for getting a pair we should have two elements with remainder x/2.
+If rem[x/2]>1 then print “YES” else print “NO”
+If it is not satisfied that is x is odd, it will have a separate pair with x-x/2.
+If rem[x/2]>0 and rem[x-x/2]>0 , then print “Yes” else, print”No”;
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Code in Python3 to tell if there
+# exists a pair in array whose
+# sum results in x.
+ 
+# Function to print pairs
+ 
+ 
+def printPairs(a, n, x):
+ 
+    rem = []
+ 
+    for i in range(x):
+ 
+        # Initializing the rem
+        # values with 0's.
+        rem.append(0)
+ 
+    for i in range(n):
+        if (a[i] < x):
+ 
+            # Perform the remainder operation
+            # only if the element is x, as
+            # numbers greater than x can't
+            # be used to get a sum x.Updating
+            # the count of remainders.
+            rem[a[i] % x] += 1
+ 
+    # Traversing the remainder list from
+    # start to middle to find pairs
+    for i in range(1, x // 2):
+        if (rem[i] > 0 and rem[x - i] > 0):
+ 
+            # The elements with remainders
+            # i and x-i will result to a
+            # sum of x. Once we get two
+            # elements which add up to x,
+            # we print x and break.
+            print("Yes")
+            break
+ 
+    # Once we reach middle of
+    # remainder array, we have to
+    # do operations based on x.
+    if (i >= x // 2):
+        if (x % 2 == 0):
+            if (rem[x // 2] > 1):
+ 
+                # If x is even and we have more
+                # than 1 elements with remainder
+                # x/2, then we will have two
+                # distinct elements which add up
+                # to x. if we dont have than 1
+                # element, print "No".
+                print("Yes")
+            else:
+                print("No")
+        else:
+ 
+            # When x is odd we continue
+            # the same process which we
+            # did in previous loop.
+            if (rem[x // 2] > 0 and
+                    rem[x - x // 2] > 0):
+                print("Yes")
+            else:
+                print("No")
+ 
+ 
+# Driver Code
+A = [1, 4, 45, 6, 10, 8]
+n = 16
+arr_size = len(A)
+ 
+# Function calling
+printPairs(A, arr_size, n)
+ 
+# This code is contributed by subhammahato348
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N+X), Traversing over the array of size N and Checking for remainders till X
+Auxiliary Space: O(X), Space for storing remainders
+
+Related Problems:  
+
+Given two unsorted arrays, find all pairs whose sum is x
+Count pairs with given sum
+Count all distinct pairs with difference equal to k
+Please write comments if you find any of the above codes/algorithms incorrect, or find other ways to solve the same problem. 
+
+
+
+
+
+Like
+273
+Previous
+Find the only repetitive element between 1 to N-1
+Next
+Find a triplet that sum to a given value
+Related Articles
+1.
+Queries to check if any pair exists in an array having values at most equal to the given pair
+2.
+Pair with given product | Set 1 (Find if any pair exists)
+3.
+Check if there exists a non adjacent pair with given sum
+4.
+Check if product of every pair exists in an array
+5.
+Check if a pair with given product exists in a Matrix
+6.
+Check if a pair with given absolute difference exists in a Matrix
+7.
+Check if a pair with given product exists in Linked list
+8.
+Number of indices pair such that element pair sum from first Array is greater than second Array
+9.
+Check if a pair of strings exists that starts with and without the character K or not
+10.
+Check if there exists a pair (a, b) such that for all the N pairs either of the element should be equal to either a or b
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+manishshaw1
+Mayuri Gupta 4
+hellokoding
+salonitayal
+bidibaaz123
+SaiSanjanaGudla
+idkravitz
+aashish1995
+SoumikMondal
+subhammahato348
+shrey3108
+suresh07
+rrrtnx
+sg275527109
+sanjoy_62
+rajeev0719singh
+mdtauseef123
+mkumar2789
+AR_Gaurav
+umadevi9616
+rakeshsahni
+surinderdawra388
+samim2000
+kk9826225
+bml8ngqtq8nb1h971tf2wo5m68l4m0nmykp8nxmq
+prophet1999
+shinjanpatra
+NITUGAUR
+harendrakumar123
+avtarkumar719
+germanshephered48
+adityakumar129
+sumitgumber28
+kothavvsaakash
+phasing17
+hardikkoriintern
+mahippatel23
+Maverick_Gokul
+ashwinsapkale
+ishank0106
+uttamkatiyar96645
+itsarraj
+garg28harsh
+10r1f65l
+codearcade
+Article Tags :
+ABCO
+Accolite
+Amazon
+Amazon-Question
+CarWale
+CarWale-Question
+FactSet
+Flipkart
+Hike
+Infosys
+Microsoft
+Morgan Stanley
+SAP Labs
+Wipro
+Zoho
+Arrays
+Backtracking
+DSA
+Hash
+Recursion
+Practice Tags :
+ABCO
+Accolite
+Amazon
+CarWale
+FactSet
+Flipkart
+Hike
+Infosys
+Microsoft
+Morgan Stanley
+SAP Labs
+Wipro
+Zoho
+Arrays
+Backtracking
+Hash
+Recursion
+Improve Article
+Report Issue

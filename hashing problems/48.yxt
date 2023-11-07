@@ -1,0 +1,229 @@
+Count subarrays having total distinct elements same as original array
+
+Difficulty Level : Medium
+Last Updated : 18 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n integers. Count the total number of sub-arrays having total distinct elements, the same as that of the total distinct elements of the original array. 
+
+Examples:  
+
+Input  : arr[] = {2, 1, 3, 2, 3}
+Output : 5
+Total distinct elements in array is 3
+Total sub-arrays that satisfy the condition 
+are:  Subarray from index 0 to 2
+      Subarray from index 0 to 3
+      Subarray from index 0 to 4
+      Subarray from index 1 to 3
+      Subarray from index 1 to 4
+
+Input  : arr[] = {2, 4, 5, 2, 1}
+Output : 2
+
+Input  : arr[] = {2, 4, 4, 2, 4}
+Output : 9 
+Recommended Practice
+Equivalent Sub-Arrays
+Try It!
+A Naive approach is to run a loop one inside another and consider all sub-arrays and, for every sub-array, count all distinct elements by using hashing and compare them with the total distinct elements of the original array.
+
+Initialise an unordered set unst1 to count distinct elements.
+Initialise a variable totalDist for total number of distinct elements in given array.
+Generate all the subarray and for every element count the distinct element in that subarray.
+Check if the number of distinct elements of the current subarray is equal to totalDist then increment the count by 1.
+Finally, return count.
+Below is the implementation of the above approach:
+
+C++
+// C++ program Count total number of sub-arrays
+// having total distinct elements same as that
+// original array.
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function to calculate distinct sub-array
+int countDistictSubarray(int arr[], int n)
+{
+    unordered_set<int> unst1;
+    for (int i = 0; i < n; i++)
+        unst1.insert(arr[i]);
+ 
+    int totalDist = unst1.size();
+    int count = 0;
+ 
+    for (int i = 0; i < n; i++) {
+        unordered_set<int> unst;
+        for (int j = i; j < n; j++) {
+            unst.insert(arr[j]);
+            if (unst.size() == totalDist)
+                count++;
+        }
+    }
+ 
+    return count;
+}
+ 
+// Driver code
+int main()
+{
+    int arr[] = { 2, 1, 3, 2, 3 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+ 
+    cout << countDistictSubarray(arr, n) << endl;
+    return 0;
+}
+ 
+// This code is contributed by hkdass001
+Java
+C#
+Output
+5
+Time Complexity: O(n*n)
+Auxiliary Space: O(n)
+
+An efficient approach is to use a sliding window to count all distinct elements in one iteration.  
+
+
+
+Find the number of distinct elements in the entire array. Let this number be k <= N. Initialize Left = 0, Right = 0 and window = 0. 
+Increment right until the number of distinct elements in the range [Left=0, Right] is equal to k(or window size would not equal to k), let this right be R1. Now, since the sub-array [Left = 0, R1] has k distinct elements, so all the sub-arrays starting at Left = 0 and ending after R1 will also have k distinct elements. Thus, add N-R1+1 to the answer because [Left.. R1], [Left.. R1+1], [Left.. R1+2] … [Left.. N-1] contains all the distinct numbers. 
+Now keeping R1 same, increment left. Decrease the frequency of the previous element i.e., arr[0], and if its frequency becomes 0, decrease the window size. Now, the sub-array is [Left = 1, Right = R1]. 
+Repeat the same process from step 2 for other values of Left and Right till Left < N. 
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program Count total number of
+# sub-arrays having total distinct elements
+# same as that original array.
+ 
+# Function to calculate distinct sub-array
+def countDistictSubarray(arr, n):
+ 
+    # Count distinct elements in whole array
+    vis = dict()
+    for i in range(n):
+        vis[arr[i]] = 1
+    k = len(vis)
+ 
+    # Reset the container by removing
+    # all elements
+    vid = dict()
+ 
+    # Use sliding window concept to find
+    # count of subarrays having k distinct
+    # elements.
+    ans = 0
+    right = 0
+    window = 0
+    for left in range(n):
+     
+        while (right < n and window < k):
+ 
+            if arr[right] in vid.keys():
+                vid[ arr[right] ] += 1
+            else:
+                vid[ arr[right] ] = 1
+ 
+            if (vid[ arr[right] ] == 1):
+                window += 1
+ 
+            right += 1
+         
+        # If window size equals to array distinct
+        # element size, then update answer
+        if (window == k):
+            ans += (n - right + 1)
+ 
+        # Decrease the frequency of previous
+        # element for next sliding window
+        vid[ arr[left] ] -= 1
+ 
+        # If frequency is zero then decrease
+        # the window size
+        if (vid[ arr[left] ] == 0):
+            window -= 1
+     
+    return ans
+ 
+# Driver code
+arr = [2, 1, 3, 2, 3]
+n = len(arr)
+ 
+print(countDistictSubarray(arr, n))
+ 
+# This code is contributed by
+# mohit kumar 29
+C#
+Javascript
+Output
+5n
+Time complexity: O(n) 
+Auxiliary space: O(n)
+
+This article is contributed by Shubham Bansal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+17
+Previous
+Subarrays with distinct elements
+Next
+Count subarrays with same even and odd elements
+Related Articles
+1.
+Count distinct sequences obtained by replacing all elements of subarrays having equal first and last elements with the first element any number of times
+2.
+Construct original array starting with K from an array of XOR of all elements except elements at same index
+3.
+Count of subarrays having exactly K distinct elements
+4.
+Count subarrays having at least X distinct elements that occur exactly Y times
+5.
+Count number of permutation of an Array having no SubArray of size two or more from original Array
+6.
+Construct an Array having K Subarrays with all distinct elements
+7.
+Count subarrays having a single distinct element that can be obtained from a given array
+8.
+Find total number of positions in all Subarrays such that position and value are same
+9.
+Maximum sum of subarrays having distinct elements of length K
+10.
+Count subarrays having each distinct element occurring at least twice
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+princiraj1992
+patel2127
+hardikkoriintern
+hkdass001
+vforviksvy5
+divya_p123
+Article Tags :
+sliding-window
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+sliding-window
+Improve Article
+Report Issue

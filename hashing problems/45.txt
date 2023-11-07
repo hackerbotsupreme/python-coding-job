@@ -1,0 +1,199 @@
+Range Queries for Frequencies of array elements
+
+Difficulty Level : Medium
+Last Updated : 24 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n non-negative integers. The task is to find frequency of a particular element in the arbitrary range of array[]. The range is given as positions (not 0 based indexes) in array. There can be multiple queries of given type.
+
+Examples: 
+
+Input  : arr[] = {2, 8, 6, 9, 8, 6, 8, 2, 11};
+         left = 2, right = 8, element = 8
+         left = 2, right = 5, element = 6      
+Output : 3
+         1
+The element 8 appears 3 times in arr[left-1..right-1]
+The element 6 appears 1 time in arr[left-1..right-1]
+Naive approach: is to traverse from left to right and update count variable whenever we find the element. 
+
+Below is the code of Naive approach:- 
+
+C++
+Java
+Python3
+# Python program to find total 
+# count of an element in a range
+ 
+# Returns count of element
+# in arr[left-1..right-1]
+def findFrequency(arr, n, left, right, element):
+ 
+    count = 0
+    for i in range(left - 1, right):
+        if (arr[i] == element):
+            count += 1
+    return count
+ 
+ 
+# Driver Code
+arr = [2, 8, 6, 9, 8, 6, 8, 2, 11]
+n = len(arr)
+ 
+# Print frequency of 2 from position 1 to 6
+print("Frequency of 2 from 1 to 6 = ",
+        findFrequency(arr, n, 1, 6, 2))
+ 
+# Print frequency of 8 from position 4 to 9
+print("Frequency of 8 from 4 to 9 = ",
+        findFrequency(arr, n, 4, 9, 8))
+         
+     
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+Frequency of 2 from 1 to 6 = 1
+Frequency of 8 from 4 to 9 = 2
+Time complexity of this approach is O(right – left + 1) or O(n) 
+Auxiliary space: O(1)
+
+An Efficient approach is to use hashing. In C++, we can use unordered_map
+
+
+
+At first, we will store the position in map[] of every distinct element as a vector like that 
+  int arr[] = {2, 8, 6, 9, 8, 6, 8, 2, 11};
+  map[2] = {1, 8}
+  map[8] = {2, 5, 7}
+  map[6] = {3, 6} 
+  ans so on...
+As we can see that elements in map[] are already in sorted order (Because we inserted elements from left to right), the answer boils down to find the total count in that hash map[] using binary search like method. 
+ 
+In C++ we can use lower_bound which will returns an iterator pointing to the first element in the range [first, last] which has a value not less than ‘left’. and upper_bound returns an iterator pointing to the first element in the range [first,last) which has a value greater than ‘right’. 
+ 
+After that we just need to subtract the upper_bound() and lower_bound() result to get the final answer. For example, suppose if we want to find the total count of 8 in the range from [1 to 6], then the map[8] of lower_bound() function will return the result 0 (pointing to 2) and upper_bound() will return 2 (pointing to 7), so we need to subtract the both the result like 2 – 0 = 2 . 
+ 
+Below is the code of above approach 
+
+C++
+Java
+Python3
+# Python3 program to find total count of an element
+from collections import defaultdict as dict
+from bisect import bisect_left as lower_bound
+from bisect import bisect_right as upper_bound
+ 
+store = dict(list)
+ 
+# Returns frequency of element
+# in arr[left-1..right-1]
+def findFrequency(arr, n, left, right, element):
+     
+    # Find the position of
+    # first occurrence of element
+    a = lower_bound(store[element], left)
+ 
+    # Find the position of
+    # last occurrence of element
+    b = upper_bound(store[element], right)
+ 
+    return b - a
+ 
+# Driver code
+arr = [2, 8, 6, 9, 8, 6, 8, 2, 11]
+n = len(arr)
+ 
+# Storing the indexes of
+# an element in the map
+for i in range(n):
+    store[arr[i]].append(i + 1)
+ 
+# Print frequency of 2 from position 1 to 6
+print("Frequency of 2 from 1 to 6 = ",
+       findFrequency(arr, n, 1, 6, 2))
+ 
+# Print frequency of 8 from position 4 to 9
+print("Frequency of 8 from 4 to 9 = ",
+       findFrequency(arr, n, 4, 9, 8))
+ 
+# This code is contributed by Mohit Kumar
+C#
+Javascript
+Output
+Frequency of 2 from 1 to 6 = 1
+Frequency of 8 from 4 to 9 = 2
+This approach will be beneficial if we have a large number of queries of an arbitrary range asking the total frequency of particular element.
+Time complexity: O(log N) for single query.
+Auxiliary Space: O(N)
+
+This article is contributed by Shubham Bansal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+24
+Previous
+Range Minimum Query (Square Root Decomposition and Sparse Table)
+Next
+Constant time range add operation on an array
+Related Articles
+1.
+Java Program for Range Queries for Frequencies of array elements
+2.
+Php Program for Range Queries for Frequencies of array elements
+3.
+Javascript Program for Range Queries for Frequencies of array elements
+4.
+C++ Program for Range Queries for Frequencies of array elements
+5.
+Python3 Program for Range Queries for Frequencies of array elements
+6.
+Queries to count frequencies of a given character in a given range of indices
+7.
+Array range queries over range queries
+8.
+Find array elements with frequencies in range [l , r]
+9.
+Queries for frequencies of characters in substrings
+10.
+Queries to find frequencies of a string within specified substrings
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+ukasp
+mohit kumar 29
+rag2127
+simmytarika5
+hardikkoriintern
+karandeep1234
+sourabhdalal0001
+surajrasr7277
+Article Tags :
+array-range-queries
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Improve Article
+Report Issue

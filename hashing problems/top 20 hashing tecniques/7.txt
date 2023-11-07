@@ -1,0 +1,295 @@
+Count distinct elements in every window of size k
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given an array of size N and an integer K, return the count of distinct numbers in all windows of size K. 
+
+Examples: 
+
+Input: arr[] = {1, 2, 1, 3, 4, 2, 3}, K = 4
+Output: 3 4 4 3
+Explanation: First window is {1, 2, 1, 3}, count of distinct numbers is 3
+                      Second window is {2, 1, 3, 4} count of distinct numbers is 4
+                      Third window is {1, 3, 4, 2} count of distinct numbers is 4
+                      Fourth window is {3, 4, 2, 3} count of distinct numbers is 3
+
+Input: arr[] = {1, 2, 4, 4}, K = 2
+Output: 2 2 1
+Explanation: First window is {1, 2}, count of distinct numbers is 2
+                      First window is {2, 4}, count of distinct numbers is 2
+                      First window is {4, 4}, count of distinct numbers is 1
+
+Recommended Problem
+Count distinct elements in every window
+sliding-window
+Hash
++2 more
+Accolite
+Amazon
++1 more
+Solve Problem
+Submission count: 94.7K
+This problem has appeared in Microsoft Interview Question.
+
+Naive Approach for finding the count of distinct numbers in all windows of size K:
+Traverse the given array considering every window of size K in it and keeping a count on the distinct elements of the window
+
+Follow the given steps to solve the problem:
+
+
+
+For every index, i from 0 to N – K, traverse the array from i to i + k using another loop. This is the window
+Traverse the window, from i to that index and check if the element is present or not
+If the element is not present in the prefix of the array, i.e no duplicate element is present from i to index-1, then increase the count, else ignore it
+Print the count
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to count distinct
+# elements in every window of size K
+ 
+import math as mt
+ 
+# Counts distinct elements in window
+# of size K
+ 
+ 
+def countWindowDistinct(win, K):
+ 
+    dist_count = 0
+ 
+    # Traverse the window
+    for i in range(K):
+ 
+        # Check if element arr[i] exists
+        # in arr[0..i-1]
+        j = 0
+        while j < i:
+            if (win[i] == win[j]):
+                break
+            else:
+                j += 1
+        if (j == i):
+            dist_count += 1
+ 
+    return dist_count
+ 
+ 
+# Counts distinct elements in all
+# windows of size k
+def countDistinct(arr, N, K):
+ 
+    # Traverse through every window
+    for i in range(N - K + 1):
+        print(countWindowDistinct(arr[i:K + i], K))
+ 
+ 
+# Driver's Code
+if __name__=='__main__':
+  arr = [1, 2, 1, 3, 4, 2, 3]
+  K = 4
+  N = len(arr)
+   
+  # Function call
+  countDistinct(arr, N, K)
+ 
+# This code is contributed by
+# Mohit kumar 29
+C#
+Javascript
+Output
+3
+4
+4
+3
+Time complexity: O(N * K2)
+Auxiliary Space: O(1) 
+
+Count distinct numbers in all windows of size K using hashing:
+So, there is an efficient solution using hashing, though hashing requires extra O(n) space but the time complexity will improve. The trick is to use the count of the previous window while sliding the window. To do this a hash map can be used that stores elements of the current window. The hash-map is also operated on by simultaneous addition and removal of an element while keeping track of distinct elements. The problem deals with finding the count of distinct elements in a window of length k, at any step while shifting the window and discarding all the computation done in the previous step, even though k – 1 elements are same from the previous adjacent window. For example, assume that elements from index i to i + k – 1 are stored in a Hash Map as an element-frequency pair. So, while updating the Hash Map in range i + 1 to i + k, reduce the frequency of the i-th element by 1 and increase the frequency of (i + k)-th element by 1. 
+Insertion and deletion from the HashMap takes constant time.
+
+Follow the given steps to solve the problem:
+
+Create an empty hash map. Let the hash map be hm.
+Initialize the count of distinct elements as dist_count to 0.
+Traverse through the first window and insert elements of the first window to hm. The elements are used as key and their counts as the value in hm. Also, keep updating dist_count
+Print distinct count for the first window.
+Traverse through the remaining array (or other windows).
+Remove the first element of the previous window. 
+If the removed element appeared only once, remove it from hm and decrease the distinct count, i.e. do “dist_count–“
+else (appeared multiple times in hm), then decrement its count in hm
+Add the current element (last element of the new window) 
+If the added element is not present in hm, add it to hm and increase the distinct count, i.e. do “dist_count++”
+Else (the added element appeared multiple times), increment its count in hm
+Below is the illustration of the above approach:
+
+Consider the array arr[] = {1, 2, 1, 3, 4, 2, 3} and K = 4
+
+
+Initial State
+
+Checking in the first window
+Checking in the first window
+
+In all the remaining steps, remove the first element of the previous window and add new element of current window.
+
+Checking in the second window
+Checking in the second window
+
+Checking in the third window
+Checking in the third window
+
+Checking the last window
+Checking the last window
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# An efficient Python program to
+# count distinct elements in
+# every window of size K
+from collections import defaultdict
+ 
+ 
+def countDistinct(arr, K, N):
+ 
+    # Creates an empty hashmap hm
+    mp = defaultdict(lambda: 0)
+ 
+    # initialize distinct element
+    # count for current window
+    dist_count = 0
+ 
+    # Traverse the first window and store count
+    # of every element in hash map
+    for i in range(K):
+        if mp[arr[i]] == 0:
+            dist_count += 1
+        mp[arr[i]] += 1
+ 
+    # Print count of first window
+    print(dist_count)
+ 
+    # Traverse through the remaining array
+    for i in range(K, N):
+ 
+        # Remove first element of previous window
+        # If there was only one occurrence,
+        # then reduce distinct count.
+        if mp[arr[i - K]] == 1:
+            dist_count -= 1
+        mp[arr[i - K]] -= 1
+ 
+    # Add new element of current window
+    # If this element appears first time,
+    # increment distinct element count
+        if mp[arr[i]] == 0:
+            dist_count += 1
+        mp[arr[i]] += 1
+ 
+        # Print count of current window
+        print(dist_count)
+ 
+# Driver's code
+if __name__=='__main__':
+  arr = [1, 2, 1, 3, 4, 2, 3]
+  N = len(arr)
+  K = 4
+ 
+  # Function call
+  countDistinct(arr, K, N)
+ 
+# This code is contributed by Shrikant13
+C#
+Javascript
+Output
+3
+4
+4
+3
+Time complexity: O(N), A single traversal of the array is required.
+Auxiliary Space: O(N), Since the hashmap requires linear space.
+
+This article is contributed by Piyush. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+136
+Next
+Convert a given tree to its Sum Tree
+Related Articles
+1.
+Find maximum of minimum for every window size in a given array
+2.
+First negative integer in every window of size k
+3.
+Maximum possible sum of a window in an array such that elements of same window in other array are unique
+4.
+Count all distinct pairs of repeating elements from the array for every array element
+5.
+Count of distinct differences between two maximum elements of every Subarray
+6.
+Maximize count of distinct elements in a subsequence of size K in given array
+7.
+Sliding Window Maximum (Maximum of all subarrays of size K)
+8.
+Sliding Window Maximum (Maximum of all subarrays of size k) using stack in O(n) time
+9.
+Construct a distinct elements array with given size, sum and element upper bound
+10.
+Check if Array can be divided into K groups of size C and all elements of group are distinct
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+shrikanth13
+Rajput-Ji
+princi singh
+andrew1234
+harshga32
+target_2
+simranarora5sos
+aryankadiya
+splevel62
+arorakashish0911
+hardikkoriintern
+janardansthox
+hkdass001
+bhakatsnehasish8
+Article Tags :
+Accolite
+Amazon
+Microsoft
+sliding-window
+Arrays
+Hash
+Practice Tags :
+Accolite
+Amazon
+Microsoft
+Arrays
+Hash
+sliding-window
+Improve Article
+Report Issue

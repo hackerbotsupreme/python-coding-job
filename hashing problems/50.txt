@@ -1,0 +1,208 @@
+Find Sum of all unique sub-array sum for a given array.
+
+Difficulty Level : Easy
+Last Updated : 17 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n-positive elements. The sub-array sum is defined as the sum of all elements of a particular sub-array, the task is to find the sum of all unique sub-array sum. 
+
+Note: Unique Sub-array sum means no other sub-array will have the same sum value. 
+
+Examples:
+
+Input : arr[] = {3, 4, 5} 
+Output : 40 
+Explanation: All possible unique sub-array with their sum are as: 
+(3), (4), (5), (3+4), (4+5), (3+4+5). Here all are unique so required sum = 40
+
+Input : arr[] = {2, 4, 2} 
+Output : 12 
+Explanation: All possible unique sub-array with their sum are as: 
+(2), (4), (2), (2+4), (4+2), (2+4+2). Here only (4) and (2+4+2) are unique.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Sorting Based):
+
+Calculate the cumulative sum of an array. 
+Store all sub-array sum in vector. 
+Sort the vector. 
+Mark all duplicate sub-array sum to zero 
+Calculate and return totalSum.
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 for finding sum of all
+# unique subarray sum
+ 
+# function for finding grandSum
+def findSubarraySum(arr, n):
+     
+    # calculate cumulative sum of array
+    # cArray[0] will store sum of zero elements
+    cArray = [0 for i in range(n + 1)]
+    for i in range(0, n, 1):
+        cArray[i + 1] = cArray[i] + arr[i]
+ 
+    subArrSum = []
+ 
+    # store all subarray sum in vector
+    for i in range(1, n + 1, 1):
+        for j in range(i, n + 1, 1):
+            subArrSum.append(cArray[j] -
+                             cArray[i - 1])
+ 
+    # sort the vector
+    subArrSum.sort(reverse = False)
+ 
+    # mark all duplicate sub-array
+    # sum to zero
+    totalSum = 0
+    for i in range(0, len(subArrSum) - 1, 1):
+        if (subArrSum[i] == subArrSum[i + 1]):
+            j = i + 1
+            while (subArrSum[j] == subArrSum[i] and
+                           j < len(subArrSum)):
+                subArrSum[j] = 0
+                j += 1
+            subArrSum[i] = 0
+ 
+    # calculate total sum
+    for i in range(0, len(subArrSum), 1):
+        totalSum += subArrSum[i]
+ 
+    # return totalSum
+    return totalSum
+ 
+# Drivers code
+if __name__ == '__main__':
+    arr = [3, 2, 3, 1, 4]
+    n = len(arr)
+    print(findSubarraySum(arr, n))
+     
+# This code is contributed by
+# Sahil_Shelangia
+C#
+Javascript
+Output
+41
+Complexity Analysis:
+
+Time Complexity: O(N^2 + N * logN)
+Auxiliary Space: O(N)
+Method 2 (Hashing Based): 
+
+The idea is to make an empty hash table. We generate all subarrays. For every subarray, we compute its sum and increment count of the sum in the hash table. Finally, we add all those sums whose count is 1.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 for finding sum of all
+# unique subarray sum
+ 
+# function for finding grandSum
+def findSubarraySum(arr, n):
+ 
+    res = 0
+ 
+    # Go through all subarrays, compute sums
+    # and count occurrences of sums.
+    m = dict()
+    for i in range(n):
+        Sum = 0
+        for j in range(i, n):
+            Sum += arr[j]
+            m[Sum] = m.get(Sum, 0) + 1
+         
+    # Print all those Sums that appear
+    # once.
+    for x in m:
+        if m[x] == 1:
+            res += x
+ 
+    return res
+ 
+# Driver code
+arr = [3, 2, 3, 1, 4]
+n = len(arr)
+print(findSubarraySum(arr, n))
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+41
+Complexity Analysis:
+
+Time Complexity: O(N^2)
+Auxiliary Space: O(N)
+
+
+
+
+Like
+5
+Next
+Sum of all Subarrays | Set 1
+Related Articles
+1.
+Minimum cost to convert all elements of a K-size subarray to 0 from given Ternary Array with subarray sum as cost
+2.
+Longest unique subarray of an Array with maximum sum in another Array
+3.
+Shortest subarray to be removed to make all Array elements unique
+4.
+Minimum length subarray containing all unique elements after Q operations
+5.
+Maximize the subarray sum after multiplying all elements of any subarray with X
+6.
+Maximize product of min value of subarray and sum of subarray over all subarrays of length K
+7.
+Subsequence pair from given Array having all unique and all same elements respectively
+8.
+Longest Subarray consisting of unique elements from an Array
+9.
+Largest Sum Contiguous Subarray having unique elements
+10.
+Find minimum subarray sum for each index i in subarray [i, N-1]
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+mohit kumar 29
+princiraj1992
+Rajput-Ji
+Gaurav Dasgupta
+amit143katiyar
+subhammahato348
+sarveshraut123
+rdtank
+gfgking
+hardikkoriintern
+Article Tags :
+cpp-unordered_map
+subarray
+Arrays
+Hash
+Sorting
+Practice Tags :
+Arrays
+Hash
+Sorting

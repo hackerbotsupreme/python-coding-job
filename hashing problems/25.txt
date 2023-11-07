@@ -1,0 +1,189 @@
+k-th distinct (or non-repeating) element among unique elements in an array.
+
+Difficulty Level : Easy
+Last Updated : 19 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an integer array, print k-th distinct element in an array. The given array may contain duplicates and the output should print k-th element among all unique elements. If k is more than number of distinct elements, print -1.
+Examples : 
+
+Input : arr[] = {1, 2, 1, 3, 4, 2}, 
+        k = 2
+Output : 4
+
+First non-repeating element is 3
+Second non-repeating element is 4
+
+Input : arr[] = {1, 2, 50, 10, 20, 2}, 
+        k = 3
+Output : 10
+
+Input : {2, 2, 2, 2}, 
+        k = 2
+Output : -1
+Recommended Problem
+K-th distinct element
+Hash
+Data Structures
+Solve Problem
+Submission count: 3.1K
+A simple solution is to use two nested loops where outer loop picks elements from left to right, and inner loop checks if the picked element is present somewhere else. If not present, then increment count of distinct elements. If count becomes k, return current element.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to print k-th distinct
+# element in a given array
+ 
+# Returns k-th distinct
+# element in arr.
+def printKDistinct(arr, n, k):
+    dist_count = 0
+    for i in range(n):
+         
+        # Check if current element is
+        # present somewhere else.
+        j = 0
+        while j < n:
+            if (i != j and arr[j] == arr[i]):
+                break
+            j += 1
+ 
+        # If element is unique
+        if (j == n):
+            dist_count += 1
+ 
+        if (dist_count == k):
+            return arr[i]
+ 
+    return -1
+ 
+# Driver Code
+ar = [1, 2, 1, 3, 4, 2]
+n = len(ar)
+k = 2
+print(printKDistinct(ar, n, k))
+ 
+# This code is contributed by Mohit Kumar
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity: O(n^2)
+Auxiliary Space: O(1)
+
+An efficient solution is to use Hashing to solve this in O(n) time on average. 
+
+create an empty hash table. 
+ Traverse input array from left to right and store elements and their counts in the hash table. 
+Traverse input array again from left to right. Keep counting elements with count as 1. 
+If count becomes k, return current element. 
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 program to print k-th
+# distinct element in a given array
+def printKDistinct(arr, size, KthIndex):
+    dict = {}
+    vect = []
+    for i in range(size):
+        if(arr[i] in dict):
+            dict[arr[i]] = dict[arr[i]] + 1
+        else:
+            dict[arr[i]] = 1
+    for i in range(size):
+        if(dict[arr[i]] > 1):
+            continue
+        else:
+            KthIndex = KthIndex - 1
+        if(KthIndex == 0):
+            return arr[i]
+    return -1
+ 
+# Driver Code
+arr = [1, 2, 1, 3, 4, 2]
+size = len(arr)
+print(printKDistinct(arr, size, 2))
+ 
+# This code is contributed
+# by Akhand Pratap Singh
+C#
+Javascript
+Output
+4
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+This article is contributed by Afzal Ansari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+12
+Previous
+Find first non-repeating element in a given Array of integers
+Next
+Print All Distinct Elements of a given integer array
+Related Articles
+1.
+Kth largest node among all directly connected nodes to the given node in an undirected graph
+2.
+Find number of unique triangles among given N triangles
+3.
+Count of distinct GCDs among all the non-empty subsequences of given array
+4.
+Find Kth element in an array containing odd elements first and then even elements
+5.
+Find maximum element among the elements with minimum frequency in given Array
+6.
+Python Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+7.
+Javascript Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+8.
+C++ Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+9.
+Java Program For Swapping Kth Node From Beginning With Kth Node From End In A Linked List
+10.
+Swap Kth node from beginning with Kth node from end in a Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Akhand Pratap Singh 3
+prerna saini
+Rajput-Ji
+mohit kumar 29
+SoumikMondal
+unknown2108
+prophet1999
+simmytarika5
+hardikkoriintern
+rkbhola5
+Article Tags :
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Improve Article
+Report Issue

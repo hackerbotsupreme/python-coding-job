@@ -1,0 +1,161 @@
+Find number of Employees Under every Manager
+
+Difficulty Level : Hard
+Last Updated : 23 Dec, 2022
+Read
+Discuss(140+)
+Courses
+Practice
+Video
+Given a dictionary that contains mapping of employee and his manager as a number of (employee, manager) pairs like below. 
+
+{ "A", "C" },
+{ "B", "C" },
+{ "C", "F" },
+{ "D", "E" },
+{ "E", "F" },
+{ "F", "F" } 
+
+In this example C is manager of A, 
+C is also manager of B, F is manager 
+of C and so on.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Write a function to get no of employees under each manager in the hierarchy not just their direct reports. It may be assumed that an employee directly reports to only one manager. In the above dictionary the root node/ceo is listed as reporting to himself. 
+
+Output should be a Dictionary that contains following. 
+
+A - 0  
+B - 0
+C - 2
+D - 0
+E - 1
+F - 5 
+This question might be solved differently but i followed this and found interesting, so sharing:
+
+ 1. Create a reverse map with Manager->DirectReportingEmployee 
+    combination. Off-course employee will be multiple so Value 
+    in Map is List of Strings.
+        "C" --> "A", "B",
+        "E" --> "D" 
+        "F" --> "C", "E", "F"
+ 
+2. Now use the given employee-manager map to iterate  and at 
+   the same time use newly reverse map to find the count of 
+   employees under manager.
+   
+   Let the map created in step 2 be 'mngrEmpMap' 
+   Do following for every employee 'emp'.
+     a) If 'emp' is not present in 'mngrEmpMap' 
+          Count under 'emp' is 0 [Nobody reports to 'emp']
+     b) If 'emp' is present in 'mngrEmpMap' 
+          Use the list of direct reports from map 'mngrEmpMap'
+          and recursively calculate number of total employees
+          under 'emp'. 
+A trick in step 2.b is to use memorization(Dynamic programming) while finding number of employees under a manager so that we don’t need to find number of employees again for any of the employees. In the below code populateResultUtil() is the recursive function that uses memoization to avoid re-computation of same results.
+
+Below is Java implementation of above ideas
+
+C++
+Java
+Python3
+class Solution():
+    def __init__(self):
+        pass
+ 
+    def assignAndPrint(self,t):
+        #We will directly permute over t. Access 2nd element(i.e. manager) of certain tuple and assign the relation in
+        # dictionary. We will assign list of employees to a particular manager so that with iterations, we can append
+        # more employees to that list and list grows.
+        d = dict()
+        for pair in t:
+            if(pair[0]==pair[1]):  # because we dont want to assign self managing role
+                continue
+            if pair[0] not in d:  # assign employee a empty list of employees
+                d[pair[0]] = []
+            # for managers -
+            if pair[1] not in d:
+                d[pair[1]] = [pair[0]]
+            else:
+                d[pair[1]].append(pair[0])
+        #print(d)
+        # now we know how many employees are directly under a particular manager.
+        # now lets count the total number of employees under a particular manager.
+        c = dict()   # store    manager:count of employee    as key value
+        for manager in d:
+            c[manager] = len(d[manager])
+            for employee in d[manager]:
+                c[manager] += len(d[employee])
+            print("{} : {}".format(manager,c[manager]))     # prints which manager has total how many employees
+        # Note : Employees having no employees under are also considered as managed with 0 employees.
+ 
+ 
+if __name__=="__main__":
+    # t is tuple containing employee and boss pair.
+    t = (("A", "C"),("B", "C"),("C", "F"),("D", "E"),("E", "F"),("F", "F"))
+    obj = Solution()
+    obj.assignAndPrint(t)
+Output
+
+
+result = {A=0, B=0, C=2, D=0, E=1, F=5}
+Time Complexity: O(n*log n)
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+30
+Previous
+Count subarrays with same even and odd elements
+Next
+Subarray with no pair sum divisible by K
+Related Articles
+1.
+Find subset with maximum sum under given condition
+2.
+Minimum number of characters required to be removed such that every character occurs same number of times
+3.
+Find the value mapped to a given composite key for every query
+4.
+Find the nearest value present on the left of every array element
+5.
+Length of the longest substring with every character appearing even number of times
+6.
+Check for Palindrome after every character replacement Query
+7.
+Maximum Unique Element in every subarray of size K
+8.
+Replace every elements in the array by its frequency in the array
+9.
+Length of longest subarray having frequency of every element equal to K
+10.
+Longest subsequence such that every element in the subsequence is formed by multiplying previous element with a prime
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+VivekRai4
+20ajinky
+sooda367
+sudeepharry357
+surinderdawra388
+sniggy
+hardikkoriintern
+hkdass001
+Article Tags :
+Microsoft
+Hash
+Practice Tags :
+Microsoft
+Hash
+Improve Article
+Report Issue

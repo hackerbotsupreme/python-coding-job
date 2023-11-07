@@ -1,0 +1,283 @@
+Count the number of subarrays having a given XOR
+
+Difficulty Level : Hard
+Last Updated : 25 Oct, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of integers arr[] and a number m, count the number of subarrays having XOR of their elements as m.
+Examples: 
+
+Input : arr[] = {4, 2, 2, 6, 4}, m = 6
+Output : 4
+Explanation : The subarrays having XOR of 
+              their elements as 6 are {4, 2}, 
+              {4, 2, 2, 6, 4}, {2, 2, 6},
+               and {6}
+
+Input : arr[] = {5, 6, 7, 8, 9}, m = 5
+Output : 2
+Explanation : The subarrays having XOR of
+              their elements as 5 are {5}
+              and {5, 6, 7, 8, 9}
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A Simple Solution is to use two loops to go through all possible subarrays of arr[] and count the number of subarrays having XOR of their elements as m. 
+
+Implementation:
+
+C++
+Java
+Python3
+     
+# A simple Python3 Program to count all subarrays having
+# XOR of elements as given value m
+  
+# Simple function that returns count of subarrays
+# of arr with XOR value equals to m
+def subarrayXor(arr, n, m):
+    ans = 0 # Initialize ans
+  
+    # Pick starting point i of subarrays
+    for i in range(0,n):
+         
+        xorSum = 0 # Store XOR of current subarray
+  
+        # Pick ending point j of subarray for each i
+        for j  in range(i,n):
+            # calculate xorSum
+            xorSum = xorSum ^ arr[j]
+  
+            # If xorSum is equal to given value,
+            # increase ans by 1.
+            if (xorSum == m):
+                ans+=1
+    return ans
+  
+# Driver program to test above function
+def main():
+    arr = [ 4, 2, 2, 6, 4 ]
+    n = len(arr)
+    m = 6
+  
+    print("Number of subarrays having given XOR is "
+         , subarrayXor(arr, n, m))
+ 
+if __name__ == '__main__':
+    main()
+     
+#this code contributed by 29AjayKumar
+C#
+PHP
+Javascript
+Output
+Number of subarrays having given XOR is 4
+Time Complexity: O(n2)
+
+Auxiliary Space: O(1)
+
+Efficient Approach:
+
+
+
+An Efficient Solution solves the above problem in O(n) time. Let us call the XOR of all elements in the range [i+1, j] as A, in the range [0, i] as B, and in the range [0, j] as C. If we do XOR of B with C, the overlapping elements in [0, i] from B and C zero out, and we get XOR of all elements in the range [i+1, j], i.e. A. Since A = B XOR C, we have B = A XOR C. Now, if we know the value of C and we take the value of A as m, we get the count of A as the count of all B satisfying this relation. Essentially, we get the count of all subarrays having XOR-sum m for each C. As we take the sum of this count overall C, we get our answer.
+
+1) Initialize ans as 0.
+2) Compute xorArr, the prefix xor-sum array.
+3) Create a map mp in which we store count of 
+   all prefixes with XOR as a particular value. 
+4) Traverse xorArr and for each element in xorArr
+   (A) If m^xorArr[i] XOR exists in map, then 
+       there is another previous prefix with 
+       same XOR, i.e., there is a subarray ending
+       at i with XOR equal to m. We add count of
+       all such subarrays to result. 
+   (B) If xorArr[i] is equal to m, increment ans by 1.
+   (C) Increment count of elements having XOR-sum 
+       xorArr[i] in map by 1.
+5) Return ans.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 Program to count all subarrays
+# having XOR of elements as given value m
+# with O(n) time complexity.
+ 
+# Returns count of subarrays of arr
+# with XOR value equals to m
+def subarrayXor(arr, n, m):
+ 
+    ans = 0 # Initialize answer to be returned
+ 
+    # Create a prefix xor-sum array such that
+    # xorArr[i] has value equal to XOR
+    # of all elements in arr[0 ..... i]
+    xorArr =[0 for _ in range(n)]
+ 
+    # Create map that stores number of prefix array
+    # elements corresponding to a XOR value
+    mp = dict()
+ 
+    # Initialize first element
+    # of prefix array
+    xorArr[0] = arr[0]
+ 
+    # Computing the prefix array.
+    for i in range(1, n):
+        xorArr[i] = xorArr[i - 1] ^ arr[i]
+ 
+    # Calculate the answer
+    for i in range(n):
+         
+        # Find XOR of current prefix with m.
+        tmp = m ^ xorArr[i]
+ 
+        # If above XOR exists in map, then there
+        # is another previous prefix with same
+        # XOR, i.e., there is a subarray ending
+        # at i with XOR equal to m.
+        if tmp in mp.keys():
+            ans = ans + (mp[tmp])
+ 
+        # If this subarray has XOR
+        # equal to m itself.
+        if (xorArr[i] == m):
+            ans += 1
+ 
+        # Add the XOR of this subarray to the map
+        mp[xorArr[i]] = mp.get(xorArr[i], 0) + 1
+ 
+    # Return total count of subarrays having
+    # XOR of elements as given value m
+    return ans
+ 
+# Driver Code
+arr = [4, 2, 2, 6, 4]
+n = len(arr)
+m = 6
+ 
+print("Number of subarrays having given XOR is",
+                        subarrayXor(arr, n, m))
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+Number of subarrays having given XOR is 4
+Time Complexity: O(n)
+
+Auxiliary Space: O(n)
+
+Alternate Approach: Using Python Dictionary to store Prefix XOR
+
+Implementation:
+
+C++
+Java
+Python3
+from collections import defaultdict
+def subarrayXor(arr, n, m):
+    HashTable=defaultdict(bool)
+    HashTable[0]=1
+    count=0
+    curSum=0
+    for i in arr:
+        curSum^=i
+        if HashTable[curSum^m]:
+            count+=HashTable[curSum^m]
+        HashTable[curSum]+=1
+    return(count)
+         
+ 
+# Driver program to test above function
+def main():
+    arr = [ 5, 6, 7, 8, 9 ]
+    n = len(arr)
+    m = 5
+ 
+    print("Number of subarrays having given XOR is "
+        , subarrayXor(arr, n, m))
+ 
+if __name__ == '__main__':
+    main()
+     
+ # This code is contributed by mrmechanical26052000
+C#
+Javascript
+Output
+Number of subarrays having given XOR is 2
+Time Complexity: O(n)
+
+Auxiliary Space: O(n)
+
+This article is contributed by Anmol Ratnam. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+105
+Previous
+Subarray with XOR less than k
+Next
+Range Queries to Find number of sub-arrays with a given xor
+Related Articles
+1.
+Count of subarrays in range [L, R] having XOR + 1 equal to XOR (XOR) 1 for M queries
+2.
+Count even length subarrays having bitwise XOR equal to 0
+3.
+Count subarrays having odd Bitwise XOR
+4.
+Count subarrays having even Bitwise XOR
+5.
+Count ways to split array into three non-empty subarrays having equal Bitwise XOR values
+6.
+Check if Array can be split into subarrays such that XOR of length of Longest Decreasing Subsequences of those subarrays is 0
+7.
+Count subarrays having product equal to the power of a given Prime Number
+8.
+Split given Array in minimum number of subarrays such that rearranging the order of subarrays sorts the array
+9.
+Count subarrays having an equal count of 0s and 1s segregated
+10.
+Count arrays having at least K elements exceeding XOR of all given array elements by X given operations
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+vt_m
+29AjayKumar
+mohit kumar 29
+princiraj1992
+Rajput-Ji
+mrmechanical26052000
+vibalijoshi
+rishavmahato348
+unknown2108
+simmytarika5
+phasing17
+hardikkoriintern
+siddheshshinde19
+aadityapburujwale
+Article Tags :
+Bitwise-XOR
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Improve Article
+Report Issue

@@ -1,0 +1,302 @@
+Maximum possible difference of two subsets of an array
+
+Difficulty Level : Medium
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n-integers. The array may contain repetitive elements but the highest frequency of any element must not exceed two. You have to make two subsets such that the difference of the sum of their elements is maximum and both of them jointly contain all elements of the given array along with the most important condition, no subset should contain repetitive elements. 
+
+Examples: 
+
+Input : arr[] = {5, 8, -1, 4}
+Output : Maximum Difference = 18
+Explanation : 
+Let Subset A = {5, 8, 4} & Subset B = {-1}
+Sum of elements of subset A = 17, of subset B = -1
+Difference of Sum of Both subsets = 17 - (-1) = 18
+
+Input : arr[] = {5, 8, 5, 4}
+Output : Maximum Difference = 12
+Explanation : 
+Let Subset A = {5, 8, 4} & Subset B = {5}
+Sum of elements of subset A = 17, of subset B = 5
+Difference of Sum of Both subsets = 17 - 5 = 12
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Before solving this question we have to take care of some given conditions, and they are listed as: 
+
+While building up the subsets, take care that no subset should contain repetitive elements. And for this, we can conclude that all such elements whose frequency are 2, going to be part of both subsets, and hence overall they don’t have any impact on the difference of subset-sum. So, we can easily ignore them.
+For making the difference of the sum of elements of both subset maximum we have to make subset in such a way that all positive elements belong to one subset and negative ones to other subsets.
+Algorithm with time complexity O(n2): 
+
+for i=0 to n-1
+    isSingleOccurrence = true;
+    for  j= i+1 to n-1
+
+        // if frequency of any element is two
+        // make both equal to zero
+        if arr[i] equals arr[j]
+            arr[i] = arr[j] = 0
+            isSingleOccurrence = false;
+            break;
+            
+    if isSingleOccurrence == true
+        if (arr[i] > 0)
+            SubsetSum_1 += arr[i];
+        else 
+            SubsetSum_2 += arr[i];
+return abs(SubsetSum_1 - SubsetSum2)
+Implementation:
+
+C++
+Java
+Python3
+# Python3 find maximum difference
+# of subset sum
+ 
+import math
+ 
+# function for maximum subset diff
+def maxDiff(arr, n) :
+    SubsetSum_1 = 0
+    SubsetSum_2 = 0
+    for i in range(0, n) :
+ 
+        isSingleOccurrence = True
+        for j in range(i + 1, n) :
+ 
+            # if frequency of any element
+            # is two make both equal to
+            # zero
+            if (arr[i] == arr[j]) :
+                isSingleOccurrence = False
+                arr[i] = arr[j] = 0
+                break
+ 
+        if (isSingleOccurrence == True) :
+            if (arr[i] > 0) :
+                SubsetSum_1 += arr[i]
+            else :
+                SubsetSum_2 += arr[i]
+ 
+    return abs(SubsetSum_1 - SubsetSum_2)
+ 
+# Driver Code
+arr = [4, 2, -3, 3, -2, -2, 8]
+n = len(arr)
+print ("Maximum Difference = {}"
+               . format(maxDiff(arr, n)))
+ 
+# This code is contributed by Manish Shaw
+# (manishshaw1)
+C#
+PHP
+Javascript
+Output
+Maximum Difference = 20
+Time Complexity O(n2)
+Auxiliary Space: O(1)
+
+
+
+Algorithm with time complexity O(n log n): 
+
+-> sort the array
+-> for i =0 to n-2
+      // consecutive two elements are not equal
+      // add absolute arr[i] to result
+      if arr[i] != arr[i+1]
+          result += abs(arr[i])
+      // else skip next element too
+      else
+          i++;
+          
+// special check for last two elements
+-> if (arr[n-2] != arr[n-1])
+    result += arr[n-1]
+
+-> return result;
+Implementation:
+
+C++
+Java
+Python 3
+# Python 3 find maximum difference
+# of subset sum
+ 
+# function for maximum subset diff
+def maxDiff(arr, n):
+ 
+    result = 0
+ 
+    # sort the array
+    arr.sort()
+ 
+    # calculate the result
+    for i in range(n - 1):
+        if (abs(arr[i]) != abs(arr[i + 1])):
+            result += abs(arr[i])
+ 
+        else:
+            pass
+ 
+    # check for last element
+    if (arr[n - 2] != arr[n - 1]):
+        result += abs(arr[n - 1])
+ 
+    # return result
+    return result
+ 
+# Driver Code
+if __name__ == "__main__":
+     
+    arr = [ 4, 2, -3, 3, -2, -2, 8 ]
+    n = len(arr)
+    print("Maximum Difference = " ,
+                   maxDiff(arr, n))
+ 
+# This code is contributed by ita_c
+C#
+PHP
+Javascript
+Output
+Maximum Difference = 20
+Time Complexity: O(n log n)
+Auxiliary Space: O(1)
+
+Algorithm with time complexity O(n): 
+
+make hash table for positive elements:
+    for all positive elements(arr[i])
+        if frequency == 1
+            SubsetSum_1 += arr[i];
+make hash table for negative elements:
+    for all negative elements
+        if frequency == 1
+            SubsetSum_2 += arr[i];
+return abs(SubsetSum_1 - SubsetSum2)
+Implementation:
+
+C++
+Java
+Python3
+# Python3 find maximum difference of subset sum
+ 
+# function for maximum subset diff
+def maxDiff(arr, n):
+ 
+    hashPositive = dict()
+    hashNegative = dict()
+ 
+    SubsetSum_1, SubsetSum_2 = 0, 0
+ 
+    # construct hash for positive elements
+    for i in range(n):
+        if (arr[i] > 0):
+            hashPositive[arr[i]] = \
+                hashPositive.get(arr[i], 0) + 1
+ 
+    # calculate subset sum for positive elements
+    for i in range(n):
+        if (arr[i] > 0 and arr[i] in
+            hashPositive.keys() and
+            hashPositive[arr[i]] == 1):
+            SubsetSum_1 += arr[i]
+ 
+    # construct hash for negative elements
+    for i in range(n):
+        if (arr[i] < 0):
+            hashNegative[abs(arr[i])] = \
+                hashNegative.get(abs(arr[i]), 0) + 1
+ 
+    # calculate subset sum for negative elements
+    for i in range(n):
+        if (arr[i] < 0 and abs(arr[i]) in
+            hashNegative.keys() and
+            hashNegative[abs(arr[i])] == 1):
+            SubsetSum_2 += arr[i]
+ 
+    return abs(SubsetSum_1 - SubsetSum_2)
+ 
+# Driver Code
+arr = [4, 2, -3, 3, -2, -2, 8]
+n = len(arr)
+print("Maximum Difference =", maxDiff(arr, n))
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+Maximum Difference = 20
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+1
+Previous
+Implementing our Own Hash Table with Separate Chaining in Java
+Next
+Longest subarray not having more than K distinct elements
+Related Articles
+1.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+2.
+Maximum possible difference of sum of two subsets of an array | Set 2
+3.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+4.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+5.
+Split array into maximum possible subsets having product of their length with the maximum element at least K
+6.
+Smallest subset of maximum sum possible by splitting array into two subsets
+7.
+Sum of subsets of all the subsets of an array | O(3^N)
+8.
+Sum of subsets of all the subsets of an array | O(N)
+9.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+10.
+Sum of subsets of all the subsets of an array | O(2^N)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shivam.Pradhan
+@Shivam.Pradhan
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+nitin mittal
+manishshaw1
+ukasp
+mohit kumar 29
+divyeshrabadiya07
+divyesh072019
+susmitakundugoaldanga
+rutvik_56
+rag2127
+surinderdawra388
+hardikkoriintern
+hkdass001
+Article Tags :
+Arrays
+Hash
+Sorting
+Technical Scripter
+Practice Tags :
+Arrays
+Hash
+Sorting
+Improve Article
+Report Issue

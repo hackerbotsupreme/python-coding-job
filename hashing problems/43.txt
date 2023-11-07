@@ -1,0 +1,350 @@
+All unique triplets that sum up to a given value
+
+Difficulty Level : Medium
+Last Updated : 25 May, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array and a sum value, find all possible unique triplets in that array whose sum is equal to the given sum value. If no such triplets can be formed from the array, then print “No triplets can be formed”, else print all the unique triplets. For example, if the given array is {12, 3, 6, 1, 6, 9} and the given sum is 24, then the unique triplets are (3, 9, 12) and (6, 6, 12) whose sum is 24.
+
+Examples: 
+
+Input : array = {12, 3, 6, 1, 6, 9} sum = 24
+Output : [[3, 9, 12], [6, 6, 12]]
+
+Input : array = {-2, 0, 1, 1, 2} sum = 0
+Output : [[-2, 0, 2], [-2, 1, 1]]
+
+Input : array = {-2, 0, 1, 1, 2} sum = 10
+Output : No triplets can be formed
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1
+In a previous post, Find a triplet that sum to a given value we have discussed whether the triplets can be formed from the array or not.
+Here we need to print all unique set of triplets that sum up to a given value
+
+Sort the input array.
+Find three indexes from the array i, j and k where A[i]+A[j]+A[k] = given sum value.
+Fix the first element as A[i] and iterate i from 0 to array size – 2.
+For each iteration of i, take j to be index of the first element in the remaining elements and k to be the index of the last element.
+Check for the triplet combination A[i]+A[j]+A[k] = given sum value.
+If triplet is obtained (ie., A[i]+A[j]+A[k] = given sum value)
+Add all the triplet in a TreeSet with “:” separated value to get the unique triplets.
+Increment the second value index
+Decrement the third value index.
+Repeat step 4 & 5 till j < k
+Else if, A[i]+A[j]+A[k] < given sum value, increment the second value index 
+Else if, A[i]+A[j]+A[k] > given sum value, decrement the third value index
+ Below is the implementation of the above idea:
+
+C++
+Java
+Python3
+# Python program to find unique triplets
+# that sum up to a given value.
+ 
+# Function to find unique triplets that
+# sum up to a given value.
+def findTriplets(nums, n, Sum):
+    i = 0
+    j = 0
+    k = 0
+ 
+    # list to store all unique triplets.
+    triplet = []
+ 
+    # list to store already found triplets
+    # to avoid duplication.
+    uniqTriplets = []
+ 
+    # Variable used to hold triplet
+    # converted to string form.
+    temp = ""
+ 
+    # Variable used to store current
+    # triplet which is stored in vector
+    # if it is unique.
+    newTriplet = [0, 0, 0]
+ 
+    # Sort the input array.
+    nums.sort()
+ 
+    # Iterate over the array from the
+    # start and consider it as the
+    # first element.
+    for i in range(n - 2):
+         
+        # index of the first element in
+        # the remaining elements.
+        j = i + 1
+ 
+        # index of the last element.
+        k = n - 1
+ 
+        while(j < k):
+           
+            # If sum of triplet is equal to
+            # given value, then check if
+            # this triplet is unique or not.
+            # To check uniqueness, convert
+            # triplet to string form and
+            # then check if this string is
+            # present in set or not. If
+            # triplet is unique, then store
+            # it in list.
+            if(nums[i] + nums[j] + nums[k] == Sum):
+                temp = str(nums[i]) + ":" + str(nums[j]) + ":" + str(nums[k])
+                if temp not in uniqTriplets:
+                    uniqTriplets.append(temp)
+                    newTriplet[0] = nums[i]
+                    newTriplet[1] = nums[j]
+                    newTriplet[2] = nums[k]
+                    triplet.append(newTriplet)
+                    newTriplet = [0, 0, 0]
+ 
+                # Increment the first index
+                # and decrement the last
+                # index of remaining elements.
+                j += 1
+                k -= 1
+                 
+            # If sum is greater than given
+            # value then to reduce sum
+            # decrement the last index.
+            elif(nums[i] + nums[j] + nums[k] > Sum):
+                k -= 1
+                 
+            # If sum is less than given value
+            # then to increase sum increment
+            # the first index of remaining
+            # elements.
+            else:
+                j += 1
+ 
+    # If no unique triplet is found, then
+       # return 0.
+    if(len(triplet) == 0):
+        return 0
+     
+    # Print all unique triplets stored in
+    # list.
+    for i in range(len(triplet)):
+        print(triplet[i], end = ", ")
+    return 1
+ 
+# Driver Code
+nums = [12, 3, 6, 1, 6, 9]
+n = len(nums)
+Sum = 24
+ 
+# Function call
+if(not findTriplets(nums, n, Sum)):
+    print("No triplets can be formed.")
+ 
+# This code is contributed by rag2127
+C#
+Javascript
+Output
+[3, 9, 12], [6, 6, 12],
+Time Complexity: O(n2)
+Space Complexity: O(n)
+
+Method 2
+
+
+
+In this method, we will see another way to solve this problem which will use only a constant amount of space. Here in this method, we would check if the current element is the same as the previous one then we will not consider it and just simply skip that element. By using this we will be able to find only unique triplets only.
+
+Algorithm
+
+Sort the input array.
+For the first element iterate i from 0 to n-2.
+For each iteration we will have two indexes starts and end where the start would be equal to i+1 and end would be equal to n-1.
+Now we will look for a target whose value is sum-a[i] in the range from start to end using two pointer techniques.
+In this we will look for the previous elements if they are the same then we would not work for them to find all unique duplicates.
+If we found target==a[start]+a[end] then we would print it and increment start and decrement end.
+If target>a[start]+a[end] then we would increment start.
+Else we would decrement end
+Below is the implementation of the above idea:
+
+C++
+Java
+Python3
+# Python3 program to find all
+# unique triplets without using
+# any extra space.
+ 
+# Function to all find unique
+# triplets without using extra
+# space
+def findTriplets(a, n, sum):
+ 
+    # Sort the input array
+    a.sort()
+ 
+    # For handling the cases
+    # when no such triplets exits.
+    flag = False
+ 
+    # Iterate over the array from
+    # start to n-2.
+    for i in range(n - 2):
+        if (i == 0 or
+            a[i] > a[i - 1]):
+ 
+            # Index of the first
+            # element in remaining
+            # range.
+            start = i + 1
+ 
+            # Index of the last
+            # element
+            end = n - 1
+ 
+            # Setting our new target
+            target = sum - a[i]
+ 
+            while (start < end):
+ 
+                # Checking if current element
+                # is same as previous
+                if (start > i + 1 and
+                    a[start] == a[start - 1]):
+ 
+                    start += 1
+                    continue
+ 
+                # Checking if current
+                # element is same as
+                # previous
+                if (end < n - 1 and
+                    a[end] == a[end + 1]):
+                    end -= 1
+                    continue
+ 
+                # If we found the triplets
+                # then print it and set the
+                # flag
+                if (target == a[start] + a[end]):
+                    print("[", a[i], ",",
+                          a[start], ",",
+                          a[end], "]",
+                          end = " ")
+                    flag = True
+                    start += 1
+                    end -= 1
+ 
+                # If target is greater then
+                #  increment the start index
+                elif (target >
+                     (a[start] + a[end])):
+                    start += 1
+ 
+                # If target is smaller than
+                # decrement the end index
+                else:
+                    end -= 1
+ 
+    # If no such triplets found
+    if (flag == False):
+        print("No Such Triplets Exist")
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    a = [12, 3, 6, 1, 6, 9]
+    n = len(a)
+    sum = 24
+ 
+    # Function call
+    findTriplets(a, n, sum)
+ 
+# This code is contributed by Chitranayal
+C#
+Javascript
+ 
+ 
+
+Output
+[3,9,12] [6,6,12]
+ 
+
+Complexity Analysis:
+
+ 
+
+Time Complexity: O(n2).
+Since two nested loops is required, so the time complexity is O(n2).
+Auxiliary Space: O(1).
+Since we need no extra space for solving this.
+ 
+
+This article is contributed by Aarthi C. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+ 
+
+
+
+
+
+Like
+22
+Next
+Find all triplets with zero sum
+Related Articles
+1.
+Number of unique triplets whose XOR is zero
+2.
+Maximum number of unique Triplets such that each element is selected only once
+3.
+C++ Program for Number of unique triplets whose XOR is zero
+4.
+Java Program for Number of unique triplets whose XOR is zero
+5.
+Python3 Program for Number of unique triplets whose XOR is zero
+6.
+Javascript Program for Number of unique triplets whose XOR is zero
+7.
+Count triplets with sum smaller than a given value
+8.
+C++ Program to Count triplets with sum smaller than a given value
+9.
+Java Program to Count triplets with sum smaller than a given value
+10.
+Python3 Program to Count triplets with sum smaller than a given value
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nik1996
+29AjayKumar
+cueball
+rohit101020samnit
+ukasp
+divyesh072019
+divyeshrabadiya07
+rag2127
+suresh07
+IllishaSingh
+avanitrachhadiya2155
+akshaysingh98088
+Article Tags :
+Arrays
+Hash
+Searching
+Practice Tags :
+Arrays
+Hash
+Searching
+Improve Article
+Report Issue

@@ -1,0 +1,212 @@
+Design a data structure that supports insert, delete, search and getRandom in constant time
+
+Difficulty Level : Medium
+Last Updated : 27 Dec, 2022
+Read
+Discuss(150+)
+Courses
+Practice
+Video
+Design a data structure that supports the following operations in Θ(1) time.
+
+insert(x): Inserts an item x to the data structure if not already present.
+remove(x): Removes item x from the data structure if present. 
+search(x): Searches an item x in the data structure.
+getRandom(): Returns a random element from current set of elements 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can use hashing to support first 3 operations in Θ(1) time. How to do the 4th operation? The idea is to use a resizable array (ArrayList in Java, vector in C) together with hashing. Resizable arrays support insert in Θ(1) amortized time complexity. To implement getRandom(), we can simply pick a random number from 0 to size-1 (size is the number of current elements) and return the element at that index. The hash map stores array values as keys and array indexes as values.
+
+Following are detailed operations.
+
+insert(x) 
+Check if x is already present by doing a hash map lookup. 
+If not present, then insert it at the end of the array. 
+Add in the hash table also, x is added as key and last array index as the index.
+remove(x) 
+Check if x is present by doing a hash map lookup. 
+If present, then find its index and remove it from a hash map. 
+Swap the last element with this element in an array and remove the last element. 
+Swapping is done because the last element can be removed in O(1) time. 
+Update index of the last element in a hash map.
+getRandom() 
+Generate a random number from 0 to last index. 
+Return the array element at the randomly generated index.
+search(x) 
+Do a lookup for x in hash map.
+Below is the implementation of the data structure.
+
+C++
+Java
+Python3
+'''
+Python program to design a DS that
+supports following operations
+in Theta(n) time:
+a) Insert
+b) Delete
+c) Search
+d) getRandom
+'''
+import random
+ 
+# Class to represent the required
+# data structure
+class MyDS:
+ 
+    # Constructor (creates a list and a hash)
+    def __init__(self):
+         
+        # A resizable array
+        self.arr = []
+ 
+        # A hash where keys are lists elements
+        # and values are indexes of the list
+        self.hashd = {}
+ 
+    # A Theta(1) function to add an element
+    # to MyDS data structure
+    def add(self, x):
+         
+        # If element is already present,
+        # then nothing has to be done
+        if x in self.hashd:
+            return
+ 
+        # Else put element at
+        # the end of the list
+        s = len(self.arr)
+        self.arr.append(x)
+ 
+        # Also put it into hash
+        self.hashd[x] = s
+ 
+    # A Theta(1) function to remove an element
+    # from MyDS data structure
+    def remove(self, x):
+         
+        # Check if element is present
+        index = self.hashd.get(x, None)
+        if index == None:
+            return
+ 
+        # If present, then remove
+        # element from hash
+        del self.hashd[x]
+ 
+        # Swap element with last element
+        # so that removal from the list
+        # can be done in O(1) time
+        size = len(self.arr)
+        last = self.arr[size - 1]
+        self.arr[index], \
+        self.arr[size - 1] = self.arr[size - 1], \
+                             self.arr[index]
+ 
+        # Remove last element (This is O(1))
+        del self.arr[-1]
+ 
+        # Update hash table for
+        # new index of last element
+        self.hashd[last] = index
+ 
+    # Returns a random element from MyDS
+    def getRandom(self):
+         
+         
+        # Find a random index from 0 to size - 1
+        index = random.randrange(0, len(self.arr))
+ 
+        # Return element at randomly picked index
+        return self.arr[index]
+ 
+    # Returns index of element
+    # if element is present,
+    # otherwise none
+    def search(self, x):
+        return self.hashd.get(x, None)
+ 
+# Driver Code
+if __name__=="__main__":
+    ds = MyDS()
+    ds.add(10)
+    ds.add(20)
+    ds.add(30)
+    ds.add(40)
+    print(ds.search(30))
+    ds.remove(20)
+    ds.add(50)
+    print(ds.search(50))
+    print(ds.getRandom())
+ 
+# This code is contributed
+# by Saurabh Singh
+Output
+2
+3
+30
+Time Complexity: O(1) for all operations.
+Space Complexity: O(n) for storing the elements in the data structure.
+
+This article is contributed by Manish Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+
+
+Like
+96
+Previous
+How to efficiently implement k Queues in a single array?
+Next
+Reversing a Queue
+Related Articles
+1.
+Design a data structure that supports insert, delete, getRandom in O(1) with duplicates
+2.
+Design a stack that supports getMin() in O(1) time and O(1) extra space
+3.
+Efficiently design Insert, Delete and Median queries on a set
+4.
+Implementation of Search, Insert and Delete in Treap
+5.
+Design a Queue data structure to get minimum or maximum in O(1) time
+6.
+Queries to insert, delete one occurrence of a number and print the least and most frequent element
+7.
+Minimum cost to convert one given string to another using swap, insert or delete operations
+8.
+Design and Implement Special Stack Data Structure | Added Space Optimized Version
+9.
+Trie | (Insert and Search)
+10.
+2-3 Trees | (Search, Insert and Deletion)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SwapnilShukla1
+ssaurabhh4
+dhyey35
+simmytarika5
+hardikkoriintern
+legendarymohit
+factworx4i2
+Article Tags :
+Amazon
+Advanced Data Structure
+Hash
+Practice Tags :
+Amazon
+Advanced Data Structure
+Hash
+Improve Article
+Report Issue

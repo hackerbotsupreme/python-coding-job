@@ -1,0 +1,626 @@
+Union and Intersection of two Linked Lists
+
+Difficulty Level : Medium
+Last Updated : 08 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given two Linked Lists, create union and intersection lists that contain union and intersection of the elements present in the given lists. The order of elements in output lists doesn’t matter.
+Example:
+ 
+
+Input:
+   List1: 10->15->4->20
+   List2:  8->4->2->10
+Output:
+   Intersection List: 4->10
+   Union List: 2->8->20->4->15->10 
+Recommended Problem
+Union of Two Linked Lists
+Linked List
+Hash
++3 more
+Flipkart
+Amazon
++4 more
+Solve Problem
+Submission count: 25.8K
+Method 1 (Simple):
+
+The following are simple algorithms to get union and intersection lists respectively.
+Intersection (list1, list2)
+Initialize the result list as NULL. Traverse list1 and look for every element in list2, if the element is present in list2, then add the element to the result.
+Union (list1, list2):
+Initialize a new list ans and store first and second list data to set to remove duplicate data
+ and then store it into our new list ans and return its head.
+
+ 
+Complete Interview Preparation - GFG 
+
+C++
+// C++ program to find union
+// and intersection of two unsorted
+// linked lists
+#include "bits/stdc++.h"
+using namespace std;
+ 
+/* Linked list node */
+struct Node {
+    int data;
+    struct Node* next;
+    Node(int x)
+    {
+        data = x;
+        next = NULL;
+    }
+};
+ 
+/* A utility function to insert a
+node at the beginning ofa linked list*/
+void push(struct Node** head_ref, int new_data);
+ 
+/* A utility function to check if
+given data is present in a list */
+bool isPresent(struct Node* head, int data);
+ 
+/* Function to get union of two
+linked lists head1 and head2 */
+struct Node* getUnion(struct Node* head1,
+                      struct Node* head2)
+{
+    struct Node* ans = new Node(-1);
+    struct Node* head = ans;
+    set<int> st;
+    while (head1 != NULL) {
+        st.insert(head1->data);
+        head1 = head1->next;
+    }
+    while (head2 != NULL) {
+        st.insert(head2->data);
+        head2 = head2->next;
+    }
+    for (auto it : st) {
+        struct Node* t = new Node(it);
+        ans->next = t;
+        ans = ans->next;
+    }
+    head = head->next;
+    return head;
+}
+ 
+/* Function to get intersection of
+two linked lists head1 and head2 */
+struct Node* getIntersection(struct Node* head1,
+                             struct Node* head2)
+{
+ 
+    struct Node* result = NULL;
+    struct Node* t1 = head1;
+ 
+    // Traverse list1 and search each element of it in
+    // list2. If the element is present in list 2, then
+    // insert the element to result
+    while (t1 != NULL) {
+        if (isPresent(head2, t1->data))
+            push(&result, t1->data);
+        t1 = t1->next;
+    }
+    return result;
+}
+/* A utility function to insert a
+node at the beginning of a linked list*/
+void push(struct Node** head_ref, int new_data)
+{
+ 
+    /* allocate node */
+    struct Node* new_node
+        = (struct Node*)malloc(sizeof(struct Node));
+ 
+    /* put in the data */
+    new_node->data = new_data;
+ 
+    /* link the old list of the new node */
+    new_node->next = (*head_ref);
+ 
+    /* move the head to point to the new node */
+    (*head_ref) = new_node;
+}
+ 
+/* A utility function to print a linked list*/
+void printList(struct Node* node)
+{
+    while (node != NULL) {
+        cout << " " << node->data;
+        node = node->next;
+    }
+}
+bool isPresent(struct Node* head, int data)
+{
+    struct Node* t = head;
+    while (t != NULL) {
+        if (t->data == data)
+            return 1;
+        t = t->next;
+    }
+    return 0;
+}
+ 
+/* Driver program to test above function*/
+int main()
+{
+ 
+    /* Start with the empty list */
+    struct Node* head1 = NULL;
+    struct Node* head2 = NULL;
+    struct Node* intersecn = NULL;
+    struct Node* unin = NULL;
+ 
+    /*create a linked lists 10->15->5->20 */
+    push(&head1, 20);
+    push(&head1, 4);
+    push(&head1, 15);
+    push(&head1, 10);
+ 
+    /*create a linked lists 8->4->2->10 */
+    push(&head2, 10);
+    push(&head2, 2);
+    push(&head2, 4);
+    push(&head2, 8);
+    intersecn = getIntersection(head1, head2);
+    unin = getUnion(head1, head2);
+    cout << "\n First list is " << endl;
+    printList(head1);
+    cout << "\n Second list is " << endl;
+    printList(head2);
+    cout << "\n Intersection list is " << endl;
+    printList(intersecn);
+    cout << "\n Union list is " << endl;
+    printList(unin);
+    return 0;
+}
+ 
+// This code is contributed by zishanahmad786
+C
+Java
+C#
+Javascript
+Output
+ First list is 
+ 10 15 4 20
+ Second list is 
+ 8 4 2 10
+ Intersection list is 
+ 4 10
+ Union list is 
+ 2 8 20 4 15 10
+  Complexity Analysis:
+
+Time Complexity: O(m*n).
+Here ‘m’ and ‘n’ are number of elements present in the first and second lists respectively. 
+For union: For every element in list-2 we check if that element is already present in the resultant list made using list-1.
+For intersection: For every element in list-1 we check if that element is also present in list-2.
+Auxiliary Space: O(1). 
+No use of any data structure for storing values.
+Method 2 (Use Merge Sort):
+
+
+
+In this method, algorithms for Union and Intersection are very similar. First, we sort the given lists, then we traverse the sorted lists to get union and intersection. 
+The following are the steps to be followed to get union and intersection lists.
+
+Sort the first Linked List using merge sort. This step takes O(mLogm) time. Refer this post for details of this step.
+Sort the second Linked List using merge sort. This step takes O(nLogn) time. Refer this post for details of this step.
+Linearly scan both sorted lists to get the union and intersection. This step takes O(m + n) time. This step can be implemented using the same algorithm as sorted arrays algorithm discussed here.
+The time complexity of this method is O(mLogm + nLogn) which is better than method 1’s time complexity.
+
+Python3
+def merge(ll1,ll2):
+    if ll1 is None:
+        return ll2
+    if ll2 is None:
+        return ll1
+    if ll1.data==ll2.data:
+        head=ll1
+        tail=ll1
+        ll1=ll1.next
+        ll2=ll2.next
+    elif ll1.data>ll2.data:
+        head=ll2
+        tail=ll2
+        ll2=ll2.next
+    else:
+        head=ll1
+        tail=ll1
+        ll1=ll1.next
+    while ll1 is not None and ll2 is not None:
+        if ll1.data==ll2.data:
+            tail.next=ll1
+            tail=ll1
+            ll1=ll1.next
+            ll2=ll2.next
+        elif ll1.data>ll2.data:
+            tail.next=ll2
+            tail=ll2
+            ll2=ll2.next
+        else:
+            tail.next=ll1
+            tail=ll1
+            ll1=ll1.next
+    if ll1 is not None:
+        tail.next=ll1
+         
+     
+    if ll2 is not None:
+        tail.next=ll2
+         
+ 
+    return head
+ 
+def mid_point_2(head):
+    if head is None:
+        return None
+    slow=head
+    fast=head
+    while fast.next is not None and fast.next.next is not None:
+        slow=slow.next
+        fast=fast.next.next
+    return slow
+     
+def merge_sort(head):
+    if head is None or head.next is None:
+        return head
+    mid=mid_point_2(head)
+    head2=merge_sort(mid.next)
+    mid.next=None
+    head1=merge_sort(head)
+    final_head=merge(head1,head2)
+    return final_head
+     
+ 
+ 
+def union(head1,head2):
+    # code here
+    # return head of resultant linkedlist
+     
+    head1=merge_sort(head1)
+    head2=merge_sort(head2)
+    return merge(head1,head2)
+     
+     
+     
+ 
+ 
+ # Driver Code Starts
+#Initial Template for Python 3
+ 
+class Node:
+    def __init__(self,data):
+        self.data=data
+        self.next=None
+         
+def print_ll(head):
+    while head is not None:
+        print(head.data,end='-->')
+        head=head.next
+    print('None')
+     
+def take_input(l):
+     
+    if len(l)==0 or l[0]==-1:
+        return
+    head,tail=None,None
+    for i in l:
+        if i ==-1:
+            break
+        new_node=Node(i)
+        if head is None:
+            head=new_node
+            tail=new_node
+        else:
+            tail.next=new_node
+            tail=new_node
+    return head
+ 
+head1=take_input([10,20,30,40,50,60,70])
+head2=take_input([10,30,50,80,90])
+print_ll(union(head1,head2))
+ 
+ 
+ 
+      
+ 
+# This code is contributed by Shubham Setia
+ 
+Complete Interview Preparation - GFG
+
+Method 3 (Use Hashing):
+
+Union (list1, list2)
+Initialize the result list as NULL and create an empty hash table. Traverse both lists one by one, for each element being visited, look at the element in the hash table. If the element is not present, then insert the element into the result list. If the element is present, then ignore it.
+Intersection (list1, list2)
+Initialize the result list as NULL and create an empty hash table. Traverse list1. For each element being visited in list1, insert the element in the hash table. Traverse list2, for each element being visited in list2, look the element in the hash table. If the element is present, then insert the element to the result list. If the element is not present, then ignore it.
+Both of the above methods assume that there are no duplicates. 
+
+Java
+// Java code for Union and Intersection of two
+// Linked Lists
+import java.util.HashMap;
+import java.util.HashSet;
+ 
+class LinkedList {
+    Node head; // head of list
+ 
+    /* Linked list Node*/
+    class Node {
+        int data;
+        Node next;
+        Node(int d)
+        {
+            data = d;
+            next = null;
+        }
+    }
+ 
+    /* Utility function to print list */
+    void printList()
+    {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+ 
+    /* Inserts a node at start of linked list */
+    void push(int new_data)
+    {
+        /* 1 & 2: Allocate the Node &
+        Put in the data*/
+        Node new_node = new Node(new_data);
+ 
+        /* 3. Make next of new Node as head */
+        new_node.next = head;
+ 
+        /* 4. Move the head to point to new Node */
+        head = new_node;
+    }
+ 
+    public void append(int new_data)
+    {
+        if (this.head == null) {
+            Node n = new Node(new_data);
+            this.head = n;
+            return;
+        }
+        Node n1 = this.head;
+        Node n2 = new Node(new_data);
+        while (n1.next != null) {
+            n1 = n1.next;
+        }
+ 
+        n1.next = n2;
+        n2.next = null;
+    }
+ 
+    /* A utility function that returns true if data is
+    present in linked list else return false */
+    boolean isPresent(Node head, int data)
+    {
+        Node t = head;
+        while (t != null) {
+            if (t.data == data)
+                return true;
+            t = t.next;
+        }
+        return false;
+    }
+ 
+    LinkedList getIntersection(Node head1, Node head2)
+    {
+        HashSet<Integer> hset = new HashSet<>();
+        Node n1 = head1;
+        Node n2 = head2;
+        LinkedList result = new LinkedList();
+ 
+        // loop stores all the elements of list1 in hset
+        while (n1 != null) {
+            if (hset.contains(n1.data)) {
+                hset.add(n1.data);
+            }
+            else {
+                hset.add(n1.data);
+            }
+            n1 = n1.next;
+        }
+ 
+        // For every element of list2 present in hset
+        // loop inserts the element into the result
+        while (n2 != null) {
+            if (hset.contains(n2.data)) {
+                result.push(n2.data);
+            }
+            n2 = n2.next;
+        }
+        return result;
+    }
+ 
+    LinkedList getUnion(Node head1, Node head2)
+    {
+        // HashMap that will store the
+        // elements of the lists with their counts
+        HashMap<Integer, Integer> hmap = new HashMap<>();
+        Node n1 = head1;
+        Node n2 = head2;
+        LinkedList result = new LinkedList();
+ 
+        // loop inserts the elements and the count of
+        // that element of list1 into the hmap
+        while (n1 != null) {
+            if (hmap.containsKey(n1.data)) {
+                int val = hmap.get(n1.data);
+                hmap.put(n1.data, val + 1);
+            }
+            else {
+                hmap.put(n1.data, 1);
+            }
+            n1 = n1.next;
+        }
+ 
+        // loop further adds the elements of list2 with
+        // their counts into the hmap
+        while (n2 != null) {
+            if (hmap.containsKey(n2.data)) {
+                int val = hmap.get(n2.data);
+                hmap.put(n2.data, val + 1);
+            }
+            else {
+                hmap.put(n2.data, 1);
+            }
+            n2 = n2.next;
+        }
+ 
+        // Eventually add all the elements
+        // into the result that are present in the hmap
+        for (int a : hmap.keySet()) {
+            result.append(a);
+        }
+        return result;
+    }
+ 
+    /* Driver program to test above functions */
+    public static void main(String args[])
+    {
+        LinkedList llist1 = new LinkedList();
+        LinkedList llist2 = new LinkedList();
+        LinkedList union = new LinkedList();
+        LinkedList intersection = new LinkedList();
+ 
+        /*create a linked list 10->15->4->20 */
+        llist1.push(20);
+        llist1.push(4);
+        llist1.push(15);
+        llist1.push(10);
+ 
+        /*create a linked list 8->4->2->10 */
+        llist2.push(10);
+        llist2.push(2);
+        llist2.push(4);
+        llist2.push(8);
+ 
+        intersection
+            = intersection.getIntersection(llist1.head,
+                                           llist2.head);
+        union = union.getUnion(llist1.head, llist2.head);
+ 
+        System.out.println("First List is");
+        llist1.printList();
+ 
+        System.out.println("Second List is");
+        llist2.printList();
+ 
+        System.out.println("Intersection List is");
+        intersection.printList();
+ 
+        System.out.println("Union List is");
+        union.printList();
+    }
+}
+// This code is contributed by Kamal Rawal
+C#
+Output
+First List is
+10 15 4 20 
+Second List is
+8 4 2 10 
+Intersection List is
+10 4 
+Union List is
+2 4 20 8 10 15
+Complexity Analysis: 
+
+Time Complexity: O(m+n).
+Here ‘m’ and ‘n’ are number of elements present in the first and second lists respectively. 
+For union: Traverse both the lists, store the elements in Hash-map and update the respective count.
+For intersection: First traverse list-1, store its elements in Hash-map and then for every element in list-2 check if it is already present in the map. This takes O(1) time.
+Auxiliary Space:O(m+n).
+Use of Hash-map data structure for storing values.
+
+
+
+
+Like
+39
+Previous
+Merge K sorted linked lists | Set 1
+Next
+Merge Sort for Linked Lists
+Related Articles
+1.
+C++ Program For Union And Intersection Of Two Linked Lists
+2.
+Java Program For Union And Intersection Of Two Linked Lists
+3.
+C Program For Union And Intersection Of Two Linked Lists
+4.
+Union and Intersection of two Linked List using Merge Sort
+5.
+Union and Intersection of two Linked List using Hashing
+6.
+Find Union and Intersection of two unsorted arrays
+7.
+Union and Intersection of two Graphs
+8.
+Find intersection point of two Linked Lists without finding the length
+9.
+Javascript Program For Finding Intersection Point Of Two Linked Lists
+10.
+Java Program For Finding Intersection Point Of Two Linked Lists
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+bidibaaz123
+Akanksha_Rai
+rutvik_56
+shivanisinghss2110
+pratham76
+gabaa406
+simmytarika5
+saurabh1990aror
+akash8900
+sumitgumber28
+zishanahmad786
+shruti456rawal
+hardikkoriintern
+s8764
+Article Tags :
+24*7 Innovation Labs
+Accolite
+Amazon
+Flipkart
+Komli Media
+Microsoft
+Taxi4Sure
+VMWare
+Walmart
+Hash
+Linked List
+Sorting
+Practice Tags :
+24*7 Innovation Labs
+Accolite
+Amazon
+Flipkart
+Komli Media
+Microsoft
+Taxi4

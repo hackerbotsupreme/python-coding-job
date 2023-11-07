@@ -1,0 +1,333 @@
+Largest subarray with equal number of 0s and 1s
+
+Difficulty Level : Hard
+Last Updated : 21 Feb, 2022
+Read
+Discuss(330+)
+Courses
+Practice
+Video
+Given an array containing only 0s and 1s, find the largest subarray which contains equal no of 0s and 1s. The expected time complexity is O(n). 
+
+Examples: 
+
+Input: arr[] = {1, 0, 1, 1, 1, 0, 0}
+Output: 1 to 6 
+(Starting and Ending indexes of output subarray)
+
+Input: arr[] = {1, 1, 1, 1}
+Output: No such subarray
+
+Input: arr[] = {0, 0, 1, 1, 0}
+Output: 0 to 3 Or 1 to 4
+Recommended Problem
+Largest subarray of 0's and 1's
+sliding-window
+Hash
++2 more
+Paytm
+Morgan Stanley
++2 more
+Solve Problem
+Submission count: 72.3K
+Method 1: Brute Force.
+
+Approach: The brute force approach in these type of questions is to generate all the possible sub-arrays. Then firstly check whether the sub-array has equal number of 0’s and 1’s or not. To make this process easy take cumulative sum of the sub-arrays taking 0’s as -1 and 1’s as it is. The point where cumulative sum = 0 will signify that the sub-array from starting till that point has equal number of 0’s and 1’s. Now as this is a valid sub-array, compare it’s size with the maximum size of such sub-array found till now. 
+
+Algorithm : 
+
+Use a starting a pointer which signifies the starting point of the sub-array.
+Take a variable sum=0 which will take the cumulative sum of all the sub-array elements.
+Initialize it with value 1 if the value at starting point=1 else initialize it with -1.
+Now start an inner loop and start taking the cumulative sum of elements following the same logic.
+If the cumulative sum (value of sum)=0 it signifies that the sub-array has equal number of 0’s and 1’s.
+Now compare its size with the size of the largest sub-array if it is greater store the first index of such sub-array in a variable and update the value of size.
+Print the sub-array with the starting index and size returned by the above algorithm.
+Pseudo Code: 
+
+Run a loop from i=0 to n-2
+  if(arr[i]==1)
+  sum=1
+  else
+  sum=-1
+  Run inner loop from j=i+1 to n-1
+      sum+=arr[j]
+      if(sum==0)
+        if(j-i+1>max_size)
+           start_index=i
+           max_size=j-i+1
+Run a loop from i=start_index till max_size-1
+print(arr[i])
+C++
+C
+Java
+Python3
+# A simple program to find the largest subarray
+# with equal number of 0s and 1s
+ 
+# This function Prints the starting and ending
+# indexes of the largest subarray with equal
+# number of 0s and 1s. Also returns the size
+# of such subarray.
+def findSubArray(arr, n):
+ 
+    sum = 0
+    maxsize = -1
+ 
+    # Pick a starting point as i
+ 
+    for i in range(0, n-1):
+     
+        sum = -1 if(arr[i] == 0) else 1
+ 
+        # Consider all subarrays starting from i
+ 
+        for j in range(i + 1, n):
+         
+            sum = sum + (-1) if (arr[j] == 0) else sum + 1
+ 
+            # If this is a 0 sum subarray, then
+            # compare it with maximum size subarray
+            # calculated so far
+ 
+            if (sum == 0 and maxsize < j-i + 1):
+                 
+                maxsize = j - i + 1
+                startindex = i
+             
+         
+     
+    if (maxsize == -1):
+        print("No such subarray");
+    else:
+        print(startindex, "to", startindex + maxsize-1);
+ 
+    return maxsize
+ 
+# Driver program to test above functions
+arr = [1, 0, 0, 1, 0, 1, 1]
+size = len(arr)
+findSubArray(arr, size)
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output: 
+
+
+
+ 0 to 5
+Complexity Analysis: 
+
+Time Complexity: O(n^2). 
+As all the possible sub-arrays are generated using a pair of nested loops.
+Auxiliary Space: O(1). 
+As no extra data structure is used which takes auxiliary space.
+Method 2: Hashmap.
+
+Approach: The concept of taking cumulative sum, taking 0’s as -1 will help us in optimizing the approach. While taking the cumulative sum, there are two cases when there can be a sub-array with equal number of 0’s and 1’s. 
+
+When cumulative sum=0, which signifies that sub-array from index (0) till present index has equal number of 0’s and 1’s.
+When we encounter a cumulative sum value which we have already encountered before, which means that sub-array from the previous index+1 till the present index has equal number of 0’s and 1’s as they give a cumulative sum of 0 .
+In a nutshell this problem is equivalent to finding two indexes i & j in array[] such that array[i] = array[j] and (j-i) is maximum. To store the first occurrence of each unique cumulative sum value we use a hash_map wherein if we get that value again we can find the sub-array size and compare it with the maximum size found till now.
+
+Algorithm :  
+
+Let input array be arr[] of size n and max_size be the size of output sub-array.
+Create a temporary array sumleft[] of size n. Store the sum of all elements from arr[0] to arr[i] in sumleft[i].
+There are two cases, the output sub-array may start from 0th index or may start from some other index. We will return the max of the values obtained by two cases.
+To find the maximum length sub-array starting from 0th index, scan the sumleft[] and find the maximum i where sumleft[i] = 0.
+Now, we need to find the subarray where subarray sum is 0 and start index is not 0. This problem is equivalent to finding two indexes i & j in sumleft[] such that sumleft[i] = sumleft[j] and j-i is maximum. To solve this, we create a hash table with size = max-min+1 where min is the minimum value in the sumleft[] and max is the maximum value in the sumleft[]. Hash the leftmost occurrences of all different values in sumleft[]. The size of hash is chosen as max-min+1 because there can be these many different possible values in sumleft[]. Initialize all values in hash as -1.
+To fill and use hash[], traverse sumleft[] from 0 to n-1. If a value is not present in hash[], then store its index in hash. If the value is present, then calculate the difference of current index of sumleft[] and previously stored value in hash[]. If this difference is more than maxsize, then update the maxsize.
+To handle corner cases (all 1s and all 0s), we initialize maxsize as -1. If the maxsize remains -1, then print there is no such subarray.
+Pseudo Code: 
+
+int sum_left[n]
+Run a loop from i=0 to n-1
+  if(arr[i]==0)
+  sumleft[i] = sumleft[i-1]+-1
+  else
+  sumleft[i] = sumleft[i-1]+ 1
+        if (sumleft[i] > max)
+            max = sumleft[i];
+
+
+Run a loop from i=0 to n-1
+ if (sumleft[i] == 0)
+        {
+           maxsize = i+1;
+           startindex = 0;
+        }
+ 
+        // Case 2: fill hash table value. If already
+        then use it
+
+        if (hash[sumleft[i]-min] == -1)
+            hash[sumleft[i]-min] = i;
+        else
+        {
+            if ((i - hash[sumleft[i]-min]) > maxsize)
+            {
+                maxsize = i - hash[sumleft[i]-min];
+                startindex = hash[sumleft[i]-min] + 1;
+            }
+        }
+
+return maxsize
+C++
+C
+Java
+Python3
+# Python 3 program to find largest
+# subarray with equal number of
+# 0's and 1's.
+ 
+# Returns largest subarray with
+# equal number of 0s and 1s
+def maxLen(arr, n):
+ 
+    # NOTE: Dictionary in python in
+    # implemented as Hash Maps.
+    # Create an empty hash map (dictionary)
+    hash_map = {} 
+    curr_sum = 0
+    max_len = 0
+    ending_index = -1
+ 
+    for i in range (0, n):
+        if(arr[i] == 0):
+            arr[i] = -1
+        else:
+            arr[i] = 1
+ 
+    # Traverse through the given array
+    for i in range (0, n):
+     
+        # Add current element to sum
+        curr_sum = curr_sum + arr[i]
+ 
+        # To handle sum = 0 at last index
+        if (curr_sum == 0):
+            max_len = i + 1
+            ending_index = i
+ 
+        # If this sum is seen before,
+        if curr_sum in hash_map:
+             
+            # If max_len is smaller than new subarray
+            # Update max_len and ending_index
+            if max_len < i - hash_map[curr_sum]:
+                max_len = i - hash_map[curr_sum]
+                ending_index = i
+        else:
+ 
+            # else put this sum in dictionary
+            hash_map[curr_sum] = i 
+         
+    for i in range (0, n):
+        if(arr[i] == -1):
+            arr[i] = 0
+        else:
+            arr[i] = 1
+             
+    print (ending_index - max_len + 1, end =" ")
+    print ("to", end = " ")
+    print (ending_index)
+ 
+    return max_len
+ 
+# Driver Code
+arr = [1, 0, 0, 1, 0, 1, 1]
+n = len(arr) 
+ 
+maxLen(arr, n)
+     
+# This code is contributed
+# by Tarun Garg
+C#
+Javascript
+Output: 
+
+0 to 5
+Complexity Analysis: 
+
+Time Complexity: O(n). 
+As the given array is traversed only once.
+Auxiliary Space: O(n). 
+As hash_map has been used which takes extra space.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+153
+Next
+Maximum Product Subarray
+Related Articles
+1.
+Maximum length of subarray such that all elements are equal in the subarray
+2.
+Length of largest subarray whose all elements are Perfect Number
+3.
+Length of largest subarray whose all elements Powerful number
+4.
+Number of elements less than or equal to a number in a subarray : MO's Algorithm
+5.
+Maximize product of min value of subarray and sum of subarray over all subarrays of length K
+6.
+Length of longest Subarray with equal number of odd and even elements
+7.
+Minimum cost to convert all elements of a K-size subarray to 0 from given Ternary Array with subarray sum as cost
+8.
+Maximize the subarray sum after multiplying all elements of any subarray with X
+9.
+Maximum length of subarray such that sum of the subarray is even
+10.
+Count of subarray that does not contain any subarray with sum 0
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Vijay Akkaladevi
+ukasp
+shrikanth13
+Shivi_Aggarwal
+rathbhupendra
+tarun2207
+bidibaaz123
+ninjapro
+khushboogoyal499
+rahulsharma9
+avanitrachhadiya2155
+gfgking
+manav23lohani
+surindertarika1234
+surinderdawra388
+Article Tags :
+Amazon
+MakeMyTrip
+Morgan Stanley
+Paytm
+prefix-sum
+Arrays
+Hash
+Practice Tags :
+Amazon
+MakeMyTrip
+Morgan Stanley
+Paytm
+Arrays
+Hash
+prefix-sum
+Improve Article
+Report Issue

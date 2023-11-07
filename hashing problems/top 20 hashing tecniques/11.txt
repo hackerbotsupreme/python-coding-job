@@ -1,0 +1,76 @@
+Advantages of BST over Hash Table
+
+Difficulty Level : Easy
+Last Updated : 14 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Hash Table supports following operations in Θ(1) time. 1) Search 2) Insert 3) Delete The time complexity of above operations in a self-balancing Binary Search Tree (BST) (like Red-Black Tree, AVL Tree, Splay Tree, etc) is O(Logn).  So Hash Table seems to beating BST in all common operations. When should we prefer BST over Hash Tables, what are advantages. Following are some important points in favor of BSTs.
+
+We can get all keys in sorted order by just doing Inorder Traversal of BST. This is not a natural operation in Hash Tables and requires extra efforts.
+Doing order statistics, finding closest lower and greater elements, doing range queries are easy to do with BSTs. Like sorting, these operations are not a natural operation with Hash Tables.
+BSTs are easy to implement compared to hashing, we can easily implement our own customized BST. To implement Hashing, we generally rely on libraries provided by programming languages.
+With Self-Balancing BSTs, all operations are guaranteed to work in O(Logn) time. But with Hashing, Θ(1) is average time and some particular operations may be costly i.e, O(n2 ), especially when table resizing happens.
+In BST we can do range searches efficiently but in Hash Table we cannot do range search efficiently.
+BST are memory efficient but Hash table is not.
+
+
+This article is contributed by Himanshu Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Deletion in Binary Search Tree
+Next
+Construct BST from given preorder traversal | Set 1
+Related Articles
+1.
+What are Hash Functions and How to choose a good Hash Function?
+2.
+Hash Functions and list/types of Hash functions
+3.
+Applications, Advantages and Disadvantages of Hash Data Structure
+4.
+Why is Binary Heap Preferred over BST for Priority Queue?
+5.
+K'th Largest Element in BST when modification to BST is not allowed
+6.
+Convert a normal BST to Balanced BST
+7.
+Two nodes of a BST are swapped, correct the BST
+8.
+Find k-th smallest element in BST (Order Statistics in BST)
+9.
+Implementing our Own Hash Table with Separate Chaining in Java
+10.
+Hash Table vs STL Map
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+surbhikumaridav
+mayank007rawa
+sayanc170
+Article Tags :
+AVL-Tree
+Self-Balancing-BST
+Binary Search Tree
+Hash
+Practice Tags :
+AVL-Tree
+Binary Search Tree
+Hash
+Report Issue

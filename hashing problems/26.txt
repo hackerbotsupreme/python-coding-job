@@ -1,0 +1,157 @@
+Find Itinerary from a given list of tickets
+
+Difficulty Level : Medium
+Last Updated : 15 Dec, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a list of tickets, find itinerary in order using the given list.
+
+Example: 
+
+Input:
+"Chennai" -> "Banglore"
+"Bombay" -> "Delhi"
+"Goa"    -> "Chennai"
+"Delhi"  -> "Goa"
+
+Output: 
+Bombay->Delhi, Delhi->Goa, Goa->Chennai, Chennai->Banglore,
+It may be assumed that the input list of tickets is not cyclic and there is one ticket from every city except the final destination.
+
+One Solution is to build a graph and do Topological Sorting of the graph. The time complexity of this solution is O(n).
+
+We can also use hashing to avoid building a graph. The idea is to first find the starting point. A starting point would never be on ‘to’ side of a ticket. Once we find the starting point, we can simply traverse the given map to print itinerary in order. The following are steps. 
+
+1) Create a HashMap of given pair of tickets.  Let the created 
+   HashMap be 'dataset'. Every entry of 'dataset' is of the form 
+   "from->to" like "Chennai" -> "Banglore"
+
+2) Find the starting point of itinerary.
+     a) Create a reverse HashMap.  Let the reverse be 'reverseMap'
+        Entries of 'reverseMap' are of the form "to->form". 
+        Following is 'reverseMap' for above example.
+        "Banglore"-> "Chennai" 
+        "Delhi"   -> "Bombay" 
+        "Chennai" -> "Goa"
+        "Goa"     ->  "Delhi"
+ 
+     b) Traverse 'dataset'.  For every key of dataset, check if it
+        is there in 'reverseMap'.  If a key is not present, then we 
+        found the starting point. In the above example, "Bombay" is
+        starting point.
+
+3) Start from above found starting point and traverse the 'dataset' 
+   to print itinerary.
+All of the above steps require O(n) time so overall time complexity is O(n).
+
+Below is Java implementation of above idea.
+
+
+
+C++
+Java
+Python3
+class Solution():
+    #Solution class carries method for printing itinerary
+    def __init__(self):
+        pass
+    #method for printing itinerary
+    def printitinerary(self,d):
+        # First step : create a reversed mapping. Here also for storing key value pairs dictionary is used.
+        reverse_d = dict()
+        for i in d:
+            reverse_d[d[i]] = i
+        # Second step : find the starting point. Starting point will be that value which is not present in 'd' as key.
+        for i in reverse_d:
+            if reverse_d[i] not in reverse_d:
+                starting_pt = reverse_d[i]
+                break;
+        #Third step : simply proceed one by one to print whole route. Assuming that there exist Starting point.
+        while(starting_pt in d):
+            print(starting_pt,"->",d[starting_pt],end=", ")
+            starting_pt = d[starting_pt]
+        #method prints here only. Does not return anything.
+ 
+ 
+if __name__=="__main__":
+    # Mapping using inbuilt data structure 'dictionary'
+    d = dict()
+    d["Chennai"] = "Banglore"
+    d["Bombay"] = "Delhi"
+    d["Goa"] = "Chennai"
+    d["Delhi"] = "Goa"
+ 
+    # call for method that would print itinerary.
+    obj = Solution()
+    obj.printIterary(d)
+C#
+Javascript
+Output
+Bombay->Delhi, Delhi->Goa, Goa->Chennai, Chennai->Banglore, 
+Time Complexity: O(n).
+Auxiliary Space: O(n), The extra space is used in map.
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+55
+Previous
+Print All Distinct Elements of a given integer array
+Next
+Vertical order traversal of Binary Tree using Map
+Related Articles
+1.
+Check if concatenation of any permutation of given list of arrays generates the given array
+2.
+Find the starting indices of the substrings in string (S) which is made by concatenating all words from a list(L)
+3.
+Find unique elements in linked list
+4.
+Find the element in a linked list with frequency at least N/3
+5.
+Check if a pair with given product exists in Linked list
+6.
+Count triplets in a sorted doubly linked list whose product is equal to a given value x
+7.
+Product of divisors of a number from a given list of its prime factors
+8.
+Count duplicates in a given linked list
+9.
+Count pair of nodes with greater Bitwise AND than Bitwise XOR in given Linked List
+10.
+Find four elements that sum to a given value | Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+20ajinky
+shinjanpatra
+surinderdawra388
+hardikkoriintern
+phasing17
+surajrasr7277
+Article Tags :
+Topological Sorting
+Hash
+Practice Tags :
+Hash
+Improve Article
+Report Issue

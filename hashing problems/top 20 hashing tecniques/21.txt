@@ -1,0 +1,226 @@
+Given an array of pairs, find all symmetric pairs in it
+
+Difficulty Level : Easy
+Last Updated : 22 Dec, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Two pairs (a, b) and (c, d) are said to be symmetric if c is equal to b and a is equal to d. For example, (10, 20) and (20, 10) are symmetric. Given an array of pairs find all symmetric pairs in it. 
+It may be assumed that the first elements of all pairs are distinct.
+Example: 
+
+Input: arr[] = {{11, 20}, {30, 40}, {5, 10}, {40, 30}, {10, 5}}
+Output: Following pairs have symmetric pairs
+        (30, 40)
+        (5, 10)  
+ 
+Naive approach: The idea is to use two nested loops, one for selecting one pair and the second for searching the other symmetric pair in the given array.
+The pair are said to be symmetric if arr[i][0] == arr[j][1] and arr[i][1] == arr[j][0] satisfy.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python3 program to find all symmetric
+# pairs in a given array of pairs.
+ 
+# Print all pairs that have
+# a symmetric counterpart
+def findSymPairs(arr, row):
+   
+    # This loop for selection of one pair
+    for i in range(0, row):
+       
+        # This loop for searching of symmetric pair
+        for j in range(i + 1, row):
+           
+            # Condition of symmetric pair
+            if (arr[i][0] == arr[j][1] and arr[i][1] == arr[j][0]):
+                print("(",arr[i][0],",",arr[i][1],")")
+                 
+# Driver Code
+if __name__ == '__main__':
+    arr = [[0 for i in range(2)]
+            for i in range(5)]
+    arr[0][0], arr[0][1] = 11, 20
+    arr[1][0], arr[1][1] = 30, 40
+    arr[2][0], arr[2][1] = 5, 10
+    arr[3][0], arr[3][1] = 40, 30
+    arr[4][0], arr[4][1] = 10, 5
+    findSymPairs(arr, 5)
+ 
+# This code is contributed by Arpit Jain
+C#
+Javascript
+Output
+Following pairs have symmetric pairs
+(30, 40)
+(5, 10)
+Time Complexity: O(n2) .
+Auxiliary Space: O(1)
+
+A Better Solution is to use sorting. Sort all pairs by the first element. For every pair, do a binary search for the second element in the given array, i.e., check if the second element of this pair exists as the first element in the array. If found, then compare the first element of the pair with the second element.
+
+C++
+Python3
+# A Python3 program to find all symmetric
+# pairs in a given array of pairs.
+ 
+# Print all pairs that have
+# a symmetric counterpart
+def binarySearch(arr, i, j, n):
+    mid = (i+j)//2;
+    if(i > j):
+        return -1;
+     
+    if(arr[mid][1] == n):
+        return mid
+    elif(arr[mid][1] > n):
+        return binarySearch(arr, i, mid - 1, n)
+    elif(arr[mid][1] < n):
+        return binarySearch(arr, mid + 1, j, n)
+ 
+def findSymPairs(arr, row):
+    arr.sort()
+    for i in range(row):
+        idx = binarySearch(arr, 0, row-1, arr[i][0])
+        if(arr[idx][0] == arr[i][1] and idx != -1):
+            print(arr[idx][0]," ",arr[idx][1])
+              
+# Driver Code
+if __name__ == '__main__':
+    arr = [[0 for i in range(2)]
+            for i in range(5)]
+    arr[0][0], arr[0][1] = 11, 20
+    arr[1][0], arr[1][1] = 30, 40
+    arr[2][0], arr[2][1] = 5, 10
+    arr[3][0], arr[3][1] = 40, 30
+    arr[4][0], arr[4][1] = 10, 5
+    findSymPairs(arr, 5)
+ 
+# This code is contributed by Arpit Jain
+Output
+
+
+5 10
+30 40
+Time Complexity: O(n Log n).
+Auxiliary Space: O(log n), The extra space is used in recursion call stack.
+
+An Efficient Solution is to use Hashing. The first element of the pair is used as the key and the second element is used as the value. The idea is to traverse all pairs one by one. For every pair, check if its second element is in the hash table. If yes, then compare the first element with the value of the matched entry of the hash table. If the value and the first element match, then we found symmetric pairs. Else, insert the first element as a key and the second element as a value.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python3 program to find all symmetric
+# pairs in a given array of pairs.
+ 
+# Print all pairs that have
+# a symmetric counterpart
+def findSymPairs(arr, row):
+ 
+    # Creates an empty hashMap hM
+    hM = dict()
+ 
+    # Traverse through the given array
+    for i in range(row):
+         
+        # First and second elements
+        # of current pair
+        first = arr[i][0]
+        sec = arr[i][1]
+ 
+        # If found and value in hash matches with first
+        # element of this pair, we found symmetry
+        if (sec in hM.keys() and hM[sec] == first):
+            print("(", sec,",", first, ")")
+ 
+        else: # Else put sec element of
+              # this pair in hash
+            hM[first] = sec
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [[0 for i in range(2)]
+              for i in range(5)]
+    arr[0][0], arr[0][1] = 11, 20
+    arr[1][0], arr[1][1] = 30, 40
+    arr[2][0], arr[2][1] = 5, 10
+    arr[3][0], arr[3][1] = 40, 30
+    arr[4][0], arr[4][1] = 10, 5
+    findSymPairs(arr, 5)
+ 
+# This code is contributed by Mohit Kumar
+C#
+Javascript
+Output
+Following pairs have symmetric pairs
+(30, 40)
+(5, 10)
+Time Complexity: O(n), where n is the size of the given array.
+Auxiliary Space: O(n)
+
+This article is contributed by Shivam Agrawal. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+30
+Next
+Find the only repetitive element between 1 to N-1
+Related Articles
+1.
+Count new pairs of strings that can be obtained by swapping first characters of pairs of strings from given array
+2.
+Given two unsorted arrays, find all pairs whose sum is x
+3.
+Find all pairs (a, b) in an array such that a % b = k
+4.
+Find all pairs (a,b) and (c,d) in array which satisfy ab = cd
+5.
+Count all possible pairs in given Array with product K
+6.
+Count all distinct pairs of repeating elements from the array for every array element
+7.
+Find Sum of all unique sub-array sum for a given array.
+8.
+Find pairs of Positive and Negative values present in given array
+9.
+Find pairs in array whose sums already exist in array
+10.
+Find pairs in array whose sum does not exist in Array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+mohit kumar 29
+nidhi_biet
+unknown2108
+111arpit1
+codewithmini
+abhijeet19403
+akarsh711
+surajrasr7277
+Article Tags :
+Hash
+Practice Tags :
+Hash

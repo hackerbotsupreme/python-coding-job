@@ -1,0 +1,417 @@
+Find smallest range containing elements from k lists
+
+Difficulty Level : Hard
+Last Updated : 08 Aug, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given K sorted lists of integers of size N each, find the smallest range that includes at least one element from each of the K lists. If more than one smallest range is found, print any one of them.
+
+Examples: 
+
+Input: K = 3
+arr1[] : {4, 7, 9, 12, 15}
+arr2[] : {0, 8, 10, 14, 20}
+arr3[] : {6, 12, 16, 30, 50}
+
+Output: The smallest range is [6 8]
+Explanation: Smallest range is formed by  number 7 from the first list, 8 from second list and 6 from the third list.
+
+Input: k = 3
+arr1[] : {4, 7}
+arr2[] : {1, 2}
+arr3[] : {20, 40}
+
+Output: The smallest range is [2 20]
+Explanation:The range [2, 20] contains 2, 4, 7, 20 which contains element from all the three arrays.
+
+Recommended Problem
+Smallest range in K lists
+Arrays
+Heap
++1 more
+Flipkart
+Amazon
+Solve Problem
+Submission count: 18.2K
+Naive Approach: 
+The idea is to keep k pointers which will constitute the elements in the range, by taking the min and max of the K elements the range can be formed. Initially, all the pointers will point to the start of all the K arrays. Store the range max to min. If the range has to be minimized then either the minimum value has to be increased or the maximum value has to be decreased. To decrease the maximum value we have to move our pointer of current maximum to the left and since we are currently at 0 the index of every list so we can’t move our pointer to left, hence we can’t decrease the current max. So, the only possible option to get a better range is to increase the current minimum. To continue increasing the minimum value, increase the pointer of the list containing the minimum value and update the range until one of the lists exhausts.
+
+
+
+Follow the given steps to solve the problem:
+
+Create an extra space ptr of length K to store the pointers and a variable minrange initialized to a maximum value.
+Initially, the index of every list is 0, therefore initialize every element of ptr[0..k] to 0, and the array ptr will store the index of the elements in the range.
+Repeat the following steps until at least one list exhausts: 
+Now find the minimum and maximum value among the current elements of all the lists pointed by the ptr[0…k] array.
+Update the minrange if the current (max-min) is less than minrange.
+increment the pointer pointing to the current minimum element.
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python
+# Python3 program to finds out
+# smallest range that includes
+# elements from each of the
+# given sorted lists.
+ 
+N = 5
+ 
+# array for storing the
+# current index of list i
+ptr = [0 for i in range(501)]
+ 
+# This function takes an k sorted
+# lists in the form of 2D array as
+# an argument. It finds out smallest
+# range that includes elements from
+# each of the k lists.
+ 
+ 
+def findSmallestRange(arr, N, K):
+ 
+    i, minval, maxval, minrange, minel, maxel, flag, minind = 0, 0, 0, 0, 0, 0, 0, 0
+ 
+    # initializing to 0 index
+    for i in range(K + 1):
+        ptr[i] = 0
+ 
+    minrange = 10**9
+ 
+    while(1):
+ 
+            # for maintaining the index of list
+            # containing the minimum element
+        minind = -1
+        minval = 10**9
+        maxval = -10**9
+        flag = 0
+ 
+        # iterating over all the list
+        for i in range(K):
+ 
+                # if every element of list[i] is
+                # traversed then break the loop
+            if(ptr[i] == N):
+                flag = 1
+                break
+ 
+            # find minimum value among all the list
+            # elements pointing by the ptr[] array
+            if(ptr[i] < N and arr[i][ptr[i]] < minval):
+                minind = i  # update the index of the list
+                minval = arr[i][ptr[i]]
+ 
+            # find maximum value among all the
+            # list elements pointing by the ptr[] array
+            if(ptr[i] < N and arr[i][ptr[i]] > maxval):
+                maxval = arr[i][ptr[i]]
+ 
+        # if any list exhaust we will
+        # not get any better answer,
+        # so break the while loop
+        if(flag):
+            break
+ 
+        ptr[minind] += 1
+ 
+        # updating the minrange
+        if((maxval-minval) < minrange):
+            minel = minval
+            maxel = maxval
+            minrange = maxel - minel
+ 
+    print("The smallest range is [", minel, maxel, "]")
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [
+        [4, 7, 9, 12, 15],
+        [0, 8, 10, 14, 20],
+        [6, 12, 16, 30, 50]
+    ]
+ 
+    K = len(arr)
+ 
+    # Function call
+    findSmallestRange(arr, N, K)
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+The smallest range is [6, 8]
+Time complexity: O(N * K2)
+Space complexity: O(K)
+
+The smallest range containing elements from k lists using Min-Heap:
+Min-Heap can be used to find the maximum and minimum value in logarithmic time or log k time instead of linear time. Rest of the approach remains the same. 
+
+Follow the given steps to solve the problem:
+
+create a Min-Heap to store K elements, one from each array, and a variable minrange initialized to a maximum value and also keep a variable max to store the maximum integer.
+Initially put the first element from each list and store the maximum value in max.
+Repeat the following steps until at least one list exhausts : 
+To find the minimum value or min, use the top or root of the Min heap which is the minimum element.
+Now update the minrange if the current (max-min) is less than minrange.
+remove the top or root element from the priority queue, insert the next element from the list containing the min element, and update the max with the new element inserted.
+Below is the Implementation of the above approach:
+
+C++
+// C++ program to finds out smallest range that includes
+// elements from each of the given sorted lists.
+ 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define N 5
+ 
+// A min heap node
+struct MinHeapNode {
+    // The element to be stored
+    int element;
+ 
+    // index of the list from which the element is taken
+    int i;
+ 
+    // index of the next element to be picked from list
+    int j;
+};
+ 
+// Prototype of a utility function to swap two min heap
+// nodes
+void swap(MinHeapNode* x, MinHeapNode* y);
+ 
+// A class for Min Heap
+class MinHeap {
+ 
+    // pointer to array of elements in heap
+    MinHeapNode* harr;
+ 
+    // size of min heap
+    int heap_size;
+ 
+public:
+    // Constructor: creates a min heap of given size
+    MinHeap(MinHeapNode a[], int size);
+ 
+    // to heapify a subtree with root at given index
+    void MinHeapify(int);
+ 
+    // to get index of left child of node at index i
+    int left(int i) { return (2 * i + 1); }
+ 
+    // to get index of right child of node at index i
+    int right(int i) { return (2 * i + 2); }
+ 
+    // to get the root
+    MinHeapNode getMin() { return harr[0]; }
+ 
+    // to replace root with new node x and heapify() new
+    // root
+    void replaceMin(MinHeapNode x)
+    {
+        harr[0] = x;
+        MinHeapify(0);
+    }
+};
+ 
+// Constructor: Builds a heap from a
+// given array a[] of given size
+MinHeap::MinHeap(MinHeapNode a[], int size)
+{
+    heap_size = size;
+    harr = a; // store address of array
+    int i = (heap_size - 1) / 2;
+    while (i >= 0) {
+        MinHeapify(i);
+        i--;
+    }
+}
+ 
+// A recursive method to heapify a subtree with root at
+// given index. This method assumes that the subtrees
+// are already heapified
+void MinHeap::MinHeapify(int i)
+{
+    int l = left(i);
+    int r = right(i);
+    int smallest = i;
+ 
+    if (l < heap_size && harr[l].element < harr[i].element)
+        smallest = l;
+ 
+    if (r < heap_size
+        && harr[r].element < harr[smallest].element)
+        smallest = r;
+ 
+    if (smallest != i) {
+        swap(harr[i], harr[smallest]);
+        MinHeapify(smallest);
+    }
+}
+ 
+// This function takes an K sorted lists in the form of
+// 2D array as an argument. It finds out smallest range
+// that includes elements from each of the k lists.
+void findSmallestRange(int arr[][N], int K)
+{
+    // Create a min heap with k heap nodes. Every heap node
+    // has first element of an list
+    int range = INT_MAX;
+    int min = INT_MAX, max = INT_MIN;
+    int start, end;
+ 
+    MinHeapNode* harr = new MinHeapNode[K];
+    for (int i = 0; i < K; i++) {
+        // Store the first element
+        harr[i].element = arr[i][0];
+ 
+        // index of list
+        harr[i].i = i;
+ 
+        // Index of next element to be stored
+        // from list
+        harr[i].j = 1;
+ 
+        // store max element
+        if (harr[i].element > max)
+            max = harr[i].element;
+    }
+ 
+    // Create the heap
+    MinHeap hp(harr, K);
+ 
+    // Now one by one get the minimum element from min
+    // heap and replace it with next element of its list
+    while (1) {
+        // Get the minimum element and store it in output
+        MinHeapNode root = hp.getMin();
+ 
+        // update min
+        min = hp.getMin().element;
+ 
+        // update range
+        if (range > max - min + 1) {
+            range = max - min + 1;
+            start = min;
+            end = max;
+        }
+ 
+        // Find the next element that will replace current
+        // root of heap. The next element belongs to same
+        // list as the current root.
+        if (root.j < N) {
+            root.element = arr[root.i][root.j];
+            root.j += 1;
+ 
+            // update max element
+            if (root.element > max)
+                max = root.element;
+        }
+ 
+        // break if we have reached end of any list
+        else
+            break;
+ 
+        // Replace root with next element of list
+        hp.replaceMin(root);
+    }
+ 
+    cout << "The smallest range is "
+         << "[" << start << " " << end << "]" << endl;
+    ;
+}
+ 
+// Driver's code
+int main()
+{
+    int arr[][N] = { { 4, 7, 9, 12, 15 },
+                     { 0, 8, 10, 14, 20 },
+                     { 6, 12, 16, 30, 50 } };
+ 
+    int K = sizeof(arr) / sizeof(arr[0]);
+ 
+    // Function call
+    findSmallestRange(arr, K);
+ 
+    return 0;
+}
+Java
+C#
+Javascript
+Output
+The smallest range is [6 8]
+Time complexity: O(N * K * log K)
+Auxiliary Space: O(K)
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+48
+Previous
+Pair with given product | Set 1 (Find if any pair exists)
+Next
+Smallest Subarray with given GCD
+Related Articles
+1.
+Find Largest and smallest number in an Array containing small as well as large numbers
+2.
+Find Kth element in an array containing odd elements first and then even elements
+3.
+Smallest window in a String containing all characters of other String
+4.
+Smallest subarray containing minimum and maximum values
+5.
+Lexicographic smallest permutation of a String containing the second String as a Substring
+6.
+Find the smallest and second smallest elements in an array
+7.
+Count of lists which are not a subset of any other given lists
+8.
+Split an array containing N elements into K sets of distinct elements
+9.
+Count of ways N elements can form two different sets containing N/2 elements each
+10.
+Print the Array of size N containing values in range [0, M) after Q query updates
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+mohit kumar 29
+29AjayKumar
+nobody_cares
+andrew1234
+unknown2108
+arorakashish0911
+rag2127
+surindertarika1234
+rkbhola5
+debayanbiswas31
+hardikkoriintern
+janardansthox
+Article Tags :
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
+Improve Article
+Report Issue

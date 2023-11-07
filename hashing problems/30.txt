@@ -1,0 +1,187 @@
+Longest Increasing consecutive subsequence
+
+Difficulty Level : Medium
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given N elements, write a program that prints the length of the longest increasing subsequence whose adjacent element difference is one. 
+
+Examples: 
+
+Input : a[] = {3, 10, 3, 11, 4, 5, 6, 7, 8, 12} 
+Output : 6 
+Explanation: 3, 4, 5, 6, 7, 8 is the longest increasing subsequence whose adjacent element differs by one. 
+
+Input : a[] = {6, 7, 8, 3, 4, 5, 9, 10} 
+Output : 5 
+Explanation: 6, 7, 8, 9, 10 is the longest increasing subsequence 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Naive Approach: For any particular element, find the length of the subsequence starting from the first element. Print the longest length of the subsequence thus formed. The time complexity of this approach will be O(n). 
+
+C++
+Java
+Python3
+def LongestSubsequence(a, n):
+    # initialize x to the first element of the array;
+    x = a[0]
+     
+    # initialize count to Zero
+    count = 0
+    y = 0
+     
+    # iterate for all elements
+    for i in range(n):
+        if a[i] == (x + y):
+            count += 1
+            y += 1
+    return count
+ 
+a = [6, 7, 8, 3, 4, 5, 9, 10]
+n = len(a)
+print(LongestSubsequence(a, n))
+ 
+# This code is contributed by laxmisinde5t82.
+Output
+5
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+
+
+Dynamic Programming Approach: Let DP[i] store the length of the longest subsequence which ends with A[i]. For every A[i], if A[i]-1 is present in the array before i-th index, then A[i] will add to the increasing subsequence which has A[i]-1. Hence, DP[i] = DP[ index(A[i]-1) ] + 1. If A[i]-1 is not present in the array before i-th index, then DP[i]=1 since the A[i] element forms a subsequence which starts with A[i]. Hence, the relation for DP[i] is: 
+
+If A[i]-1 is present before i-th index:  
+
+DP[i] = DP[ index(A[i]-1) ] + 1
+else:
+
+DP[i] = 1
+Given below is the illustration of the above approach:  
+
+C++
+Java
+Python3
+# python program to find length of the
+# longest increasing subsequence
+# whose adjacent element differ by 1
+ 
+from collections import defaultdict
+import sys
+ 
+# function that returns the length of the
+# longest increasing subsequence
+# whose adjacent element differ by 1
+ 
+def longestSubsequence(a, n):
+    mp = defaultdict(lambda:0)
+ 
+    # stores the length of the longest
+    # subsequence that ends with a[i]
+    dp = [0 for i in range(n)]
+    maximum = -sys.maxsize
+ 
+    # iterate for all element
+    for i in range(n):
+ 
+        # if a[i]-1 is present before i-th index
+        if a[i] - 1 in mp:
+ 
+            # last index of a[i]-1
+            lastIndex = mp[a[i] - 1] - 1
+ 
+            # relation
+            dp[i] = 1 + dp[lastIndex]
+        else:
+            dp[i] = 1
+ 
+            # stores the index as 1-index as we need to
+            # check for occurrence, hence 0-th index
+            # will not be possible to check
+        mp[a[i]] = i + 1
+ 
+        # stores the longest length
+        maximum = max(maximum, dp[i])
+    return maximum
+ 
+ 
+# Driver Code
+a = [3, 10, 3, 11, 4, 5, 6, 7, 8, 12]
+n = len(a)
+print(longestSubsequence(a, n))
+ 
+# This code is contributed by Shrikant13
+C#
+Javascript
+Output
+6
+Complexity Amalysis:
+
+Time Complexity: O(N), as we are using a loop to traverse N times.
+Auxiliary Space: O(N), as we are using extra space for dp and map m.
+
+
+
+
+Like
+21
+Previous
+Longest Consecutive Subsequence
+Next
+Printing longest Increasing consecutive subsequence
+Related Articles
+1.
+Longest Increasing Subsequence using Longest Common Subsequence Algorithm
+2.
+Printing longest Increasing consecutive subsequence
+3.
+Longest Increasing consecutive subsequence | Set-2
+4.
+Largest increasing subsequence of consecutive integers
+5.
+Print the longest increasing consecutive subarray
+6.
+Find the length of Longest increasing Consecutive Subarray
+7.
+Construction of Longest Increasing Subsequence (N log N)
+8.
+Longest Common Increasing Subsequence (LCS + LIS)
+9.
+Construction of Longest Increasing Subsequence(LIS) and printing LIS sequence
+10.
+Longest Monotonically Increasing Subsequence Size (N log N): Simple implementation
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+CrappyDoctor
+GauravRajput1
+famously
+rohitsingh07052
+hardikkoriintern
+abugani1vsj
+hkdass001
+karandeep1234
+factworx4i2
+laxmishinde5t82
+Article Tags :
+cpp-unordered_map
+Arrays
+Dynamic Programming
+Hash
+Practice Tags :
+Arrays
+Dynamic Programming
+Hash

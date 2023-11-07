@@ -1,0 +1,162 @@
+Group words with same set of characters
+
+Difficulty Level : Easy
+Last Updated : 16 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a list of words with lower cases. Implement a function to find all Words that have the same unique character set. 
+
+Example:  
+
+Input: words[] = { "may", "student", "students", "dog",
+                 "studentssess", "god", "cat", "act",
+                 "tab", "bat", "flow", "wolf", "lambs",
+                 "amy", "yam", "balms", "looped", 
+                 "poodle"};
+Output : 
+looped, poodle, 
+lambs, balms, 
+flow, wolf, 
+tab, bat, 
+may, amy, yam, 
+student, students, studentssess, 
+dog, god, 
+cat, act, 
+
+All words with same set of characters are printed 
+together in a line.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use hashing. We generate a key for all words. The key contains all unique characters (The size of the key is at most 26 for lowercase alphabets). We store indexes of words as values for a key. Once we have filled all keys and values in the hash table, we can print the result by traversing the table.
+
+Below is the implementation of the above idea.  
+
+C++
+Java
+Python3
+# Python program to print all words that
+# have the same unique character set
+ 
+# Function to group all strings with same characters
+from collections import Counter
+ 
+def groupStrings(input):
+    # traverse all strings one by one
+    # dict is an empty dictionary
+    dict={}
+     
+    for word in input:
+        # sort the current string and take it's
+        # sorted value as key
+        # sorted return list of sorted characters
+        # we need to join them to get key as string
+        # Counter() method returns dictionary with frequency of
+        # each character as value
+        wordDict=Counter(word)
+ 
+        # now get list of keys
+        key = wordDict.keys()
+ 
+        # now sort these keys
+        key = sorted(key)
+ 
+        # join these characters to produce key string
+        key = ''.join(key)
+         
+        # now check if this key already exist in
+        # dictionary or not
+        # if exist then simply append current word
+        # in mapped list on key
+        # otherwise first assign empty list to key and
+        # then append current word in it
+        if key in dict.keys():
+            dict[key].append(word)
+        else:
+            dict[key]=[]
+            dict[key].append(word)
+ 
+        # now traverse complete dictionary and print
+        # list of mapped strings in each key separated by ,
+    for (key,value) in dict.items():
+        print (','.join(dict[key]))
+         
+# Driver program
+if __name__ == "__main__":
+    input=['may','student','students','dog','studentssess','god','cat','act','tab','bat','flow','wolf','lambs','amy','yam','balms','looped','poodle']
+    groupStrings(input)
+C#
+Javascript
+Output
+looped, poodle, 
+student, students, studentssess, 
+may, amy, yam, 
+dog, god, 
+cat, act, 
+tab, bat, 
+lambs, balms, 
+flow, wolf, 
+Time Complexity: O(n*k) where n is number of words in dictionary and k is maximum length of a word.
+Auxiliary Space: O(n*k), where n is number of words in dictionary and k is maximum length of a word.
+
+This article is contributed by Nishant Singh . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+15
+Previous
+Vertical order traversal of Binary Tree using Map
+Next
+Check if an array can be divided into pairs whose sum is divisible by k
+Related Articles
+1.
+Check If every group of a's is followed by a group of b's of same length
+2.
+Python | Toggle characters in words having same case
+3.
+Group consecutive characters of same type in a string
+4.
+Maximize cost of forming a set of words using given set of characters
+5.
+Count words that appear exactly two times in an array of words
+6.
+Find all words from String present after given N words
+7.
+Check if the given string of words can be formed from words present in the dictionary
+8.
+Check whether two strings contain same characters in same order
+9.
+Check if given strings can be made same by swapping two characters of same or different strings
+10.
+Min flips of continuous characters to make all characters same in a string
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lostboy24
+princi singh
+akshaysingh98088
+amartyaghoshgfg
+rohitmishra051000
+hardikkoriintern
+sagartomar9927
+divya_p123
+Article Tags :
+Hash
+Strings
+Practice Tags :
+Hash
+Strings

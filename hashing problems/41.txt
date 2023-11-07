@@ -1,0 +1,435 @@
+Clone a Binary Tree with Random Pointers
+
+Difficulty Level : Hard
+Last Updated : 20 Jan, 2023
+Read
+Discuss(120)
+Courses
+Practice
+Video
+Given a Binary Tree where every node has the following structure. 
+
+struct node {  
+    int key; 
+    struct node *left,*right,*random;
+} 
+The random pointer points to any random node of the binary tree and can even point to NULL, clone the given binary tree.
+
+Recommended Problem
+Clone a Binary Tree
+Tree
+Data Structures
+Amazon
+Synopsys
+Solve Problem
+Submission count: 17.9K
+Method 1 (Use Hashing): The idea is to store a mapping from given tree nodes to clone tree nodes in the hashtable. Following are detailed steps.
+
+1) Recursively traverse the given Binary and copy key-value, left pointer, and a right pointer to clone tree. While copying, store the mapping from the given tree node to clone the tree node in a hashtable. In the following pseudo-code, ‘cloneNode’ is the currently visited node of the clone tree and ‘treeNode’ is the currently visited node of the given tree. 
+
+   cloneNode->key  = treeNode->key
+   cloneNode->left = treeNode->left
+   cloneNode->right = treeNode->right
+   map[treeNode] = cloneNode 
+2) Recursively traverse both trees and set random pointers using entries from the hash table. 
+
+   cloneNode->random = map[treeNode->random] 
+Following are the  C++ and Java implementation of above idea. The following implementation uses unordered_map from C++ STL and HashMap in Java. Note that the map doesn’t implement a hash table, it actually is based on a self-balancing binary search tree. 
+
+Implementation:
+
+
+
+CPP
+Java
+Python3
+# A hashmap based Python program to clone a binary
+# tree with random pointers
+ 
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+        self.random = None
+ 
+# Helper function that allocates a new Node with the
+# given data and None left, right and random pointers.
+def new_node(key):
+    temp = Node(key)
+    return temp
+ 
+# Given a binary tree, print its Nodes in inorder
+def print_inorder(node):
+    if node == None:
+        return
+    # First recur on left subtree
+    print_inorder(node.left)
+    # then print data of Node and its random
+    print("[", node.key, end=", ")
+    if node.random == None:
+        print("None], ", end="")
+    else:
+        print(node.random.key, "], ", end="")
+    # now recur on right subtree
+    print_inorder(node.right)
+ 
+# This function creates clone by copying key
+# and left and right pointers. This function also
+# stores mapping from given tree node to clone.
+def copy_left_right_node(tree_node, mymap):
+    if tree_node == None:
+        return None
+    clone_node = new_node(tree_node.key)
+    mymap[tree_node] = clone_node
+    clone_node.left = copy_left_right_node(tree_node.left, mymap)
+    clone_node.right = copy_left_right_node(tree_node.right, mymap)
+    return clone_node
+ 
+# This function copies random node by using the hashmap built by
+# copy_left_right_node()
+def copy_random(tree_node, mymap):
+    if tree_node is None:
+        return
+    if tree_node.random is not None:
+        mymap[tree_node].random = mymap[tree_node.random]
+    copy_random(tree_node.left, mymap)
+    copy_random(tree_node.right, mymap)
+ 
+# This function makes the clone of given tree. It mainly uses
+# copy_left_right_node() and copy_random()
+def clone_tree(tree):
+    if tree == None:
+        return None
+    mymap = {}
+    new_tree = copy_left_right_node(tree, mymap)
+    copy_random(tree, mymap)
+    return new_tree
+ 
+# Driver code
+if __name__ == "__main__":
+    # Test Case 1
+    tree = Node(1)
+    tree.left = Node(2)
+    tree.right = Node(3)
+    tree.left.left = Node(4)
+    tree.left.right = Node(5)
+    tree.random = tree.left.right
+    tree.left.left.random = tree
+    tree.left.right.random = tree.right
+ 
+    # Test Case 2
+    # tree = None
+ 
+    # Test Case 3
+    # tree = newNode(1)
+ 
+    # Test Case 4
+    """
+    tree = newNode(1)
+    tree.left = newNode(2)
+    tree.right = newNode(3)
+    tree.random = tree.right
+    tree.left.random = tree
+    """
+ 
+    print("Inorder traversal of original binary tree is:")
+    print_inorder(tree)
+ 
+    clone = clone_tree(tree)
+ 
+    print("\n\nInorder traversal of cloned binary tree is:")
+    print_inorder(clone)
+Output
+Inorder traversal of original binary tree is: 
+[4 1], [2 NULL], [5 3], [1 5], [3 NULL], 
+
+Inorder traversal of cloned binary tree is: 
+[4 1], [2 NULL], [5 3], [1 5], [3 NULL], 
+Time complexity: O(n), this is because we need to traverse the entire tree in order to copy the left and right pointers, and then we need to traverse the tree again to copy the random pointers.
+Auxiliary Space: O(n), this is because we need to store a mapping of the original tree’s nodes to their clones.
+
+Method 2 (Temporarily Modify the Given Binary Tree):
+
+1. Create new nodes in the cloned tree and insert each new node in the original tree between the left pointer edge of the corresponding node in the original tree (See the below image). 
+i.e. if the current node is A and its left child is B ( A — >> B ), then a new cloned node with key A will be created (say cA) and it will be put as A — >> cA — >> B (B can be a NULL or a non-NULL left child). The right child pointer will be set correctly i.e. if, for current node A, the right child is C in the original tree (A — >> C) then corresponding cloned nodes cA and cC will like cA —- >> cC
+ 
+
+Binary_Tree(1)
+
+2. Set random pointer in the cloned tree as per the original tree 
+
+i.e. if node A’s random pointer points to node B, then in the cloned tree, cA will point to cB (cA and cB are the new nodes in the cloned tree corresponding to node A and B in the original tree)
+
+3. Restore left pointers correctly in both original and cloned tree
+
+Following is the C++ implementation of the above algorithm.
+
+CPP
+#include <iostream>
+using namespace std;
+ 
+/* A binary tree node has data, pointer to left child, a pointer to right
+   child and a pointer to random node*/
+struct Node
+{
+    int key;
+    struct Node* left, *right, *random;
+};
+ 
+/* Helper function that allocates a new Node with the
+   given data and NULL left, right and random pointers. */
+Node* newNode(int key)
+{
+    Node* temp = new Node;
+    temp->key = key;
+    temp->random = temp->right = temp->left = NULL;
+    return (temp);
+}
+ 
+/* Given a binary tree, print its Nodes in inorder*/
+void printInorder(Node* node)
+{
+    if (node == NULL)
+        return;
+ 
+    /* First recur on left subtree */
+    printInorder(node->left);
+ 
+    /* then print data of Node and its random */
+    cout << "[" << node->key << " ";
+    if (node->random == NULL)
+        cout << "NULL], ";
+    else
+        cout << node->random->key << "], ";
+ 
+    /* now recur on right subtree */
+    printInorder(node->right);
+}
+ 
+// This function creates new nodes cloned tree and puts new cloned node
+// in between current node and it's left child
+// i.e. if current node is A and it's left child is B ( A --- >> B ),
+//      then new cloned node with key A will be created (say cA) and
+//      it will be put as
+//      A --- >> cA --- >> B
+// Here B can be a NULL or a non-NULL left child
+// Right child pointer will be set correctly
+// i.e. if for current node A, right child is C in original tree
+// (A --- >> C) then corresponding cloned nodes cA and cC will like
+// cA ---- >> cC
+Node* copyLeftRightNode(Node* treeNode)
+{
+    if (treeNode == NULL)
+        return NULL;
+ 
+    Node* left = treeNode->left;
+    treeNode->left = newNode(treeNode->key);
+    treeNode->left->left = left;
+    if(left != NULL)
+        left->left = copyLeftRightNode(left);
+ 
+    treeNode->left->right = copyLeftRightNode(treeNode->right);
+    return treeNode->left;
+}
+ 
+// This function sets random pointer in cloned tree as per original tree
+// i.e. if node A's random pointer points to node B, then
+// in cloned tree, cA will point to cB (cA and cB are new node in cloned
+// tree corresponding to node A and B in original tree)
+void copyRandomNode(Node* treeNode, Node* cloneNode)
+{
+    if (treeNode == NULL)
+        return;
+    if(treeNode->random != NULL)
+        cloneNode->random = treeNode->random->left;
+    else
+        cloneNode->random = NULL;
+ 
+    if(treeNode->left != NULL && cloneNode->left != NULL)
+        copyRandomNode(treeNode->left->left, cloneNode->left->left);
+    copyRandomNode(treeNode->right, cloneNode->right);
+}
+ 
+// This function will restore left pointers correctly in
+// both original and cloned tree
+void restoreTreeLeftNode(Node* treeNode, Node* cloneNode)
+{
+    if (treeNode == NULL)
+        return;
+    if (cloneNode->left != NULL)
+    {
+        Node* cloneLeft = cloneNode->left->left;
+        treeNode->left = treeNode->left->left;
+        cloneNode->left = cloneLeft;
+    }
+    else
+        treeNode->left = NULL;
+ 
+    restoreTreeLeftNode(treeNode->left, cloneNode->left);
+    restoreTreeLeftNode(treeNode->right, cloneNode->right);
+}
+ 
+//This function makes the clone of given tree
+Node* cloneTree(Node* treeNode)
+{
+    if (treeNode == NULL)
+        return NULL;
+    Node* cloneNode = copyLeftRightNode(treeNode);
+    copyRandomNode(treeNode, cloneNode);
+    restoreTreeLeftNode(treeNode, cloneNode);
+    return cloneNode;
+}
+ 
+ 
+/* Driver program to test above functions*/
+int main()
+{
+/*  //Test No 1
+    Node *tree = newNode(1);
+    tree->left = newNode(2);
+    tree->right = newNode(3);
+    tree->left->left = newNode(4);
+    tree->left->right = newNode(5);
+    tree->random = tree->left->right;
+    tree->left->left->random = tree;
+    tree->left->right->random = tree->right;
+ 
+//  Test No 2
+//    Node *tree = NULL;
+/*
+//  Test No 3
+    Node *tree = newNode(1);
+ 
+//  Test No 4
+    Node *tree = newNode(1);
+    tree->left = newNode(2);
+    tree->right = newNode(3);
+    tree->random = tree->right;
+    tree->left->random = tree;
+ 
+  Test No 5
+    Node *tree = newNode(1);
+    tree->left = newNode(2);
+    tree->right = newNode(3);
+    tree->left->left = newNode(4);
+    tree->left->right = newNode(5);
+    tree->right->left = newNode(6);
+    tree->right->right = newNode(7);
+    tree->random = tree->left;
+*/
+//    Test No 6
+    Node *tree = newNode(10);
+    Node *n2 = newNode(6);
+    Node *n3 = newNode(12);
+    Node *n4 = newNode(5);
+    Node *n5 = newNode(8);
+    Node *n6 = newNode(11);
+    Node *n7 = newNode(13);
+    Node *n8 = newNode(7);
+    Node *n9 = newNode(9);
+    tree->left = n2;
+    tree->right = n3;
+    tree->random = n2;
+    n2->left = n4;
+    n2->right = n5;
+    n2->random = n8;
+    n3->left = n6;
+    n3->right = n7;
+    n3->random = n5;
+    n4->random = n9;
+    n5->left = n8;
+    n5->right = n9;
+    n5->random = tree;
+    n6->random = n9;
+    n9->random = n8;
+ 
+/*    Test No 7
+    Node *tree = newNode(1);
+    tree->left = newNode(2);
+    tree->right = newNode(3);
+    tree->left->random = tree;
+    tree->right->random = tree->left;
+*/
+    cout << "Inorder traversal of original binary tree is: \n";
+    printInorder(tree);
+ 
+    Node *clone = cloneTree(tree);
+ 
+    cout << "\n\nInorder traversal of cloned binary tree is: \n";
+    printInorder(clone);
+ 
+    return 0;
+}
+Output
+Inorder traversal of original binary tree is: 
+[5 9], [6 7], [7 NULL], [8 10], [9 7], [10 6], [11 9], [12 8], [13 NULL], 
+
+Inorder traversal of cloned binary tree is: 
+[5 9], [6 7], [7 NULL], [8 10], [9 7], [10 6], [11 9], [12 8], [13 NULL], 
+Time Complexity: O(n), Here, we traverse the tree node once
+Auxiliary Space: O(n), We also need an extra space to store the cloned tree nodes.
+
+
+
+
+
+Like
+62
+Previous
+Smallest subarray with k distinct numbers
+Next
+Longest subarray having count of 1s one more than count of 0s
+Related Articles
+1.
+Clone a linked list with next and random pointer | Set 2
+2.
+Clone a Linked List with next and Random Pointer
+3.
+Find right sibling of a binary tree with parent pointers
+4.
+Modify a binary tree to get preorder traversal using right pointers only
+5.
+Convert Binary Tree to Doubly Linked List by fixing left and right pointers
+6.
+Complexity of different operations in Binary tree, Binary Search Tree and AVL tree
+7.
+Test Case Generation | Set 6 (Random Unweighted Binary Tree)
+8.
+Maximum sub-tree sum in a Binary Tree such that the sub-tree is also a BST
+9.
+Convert a Generic Tree(N-array Tree) to Binary Tree
+10.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+deepakmangla
+girishthareja23
+philosopherosopher
+rohanraj19
+sumitgumber28
+as5853535
+hardikkoriintern
+rohit_iyer
+surajrasr7277
+factworx4i2
+pradeepkumarppk2003
+Article Tags :
+Amazon
+Hash
+Tree
+Practice Tags :
+Amazon
+Hash
+Tree
+Improve Article
+Report Issue

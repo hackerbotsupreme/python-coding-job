@@ -1,0 +1,275 @@
+Check if an array can be divided into pairs whose sum is divisible by k
+
+Difficulty Level : Medium
+Last Updated : 15 Dec, 2022
+Read
+Discuss(140+)
+Courses
+Practice
+Video
+Given an array of integers and a number k, write a function that returns true if the given array can be divided into pairs such that the sum of every pair is divisible by k.
+
+Examples: 
+
+Input: arr[] = {9, 7, 5, 3}, k = 6 
+Output: True 
+We can divide the array into (9, 3) and 
+(7, 5). Sum of both of these pairs 
+is a multiple of 6.
+
+Input: arr[] = {92, 75, 65, 48, 45, 35}, k = 10 
+Output: True 
+We can divide the array into (92, 48), (75, 65). 
+and (45, 35). The sum of all these pairs is a 
+multiple of 10.
+
+Input: arr[] = {91, 74, 66, 48}, k = 10 
+Output: False 
+
+Recommended Problem
+Array Pair Sum Divisibility Problem
+Hash
+STL
++1 more
+Amazon
+Microsoft
++2 more
+Solve Problem
+Submission count: 78.9K
+A Simple Solution is to iterate through every element arr[i]. Find if there is another not yet visited element that has a remainder like (k – arr[i]%k). If there is no such element, return false. If a pair is found, then mark both elements as visited. The time complexity of this solution is O(n2 and it requires O(n) extra space.
+
+Below is the implementation of the above approach:
+
+
+
+C++
+Java
+Python3
+# A Python3 program to check if arr[0..n-1]
+# can be divided in pairs such that
+# every pair is divisible by k
+def canPairs(nums, n, k):
+    # Array with odd length
+    # cannot be divided
+    if (n % 2 == 1):
+        return False
+ 
+    # Initialize count = 0
+    count = 0
+ 
+    vis = [-1] * n
+ 
+    for i in range(0,n):
+        for j in range(i+1,n):
+            if ((nums[i] + nums[j]) % k == 0 and vis[i] == -1 and vis[j] == -1):
+                # if pair is divisible increment
+                # the count and mark elements
+                # as visited
+                count+=1
+                vis[i] = 1
+                vis[j] = 1
+                 
+    if (count == n / 2):
+        return True
+    else:
+        return False
+ 
+# Driver code
+arr = [ 92, 75, 65, 48, 45, 35 ]
+k = 10
+n = len(arr)
+ 
+# Function call
+if(canPairs(arr, n, k)):
+    print("True")
+else:
+    print("False")
+ 
+# This code is contributed by akashish__
+C#
+Javascript
+Output
+True
+Time Complexity: O(n^2)
+Auxiliary Space: O(n) for creating a visited array
+
+An Efficient Solution is to use Hashing.
+
+1) If length of given array is odd, return false. 
+    An odd length array cannot be divided into pairs.
+2) Traverse input array and count occurrences of 
+    all remainders (use (arr[i] % k)+k)%k for handling the case of negative integers as well). 
+      freq[((arr[i] % k) + k) % k]++
+3) Traverse input array again. 
+   a) Find the remainder of the current element.
+   b) If remainder divides k into two halves, then
+      there must be even occurrences of it as it 
+      forms pair with itself only.
+   c) If the remainder is 0, then there must be 
+      even occurrences.
+   d) Else, number of occurrences of current 
+      the remainder must be equal to a number of 
+      occurrences of "k - current remainder".
+The idea is to use hashing (unordered_map in C++ and HashMap in Java).
+
+The below image is a dry run of the above approach:
+
+
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to check if
+# arr[0..n-1] can be divided
+# in pairs such that every
+# pair is divisible by k.
+from collections import defaultdict
+ 
+# Returns true if arr[0..n-1] can be
+# divided into pairs with sum
+# divisible by k.
+ 
+ 
+def canPairs(arr, n, k):
+ 
+    # An odd length array cannot
+    # be divided into pairs
+    if (n & 1):
+        return 0
+ 
+    # Create a frequency array to
+    # count occurrences of all
+    # remainders when divided by k.
+    freq = defaultdict(lambda: 0)
+ 
+    # Count occurrences of all remainders
+    for i in range(0, n):
+        freq[((arr[i] % k) + k) % k] += 1
+ 
+    # Traverse input array and use
+    # freq[] to decide if given array
+    # can be divided in pairs
+    for i in range(0, n):
+ 
+        # Remainder of current element
+        rem = ((arr[i] % k) + k) % k
+ 
+        # If remainder with current element
+        # divides k into two halves.
+        if (2 * rem == k):
+ 
+            # Then there must be even occurrences
+            # of such remainder
+            if (freq[rem] % 2 != 0):
+                return 0
+ 
+        # If remainder is 0, then there
+        # must be two elements with 0 remainder
+        else if (rem == 0):
+            if (freq[rem] & 1):
+                return 0
+ 
+            # Else number of occurrences of
+            # remainder must be equal to
+            # number of occurrences of
+            # k - remainder
+        else if (freq[rem] != freq[k - rem]):
+             return 0
+ 
+    return 1
+ 
+ 
+# Driver code
+arr = [92, 75, 65, 48, 45, 35]
+k = 10
+n = len(arr)
+ 
+# Function call
+if (canPairs(arr, n, k)):
+    print("True")
+else:
+    print("False")
+ 
+# This code is contributed by Stream_Cipher
+C#
+Javascript
+Output
+True
+Time complexity: O(n).
+Auxiliary Space: O(n)
+
+This article is contributed by Aarti_Rathi and Priyanka. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+65
+Previous
+Group words with same set of characters
+Next
+Print array elements that are divisible by at-least one other
+Related Articles
+1.
+Check if a sorted array can be divided in pairs whose sum is k
+2.
+Check if a given array can be divided into pairs with even sum
+3.
+Difference between ceil of array sum divided by K and sum of ceil of array elements divided by K
+4.
+Check if an array of 1s and 2s can be divided into 2 parts with equal sum
+5.
+Check if array can be divided into two subsequences merging whom makes Array sorted
+6.
+Check if array can be divided into two sub-arrays such that their absolute difference is K
+7.
+Check if Array can be divided into K groups of size C and all elements of group are distinct
+8.
+Check if given Array can be divided into subsequences of K increasing consecutive integers
+9.
+Find if array can be divided into two subarrays of equal sum
+10.
+Find the sums for which an array can be divided into sub-arrays of equal sum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+bharatranjan
+Stream_Cipher
+palvaisaibharathreddy
+target_2
+jacoboquinn374
+takitachibana
+khushboogoyal499
+simmytarika5
+surinderdawra388
+codewithmini
+111arpit1
+sweetyty
+aadityapburujwale
+abhijeet19403
+akashish__
+Article Tags :
+Amazon
+Directi
+STL
+Arrays
+Hash
+Practice Tags :
+Amazon
+Directi
+Arrays
+Hash
+STL
+Improve Article
+Report Issue

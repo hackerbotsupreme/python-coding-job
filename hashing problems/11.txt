@@ -1,0 +1,132 @@
+Maximum distance between two occurrences of same element in array
+
+Difficulty Level : Easy
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array with repeated elements, the task is to find the maximum distance between two occurrences of an element.
+
+Examples:  
+
+Input : arr[] = {3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2}
+Output: 10
+// maximum distance for 2 is 11-1 = 10 
+// maximum distance for 1 is 4-2 = 2 
+// maximum distance for 4 is 10-5 = 5  
+Recommended Problem
+Max distance between same elements
+Arrays
+Hash
++1 more
+Solve Problem
+Submission count: 36.9K
+A simple solution for this problem is to, one by one, pick each element from the array and find its first and last occurrence in the array and take the difference between the first and last occurrence for maximum distance. The time complexity for this approach is O(n2).
+
+An efficient solution to this problem is to use hashing. The idea is to traverse the input array and store the index of the first occurrence in a hash map. For every other occurrence, find the difference between the index and the first index stored in the hash map. If the difference is more than the result so far, then update the result.
+
+Below are implementations of the idea. The implementation uses unordered_map in. 
+
+C++
+Java
+Python3
+# Python program to find maximum distance between two
+# same occurrences of a number.
+ 
+# Function to find maximum distance between equal elements
+def maxDistance(arr, n):
+     
+    # Used to store element to first index mapping
+    mp = {}
+ 
+    # Traverse elements and find maximum distance between
+    # same occurrences with the help of map.
+    maxDict = 0
+    for i in range(n):
+ 
+        # If this is first occurrence of element, insert its
+        # index in map
+        if arr[i] not in mp.keys():
+            mp[arr[i]] = i
+ 
+        # Else update max distance
+        else:
+            maxDict = max(maxDict, i-mp[arr[i]])
+ 
+    return maxDict
+ 
+# Driver Program
+if __name__=='__main__':
+    arr = [3, 2, 1, 2, 1, 4, 5, 8, 6, 7, 4, 2]
+    n = len(arr)
+    print (maxDistance(arr, n))
+         
+# Contributed By: Harshit Sidhwa
+C#
+Javascript
+Output
+10
+Time complexity : O(n) under the assumption that unordered_map’s search and insert operations take O(1) time.
+Auxiliary Space : O(n).
+
+
+
+This article is contributed by Shashank Mishra ( Gullu ). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+49
+Previous
+Minimum operation to make all elements equal in array
+Next
+Most frequent element in an array
+Related Articles
+1.
+Minimum distance between two occurrences of maximum
+2.
+Maximise distance by rearranging all duplicates at same distance in given Array
+3.
+Generate array having differences between count of occurrences of every array element on its left and right
+4.
+Count pairs of same parity indexed elements with same MSD after replacing each element by the sum of maximum digit * A and minimum digits * B
+5.
+Sum of all distances between occurrences of same characters in a given string
+6.
+Remove all occurrences of any element for maximum array sum
+7.
+Queries to count occurrences of maximum array element in subarrays starting from given indices
+8.
+Minimum distance between the maximum and minimum element of a given Array
+9.
+Bitwise XOR of same indexed array elements after rearranging an array to make XOR of same indexed elements of two arrays equal
+10.
+Maximum distance between two 1s in a Binary Array in a given range
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+nidhi_biet
+princiraj1992
+avijitmondal1998
+amartyaghoshgfg
+anandkumarshivam2266
+hardikkoriintern
+Article Tags :
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash

@@ -1,0 +1,348 @@
+Find if there is a rectangle in binary matrix with corners as 1
+
+Difficulty Level : Hard
+Last Updated : 24 Dec, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+There is a given binary matrix, we need to find if there exists any rectangle or square in the given matrix whose all four corners are equal to 
+
+Examples: 
+
+Input :
+mat[][] = { 1 0 0 1 0
+            0 0 1 0 1
+            0 0 0 1 0
+            1 0 1 0 1}
+Output : Yes
+as there exists-
+1 0 1
+0 1 0
+1 0 1
+Recommended Problem
+Find rectangle with corners as 1
+Matrix
+Data Structures
+Flipkart
+Solve Problem
+Submission count: 5.4K
+Brute Force Approach:
+
+We start scanning the matrix whenever we find a 1 at any index then we try for all the combinations for index with which we can form the rectangle. 
+
+Algorithm:
+
+for i = 1 to rows
+  for j = 1 to columns
+   if matrix[i][j] == 1
+     for k=i+1 to rows
+       for l=j+1 to columns
+         if (matrix[i][l]==1 &&
+             matrix[k][j]==1 &&
+             m[k][l]==1)
+                return true
+return false
+Implementation:
+
+C++
+Java
+Python3
+# A brute force approach based Python3 program to
+# find if there is a rectangle with 1 as corners.
+ 
+# Returns true if there is a rectangle
+# with 1 as corners.
+def isRectangle(m):
+ 
+    # finding row and column size
+    rows = len(m)
+    if (rows == 0):
+        return False
+    columns = len(m[0])
+ 
+    # scanning the matrix
+    for y1 in range(rows):
+ 
+        for x1 in range(columns):
+ 
+            # if any index found 1 then
+            # try for all rectangles
+            if (m[y1][x1] == 1):
+                for y2 in range(y1 + 1, rows):
+                    for x2 in range(x1 + 1, columns):
+                        if (m[y1][x2] == 1 and
+                            m[y2][x1] == 1 and
+                            m[y2][x2] == 1):
+                            return True
+    return False
+ 
+# Driver code
+mat = [[1, 0, 0, 1, 0],
+       [0, 0, 1, 0, 1],
+       [0, 0, 0, 1, 0],
+       [1, 0, 1, 0, 1]]
+ 
+if (isRectangle(mat)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed
+# by mohit kumar 29
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(m2 * n2) 
+Auxiliary Space: O(1), since no extra space has been taken.
+
+Efficient Approach:
+
+Scan from top to down, line by line
+For each line, remember each combination of 2 1’s and push that into a hash-set
+If we ever find that combination again in a later line, we get our rectangle
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# An efficient approach based Python program
+# to find if there is a rectangle with 1 as
+# corners.
+ 
+# Returns true if there is a rectangle
+# with 1 as corners.
+def isRectangle(matrix):
+ 
+    # finding row and column size
+    rows = len(matrix)
+    if (rows == 0):
+        return False
+ 
+    columns = len(matrix[0])
+ 
+    # map for storing the index of
+    # combination of 2 1's
+    table = {}
+ 
+    # scanning from top to bottom
+    # line by line
+    for i in range(rows):
+        for j in range(columns - 1):
+            for k in range(j + 1, columns):
+ 
+                # if found two 1's in a column
+                if (matrix[i][j] == 1 and
+                    matrix[i][k] == 1):
+ 
+                    # check if there exists 1's in same
+                    # row previously then return true
+                    if (j in table and k in table[j]):
+                        return True
+ 
+                    if (k in table and j in table[k]):
+                        return True
+ 
+                    # store the indexes in hashset
+                    if j not in table:
+                        table[j] = set()
+                    if k not in table:
+                        table[k] = set()
+                    table[j].add(k)
+                    table[k].add(j)
+    return False
+ 
+# Driver Code
+if __name__ == '__main__':
+    mat = [[ 1, 0, 0, 1, 0 ],
+           [ 0, 0, 1, 0, 1 ],
+           [ 0, 0, 0, 1, 0 ],
+           [ 1, 0, 1, 0, 1 ]]
+    if (isRectangle(mat)):
+        print("Yes")
+    else:
+        print("No")
+     
+# This code is contributed
+# by SHUBHAMSINGH10
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(n*m2)
+Auxiliary Space: O(n*m) 
+
+More Efficient Approach
+
+The previous approach scans through every pair of column indexes to find each combination of 2 1’s. 
+
+To more efficiently find each combination of 2 1’s, convert each row into a set of column indexes.
+Then, select pairs of column indexes from the row set to quickly get each combination of 2 1’s.
+If a pair of column indexes appears more than once, then there is a rectangle whose corners are 1’s.
+The runtime becomes O(m*n+n*n*log(n*n)).  This is because there are m*n cells in the matrix and there are at most O(n^2) combinations of column indexes and we are using a map which will store every entry in log(n) time.
+Also, if n > m, then by first transposing the matrix, the runtime becomes O(m*n+m*m*log(m*m)).
+Notice that min{m*n+n*n*log(n*n), m*n+m*m*log(m*m)} is O(m*n + p*p*log(p*p)), p=max(n,m).
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 implementation comes from:
+# https:#github.com/MichaelWehar/FourCornersProblem
+# Written by Niteesh Kumar and Michael Wehar
+# References:
+#   [1] F. Mráz, D. Prusa, and M. Wehar.
+#   Two-dimensional Pattern Matching against
+#    Basic Picture Languages. CIAA 2019.
+#   [2] D. Prusa and M. Wehar. Complexity of
+#    Searching for 2 by 2 Submatrices in Boolean
+#    Matrices. DLT 2020.
+def searchForRectangle( rows,  cols, mat) :
+ 
+    # Make sure that matrix is non-trivial
+    if (rows < 2 or cols < 2) :
+     
+        return False;
+     
+    # Create map
+    adjsList = dict();
+    if (rows >= cols):
+     
+        # Row-wise
+        num_of_keys = rows;
+         
+        # Convert each row into vector of col indexes
+        for i in range(rows):
+             
+            for j in range(cols):
+         
+                if (mat[i][j]):
+                     
+                    if i not in adjsList:
+                        adjsList[i] = []
+                    adjsList[i].append(j);
+    else :
+     
+        # Col-wise
+        num_of_keys = cols;
+         
+        # Convert each col into vector of row indexes
+        for i in range(rows):
+             
+            for j in range(cols):
+         
+                if (mat[i][j] == 1) :
+                     
+                    if j not in adjsList:
+                        adjsList[j] = []
+                    adjsList[j].append(i);
+                 
+    # Search for a rectangle whose four corners are 1's
+    pairs = dict();
+     
+    for i in range(num_of_keys):
+ 
+        values = adjsList[i];
+        size = len(values)
+         
+        for j in range(size - 1):
+             
+            for k in range(j + 1, size):
+ 
+                temp  = (values[j], values[k]);
+                 
+                if temp in pairs:
+                    return True;
+                  
+                else:
+                    pairs[temp] = i;
+    return False;
+ 
+# Driver code
+mat =   [[ 1, 0, 0, 1, 0 ], [ 0, 1, 1, 1, 1 ], [ 0, 0, 0, 1, 0 ], [ 1, 1, 1, 1, 0 ]];
+if (searchForRectangle(4, 5, mat)):
+    print("Yes");
+else:
+    print("No")
+     
+# This code is contributed by phasing17.
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(m*n + p*p*log(p*p)), p=max(n,m).
+Auxiliary Space: O(n*m)
+
+
+
+Like
+Previous
+Last seen array element (last appearance is earliest)
+Related Articles
+1.
+Find Corners of Rectangle using mid points
+2.
+Intersecting rectangle when bottom-left and top-right corners of two rectangles are given
+3.
+Print all paths from a source point to all the 4 corners of a Matrix
+4.
+Largest subset of rectangles such that no rectangle fit in any other rectangle
+5.
+Maximum area of a Rectangle that can be circumscribed about a given Rectangle of size LxW
+6.
+Check if there are T number of continuous of blocks of 0s or not in given Binary Matrix
+7.
+Maximum size rectangle binary sub-matrix with all 1s
+8.
+Maximum size rectangle binary sub-matrix with all 1s | Set 2
+9.
+Find whether there is path between two cells in matrix
+10.
+Maximum sum rectangle in a 2D matrix | DP-27
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+niteesh_Kr
+@niteesh_Kr
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+abhishekahuja02
+_Gaurav_Tiwari
+mohit kumar 29
+SHUBHAMSINGH10
+Rajput-Ji
+princiraj1992
+code hunter
+mohith__b
+mwehar
+patel2127
+unknown2108
+cppdp
+201801215
+adnanirshad158
+sachinvinod1904
+hardikkoriintern
+souravkumar29
+phasing17
+surajrasr7277
+Article Tags :
+cpp-unordered_map
+Facebook
+Google
+square-rectangle
+Hash
+Matrix
+Practice Tags :
+Facebook
+Google
+Hash
+Matrix
+Report Issue

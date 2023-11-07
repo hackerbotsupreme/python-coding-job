@@ -1,0 +1,220 @@
+Length of longest strict bitonic subsequence
+
+Difficulty Level : Hard
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array arr[] containing n integers. The problem is to find the length of the longest strict bitonic subsequence. A subsequence is called strict bitonic if it is first increasing and then decreasing with the condition that in both the increasing and decreasing parts the absolute difference between adjacents is 1 only. A sequence, sorted in increasing order is considered Bitonic with the decreasing part as empty. Similarly, decreasing order sequence is considered Bitonic with the increasing part as empty.
+
+Examples: 
+
+Input : arr[] = {1, 5, 2, 3, 4, 5, 3, 2}
+Output : 6
+The Longest Strict Bitonic Subsequence is:
+{1, 2, 3, 4, 3, 2}.
+
+Input : arr[] = {1, 2, 5, 3, 6, 7, 4, 6, 5}
+Output : 5
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: The problem could be solved using the concept of finding the longest bitonic subsequence. The only condition that needs to be maintained is that the adjacents should have a difference of 1 only. It has a time complexity of O(n2).
+
+We need to construct two arrays lis[] and lds[] using the Dynamic Programming solution of the LIS problem.
+lis[i] stores the length of the Longest Increasing subsequence ending with arr[i].
+lds[i] stores the length of the longest Decreasing subsequence starting from arr[i].
+Finally, we need to return the max value of lis[i] + lds[i] – 1 where i is from 0 to n-1.
+Below is the implementation of the above approach:
+
+C++
+Python3
+def lbs(arr):
+    n = len(arr)
+ 
+    # Allocate memory for LIS[] and initialize LIS values as 1 for all indexes
+    lis = [1] * n
+ 
+    # Compute LIS values from left to right
+    for i in range(1, n):
+        for j in range(0, i):
+            if arr[i] > arr[j] and abs(arr[i] - arr[j]) == 1 and lis[i] < lis[j] + 1:
+                lis[i] = lis[j] + 1
+ 
+    # Allocate memory for lds and initialize LDS values for all indexes
+    lds = [1] * n
+ 
+    # Compute LDS values from right to left
+    for i in range(n - 2, -1, -1):
+        for j in range(n - 1, i, -1):
+            if arr[i] > arr[j] and abs(arr[i] - arr[j]) == 1 and lds[i] < lds[j] + 1:
+                lds[i] = lds[j] + 1
+ 
+    # Return the maximum value of lis[i] + lds[i] - 1
+    max_val = lis[0] + lds[0] - 1
+    for i in range(1, n):
+        max_val = max(max_val, lis[i] + lds[i] - 1)
+    return max_val
+ 
+# Driver program to test above function
+arr = [1, 5, 2, 3, 4, 5, 3, 2]
+print("Length of LBS is", lbs(arr))
+ 
+# This code is contributed by vikramshirsath177
+C#
+Javascript
+Output
+Length of LBS is 6
+Time Complexity: O(n*n)
+Auxiliary Space: O(n)
+
+Method 2 (Efficient Approach): 
+
+
+
+The idea is to create two hash maps inc and dcr having tuples in the form (ele, len), where len denotes the length of the longest increasing subsequence ending with the element ele in map inc and length of the longest decreasing subsequence starting with element ele in map dcr respectively. Also create two arrays len_inc[] and len_dcr[] where len_inc[i] represents the length of the largest increasing subsequence ending with element arr[i] and len_dcr[i] represents the length of the largest decreasing subsequence starting with element arr[i]. Now, for each element arr[i] we can find the length of the value (arr[i]-1) if it exists in the hash table inc. Let this value be v (initially v will be 0). 
+
+Now, the length of longest increasing subsequence ending with arr[i] would be v+1. Update this length along with the element arr[i] in the hash table inc and in the array len_inc[] at respective index i. Now, traversing the array from right to left we can similarly fill the hash table dcr and array len_dcr[] for longest decreasing subsequence. Finally, for each element arr[i] we calculate (len_inc[i] + len_dcr[i] – 1) and return the maximum value.
+
+Note: Here increasing and decreasing subsequences only mean that the difference between adjacent elements is 1 only.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 implementation to find length of
+# longest strict bitonic subsequence
+ 
+# function to find length of longest
+# strict bitonic subsequence
+def longLenStrictBitonicSub(arr, n):
+ 
+    # hash table to map the array element
+    # with the length of the longest subsequence
+    # of which it is a part of and is the
+    # last/first element of that subsequence
+    inc, dcr = dict(), dict()
+ 
+    # arrays to store the length of increasing
+    # and decreasing subsequences which end at
+    # them or start from them
+    len_inc, len_dcr = [0] * n, [0] * n
+ 
+    # to store the length of longest strict
+    # bitonic subsequence
+    longLen = 0
+ 
+    # traverse the array elements
+    # from left to right
+    for i in range(n):
+ 
+        # initialize current length
+        # for element arr[i] as 0
+        len = 0
+ 
+        # if 'arr[i]-1' is in 'inc'
+        if inc.get(arr[i] - 1) in inc.values():
+            len = inc.get(arr[i] - 1)
+         
+        # update arr[i] subsequence length in 'inc'    
+        # and in len_inc[]
+        inc[arr[i]] = len_inc[i] = len + 1
+     
+    # traverse the array elements
+    # from right to left
+    for i in range(n - 1, -1, -1):
+ 
+        # initialize current length
+        # for element arr[i] as 0
+        len = 0
+ 
+        # if 'arr[i]-1' is in 'dcr'
+        if dcr.get(arr[i] - 1) in dcr.values():
+            len = dcr.get(arr[i] - 1)
+         
+        # update arr[i] subsequence length 
+        # in 'dcr' and in len_dcr[]
+        dcr[arr[i]] = len_dcr[i] = len + 1
+     
+    # calculating the length of
+    # all the strict bitonic subsequence
+    for i in range(n):
+        if longLen < (len_inc[i] + len_dcr[i] - 1):
+            longLen = len_inc[i] + len_dcr[i] - 1
+     
+    # required longest length strict
+    # bitonic subsequence
+    return longLen
+ 
+# Driver Code
+if __name__ == "__main__":
+    arr = [1, 5, 2, 3, 4, 5, 3, 2]
+    n = len(arr)
+    print("Longest length strict bitonic subsequence =",
+           longLenStrictBitonicSub(arr, n))
+ 
+# This code is contributed by sanjeev2552
+C#
+Javascript
+Output
+Longest length strict bitonic subsequence = 6
+Time Complexity: O(n). 
+Auxiliary Space: O(n).
+
+
+
+
+
+Like
+1
+Next
+Last seen array element (last appearance is earliest)
+Related Articles
+1.
+Find bitonic point in given bitonic sequence
+2.
+Longest Bitonic Subsequence in O(n log n)
+3.
+Print Longest Bitonic subsequence (Space Optimized Approach)
+4.
+Length of longest Palindromic Subsequence of even length with no two adjacent characters same
+5.
+Maximum product of bitonic subsequence of size 3
+6.
+Longest Reverse Bitonic Sequence
+7.
+Longest subsequence such that every element in the subsequence is formed by multiplying previous element with a prime
+8.
+Longest Subsequence with absolute difference of pairs as at least Subsequence's maximum
+9.
+Maximum Length Bitonic Subarray | Set 1 (O(n) time and O(n) space)
+10.
+Maximum Length Bitonic Subarray | Set 2 (O(n) time and O(1) Space)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ayushjauhari14
+@ayushjauhari14
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+Rajput-Ji
+sanjeev2552
+itsok
+hardikkoriintern
+hkdass001
+vikramshirsath177
+poojaagrawal2
+Article Tags :
+cpp-unordered_map
+Arrays
+Hash
+Practice Tags :
+Arrays
+Hash
