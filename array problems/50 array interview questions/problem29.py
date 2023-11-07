@@ -1,0 +1,247 @@
+#Minimum Number of Platforms Required for a Railway/Bus Station
+
+#Difficulty Level : Medium
+#-----------------------------------------------------------------------
+#iven the arrival and departure times of all trains that reach a railway station, the task is to find the minimum number of platforms required for the railway station so that no train waits. We are given two arrays that represent the arrival and departure times of trains that stop.
+
+#Examples: 
+
+#Input: arr[] = {9:00, 9:40, 9:50, 11:00, 15:00, 18:00}, dep[] = {9:10, 12:00, 11:20, 11:30, 19:00, 20:00} 
+#Output: 3 
+#Explanation: There are at-most three trains at a time (time between 9:40 to 12:00)
+
+#Input: arr[] = {9:00, 9:40}, dep[] = {9:10, 12:00} 
+#Output: 1 
+#Explanation: Only one platform is needed. 
+#----------------------------------------------------------------------
+#Naive Approach: 
+
+#The idea is to take every interval one by one and find the number of intervals that overlap with it. Keep track of the maximum number of intervals that overlap with an interval. Finally, return the maximum value.
+
+#Illustration:
+
+
+
+#Follow the steps mentioned below:
+
+#Run two nested loops from start to end.
+#For every iteration of the outer loop, find the count of intervals that intersect with the current interval except itself.
+#Update the answer with the maximum count of overlap in each iteration of the outer loop.
+#Print the answer.
+#Below is the implementation of the above approach:
+
+# Program to find minimum number of platforms
+# required on a railway station
+ 
+ 
+def findPlatform(arr, dep, n):
+    '''
+    Accepts two arrays with arrival and departure time
+    and the size of the array
+    Returns minimum number of platforms required
+    '''
+ 
+    # plat_needed indicates number of platforms
+    # needed at a time
+    plat_needed = 1
+    result = 1
+ 
+    # run a nested loop to find overlap
+    for i in range(n):
+        # minimum platform needed
+        plat_needed = 1
+ 
+        for j in range(n):
+            # check for overlap
+            if i != j:
+                if (arr[i] >= arr[j] and dep[j] >= arr[i]):
+                    plat_needed += 1
+ 
+        # update result
+        result = max(result, plat_needed)
+ 
+    return result
+ 
+# Driver code
+ 
+ 
+def main():
+    arr = [100, 300, 500]
+    dep = [900, 400, 600]
+ 
+    n = len(arr)
+ 
+    print("{}".format(
+        findPlatform(arr, dep, n)))
+ 
+ 
+if __name__ == '__main__':
+    main()
+#Output
+#2
+#Time Complexity: O(n2), Two nested loops traverse the array.
+#Auxiliary space: O(1), As no extra space is required.  
+#-------------------------------------------------------------------------
+#Minimum Number of Platforms Required for a Railway/Bus Station using Heap:
+#Store the arrival time and departure time and sort them based on arrival time then check if the arrival time of the next train is smaller than the departure time of the previous train if it is smaller then increment the number of the platforms needed otherwise not.
+
+#Illustration:
+
+#Follow the steps mentioned below:
+
+#Store the arrival time and departure time in array arr and sort this array based on arrival time
+#Declare a priority queue(min-heap) and store the departure time of the first train and also declare a counter cnt and initialize it with 1.
+#Iterate over arr from 1 to n-1 
+#check if the arrival time of the current train is less than or equal to the departure time of the previous train which is kept on top of the priority queue
+#If true, then push the new departure time and increment the counter cnt
+#otherwise, we pop() the departure time
+#push new departure time in the priority queue
+#Finally, return the cnt.
+#Below is the implementation of the above approach:
+
+import heapq
+# Function to find the minimum number
+# of platforms required
+ 
+ 
+def findPlatform(arr, dep, n):
+    arr2 = []
+    # Store the arrival and departure time
+    for i in range(n):
+        arr2.append([arr[i], dep[i]])
+    arr2.sort()  # Sort trains based on arrival time
+    p = []
+    count = 1
+    heapq.heappush(p, arr2[0][1])
+    for i in range(1, n):
+        # Check if arrival time of current train
+        # is less than or equals to departure time
+        # of previous train
+        if p[0] >= arr2[i][0]:
+            count += 1
+        else:
+            heapq.heappop(p)
+        heapq.heappush(p, arr2[i][1])
+    # return the count of number of platforms required
+    return count
+ 
+ 
+if __name__ == "__main__":
+    arr = [900, 940, 950, 1100, 1500, 1800]
+    dep = [910, 1200, 1120, 1130, 1900, 2000]
+    n = len(arr)
+    print(findPlatform(arr, dep, n))
+#Output
+#3
+#Time Complexity: O(N*log(N)), Heaps take log(n) time for pushing element and there are n elements.
+#------------------------------------------------------------------------
+#Minimum Number of Platforms Required for a Railway/Bus Station using Sorting:
+#The idea is to consider all events in sorted order. Once the events are in sorted order, trace the number of trains at any time keeping track of trains that have arrived, but not departed.
+
+#Illustration: 
+
+#arr[]  = {9:00,  9:40, 9:50,  11:00, 15:00, 18:00}
+#dep[]  = {9:10, 12:00, 11:20, 11:30, 19:00, 20:00}
+
+#All events are sorted by time.
+
+#Total platforms at any time can be obtained by subtracting total departures from total arrivals by that time.
+
+# Time      Event Type     Total Platforms Needed at this Time
+# 9:00       Arrival                      1
+# 9:10       Departure                0
+# 9:40       Arrival                      1
+# 9:50       Arrival                      2
+# 11:00      Arrival                     3 
+# 11:20      Departure               2
+# 11:30      Departure               1
+# 12:00      Departure               0
+# 15:00      Arrival                     1
+# 18:00      Arrival                     2 
+# 19:00      Departure               1
+# 20:00      Departure               0
+
+#Minimum Platforms needed on railway station = Maximum platforms needed at any time = 3
+
+#Note: This doesn’t create a single sorted list of all events, rather it individually sorts arr[] and dep[] arrays, and then uses the merge process of merge sort to process them together as a single sorted array. 
+
+#Follow the steps mentioned below:
+
+#Sort the arrival and departure times of trains.
+#Create two pointers i=1, and j=0, and a variable to store ans and current count plat
+#Run a loop while i<n and j<n and compare the ith element of arrival array and jth element of departure array.
+#If the arrival time is less than or equal to departure then one more platform is needed so increase the count, i.e., plat++ and increment i
+#Else if the arrival time is greater than departure then one less platform is needed to decrease the count, i.e., plat– and increment j
+#Update the ans, i.e. ans = max(ans, plat).
+#Below is the implementation of the above approach:
+
+# Program to find minimum
+# number of platforms
+# required on a railway
+# station
+ 
+# Returns minimum number
+# of platforms required
+ 
+ 
+def findPlatform(arr, dep, n):
+ 
+    # Sort arrival and
+    # departure arrays
+    arr.sort()
+    dep.sort()
+ 
+    # plat_needed indicates
+    # number of platforms
+    # needed at a time
+    plat_needed = 1
+    result = 1
+    i = 1
+    j = 0
+ 
+    # Similar to merge in
+    # merge sort to process
+    # all events in sorted order
+    while (i < n and j < n):
+ 
+        # If next event in sorted
+        # order is arrival,
+        # increment count of
+        # platforms needed
+        if (arr[i] <= dep[j]):
+ 
+            plat_needed += 1
+            i += 1
+ 
+        # Else decrement count
+        # of platforms needed
+        elif (arr[i] > dep[j]):
+ 
+            plat_needed -= 1
+            j += 1
+ 
+        # Update result if needed
+        if (plat_needed > result):
+            result = plat_needed
+ 
+    return result
+ 
+# Driver code
+ 
+ 
+arr = [900, 940, 950, 1100, 1500, 1800]
+dep = [910, 1200, 1120, 1130, 1900, 2000]
+n = len(arr)
+ 
+print("Minimum Number of Platforms Required = ",
+      findPlatform(arr, dep, n))
+ 
+# This code is contributed
+# by Anant Agarwal.
+#Output
+#3
+#Time Complexity: O(N * log N), One traversal O(n) of both the array is needed after sorting O(N * log N).
+#Auxiliary space: O(1), As no extra space is required.
+#-----------------------------------------------------------
+
+
