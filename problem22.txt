@@ -1,0 +1,347 @@
+Search a Word in a 2D Grid of characters
+
+Difficulty Level : Medium
+Last Updated : 11 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a 2D grid of characters and a single word/an array of words, find all occurrences of the given word/words in the grid. A word can be matched in all 8 directions at any point. Word is said to be found in a direction if all characters match in this direction (not in zig-zag form).
+The 8 directions are, Horizontally Left, Horizontally Right, Vertically Up, Vertically Down and 4 Diagonal directions.
+Example: 
+
+Input:  grid[][] = {"GEEKSFORGEEKS",
+                    "GEEKSQUIZGEEK",
+                    "IDEQAPRACTICE"};
+        word = "GEEKS"
+
+Output: pattern found at 0, 0
+        pattern found at 0, 8
+        pattern found at 1, 0
+Explanation: 'GEEKS' can be found as prefix of
+1st 2 rows and suffix of first row
+
+Input:  grid[][] = {"GEEKSFORGEEKS",
+                    "GEEKSQUIZGEEK",
+                    "IDEQAPRACTICE"};
+        word = "EEE"
+
+Output: pattern found at 0, 2
+        pattern found at 0, 10
+        pattern found at 2, 2
+        pattern found at 2, 12
+Explanation: EEE can be found in first row 
+twice at index 2 and index 10
+and in second row at 2 and 12
+Below diagram shows a bigger grid and presence of different words in it. 
+
+wordsearch(1)
+
+Source: Microsoft Interview Question.
+ 
+
+Recommended Problem
+Find the string in grid
+Recursion
+DFS
++3 more
+Zoho
+Flipkart
++4 more
+Solve Problem
+Submission count: 31.1K
+Approach when a single word is given: The idea used here is simple, we check every cell. If cell has first character, then we one by one try all 8 directions from that cell for a match. Implementation is interesting though. We use two arrays x[] and y[] to find next move in all 8 directions. 
+Below are implementation of the same:  
+
+C++
+Java
+Python3
+# Python3 program to search a word in a 2D grid
+class GFG:
+     
+    def __init__(self):
+        self.R = None
+        self.C = None
+        self.dir = [[-1, 0], [1, 0], [1, 1],
+                    [1, -1], [-1, -1], [-1, 1],
+                    [0, 1], [0, -1]]
+                     
+    # This function searches in all 8-direction
+    # from point(row, col) in grid[][]
+    def search2D(self, grid, row, col, word):
+         
+        # If first character of word doesn't match
+        # with the given starting point in grid.
+        if grid[row][col] != word[0]:
+            return False
+             
+        # Search word in all 8 directions
+        # starting from (row, col)
+        for x, y in self.dir:
+             
+            # Initialize starting point
+            # for current direction
+            rd, cd = row + x, col + y
+            flag = True
+             
+            # First character is already checked,
+            # match remaining characters
+            for k in range(1, len(word)):
+                 
+                # If out of bound or not matched, break
+                if (0 <= rd <self.R and
+                    0 <= cd < self.C and
+                    word[k] == grid[rd][cd]):
+                     
+                    # Moving in particular direction
+                    rd += x
+                    cd += y
+                else:
+                    flag = False
+                    break
+             
+            # If all character matched, then
+            # value of flag must be false       
+            if flag:
+                return True
+        return False
+         
+    # Searches given word in a given matrix
+    # in all 8 directions   
+    def patternSearch(self, grid, word):
+         
+        # Rows and columns in given grid
+        self.R = len(grid)
+        self.C = len(grid[0])
+         
+        # Consider every point as starting point
+        # and search given word
+        for row in range(self.R):
+            for col in range(self.C):
+                if self.search2D(grid, row, col, word):
+                    print("pattern found at " +
+                           str(row) + ', ' + str(col))
+                     
+# Driver Code
+if __name__=='__main__':
+    grid = ["GEEKSFORGEEKS",
+            "GEEKSQUIZGEEK",
+            "IDEQAPRACTICE"]
+    gfg = GFG()
+    gfg.patternSearch(grid, 'GEEKS')
+    print('')
+    gfg.patternSearch(grid, 'EEE')
+     
+# This code is contributed by Yezheng Li
+C#
+Javascript
+Output
+pattern found at 0, 0
+pattern found at 0, 8
+pattern found at 1, 0
+
+pattern found at 0, 2
+pattern found at 0, 10
+pattern found at 2, 2
+pattern found at 2, 12
+Complexity Analysis:  
+
+
+
+Time complexity: O(R*C*8*len(str)). 
+All the cells will be visited and traversed in all 8 directions, where R and C is side of matrix so time complexity is O(R*C).
+Auxiliary Space: O(1). 
+As no extra space is needed.
+Approach when array of words is given: The idea used here is simple, we check every cell. If cell has first character, then we one by one try all 8 directions from that cell for a match, put this check in a loop.  We use mover array to store the manner in which next moves are possible={left,right,up,down,…diagonals}. 
+Below are implementation of the same:  
+
+C++
+#include <bits/stdc++.h>
+using namespace std;
+// making a solution class to solve the problem and to keep
+// the components and functions of solution together
+class Solution {
+public:
+    // making the possible moves in movers array
+    vector<vector<int> > mover
+        = { { 1, 0 }, { 0, 1 },   { -1, 0 }, { 0, -1 },
+            { 1, 1 }, { -1, -1 }, { 1, -1 }, { -1, 1 } };
+    // making the board global variable
+    vector<vector<char> > board;
+    // depth first search for the string, with the
+    // coordinates and a visited array to take care that we
+    // do not overlap the places visited already
+    bool dfs(int x, int y, string& s,
+             vector<vector<bool> > vis)
+    {
+        // if string length becomes 0 means string is found
+        if (s.length() == 0)
+            return true;
+        vis[x][y] = true;
+        // making a solution boolean to see if we can
+        // perform depth search to find answer
+        bool sol = false;
+        // making possible moves
+        for (int i = 0; i < mover.size(); i++) {
+            int curr_x = mover[i][0] + x;
+            int curr_y = mover[i][1] + y;
+            // checking for out of bound areas
+            if (curr_x >= 0 && curr_x < board.size()) {
+                if (curr_y >= 0
+                    && curr_y < board[0].size()) {
+                    // checking for similarity in the first
+                    // letter and the visited array
+                    if (board[curr_x][curr_y] == s[0]
+                        && vis[curr_x][curr_y] == false) {
+                        string k = s.substr(
+                            1); // removing the first letter
+                                // from the string
+                        sol |= dfs(curr_x, curr_y, k, vis);
+                    }
+                }
+            }
+        }
+        return sol;
+    }
+    // making a function findwords to find words along with
+    // their location which inputs the board and list of
+    // words
+    vector<string> findWords(vector<vector<char> >& board,
+                             vector<string>& words)
+    {
+        this->board
+            = board; // making board a global variable
+        vector<string> ans;
+        vector<vector<bool> > vis(
+            board.size(),
+            vector<bool>(board[0].size(),
+                         false)); // visited array
+        for (auto& word : words) {
+            for (int i = 0; i < board.size(); i++) {
+                for (int j = 0; j < board[i].size(); j++) {
+                    if (board[i][j] == word[0]) {
+                        // if first letter of(i,j)==
+                        // string's first letter then we can
+                        // perform dfs to check the
+                        // possiblity of string being present
+                        // from location (i,j)
+                        string s = word.substr(1);
+                        if (dfs(i, j, s, vis)) {
+                            ans.push_back(
+                                word + "->{" + to_string(i)
+                                + "," + to_string(j) + "}");
+                        }
+                    }
+                }
+                if (ans.size() && ans.back() == word)
+                    break;
+            }
+        }
+        return ans;
+    }
+};
+int main()
+{
+    // making 1 instance of class solution as solver
+    Solution solver;
+    vector<vector<char> > board
+        = { { 'o', 'a', 'a', 'n' },
+            { 'e', 't', 'a', 'e' },
+            { 'i', 'h', 'k', 'r' },
+            { 'i', 'f', 'l', 'v' } };
+    vector<string> words = { "oath", "pea", "eat", "rain" };
+    // using the function findwords from our solution class
+    // to find the answer
+    vector<string> ans = solver.findWords(board, words);
+    // printing the answer
+    for (auto& part : ans)
+        cout << part << endl;
+    return 0;
+}//contributed by NamanAnand
+Output
+oath->{0,0}
+eat->{1,0}
+eat->{1,3}
+Complexity Analysis:  
+
+Time complexity: O(R*C*len(str)*Number(str)*len(str)). 
+All the cells will be visited and traversed in all 8 directions, where R and C is side of matrix so time complexity is O(R*C) for each string.
+Auxiliary Space: O(R*C*Numberof(str)*len(str)). (due to visited array)
+Exercise: The above solution only print locations of word. Extend it to print the direction where word is present.
+See this for solution of exercise.
+This article is contributed by Utkarsh Trivedi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+100
+Previous
+Aho-Corasick Algorithm for Pattern Searching
+Next
+Printing string in plus ‘+’ pattern in the matrix
+Related Articles
+1.
+Print the indices for every row of a grid from which escaping from the grid is possible
+2.
+Maximize median of a KxK sub-grid in an NxN grid
+3.
+Check if a word exists in a grid or not
+4.
+Convert a String into a square matrix grid of characters
+5.
+Anagram Substring Search (Or Search for all permutations)
+6.
+Binary Search Tree | Set 1 (Search and Insertion)
+7.
+Strings formed from given characters without any consecutive repeating characters
+8.
+Longest substring with atmost K characters from the given set of characters
+9.
+Rearrange characters in a String such that no two adjacent characters are same
+10.
+Collect maximum points in a grid using two traversals
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+Rajput-Ji
+yezhengli9
+rbaikejiang
+andrew1234
+coderangshu
+shivam2608
+avanitrachhadiya2155
+harshitkap00r
+sudhanshublaze
+namananand891
+Article Tags :
+Amazon
+FactSet
+Microsoft
+Morgan Stanley
+Samsung
+Zoho
+Matrix
+Pattern Searching
+Practice Tags :
+Amazon
+FactSet
+Microsoft
+Morgan Stanley
+Samsung
+Zoho
+Matrix
+Pattern Searching
+Improve Article
+Report Issue

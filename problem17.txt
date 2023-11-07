@@ -1,0 +1,727 @@
+Dynamic Programming | Wildcard Pattern Matching | Linear Time and Constant Space
+
+Difficulty Level : Hard
+Last Updated : 06 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a text and a wildcard pattern, find if wildcard pattern is matched with text. The matching should cover the entire text (not partial text).
+The wildcard pattern can include the characters ‘?’ and ‘*’:
+
+‘?’ – matches any single character
+‘*’ – Matches any sequence of characters (including the empty sequence)
+Pre-requisite: Dynamic Programming | Wildcard Pattern Matching
+
+Examples:
+
+Text = "baaabab",
+Pattern = “*****ba*****ab", output : true
+Pattern = "baaa?ab", output : true
+Pattern = "ba*a?", output : true
+Pattern = "a*ab", output : false 
+wildcard-pattern-matching
+
+Each occurrence of ‘?’ character in wildcard pattern can be replaced with any other character and each occurrence of ‘*’ with a sequence of characters such that the wildcard pattern becomes identical to the input string after replacement.
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed a solution here which has O(m x n) time and O(m x n) space complexity.
+For applying the optimization, we will at the first note the BASE CASE which says, if the length of the pattern is zero then answer will be true only if the length of the text with which we have to match the pattern is also zero.
+
+Algorithm:  
+
+
+
+Let i be the marker to point at the current character of the text. 
+Let j be the marker to point at the current character of the pattern. 
+Let index_txt be the marker to point at the character of text on which we encounter ‘*’ in the pattern. 
+Let index_pat be the marker to point at the position of ‘*’ in the pattern.
+At any instant, if we observe that txt[i] == pat[j], then we increment both i and j as no operation needs to be performed in this case.
+If we encounter pat[j] == ‘?’, then it resembles the case mentioned in step – (2) as ‘?’ has the property to match with any single character.
+If we encounter pat[j] == ‘*’, then we update the value of index_txt and index_pat as ‘*’ has the property to match any sequence of characters (including the empty sequence) and we will increment the value of j to compare next character of pattern with the current character of the text. (As character represented by i has not been answered yet).
+Now if txt[i] == pat[j], and we have encountered a ‘*’ before, then it means that ‘*’ included the empty sequence, else if txt[i] != pat[j], a character needs to be provided by ‘*’ so that current character matching takes place, then i needs to be incremented as it is answered now but the character represented by j still needs to be answered, therefore, j = index_pat + 1, i = index_txt + 1 (as ‘*’ can capture other characters as well), index_txt++ (as current character in text is matched).
+If step – (5) is not valid, that means txt[i] != pat[j], also we have not encountered a ‘*’ that means it is not possible for the pattern to match the string. (return false).
+Check whether j reached its final value or not, then return the final answer.
+Let us see the above algorithm in action, then we will move to the coding section:
+text = "baaabab" 
+pattern = "*****ba*****ab"
+NOW APPLYING THE ALGORITHM 
+Step - (1) : i = 0 (i --> 'b') 
+j = 0 (j --> '*') 
+index_txt = -1 
+index_pat = -1
+NOTE: LOOP WILL RUN TILL i REACHES ITS FINAL 
+VALUE OR THE ANSWER BECOMES FALSE MIDWAY. 
+FIRST COMPARISON :- 
+As we see here that pat[j] == '*', therefore directly jumping on to step - (4). 
+Step - (4) : index_txt = i (index_txt --> 'b') 
+index_pat = j (index_pat --> '*') 
+j++ (j --> '*')
+After four more comparisons : i = 0 (i --> 'b') 
+j = 5 (j --> 'b') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+SIXTH COMPARISON :- 
+As we see here that txt[i] == pat[j], but we already encountered '*' therefore using step - (5). 
+Step - (5) : i = 1 (i --> 'a') 
+j = 6 (j --> 'a') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+SEVENTH COMPARISON :- 
+Step - (5) : i = 2 (i --> 'a') 
+j = 7 (j --> '*') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+EIGHT COMPARISON :- 
+Step - (4) : i = 2 (i --> 'a') 
+j = 8 (j --> '*') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 7 (index_pat --> '*')
+After four more comparisons : i = 2 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+THIRTEENTH COMPARISON :- 
+Step - (5) : i = 3 (i --> 'a') 
+j = 13 (j --> 'b') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+FOURTEENTH COMPARISON :- 
+Step - (5) : i = 3 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+FIFTEENTH COMPARISON :- 
+Step - (5) : i = 4 (i --> 'b') 
+j = 13 (j --> 'b') 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+SIXTEENTH COMPARISON :- 
+Step - (5) : i = 5 (i --> 'a') 
+j = 14 (j --> end) 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+SEVENTEENTH COMPARISON :- 
+Step - (5) : i = 4 (i --> 'b') 
+j = 12 (j --> 'a') 
+index_txt = 4 (index_txt --> 'b') 
+index_pat = 11 (index_pat --> '*')
+EIGHTEENTH COMPARISON :- 
+Step - (5) : i = 5 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+NINETEENTH COMPARISON :- 
+Step - (5) : i = 6 (i --> 'b') 
+j = 13 (j --> 'b') 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+TWENTIETH COMPARISON :- 
+Step - (5) : i = 7 (i --> end) 
+j = 14 (j --> end) 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+NOTE : NOW WE WILL COME OUT OF LOOP TO RUN STEP - 7. 
+Step - (7) : j is already present at its end position, therefore answer is true.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to implement
+# wildcard pattern matching
+# algorithm
+ 
+# Function that matches input
+# txt with given wildcard pattern
+def stringmatch(txt, pat, n, m):
+     
+    # empty pattern can only
+    # match with empty string
+    # Base case
+    if (m == 0):
+        return (n == 0)
+         
+    # step 1
+    # initialize markers :
+    i = 0
+    j = 0
+    index_txt = -1
+    index_pat = -1
+    while(i < n - 2):
+         
+        # For step - (2, 5)
+        if (j < m and txt[i] == pat[j]):
+            i += 1
+            j += 1
+             
+        # For step - (3)
+        elif(j < m and pat[j] == '?'):
+            i += 1
+            j += 1
+             
+        # For step - (4)
+        elif(j < m and pat[j] == '*'):
+            index_txt = i
+            index_pat = j
+            j += 1
+             
+        # For step - (5)
+        elif(index_pat != -1):
+            j = index_pat + 1
+            i = index_txt + 1
+            index_txt += 1
+             
+        # For step - (6)
+        else:
+            return False
+    # For step - (7)
+    while (j < m and pat[j] == '*'):
+        j += 1
+ 
+    # Final Check
+    if(j == m):
+        return True
+ 
+    return False
+ 
+# Driver code
+strr = "baaabab"
+pattern = "*****ba*****ab"
+ 
+# char pattern[] = "ba*****ab"
+# char pattern[] = "ba * ab"
+# char pattern[] = "a * ab"
+if (stringmatch(strr, pattern, len(strr),
+                               len(pattern))):
+    print("Yes")
+else:
+    print( "No")
+ 
+pattern2 = "a*****ab";
+if (stringmatch(strr, pattern2, len(strr),
+                                len(pattern2))):
+    print("Yes")
+else:
+    print( "No")
+ 
+# This code is contributed
+# by sahilhelangia
+C#
+Javascript
+C++
+Java
+Python3
+# Python3 program to implement
+# wildcard pattern matching
+# algorithm
+ 
+# Function that matches input
+# txt with given wildcard pattern
+def stringmatch(txt, pat, n, m):
+     
+    # empty pattern can only
+    # match with empty string
+    # Base case
+    if (m == 0):
+        return (n == 0)
+         
+    # step 1
+    # initialize markers :
+    i = 0
+    j = 0
+    index_txt = -1
+    index_pat = -1
+    while(i < n - 2):
+         
+        # For step - (2, 5)
+        if (j < m and txt[i] == pat[j]):
+            i += 1
+            j += 1
+             
+        # For step - (3)
+        elif(j < m and pat[j] == '?'):
+            i += 1
+            j += 1
+             
+        # For step - (4)
+        elif(j < m and pat[j] == '*'):
+            index_txt = i
+            index_pat = j
+            j += 1
+             
+        # For step - (5)
+        elif(index_pat != -1):
+            j = index_pat + 1
+            i = index_txt + 1
+            index_txt += 1
+             
+        # For step - (6)
+        else:
+            return False
+    # For step - (7)
+    while (j < m and pat[j] == '*'):
+        j += 1
+ 
+    # Final Check
+    if(j == m):
+        return True
+ 
+    return False
+ 
+# Driver code
+strr = "baaabab"
+pattern = "*****ba*****ab"
+ 
+# char pattern[] = "ba*****ab"
+# char pattern[] = "ba * ab"
+# char pattern[] = "a * ab"
+if (stringmatch(strr, pattern, len(strr),
+                               len(pattern))):
+    print("Yes")
+else:
+    print( "No")
+ 
+pattern2 = "a*****ab";
+if (stringmatch(strr, pattern2, len(strr),
+                                len(pattern2))):
+    print("Yes")
+else:
+    print( "No")
+ 
+# This code is contributed
+# by sahilhelangia
+C#
+Javascript
+Complexity Analysis: 
+
+Time Complexity: O(m + n), where ‘m’ and ‘n’ are the lengths of text and pattern respectively.
+Auxiliary Space: O(1). No use of any data structure for storing values, since no extra space has been taken.
+
+
+
+
+Like
+10
+Previous
+Find minimum sum such that one of every three consecutive elements is taken
+Next
+Dynamic Programming | Building Bridges
+Related Articles
+1.
+Wildcard Pattern Matching
+2.
+WildCard pattern matching having three symbols ( * , + , ? )
+3.
+String matching where one string contains wildcard characters
+4.
+Count Possible Decodings of a given Digit Sequence in O(N) time and Constant Auxiliary space
+5.
+Sum of all substrings of a string representing a number | Set 2 (Constant Extra Space)
+6.
+Z algorithm (Linear time pattern searching Algorithm)
+7.
+CamelCase Pattern Matching
+8.
+Print all words matching a pattern in CamelCase Notation Dictionary
+9.
+Queries for rotation and Kth character of the given string in constant time
+10.
+C++ Program for Queries for rotation and Kth character of the given string in constant time
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shreyash_Pandey_NSIT
+@Shreyash_Pandey_NSIT
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+aliassar
+Rajput-Ji
+bidibaaz123
+jishantsingh
+rameshtravel07
+gabaa406
+rkbhola5
+hardikkoriintern
+rishavk61ns
+hianmoyo3s
+codearcade
+Article Tags :
+Competitive Programming
+Dynamic Programming
+Pattern Searching
+Strings
+Practice Tags :
+Dynamic Programming
+Pattern Searching
+StringsDynamic Programming | Wildcard Pattern Matching | Linear Time and Constant Space
+
+Difficulty Level : Hard
+Last Updated : 06 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a text and a wildcard pattern, find if wildcard pattern is matched with text. The matching should cover the entire text (not partial text).
+The wildcard pattern can include the characters ‘?’ and ‘*’:
+
+‘?’ – matches any single character
+‘*’ – Matches any sequence of characters (including the empty sequence)
+Pre-requisite: Dynamic Programming | Wildcard Pattern Matching
+
+Examples:
+
+Text = "baaabab",
+Pattern = “*****ba*****ab", output : true
+Pattern = "baaa?ab", output : true
+Pattern = "ba*a?", output : true
+Pattern = "a*ab", output : false 
+wildcard-pattern-matching
+
+Each occurrence of ‘?’ character in wildcard pattern can be replaced with any other character and each occurrence of ‘*’ with a sequence of characters such that the wildcard pattern becomes identical to the input string after replacement.
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed a solution here which has O(m x n) time and O(m x n) space complexity.
+For applying the optimization, we will at the first note the BASE CASE which says, if the length of the pattern is zero then answer will be true only if the length of the text with which we have to match the pattern is also zero.
+
+Algorithm:  
+
+
+
+Let i be the marker to point at the current character of the text. 
+Let j be the marker to point at the current character of the pattern. 
+Let index_txt be the marker to point at the character of text on which we encounter ‘*’ in the pattern. 
+Let index_pat be the marker to point at the position of ‘*’ in the pattern.
+At any instant, if we observe that txt[i] == pat[j], then we increment both i and j as no operation needs to be performed in this case.
+If we encounter pat[j] == ‘?’, then it resembles the case mentioned in step – (2) as ‘?’ has the property to match with any single character.
+If we encounter pat[j] == ‘*’, then we update the value of index_txt and index_pat as ‘*’ has the property to match any sequence of characters (including the empty sequence) and we will increment the value of j to compare next character of pattern with the current character of the text. (As character represented by i has not been answered yet).
+Now if txt[i] == pat[j], and we have encountered a ‘*’ before, then it means that ‘*’ included the empty sequence, else if txt[i] != pat[j], a character needs to be provided by ‘*’ so that current character matching takes place, then i needs to be incremented as it is answered now but the character represented by j still needs to be answered, therefore, j = index_pat + 1, i = index_txt + 1 (as ‘*’ can capture other characters as well), index_txt++ (as current character in text is matched).
+If step – (5) is not valid, that means txt[i] != pat[j], also we have not encountered a ‘*’ that means it is not possible for the pattern to match the string. (return false).
+Check whether j reached its final value or not, then return the final answer.
+Let us see the above algorithm in action, then we will move to the coding section:
+text = "baaabab" 
+pattern = "*****ba*****ab"
+NOW APPLYING THE ALGORITHM 
+Step - (1) : i = 0 (i --> 'b') 
+j = 0 (j --> '*') 
+index_txt = -1 
+index_pat = -1
+NOTE: LOOP WILL RUN TILL i REACHES ITS FINAL 
+VALUE OR THE ANSWER BECOMES FALSE MIDWAY. 
+FIRST COMPARISON :- 
+As we see here that pat[j] == '*', therefore directly jumping on to step - (4). 
+Step - (4) : index_txt = i (index_txt --> 'b') 
+index_pat = j (index_pat --> '*') 
+j++ (j --> '*')
+After four more comparisons : i = 0 (i --> 'b') 
+j = 5 (j --> 'b') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+SIXTH COMPARISON :- 
+As we see here that txt[i] == pat[j], but we already encountered '*' therefore using step - (5). 
+Step - (5) : i = 1 (i --> 'a') 
+j = 6 (j --> 'a') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+SEVENTH COMPARISON :- 
+Step - (5) : i = 2 (i --> 'a') 
+j = 7 (j --> '*') 
+index_txt = 0 (index_txt --> 'b') 
+index_pat = 4 (index_pat --> '*')
+EIGHT COMPARISON :- 
+Step - (4) : i = 2 (i --> 'a') 
+j = 8 (j --> '*') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 7 (index_pat --> '*')
+After four more comparisons : i = 2 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+THIRTEENTH COMPARISON :- 
+Step - (5) : i = 3 (i --> 'a') 
+j = 13 (j --> 'b') 
+index_txt = 2 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+FOURTEENTH COMPARISON :- 
+Step - (5) : i = 3 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+FIFTEENTH COMPARISON :- 
+Step - (5) : i = 4 (i --> 'b') 
+j = 13 (j --> 'b') 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+SIXTEENTH COMPARISON :- 
+Step - (5) : i = 5 (i --> 'a') 
+j = 14 (j --> end) 
+index_txt = 3 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+SEVENTEENTH COMPARISON :- 
+Step - (5) : i = 4 (i --> 'b') 
+j = 12 (j --> 'a') 
+index_txt = 4 (index_txt --> 'b') 
+index_pat = 11 (index_pat --> '*')
+EIGHTEENTH COMPARISON :- 
+Step - (5) : i = 5 (i --> 'a') 
+j = 12 (j --> 'a') 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+NINETEENTH COMPARISON :- 
+Step - (5) : i = 6 (i --> 'b') 
+j = 13 (j --> 'b') 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+TWENTIETH COMPARISON :- 
+Step - (5) : i = 7 (i --> end) 
+j = 14 (j --> end) 
+index_txt = 5 (index_txt --> 'a') 
+index_pat = 11 (index_pat --> '*')
+NOTE : NOW WE WILL COME OUT OF LOOP TO RUN STEP - 7. 
+Step - (7) : j is already present at its end position, therefore answer is true.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to implement
+# wildcard pattern matching
+# algorithm
+ 
+# Function that matches input
+# txt with given wildcard pattern
+def stringmatch(txt, pat, n, m):
+     
+    # empty pattern can only
+    # match with empty string
+    # Base case
+    if (m == 0):
+        return (n == 0)
+         
+    # step 1
+    # initialize markers :
+    i = 0
+    j = 0
+    index_txt = -1
+    index_pat = -1
+    while(i < n - 2):
+         
+        # For step - (2, 5)
+        if (j < m and txt[i] == pat[j]):
+            i += 1
+            j += 1
+             
+        # For step - (3)
+        elif(j < m and pat[j] == '?'):
+            i += 1
+            j += 1
+             
+        # For step - (4)
+        elif(j < m and pat[j] == '*'):
+            index_txt = i
+            index_pat = j
+            j += 1
+             
+        # For step - (5)
+        elif(index_pat != -1):
+            j = index_pat + 1
+            i = index_txt + 1
+            index_txt += 1
+             
+        # For step - (6)
+        else:
+            return False
+    # For step - (7)
+    while (j < m and pat[j] == '*'):
+        j += 1
+ 
+    # Final Check
+    if(j == m):
+        return True
+ 
+    return False
+ 
+# Driver code
+strr = "baaabab"
+pattern = "*****ba*****ab"
+ 
+# char pattern[] = "ba*****ab"
+# char pattern[] = "ba * ab"
+# char pattern[] = "a * ab"
+if (stringmatch(strr, pattern, len(strr),
+                               len(pattern))):
+    print("Yes")
+else:
+    print( "No")
+ 
+pattern2 = "a*****ab";
+if (stringmatch(strr, pattern2, len(strr),
+                                len(pattern2))):
+    print("Yes")
+else:
+    print( "No")
+ 
+# This code is contributed
+# by sahilhelangia
+C#
+Javascript
+C++
+Java
+Python3
+# Python3 program to implement
+# wildcard pattern matching
+# algorithm
+ 
+# Function that matches input
+# txt with given wildcard pattern
+def stringmatch(txt, pat, n, m):
+     
+    # empty pattern can only
+    # match with empty string
+    # Base case
+    if (m == 0):
+        return (n == 0)
+         
+    # step 1
+    # initialize markers :
+    i = 0
+    j = 0
+    index_txt = -1
+    index_pat = -1
+    while(i < n - 2):
+         
+        # For step - (2, 5)
+        if (j < m and txt[i] == pat[j]):
+            i += 1
+            j += 1
+             
+        # For step - (3)
+        elif(j < m and pat[j] == '?'):
+            i += 1
+            j += 1
+             
+        # For step - (4)
+        elif(j < m and pat[j] == '*'):
+            index_txt = i
+            index_pat = j
+            j += 1
+             
+        # For step - (5)
+        elif(index_pat != -1):
+            j = index_pat + 1
+            i = index_txt + 1
+            index_txt += 1
+             
+        # For step - (6)
+        else:
+            return False
+    # For step - (7)
+    while (j < m and pat[j] == '*'):
+        j += 1
+ 
+    # Final Check
+    if(j == m):
+        return True
+ 
+    return False
+ 
+# Driver code
+strr = "baaabab"
+pattern = "*****ba*****ab"
+ 
+# char pattern[] = "ba*****ab"
+# char pattern[] = "ba * ab"
+# char pattern[] = "a * ab"
+if (stringmatch(strr, pattern, len(strr),
+                               len(pattern))):
+    print("Yes")
+else:
+    print( "No")
+ 
+pattern2 = "a*****ab";
+if (stringmatch(strr, pattern2, len(strr),
+                                len(pattern2))):
+    print("Yes")
+else:
+    print( "No")
+ 
+# This code is contributed
+# by sahilhelangia
+C#
+Javascript
+Complexity Analysis: 
+
+Time Complexity: O(m + n), where ‘m’ and ‘n’ are the lengths of text and pattern respectively.
+Auxiliary Space: O(1). No use of any data structure for storing values, since no extra space has been taken.
+
+
+
+
+Like
+10
+Previous
+Find minimum sum such that one of every three consecutive elements is taken
+Next
+Dynamic Programming | Building Bridges
+Related Articles
+1.
+Wildcard Pattern Matching
+2.
+WildCard pattern matching having three symbols ( * , + , ? )
+3.
+String matching where one string contains wildcard characters
+4.
+Count Possible Decodings of a given Digit Sequence in O(N) time and Constant Auxiliary space
+5.
+Sum of all substrings of a string representing a number | Set 2 (Constant Extra Space)
+6.
+Z algorithm (Linear time pattern searching Algorithm)
+7.
+CamelCase Pattern Matching
+8.
+Print all words matching a pattern in CamelCase Notation Dictionary
+9.
+Queries for rotation and Kth character of the given string in constant time
+10.
+C++ Program for Queries for rotation and Kth character of the given string in constant time
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shreyash_Pandey_NSIT
+@Shreyash_Pandey_NSIT
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+aliassar
+Rajput-Ji
+bidibaaz123
+jishantsingh
+rameshtravel07
+gabaa406
+rkbhola5
+hardikkoriintern
+rishavk61ns
+hianmoyo3s
+codearcade
+Article Tags :
+Competitive Programming
+Dynamic Programming
+Pattern Searching
+Strings
+Practice Tags :
+Dynamic Programming
+Pattern Searching
+Strings

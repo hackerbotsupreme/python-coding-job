@@ -1,0 +1,172 @@
+String matching where one string contains wildcard characters
+
+Difficulty Level : Hard
+Last Updated : 22 Jun, 2022
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+Given two strings where first string may contain wild card characters and second string is a normal string. Write a function that returns true if the two strings match. The following are allowed wild card characters in first string. 
+
+* --> Matches with 0 or more instances of any character or set of characters.
+? --> Matches with any one character.
+For example, “g*ks” matches with “geeks” match. And string “ge?ks*” matches with “geeksforgeeks” (note ‘*’ at the end of first string). But “g*k” doesn’t match with “gee” as character ‘k’ is not present in second string. 
+
+Recommended Problem
+Wildcard string matching
+Strings
+Data Structures
+Amazon
+Ola Cabs
+Solve Problem
+Submission count: 20.1K
+C++
+Java
+Python3
+# Python program to match wild card characters
+ 
+# The main function that checks if two given strings match.
+# The first string may contain wildcard characters
+ 
+ 
+def match(first, second):
+ 
+    # If we reach at the end of both strings, we are done
+    if len(first) == 0 and len(second) == 0:
+        return True
+ 
+    # Make sure to eliminate consecutive '*'
+    if len(first) > 1 and first[0] == '*':
+        i = 0
+        while i+1 < len(first) and first[i+1] == '*':
+            i = i+1
+        first = first[i:]
+ 
+    # Make sure that the characters after '*' are present
+    # in second string. This function assumes that the first
+    # string will not contain two consecutive '*'
+    if len(first) > 1 and first[0] == '*' and len(second) == 0:
+        return False
+ 
+    # If the first string contains '?', or current characters
+    # of both strings match
+    if (len(first) > 1 and first[0] == '?') or (len(first) != 0
+                                                and len(second) != 0 and first[0] == second[0]):
+        return match(first[1:], second[1:])
+ 
+    # If there is *, then there are two possibilities
+    # a) We consider current character of second string
+    # b) We ignore current character of second string.
+    if len(first) != 0 and first[0] == '*':
+        return match(first[1:], second) or match(first, second[1:])
+ 
+    return False
+ 
+# A function to run test cases
+ 
+ 
+def test(first, second):
+    if match(first, second):
+        print("Yes")
+    else:
+        print("No")
+ 
+ 
+# Driver program
+test("g*ks", "geeks")  # Yes
+test("ge?ks*", "geeksforgeeks")  # Yes
+test("g*k", "gee")  # No because 'k' is not in second
+test("*pqrs", "pqrst")  # No because 't' is not in first
+test("abc*bcd", "abcdhghgbcd")  # Yes
+test("abc*c?d", "abcd")  # No because second must have 2 instances of 'c'
+test("*c*d", "abcd")  # Yes
+test("*?c*d", "abcd")  # Yes
+test("geeks**", "geeks")  # Yes
+ 
+# This code is contributed by BHAVYA JAIN and ROHIT SIKKA
+C#
+Javascript
+Output: 
+
+Yes
+Yes
+No
+No
+Yes
+No
+Yes
+Yes
+Yes
+Time Complexity: O(n)
+
+Auxiliary Space: O(1)
+
+
+
+Exercise 
+1) In the above solution, all non-wild characters of first string must be there is second string and all characters of second string must match with either a normal character or wildcard character of first string. Extend the above solution to work like other pattern searching solutions where the first string is pattern and second string is text and we should print all occurrences of first string in second. 
+2) Write a pattern searching function where the meaning of ‘?’ is same, but ‘*’ means 0 or more occurrences of the character just before ‘*’. For example, if first string is ‘a*b’, then it matches with ‘aaab’, but doesn’t match with ‘abb’. 
+This article is compiled by Vishal Chaudhary and reviewed by GeeksforGeeks team. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+23
+Previous
+Count of number of given string in 2D character array
+Related Articles
+1.
+Dynamic Programming | Wildcard Pattern Matching | Linear Time and Constant Space
+2.
+Wildcard Pattern Matching
+3.
+WildCard pattern matching having three symbols ( * , + , ? )
+4.
+Count the Number of matching characters in a pair of strings
+5.
+Smallest window that contains all characters of string itself
+6.
+Minimum Cost of deletions such that string does not contains same consecutive characters
+7.
+Check if a string contains uppercase, lowercase, special characters and numeric values
+8.
+Check if a String contains any index with more than K active characters
+9.
+Python program to check if a string contains all unique characters
+10.
+Find if an array contains a string with one mismatch
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+Rajput-Ji
+SoumikMondal
+amartyaghoshgfg
+dheerukd2002
+akashish__
+Article Tags :
+Amazon
+Ola Cabs
+Pattern Searching
+Strings
+Practice Tags :
+Amazon
+Ola Cabs
+Pattern Searching
+Strings
+Improve Article
+Report Issue

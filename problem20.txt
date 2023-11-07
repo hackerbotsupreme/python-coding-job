@@ -1,0 +1,132 @@
+Maximum length prefix of one string that occurs as subsequence in another
+
+Difficulty Level : Easy
+Last Updated : 13 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two strings s and t. The task is to find maximum length of some prefix of the string S which occur in string t as subsequence.
+
+Examples : 
+
+Input : s = "digger"
+        t = "biggerdiagram"
+Output : 3
+digger
+biggerdiagram
+Prefix "dig" of s is longest subsequence in t.
+
+Input : s = "geeksforgeeks"
+        t = "agbcedfeitk"
+Output : 4
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solutions is to consider all prefixes on by one and check if current prefix of s[] is a subsequence of t[] or not. Finally return length of the largest prefix.
+
+An efficient solution is based on the fact that to find a prefix of length n, we must first find the prefix of length n – 1 and then look for s[n-1] in t. Similarly, to find a prefix of length n – 1, we must first find the prefix of length n – 2 and then look for s[n – 2] and so on. 
+Thus, we keep a counter which stores the current length of prefix found. We initialize it with 0 and begin with the first letter of s and keep iterating over t to find the occurrence of the first letter. As soon as we encounter the first letter of s we update the counter and look for second letter. We keep updating the counter and looking for next letter, until either the string s is found or there are no more letters in t.
+
+Below is the implementation of this approach: 
+
+C++
+Java
+Python 3
+# Python 3 program to find maximum 
+# length prefix of one string occur
+# as subsequence in another string.
+  
+  
+# Return the maximum length 
+# prefix which is subsequence.
+def maxPrefix(s, t) :
+    count = 0
+  
+    # Iterating string T.
+    for i in range(0,len(t)) :
+          
+        # If end of string S.
+        if (count == len(s)) :
+            break
+  
+        # If character match, 
+        # increment counter.
+        if (t[i] == s[count]) :
+            count = count + 1
+              
+  
+    return count
+  
+  
+# Driver Code
+S = "digger"
+T = "biggerdiagram"
+  
+print(maxPrefix(S, T))
+  
+  
+# This code is contributed
+# by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+3
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+6
+Next
+Longest prefix which is also suffix
+Related Articles
+1.
+Find length of longest subsequence of one string which is substring of another string
+2.
+Find number of times a string occurs as a subsequence in given string
+3.
+Minimum number of removals required such that no subsequence of length 2 occurs more than once
+4.
+Minimize length of prefix of string S containing all characters of another string T
+5.
+Minimum number of characters required to be added to a String such that all lowercase alphabets occurs as a subsequence in increasing order
+6.
+Length of smallest substring of a given string which contains another string as subsequence | Set 2
+7.
+Find length of smallest substring of a given string which contains another string as subsequence
+8.
+Lexicographically largest subsequence such that every character occurs at least k times
+9.
+Longest subsequence where each character occurs at least k times
+10.
+Check if count of substrings in S with string S1 as prefix and S2 as suffix is equal to that with S2 as prefix and S1 as suffix
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+nidhi_biet
+miegir
+susmitakundugoaldanga
+hardikkoriintern
+Article Tags :
+subsequence
+Pattern Searching
+Strings
+Practice Tags :
+Pattern Searching
+Strings
+Improve Article
+Report Issue
