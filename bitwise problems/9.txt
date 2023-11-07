@@ -1,0 +1,162 @@
+Turn off the rightmost set bit
+
+Difficulty Level : Medium
+Last Updated : 13 Dec, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Write a program that unsets the rightmost set bit of an integer. 
+Examples : 
+ 
+
+Input:  12 (00...01100)
+Output: 8 (00...01000)
+
+Input:  7 (00...00111)
+Output: 6 (00...00110)
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Let the input number be n. n-1 would have all the bits flipped after the rightmost set bit (including the set bit). So, doing n&(n-1) would give us the required result. 
+
+So, now let us see how n – 1 is flipping all the bits to the right (including the rightmost set bit also) of the n. 
+Taking n = 12, so (n – 1) = 11,  
+
+n can be written like (n = (n – 1) + 1), so now we can think of this problem as Adding 1 to Any Number (refer this article for better understanding)
+Binary representation of (n-1) = 11 = 1011, so now lets make n from (n-1), which can be done by adding a 1 to (n-1)
+On adding 1 to any number X, all bits to the right of  rightmost 0 (including the rightmost zero) gets flipped
+(n-1) = 1011 
+
+(n-1) + 1 = 1100 (all the bits to the right of rightmost zero (including rightmost zero) got flipped)
+Since we have flipped the rightmost zero, so now, rightmost zero is now flipped to rightmost 1 (aka the rightmost set bit of n) and all bits before rightmost 0 are the same as before
+X = 010 . . . . . 0 (rightmost zero) 111
+
+X + 1 = 010 . . . . . 1 (rightmost one) 0 0 0
+
+Example : 
+
+X = 71 = Think of it as n – 1 
+
+Binary Representation of X = 1000111
+
+X + 1 = 72 = Think of it as n 
+
+Binary Representation of (X+1) = 1001000
+Observation : 
+
+1. All the bits to the left of rightmost 0 (excluding rightmost 0) in X (thinking it as n – 1) are same as in to the left of the rightmost 1(excluding rightmost 1)  in X + 1 (thinking of it as n)
+
+2. All the bits to the right of rightmost 0 (including rightmost 0) in X (thinking it as n – 1) are different as in to the right of the rightmost 1 (including rightmost 1) in X + 1 (thinking of it as n)
+
+So bitwise AND of left part of X (till rightmost 0, excluding rightmost 0) and left part of X + 1 (till rightmost 1, excluding rightmost 1) will give the required answer,  bitwise AND right part of X (from rightmost 0) and right part of X + 1 (from rightmost 1 (rightmost set bit)) will result in 0 
+ 
+
+C++
+C
+Java
+Python3
+# unsets the rightmost set bit
+# of n and returns the result
+def fun(n):
+ 
+     return n & (n-1)
+ 
+# Driver code
+ 
+n = 7
+print("The number after unsetting the rightmost set bit", fun(n))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+Javascript
+PHP
+Output
+The number after unsetting the rightmost set bit 6
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Another Approach:
+
+The rightmost set bit can be switched off by subtracting the LSB from the number.
+
+The LSB of a number can be obtained using (n & (-n)), therefore the number with the rightmost set bit of n switched off is equal to n – (n & (-n));
+
+C++
+Java
+Python3
+# Python3 program to implement the approach
+ 
+# unsets the rightmost set bit
+# of n and returns the result
+def fun(n):
+    return n - (n & (-n))
+ 
+# Driver Code
+n = 7
+print("The number after unsetting the rightmost set bit:", fun(n))
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+The number after unsetting the rightmost set bit: 6
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Please write comments if you find the above code/algorithm incorrect, or find better ways to solve the same problem
+ 
+
+
+
+Like
+Previous
+Multiply a given Integer with 3.5
+Next
+Find whether a given number is a power of 4 or not
+Related Articles
+1.
+Find array elements with rightmost set bit at the position of the rightmost set bit in K
+2.
+Set the rightmost off bit
+3.
+Predict the winner of a game by converting 0 to 1 turn by turn following the given rules
+4.
+How to turn off a particular bit in a number?
+5.
+Rank the array according to rightmost set bit and least set bits
+6.
+Set the rightmost unset bit
+7.
+Set the rightmost unset bit
+8.
+Number formed by the rightmost set bit in N
+9.
+Turnoff the rightmost set bit using 2s complement
+10.
+Number formed by flipping all bits to the left of rightmost set bit
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+rathbhupendra
+susmitakundugoaldanga
+anshkush92
+souravmahato348
+phasing17
+noviced3vq6
+Article Tags :
+Bit Magic
+Practice Tags :
+Bit Magic
+Report Issue

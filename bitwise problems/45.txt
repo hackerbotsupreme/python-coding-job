@@ -1,0 +1,575 @@
+Find the n-th number whose binary representation is a palindrome
+
+Difficulty Level : Expert
+Last Updated : 27 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+TFind the nth number whose binary representation is a palindrome. Do not consider the leading zeros, while considering the binary representation. Consider the 1st number whose binary representation is a palindrome as 1, instead of 0 
+
+Examples: 
+
+Input : 1
+Output : 1
+1st Number whose binary representation 
+is palindrome is 1 (1)
+
+Input : 9
+Output : 27
+9th Number whose binary representation
+is palindrome is 27 (11011)
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: Naive
+
+A naive approach would be, to traverse through all the integers from 1 to 2^31 – 1 and increment the palindrome count, if the number is a palindrome. When the palindrome count reaches the required n, break the loop and return the current integer. 
+
+C++
+// C++ program to find n-th number whose binary
+// representation is palindrome.
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Finds if the kth bit is set in the binary
+// representation
+int isKthBitSet(int x, int k)
+{
+    return (x & (1 << (k - 1))) ? 1 : 0;
+}
+ 
+// Returns the position of leftmost set bit
+// in the binary representation
+int leftmostSetBit(int x)
+{
+    int count = 0;
+    while (x) {
+        count++;
+        x = x >> 1;
+    }
+    return count;
+}
+ 
+// Finds whether the integer in binary
+// representation is palindrome or not
+int isBinPalindrome(int x)
+{
+    int l = leftmostSetBit(x);
+    int r = 1;
+ 
+    // One by one compare bits
+    while (l > r) {
+ 
+        // Compare left and right bits and converge
+        if (isKthBitSet(x, l) != isKthBitSet(x, r))
+            return 0;
+        l--;
+        r++;
+    }
+    return 1;
+}
+ 
+int findNthPalindrome(int n)
+{
+    int pal_count = 0;
+ 
+    // Start from 1, traverse through
+    // all the integers
+    int i = 0;
+    for (i = 1; i <= INT_MAX; i++) {
+        if (isBinPalindrome(i)) {
+            pal_count++;
+        }
+        // If we reach n, break the loop
+        if (pal_count == n)
+            break;
+    }
+ 
+    return i;
+}
+ 
+// Driver code
+int main()
+{
+    int n = 9;
+   
+    // Function Call
+    cout << findNthPalindrome(n);
+}
+ 
+// This code is contributed
+// by Akanksha Rai
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+27
+Time complexity: O(x) where x is a resultant number. 
+Auxiliary Space: O(1), the space complexity is O(1) since we are only using a constant amount of memory to store the values.
+
+Method 2: Using BFS
+
+
+
+In this approach first, we simply add   “11” this string into the queue. And then for every string, we have two cases. i.e 
+
+if the curr string of even length then add “0” and “1” at the mid of curr string and add it into the queue.
+if the curr string is of odd length then add mid char of the curr string into the resultant string and then add it into the queue.
+if curr string is of even length
+if curr string is of even length
+
+
+if curr string is of odd length
+
+ Below is the implementation of the above approach:
+
+C++
+// C++ program to find n-th palindrome
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// utility function which is used to
+// convert binary string into integer
+int convertStringToInt(string s)
+{
+    int num = 0;
+ 
+    // convert binary string into integer
+    for (int i = 0; i < s.size(); i++) {
+        num = num * 2 + (s[i] - '0');
+    }
+    return num;
+}
+ 
+// function to find nth binary palindrome number
+int getNthNumber(int n)
+{
+ 
+    // base case
+    if (n == 1)
+        return 1;
+    n--;
+ 
+    // stores the binary palindrome string
+    queue<string> q;
+ 
+    // add 2nd binary palindrome string
+    q.push("11");
+ 
+    // runs till the nth binary palindrome number
+    while (!q.empty()) {
+        // remove curr binary palindrome string from queue
+        string curr = q.front();
+        q.pop();
+        n--;
+ 
+        // if n==0 then we find the n'th binary palindrome
+        // so we return our answer
+        if (!n) {
+            return convertStringToInt(curr);
+        }
+ 
+        int mid = curr.size() / 2;
+ 
+        // if length is even .so it is our first case
+        // we have two choices
+        if (curr.size() % 2 == 0) {
+            string s0 = curr, s1 = curr;
+            s0.insert(mid, "0");
+            s1.insert(mid, "1");
+            q.push(s0);
+            q.push(s1);
+        }
+         
+        // if length is odd .so it is our second case
+        // we have only one choice
+        else {
+            string ch(1, curr[mid]);
+            string temp = curr;
+            temp.insert(mid, ch);
+            q.push(temp);
+        }
+    }
+ 
+    return 0;
+}
+ 
+// Driver Code
+int main()
+{
+    int n = 9;
+     
+    // Function Call
+    cout << getNthNumber(n);
+}
+ 
+// This code is contributed by Sagar Jangra and Naresh
+// Saharan
+Java
+Python3
+C#
+Javascript
+Output
+27
+Time complexity: O(N)
+Auxiliary Space: O(N)
+
+Method 3: Constructing the nth palindrome
+
+We can construct the nth binary palindrome in its binary representation directly using the below approach. 
+If we observe the first few binary palindromes 
+
+ *         | nth Binary  |
+       n   | Palindrome  |     Group
+           |             |
+--------------------------- Group 0
+    1 --->  1 (1)
+    
+
+Group 1 (Will have binary representation of length 2*(1)
+and 2*(1) + 1)
+
+    Fix the first and last bit as 1 and insert nothing
+    (|) in between. Length is 2*(1)
+    2 --->  1|1 (3)     
+
+    Fix the first and last bit as 1 and insert bit 0
+    in between. Length is 2*(1) + 1
+    3 --->  101 (5)    
+
+    Fix the first and last bit as 1 and insert bit 1 
+    in between. Length is 2*(1) + 1 
+    4 --->  111 (7)    
+    F
+
+Group 2 (Will have binary representation of length 
+    2*(2) and 2*(2) + 1).  Fix the first and last 
+    bit as 1 and insert nothing (|) at middle. 
+    And put 0 in binary format in both directions 
+    from middle. Length is 2*(2)
+    5 --->  10|01       
+    Fix the first and last bit as 1 and insert 
+    nothing (|) at middle. And put 1 in binary 
+    format in both directions from middle. 
+    Length is 2*(2)
+    6 --->  11|11      
+    
+    7 --->  10001      
+    8 --->  10101     
+    9 --->  11011     
+    10 --->  11111      
+    
+Group 3 (Will have binary representation of 
+        length 2*(3) and 2*(3) + 1)
+    11 ---> 100|001    
+    12 ---> 101|101    
+    13 ---> 110|011    
+    14 ---> 111|111  
+    
+    15 ---> 1000001  
+    16 ---> 1001001  
+    17 ---> 1010101  
+    18 ---> 1011101  
+    19 ---> 1100011  
+    20 ---> 1101011  
+    21 ---> 1110111    
+    22 ---> 1111111 
+-------------------- 
+Algorithm: 
+1) We can divide the set of palindrome numbers into some groups. 
+2) n-th group will have (2^(n-1) + 2^n = 3 * 2 ^(n-1) ) number of binary palindromes 
+3) With the given number, we can find the group to which it belongs and the offset in that group. 
+4) As the leading zeros are not to be considered, we should use bit 1 as the starting bit and the ending bit of the number in binary representation 
+5) And we will fill other bits based on the groupno and groupoffset 
+6) Based on the offset, we can find which bit should be inserted at the middle (|(nothing) or 0 or 1) and 
+which number(in binary form) (1 or 2 or 3 or 4 or ..) should be placed in both directions from the middle
+
+Consider Below Example 
+
+Let us construct the 8th binary palindrome number
+The group number will be 2, and no.of elements 
+before that group are 1 + 3 * 2^1 which is 4
+
+So the offset for the 8th element will be 8 - 4
+ - 1 = 3
+
+And first 2^(groupno - 1) = 2^1, elements will 
+have even length(in binary representation) of
+2*groupno, next 2^groupno elements will have odd 
+length(in binary representation) of 2*groupno + 1
+
+Place bit 1 as the first bit and as the last bit 
+(firstbit: 0, last bit: 2*groupno or 2*groupno - 1)
+
+As the offset is 3, 4th(3 + 1) element in the
+group, will have odd length and have 1 in the 
+middle
+
+Below is the table of middle bit to be used for 
+the given offset for the group 2
+offset    middle bit
+  0            |
+  1            |
+  2            0
+  3            1
+  4            0
+  5            1
+And we should be filling the binary representation 
+of number 0(((groupoffset) - 2^(groupno-1)) /2)
+from middle n both directions
+1 0 1 0 1
+FirstElement Number MiddleElement Number LastElement
+    1           0         1         0         1
+
+The 8th number will be 21
+Below is the implementation of the above idea : 
+
+C++
+// Efficient C++ program to find n-th palindrome
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Construct the nth binary palindrome with the
+// given group number, aux_number and operation
+// type
+int constructNthNumber(int group_no, int aux_num, int op)
+{
+    int INT_SIZE = 32 ;
+    int a[INT_SIZE] = { 0 };
+    int num = 0, len_f;
+    int i = 0;
+     
+    // No need to insert any bit in the middle
+    if (op == 2)
+    {
+         
+        // Length of the final binary representation
+        len_f = 2 * group_no;
+ 
+        // Fill first and last bit as 1
+        a[len_f - 1] = a[0] = 1;
+ 
+        // Start filling the a[] from middle,
+        // with the aux_num binary representation
+        while (aux_num)
+        {
+             
+            // Get the auxiliary number's ith bit and
+            // fill around middle
+            a[group_no + i]
+                = a[group_no - 1 - i]
+                = aux_num & 1;
+            aux_num = aux_num >> 1;
+            i++;
+        }
+    }
+ 
+    // Insert bit 0 in the middle
+    else if (op == 0)
+    {
+         
+        // Length of the final binary representation
+        len_f = 2 * group_no + 1;
+ 
+        // Fill first and last bit as 1
+        a[len_f - 1] = a[0] = 1;
+        a[group_no] = 0;
+ 
+        // Start filling the a[] from middle, with
+        // the aux_num binary representation
+        while (aux_num)
+        {
+             
+            // Get the auxiliary number's ith bit
+            // and fill around middle
+            a[group_no + 1 + i]
+                = a[group_no - 1 - i]
+                = aux_num & 1;
+            aux_num = aux_num >> 1;
+            i++;
+        }
+    }
+     
+    // Insert bit 1 in the middle
+    else
+    {
+         
+        // Length of the final binary representation
+        len_f = 2 * group_no + 1;
+ 
+        // Fill first and last bit as 1
+        a[len_f - 1] = a[0] = 1;
+        a[group_no] = 1;
+ 
+        // Start filling the a[] from middle, with
+        // the aux_num binary representation
+        while (aux_num)
+        {
+             
+            // Get the auxiliary number's ith bit
+            // and fill around middle
+            a[group_no + 1 + i]
+                = a[group_no - 1 - i]
+                = aux_num & 1;
+            aux_num = aux_num >> 1;
+            i++;
+        }
+    }
+ 
+    // Convert the number to decimal from binary
+    for(i = 0; i < len_f; i++)
+        num += (1 << i) * a[i];
+         
+    return num;
+}
+ 
+// Will return the nth binary palindrome number
+int getNthNumber(int n)
+{
+    int group_no = 0, group_offset;
+    int count_upto_group = 0, count_temp = 1;
+    int op, aux_num;
+ 
+    // Add number of elements in all the groups,
+    // until the group of the nth number is found
+    while (count_temp < n)
+    {
+        group_no++;
+ 
+        // Total number of elements until this group
+        count_upto_group = count_temp;
+        count_temp += 3 * (1 << (group_no - 1));
+    }
+ 
+    // Element's offset position in the group
+    group_offset = n - count_upto_group - 1;
+ 
+    // Finding which bit to be placed in the
+    // middle and finding the number, which we
+    // will fill from the middle in both
+    // directions
+    if ((group_offset + 1) <= (1 << (group_no - 1)))
+    {
+         
+        // No need to put extra bit in middle
+        op = 2;
+ 
+        // We need to fill this auxiliary number
+        // in binary form the middle in both directions
+        aux_num = group_offset;
+    }
+    else
+    {
+        if (((group_offset + 1) -
+           (1 << (group_no - 1))) % 2)
+         
+            // Need to Insert 0 at middle
+            op = 0;
+        else
+         
+            // Need to Insert 1 at middle
+            op = 1;
+        aux_num = ((group_offset) -
+                  (1 << (group_no - 1))) / 2;
+    }
+    return constructNthNumber(group_no, aux_num, op);
+}
+ 
+// Driver code
+int main()
+{
+    int n = 9;
+   
+    // Function Call
+    cout << getNthNumber(n) ;
+    return 0;
+}
+ 
+// This code is contributed by Khushboogoyal499
+C
+Java
+Python3
+C#
+PHP
+Javascript
+Output
+27
+Time Complexity: O(1).
+Auxiliary Space: O(1)
+
+Reference: 
+https://www.codeproject.com/Articles/1162038/Finding-nth-Binary-Palindrome-in-Csharp
+This article is contributed by Kamesh Relangi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on GeeksforGeek’s main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+19
+Previous
+Booth’s Multiplication Algorithm
+Next
+Optimization Techniques | Set 1 (Modulus)
+Related Articles
+1.
+Check if actual binary representation of a number is palindrome
+2.
+Check if binary representation of a number is palindrome
+3.
+Find the occurrence of the given binary pattern in the binary representation of the array elements
+4.
+Find Nth positive number whose digital root is X
+5.
+Count of root to leaf paths whose permutation is palindrome in a Binary Tree
+6.
+Find consecutive 1s of length >= n in binary representation of a number
+7.
+Find the number obtained after concatenation of binary representation of M and N
+8.
+Find the maximum between N and the number formed by reversing 32-bit binary representation of N
+9.
+Binary representation of next greater number with same number of 1's and 0's
+10.
+Number of leading zeros in binary representation of a given number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+ukasp
+Akanksha_Rai
+princiraj1992
+Rajput-Ji
+rituraj_jain
+Mithun Kumar
+naresh_saharan151
+avanitrachhadiya2155
+suresh07
+29AjayKumar
+khushboogoyal499
+princi singh
+ab2127
+simmytarika5
+kumargaurav97520
+factworx4i2
+Article Tags :
+Bit Magic
+DSA
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

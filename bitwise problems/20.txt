@@ -1,0 +1,139 @@
+Check if two numbers are equal without using arithmetic and comparison operators
+
+Difficulty Level : Basic
+Last Updated : 15 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two numbers, the task is to check if two numbers are equal without using Arithmetic and Comparison Operators or String functions.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 : The idea is to use XOR operator. XOR of two numbers is 0 if the numbers are the same, otherwise non-zero. 
+
+C++
+Java
+Python3
+# Python3 program to check if two numbers
+# are equal without using arithmetic
+# and comparison operators
+  
+def areSame(a, b):
+  
+# Function to check if two
+# numbers are equal using 
+# XOR operator
+ if ((a ^ b) != 0):
+    print("Not Same") 
+ else:
+    print("Same")
+  
+# Driver Code
+  
+areSame(10, 20)
+  
+# This code is contributed by Smitha
+C#
+PHP
+Javascript
+Output
+Not Same
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Method 2 : Here idea is using complement ( ~ ) and bit-wise ‘&’ operator. 
+
+C++
+Java
+Python3
+# Python3 program to check if two numbers
+# are equal without using arithmetic
+# and comparison operators
+  
+# Function to check if two
+# numbers are equal using
+# using ~ complement and & operator.
+  
+  
+def areSame(a, b):
+    if ((a & ~b) == 0 and (~a & b) == 0):
+        print("Same")
+    else:
+        print("Not Same")
+  
+  
+# Calling function
+areSame(10, 20)
+  
+# This code is contributed by Rajput-Ji
+C#
+PHP
+Javascript
+Output
+Not Same
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+
+Source: https://www.geeksforgeeks.org/count-of-n-digit-numbers-whose-sum-of-digits-equals-to-given-sum/
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+3
+Next
+Find XOR of two number without using XOR operator
+Related Articles
+1.
+Check if two numbers are equal without using comparison operators
+2.
+Subtract two numbers without using arithmetic operators
+3.
+Add two numbers without using arithmetic operators
+4.
+Smallest of three integers without comparison operators
+5.
+Check if n is divisible by power of 2 without using arithmetic operators
+6.
+Smallest perfect power of 2 greater than n (without using arithmetic operators)
+7.
+Subtract 1 without arithmetic operators
+8.
+Compare two integers without using any Comparison operator
+9.
+Operators in C | Set 2 (Relational and Logical Operators)
+10.
+Calculate 7n/8 without using division and multiplication operators
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+nitin mittal
+vivek kumar 9
+Rajput-Ji
+ukasp
+Akanksha_Rai
+govarun
+shikhasingrajput
+GauravRajput1
+subham348
+sonukmrpndt
+harendrakumar123
+Article Tags :
+Bit Magic
+Practice Tags :
+Bit Magic

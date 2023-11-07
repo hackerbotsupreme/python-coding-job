@@ -1,0 +1,127 @@
+XOR Encryption by Shifting Plaintext
+
+Difficulty Level : Hard
+Last Updated : 21 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Here is a cipher algorithm, based on hexadecimal strings that is implemented by XORing the given plaintext, N number of times where N is its length. But, the catch is that every next XOR operation is done after shifting the consecutive plain text entry to the right. A sample operation is shown below : XOR Encryption by Shifting Plaintext 1 Suppose the password is ‘abcd’ then the hexadecimal text is calculated as a1d0a1d by XORing the password with itself N times i.e. 4 times in this case. Similarly if the password is ‘636f646572’, then XOR Encryption by Shifting Plaintext 2 653cae8da8edb426052 is the hexadecimal text. So, the problem statement is to create a decryption algorithm (in any programming language) and deduce the plain text from the given hexadecimal string. Examples :
+
+Input : a1d0a1d
+Output : abcd
+abcd once coded will return a1d0a1d
+
+Input : 653cae8da8edb426052
+Output : 636f646572
+Approach : The key ingredient in encrypting and decrypting is in the properties of XOR. XOR is a bitwise operation where the result is 0 if the two possible inputs are same but 1 when the inputs are different. The XOR table is given below for reference :
+
+Inputs	Outputs
+X	Y	Z
+0	0	0
+0	1	1
+1	0	1
+1	1	0
+An important and useful property of XOR that is widely popular in cryptography is that in case of multiple XORing of numbers (say M numbers), if we know only the M – 1 numbers (one is unknown) along with the XOR result then, we can easily calculate the missing number by XORing the known numbers and the XOR result. This property is discussed with the following hexadecimal numbers : XOR Encryption by Shifting Plaintext 3 We shall be using the above listed property the most in course of this problem. Now, if we look at the encryption diagram of ‘abcd’ at the base it is just the repeated XORing of the digits. The rightmost digit is d and the rightmost digit of the ‘abcd’ is d as well so the last digit of both plaintext and hexstring is the same. The next digit is 1 which is calculated by XORing the second right digit of abcd and the previous digit i.e. 1 = d ^ c using the property we know the plain text digit can be deduced as d ^ 1 = c. Similarly, the next digit is a which is found by d ^ c ^ b = a. We only need to do this till the half of the hex string as the rest is symmetrical so they are not required. XOR Encryption by Shifting Plaintext 4 Below is the implementation of above approach : 
+
+C++
+Java
+Python
+# Implementation in Python 3
+ 
+# Hex String variable
+hex_s = '653cae8da8edb426052'
+ 
+# Plain text variable
+plain = ''
+ 
+# variable to store the XOR
+# of previous digits
+x = 0
+ 
+l = len(hex_s)
+ 
+# Loop for loop from the end to
+# the mid section of the string
+for i in range(l - 1, int(l / 2) - 1, -1):
+     
+    # calculation of the plaintext digit
+    y = x^int(hex_s[i], 16)
+     
+    # calculation of XOR chain
+    x = x^y
+    plain = hex(y)[-1] + plain
+     
+print(plain)
+C#
+Javascript
+Output:
+
+636f646572
+Time Complexity : O(l) ,where l is size of hex string
+
+Auxiliary Space : O(1)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+2
+Next
+XOR Cipher
+Related Articles
+1.
+Count of subarrays in range [L, R] having XOR + 1 equal to XOR (XOR) 1 for M queries
+2.
+Maximize difference between sum of prime and non-prime array elements by left shifting of digits minimum number of times
+3.
+Image Processing in Python (Scaling, Rotating, Shifting and Edge Detection)
+4.
+Modify a string by circularly shifting each character to the right by respective frequencies
+5.
+Check if a pair of integers A and B can coincide by shifting them by distances arr[(A%N +N)%N] and arr[(B%N +N)%N]
+6.
+Sort an array by left shifting digits of array elements
+7.
+Convert a Binary Tree to BST by left shifting digits of node values
+8.
+Convert an array into Bitonic array by right shifting array elements
+9.
+Modify array by right shifting digits of array elements to values exceeding K
+10.
+Sort elements of an array A[] placed on a number line by shifting i-th element to (i + B[i])th positions minimum number of times
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Pritom Gogoi
+@Pritom Gogoi
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+phasing17
+aditya942003patil
+Article Tags :
+Bitwise-XOR
+cryptography
+Bit Magic
+Mathematical
+Python
+Strings
+Practice Tags :
+Bit Magic
+cryptography
+Mathematical
+python
+Strings
+Improve Article
+Report Issue

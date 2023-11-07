@@ -1,0 +1,452 @@
+Count set bits in an integer
+
+Difficulty Level : Medium
+Last Updated : 29 Dec, 2022
+Read
+Discuss(110)
+Courses
+Practice
+Video
+ 
+Write an efficient program to count the number of 1s in the binary representation of an integer.
+Examples : 
+
+Input : n = 6
+Output : 2
+Binary representation of 6 is 110 and has 2 set bits
+
+Input : n = 13
+Output : 3
+Binary representation of 13 is 1101 and has 3 set bits
+
+ 
+
+setbit
+
+ 
+
+Recommended Problem
+Number of 1 Bits
+Bit Magic
+Data Structures
+Microsoft
+Samsung
++6 more
+Solve Problem
+Submission count: 84.4K
+1. Simple Method Loop through all bits in an integer, check if a bit is set and if it is, then increment the set bit count. See the program below. 
+
+
+
+C++
+C
+Java
+Python3
+# Python3 program to Count set
+# bits in an integer
+ 
+# Function to get no of set bits in binary
+# representation of positive integer n */
+def  countSetBits(n):
+    count = 0
+    while (n):
+        count += n & 1
+        n >>= 1
+    return count
+ 
+ 
+# Program to test function countSetBits */
+i = 9
+print(countSetBits(i))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(log n) 
+Auxiliary Space: O(1)
+
+Recursive Approach:  
+
+C++
+C
+Java
+Python3
+# Python3 implementation of recursive
+# approach to find the number of set
+# bits in binary representation of
+# positive integer n
+ 
+def countSetBits( n):
+     
+    # base case
+    if (n == 0):
+        return 0
+ 
+    else:
+ 
+        # if last bit set add 1 else
+        # add 0
+        return (n & 1) + countSetBits(n >> 1)
+         
+# Get value from user
+n = 9
+ 
+# Function calling
+print( countSetBits(n))    
+         
+# This code is contributed by sunnysingh
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(log n)
+Auxiliary Space: O(log n) for recursive stack space
+
+2. Brian Kernighan’s Algorithm: 
+Subtracting 1 from a decimal number flips all the bits after the rightmost set bit(which is 1) including the rightmost set bit. 
+for example : 
+10 in binary is 00001010 
+9 in binary is 00001001 
+8 in binary is 00001000 
+7 in binary is 00000111 
+So if we subtract a number by 1 and do it bitwise & with itself (n & (n-1)), we unset the rightmost set bit. If we do n & (n-1) in a loop and count the number of times the loop executes, we get the set bit count. 
+The beauty of this solution is the number of times it loops is equal to the number of set bits in a given integer. 
+
+   1  Initialize count: = 0
+   2  If integer n is not zero
+      (a) Do bitwise & with (n-1) and assign the value back to n
+          n: = n&(n-1)
+      (b) Increment count by 1
+      (c) go to step 2
+   3  Else return count
+Example for Brian Kernighan’s Algorithm:  
+
+   n =  9 (1001)
+   count = 0
+
+   Since 9 > 0, subtract by 1 and do bitwise & with (9-1)
+   n = 9&8  (1001 & 1000)
+   n = 8
+   count  = 1
+
+   Since 8 > 0, subtract by 1 and do bitwise & with (8-1)
+   n = 8&7  (1000 & 0111)
+   n = 0
+   count = 2
+
+   Since n = 0, return count which is 2 now.
+Implementation of Brian Kernighan’s Algorithm:  
+
+C++
+C
+Java
+Python3
+# Function to get no of set bits in binary
+# representation of passed binary no. */
+def countSetBits(n):
+ 
+    count = 0
+    while (n):
+        n &= (n-1)
+        count+= 1
+     
+    return count
+ 
+ 
+# Program to test function countSetBits
+i = 9
+print(countSetBits(i))
+  
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(log n)
+Auxiliary Space: O(1)
+
+Recursive Approach:  
+
+C++
+Java
+Python3
+# Python3 implementation for
+# recursive approach to find
+# the number of set bits using
+# Brian Kernighan’s Algorithm
+ 
+# recursive function to count
+# set bits
+def countSetBits(n):
+ 
+    # base case
+    if (n == 0):
+        return 0
+    else:
+        return 1 + countSetBits(n & (n - 1))
+             
+             
+# Get value from user
+n = 9
+     
+# function calling
+print(countSetBits(n))
+ 
+# This code is contributed by sunnysingh
+C#
+PHP
+Javascript
+Output
+2
+Time Complexity: O(log n)
+Auxiliary Space: O(log n)
+
+3. Using Lookup table: We can count bits in O(1) time using the lookup table.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python implementation of the approach
+BitsSetTable256 = [0] * 256
+ 
+# Function to initialise the lookup table
+def initialize():
+     
+    # To initially generate the
+    # table algorithmically
+    BitsSetTable256[0] = 0
+    for i in range(256):
+        BitsSetTable256[i] = (i & 1) + BitsSetTable256[i // 2]
+ 
+# Function to return the count
+# of set bits in n
+def countSetBits(n):
+    return (BitsSetTable256[n & 0xff] +
+            BitsSetTable256[(n >> 8) & 0xff] +
+            BitsSetTable256[(n >> 16) & 0xff] +
+            BitsSetTable256[n >> 24])
+ 
+# Driver code
+ 
+# Initialise the lookup table
+initialize()
+n = 9
+print(countSetBits(n))
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+2
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+We can find one use of counting set bits at Count number of bits to be flipped to convert A to B
+Note: In GCC, we can directly count set bits using __builtin_popcount(). So we can avoid a separate function for counting set bits. 
+
+C++
+Java
+Python3
+# Python3 program to demonstrate __builtin_popcount()
+ 
+print(bin(4).count('1'));
+print(bin(15).count('1'));
+ 
+# This code is Contributed by mits
+C#
+PHP
+Javascript
+Output
+1
+4
+Time complexity: O(1)
+Auxiliary space: O(1)
+
+4. Mapping numbers with the bit. It simply maintains a map(or array) of numbers to bits for a nibble. A Nibble contains 4 bits. So we need an array of up to 15. 
+int num_to_bits[16] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4}; 
+Now we just need to get nibbles of a given long/int/word etc recursively.
+
+C++
+C
+Java
+Python3
+# Python3 program to count set bits by pre-storing
+# count set bits in nibbles.
+ 
+num_to_bits =[0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4];
+ 
+# Recursively get nibble of a given number
+# and map them in the array
+def countSetBitsRec(num):
+    nibble = 0;
+    if(0 == num):
+        return num_to_bits[0];
+     
+    # Find last nibble
+    nibble = num & 0xf;
+     
+    # Use pre-stored values to find count
+    # in last nibble plus recursively add
+    # remaining nibbles.
+     
+    return num_to_bits[nibble] + countSetBitsRec(num >> 4);
+  
+ 
+# Driver code
+  
+num = 31;
+print(countSetBitsRec(num));
+ 
+ 
+# this code is contributed by mits
+C#
+PHP
+Javascript
+Output
+5
+Time Complexity: O(log n), because we have log(16, n) levels of recursion.
+Storage Complexity: O(1) Whether the given number is short, int, long, or long long we require an array of 16 sizes only, which is constant.
+
+5. Checking each bit in a number: 
+
+Each bit in the number is checked for whether it is set or not. The number is bitwise AND with powers of 2, so if the result is not equal to zero, we come to know that the particular bit in the position is set.
+
+C
+C++
+Java
+Python3
+# Check each bit in a number is set or not
+# and return the total count of the set bits
+ 
+ 
+def countSetBits(N):
+    count = 0
+ 
+    # (1 << i) = pow(2, i)
+    for i in range(4*8):
+        if(N & (1 << i)):
+            count += 1
+ 
+    return count
+ 
+    # Driver code
+N = 15
+print(countSetBits(N))
+ 
+# This code is contributed by avanitrachhadiya2155
+C#
+Javascript
+Output
+4
+Time complexity: O(1)
+Auxiliary space: O(1)
+
+ 
+Count set bits in an integer Using Lookup Table
+
+Asked in: Adobe, Brocade, Cisco, Juniper Networks, Qualcomm
+ 
+
+
+
+
+
+Like
+190
+Previous
+Count number of bits to be flipped to convert A to B
+Next
+Count total set bits in first N Natural Numbers (all numbers from 1 to N)
+Related Articles
+1.
+Count of pairs {X, Y} from an array such that sum of count of set bits in X ⊕ Y and twice the count of set bits in X & Y is M
+2.
+Check if bits of a number has count of consecutive set bits in increasing order
+3.
+Flip bits of the sum of count of set bits of two given numbers
+4.
+Count set bits in an integer using Lookup Table
+5.
+Print numbers having first and last bits as the only set bits
+6.
+Minimize cost of swapping set bits with unset bits in a given Binary string
+7.
+Next greater integer having one more number of set bits
+8.
+Previous smaller integer having one less number of set bits
+9.
+Find the largest number smaller than integer N with maximum number of set bits
+10.
+Minimum integer with at most K bits set such that their bitwise AND with N is maximum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+jit_t
+R_Raj
+NileshAwate
+BabisSarantoglou
+Mithun Kumar
+Akanksha_Rai
+SoumikMondal
+rathbhupendra
+likeicare
+Ankitkashyap
+Sanjit_Prasad
+SHUBHAMSINGH10
+29AjayKumar
+paulsonraja
+divyeshrabadiya07
+divyesh072019
+avanitrachhadiya2155
+rutvik_56
+noob2000
+mayanktyagi1709
+amit143katiyar
+ytxmobile
+rishavmahato348
+subham348
+krisania804
+abhijeet19403
+polymatir3j
+raj2002
+himanshiyadav7011
+noviced3vq6
+amankr0211
+Article Tags :
+Adobe
+Brocade
+Cisco
+Juniper Networks
+Qualcomm
+Samsung
+setBitCount
+Wipro
+Bit Magic
+Practice Tags :
+Adobe
+Brocade
+Cisco
+Juniper Networks
+Qualcomm
+Samsung
+Wipro
+Bit Magic
+Improve Article
+Report Issue

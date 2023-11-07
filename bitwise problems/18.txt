@@ -1,0 +1,243 @@
+Find XOR of two number without using XOR operator
+
+Difficulty Level : Medium
+Last Updated : 09 Nov, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given two integers, find XOR of them without using the XOR operator, i.e., without using ^ in C/C++.
+
+Examples :  
+
+Input:  x = 1, y = 2
+Output: 3
+
+Input:  x = 3, y = 5
+Output: 6
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A Simple Solution is to traverse all bits one by one. For every pair of bits, check if both are the same, set the corresponding bit like 0 in output, otherwise set it as 1. 
+
+C++
+C
+Java
+Python3
+# Python3 program to find XOR without using ^
+ 
+# Returns XOR of x and y
+def myXOR(x, y):
+    res = 0 # Initialize result
+ 
+    # Assuming 32-bit Integer
+    for i in range(31, -1, -1):
+         
+        # Find current bits in x and y
+        b1 = x & (1 << i)
+        b2 = y & (1 << i)
+        b1 = min(b1, 1)
+        b2 = min(b2, 1)
+ 
+        # If both are 1 then 0
+        # else xor is same as OR
+        xoredBit = 0
+        if (b1 & b2):
+            xoredBit = 0
+        else:
+            xoredBit = (b1 | b2)
+ 
+        # Update result
+        res <<= 1;
+        res |= xoredBit
+    return res
+ 
+# Driver Code
+x = 3
+y = 5
+print("XOR is", myXOR(x, y))
+ 
+# This code is contributed by Mohit Kumar
+C#
+Javascript
+Output
+XOR is 6
+Time Complexity: O(num), where num is the number of bits in the maximum of the two numbers.
+Auxiliary Space: O(1)
+
+Thanks to Utkarsh Trivedi for suggesting this solution.
+ 
+A Better Solution can find XOR without using a loop. 
+1) Find bitwise OR of x and y (Result has set bits where either x has set or y has set bit). OR of x = 3 (011) and y = 5 (101) is 7 (111)
+2) To remove extra set bits find places where both x and y have set bits. The value of the expression “~x | ~y” has 0 bits wherever x and y both have set bits.
+3) bitwise AND of “(x | y)” and “~x | ~y” produces the required result.
+
+Below is the implementation. 
+
+
+
+C++
+Java
+Python3
+# Python 3 program to
+# find XOR without using ^
+ 
+# Returns XOR of x and y
+def myXOR(x, y):
+    return ((x | y) &
+            (~x | ~y))
+ 
+# Driver Code
+x = 3
+y = 5
+print("XOR is" ,
+       myXOR(x, y))
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output
+XOR is 6
+Time Complexity: O(1) i.e. simple calculation of arithmetic and bitwise operator.
+Auxiliary Space: O(1)
+
+Thanks to jitu_the_best for suggesting this solution. 
+
+Alternate Solution : 
+
+C++
+Java
+Python3
+# Python3 program to
+# Returns XOR of x and y
+def myXOR(x, y):
+    return (x & (~y)) | ((~x )& y)
+ 
+# Driver Code
+x = 3
+y = 5
+print("XOR is" ,
+    myXOR(x, y))
+ 
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Output
+XOR is 6
+Time Complexity: O(1) i.e. simple calculation of arithmetic and bitwise operator.
+Auxiliary Space: O(1)
+
+Another Solution: we can simply use one of the properties of the XOR bitwise operator i.e. a+b = a^b + 2*(a&b), with the help of this we can do the same for an operator variant also.
+
+C++14
+Java
+Python3
+# Python3 program to return XOR of x and y without ^ operator
+def XOR(x, y):
+    return (x+y - (2*(x & y)))
+ 
+ 
+# Driver Code
+x = 3
+y = 5
+print("XOR of",x,'&',y,'is:',
+      XOR(x, y))
+ 
+# This code is contributed by vishu05
+C#
+Javascript
+Output
+6
+Time Complexity: O(1) i.e. simple calculation of arithmetic and bitwise operator.
+Auxiliary Space: O(1)
+
+Another Solution: We can simply subtract the AND(&) of the two numbers from the OR(|) so that the common bit gets canceled and the opposite bits remain in the answer.
+
+C++
+Java
+Python3
+# Python program to find XOR without using ^
+def XOR(x, y):
+    return ((x | y) - (x & y))
+ 
+x, y = 3, 5
+print(XOR(x, y))
+ 
+# This code is contributed by lokesh
+C#
+Javascript
+Output
+6
+Time Complexity: O(1) i.e. simple calculation of arithmetic and bitwise operator.
+Auxiliary Space: O(1)
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+32
+Previous
+Check if two numbers are equal without using arithmetic and comparison operators
+Next
+Write a one line C function to round floating point numbers
+Related Articles
+1.
+Compare two integers without using any Comparison operator
+2.
+Divide two integers without using multiplication, division and mod operator
+3.
+Find largest element from array without using conditional operator
+4.
+Multiply a number with 10 without using multiplication operator
+5.
+Check a number is odd or even without modulus operator
+6.
+Multiplying a variable with a constant without using multiplication operator
+7.
+Maximum OR value of a pair in an Array without using OR operator
+8.
+Count of subarrays in range [L, R] having XOR + 1 equal to XOR (XOR) 1 for M queries
+9.
+Bitwise XOR of same indexed array elements after rearranging an array to make XOR of same indexed elements of two arrays equal
+10.
+Find the remainder when N is divided by 4 using Bitwise AND operator
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Smitha Dinesh Semwal
+mohit kumar 29
+smona353
+shivanisinghss2110
+math_lover
+29AjayKumar
+surbhityagi15
+subham348
+subhammahato348
+vishwajeet0524
+umadevi9616
+GauravRajput1
+surinderdawra388
+surindertarika1234
+iamabhijha
+phasing17
+sumitgumber28
+rohitmishra051000
+raj2002
+garg28harsh
+user_7gr9iodclfx
+Article Tags :
+Bitwise-XOR
+Bit Magic

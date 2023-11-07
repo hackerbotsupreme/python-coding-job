@@ -1,0 +1,180 @@
+Find longest sequence of 1’s in binary representation with one flip
+
+Difficulty Level : Hard
+Last Updated : 15 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Give an integer n. We can flip exactly one bit. Write code to find the length of the longest sequence of 1 s you could create. 
+
+Examples: 
+
+Input : 1775         
+Output : 8 
+Binary representation of 1775 is 11011101111.
+After flipping the highlighted bit, we get 
+consecutive 8 bits. 11011111111.
+
+Input : 12         
+Output : 3 
+
+Input : 15
+Output : 5
+
+Input : 71
+Output: 4
+
+Binary representation of 71 is 1000111.
+After flipping the highlighted bit, we get 
+consecutive 4 bits. 1001111. 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to store the binary representation of a given number in a binary array. Once we have elements in a binary array, we can apply the methods discussed here.
+
+An efficient solution is to walk through the bits in the binary representation of the given number. We keep track of the current 1’s sequence length and the previous 1’s sequence length. When we see a zero, update the previous Length:  
+
+If the next bit is a 1, the previous Length should be set to the current Length.
+If the next bit is a 0, then we can’t merge these sequences together. So, set the previous Length to 0.
+We update max length by comparing the following two:  
+
+The current value of max-length
+Current-Length + Previous-Length .
+Result = return max-length+1 (// add 1 for flip bit count )
+Below is the implementation of the above idea : 
+
+C++
+Java
+Python3
+# Python3 program to find maximum
+# consecutive 1's in binary
+# representation of a number
+# after flipping one bit.
+def flipBit(a):
+     
+    # If all bits are l,
+    # binary representation
+    # of 'a' has all 1s
+    if (~a == 0):
+        return 8 * sizeof();
+ 
+    currLen = 0;
+    prevLen = 0;
+    maxLen = 0;
+    while (a > 0):
+         
+        # If Current bit is a 1
+        # then increment currLen++
+        if ((a & 1) == 1):
+            currLen += 1;
+ 
+        # If Current bit is a 0
+        # then check next bit of a
+        elif ((a & 1) == 0):
+             
+            # Update prevLen to 0
+            # (if next bit is 0)
+            # or currLen (if next
+            # bit is 1). */
+            prevLen = 0 if((a & 2) == 0) else currLen;
+ 
+            # If two consecutively bits
+            # are 0 then currLen also
+            # will be 0.
+            currLen = 0;
+ 
+        # Update maxLen if required
+        maxLen = max(prevLen + currLen, maxLen);
+ 
+        # Remove last bit (Right shift)
+        a >>= 1;
+ 
+    # We can always have a sequence
+    # of at least one 1, this is
+    # flipped bit
+    return maxLen + 1;
+ 
+# Driver code
+# input 1
+print(flipBit(13));
+ 
+# input 2
+print(flipBit(1775));
+ 
+# input 3
+print(flipBit(15));
+     
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output
+
+
+4
+8
+5
+Time Complexity: O(log2n)
+Auxiliary Space: O(1)
+
+This article is contributed by Mr. Somesh Awasthi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+4
+Previous
+Closest (or Next) smaller and greater numbers with same number of set bits
+Next
+Length of the Longest Consecutive 1s in Binary Representation
+Related Articles
+1.
+Length of the Longest Consecutive 1s in Binary Representation
+2.
+Longest common substring in binary representation of two numbers
+3.
+Length of longest consecutive zeroes in the binary representation of a number.
+4.
+Find the last player to be able to flip a character in a Binary String
+5.
+Find the occurrence of the given binary pattern in the binary representation of the array elements
+6.
+Next greater number than N with exactly one bit different in binary representation of N
+7.
+Find Index of 0 to be replaced with 1 to get longest continuous sequence of 1s in a binary array
+8.
+Find Index of 0 to be replaced with 1 to get longest continuous sequence of 1s in a binary array | Set-2
+9.
+Minimum flip required to make Binary Matrix symmetric
+10.
+Minimum flips required to form given binary string where every flip changes all bits to its right as well
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Mithun Kumar
+princiraj1992
+Rajput-Ji
+shubham_singh
+divyeshrabadiya07
+surinderdawra388
+phasing17
+Article Tags :
+binary-representation
+Bit Magic
+DSA
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

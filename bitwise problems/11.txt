@@ -1,0 +1,185 @@
+Rotate bits of a number
+
+Difficulty Level : Easy
+Last Updated : 13 Dec, 2022
+Read
+Discuss(50)
+Courses
+Practice
+Video
+Bit Rotation: A rotation (or circular shift) is an operation similar to shift except that the bits that fall off at one end are put back to the other end. 
+In left rotation, the bits that fall off at left end are put back at right end. 
+In right rotation, the bits that fall off at right end are put back at left end.
+ 
+
+Recommended Problem
+Rotate Bits
+Strings
+Bit Magic
++1 more
+Solve Problem
+Submission count: 27.1K
+Example: 
+Let n is stored using 8 bits. Left rotation of n = 11100101 by 3 makes n = 00101111 (Left shifted by 3 and first 3 bits are put back in last ). If n is stored using 16 bits or 32 bits then left rotation of n (000…11100101) becomes 00..0011100101000. 
+Right rotation of n = 11100101 by 3 makes n = 10111100 (Right shifted by 3 and last 3 bits are put back in first ) if n is stored using 8 bits. If n is stored using 16 bits or 32 bits then right rotation of n (000…11100101) by 3 becomes 101000..0011100. 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 code to
+# rotate bits of number
+ 
+INT_BITS = 32
+ 
+# Function to left
+# rotate n by d bits
+def leftRotate(n, d):
+ 
+    # In n<<d, last d bits are 0.
+    # To put first 3 bits of n at
+    # last, do bitwise or of n<<d
+    # with n >>(INT_BITS - d)
+    return (n << d)|(n >> (INT_BITS - d))
+ 
+# Function to right
+# rotate n by d bits
+def rightRotate(n, d):
+ 
+    # In n>>d, first d bits are 0.
+    # To put last 3 bits of at
+    # first, do bitwise or of n>>d
+    # with n <<(INT_BITS - d)
+    return (n >> d)|(n << (INT_BITS - d)) & 0xFFFFFFFF
+ 
+# Driver program to
+# test above functions
+n = 16
+d = 2
+ 
+print("Left Rotation of",n,"by"
+      ,d,"is",end=" ")
+print(leftRotate(n, d))
+ 
+print("Right Rotation of",n,"by"
+     ,d,"is",end=" ")
+print(rightRotate(n, d))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+Javascript
+Output
+Left Rotation of 16 by 2 is 64
+Right Rotation of 16 by 2 is 4
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+For 16 bit number:
+
+C++
+C
+Java
+Python3
+SHORT_SIZE = 16
+ 
+# function to rotate the given unsigned short
+# in the left direction
+def leftRotate(x, d):
+ 
+    return (x << d) | (x >> (SHORT_SIZE - d))
+ 
+  # function to rotate the given unsigned short
+# in the right direction
+def rightRotate(x, d):
+ 
+    return (x >> d) | (x << (SHORT_SIZE - d)) & 0xDDDDDF
+ 
+# Driver program to test above functions
+# Test case
+n = 28
+d = 2
+ 
+print("Left Rotation of",n,"by"
+      ,d,"is",end=" ")
+print(leftRotate(n, d))
+ 
+print("Right Rotation of",n,"by"
+     ,d,"is",end=" ")
+print(rightRotate(n, d))
+ 
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Output
+112
+7
+Time Complexity : O(1)
+Space Complexity : O(1)
+
+
+
+
+
+Please write comments if you find any bug in the above program or other ways to solve the same problem. 
+ 
+
+
+
+
+
+Like
+37
+Previous
+Compute modulus division by a power-of-2-number
+Next
+Count pairs with given sum
+Related Articles
+1.
+Java Program to Rotate bits of a number
+2.
+C++ Program to Rotate bits of a number
+3.
+C Program to Rotate bits of a number
+4.
+C# Program to Rotate bits of a number
+5.
+Python3 Program to Rotate bits of a number
+6.
+Check if bits of a number has count of consecutive set bits in increasing order
+7.
+Toggle bits of a number except first and last bits
+8.
+Print numbers having first and last bits as the only set bits
+9.
+Check if all bits can be made same by flipping two consecutive bits
+10.
+Flip bits of the sum of count of set bits of two given numbers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SoumikMondal
+rohitsingh07052
+Kapil1
+avanitrachhadiya2155
+ganesh227
+umadevi9616
+shivanisinghss2110
+rishavmahato348
+noviced3vq6
+Article Tags :
+rotation
+Bit Magic
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

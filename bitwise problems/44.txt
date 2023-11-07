@@ -1,0 +1,264 @@
+Number of pairs with Pandigital Concatenation
+
+Difficulty Level : Expert
+Last Updated : 05 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A pair of strings when concatenated is said to be a ‘Pandigital Concatenation’ if their concatenation consists of all digits from (0 – 9) in any order at least once.The task is, given N strings, compute the number of pairs resulting in a ‘Pandigital Concatenation’. 
+
+Examples: 
+
+Input  : num[] = {"123567", "098234", "14765", "19804"}
+Output : 3
+The pairs, 1st and 2nd giving 
+(123567098234),1st and 4rd giving(12356719804) and 
+2nd and 3rd giving (09823414765),
+on concatenation result in Pandigital Concatenations. 
+
+Input : num[] =  {"56789", "098345", "1234"}
+Output : 0
+None of the pairs on concatenation result in Pandigital 
+Concatenations.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Brute Force): A possible brute-force solution is to form all possible concatenations by forming all pairs in O(n2 and using a frequency array for digits (0 – 9), we check if each digit exists at least once in each concatenation formed for every pair. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find all
+# Pandigital concatenations
+# of two strings.
+ 
+# Checks if a given
+# is Pandigital
+def isPanDigital(s) :
+ 
+    digits = [False] * 10;
+ 
+    for i in range(0, len(s)) :
+        digits[int(s[i]) -
+               int('0')] = True
+ 
+    # digit i is not present
+    # thus not pandigital
+    for i in range(0, 10) :
+        if (digits[i] == False) :
+            return False
+ 
+    return True
+ 
+# Returns number of pairs
+# of strings resulting in
+# Pandigital Concatenations
+def countPandigitalPairs(v) :
+ 
+    # iterate over all
+    # pair of strings
+    pairs = 0
+    for i in range(0, len(v)) :
+ 
+        for j in range (i + 1,
+                        len(v)) :
+         
+            if (isPanDigital(v[i] +
+                             v[j])) :
+                pairs = pairs + 1
+    return pairs
+ 
+# Driver code
+v = ["123567", "098234",
+        "14765", "19804"]
+ 
+print (countPandigitalPairs(v))
+ 
+# This code is contributed by
+# Manish Shaw(manishshaw1)
+C#
+PHP
+Javascript
+Output
+3
+Method 2 (Efficient): 
+
+Now we look for something better than the brute-force discussed above. Careful analysis suggests that, for every digit 0 – 9 to be present we have a mask as 1111111111 (i.e. all numbers 0-9 exist in the array of numbers
+
+
+
+Digits -  0  1  2  3  4  5  6  7  8  9
+          |  |  |  |  |  |  |  |  |  |
+Mask   -  1  1  1  1  1  1  1  1  1  1 
+
+Here 1 denotes that the corresponding digits
+exists at-least once thus for all such Pandigital 
+Concatenations, this relationship should hold.
+So we can represent 11...11 as a valid mask for
+pandigital concatenations.
+So now the approach is to represent every string as a mask of 10 bits where the ith bit is set if the ith digit exists in the string. 
+
+E.g., "11405" can be represented as
+Digits -           0  1  2  3  4  5  6  7  8  9
+                   |  |  |  |  |  |  |  |  |  |
+Mask for 11405 -   1  1  0  0  1  1  0  0  0  0
+The approach though may look complete is still not efficient as we still have to iterate over all pairs and check if the OR of these two strings results in the mask of a valid Pandigital Concatenation. 
+
+If we analyze the possible masks of all possible strings we can understand that every single string would be only comprised of digits 0 – 9, so every number can at max contain all digits 0 to 9 at least once thus the mask of such a number would be 1111111111 (1023 in decimal). Thus, in the decimal system all masks exit in (0 – 1023]. 
+
+Now we just have to maintain a frequency array to store the number of times a mask exists in the array of strings.
+
+Let two masks be i and j with frequencies freqi and freqj respectively,
+If (i OR j) = Maskpandigital concatenation 
+Then, 
+Number of Pairs = freqi * freqj  
+
+Implementation:
+
+C++
+Java
+Python3
+# Python program to count PanDigital pairs
+pandigitalMask = ((1 << 10) - 1)
+freq = dict()
+ 
+def computeMaskFrequencies(v):
+    global freq
+    for i in range(len(v)):
+ 
+        mask = 0
+ 
+        # Stores digits present in string v[i]
+        # atleast once. We use a set as we only
+        # need digits which exist only once
+        # (irrespective of reputation)
+        digits = set()
+ 
+        for j in range(len(v[i])):
+            digits.add(int(v[i][j]))
+ 
+        # Calculate the mask by considering
+        # all digits existing atleast once
+        for it in digits:
+ 
+            digit = it
+            mask += (1 << digit)
+ 
+        # Increment the frequency of this mask
+        if mask in freq:
+            freq[mask] += 1
+ 
+        else:
+            freq[mask] = 1
+ 
+ 
+# Returns number of pairs of strings resulting
+# in Pandigital Concatenations
+def pandigitalConcatenations():
+    global freq
+ 
+    ans = 0
+ 
+    # All possible strings lie between 1 and 1023
+    # so we iterate over every possible mask
+    for i in range(1, 1024):
+        for j in range(1, 1024):
+ 
+            # if the concatenation results in mask of
+            # Pandigital Concatenation, calculate all
+            # pairs formed with Masks i and j
+            if ((i | j) == pandigitalMask and
+                    i in freq and j in freq):
+ 
+                if (i == j):
+                    ans += (freq[i] * (freq[i] - 1))
+                else:
+                    ans += (freq[i] * freq[j])
+ 
+    # Since every pair is considers twice,
+    # we get rid of half of these
+    return ans // 2
+ 
+ 
+def countPandigitalPairs(v):
+ 
+    # Find frequencies of all masks in
+    # given vector of strings
+    computeMaskFrequencies(v)
+ 
+    # Return all possible concatenations.
+    return pandigitalConcatenations()
+ 
+# Driver code
+v = ["123567", "098234", "14765", "19804"]
+print(countPandigitalPairs(v))
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+3
+Complexity : O(N * |s| + 1023 * 1023) where |s| gives length of strings in the array.
+
+
+
+
+
+Like
+4
+Previous
+Pairs whose concatenation contain all digits
+Next
+Find the n-th number whose binary representation is a palindrome
+Related Articles
+1.
+Count Pandigital Fractions pairs in given Array
+2.
+Pandigital number in a given base
+3.
+Pandigital Product
+4.
+Number of pairs of String whose concatenation leads to a Sorted string
+5.
+Pairs whose concatenation contain all digits
+6.
+Count of pairs of strings whose concatenation forms a palindromic string
+7.
+Count maximum concatenation of pairs from given array that are divisible by 3
+8.
+Maximize sum of array by repeatedly removing an element from pairs whose concatenation is a multiple of 3
+9.
+Check if a number is formed by Concatenation of 1, 14 or 144 only
+10.
+Minimum sub-array such that number of 1's in concatenation of binary representation of its elements is at least K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+sirjan13
+@sirjan13
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+amit143katiyar
+29AjayKumar
+gfgking
+surinderdawra388
+phasing17
+hardikkoriintern
+Article Tags :
+cpp-unordered_set
+cpp-vector
+Bit Magic
+DSA
+Strings
+Technical Scripter
+Practice Tags :
+Bit Magic
+Strings

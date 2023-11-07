@@ -1,0 +1,212 @@
+All about Bit Manipulation
+
+Difficulty Level : Easy
+Last Updated : 06 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Bit Manipulation is a technique used in a variety of problems to get the solution in an optimized way. This technique is very effective from a Competitive Programming point of view. It is all about Bitwise Operators which directly works upon binary numbers or bits of numbers that help the implementation fast. Below are the Bitwise Operators that are used:
+
+Bitwise AND (&)
+Bitwise OR (|)
+Bitwise XOR (^)
+Bitwise NOT (!)
+Learn more about Bitwise Operators in this article. Below are some common bit operations that are frequently used in programming:
+
+Bitwise Operations:
+
+Below is the table to illustrate the result when the operation is performed using Bitwise Operators. Here 0s or 1s mean a sequence of 0 or 1 respectively.
+
+Operators	Operations	Result
+XOR	X ^ 0s	X
+XOR	X ^ 1s	~X
+XOR	X ^ X	0
+AND	X & 0s	0
+AND	X & 1s	X
+AND	X & X	X
+OR	X | 0s	X
+OR	X | 1s	1s
+OR	X | X	X
+Get Bit:
+This method is used to find the bit at a particular position(say i) of the given number N. The idea is to find the Bitwise AND of the given number and 2i that can be represented as (1 << i). If the value return is 1 then the bit at the ith position is set. Otherwise, it is unset.
+
+Below is the pseudo-code for the same:
+
+C++
+Java
+Python3
+# Function to get the bit at the
+# ith position
+def getBit(num, i):
+   
+    # Return true if the bit is
+    # set. Otherwise return false
+    return ((num & (1 << i)) != 0)
+     
+# This code is contributed by shivani
+C#
+Javascript
+Set Bit:
+This method is used to set the bit at a particular position(say i) of the given number N. The idea is to update the value of the given number N to the Bitwise OR of the given number N and 2i that can be represented as (1 << i). If the value return is 1 then the bit at the ith position is set. Otherwise, it is unset.
+
+Below is the pseudo-code for the same:
+
+C++
+Java
+Python3
+# Function to set the ith bit of the
+# given number num
+def setBit(num, i):
+     
+    # Sets the ith bit and return
+    # the updated value
+    return num | (1 << i)
+ 
+# This code is contributed by kirti
+C#
+Javascript
+Clear Bit:
+This method is used to clear the bit at a particular position(say i) of the given number N. The idea is to update the value of the given number N to the Bitwise AND of the given number N and the compliment of 2i that can be represented as ~(1 << i). If the value return is 1 then the bit at the ith position is set. Otherwise, it is unset.
+
+Below is the pseudo-code for the same:
+
+C++
+Java
+Python3
+# Function to clear the ith bit of
+# the given number num
+ 
+def clearBit(num, i):
+ 
+    # Create the mask for the ith
+    # bit unset
+    mask = ~(1 << i)
+ 
+    # Return the updated value
+    return num & mask
+ 
+# This code is contributed by subhammahato348
+C#
+Javascript
+Below is the program that implements the above functionalities:
+
+C++
+Java
+Python
+# Python program to implement all the
+# above functionalities
+# Function to get the bit at the
+# ith position
+def getBit( num,  i):
+ 
+    # Return true if the ith bit is
+    # set. Otherwise return false
+    return ((num & (1 << i)) != 0)
+ 
+# Function to set the ith bit of the
+# given number num
+def setBit( num,  i):
+ 
+    # Sets the ith bit and return
+    # the updated value
+    return num | (1 << i)
+ 
+# Function to clear the ith bit of
+# the given number num
+def clearBit( num,  i):
+     
+    # Create the mask for the ith
+    # bit unset
+    mask = ~(1 << i)
+     
+    # Return the updated value
+    return num & mask
+ 
+# Driver Code
+# Given number N
+N = 70
+print"The bit at the 3rd position from LSB is: " , 1 if (getBit(N, 3)) else '0'
+ 
+print"The value of the given number" , "after setting the bit at","LSB is: " , setBit(N, 0)
+ 
+print"The value of the given number" , "after clearing the bit at","LSB is: " , clearBit(N, 0)
+ 
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Output
+The bit at the 3rd position from LSB is: 0
+The value of the given number after setting the bit at LSB is: 71
+The value of the given number after clearing the bit at LSB is: 70
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+44
+Previous
+How to Install a local module using npm?
+Next
+How to solve npm error npm ERR! code ELIFECYCLE ?
+Related Articles
+1.
+Bit manipulation | Swap Endianness of a number
+2.
+Maximize the Expression | Bit Manipulation
+3.
+Maximize the expression (A AND X) * (B AND X) | Bit Manipulation
+4.
+Winner in the Rock-Paper-Scissor game using Bit manipulation
+5.
+Fast Exponentiation using Bit Manipulation
+6.
+Bit Manipulation technique to replace boolean arrays of fixed size less than 64
+7.
+Find square root of a number using Bit Manipulation
+8.
+Store two numbers in one Byte using Bit manipulation
+9.
+Bits manipulation (Important tactics)
+10.
+Inserting m into n such that m starts at bit j and ends at bit i.
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+swagami6
+@swagami6
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rishavmahato348
+subhammahato348
+subham348
+ankita_saini
+shivanisinghss2110
+Kirti_Mangal
+divyeshrabadiya07
+souravmahato348
+rushikeshpatange11964
+m3rashidicxg
+_invincible
+Article Tags :
+Bit Algorithms
+Bitwise-AND
+Bitwise-OR
+Bitwise-XOR
+Technical Scripter 2020
+Bit Magic
+Technical Scripter
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

@@ -1,0 +1,280 @@
+heck if a number is Bleak
+
+Difficulty Level : Medium
+Last Updated : 17 Nov, 2021
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+A number ‘n’ is called Bleak if it cannot be represented as sum of a positive number x and set bit count in x, i.e., x + countSetBits(x) is not equal to n for any non-negative number x.
+Examples : 
+
+Input : n = 3
+Output : false
+3 is not Bleak as it can be represented
+as 2 + countSetBits(2).
+
+Input : n = 4
+Output : true
+4 is t Bleak as it cannot be represented 
+as sum of a number x and countSetBits(x)
+for any number x.
+ 
+
+Recommended Problem
+Bleak Numbers
+Bit Magic
+Data Structures
+SAP Labs
+Solve Problem
+Submission count: 17.5K
+Method 1 (Simple) 
+ 
+
+bool isBleak(n)
+1) Consider all numbers smaller than n
+    a) If x + countSetBits(x) == n
+           return false
+
+2) Return true
+Below is the implementation of the simple approach. 
+ 
+
+C++
+Java
+Python3
+# A simple Python 3 program
+# to check Bleak Number
+ 
+# Function to get no of set
+# bits in binary
+# representation of passed
+# binary no.
+def countSetBits(x) :
+     
+    count = 0
+     
+    while (x) :
+        x = x & (x-1)
+        count = count + 1
+     
+    return count
+     
+# Returns true if n
+# is Bleak
+def isBleak(n) :
+ 
+    # Check for all numbers 'x'
+    # smaller than n. If x +
+    # countSetBits(x) becomes
+    # n, then n can't be Bleak.
+    for x in range(1, n) :
+         
+        if (x + countSetBits(x) == n) :
+            return False
+             
+    return True
+     
+# Driver code
+if(isBleak(3)) :
+    print( "Yes")
+else :
+    print("No")
+ 
+if(isBleak(4)) :
+    print("Yes")
+else :
+    print( "No")
+     
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output : 
+
+No
+Yes
+Time complexity of above solution is O(n Log n). 
+
+Auxiliary Space: O(1)
+Method 2 (Efficient) 
+The idea is based on the fact that the largest count of set bits in any number smaller than n cannot exceed ceiling of Log2n. So we need to check only numbers from range n – ceilingLog2(n) to n.
+ 
+
+
+
+bool isBleak(n)
+1) Consider all numbers n - ceiling(Log2n) to n-1
+    a) If x + countSetBits(x) == n
+           return false
+
+2) Return true
+Below is the implementation of the idea. 
+ 
+
+C++
+Java
+Python3
+# An efficient Python 3 program
+# to check Bleak Number
+import math
+ 
+# Function to get no of set
+# bits in binary representation
+# of passed binary no.
+def countSetBits(x) :
+     
+    count = 0
+     
+    while (x) :
+        x = x & (x - 1)
+        count = count + 1
+     
+    return count
+     
+# A function to return ceiling
+# of log x in base 2. For
+# example, it returns 3 for 8
+# and 4 for 9.
+def ceilLog2(x) :
+     
+    count = 0
+    x = x - 1
+     
+    while (x > 0) :
+        x = x>>1
+        count = count + 1
+     
+    return count
+     
+# Returns true if n is Bleak
+def isBleak(n) :
+     
+    # Check for all numbers 'x'
+    # smaller than n. If x +
+    # countSetBits(x) becomes n,
+    # then n can't be Bleak
+    for x in range ((n - ceilLog2(n)), n) :
+         
+        if (x + countSetBits(x) == n) :
+            return False
+ 
+    return True
+ 
+# Driver code
+if(isBleak(3)) :
+    print("Yes")
+else :
+    print( "No")
+     
+if(isBleak(4)) :
+    print("Yes")
+else :
+    print("No")
+     
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output: 
+
+No
+Yes
+Time Complexity: O(Log n * Log n)
+
+Auxiliary Space: O(1)
+Note: In GCC, we can directly count set bits using __builtin_popcount(). So we can avoid a separate function for counting set bits.
+ 
+
+CPP
+Java
+Python3
+# Python program to demonstrate Integer.bitCount()
+ 
+def bitsoncount(i):
+    assert 0 <= i < 0x100000000
+    i = i - ((i >> 1) & 0x55555555)
+    i = (i & 0x33333333) + ((i >> 2) & 0x33333333)
+    return (((i + (i >> 4) & 0xF0F0F0F) * 0x1010101) & 0xffffffff) >> 24
+ 
+# Driver code
+if __name__ == '__main__':
+    x = 4;
+    y = 15;
+    print(bitsoncount(x));
+    print(bitsoncount(y));
+ 
+# This code is contributed by umadevi9616
+C#
+Javascript
+Output : 
+
+1
+4
+Time Complexity: O(log n)
+
+Auxiliary Space: O(1)
+
+This article is contributed by Rahuain. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+11
+Previous
+8 puzzle Problem using Branch And Bound
+Next
+Combinatorial Game Theory | Set 2 (Game of Nim)
+Related Articles
+1.
+How to check if a given number is Fibonacci number?
+2.
+Check if a number is a Krishnamurthy Number or not
+3.
+Check Whether a number is Duck Number or not
+4.
+Check if a number is divisible by all prime divisors of another number
+5.
+Check if given number is Emirp Number or not
+6.
+Check if a M-th fibonacci number divides N-th fibonacci number
+7.
+Check if a number has same number of set and unset bits
+8.
+Check if a number with even number of digits is palindrome or not
+9.
+Program to check whether a number is Proth number or not
+10.
+Check whether the given number is Euclid Number or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+vt_m
+chinmoy1997pal
+rameshtravel07
+umadevi9616
+subham348
+GauravRajput1
+Article Tags :
+SAP Labs
+SAP-Labs-Question
+Bit Magic
+DSA
+Practice Tags :
+SAP Labs
+Bit Magic
+Improve Article
+Report Issue

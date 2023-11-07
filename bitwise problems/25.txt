@@ -1,0 +1,252 @@
+Compute the minimum or maximum of two integers without branching
+
+Difficulty Level : Hard
+Last Updated : 12 Jun, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+On some rare machines where branching is expensive, the below obvious approach to find minimum can be slow as it uses branching.
+
+C++
+C
+Java
+Python3
+# The obvious approach to find minimum (involves branching)
+def min(x, y):
+    return x if x < y else y
+ 
+  # This code is contributed by subham348.
+C#
+Javascript
+Below are the methods to get minimum(or maximum) without using branching. Typically, the obvious approach is best, though.
+
+Method 1(Use XOR and comparison operator)
+Minimum of x and y will be 
+
+y ^ ((x ^ y) & -(x < y))
+It works because if x < y, then -(x < y) will be -1 which is all ones(11111….), so r = y ^ ((x ^ y) & (111111…)) = y
+
+And if x>y, then-(x<y) will be -(0) i.e -(zero) which is zero, so r = y^((x^y) & 0) = y^0 = y.
+
+On some machines, evaluating (x < y) as 0 or 1 requires a branch instruction, so there may be no advantage.
+To find the maximum, use 
+
+x ^ ((x ^ y) & -(x < y));
+C++
+C
+Java
+Python3
+# Python3 program to Compute the minimum
+# or maximum of two integers without
+# branching
+ 
+# Function to find minimum of x and y
+ 
+def min(x, y):
+ 
+    return y ^ ((x ^ y) & -(x < y))
+ 
+ 
+# Function to find maximum of x and y
+def max(x, y):
+ 
+    return x ^ ((x ^ y) & -(x < y))
+ 
+ 
+# Driver program to test above functions
+x = 15
+y = 6
+print("Minimum of", x, "and", y, "is", end=" ")
+print(min(x, y))
+print("Maximum of", x, "and", y, "is", end=" ")
+print(max(x, y))
+ 
+# This code is contributed
+# by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output: 
+
+Minimum of 15 and 6 is 6
+Maximum of 15 and 6 is 15
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Method 2(Use subtraction and shift) 
+If we know that 
+
+INT_MIN <= (x - y) <= INT_MAX
+, then we can use the following, which are faster because (x – y) only needs to be evaluated once. 
+Minimum of x and y will be 
+
+y + ((x - y) & ((x - y) >>(sizeof(int) * CHAR_BIT - 1)))
+This method shifts the subtraction of x and y by 31 (if size of integer is 32). If (x-y) is smaller than 0, then (x -y)>>31 will be 1. If (x-y) is greater than or equal to 0, then (x -y)>>31 will be 0. 
+So if x >= y, we get minimum as y + (x-y)&0 which is y. 
+If x < y, we get minimum as y + (x-y)&1 which is x.
+Similarly, to find the maximum use 
+
+x - ((x - y) & ((x - y) >> (sizeof(int) * CHAR_BIT - 1)))
+C++
+C
+Java
+Python3
+# Python3 implementation of the approach
+import sys;
+     
+CHAR_BIT = 8;
+INT_BIT = sys.getsizeof(int());
+ 
+#Function to find minimum of x and y
+def Min(x, y):
+    return y + ((x - y) & ((x - y) >>
+                (INT_BIT * CHAR_BIT - 1)));
+ 
+#Function to find maximum of x and y
+def Max(x, y):
+    return x - ((x - y) & ((x - y) >>
+                (INT_BIT * CHAR_BIT - 1)));
+ 
+# Driver code
+x = 15;
+y = 6;
+print("Minimum of", x, "and",
+                    y, "is", Min(x, y));
+print("Maximum of", x, "and",
+                    y, "is", Max(x, y));
+ 
+# This code is contributed by PrinciRaj1992
+C#
+Javascript
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Note that the 1989 ANSI C specification doesn’t specify the result of signed right-shift, so above method is not portable. If exceptions are thrown on overflows, then the values of x and y should be unsigned or cast to unsigned for the subtractions to avoid unnecessarily throwing an exception, however the right-shift needs a signed operand to produce all one bits when negative, so cast to signed there. 
+
+Method 3 (Use absolute value) 
+
+A generalized formula to find the max/min number with absolute value is : 
+
+(x + y + ABS(x-y) )/2
+Find the min number is: 
+
+(x + y - ABS(x-y) )/2
+So, if we can use the bitwise operation to find the absolute value, we can find the max/min number without using if conditions. The way to find the absolute way with bitwise operation can be found here:
+
+Step1) Set the mask as right shift of integer by 31 (assuming integers are stored as two’s-complement 32-bit values and that the right-shift operator does sign extension).
+
+mask = n>>31
+Step2) XOR the mask with number
+
+mask ^ n
+Step3) Subtract mask from result of step 2 and return the result.
+
+(mask^n) - mask 
+Therefore, we can conclude the solution as follows:
+
+C++
+Java
+Python3
+# Python3 program for the above approach
+def max(x, y):
+  abs = absbit32(x,y)
+  return (x + y + abs)//2     
+      
+def min(x, y):
+  abs = absbit32(x,y)
+  return (x + y - abs)//2
+      
+def absbit32( x, y):
+  sub = x - y
+  mask = (sub >> 31)
+  return (sub ^ mask) - mask      
+ 
+# Driver code
+print( max(2,3) ) #3
+print( max(2,-3) ) #2
+print( max(-2,-3) ) #-2
+print( min(2,3) ) #2
+print( min(2,-3) ) #-3
+print( min(-2,-3) ) #-3
+ 
+# This code is contributed by rohitsingh07052.
+C#
+Javascript
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+Source: 
+http://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Next
+Smallest of three integers without comparison operators
+Related Articles
+1.
+Compute the integer absolute value (abs) without branching
+2.
+Compute maximum of two integers in C/C++ using Bitwise Operators
+3.
+Compute average of two numbers without overflow
+4.
+Minimum product of k integers in an array of positive Integers
+5.
+Multiply two integers without using multiplication, division and bitwise operators, and no loops
+6.
+How to sum two integers without using arithmetic operators in C/C++?
+7.
+Compare two integers without using any Comparison operator
+8.
+Divide two integers without using multiplication, division and mod operator
+9.
+Divide two integers without using multiplication, division and mod operator | Set2
+10.
+Compute the maximum power with a given condition
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+ukasp
+shrikanth13
+SoumikMondal
+Mithun Kumar
+rathbhupendra
+29AjayKumar
+princiraj1992
+mrytseng
+contactgaurav27
+avanitrachhadiya2155
+shikhasingrajput
+amit143katiyar
+rohitsingh07052
+avijitmondal1998
+rishavmahato348
+subham348
+shubhamsingh84100
+ranjanrohit840
+Article Tags :
+Bitwise-XOR
+Bit Magic
+DSA
+Practice Tags :
+Bit Magic
+Report Issue

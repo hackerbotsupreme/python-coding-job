@@ -1,0 +1,201 @@
+Compute the parity of a number using XOR and table look-up
+
+Difficulty Level : Hard
+Last Updated : 28 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Parity of a number refers to whether it contains an odd or even number of 1-bits. The number has “odd parity”, if it contains odd number of 1-bits and is “even parity” if it contains even number of 1-bits.
+
+1 --> parity of the set is odd
+0 --> parity of the set is even
+Examples:
+
+Input : 254
+Output : Odd Parity
+Explanation : Binary of 254 is 11111110. 
+There are 7 ones. Thus, parity is odd.
+
+Input : 1742346774
+Output : Even
+Recommended Problem
+Parity of unsigned integer
+Mathematical
+Bit Magic
++2 more
+Solve Problem
+Submission count: 6.2K
+Method 1 : (Naive approach) We have already discussed this method here. Method 2 : (Efficient) Pre-requisites : Table look up, X-OR magic If we break a number S into two parts S1 and S2 such S = S1S2. If we know parity of S1 and S2, we can compute parity of S using below facts :
+
+If S1 and S2 have the same parity, i.e. they both have an even number of bits or an odd number of bits, their union S will have an even number of bits.
+Therefore parity of S is XOR of parities of S1 and S2
+The idea is to create a look up table to store parities of all 8 bit numbers. Then compute parity of whole number by dividing it into 8 bit numbers and using above facts. Steps:
+
+1. Create a look-up table for 8-bit numbers ( 0 to 255 )
+   Parity of 0 is 0.
+   Parity of 1 is 1.
+   .
+   .
+   .
+   Parity of 255 is 0.
+2. Break the number into 8-bit chunks
+   while performing XOR operations.
+3. Check for the result in the table for
+    the 8-bit number.
+Since a 32 bit or 64 bit number contains constant number of bytes, the above steps take O(1) time. Example :
+
+1. Take 32-bit number : 1742346774
+
+2. Calculate Binary of the number : 
+   01100111110110100001101000010110
+
+3. Split the 32-bit binary representation into 
+  16-bit chunks :
+0110011111011010 | 0001101000010110 
+
+4. Compute X-OR :
+  0110011111011010
+^ 0001101000010110
+___________________
+= 0111110111001100
+
+5. Split the 16-bit binary representation 
+   into 8-bit chunks : 01111101 | 11001100
+
+6. Again, Compute X-OR :
+  01111101
+^ 11001100
+___________________
+= 10110001
+10110001 is 177 in decimal. Check
+ for its parity in look-up table :
+Even number of 1 = Even parity.
+
+Thus, Parity of 1742346774 is even.
+Below is the implementation that works for both 32 bit and 64 bit numbers. 
+
+C++
+Java
+Python3
+# Python3 program to illustrate Compute the
+# parity of a number using XOR
+ 
+# Generating the look-up table while
+# pre-processing
+def P2(n, table):
+    table.extend([n, n ^ 1, n ^ 1, n])
+def P4(n, table):
+    return (P2(n, table), P2(n ^ 1, table),
+            P2(n ^ 1, table), P2(n, table))
+def P6(n, table):
+    return (P4(n, table), P4(n ^ 1, table),
+            P4(n ^ 1, table), P4(n, table))
+def LOOK_UP(table):
+    return (P6(0, table), P6(1, table),
+            P6(1, table), P6(0, table))
+ 
+# LOOK_UP is the macro expansion to
+# generate the table
+table = [0] * 256
+LOOK_UP(table)
+ 
+# Function to find the parity
+def Parity(num) :
+ 
+    # Number is considered to be
+    # of 32 bits
+    max = 16
+ 
+    # Dividing the number o 8-bit
+    # chunks while performing X-OR
+    while (max >= 8):
+        num = num ^ (num >> max)
+        max = max // 2
+ 
+    # Masking the number with 0xff (11111111)
+    # to produce valid 8-bit result
+    return table[num & 0xff]
+ 
+# Driver code
+if __name__ =="__main__":
+    num = 1742346774
+     
+    # Result is 1 for odd parity,
+    # 0 for even parity
+    result = Parity(num)
+    print("Odd Parity") if result else print("Even Parity")
+ 
+ 
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+PHP
+Javascript
+Output:
+
+
+
+Even Parity
+Time Complexity : O(1). Note that a 32 bit or 64 bit number has fixed number of bytes (4 in case of 32 bits and 8 in case of 64 bits). 
+
+Auxiliary Space: O(1)
+
+This article is contributed by Rohit Thapliyal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+6
+Previous
+Karatsuba algorithm for fast multiplication using Divide and Conquer algorithm
+Next
+Booth’s Multiplication Algorithm
+Related Articles
+1.
+Count trailing zero bits using lookup table
+2.
+Reverse bits using lookup table in O(1) time
+3.
+Count set bits in an integer using Lookup Table
+4.
+Query to count odd and even parity elements in subarray after XOR with K
+5.
+Minimum flips in a Binary array such that XOR of consecutive subarrays of size K have different parity
+6.
+Count of subarrays in range [L, R] having XOR + 1 equal to XOR (XOR) 1 for M queries
+7.
+Find XOR of two number without using XOR operator
+8.
+Finding the Parity of a number Efficiently
+9.
+Range Queries to count the number of even parity values with updates
+10.
+Minimum number of swaps required to make parity of array elements same as their indices
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+SHUBHAMSINGH10
+surinderdawra388
+phasing17
+rishavk61ns
+Article Tags :
+cryptography
+Bit Magic
+Mathematical
+Practice Tags :
+Bit Magic
+cryptography
+Mathematical

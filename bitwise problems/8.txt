@@ -1,0 +1,208 @@
+Add two bit strings
+
+Difficulty Level : Medium
+Last Updated : 28 Jun, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given two bit sequences as strings, write a function to return the addition of the two sequences. Bit strings can be of different lengths also. For example, if string 1 is “1100011” and second string 2 is “10”, then the function should return “1100101”. 
+ 
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+Since the sizes of two strings may be different, we first make the size of a smaller string equal to that of the bigger string by adding leading 0s. After making sizes the same, we one by one add bits from rightmost bit to leftmost bit. In every iteration, we need to sum 3 bits: 2 bits of 2 given strings and carry. The sum bit will be 1 if, either all of the 3 bits are set or one of them is set. So we can do XOR of all bits to find the sum bit. How to find carry – carry will be 1 if any of the two bits is set. So we can find carry by taking OR of all pairs. Following is step by step algorithm.
+1. Make them equal sized by adding 0s at the beginning of smaller string. 
+2. Perform bit addition 
+…..Boolean expression for adding 3 bits a, b, c 
+…..Sum = a XOR b XOR c 
+…..Carry = (a AND b) OR ( b AND c ) OR ( c AND a )
+Following is implementation of the above algorithm.
+ 
+
+C++
+Java
+Python3
+# Python3 program for above approach
+ 
+# adds the two-bit strings and return the result
+ 
+# Helper method: given two unequal sized bit strings,
+# converts them to same length by adding leading 0s
+# in the smaller string. Returns the new length
+def makeEqualLength(str1, str2):
+ 
+    len1 = len(str1)     # Length of string 1
+    len2 = len(str2)     # length of string 2
+    if len1 < len2:
+        str1 = (len2 - len1) * '0' + str1
+        len1 = len2
+    elif len2 < len1:
+        str2 = (len1 - len2) * '0' + str2
+        len2 = len1
+    return len1, str1, str2
+ 
+def addBitStrings( first, second ):
+    result = '' # To store the sum bits
+ 
+    # make the lengths same before adding
+    length, first, second = makeEqualLength(first, second)
+ 
+    carry = 0 # initialize carry as 0
+ 
+    # Add all bits one by one
+    for i in range(length - 1, -1, -1):
+        firstBit = int(first[i])
+        secondBit = int(second[i])
+ 
+        # boolean expression for sum of 3 bits
+        sum = (firstBit ^ secondBit ^ carry) + 48
+        result = chr(sum) + result
+ 
+        # boolean expression for 3 bits addition
+        carry = (firstBit & secondBit) | \
+                (secondBit & carry) | \
+                (firstBit & carry)
+ 
+        # if overflow, then add a leading 1
+    if carry == 1:
+        result = '1' + result
+    return result
+ 
+# Driver Code
+if __name__ == '__main__':
+    str1 = '1100011'
+    str2 = '10'
+    print('Sum is', addBitStrings(str1, str2))
+     
+# This code is contributed by
+# chaudhary_19 (Mayank Chaudhary)
+C#
+Javascript
+Output
+Sum is 1100101
+Time Complexity: O(|str1|)
+
+Auxiliary Space: O(1)
+
+Method – 2 (without adding extra zeros(0) in beginning of a small length string to make both strings with same length)
+
+Algo :  
+
+make to pointer i,j and set i = str1.size() – 1 and j = str2.size() – 1
+take initial carry as 0 ans ans string as empty (“”)
+while i>=0 or j>=0 or carry 
+add value of str1[i] and str2[j] in carry
+add (carry%2) in resulting(answer string) string
+set carry = carry/2
+return ans
+C++
+Java
+Python3
+# The function that adds two-bit sequences and returns the addition
+def addBitStrings(str1, str2):
+    ans = ''
+    i = len(str1) - 1
+    j = len(str2) - 1
+    carry = 0
+    while i >= 0 or j >= 0 or carry:
+        if i >= 0:
+            carry += ord(str1[i]) - ord('0')
+            i = i - 1
+        else:
+            carry += 0
+ 
+        if j >= 0:
+            carry += ord(str2[j]) - ord('0')
+            j = j - 1
+        else:
+            carry += 0
+ 
+        ans = chr(ord('0') + carry % 2) + ans
+        carry = carry // 2
+    return ans
+ 
+ 
+# Driver program to test above functions
+str1 = '1100011'
+str2 = '10'
+ 
+print('Sum is ', addBitStrings(str1, str2))
+ 
+# This code is contributed by ajaymakavan.
+C#
+Javascript
+Output
+Sum is 1100101
+Time Complexity: O(max(n,m)) (where, n = sizeof str1 & m = sizeof str2)
+Space Complexity: O(1)
+This article is compiled by Ravi Chandra Enaganti. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+7
+Previous
+Count strings with consecutive 1's
+Next
+Count number of binary strings without consecutive 1's
+Related Articles
+1.
+Inserting m into n such that m starts at bit j and ends at bit i.
+2.
+Inserting M into N such that m starts at bit j and ends at bit i | Set-2
+3.
+Count of 1-bit and 2-bit characters in the given binary string
+4.
+Minimum bit flips such that every K consecutive bits contain at least one set bit
+5.
+Find array elements with rightmost set bit at the position of the rightmost set bit in K
+6.
+Count bases which contains a set bit as the Most Significant Bit in the representation of N
+7.
+Find the index at which bit must be set to maximise distance between next set bit
+8.
+Find X in range [1, N] of bit size A[i] such that X^2's bit size is not present in Array
+9.
+Minimize bit flips such that each continuous segment of same bit has even length
+10.
+Implementation of Bit Stuffing and Bit Destuffing
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Akanksha_Rai
+Vivekkumar Singh
+chaudhary_19
+kumar65
+subham348
+surinderdawra388
+phasing17
+ajaymakvana
+sweetyty
+_shinchancode
+Article Tags :
+binary-representation
+binary-string
+Bitwise-XOR
+Bit Magic
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

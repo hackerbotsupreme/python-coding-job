@@ -1,0 +1,197 @@
+Copy set bits in a range
+
+Difficulty Level : Medium
+Last Updated : 16 Jun, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given two numbers x and y, and a range [l, r] where 1 <= l, r <= 32. The task is consider set bits of y in range [l, r] and set these bits in x also.
+Examples : 
+
+Input  : x = 10, y = 13, l = 2, r = 3
+Output : x = 14
+Binary representation of 10 is 1010 and 
+that of y is 1101. There is one set bit
+in y at 3'rd position (in given range). 
+After we copy this bit to x, x becomes 1110
+which is binary representation of 14.
+
+Input  : x = 8, y = 7, l = 1, r = 2
+Output : x = 11
+Source : D E Shaw Interview
+ 
+
+Recommended Problem
+Copy Set Bits in Range
+Bit Magic
+Data Structures
+D-E-Shaw
+Adobe
+Solve Problem
+Submission count: 14.5K
+Method 1 (One by one copy bits) 
+We can one by one find set bits of y by traversing given range. For every set bit, we OR it to existing bit of x, so that the becomes set in x, if it was not set. Below is C++ implementation.
+ 
+
+CPP
+Java
+Python3
+# Python program to rearrange array in alternating
+# Python program to copy set bits in a given
+# range [l, r] from y to x.
+ 
+# Copy set bits in range [l, r] from y to x.
+# Note that x is passed by reference and modified
+# by this function.
+def copySetBits(x, y, l, r):
+   
+    # l and r must be between 1 to 32
+    # (assuming ints are stored using
+    # 32 bits)
+    if (l < 1 or r > 32):
+        return x;
+ 
+    # Traverse in given range
+    for i in range(l, r + 1):
+       
+        # Find a mask (A number whose
+        # only set bit is at i'th position)
+        mask = 1 << (i - 1);
+ 
+        # If i'th bit is set in y, set i'th
+        # bit in x also.
+        if ((y & mask) != 0):
+            x = x | mask;
+    return x;
+ 
+# Driver code
+if __name__ == '__main__':
+    x = 10;
+    y = 13;
+    l = 1;
+    r = 32;
+    x = copySetBits(x, y, l, r);
+    print("Modified x is ", x);
+ 
+# This code is contributed by gauravrajput1
+C#
+Javascript
+Output
+Modified x is 15
+Time Complexity: O(r)
+
+Auxiliary Space: O(1)
+
+ 
+Method 2 (Copy all bits using one bit mask)
+ 
+
+
+
+CPP
+Java
+Python3
+# Python program to copy set bits in a given
+# range [l, r] from y to x.
+ 
+# Copy set bits in range [l, r] from y to x.
+# Note that x is passed by reference and modified
+# by this function.
+def copySetBits(x, y, l, r):
+ 
+    # l and r must be between 1 to 32
+    if (l < 1 or r > 32):
+        return x;
+ 
+    # get the length of the mask
+    maskLength = (int) ((1 << (r - l + 1)) - 1);
+ 
+    # Shift the mask to the required position
+    # "&" with y to get the set bits at between
+    # l ad r in y
+    mask = ((maskLength) << (l - 1)) & y;
+    x = x | mask;
+    return x;
+ 
+# Driver code
+if __name__ == '__main__':
+    x = 10;
+    y = 13;
+    l = 2;
+    r = 3;
+    x = copySetBits(x, y, l, r);
+    print("Modified x is " , x);
+ 
+# This code is contributed by gauravrajput1
+C#
+Javascript
+Output
+Modified x is 14
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Thanks to Ashish Rathi for suggesting this solution in a comment.
+This article is contributed by Rishi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+88
+Previous
+How to swap two bits in a given integer?
+Next
+Gray to Binary and Binary to Gray conversion
+Related Articles
+1.
+Count of pairs {X, Y} from an array such that sum of count of set bits in X ⊕ Y and twice the count of set bits in X & Y is M
+2.
+Check if bits of a number has count of consecutive set bits in increasing order
+3.
+Print numbers having first and last bits as the only set bits
+4.
+Flip bits of the sum of count of set bits of two given numbers
+5.
+Minimize cost of swapping set bits with unset bits in a given Binary string
+6.
+Toggle bits of a number except first and last bits
+7.
+Check if all bits can be made same by flipping two consecutive bits
+8.
+Set bits in N equals to M in the given range.
+9.
+Check whether all the bits are set in the given range
+10.
+Set all the bits in given range of a number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+chandrimaroychowdhury1999
+anikaseth98
+aniketkumar20
+adityajain19
+subham348
+umadevi9616
+GauravRajput1
+sankt
+Article Tags :
+Adobe
+D-E-Shaw
+Bit Magic
+Practice Tags :
+Adobe
+D-E-Shaw
+Bit Magic

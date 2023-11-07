@@ -1,0 +1,128 @@
+Compute modulus division by a power-of-2-number
+
+Difficulty Level : Medium
+Last Updated : 13 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Compute n modulo d without division(/) and modulo(%) operators, where d is a power of 2 number. 
+
+Input: 6 4
+Output: 2 
+Explanation: As 6%4 = 2
+
+Input: 12 8
+Output: 4
+Explanation: As 12%8 = 4
+
+Input: 10 2
+Output: 0
+Explanation:As 10%2 = 0
+Let ith bit from right is set in d. For getting n modulus d, we just need to return 0 to i-1 (from right) bits of n as they are and other bits as 0.
+For example if n = 6 (00..110) and d = 4(00..100). Last set bit in d is at position 3 (from right side). So we need to return last two bits of n as they are and other bits as 0, i.e., 00..010. 
+Now doing it is so easy, guess it….
+Yes, you have guessing it right. See the below program. 
+ 
+
+C++
+C
+Java
+Python3
+# Python code to demonstrate
+# modulus division by power of 2
+ 
+ 
+# This function will
+# return n % d.
+# d must be one of:
+# 1, 2, 4, 8, 16, 32, …
+def getModulo(n, d):
+ 
+    return ( n & (d-1) )
+          
+# Driver program to
+# test above function
+n = 6
+ 
+#d must be a power of 2
+d = 4
+print(n,"modulo",d,"is",
+      getModulo(n, d))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+6 modulo 4 is 2
+Time Complexity: O(1), As we are doing single operation which takes constant time.
+Auxiliary Space: O(1), As constant extra space is used.
+ 
+
+References: 
+http://graphics.stanford.edu/~seander/bithacks.html#ModulusDivisionEasy
+Please write comments if you find any bug in the above program/algorithm or other ways to solve the same problem. 
+ 
+
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Find whether a given number is a power of 4 or not
+Next
+Rotate bits of a number
+Related Articles
+1.
+Optimization Techniques | Set 1 (Modulus)
+2.
+Check a number is odd or even without modulus operator
+3.
+Compute the minimum or maximum of two integers without branching
+4.
+Compute the integer absolute value (abs) without branching
+5.
+Compute the parity of a number using XOR and table look-up
+6.
+Compute maximum of two integers in C/C++ using Bitwise Operators
+7.
+Calculate 7n/8 without using division and multiplication operators
+8.
+Divide two integers without using multiplication, division and mod operator
+9.
+Fast average of two numbers without division
+10.
+First number to leave an odd remainder after repetitive division by 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+simranarora5sos
+kavania2002
+souravmahato348
+rishavmahato348
+shivanisinghss2110
+varshagumber28
+abhijeet19403
+agfro1cac
+Article Tags :
+Bit Magic
+Practice Tags :
+Bit Magic
+Report Issue

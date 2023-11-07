@@ -1,0 +1,239 @@
+Count pairs in an array which have at least one digit common
+
+Difficulty Level : Hard
+Last Updated : 12 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of N numbers. Find out the number of pairs i and j such that i < j and Ai and Aj have at least one digit common (For e.g. (11, 19) have 1 digit common but (36, 48) have no digit common)
+
+Examples: 
+
+Input: A[] = { 10, 12, 24 } 
+Output: 2 
+Explanation: Two valid pairs are (10, 12) and (12, 24) which have atleast one digit common 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Brute Force):
+
+A naive approach to solve this problem is just by running two nested loops and consider all possible pairs. We can check if the two numbers have at least one common digit, by extracting every digit of the first number and try to find it in the extracted digits of second number. The task would become much easier we simply convert them into strings.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 Program to count pairs in
+# an array with some common digit
+ 
+# Returns true if the pair is
+# valid, otherwise false
+def checkValidPair(num1, num2) :
+     
+    # converting integers to strings
+    s1 = str(num1)
+    s2 = str(num2)
+ 
+    # Iterate over the strings and check if
+    # a character in first string is also
+    # present in second string, return true
+    for i in range(len(s1)) :
+        for j in range(len(s2)) :
+            if (s1[i] == s2[j]) :
+                return True;
+ 
+    # No common digit found
+    return False;
+ 
+# Returns the number of valid pairs
+def countPairs(arr, n) :
+     
+    numberOfPairs = 0
+ 
+    # Iterate over all possible pairs
+    for i in range(n) :
+        for j in range(i + 1, n) :
+            if (checkValidPair(arr[i], arr[j])) :
+                numberOfPairs += 1
+ 
+    return numberOfPairs
+ 
+# Driver Code
+if __name__ == "__main__" :
+    arr = [ 10, 12, 24 ]
+    n = len(arr)
+    print(countPairs(arr, n))
+ 
+# This code is contributed by Ryuga
+C#
+PHP
+Javascript
+Output
+
+
+2
+Time Complexity: O(N2) where N is the size of array.
+
+Method 2 (Bit Masking):
+
+An efficient approach of solving this problem is creating a bit mask for every digit present in a particular number. Thus, for every digit to be present in a number if we have a mask of 1111111111. 
+
+Digits -  0  1  2  3  4  5  6  7  8  9
+          |  |  |  |  |  |  |  |  |  |
+Mask   -  1  1  1  1  1  1  1  1  1  1 
+
+Here 1 denotes that the corresponding ith digit is set. 
+For e.g. 1235 can be represented as
+Digits -         0  1  2  3  4  5  6  7  8  9
+                 |  |  |  |  |  |  |  |  |  |
+Mask for 1235 -  0  1  1  1  0  1  0  0  0  0
+Now we just have to extract every digit of a number and make the corresponding bit set (1 << ith digit) and store the whole number as a mask. Careful analysis suggests that the maximum value of the mask is 1023 in decimal (which contains all the digits from 0 – 9). Since the same set of digits can exist in more than one number, we need to maintain a frequency array to store the count of mask value. 
+
+Let the frequencies of two masks i and j be freqi and freqj respectively, 
+If(i AND j) return true, means ith and jth mask contains atleast one common set bit which in turn implies that the numbers from which these masks have been built also contain a common digit 
+then, 
+increment the answer 
+ans += freqi * freqj [ if i != j ] 
+ans += (freqi * (freqi – 1)) / 2 [ if j == i ]  
+
+Below is the implementation of this efficient approach:
+
+C++
+Java
+Python3
+# Python3 Program to count pairs in an array
+# with some common digit
+ 
+# This function calculates the mask frequencies
+# for every present in the array
+def calculateMaskFrequencies(arr, n, freq):
+     
+    # Iterate over the array
+    for i in range(n):
+ 
+        num = arr[i]
+ 
+        # Creating an empty mask
+        mask = 0
+ 
+        # Extracting every digit of the number
+        # and updating corresponding bit in the
+        # mask
+        while (num > 0):
+            mask = mask | (1 << (num % 10))
+            num //= 10
+         
+        # Update the frequency array
+        freq[mask] = freq.get(mask, 0) + 1
+     
+# Function return the number of valid pairs
+def countPairs(arr, n):
+     
+    # Store the mask frequencies
+    freq = dict()
+ 
+    calculateMaskFrequencies(arr, n, freq)
+ 
+    numberOfPairs = 0
+ 
+    # Considering every possible pair of masks
+    # and calculate pairs according to their
+    # frequencies
+    for i in range(1024):
+ 
+        x = 0
+ 
+        if i in freq.keys():
+            x = freq[i]
+ 
+        numberOfPairs += (x * (x - 1)) // 2
+ 
+        for j in range(i + 1, 1024):
+ 
+            y = 0
+ 
+            if j in freq.keys():
+                y = freq[j]
+                 
+            # if it contains a common digit
+            if (i & j):
+                numberOfPairs += (x * y)
+         
+    return numberOfPairs
+ 
+# Driver Code
+arr = [10, 12, 24]
+n = len(arr)
+print(countPairs(arr, n))
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output
+2
+Time Complexity: O(N + 1024 * 1024), where N is the size of the array.
+
+
+
+
+
+Like
+4
+Previous
+Moser-de Bruijn Sequence
+Next
+Prime String
+Related Articles
+1.
+Count divisors of n that have at-least one digit common with n
+2.
+Longest subarray such that adjacent elements have at least one common digit | Set 1
+3.
+Longest subsequence such that adjacent elements have at least one common digit
+4.
+Longest subarray such that adjacent elements have at least one common digit | Set - 2
+5.
+Find the count of M character words which have at least one character repeated
+6.
+Count of N-digit numbers with at least one digit repeating
+7.
+Count of N digit numbers with at least one digit as K
+8.
+Count of numbers from the range [L, R] which contains at least one digit that divides K
+9.
+Count numbers up to N which contains at least one repeated digit
+10.
+Longest Subsequence with at least one common digit in every element
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant Tanwar
+@Nishant Tanwar
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+ankthon
+Shivi_Aggarwal
+mohit kumar 29
+gautamsai4914
+avanitrachhadiya2155
+rag2127
+SURENDRA_GANGWAR
+unknown2108
+hardikkoriintern
+Article Tags :
+cpp-unordered_map
+Arrays
+Bit Magic
+DSA
+Technical Scripter
+Practice Tags :
+Arrays
+Bit Magic

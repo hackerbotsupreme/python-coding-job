@@ -1,0 +1,336 @@
+Smallest power of 2 greater than or equal to n
+
+Difficulty Level : Medium
+Last Updated : 30 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Write a function that, for a given no n, finds a number p which is greater than or equal to n and is the smallest power of 2. 
+
+Examples : 
+
+Input: n = 5
+Output: 8     
+
+Input: n = 17
+Output: 32     
+
+Input  : n = 32
+Output: 32     
+
+Recommended Problem
+Smallest power of 2 greater than or equal to n
+Bit Magic
+Data Structures
+Solve Problem
+Submission count: 6.6K
+Method 1: Using log2(number) 
+
+Calculate the log2(N) and store it into a variable say ‘a’
+Check if pow(2, a) is equals to N
+Return, N
+Otherwise, return pow(2, a + 1)
+Below is the implementation of the above approach:
+
+
+
+C++
+// C++ program to find
+// smallest power of 2
+// greater than or equal to n
+#include <bits/stdc++.h>
+using namespace std;
+ 
+long long nearestPowerOf2(long long N)
+{
+    long long a = log2(N);
+ 
+    if (pow(2, a) == N)
+        return N;
+ 
+    return pow(2, a + 1);
+}
+ 
+// Driver Code
+int main()
+{
+    unsigned int n = 5;
+    cout << nearestPowerOf2(n);
+    return 0;
+}
+ 
+// This code is contributed by hkdass001
+Java
+C#
+Output
+8
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Example : 
+
+    Let us try for 17
+            pos = 5
+            p   = 32    
+Method 2 (By getting the position of only set bit in result ) 
+
+    /* If n is a power of 2 then return n */
+    1  If (n & !(n&(n-1))) then return n 
+    2  Else keep right shifting n until it becomes zero 
+        and count no of shifts
+        a. Initialize: count = 0
+        b. While n ! = 0
+                n = n>>1
+                count = count + 1
+
+     /* Now count has the position of set bit in result */
+    3  Return (1 << count)  
+Example : 
+
+    Let us try for 17
+                 count = 5
+                 p     = 32   
+C++
+C
+Java
+Python3
+def nextPowerOf2(n):
+    count = 0
+ 
+    # First n in the below
+    # condition is for the
+    # case where n is 0
+    if (n and not(n & (n - 1))):
+        return n
+     
+    while( n != 0):
+        n >>= 1
+        count += 1
+     
+    return 1 << count
+ 
+ 
+# Driver Code
+n = 0
+print(nextPowerOf2(n))
+# This code is contributed
+# by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+
+1
+Time Complexity: O(log n)
+Auxiliary Space: O(1)
+
+Method 3(Shift result one by one) 
+Thanks to coderyogi for suggesting this method . This method is a variation of method 2 where instead of getting count, we shift the result one by one in a loop. 
+
+C++
+C
+Java
+Python3
+def nextPowerOf2(n):
+ 
+    p = 1
+    if (n and not(n & (n - 1))):
+        return n
+ 
+    while (p < n) :
+        p <<= 1
+         
+    return p;
+ 
+ 
+# Driver Code
+n = 5
+print(nextPowerOf2(n));
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+8
+Time Complexity: O(log(n)) 
+Auxiliary Space: O(1)
+
+Method 4(Customized and Fast) 
+
+    1. Subtract n by 1
+       n = n -1
+
+    2. Set all bits after the leftmost set bit.
+
+    /* Below solution works only if integer is 32 bits */
+                n = n | (n >> 1);
+                n = n | (n >> 2);
+                n = n | (n >> 4);
+                n = n | (n >> 8);
+                n = n | (n >> 16);
+    3. Return n + 1
+Example : 
+
+Steps 1 & 3 of above algorithm are to handle cases 
+of power of 2 numbers e.g., 1, 2, 4, 8, 16,
+
+    Let us try for 17(10001)
+    step 1
+       n = n - 1 = 16 (10000)  
+    step 2
+       n = n | n >> 1
+       n = 10000 | 01000
+       n = 11000
+       n = n | n >> 2
+       n = 11000 | 00110
+       n = 11110
+       n = n | n >> 4
+       n = 11110 | 00001
+       n = 11111
+       n = n | n >> 8
+       n = 11111 | 00000
+       n = 11111
+       n = n | n >> 16
+       n = 11110 | 00000
+       n = 11111    
+
+    step 3: Return n+1
+     We get n + 1 as 100000 (32)
+Program: 
+
+C++
+C
+Java
+Python3
+# Finds next power of two
+# for n. If n itself is a
+# power of two then returns n
+def nextPowerOf2(n):
+ 
+    n -= 1
+    n |= n >> 1
+    n |= n >> 2
+    n |= n >> 4
+    n |= n >> 8
+    n |= n >> 16
+    n += 1
+    return n
+ 
+# Driver program to test
+# above function
+n = 5
+print(nextPowerOf2(n))
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output
+8
+Time Complexity : O(log(n)) 
+Auxiliary Space: O(1)
+
+Efficient approach:
+If the given number is the power of two then it is the required number otherwise set only the left bit of most significant bit which gives us the required number.
+
+C++
+C
+Java
+Python3
+# Python program to find
+# smallest power of 2
+# greater than or equal to n
+#include <iostream>
+def nextPowerOf2(N):
+    # if N is a power of two simply return it
+    if not (N & (N - 1)):
+        return N
+    # else set only the left bit of most significant bit
+    return  int("1" + (len(bin(N)) - 2) * "0", 2)
+ 
+# Driver Code
+n = 5
+print(nextPowerOf2(n))
+ 
+# this code is contributed by phasing17
+C#
+Javascript
+Output
+8
+Time Complexity : O(1) as counting leading zeroes can cause at most O(64) time complexity.
+Auxiliary Space: O(1)
+
+Related Post : 
+Highest power of 2 less than or equal to given number
+References : 
+http://en.wikipedia.org/wiki/Power_of_2
+ 
+
+
+
+
+
+Like
+12
+Previous
+Write an Efficient C Program to Reverse Bits of a Number
+Next
+How to swap two bits in a given integer?
+Related Articles
+1.
+Highest and Smallest power of K less than and greater than equal to N respectively
+2.
+Smallest power of 2 which is greater than or equal to sum of array elements
+3.
+Smallest power of 4 greater than or equal to N
+4.
+Smallest perfect power of 2 greater than n (without using arithmetic operators)
+5.
+Lexicographically smallest binary string formed by flipping bits at indices not divisible K1 or K2 such that count of 1s is always greater than 0s from left
+6.
+Highest power of 2 less than or equal to given number
+7.
+Highest power of 2 less than or equal to given Integer
+8.
+Count array elements whose highest power of 2 less than or equal to that number is present in the given array
+9.
+First element greater than or equal to X in prefix sum of N numbers using Binary Lifting
+10.
+Check if given number is a power of d where d is a power of 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+Smitha Dinesh Semwal
+rathbhupendra
+SHUBHAMSINGH10
+rutvik_56
+simranarora5sos
+bunnyram19
+souravmahato348
+shubham2468sky
+rishavmahato348
+dheerukd2002
+phasing17
+hkdass001
+factworx4i2
+surajrasr7277
+Article Tags :
+maths-power
+Bit Magic
+Practice Tags :
+Bit Magic

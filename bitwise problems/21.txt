@@ -1,0 +1,178 @@
+Detect if two integers have opposite signs
+
+Difficulty Level : Easy
+Last Updated : 13 Dec, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given two signed integers, write a function that returns true if the signs of given integers are different, otherwise false. For example, the function should return true -1 and +100, and should return false for -100 and -200. The function should not use any of the arithmetic operators. 
+Let the given integers be x and y. The sign bit is 1 in negative numbers, and 0 in positive numbers. The XOR of x and y will have the sign bit as 1 if they have opposite sign. In other words, XOR of x and y will be negative number if x and y have opposite signs. The following code use this logic. 
+
+C++
+C
+Java
+Python3
+# Python3 Program to Detect 
+# if two integers have 
+# opposite signs.
+def oppositeSigns(x, y):
+    return ((x ^ y) < 0);
+   
+x = 100
+y = 1
+   
+if (oppositeSigns(x, y) == True):
+    print ("Signs are opposite")
+else:
+    print ("Signs are not opposite")
+   
+# This article is contributed by Prerna Saini.
+C#
+PHP
+Javascript
+Output
+Signs are opposite
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Source: Detect if two integers have opposite signs
+We can also solve this by using two comparison operators. See the following code. 
+
+CPP
+C
+Java
+Python3
+def oppositeSigns(x, y):
+ 
+    return (y >= 0) if (x < 0) else (y < 0);
+ 
+# This code is contributed by shivanisingjss2110
+C#
+Javascript
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+The first method is more efficient. The first method uses a bitwise XOR and a comparison operator. The second method uses two comparison operators and a bitwise XOR operation is more efficient compared to a comparison operation. 
+We can also use following method. It doesn’t use any comparison operator. The method is suggested by Hongliang and improved by gaurav. 
+ 
+
+
+
+CPP
+C
+Java
+Python3
+def oppositeSigns(x, y):
+ 
+    return ((x ^ y) >> 31)
+   
+# this code is contributed by shivanisinghss2110
+C#
+Javascript
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+The function is written only for compilers where size of an integer is 32 bit. The expression basically checks sign of (x^y) using bitwise operator ‘>>’. As mentioned above, the sign bit for negative numbers is always 1. The sign bit is the leftmost bit in binary representation. So we need to checks whether the 32th bit (or leftmost bit) of x^y is 1 or not. We do it by right shifting the value of x^y by 31, so that the sign bit becomes the least significant bit. If sign bit is 1, then the value of (x^y)>>31 will be 1, otherwise 0. 
+
+C++
+C
+Java
+Python3
+# Python Program to detect
+# if two integers have opposite signs.
+ 
+def oppositeSigns(x,y):
+    product = x*y
+    return (product<0)
+ 
+# driver code
+x = 100
+y = -100
+if(oppositeSigns(x, y) == True):
+  print("Signs are opposite") 
+else :
+  print("Signs are not opposite")
+   
+# this code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Signs are opposite
+Approach: The basic approach is to calculate the product of the two integers, and as we know, two integers having opposite signs will always produce a negative integer, we need to just find out whether the product is negative or not.
+
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Please write comments if you find any of the above codes/algorithms incorrect, or find other ways to solve the same problem.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+48
+Previous
+Find the element that appears once
+Next
+Find the two numbers with odd occurrences in an unsorted array
+Related Articles
+1.
+Check if array can be sorted by swapping adjacent elements of opposite parity
+2.
+Maximum subset sum such that no two elements in set have same digit in them
+3.
+Compute the minimum or maximum of two integers without branching
+4.
+How to sum two integers without using arithmetic operators in C/C++?
+5.
+Compare two integers without using any Comparison operator
+6.
+Divide two integers without using multiplication, division and mod operator
+7.
+Bitwise recursive addition of two integers
+8.
+Hamming distance between two Integers
+9.
+Number of mismatching bits in the binary representation of two integers
+10.
+Find two integers A and B such that A ^ N = A + N and B ^ N = B + N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+vt_m
+code_hunt
+kumarmanglam182078
+umadevi9616
+shivanisinghss2110
+subham348
+shinjanpatra
+sanjoy_62
+avijitmondal1998
+shruti456rawal
+adityakumar129
+sagartomar9927
+mitalibhola94
+sayanc170
+raj2002
+Article Tags :
+Bitwise-XOR
+Bit Magic
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

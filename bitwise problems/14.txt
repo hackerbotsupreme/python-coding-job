@@ -1,0 +1,558 @@
+Program to find whether a given number is power of 2
+
+Difficulty Level : Easy
+Last Updated : 18 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a positive integer n, write a function to find if it is a power of 2 or not
+
+Examples: 
+
+Input : n = 4
+Output : Yes
+Explanation: 22 = 4
+
+Input : n = 32
+Output : Yes
+Explanation: 25 = 32
+
+Recommended Problem
+Power of 2
+Bit Magic
+Data Structures
+Adobe
+Solve Problem
+Submission count: 2.2L
+To solve the problem follow the below idea:
+
+A simple method for this is to simply take the log of the number on base 2 and if you get an integer then the number is the power of 2
+
+Below is the implementation of the above approach:
+
+
+
+C++
+C
+Java
+Python3
+# Python3 Program to find
+# whether a no is
+# power of two
+import math
+ 
+# Function to check
+# Log base 2
+ 
+ 
+def Log2(x):
+    if x == 0:
+        return false
+ 
+    return (math.log10(x) /
+            math.log10(2))
+ 
+# Function to check
+# if x is power of 2
+ 
+ 
+def isPowerOfTwo(n):
+    return (math.ceil(Log2(n)) ==
+            math.floor(Log2(n)))
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    # Function call
+    if(isPowerOfTwo(31)):
+        print("Yes")
+    else:
+        print("No")
+ 
+    if(isPowerOfTwo(64)):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed
+# by mits
+C#
+PHP
+Javascript
+Output
+No
+Yes
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Find whether a given number is a power of 2 using the division operator:
+To solve the problem follow the below idea:
+
+Another solution is to keep dividing the number by two, i.e, do n = n/2 iteratively. In any iteration, if n%2 becomes non-zero and n is not 1 then n is not a power of 2. If n becomes 1 then it is a power of 2. 
+
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to check if given
+# number is power of 2 or not
+ 
+# Function to check if x is power of 2
+ 
+ 
+def isPowerOfTwo(n):
+    if (n == 0):
+        return False
+    while (n != 1):
+        if (n % 2 != 0):
+            return False
+        n = n // 2
+ 
+    return True
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    # Function call
+    if(isPowerOfTwo(31)):
+        print('Yes')
+    else:
+        print('No')
+    if(isPowerOfTwo(64)):
+        print('Yes')
+    else:
+        print('No')
+ 
+# This code is contributed by Danish Raza
+C#
+PHP
+Javascript
+Output
+No
+Yes
+Time Complexity: O(log N)
+Auxiliary Space: O(1)
+
+Below is the recursive implementation of the above approach:
+C++
+C
+Java
+Python3
+# Python program for above approach
+ 
+# function which checks whether a
+# number is a power of 2
+ 
+ 
+def powerof2(n):
+ 
+    # base cases
+    # '1' is the only odd number
+    # which is a power of 2(2^0)
+    if n == 1:
+        return True
+ 
+    # all other odd numbers are not powers of 2
+    elif n % 2 != 0 or n == 0:
+        return False
+ 
+    # recursive function call
+    return powerof2(n/2)
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+        # Function call
+    print(powerof2(64))  # True
+    print(powerof2(12))  # False
+ 
+# code contributed by Moukthik a.k.a rowdyninja
+C#
+Javascript
+Output
+True
+False
+Time Complexity: O(log N)
+Auxiliary Space: O(log N)
+
+Find whether a given number is a power of 2 by checking the count of set bits:
+To solve the problem follow the below idea:
+
+All power of two numbers has only a one-bit set. So count the no. of set bits and if you get 1 then the number is a power of 2. Please see Count set bits in an integer for counting set bits.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+C#
+Python3
+# Python3 program to check if given
+# number is power of 2 or not
+ 
+# Function to check if x is power of 2
+ 
+ 
+def isPowerOfTwo(n):
+    cnt = 0
+    while n > 0:
+        if n & 1 == 1:
+            cnt = cnt + 1
+        n = n >> 1
+ 
+    if cnt == 1:
+        return 1
+    return 0
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    # Function call
+    if(isPowerOfTwo(31)):
+        print('Yes')
+    else:
+        print('No')
+ 
+    if(isPowerOfTwo(64)):
+        print('Yes')
+    else:
+        print('No')
+ 
+# This code is contributed by devendra salunke
+Javascript
+Output
+No
+Yes
+Time complexity: O(log N)
+Auxiliary Space: O(1)
+
+Find whether a given number is a power of 2 using the AND(&) operator:
+To solve the problem follow the below idea:
+
+If we subtract a power of 2 numbers by 1 then all unset bits after the only set bit become set; and the set bit becomes unset.
+For example for 4 ( 100) and 16(10000), we get the following after subtracting 1 
+3 –> 011 
+15 –> 01111
+
+So, if a number n is a power of 2 then bitwise & of n and n-1 will be zero. We can say n is a power of 2 or not based on the value of n&(n-1). The expression n&(n-1) will not work when n is 0. To handle this case also, our expression will become n& (!n&(n-1)) (thanks to https://www.geeksforgeeks.org/program-to-find-whether-a-no-is-power-of-two/Mohammad for adding this case). 
+
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program for the above approach
+ 
+# Function to check if x is power of 2
+ 
+ 
+def isPowerOfTwo(x):
+ 
+    # First x in the below expression
+    # is for the case when x is 0
+    return (x and (not(x & (x - 1))))
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    # Function call
+    if(isPowerOfTwo(31)):
+        print('Yes')
+    else:
+        print('No')
+ 
+    if(isPowerOfTwo(64)):
+        print('Yes')
+    else:
+        print('No')
+ 
+# This code is contributed by Danish Raza
+C#
+PHP
+Javascript
+Output
+No
+Yes
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+Find whether a given number is a power of 2 using the AND(&) and NOT(~) operator:
+To solve the problem follow the below idea:
+
+Another way is to use the logic to find the rightmost bit set of a given number and then check if (n & (~(n-1))) is equal to n or not
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program of the above approach
+ 
+# Function to check if x is power of 2*/
+ 
+ 
+def isPowerofTwo(n):
+ 
+    if (n == 0):
+        return 0
+    if ((n & (~(n - 1))) == n):
+        return 1
+    return 0
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    # Function call
+    if(isPowerofTwo(30)):
+        print('Yes')
+    else:
+        print('No')
+ 
+    if(isPowerofTwo(128)):
+        print('Yes')
+    else:
+        print('No')
+ 
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Output
+No
+Yes
+Time complexity: O(1)
+Auxiliary Space: O(1) 
+
+Find whether a given number is a power of 2 using Brian Kernighan’s algorithm:
+To solve the problem follow the below idea:
+
+As we know that the number which will be the power of two have only one set bit , therefore when we do bitwise AND with the number which is just less than the number which can be represented as the power of (2) then the result will be 0 . 
+
+Example : 4 can be represented as (2^2 ) , 
+                (4 & 3)=0  or in binary (100 & 011=0)
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program of the above approach
+ 
+# Function to check if x is power of 2
+ 
+ 
+def isPowerofTwo(n):
+ 
+    return (n != 0) and ((n & (n - 1)) == 0)
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+        # Function call
+    if isPowerofTwo(30):
+        print("Yes")
+    else:
+        print("No")
+ 
+    if isPowerofTwo(128):
+        print("Yes")
+    else:
+        print("No")
+ 
+# this code is contributed by aditya942003patil
+C#
+Javascript
+Output
+No
+Yes
+Time Complexity: O(1) 
+Auxiliary Space: O(1)
+
+Find whether a given number is a power of 2 using a floating point bit hack:
+We can also harness a unique property of IEEE Standard 754 to infer if the given integer is a power of 2 using the following bit hack that only works in a few languages that allow pointer casting.
+
+This works because we know that a power of 2 only has 1 bit high and all the other bits low. Therefore if we represent such a number in scientific notation, we’ll always be left with a mantissa of 1. But in IEEE Standard 754 the 1 is discarded from the mantissa as it is redundant. Now we should be left with 0, if not, then the number must not be a power of 2. We will be using double precision.
+
+Example:
+
+Let’s take 23 first –
+23 = 00010111
+     =1.0111000 x 2^4
+
+Biased Exponent 1023+4=1027
+1027 = 10000000011
+Normalised Mantissa = 01110000
+We will add 0’s to complete the 52 bits
+
+The IEEE 754 Double Precision is:
+= 0 10000000011 0111000000000000000000000000000000000000000000000000
+
+Notice that the mantissa is not 0.
+
+——————————————————————————————
+
+Now let’s take a power of 2, say 16 –
+16 = 00010000
+      =1.0000000 x 2^4
+
+Biased Exponent 1023+4=1027
+1027 = 10000000011
+Normalised Mantissa = 00000000
+We will add 0’s to complete the 52 bits
+
+The IEEE 754 Double Precision is:
+= 0 10000000011 0000000000000000000000000000000000000000000000000000
+
+Now the mantissa is strictly 0.
+
+——————————————————————————————
+
+Below is the implementation of the above approach:
+
+C
+#include <stdio.h>
+#include <stdint.h>
+  
+// Function to check if x is power of 2.
+int isPowerOfTwo(int x)
+{
+    // Power of 2 can't be less than 1.
+    if (x < 1)
+      return 0;
+    // Converting the number to double precision floating point.
+    double n = x;
+    /*
+     * Storing the binary representation of double to an unsigned 64 bit integer.
+     * This is not the same as direct casting to integer, as the binary representation changes.
+     */
+    uint64_t r = *((uint64_t*)(&n));
+    // Discarding 1 sign bit and 11 exponent bits.
+    r = (r << 12);
+    return r == 0;
+}
+  
+// Driver code
+int main()
+{
+    // Function calls
+    isPowerOfTwo(31) ? printf("Yes\n") : printf("No\n");
+    isPowerOfTwo(32) ? printf("Yes\n") : printf("No\n");
+    isPowerOfTwo(33) ? printf("Yes\n") : printf("No\n");
+    isPowerOfTwo(64) ? printf("Yes\n") : printf("No\n");
+    return 0;
+}
+// This code is contributed by Aryan Rai.
+C++
+Output
+No
+Yes
+No
+Yes
+Time Complexity: O(1) 
+Auxiliary Space: O(1)
+
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+162
+Previous
+Efficient way to multiply with 7
+Next
+Check if given strings are rotations of each other or not
+Related Articles
+1.
+JavaScript program to check whether a given number is power of 2
+2.
+Find whether a given number is a power of 4 or not
+3.
+Find whether a given integer is a power of 3 or not
+4.
+Check whether a given Number is Power-Isolated or not
+5.
+Check if given number is a power of d where d is a power of 2
+6.
+Find power of power under mod of a prime
+7.
+Find the sum of power of bit count raised to the power B
+8.
+Maximize the product of sum and least power by choosing at most K elements from given value and power Arrays
+9.
+Javascript Program for Check whether all the rotations of a given number is greater than or equal to the given number or not
+10.
+C++ Program to Check whether all the rotations of a given number is greater than or equal to the given number or not
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+Mithun Kumar
+Akanksha_Rai
+SURENDRA_GANGWAR
+SumitJadiya
+rathbhupendra
+rowdyninja
+rutvik_56
+princi singh
+rishavmahato348
+ujjwalmittal
+divyeshrabadiya07
+shikhasingrajput
+29AjayKumar
+skm22
+amvsachin
+rajsanghavi9
+GauravRajput1
+umadevi9616
+subhammahato348
+shivanisinghss2110
+swayambhusamiksha1
+dark_hunter
+amartyaghoshgfg
+devendrasalunke
+suruchikumarimfp4
+varshagumber28
+akashish__
+sanjoy_62
+adityakumar129
+aditya942003patil
+laxmigangarajula03
+janardansthox
+aryanrai
+sayanc170
+Article Tags :
+FactSet
+Qualcomm
+Samsung
+SAP Labs
+Bit Magic
+Mathematical
+Practice Tags :
+FactSet
+Qualcomm
+Samsung
+SAP Labs
+Bit Magic
+Mathematical
+Improve Article
+Report Issue

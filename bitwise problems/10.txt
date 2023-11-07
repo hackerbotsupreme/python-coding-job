@@ -1,0 +1,294 @@
+Swap bits in a given number
+
+Difficulty Level : Hard
+Last Updated : 02 Sep, 2022
+Read
+Discuss(30)
+Courses
+Practice
+Video
+Given a number x and two positions (from the right side) in the binary representation of x, write a function that swaps n bits at the given two positions and returns the result. It is also given that the two sets of bits do not overlap.
+
+Recommended Problem
+Swap bits
+Bit Magic
+Data Structures
+Solve Problem
+Submission count: 6K
+Method 1 
+Let p1 and p2 be the two given positions.
+
+Example 1 
+
+Input:
+x = 47 (00101111)
+p1 = 1 (Start from the second bit from the right side)
+p2 = 5 (Start from the 6th bit from the right side)
+n = 3 (No of bits to be swapped)
+Output:
+227 (11100011)
+The 3 bits starting from the second bit (from the right side) are 
+swapped with 3 bits starting from 6th position (from the right side)
+Example 2 
+
+Input:
+x = 28 (11100)
+p1 = 0 (Start from first bit from right side)
+p2 = 3 (Start from 4th bit from right side)
+n = 2 (No of bits to be swapped)
+Output:
+7 (00111)
+The 2 bits starting from 0th position (from right side) are
+swapped with 2 bits starting from 4th position (from right side)
+Solution 
+We need to swap two sets of bits. XOR can be used in a similar way as it is used to swap 2 numbers. Following is the algorithm. 
+
+1) Move all bits of the first set to the rightmost side
+   set1 =  (x >> p1) & ((1U << n) - 1)
+Here the expression (1U << n) - 1 gives a number that 
+contains last n bits set and other bits as 0. We do & 
+with this expression so that bits other than the last 
+n bits become 0.
+2) Move all bits of second set to rightmost side
+   set2 =  (x >> p2) & ((1U << n) - 1)
+3) XOR the two sets of bits
+   xor = (set1 ^ set2) 
+4) Put the xor bits back to their original positions. 
+   xor = (xor << p1) | (xor << p2)
+5) Finally, XOR the xor with original number so 
+   that the two sets are swapped.
+   result = x ^ xor
+Implementation: 
+
+C++
+C
+Java
+Python3
+# Python program to
+# swap bits in a given number
+ 
+def swapBits(x, p1, p2, n):
+ 
+    # Move all bits of first
+    # set to rightmost side
+    set1 =  (x >> p1) & ((1<< n) - 1)
+  
+    # Move all bits of second
+    # set to rightmost side
+    set2 =  (x >> p2) & ((1 << n) - 1)
+  
+    # XOR the two sets
+    xor = (set1 ^ set2)
+  
+    # Put the xor bits back
+    # to their original positions
+    xor = (xor << p1) | (xor << p2)
+  
+      # XOR the 'xor' with the
+      # original number so that the
+      # two sets are swapped
+    result = x ^ xor
+  
+    return result
+     
+# Driver code
+ 
+res = swapBits(28, 0, 3, 2)
+print("Result =", res)
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+
+
+Result = 7
+Time Complexity: O(1), as we are using constant-time operations.
+
+Auxiliary Space: O(1), as we are not using any extra space.
+
+Following is a shorter implementation of the same logic 
+
+C++
+C
+Java
+Python3
+# Python code to implement the approach
+def swapBits(x, p1, p2, n) :
+     
+    # xor contains xor of two sets
+    xor = (((x >> p1) ^ (x >> p2)) & ((1 << n) - 1))
+  
+    # To swap two sets, we need to again XOR the xor with original sets
+    return x ^ ( (xor << p1) | (xor << p2))
+   
+  # This code is contributed by sanjoy_62.
+C#
+Javascript
+Time Complexity: O(1), as we are using constant-time operations.
+
+Auxiliary Space: O(1), as we are not using any extra space.
+
+Method 2 – 
+This solution focuses on calculating the values of bits to be swapped using AND gate. Then we can set/unset those bits based on whether the bits are to be swapped. For the number of bits to be swapped (n) – 
+
+Calculate shift1 = The value after setting bit at p1 position to 1
+Calculate shift2 = The value after setting bit at p2 position to 1
+value1 = Number to check if num at position p1 is set or not.
+value2 = Number to check if num at position p2 is set or not.
+If value1 and value2 are different is when we have to swap the bits.
+Example: 
+
+[28 0 3 2] num=28 (11100) p1=0 p2=3 n=2
+   Given = 11100
+   Required output = 00111 i.e. (00)1(11) msb 2 bits replaced with lsb 2 bits
+
+n=2
+  p1=0,  p2=3
+  shift1= 1,  shift2= 1000
+  value1= 0,  value2= 1000
+ After swap
+  num= 10101
+
+n=3
+  p1=1,  p2=4
+  shift1= 10,  shift2= 10000
+  value1= 0,  value2= 10000
+ After swap
+  num= 00111
+Implementation 
+
+C++
+Java
+Python3
+def swapBits(num, p1, p2, n):
+    shift1 = 0
+    shift2 = 0
+    value1 = 0
+    value2 = 0
+ 
+    while(n > 0):
+       
+        # Setting bit at p1 position to 1
+        shift1 = 1 << p1
+ 
+        # Setting bit at p2 position to 1
+        shift2 = 1 << p2
+ 
+        # value1 and value2 will have 0 if num
+        # at the respective positions - p1 and p2 is 0.
+        value1 = ((num & shift1))
+        value2 = ((num & shift2))
+ 
+        # check if value1 and value2 are different
+        # i.e. at one position bit is set and other it is not
+        if((value1 == 0 and value2 != 0) or (value2 == 0 and value1 != 0)):
+             
+            # if bit at p1 position is set
+            if(value1 != 0):
+ 
+                # unset bit at p1 position
+                num = num & (~shift1)
+ 
+                # set bit at p2 position
+                num = num | shift2
+ 
+            # if bit at p2 position is set
+            else:
+ 
+                # set bit at p2 position
+                num = num & (~shift2)
+ 
+                # unset bit at p2 position
+                num = num | shift1
+        p1 += 1
+        p2 += 1
+        n -= 1
+ 
+    # return final result
+    return num
+ 
+# Driver code
+res = swapBits(28, 0, 3, 2)
+print("Result =", res)
+ 
+# This code is contributed by avanitrachhadiya2155
+C#
+Javascript
+Output
+Result = 7
+Time Complexity: O(N), as we are using a loop to traverse N times. Where N is the number of bits to be swapped.
+
+Auxiliary Space: O(1), as we are not using any extra space.
+References: 
+Swapping individual bits with XOR 
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+35
+Previous
+Swap every two bits in bytes
+Next
+How to swap two bits in a given integer?
+Related Articles
+1.
+How to swap two bits in a given integer?
+2.
+Swap all odd and even bits
+3.
+Swap every two bits in bytes
+4.
+Check if bits of a number has count of consecutive set bits in increasing order
+5.
+Toggle bits of a number except first and last bits
+6.
+Flip bits of the sum of count of set bits of two given numbers
+7.
+Minimize cost of swapping set bits with unset bits in a given Binary string
+8.
+Print numbers having first and last bits as the only set bits
+9.
+Check if all bits can be made same by flipping two consecutive bits
+10.
+Count of pairs {X, Y} from an array such that sum of count of set bits in X ⊕ Y and twice the count of set bits in X & Y is M
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+rathbhupendra
+Vijay Sirra
+aishwarya_27
+divyeshrabadiya07
+divyesh072019
+avanitrachhadiya2155
+code_hunt
+suresh07
+hritikbhatnagar2182
+simmytarika5
+subhammahato348
+sanjoy_62
+avijitmondal1998
+rohitsingh07052
+rkbhola5
+Article Tags :
+Bitwise-XOR
+Bit Magic
+Practice Tags :
+Bit Magic
+Improve Article
+Report Issue

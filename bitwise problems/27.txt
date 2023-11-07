@@ -1,0 +1,224 @@
+Program to find parity
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Parity: Parity of a number refers to whether it contains an odd or even number of 1-bits. The number has “odd parity” if it contains an odd number of 1-bits and is “even parity” if it contains an even number of 1-bits. 
+The main idea of the below solution is – Loop while n is not 0 and in loop unset one of the set bits and invert parity.
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Algorithm: getParity(n)
+1. Initialize parity = 0
+2. Loop while n != 0      
+      a. Invert parity 
+             parity = !parity
+      b. Unset rightmost set bit
+             n = n & (n-1)
+3. return parity
+
+Example:
+ Initialize: n = 13 (1101)   parity = 0
+
+n = 13 & 12  = 12 (1100)   parity = 1
+n = 12 & 11 = 8  (1000)   parity = 0
+n = 8 & 7 = 0  (0000)    parity = 1
+Program: 
+
+C++
+C
+Java
+Python3
+# Python3 code to get parity.
+ 
+# Function to get parity of number n.
+# It returns 1 if n has odd parity,
+# and returns 0 if n has even parity
+def getParity( n ):
+    parity = 0
+    while n:
+        parity = ~parity
+        n = n & (n - 1)
+    return parity
+ 
+# Driver program to test getParity()
+n = 7
+print ("Parity of no ", n," = ",
+     ( "odd" if getParity(n) else "even"))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output
+Parity of no 7 = odd
+Above solution can be optimized by using lookup table. Please refer to Bit Twiddle Hacks[1st reference] for details.
+Time Complexity: The time taken by above algorithm is proportional to the number of bits set. Worst case complexity is O(Log n).
+Auxiliary Space: O(1)
+
+
+Another approach: (Using built-in-function)
+
+C++
+Java
+Python3
+# Python program to find parity
+# of an integer
+ 
+# Function to get parity of number n. It returns 1
+# if n has odd parity, and returns 0 if n has even
+# parity
+def getParity(n):
+    return (bin(n).count("1"))%2
+ 
+# Driver code
+n=7
+print("Parity of no {0} = ".format(n),end="")
+print("odd" if getParity(n) else "even")
+ 
+# This code is contributed by Pushpesh Raj
+C#
+Javascript
+Output
+Parity of no 7 = odd
+Time Complexity: O(1)
+
+
+
+Auxiliary Space: O(1)
+
+Another Approach: Mapping numbers with the bit 
+
+We can use a map or an array of the number of bits to form a nibble (a nibble consists of 4 bits, so a 16 – length array would be required). Then, we can get the nibbles of a given number.
+
+This approach can be summarized into the following steps:
+
+1. Build the 16 length array of the number of bits to form a nibble – { 0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4 }
+
+2. Recursively count the set of the bits by taking the last nibble (4 bits) from the array using the formula num & 0xf and then getting each successive nibble by discarding the last 4 bits using >> operator.
+
+3. Check the parity: if the number of set bits is even, ie numOfSetBits % 2 == 0, then the number is of even parity. Else, it is of odd parity.
+
+C++
+Java
+Python3
+# Python3 program to get the parity of the
+# binary representation of a number
+nibble_to_bits = [0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4]
+ 
+# Function to recursively get the nibble
+# of a given number and map them in the array
+def countSetBits(num):
+    nibble = 0
+    if (0 == num):
+        return nibble_to_bits[0]
+ 
+    # Find last nibble
+    nibble = num & 0xf
+ 
+    # Use pre-stored values to find count
+    # in last nibble plus recursively add
+    # remaining nibbles.
+    return nibble_to_bits[nibble] + countSetBits(num >> 4)
+ 
+# Function to get the parity of a number
+def getParity(num):
+    return countSetBits(num) % 2
+ 
+# Driver code
+n = 7
+ 
+# Function call
+print("Parity of no", n, " = ", ["even", "odd"][getParity(n)])
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+Parity of no 7 = odd
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Uses: Parity is used in error detection and cryptography. 
+Compute the parity of a number using XOR and table look-up
+
+References: 
+http://graphics.stanford.edu/~seander/bithacks.html#ParityNaive – last checked on 30 May 2009.
+
+
+
+
+
+Like
+20
+Previous
+Finding the Parity of a number Efficiently
+Next
+Compute the parity of a number using XOR and table look-up
+Related Articles
+1.
+Find index of the element differing in parity with all other array elements
+2.
+Find the maximum number formed by swapping digits of same parity
+3.
+Find the maximum sum pair in an Array with even parity
+4.
+Compute the parity of a number using XOR and table look-up
+5.
+Count numbers which can be represented as sum of same parity primes
+6.
+Finding the Parity of a number Efficiently
+7.
+Sum of elements from an array having even parity
+8.
+Minimum operations required to modify the array such that parity of adjacent elements is different
+9.
+Check if matrix A can be converted to B by changing parity of corner elements of any submatrix
+10.
+Minimum integer that can be obtained by swapping adjacent digits of different parity
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+vt_m
+SURENDRA_GANGWAR
+Kirti_Mangal
+rishavmahato348
+dheerukd2002
+ranjanrohit840
+phasing17
+sweetyty
+sanjoy_62
+pushpeshrajdx01
+Article Tags :
+cryptography
+Bit Magic
+Mathematical
+Practice Tags :
+Bit Magic
+cryptography
+Mathematical
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Master Data Science & ML
+View Details
+
+DSA- Live Classes
+View Details
+
+System Design- Live Classes
+View Details

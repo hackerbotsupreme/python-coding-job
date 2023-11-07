@@ -1,0 +1,380 @@
+Find the Number Occurring Odd Number of Times
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss(230+)
+Courses
+Practice
+Video
+Given an array of positive integers. All numbers occur an even number of times except one number which occurs an odd number of times. Find the number in O(n) time & constant space.
+
+Examples : 
+
+Input : arr = {1, 2, 3, 2, 3, 1, 3}
+Output : 3
+
+Input : arr = {5, 7, 2, 7, 5, 2, 5}
+Output : 5
+
+Recommended Practice
+Party of Couples
+Try It!
+A Simple Solution is to run two nested loops. The outer loop picks all elements one by one and the inner loop counts the number of occurrences of the element picked by the outer loop. The time complexity of this solution is O(n2).
+
+Below is the implementation of the brute force approach : 
+
+C++
+Java
+Python3
+# Python program to find the element occurring
+# odd number of times
+     
+# function to find the element occurring odd
+# number of times
+def getOddOccurrence(arr, arr_size):
+     
+    for i in range(0,arr_size):
+        count = 0
+        for j in range(0, arr_size):
+            if arr[i] == arr[j]:
+                count+=1
+             
+        if (count % 2 != 0):
+            return arr[i]
+         
+    return -1
+     
+     
+# driver code
+arr = [2, 3, 5, 4, 5, 2, 4, 3, 5, 2, 4, 4, 2 ]
+n = len(arr)
+print(getOddOccurrence(arr, n))
+ 
+# This code has been contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output :  
+
+
+
+5
+Time Complexity: O(n^2)
+Auxiliary Space: O(1)
+
+A Better Solution is to use Hashing. Use array elements as a key and their counts as values. Create an empty hash table. One by one traverse the given array elements and store counts. The time complexity of this solution is O(n). But it requires extra space for hashing.
+
+Program : 
+
+C++
+Java
+Python3
+# Python3 program to find the element 
+# occurring odd number of times
+  
+# function to find the element
+# occurring odd number of times
+def getOddOccurrence(arr,size):
+      
+    # Defining HashMap in C++
+    Hash=dict()
+  
+    # Putting all elements into the HashMap
+    for i in range(size):
+        Hash[arr[i]]=Hash.get(arr[i],0) + 1;
+     
+    # Iterate through HashMap to check an element
+    # occurring odd number of times and return it
+    for i in Hash:
+ 
+        if(Hash[i]% 2 != 0):
+            return i
+    return -1
+ 
+  
+# Driver code
+arr=[2, 3, 5, 4, 5, 2, 4,3, 5, 2, 4, 4, 2]
+n = len(arr)
+  
+# Function calling
+print(getOddOccurrence(arr, n))
+ 
+# This code is contributed by mohit kumar
+C#
+Javascript
+Output : 
+
+5
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+The Best Solution is to do bitwise XOR of all the elements. XOR of all elements gives us odd occurring elements. 
+
+Here ^ is the XOR operators;
+Note :
+x^0 = x
+x^y=y^x (Commutative property holds)
+(x^y)^z = x^(y^z) (Distributive property holds)
+x^x=0
+Below is the implementation of the above approach.  
+
+C++
+C
+Java
+Python3
+# Python program to find the element occurring odd number of times
+ 
+def getOddOccurrence(arr):
+ 
+    # Initialize result
+    res = 0
+     
+    # Traverse the array
+    for element in arr:
+        # XOR with the result
+        res = res ^ element
+ 
+    return res
+ 
+# Test array
+arr = [ 2, 3, 5, 4, 5, 2, 4, 3, 5, 2, 4, 4, 2]
+ 
+print("%d" % getOddOccurrence(arr))
+C#
+PHP
+Javascript
+Output :
+
+5
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Method 3:Using Built-in Python functions:
+Count the frequencies of every element using the Counter function
+Traverse in frequency dictionary
+Check which element has an odd frequency.
+Print that element and break the loop
+Below is the implementation:
+
+C++
+Python3
+# importing counter from collections
+from collections import Counter
+ 
+# Python3 implementation to find
+# odd frequency element
+def oddElement(arr, n):
+ 
+    # Calculating frequencies using Counter
+    count_map = Counter(arr)
+ 
+    for i in range(0, n):
+ 
+        # If count of element is odd we return
+        if (count_map[arr[i]] % 2 != 0):
+            return arr[i]
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    arr = [1, 1, 3, 3, 5, 6, 6]
+    n = len(arr)
+    print(oddElement(arr, n))
+ 
+# This code is contributed by vikkycirus
+Javascript
+Output:
+
+5
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Method 4:Using HashSet
+This problem can also be solved using HashSet by traversing the array and inserting element if not already present else deleting the element from the HashSet. So, after the traversal is complete the only element left in the HashSet is the element which is present three times.
+
+C++
+Java
+Python3
+# Python3 program to find the element
+# occurring odd number of times
+ 
+# Function to find the element
+# occurring odd number of times
+def getOddOccurrence(arr, N):
+ 
+     s = set()
+     for i in range(N):
+         if arr[i] in s:
+             s.remove(arr[i]);
+         else:
+             s.add(arr[i]);
+          
+     return s
+ 
+# driver code
+arr = [ 2, 3, 5, 4, 5, 2, 4, 3, 5, 2, 4, 4, 2 ];
+n = len(arr);
+ 
+# Function calling
+print(*getOddOccurrence(arr, n));
+ 
+# This code is contributed by phasing17.
+C#
+Javascript
+Output
+5
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+65
+Previous
+Majority Element
+Next
+Largest Sum Contiguous Subarray (Kadane's Algorithm)
+Related Articles
+1.
+C/C++ Program to Find the Number Occurring Odd Number of Times
+2.
+Find GCD of most occurring and least occurring elements of given Array
+3.
+Two odd occurring elements in an array where all other occur even times
+4.
+Find all array elements occurring more than ⌊N/3⌋ times
+5.
+GCD of elements occurring Fibonacci number of times in an Array
+6.
+Number of substrings with each character occurring even times
+7.
+First element occurring k times in an array
+8.
+Print all array elements occurring at least M times
+9.
+Count M-length substrings occurring exactly K times in a string
+10.
+Make all the elements of array odd by incrementing odd-indexed elements of odd-length subarrays
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Shivi_Aggarwal
+codeMan_d
+mohit kumar 29
+shubham_singh
+princi singh
+nidhi_biet
+mayanktyagi1709
+vikkycirus
+jana_sayantan
+unknown2108
+simranarora5sos
+rishavmahato348
+souravmahato348
+shrutigptt99
+codewithrathi
+suruchikumarimfp4
+10r1f65l
+sourabhdalal0001
+phasing17
+simmytarika5
+lokeshpotta20
+Article Tags :
+Amazon
+Bitwise-XOR
+Snapdeal
+Arrays
+Bit Magic
+Hash
+Practice Tags :
+Amazon
+Snapdeal
+Arrays
+Bit Magic
+Hash
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Complete Test Series Course
+Prepare for Amazon & other Product Based Companies
+View Details
+
+Master Data Science & ML
+View Details
+
+DSA- Live Classes
+View Details
+
+System Design- Live Classes
+View Details
+A-143, 9th Floor, Sovereign Corporate Tower,
+Sector-136, Noida, Uttar Pradesh - 201305
+feedback@geeksforgeeks.org
+Company
+About Us
+Careers
+In Media
+Contact Us
+Privacy Policy
+Copyright Policy
+Advertise with us
+Learn
+DSA
+Algorithms
+Data Structures
+SDE Cheat Sheet
+Machine learning
+CS Subjects
+Video Tutorials
+Courses
+News
+Top News
+Technology
+Work & Career
+Business
+Finance
+Lifestyle
+Knowledge
+Languages
+Python
+Java
+CPP
+Golang
+C#
+SQL
+Kotlin
+Web Development
+Web Tutorials
+Django Tutorial
+HTML
+JavaScript
+Bootstrap
+ReactJS
+NodeJS
+Contribute
+Write an Article
+Improve an Article
+Pick Topics to Write
+Write Interview Experience
+Internships
+Video Internship
+@geeksforgeeks , Some rights reserved
+Lightbox

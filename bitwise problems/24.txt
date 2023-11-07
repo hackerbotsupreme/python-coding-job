@@ -1,0 +1,197 @@
+Smallest of three integers without comparison operators
+
+Difficulty Level : Medium
+Last Updated : 12 Jun, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Write a program to find the smallest of three integers, without using any of the comparison operators. 
+Let 3 input numbers be x, y and z.
+Method 1 (Repeated Subtraction) 
+Take a counter variable c and initialize it with 0. In a loop, repeatedly subtract x, y and z by 1 and increment c. The number which becomes 0 first is the smallest. After the loop terminates, c will hold the minimum of 3. 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 program to find Smallest
+# of three integers without
+# comparison operators
+ 
+def smallest(x, y, z):
+    c = 0
+     
+    while ( x and y and z ):
+        x = x-1
+        y = y-1
+        z = z-1
+        c = c + 1
+ 
+    return c
+ 
+# Driver Code
+x = 12
+y = 15
+z = 5
+print("Minimum of 3 numbers is",
+       smallest(x, y, z))
+ 
+# This code is contributed by Anshika Goyal
+C#
+PHP
+Javascript
+Output: 
+
+Minimum of 3 numbers is 5
+Time Complexity: O(min(x, y, z))
+
+Auxiliary Space: O(1)
+
+This method doesn’t work for negative numbers. Method 2 works for negative numbers also.
+Method 2 (Use Bit Operations) 
+Use method 2 of this post to find minimum of two numbers (We can’t use Method 1 as Method 1 uses comparison operator). Once we have functionality to find minimum of 2 numbers, we can use this to find minimum of 3 numbers. 
+ 
+
+C++
+C
+Java
+Python3
+# Python3 implementation of above approach
+CHAR_BIT = 8
+ 
+# Function to find minimum of x and y
+def min(x, y):
+    return y + ((x - y) & \
+               ((x - y) >> (32 * CHAR_BIT - 1)))
+ 
+# Function to find minimum
+# of 3 numbers x, y and z
+def smallest(x, y, z):
+    return min(x, min(y, z))
+ 
+# Driver code
+x = 12
+y = 15
+z = 5
+print("Minimum of 3 numbers is ",
+               smallest(x, y, z))
+ 
+# This code is contributed
+# by Mohit Kumar
+C#
+Javascript
+Output: 
+
+
+Minimum of 3 numbers is 5
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Method 3 (Use Division operator) 
+We can also use division operator to find minimum of two numbers. If value of (a/b) is zero, then b is greater than a, else a is greater. Thanks to gopinath and Vignesh for suggesting this method.
+ 
+
+C++
+// C++ implementation of above approach
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Using division operator to find
+// minimum of three numbers
+int smallest(int x, int y, int z)
+{
+    if (!(y / x)) // Same as "if (y < x)"
+        return (!(y / z)) ? y : z;
+    return (!(x / z)) ? x : z;
+}
+ 
+int main()
+{
+    int x = 78, y = 88, z = 68;
+    cout << "Minimum of 3 numbers is " << smallest(x, y, z);
+    return 0;
+}
+// this code is contributed by shivanisinghss2110
+C
+Java
+python3
+C#
+Javascript
+Output: 
+
+Minimum of 3 numbers is 68
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+Please write comments if you find the above codes/algorithms incorrect, or find other ways to solve the same problem.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Little and Big Endian Mystery
+Next
+Find the two non-repeating elements in an array of repeating elements/ Unique Numbers 2
+Related Articles
+1.
+Check if two numbers are equal without using arithmetic and comparison operators
+2.
+Check if two numbers are equal without using comparison operators
+3.
+Compare two integers without using any Comparison operator
+4.
+Smallest perfect power of 2 greater than n (without using arithmetic operators)
+5.
+Operators in C | Set 2 (Relational and Logical Operators)
+6.
+Compute maximum of two integers in C/C++ using Bitwise Operators
+7.
+Subtract two numbers without using arithmetic operators
+8.
+Calculate 7n/8 without using division and multiplication operators
+9.
+Check if n is divisible by power of 2 without using arithmetic operators
+10.
+Subtract 1 without arithmetic operators
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+ukasp
+Akanksha_Rai
+29AjayKumar
+princiraj1992
+Mithun Kumar
+Code_Mech
+mohit kumar 29
+nidhi_biet
+shivanisinghss2110
+surbhityagi15
+mayanktyagi1709
+avanitrachhadiya2155
+subhammahato348
+subham348
+ranjanrohit840
+Article Tags :
+Bit Magic
+Practice Tags :
+Bit Magic
+Report Issue

@@ -1,0 +1,353 @@
+How to swap two numbers without using a temporary variable?
+
+Difficulty Level : Easy
+Last Updated : 13 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+ 
+Given two variables, x, and y, swap two variables without using a third variable. 
+
+
+
+Method 1 (Using Arithmetic Operators) 
+
+The idea is to get a sum in one of the two given numbers. The numbers can then be swapped using the sum and subtraction from the sum. 
+
+C++
+C
+Java
+Python3
+x = 10
+y = 5
+ 
+# Code to swap 'x' and 'y'
+ 
+# x now becomes 15
+x = x + y
+ 
+# y becomes 10
+y = x - y
+ 
+# x becomes 5
+x = x - y
+print("After Swapping: x =", x, " y =", y)
+ 
+# This code is contributed
+# by Sumit Sudhakar
+C#
+PHP
+Javascript
+Output
+After Swapping: x =5, y=10
+Time Complexity: O(1).
+Auxiliary Space: O(1).
+
+Multiplication and division can also be used for swapping.  
+
+C++
+C
+Java
+Python3
+# Python3 program to
+# swap two numbers
+# without using
+# temporary variable
+x = 10
+y = 5
+ 
+# code to swap
+# 'x' and 'y'
+ 
+# x now becomes 50
+x = x * y
+ 
+# y becomes 10
+y = x // y;
+ 
+# x becomes 5
+x = x // y;
+ 
+print("After Swapping: x =",
+              x, " y =", y);
+ 
+# This code is contributed
+# by @ajit
+C#
+PHP
+Javascript
+Output
+After Swapping: x =5, y=10
+Time Complexity: O(1).
+Auxiliary Space: O(1).
+
+Method 2 (Using Bitwise XOR) 
+The bitwise XOR operator can be used to swap two variables. The XOR of two numbers x and y returns a number that has all the bits as 1 wherever bits of x and y differ. For example, XOR of 10 (In Binary 1010) and 5 (In Binary 0101) is 1111, and XOR of 7 (0111) and 5 (0101) is (0010). 
+
+C++
+C
+Java
+Python3
+# Python3 code to swap using XOR
+ 
+x = 10
+y = 5
+ 
+# Code to swap 'x' and 'y'
+x = x ^ y; # x now becomes 15 (1111)
+y = x ^ y; # y becomes 10 (1010)
+x = x ^ y; # x becomes 5 (0101)
+ 
+print ("After Swapping: x = ", x, " y =", y)
+ 
+# This code is contributed by
+# Sumit Sudhakar
+C#
+PHP
+Javascript
+Output
+After Swapping: x =5, y=10
+Time Complexity: O(1).
+Auxiliary Space: O(1).
+
+Problems with the above methods 
+1) The multiplication and division-based approach doesn’t work if one of the numbers is 0 as the product becomes 0 irrespective of the other number.
+2) Both Arithmetic solutions may cause an arithmetic overflow. If x and y are too large, addition and multiplication may go out of the integer range.
+3) When we use pointers to variable and make a function swap, all the above methods fail when both pointers point to the same variable. Let’s take a look at what will happen in this case if both are pointing to the same variable.
+
+// Bitwise XOR based method 
+x = x ^ x; // x becomes 0 
+x = x ^ x; // x remains 0 
+x = x ^ x; // x remains 0
+// Arithmetic based method 
+x = x + x; // x becomes 2x 
+x = x – x; // x becomes 0 
+x = x – x; // x remains 0
+
+Let us see the following program. 
+
+C++
+C
+Java
+Python3
+def swap(xp, yp):
+ 
+    xp[0] = xp[0] ^ yp[0]
+    yp[0] = xp[0] ^ yp[0]
+    xp[0] = xp[0] ^ yp[0]
+ 
+ 
+# Driver code
+x = [10]
+swap(x, x)
+print("After swap(&x, &x): x = ", x[0])
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+PHP
+Javascript
+Output
+After swap(&x, &x): x = 0
+Time Complexity: O(1).
+Auxiliary Space: O(1).
+
+Swapping a variable with itself may be needed in many standard algorithms. For example, see this implementation of QuickSort where we may swap a variable with itself. The above problem can be avoided by putting a condition before swapping.
+
+C++
+C
+Java
+Python3
+# Python3 program of above approach
+def swap(xp, yp):
+ 
+    # Check if the two addresses are same
+    if (xp[0] == yp[0]):
+        return
+    xp[0] = xp[0] + yp[0]
+    yp[0] = xp[0] - yp[0]
+    xp[0] = xp[0] - yp[0]
+ 
+ 
+# Driver Code
+x = [10]
+swap(x, x)
+print("After swap(&x, &x): x = ", x[0])
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+PHP
+Javascript
+Output
+After swap(&x, &x): x = 10
+Time Complexity: O(1).
+Auxiliary Space: O(1).
+
+Method 3 (A mixture of bitwise operators and arithmetic operators) 
+The idea is the same as discussed in Method 1 but uses Bitwise addition and subtraction for swapping. 
+
+Below is the implementation of the above approach. 
+
+C++
+C
+Java
+Python3
+# Python3 program to swap two numbers
+ 
+# Function to swap the numbers
+ 
+ 
+def swap(a, b):
+ 
+    # Same as a = a + b
+    a = (a & b) + (a | b)
+ 
+    # Same as b = a - b
+    b = a + (~b) + 1
+ 
+    # Same as a = a - b
+    a = a + (~b) + 1
+ 
+    print("After Swapping: a = ", a, ", b = ", b)
+ 
+ 
+# Driver code
+a = 5
+b = 10
+ 
+# Function call
+swap(a, b)
+ 
+# This code is contributed by bunnyram19
+C#
+Javascript
+PHP
+Output
+After swapping: a = 10, b = 5
+Time Complexity: O(1)
+
+Auxiliary Space: O(1), since no extra space has been taken.
+
+Method 4 (One Line Expression) 
+
+We can write only one line to swap two numbers.
+
+x = x ^ y ^ (y = x);
+x = x + y – (y = x);
+x = (x * y) / (y = x);
+x , y = y, x (In Python)
+C++
+C
+Java
+Python3
+# Python3 program to swap two numbers
+ 
+# Function to swap the numbers
+def swap(x, y):
+  x , y = y, x
+  print("After Swapping: x = ", x, ", y = ", y)
+   
+# Driver code
+x = 10
+y = 5
+  
+# Function call
+swap(x, y)
+  
+# This code is contributed by kothavvsaakash
+C#
+Javascript
+Output
+5 10
+Time Complexity: O(1)
+
+Auxiliary Space: O(1)
+
+To know more about swapping two variables in one line, click here.
+
+Please comment if you find anything incorrect, or if you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Find position of the only set bit
+Next
+C Program to Swap two Numbers
+Related Articles
+1.
+Javascript program to swap two numbers without using temporary variable
+2.
+Swap three variables without using temporary variable
+3.
+Reverse string without using any temporary variable
+4.
+Swapping four variables without temporary variable
+5.
+Python Program to swap two numbers without using third variable
+6.
+Maximise the sum of two Numbers using at most one swap between them
+7.
+Multiplying a variable with a constant without using multiplication operator
+8.
+Swap given nodes in a Doubly Linked List without modifying data
+9.
+C Program to Swap two Numbers
+10.
+To find sum of two numbers without using any operator
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+mohit kumar 29
+Chandan_Kumar
+Code_Mech
+ujjwalmittal
+rathbhupendra
+SHUBHAMSINGH10
+Rajput-Ji
+yashbeersingh42
+divyeshrabadiya07
+bunnyram19
+divyesh072019
+mayanktyagi1709
+mukesh07
+shikhasingrajput
+suresh07
+unknown2108
+simranarora5sos
+himanshu6003
+akshitsaxenaa09
+saurabh1990aror
+adityakumar129
+anandkumarshivam2266
+chandan309kr
+isha307
+kothavvsaakash
+abhijeet19403
+rishavpgl4
+ruhelaa48
+raj2002
+Article Tags :
+Bitwise-XOR
+Swap-Program
+Bit Magic
+Mathematical
+Practice Tags :
+Bit Magic
+Mathematical
+Report Issue

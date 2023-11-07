@@ -1,0 +1,281 @@
+Booth’s Multiplication Algorithm
+
+Difficulty Level : Medium
+Last Updated : 28 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Booth’s algorithm is a multiplication algorithm that multiplies two signed binary numbers in 2’s complement notation. 
+Booth used desk calculators that were faster at shifting than adding and created the algorithm to increase their speed. Booth’s algorithm is of interest in the study of computer architecture. Here’s the implementation of the algorithm. 
+Examples: 
+ 
+
+Input : 0110, 0010
+Output :  qn      q[n+1]                  AC      QR     sc(step count)
+                          initial         0000   0010        4
+          0       0       rightShift      0000   0001        3
+          1       0       A = A - BR      1010
+                          rightShift      1101   0000        2
+          0       1       A = A + BR      0011
+                          rightShift      0001   1000        1
+          0       0       rightShift      0000   1100        0
+
+Result=1100
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Algorithm : 
+ 
+
+Put multiplicand in BR and multiplier in QR 
+and then the algorithm works as per the following conditions : 
+1. If Qn and Qn+1 are same i.e. 00 or 11 perform arithmetic shift by 1 bit. 
+2. If Qn Qn+1 = 10 do A= A + BR and perform arithmetic shift by 1 bit. 
+3. If Qn Qn+1 = 01 do A= A – BR and perform arithmetic shift by 1 bit. 
+ 
+
+ 
+
+C++
+Java
+Python3
+# Python3 code to implement booth's algorithm
+ 
+# function to perform adding in the accumulator
+def add(ac, x, qrn):
+    c = 0
+    for i in range(qrn):
+         
+        # updating accumulator with A = A + BR
+        ac[i] = ac[i] + x[i] + c;
+         
+        if (ac[i] > 1):
+            ac[i] = ac[i] % 2
+            c = 1
+         
+        else:
+            c = 0
+ 
+# function to find the number's complement
+def complement(a, n):
+    x = [0] * 8
+    x[0] = 1
+     
+    for i in range(n):
+        a[i] = (a[i] + 1) % 2
+    add(a, x, n)
+ 
+ 
+# function to perform right shift
+def rightShift(ac, qr, qn, qrn):
+ 
+    temp = ac[0]
+    qn = qr[0]
+     
+    print("\t\trightShift\t", end = "");
+     
+    for i in range(qrn - 1):
+        ac[i] = ac[i + 1]
+        qr[i] = qr[i + 1]
+ 
+     
+    qr[qrn - 1] = temp
+ 
+ 
+# function to display operations
+def display(ac, qr, qrn):
+ 
+    # accumulator content
+    for i in range(qrn - 1, -1, -1):
+        print(ac[i], end = '')
+    print("\t", end = '')
+ 
+    # multiplier content
+    for i in range(qrn - 1, -1, -1):
+        print(qr[i], end = "")
+ 
+ 
+# Function to implement booth's algo
+def boothAlgorithm(br, qr, mt, qrn, sc):
+ 
+    qn = 0
+    ac = [0] * 10
+    temp = 0
+    print("qn\tq[n+1]\t\tBR\t\tAC\tQR\t\tsc")
+    print("\t\t\tinitial\t\t", end = "")
+     
+    display(ac, qr, qrn)
+    print("\t\t", sc, sep = "")
+     
+    while (sc != 0):
+        print(qr[0], "\t", qn, sep = "", end = "")
+         
+        # SECOND CONDITION
+        if ((qn + qr[0]) == 1):
+         
+            if (temp == 0):
+                 
+                # subtract BR from accumulator
+                add(ac, mt, qrn)
+                print("\t\tA = A - BR\t", end = "")
+                 
+                for i in range(qrn - 1, -1, -1):
+                    print(ac[i], end = "")
+ 
+                temp = 1
+             
+             
+            # THIRD CONDITION
+            elif (temp == 1):
+             
+                # add BR to accumulator
+                add(ac, br, qrn)
+                print("\t\tA = A + BR\t", end = "")
+                 
+                for i in range(qrn - 1, -1, -1):
+                    print(ac[i], end = "")
+                temp = 0
+             
+            print("\n\t", end = "")
+            rightShift(ac, qr, qn, qrn)
+         
+        # FIRST CONDITION
+        elif (qn - qr[0] == 0):
+            rightShift(ac, qr, qn, qrn)
+        
+        display(ac, qr, qrn)
+        
+        print("\t", end = "")
+         
+        # decrement counter
+        sc -= 1
+        print("\t", sc, sep = "")
+ 
+ 
+# driver code
+def main():
+ 
+    mt = [0] * 10
+     
+    # Number of multiplicand bit
+    brn = 4
+     
+    # multiplicand
+    br = [ 0, 1, 1, 0 ]
+     
+    # copy multiplier to temp array mt[]
+    for i in range(brn - 1, -1, -1):
+        mt[i] = br[i]
+     
+    br.reverse()
+ 
+    complement(mt, brn)
+ 
+    # No. of multiplier bit
+    qrn = 4
+     
+    # sequence counter
+    sc = qrn
+     
+    # multiplier
+    qr = [ 1, 0, 1, 0 ]
+    qr.reverse()
+ 
+    boothAlgorithm(br, qr, mt, qrn, sc)
+     
+    print("\nResult = ", end = "")
+ 
+    for i in range(qrn - 1, -1, -1):
+        print(qr[i], end = "")
+    print()
+         
+main()
+ 
+ 
+#This code is contributed by phasing17
+C#
+Javascript
+Output : 
+ 
+
+qn    q[n + 1]    BR        AC    QR        sc
+            initial        0000    1010        4
+0    0        rightShift    0000    0101        3
+1    0        A = A - BR    1010
+            rightShift    1101    0010        2
+0    1        A = A + BR    0011
+            rightShift    0001    1001        1
+1    0        A = A - BR    1011
+            rightShift    1101    1100        0
+
+Result = 1100
+Time Complexity: O(n)
+
+
+
+ Auxiliary Space: O(1)
+
+
+
+
+
+Like
+13
+Previous
+Compute the parity of a number using XOR and table look-up
+Next
+Find the n-th number whose binary representation is a palindrome
+Related Articles
+1.
+Karatsuba Algorithm for fast Multiplication of Large Decimal Numbers represented as Strings
+2.
+Multiply two integers without using multiplication, division and bitwise operators, and no loops
+3.
+Write you own Power without using multiplication(*) and division(/) operators
+4.
+Calculate 7n/8 without using division and multiplication operators
+5.
+How to avoid overflow in modular multiplication?
+6.
+Multiply a number with 10 without using multiplication operator
+7.
+Multiplying a variable with a constant without using multiplication operator
+8.
+Multiplication of two numbers with shift operator
+9.
+Count divisors of array multiplication
+10.
+Program to print multiplication table of a number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nickhilrawat
+@nickhilrawat
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+princiraj1992
+saurabh1990aror
+anikaseth98
+sahilsayani7
+phasing17
+rishavmahyry2
+Article Tags :
+Bit Magic
+Computer Organization and Architecture
+Mathematical
+Practice Tags :
+Bit Magic
+Mathematical
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Master Data Science & ML
