@@ -1,0 +1,137 @@
+Find index of closing bracket for a given opening bracket in an expression
+
+Difficulty Level : Easy
+Last Updated : 13 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a string with brackets. If the start index of the open bracket is given, find the index of the closing bracket. Examples:
+
+Input : string = [ABC[23]][89]
+        index = 0
+Output : 8
+The opening bracket at index 0 corresponds
+to closing bracket at index 8.
+Recommended Problem
+Closing bracket index
+Strings
+Data Structures
+Solve Problem
+Submission count: 12K
+The idea is to use Stack data structure. We traverse given expression from given index and keep pushing starting brackets. Whenever we encounter a closing bracket, we pop a starting bracket. If stack becomes empty at any moment, we return that index. 
+
+C++
+Java
+Python
+# Python program to find index of closing
+# bracket for a given opening bracket.
+from collections import deque
+ 
+def getIndex(s, i):
+ 
+    # If input is invalid.
+    if s[i] != '[':
+        return -1
+ 
+    # Create a deque to use it as a stack.
+    d = deque()
+ 
+    # Traverse through all elements
+    # starting from i.
+    for k in range(i, len(s)):
+ 
+        # Pop a starting bracket
+        # for every closing bracket
+        if s[k] == ']':
+            d.popleft()
+ 
+        # Push all starting brackets
+        elif s[k] == '[':
+            d.append(s[i])
+ 
+        # If deque becomes empty
+        if not d:
+            return k
+ 
+    return -1
+ 
+# Driver code to test above method.
+def test(s, i):
+    matching_index = getIndex(s, i)
+    print(s + ", " + str(i) + ": " + str(matching_index))
+ 
+def main():
+    test("[ABC[23]][89]", 0) # should be 8
+    test("[ABC[23]][89]", 4) # should be 7
+    test("[ABC[23]][89]", 9) # should be 12
+    test("[ABC[23]][89]", 1) # No matching bracket
+ 
+if __name__ == "__main__":
+    main()
+C#
+Javascript
+Output:
+
+[ABC[23]][89], 0: 8
+[ABC[23]][89], 4: 7
+[ABC[23]][89], 9: 12
+[ABC[23]][89], 1: -1
+Time Complexity: O(n) Auxiliary Space: O(n)
+
+
+
+
+
+Like
+9
+Previous
+Evaluate an array expression with numbers, + and -
+Next
+Find maximum depth of nested parenthesis in a string
+Related Articles
+1.
+Number of closing brackets needed to complete a regular bracket sequence
+2.
+Check if the bracket sequence can be balanced with at most one change in the position of a bracket
+3.
+Check if the bracket sequence can be balanced with at most one change in the position of a bracket | Set 2
+4.
+Maximum Pairs of Bracket Sequences which can be concatenated to form a Regular Bracket Sequence
+5.
+Minimum number of bracket reversals needed to make an expression balanced
+6.
+Expression contains redundant bracket or not
+7.
+Minimum number of bracket reversals needed to make an expression balanced | Set - 2
+8.
+Check if expression contains redundant bracket or not | Set 2
+9.
+Convert Infix expression to Postfix expression
+10.
+Check if a given string can be converted to a Balanced Bracket Sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Rahul Chawla
+@Rahul Chawla
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nik1996
+Rajput-Ji
+29AjayKumar
+satwiksuman
+Article Tags :
+Stack
+Strings
+Practice Tags :
+Stack
+Strings
+Improve Article
+Report Issue

@@ -1,0 +1,545 @@
+The Celebrity Problem
+
+Difficulty Level : Hard
+Last Updated : 16 Dec, 2022
+Read
+Discuss(230+)
+Courses
+Practice
+Video
+In a party of N people, only one person is known to everyone. Such a person may be present at the party, if yes, (s)he doesn’t know anyone at the party. We can only ask questions like “does A know B? “. Find the stranger (celebrity) in the minimum number of questions.
+We can describe the problem input as an array of numbers/characters representing persons in the party. We also have a hypothetical function HaveAcquaintance(A, B) which returns true if A knows B, and false otherwise. How can we solve the problem? 
+
+Examples:  
+
+Input:
+MATRIX = { {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 0}, {0, 0, 1, 0} }
+Output: id = 2
+Explanation: The person with ID 2 does not know anyone but everyone knows him
+
+Input:
+MATRIX = { {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 1, 0, 0}, {0, 0, 1, 0} }
+Output: No celebrity
+Explanation: There is no celebrity.
+
+Recommended Problem
+The Celebrity Problem
+Arrays
+Stack
++1 more
+Zoho
+Flipkart
++6 more
+Solve Problem
+Submission count: 1.5L
+The Celebrity Problem uses Graph to arrive at a particular solution
+Model the solution using graphs. Initialize indegree and outdegree of every vertex as 0. If A knows B, draw a directed edge from A to B, increase indegree of B and outdegree of A by 1. Construct all possible edges of the graph for every possible pair [i, j]. There are NC2 pairs. If a celebrity is present in the party, there will be one sink node in the graph with outdegree of zero and indegree of N-1. 
+
+Follow the steps below to solve the problem:
+
+Create two arrays indegree and outdegree, to store the indegree and outdegree
+Run a nested loop, the outer loop from 0 to n and inner loop from 0 to n.
+For every pair i, j check if i knows j then increase the outdegree of i and indegree of j.
+For every pair i, j check if j knows i then increase the outdegree of j and indegree of i.
+Run a loop from 0 to n and find the id where the indegree is n-1 and outdegree is 0.
+Below is the implementation of the above approach:
+
+
+
+C++
+Java
+Python3
+# Python3 program to find celebrity
+ 
+# Max # of persons in the party
+N = 8
+ 
+# Person with 2 is celebrity
+MATRIX = [[0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 0, 0],
+          [0, 0, 1, 0]]
+ 
+ 
+def knows(a, b):
+ 
+    return MATRIX[a][b]
+ 
+ 
+def findCelebrity(n):
+ 
+    # The graph needs not be constructed
+    # as the edges can be found by
+    # using knows function
+ 
+    # degree array;
+    indegree = [0 for x in range(n)]
+    outdegree = [0 for x in range(n)]
+ 
+    # Query for all edges
+    for i in range(n):
+        for j in range(n):
+            x = knows(i, j)
+ 
+            # Set the degrees
+            outdegree[i] += x
+            indegree[j] += x
+ 
+    # Find a person with indegree n-1
+    # and out degree 0
+    for i in range(n):
+        if (indegree[i] == n - 1 and
+                outdegree[i] == 0):
+            return i
+ 
+    return -1
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    n = 4
+    id_ = findCelebrity(n)
+ 
+    if id_ == -1:
+        print("No celebrity")
+    else:
+        print("Celebrity ID", id_)
+ 
+# This code is contributed by UnworthyProgrammer
+C#
+Javascript
+Output
+Celebrity ID 2
+Time Complexity: O(N2), A nested loop is run traversing the array
+Auxiliary Space: O(N), Since extra space of size N is required.
+
+The Celebrity Problem using Recursion:
+The problem can be solved using recursion. Say, if the ‘potential celebrity’ of N-1 persons is known, can the solution to N be found from it? A potential celebrity is one who is the only one left after eliminating n-1 people. n-1 people are eliminated with the following strategy: 
+
+If A knows B, then A cannot be a celebrity. But B could be.
+Else If B knows A, then B cannot be a celebrity. But A could be.
+The above-mentioned approach uses Recursion to find the potential celebrity among n persons, that recursively calls n-1 persons, till the base case of 0 persons is reached. For 0 persons -1 is returned indicating that there are no possible celebrities since there are 0 people. In the ith stage of recursion, the ith person and (i-1)th person are compared to check if anyone of them knows the other. And using the above logic (in the bullet points) the potential celebrity is returned to the (i+1)th stage.
+
+Once the recursive function returns an id. We check if this id does not know anybody else, but all others know this id. If this is true, then this id will be the celebrity.
+
+Follow the steps below to solve the problem:
+
+Create a recursive function that takes an integer n.
+Check the base case, if the value of n is 0 then return -1.
+Call the recursive function and get the ID of the potential celebrity from the first n-1 elements.
+If the id is -1 then assign n as the potential celebrity and return the value.
+If the potential  celebrity of first n-1 elements knows n-1 then return n-1, (0 based indexing)
+If the celebrity of the first n-1 elements does not know n-1 then return id of the celebrity of n-1 elements, (0 based indexing)
+Else return -1.
+Create a wrapper function and check whether the id returned by the function is really the celebrity or not.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find celebrity
+ 
+# Max # of persons in the party
+N = 8
+ 
+# Person with 2 is celebrity
+MATRIX = [[0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 0, 0],
+          [0, 0, 1, 0]]
+ 
+ 
+def knows(a, b):
+ 
+    return MATRIX[a][b]
+ 
+# Returns -1 if a potential celebrity
+# is not present. If present,
+# returns id (value from 0 to n-1).
+ 
+ 
+def findPotentialCelebrity(n):
+ 
+    # Base case
+    if (n == 0):
+        return 0
+ 
+    # Find the celebrity with n-1
+    # persons
+    id_ = findPotentialCelebrity(n - 1)
+ 
+    # If there are no celebrities
+    if (id_ == -1):
+        return n - 1
+    # if the id knows the nth person
+    # then the id cannot be a celebrity, but nth person
+    # could be on
+    elif knows(id_, n - 1):
+        return n - 1
+    # if the id knows the nth person
+    # then the id cannot be a celebrity, but nth person
+    # could be one
+    elif knows(n - 1, id_):
+        return id_
+    # If there is no celebrity
+    return - 1
+ 
+# Returns -1 if celebrity
+# is not present. If present,
+# returns id (value from 0 to n-1).
+# a wrapper over findCelebrity
+ 
+ 
+def Celebrity(n):
+ 
+    # Find the celebrity
+    id_ = findPotentialCelebrity(n)
+ 
+    # Check if the celebrity found
+    # is really the celebrity
+    if (id_ == -1):
+        return id_
+    else:
+        c1 = 0
+        c2 = 0
+ 
+        # Check the id is really the
+        # celebrity
+        for i in range(n):
+            if (i != id_):
+                c1 += knows(id_, i)
+                c2 += knows(i, id_)
+ 
+        # If the person is known to
+        # everyone.
+        if (c1 == 0 and c2 == n - 1):
+            return id_
+ 
+        return -1
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    n = 4
+    id_ = Celebrity(n)
+ 
+    if id_ == -1:
+        print("No celebrity")
+    else:
+        print("Celebrity ID", id_)
+ 
+# This code is contributed by UnworthyProgrammer
+C#
+Javascript
+Output
+Celebrity ID 2
+Time Complexity: O(N), The recursive function is called n times.
+Auxiliary Space: O(N), Recursive call of N times use stack of size N.
+
+The Celebrity Problem using Elimination Technique:
+Some observations are based on elimination technique (Refer to Polya’s How to Solve It book). 
+
+If A knows B, then A can’t be a celebrity. Discard A, and B may be celebrity.
+If A doesn’t know B, then B can’t be a celebrity. Discard B, and A may be celebrity.
+Repeat above two steps till there is only one person.
+Ensure the remained person is a celebrity. (What is the need of this step?)
+Follow the steps below to solve the problem:
+
+Create a stack and push all the ids in the stack.
+Run a loop while there are more than 1 element in the stack.
+Pop the top two elements from the stack (represent them as A and B)
+If A knows B, then A can’t be a celebrity and push B in the stack. Else if A doesn’t know B, then B can’t be a celebrity push A in the stack.
+Assign the remaining element in the stack as the celebrity.
+Run a loop from 0 to n-1 and find the count of persons who knows the celebrity and the number of people whom the celebrity knows.
+If the count of persons who knows the celebrity is n-1 and the count of people whom the celebrity knows is 0 then return the id of the celebrity else return -1.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find celebrity
+# using stack data structure
+ 
+# Max # of persons in the party
+N = 8
+ 
+# Person with 2 is celebrity
+MATRIX = [[0, 0, 1, 0],
+          [0, 0, 1, 0],
+          [0, 0, 0, 0],
+          [0, 0, 1, 0]]
+ 
+ 
+def knows(a, b):
+ 
+    return MATRIX[a][b]
+ 
+# Returns -1 if celebrity
+# is not present. If present,
+# returns id (value from 0 to n-1).
+ 
+ 
+def findCelebrity(n):
+ 
+    # Handle trivial
+    # case of size = 2
+    s = []
+ 
+    # Push everybody to stack
+    for i in range(n):
+        s.append(i)
+ 
+    # Find a potential celebrity
+    while (len(s) > 1):
+ 
+          # Pop out the first two elements from stack
+        A = s.pop()
+        B = s.pop()
+ 
+        # if A knows B, we find that B might be the celebrity and vice versa
+        if (knows(A, B)):
+            s.append(B)
+        else:
+            s.append(A)
+ 
+    # If there are only two people
+    # and there is no
+    # potential candidate
+    if(len(s) == 0):
+        return -1
+ 
+    # Potential candidate?
+    C = s.pop()
+ 
+    # Last candidate was not
+    # examined, it leads one
+    # excess comparison (optimize)
+    if (knows(C, B)):
+        C = B
+ 
+    if (knows(C, A)):
+        C = A
+ 
+    # Check if C is actually
+    # a celebrity or not
+    for i in range(n):
+ 
+        # If any person doesn't
+        # know 'a' or 'a' doesn't
+        # know any person, return -1
+        if ((i != C) and
+            (knows(C, i) or
+                not(knows(i, C)))):
+            return -1
+ 
+    return C
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    n = 4
+    id_ = findCelebrity(n)
+ 
+    if id_ == -1:
+        print("No celebrity")
+    else:
+        print("Celebrity ID ", id_)
+ 
+# This code is contributed by UnworthyProgrammer
+C#
+Javascript
+Output
+Celebrity ID 2
+Time Complexity: O(N), The total number of comparisons is 3(N-1).
+Auxiliary Space: O(N), n extra space is needed to store the stack.
+
+The Celebrity Problem using Elimination Technique (Efficient):
+The idea is to follow below to steps based on the above approach:
+
+If A knows B, then A can’t be a celebrity. Discard A, and B may be celebrity.
+If A doesn’t know B, then B can’t be a celebrity. Discard B, and A may be celebrity.
+We will not use any extra space as will use spaces M[i][i] for storing whether i th person is a celebrity or not as these are by default 0, so if we find i th person is not a celebrity then we will mark M[i][i] as 1
+
+Follow the steps below to solve the problem:
+
+We will make a variable that will store the current row and start a loop from 0 to n-1 and if M[row][i] is 1 then mark M[row][row]=1 and update row = i and if M[row][i]=0 then mark M[i][i]=1.
+ After the loop we iterate on the diagonal of the matrix i.e M[i][i] where i->(0,n-1) there will be only one element in the diagonal whose value will be 0, when found iterate on all the rows from top to bottom with the column set to i  and if there is no 0 in that column then return i and if there are positive number of zeroes then return -1
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python code for the above approach
+ 
+ 
+# Function to find if there is a celebrity in the party
+# or not.
+def celebrity(M, n):
+    # r=row number
+    r = 0
+    for i in range(1, n):
+        # checking if r th person knows i th person
+        if(M[r][i] == 1):
+            M[r][r] = 1
+            r = i
+        else:
+            M[i][i] = 1
+ 
+    for i in range(n):
+        # checking if i th person can be a celebrity or
+        # not
+        if(M[i][i] == 0):
+            flag = 0
+            # iterating in the i th column to check
+            # whether everyone knows i th person or not
+            for j in range(n):
+                # checking if M[j][i] is not a diagonal
+                # element and if j th person knows i th
+                      # person
+                if(j != i and M[j][i] == 0):
+                    flag = 1
+                    break
+            if(flag == 0):
+                return i
+ 
+    return -1
+ 
+ 
+M = [[0, 0, 1, 0],
+     [0, 0, 1, 0],
+     [0, 0, 0, 0],
+     [0, 0, 1, 0]]
+a = celebrity(M, 4)
+if(a is -1):
+    print("No Celebrity")
+else:
+    print("Celebrity ID", a)
+ 
+# This code is contributed by lokeshmvs21.
+C#
+Javascript
+Output
+Celebrity ID 2
+Time Complexity: O(N), Number of iterations is 3 times i.e 3N so the time complexity is O(N) 
+Auxiliary Space: O(1)
+
+The Celebrity Problem using Two-pointer approach:
+The idea is to use two pointers, one from start and one from the end. Assume the start person is A, and the end person is B. If A knows B, then A must not be the celebrity. Else, B must not be the celebrity. At the end of the loop, only one index will be left as a celebrity. Go through each person again and check whether this is the celebrity. 
+The Two Pointer approach can be used where two pointers can be assigned, one at the start and the other at the end, and the elements can be compared and the search space can be reduced. 
+ 
+
+Follow the steps below to solve the problem:
+
+Create two indices i and j, where i = 0 and j = n-1
+Run a loop until i is less than j.
+Check if i knows j, then i can’t be a celebrity. so increment i, i.e. i++
+Else j cannot be a celebrity, so decrement j, i.e. j–
+Assign i as the celebrity candidate
+Now at last check whether the candidate is actually a celebrity by re-running a loop from 0 to n-1  and constantly checking if the candidate knows a person or if there is a candidate who does not know the candidate.
+Then we should return -1. else at the end of the loop, we can be sure that the candidate is actually a celebrity.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code
+class Solution:
+ 
+    # Function to find if there is a celebrity in the party or not.
+    # return index if celebrity else return -1
+    def celebrity(self, M, n):
+        # code here
+        i = 0
+        j = n-1
+        candidate = -1
+        while(i < j):
+            if M[j][i] == 1:
+                j -= 1
+            else:
+                i += 1
+ 
+        candidate = i
+        for k in range(n):
+            if candidate != k:
+                if M[candidate][k] == 1 or M[k][candidate] == 0:
+                    return -1
+ 
+        return candidate
+ 
+ 
+n = 4
+m = [[0, 0, 1, 0],
+     [0, 0, 1, 0],
+     [0, 0, 0, 0],
+     [0, 0, 1, 0]]
+ob = Solution()
+a = ob.celebrity(m, n)
+if a == -1:
+    print("No Celebrity")
+else:
+    print("Celebrity ID", a)
+C#
+Javascript
+Output
+Celebrity ID 2
+Time Complexity: O(N), Iterating two times the array of size N.
+Auxiliary Space: O(1) No extra space is required.
+
+
+
+
+
+Like
+254
+Previous
+Number of NGEs to the right
+Next
+Expression Evaluation
+Related Articles
+1.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+2.
+Nuts & Bolts Problem (Lock & Key problem) using Hashmap
+3.
+Sort an array of 0s, 1s and 2s | Dutch National Flag problem
+4.
+0-1 Knapsack Problem | DP-10
+5.
+Activity Selection Problem | Greedy Algo-1
+6.
+The Stock Span Problem
+7.
+Travelling Salesman Problem using Dynamic Programming
+8.
+Boolean Parenthesization Problem | DP-37
+9.
+Tiling Problem
+10.
+Hungarian Algorithm for Assignment Problem | Set 1 (Introduction)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+andrew1234
+rohitkumar52
+parthpatel16
+UnworthyProgrammer
+Sumit Dutta
+Rajput-Ji
+aashish1995
+manasabhat1
+namangoyal198
+todaysgaurav
+sparshsharma2510
+saksha

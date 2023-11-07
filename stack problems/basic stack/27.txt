@@ -1,0 +1,234 @@
+Check for Balanced Brackets in an expression (well-formedness) using Stack
+
+Difficulty Level : Easy
+Last Updated : 28 Jan, 2023
+Read
+Discuss(280)
+Courses
+Practice
+Video
+Given an expression string exp, write a program to examine whether the pairs and the orders of “{“, “}”, “(“, “)”, “[“, “]” are correct in the given expression.
+
+Example: 
+
+Input: exp = “[()]{}{[()()]()}” 
+Output: Balanced
+Explanation: all the brackets are well-formed
+
+Input: exp = “[(])” 
+Output: Not Balanced 
+Explanation: 1 and 4 brackets are not balanced because 
+there is a closing ‘]’ before the closing ‘(‘
+
+Recommended Problem
+Parenthesis Checker
+Strings
+Stack
++2 more
+Flipkart
+Amazon
++8 more
+Solve Problem
+Submission count: 4.1L
+Check for Balanced Bracket expression using Stack:
+The idea is to put all the opening brackets in the stack. Whenever you hit a closing bracket, search if the top of the stack is the opening bracket of the same nature. If this holds then pop the stack and continue the iteration, in the end if the stack is empty, it means all brackets are well-formed . Otherwise, they are not balanced.
+
+Illustration: 
+Below is the illustration of the above approach.
+
+
+
+Follow the steps mentioned below to implement the idea:
+
+Declare a character stack (say temp).
+Now traverse the string exp. 
+If the current character is a starting bracket ( ‘(‘ or ‘{‘  or ‘[‘ ) then push it to stack.
+If the current character is a closing bracket ( ‘)’ or ‘}’ or ‘]’ ) then pop from stack and if the popped character is the matching starting bracket then fine.
+Else brackets are Not Balanced.
+After complete traversal, if there is some starting bracket left in stack then Not balanced, else Balanced.
+Below is the implementation of the above approach:
+
+
+
+C++
+C
+Java
+Python3
+# Python3 program to check for
+# balanced brackets.
+ 
+# function to check if
+# brackets are balanced
+ 
+ 
+def areBracketsBalanced(expr):
+    stack = []
+ 
+    # Traversing the Expression
+    for char in expr:
+        if char in ["(", "{", "["]:
+ 
+            # Push the element in the stack
+            stack.append(char)
+        else:
+ 
+            # IF current character is not opening
+            # bracket, then it must be closing.
+            # So stack cannot be empty at this point.
+            if not stack:
+                return False
+            current_char = stack.pop()
+            if current_char == '(':
+                if char != ")":
+                    return False
+            if current_char == '{':
+                if char != "}":
+                    return False
+            if current_char == '[':
+                if char != "]":
+                    return False
+ 
+    # Check Empty Stack
+    if stack:
+        return False
+    return True
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+    expr = "{()}[]"
+ 
+    # Function call
+    if areBracketsBalanced(expr):
+        print("Balanced")
+    else:
+        print("Not Balanced")
+ 
+# This code is contributed by AnkitRai01 and improved
+# by Raju Pitta
+C#
+Javascript
+Output
+Balanced
+Time Complexity: O(N), Iteration over the string of size N one time.
+Auxiliary Space: O(N) for stack. 
+
+Check for Balanced Bracket expression without using stack :
+Following are the steps to be followed:
+
+Initialize a variable i with -1.
+Iterate through string and if it is a open bracket then increment the counter by +1.
+Else if it is a closing bracket then decrement the i by -1.
+At last if we get the (i==-1) then the string is balanced and we will return true otherwise the function will return false.
+Below is the implementation of the above approach:
+
+C++
+#include <iostream>
+ 
+using namespace std;
+ 
+ bool areBracketsBalanced(string s) {
+        int i=-1;
+        for(auto& ch:s){
+            if(ch=='(' || ch=='{' || ch=='[')
+                s[++i]=ch;
+            else{
+                if(i>=0 && ((s[i]=='(' && ch==')') || (s[i]=='{' && ch=='}') || (s[i]=='[' && ch==']')))
+                    i--;
+                else
+                    return false;
+            }
+        }
+        return i==-1;
+    }
+ 
+int main()
+{
+    string expr = "{()}[]";
+ 
+    // Function call
+    if (areBracketsBalanced(expr))
+        cout << "Balanced";
+    else
+        cout << "Not Balanced";
+    return 0;
+}
+Output
+Balanced
+Time Complexity: O(N), Iteration over the string of size N one time.
+Auxiliary Space: O(1) because we are not using any extra space. 
+
+
+
+
+
+Like
+382
+Next
+Next Greater Element (NGE) for every element in given Array
+Related Articles
+1.
+C++ Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+2.
+C Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+3.
+Java Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+4.
+Python Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+5.
+C# Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+6.
+Javascript Program To Check For Balanced Brackets In An Expression (Well-Formedness) Using Stack
+7.
+Check if it is possible to obtain a Balanced Parenthesis by shifting brackets to either end at most K times
+8.
+Print all Balanced Brackets Strings that can be formed by replacing wild card '?'
+9.
+Check for balanced parentheses in an expression | O(1) space | O(N^2) time complexity
+10.
+Check for balanced parentheses in an expression | O(1) space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+ankthon
+raju pitta
+abhinav33
+priyanshulgovil
+nirala96
+rag2127
+patidarchetan99
+hardikkoriintern
+garvitpr1hev
+ishank0106
+Article Tags :
+Amazon
+Hike
+Oracle
+Parentheses-Problems
+Snapdeal
+Walmart
+Wipro
+Yatra.com
+Zoho
+Stack
+Strings
+Practice Tags :
+Amazon
+Hike
+Oracle
+Snapdeal
+Walmart
+Wipro
+Yatra.com
+Zoho
+Stack
+Strings

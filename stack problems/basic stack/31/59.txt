@@ -1,0 +1,217 @@
+Find next Smaller of next Greater in an array
+
+Difficulty Level : Medium
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given array of integer, find the next smaller of next greater element of every element in array.
+
+Note : Elements for which no greater element exists or no smaller of greater element exist, print -1.
+
+Examples: 
+
+Input : arr[] = {5, 1, 9, 2, 5, 1, 7}
+Output:          2  2 -1  1 -1 -1 -1
+Explanation :  
+Next Greater ->      Right Smaller 
+   5 ->  9             9 ->  2 
+   1 ->  9             9 ->  2
+   9 -> -1            -1 -> -1
+   2 ->  5             5 ->  1
+   5 ->  7             7 -> -1
+   1 ->  7             7 -> -1
+   7 -> -1            -1 -> -1 
+
+Input  : arr[] = {4, 8, 2, 1, 9, 5, 6, 3}
+Output :          2  5  5  5 -1  3 -1 -1 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A simple solution is to iterate through all elements. For every element, find the next greater element of current element and then find right smaller element for current next greater element. Time taken of this solution is O(n2). 
+
+An efficient solution takes O(n) time. Notice that it is the combination of Next greater element & next smaller element in array.
+
+Let input array be 'arr[]' and size of array be 'n'
+find next greatest element of every element 
+
+ step 1 : Create an empty stack (S) in which we store the indexes
+          and NG[] that is user to store the indexes of NGE
+          of every element.
+
+ step 2 : Traverse the array in reverse order 
+            where i goes from (n-1 to 0)
+
+        a) While S is nonempty and the top element of 
+           S is smaller than or equal to 'arr[i]':
+              pop S
+
+        b) If S is empty 
+             arr[i] has no greater element
+             NG[i] = -1
+
+        c) else we have next greater element
+             NG[i] = S.top() // here we store the index of NGE
+
+        d). push current element index in stack 
+           S.push(i)
+
+Find Right smaller element of every element      
+    
+  step 3 : create an array RS[] used to store the index of
+           right smallest element 
+
+  step 4 : we repeat step (1 & 2)  with little bit of
+           modification in step 1 & 2 .
+           they are :
+
+          a). we use RS[] in place of NG[].
+
+          b). In step (2.a)
+              we pop element form stack S  while S is not
+              empty or the top element of S is greater than 
+              or equal to 'arr[i]'  
+
+  step 5 . compute all RSE of NGE :
+
+           where i goes from 0 to n-1 
+           if NG[ i ] != -1 && RS[ NG [ i]] ! =-1
+              print arr[RS[NG[i]]]
+          else
+              print -1                
+Below is the implementation of above idea
+
+C++
+Java
+Python 3
+# Python 3 Program to find Right smaller element of next
+# greater element
+  
+# function find Next greater element
+def nextGreater(arr, n, next, order):
+ 
+    S = []
+  
+    # Traverse all array elements in reverse order
+    # order == 'G' we compute next greater elements of
+    #              every element
+    # order == 'S' we compute right smaller element of
+    #              every element
+    for i in range(n-1,-1,-1):
+ 
+        # Keep removing top element from S while the top
+        # element is smaller than or equal to arr[i] (if Key is G)
+        # element is greater than or equal to arr[i] (if order is S)
+        while (S!=[] and (arr[S[len(S)-1]] <= arr[i]
+        if (order=='G') else  arr[S[len(S)-1]] >= arr[i] )):
+                
+            S.pop()
+  
+        # store the next greater element of current element
+        if (S!=[]):
+            next[i] = S[len(S)-1]
+  
+        # If all elements in S were smaller than arr[i]
+        else:
+            next[i] = -1
+  
+        # Push this element
+        S.append(i)
+  
+# Function to find Right smaller element of next greater
+# element
+def nextSmallerOfNextGreater(arr, n):
+    NG = [None]*n  #  stores indexes of next greater elements
+    RS = [None]*n  # stores indexes of right smaller elements
+  
+    # Find next greater element
+    # Here G indicate next greater element
+    nextGreater(arr, n, NG, 'G')
+  
+    # Find right smaller element
+    # using same function nextGreater()
+    # Here S indicate right smaller elements
+    nextGreater(arr, n, RS, 'S')
+  
+    # If NG[i] == -1 then there is no smaller element
+    # on right side. We can find Right smaller of next
+    # greater by arr[RS[NG[i]]]
+    for i in range(n):
+        if (NG[i] != -1 and RS[NG[i]] != -1):
+            print(arr[RS[NG[i]]],end=" ")
+        else:
+            print("-1",end=" ")
+  
+# Driver program
+if __name__=="__main__":
+    arr = [5, 1, 9, 2, 5, 1, 7]
+    n = len(arr)
+    nextSmallerOfNextGreater(arr, n)
+ 
+# this code is contributed by ChitraNayal
+C#
+Javascript
+Output
+
+
+2 2 -1 1 -1 -1 -1 
+Time complexity : O(n), where n is the size of the given array.
+Auxiliary Space: O(n), where n is the size of the given array.
+
+This article is contributed by Nishant_Singh(Pintu). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org.
+
+
+
+
+
+Like
+13
+Previous
+Find maximum difference between nearest left and right smaller elements
+Next
+Find maximum equal sum of every three stacks
+Related Articles
+1.
+Delete array elements which are smaller than next or become smaller
+2.
+For all Array elements find Product of Sum of all smaller and Sum of all greater elements
+3.
+Find the element before which all the elements are smaller than it, and after which all are greater
+4.
+Rearrange array such that even index elements are smaller and odd index elements are greater
+5.
+Size of smallest subarray to be removed to make count of array elements greater and smaller than K equal
+6.
+Minimize array sum by replacing greater and smaller elements of pairs by half and double of their values respectively atmost K times
+7.
+Count elements in Array having strictly smaller and strictly greater element present
+8.
+Modify Array such that no element is smaller/greater than half/double of its adjacent elements
+9.
+Modify given array by reducing each element by its next smaller element
+10.
+Count smaller elements on right side and greater elements on left side using Binary Index Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+_Gaurav_Tiwari
+princiraj1992
+rag2127
+samim2000
+mitalibhola94
+hardikkoriintern
+Article Tags :
+Arrays
+Stack
+Practice Tags :
+Arrays
+Stack

@@ -1,0 +1,360 @@
+Next Greater Frequency Element
+
+Difficulty Level : Medium
+Last Updated : 12 Jan, 2023
+Read
+Discuss(20)
+Courses
+Practice
+Video
+ 
+
+Given an array, for each element find the value of the nearest element to the right which is having a frequency greater than that of the current element. If there does not exist an answer for a position, then make the value ‘-1’.
+
+Examples: 
+
+Input : a[] = [1, 1, 2, 3, 4, 2, 1] 
+Output : [-1, -1, 1, 2, 2, 1, -1]
+ 
+Explanation:
+Given array a[] = [1, 1, 2, 3, 4, 2, 1] 
+Frequency of each element is: 3, 3, 2, 1, 1, 2, 3
+
+Lets calls Next Greater Frequency element as NGF
+1. For element a[0] = 1 which has a frequency = 3,
+   As it has frequency of 3 and no other next element 
+   has frequency more than 3 so  '-1'
+2. For element a[1] = 1 it will be -1 same logic 
+   like a[0]
+3. For element a[2] = 2 which has frequency = 2,
+   NGF element is 1 at position = 6  with frequency 
+   of 3 > 2
+4. For element a[3] = 3 which has frequency = 1,
+   NGF element is 2 at position = 5 with frequency 
+   of 2 > 1
+5. For element a[4] = 4 which has frequency = 1,
+   NGF element is 2 at position = 5 with frequency 
+   of 2 > 1
+6. For element a[5] = 2 which has frequency = 2,
+   NGF element is 1 at position = 6 with frequency
+   of 3 > 2
+7. For element a[6] = 1 there is no element to its 
+   right, hence -1 
+Input : a[] = [1, 1, 1, 2, 2, 2, 2, 11, 3, 3]
+Output : [2, 2, 2, -1, -1, -1, -1, 3, -1, -1]
+Naive approach: 
+
+A simple hashing technique is to use values as the index is being used to store the frequency of each element. Create a list suppose to store the frequency of each number in the array. (Single traversal is required). Now use two loops. 
+The outer loop picks all the elements one by one. 
+The inner loop looks for the first element whose frequency is greater than the frequency of the current element. 
+If a greater frequency element is found then that element is printed, otherwise -1 is printed. 
+
+Time complexity: O(n*n)
+
+Efficient approach: 
+
+
+
+We can use hashing and stack data structure to efficiently solve for many cases. A simple hashing technique is to use values as index and frequency of each element as value. We use the stack data structure to store the position of elements in the array.
+
+Create a list to use values as index to store frequency of each element. 
+Push the position of first element to stack. 
+Pick rest of the position of elements one by one and follow following steps in loop. 
+Mark the position of current element as ‘i’ . 
+If the frequency of the element which is pointed by the top of stack is greater than frequency of the current element, push the current position i to the stack 
+If the frequency of the element which is pointed by the top of stack is less than frequency of the current element and the stack is not empty then follow these steps: 
+continue popping the stack 
+if the condition in step c fails then push the current position i to the stack 
+After the loop in step 3 is over, pop all the elements from stack and print -1 as next greater frequency element for them does not exist.
+Below is the implementation of the above problem. 
+
+C++
+Java
+Python3
+'''NFG function to find the next greater frequency
+   element for each element in the array'''
+ 
+ 
+def NFG(a, n):
+ 
+    if (n <= 0):
+        print("List empty")
+        return []
+ 
+    # stack data structure to store the position
+    # of array element
+    stack = [0]*n
+ 
+    # freq is a dictionary which maintains the
+    # frequency of each element
+    freq = {}
+    for i in a:
+        freq[a[i]] = 0
+    for i in a:
+        freq[a[i]] += 1
+ 
+    # res to store the value of next greater
+    # frequency element for each element
+    res = [0]*n
+ 
+    # initialize top of stack to -1
+    top = -1
+ 
+    # push the first position of array in the stack
+    top += 1
+    stack[top] = 0
+ 
+    # now iterate for the rest of elements
+    for i in range(1, n):
+ 
+        ''' If the frequency of the element which is
+            pointed by the top of stack is greater
+            than frequency of the current element
+            then push the current position i in stack'''
+        if (freq[a[stack[top]]] > freq[a[i]]):
+            top += 1
+            stack[top] = i
+ 
+        else:
+            ''' If the frequency of the element which
+            is pointed by the top of stack is less
+            than frequency of the current element, then
+            pop the stack and continuing popping until
+            the above condition is true while the stack
+            is not empty'''
+ 
+            while (top > -1 and freq[a[stack[top]]] < freq[a[i]]):
+                res[stack[top]] = a[i]
+                top -= 1
+ 
+            # now push the current element
+            top += 1
+            stack[top] = i
+ 
+    '''After iterating over the loop, the remaining
+    position of elements in stack do not have the
+    next greater element, so print -1 for them'''
+    while (top > -1):
+        res[stack[top]] = -1
+        top -= 1
+ 
+    # return the res list containing next
+    # greater frequency element
+    return res
+ 
+ 
+# Driver Code
+print(NFG([1, 1, 2, 3, 4, 2, 1], 7))
+C#
+Javascript
+Output
+-1 -1 1 2 2 1 -1 
+Time complexity: O(n)
+Auxiliary space: O(n)
+
+The Next To Brute Force/Brute Force:
+
+    The Approach:
+
+
+        The approach is simple we just store the frequency of all element in map then push all element in reverse order to the stack as we know the nature of stack is LIFO so then we traverse over vector and find the next greater for every element in vector using stack ans map.
+
+C++
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+ 
+int main() {
+     vector<int>v{1, 1, 2, 3, 4, 2, 1};
+     int n=v.size();
+     map<int,int>mp;
+     stack<int>s;
+     for(auto it:v){
+       mp[it]++;
+     }
+     for(int i=n-1;i>=0;i--)s.push(v[i]);
+     for(int i=0;i<n;i++){
+       int x=mp[v[i]];
+       bool flag=1;
+       stack<int>ss(s);
+       while(!ss.empty()){
+         if(mp[ss.top()]>x){
+           cout<<v[i]<<" --> "<<ss.top()<<endl;
+           flag=0;
+           break;
+         }
+         ss.pop();
+       }
+       if(flag)cout<<v[i]<<" --> "<<-1<<endl;
+       s.pop();
+     }
+      
+    return 0;
+}
+Output
+1 --> -1
+1 --> -1
+2 --> 1
+3 --> 2
+4 --> 2
+2 --> 1
+1 --> -1
+Time complexity: O(n^2),for worst case.
+Auxiliary space: O(2n),for map and stack.
+
+Space Efficient Approach: using a hash map instead of a list as mentioned in the above approach.
+
+Steps:
+
+Create a class pair to store pair<int, int> with pair<element, frequency>.
+Create a hash map with pair as generics to store keys as the element and values as the frequency of every element.
+Iterate the array and save the element and its frequency in the hashmap.
+Create a res array that stores the resultant array.
+Initially make res[n-1] = -1 and push the element in the end along with its frequency into the stack.
+Iterate through the array in reverse order.
+If the frequency of the element which is pointed at the top of the stack is less than the frequency of the current element and the stack is not empty then pop.
+Continue till the loop fails.
+If the stack is empty, it means that there is no element with a higher frequency. So, place -1 as the next higher frequency element in the resultant array.
+If the stack is not empty, it means that the top of the stack has a higher frequency element. Put it in the resultant array as the next higher frequency.
+Push the current element along with its frequency.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program of Next Greater Frequency Element
+ 
+mystack = []
+mymap = {}
+  
+"""NFG function to find the next greater frequency
+element for each element and for placing it in the
+resultant array """
+def NGF(arr, res):
+    n = len(arr)
+      
+    # Initially store the frequencies of all elements
+    # in a hashmap
+    for i in range(n):
+        if arr[i] in mymap:
+            mymap[arr[i]] += 1
+        else:
+            mymap[arr[i]] = 1
+      
+    # Get the frequency of the last element
+    curr_freq = mymap[arr[n-1]]
+     
+    # push it to the stack
+    mystack.append([arr[n-1],curr_freq])
+     
+    # place -1 as next greater freq for the last
+    # element as it does not have next greater.
+    res[n-1] = -1
+      
+    # iterate through array in reverse order
+    for i in range(n - 2, -1, -1):
+        curr_freq = mymap[arr[i]]
+          
+        """ If the frequency of the element which is
+        pointed by the top of stack is greater
+        than frequency of the current element
+        then push the current position i in stack"""
+        while len(mystack) > 0  and  curr_freq >= mystack[-1][1]:
+            mystack.pop()
+          
+        # If the stack is empty, place -1. If it is not empty
+        # then we will have next higher freq element at the top of the stack.
+        if (len(mystack) == 0):
+            res[i] = -1
+        else:
+            res[i] = mystack[-1][0]
+          
+        # push the element at current position
+        mystack.append([arr[i],mymap[arr[i]]])
+ 
+arr = [1, 1, 1, 2, 2, 2, 2, 11, 3, 3]
+  
+res = [0]*(len(arr))
+NGF(arr, res)
+print(res)
+ 
+# This code is contributed by rameshtravel07.
+C#
+Javascript
+Output
+[2, 2, 2, -1, -1, -1, -1, 3, -1, -1]
+Time Complexity: O(n)
+Auxiliary Space: O(n) for hashmap and stack
+
+This article is contributed by Sruti Rai. Thank you Koustav for your valuable support. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+82
+Previous
+Next Greater Element (NGE) for every element in given Array
+Next
+Number of NGEs to the right
+Related Articles
+1.
+Maximum difference between frequency of two elements such that element having greater frequency is also greater
+2.
+Find next Smaller of next Greater in an array
+3.
+Next Greater Element (NGE) for every element in given Array
+4.
+Remaining array element after repeated removal of last element and subtraction of each element from next adjacent element
+5.
+Next greater element in same order as input
+6.
+Find the next greater element in a Circular Array
+7.
+Elements greater than the previous and next element in an Array
+8.
+Distance from Next Greater element
+9.
+Find the next greater element in a Circular Array | Set 2
+10.
+Next Greater Element | Set 2 (Using Upper Bound)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Logarithm
+andrew1234
+Akanksha_Rai
+droyder
+rajukumarbhui
+avllikhita
+vaibhavrabadiya117
+avanitrachhadiya2155
+rameshtravel07
+mukesh07
+divyeshrabadiya07
+HardhikMallipeddi
+hardikkoriintern
+himanshiyadav7011
+noviced3vq6
+sanketgode0
+Article Tags :
+Arrays
+Hash
+Stack
+Practice Tags :
+Arrays
+Hash
+Stack

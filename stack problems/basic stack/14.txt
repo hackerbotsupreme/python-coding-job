@@ -1,0 +1,456 @@
+Implement Stack using Queues
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss(150+)
+Courses
+Practice
+Video
+Given a Queue data structure that supports standard operations like enqueue() and dequeue(). The task is to implement a Stack data structure using only instances of Queue and Queue operations allowed on the instances.
+
+Stack and Queue with insert and delete operations 
+
+Recommended Problem
+Stack using two queues
+Stack
+Queue
++2 more
+Accolite
+Amazon
++10 more
+Solve Problem
+Submission count: 1.1L
+A Stack can be implemented using two queues. Let Stack to be implemented be ‘s’ and queues used to implement are ‘q1’ and ‘q2’. Stack ‘s’ can be implemented in two ways:
+
+Implement Stack using Queues By making push() operation costly:
+Below is the idea to solve the problem:
+
+
+The idea is to keep newly entered element at the front of ‘q1’ so that pop operation dequeues from ‘q1’. ‘q2’ is used to put every new element in front of ‘q1’.
+
+Follow the below steps to implement the push(s, x) operation: 
+Enqueue x to q2.
+One by one dequeue everything from q1 and enqueue to q2.
+Swap the queues of q1 and q2.
+Follow the below steps to implement the pop(s) operation: 
+Dequeue an item from q1 and return it.
+Below is the implementation of the above approach. 
+
+C++
+Java
+Python3
+# Program to implement a stack using
+# two queue
+from _collections import deque
+ 
+ 
+class Stack:
+ 
+    def __init__(self):
+ 
+        # Two inbuilt queues
+        self.q1 = deque()
+        self.q2 = deque()
+ 
+    def push(self, x):
+ 
+        # Push x first in empty q2
+        self.q2.append(x)
+ 
+        # Push all the remaining
+        # elements in q1 to q2.
+        while (self.q1):
+            self.q2.append(self.q1.popleft())
+ 
+        # swap the names of two queues
+        self.q1, self.q2 = self.q2, self.q1
+ 
+    def pop(self):
+ 
+        # if no elements are there in q1
+        if self.q1:
+            self.q1.popleft()
+ 
+    def top(self):
+        if (self.q1):
+            return self.q1[0]
+        return None
+ 
+    def size(self):
+        return len(self.q1)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    s = Stack()
+    s.push(1)
+    s.push(2)
+    s.push(3)
+ 
+    print("current size: ", s.size())
+    print(s.top())
+    s.pop()
+    print(s.top())
+    s.pop()
+    print(s.top())
+ 
+    print("current size: ", s.size())
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+
+
+current size: 3
+3
+2
+1
+current size: 1
+Time Complexity:
+
+Push operation: O(N), As all the elements need to be popped out from the Queue (q1) and push them back to Queue (q2).
+Pop operation: O(1), As we need to remove the front element from the Queue.
+Auxiliary Space: O(N), As we use two queues for the implementation of a Stack.
+
+Implement Stack using Queues by making pop() operation costly:
+Below is the idea to solve the problem:
+
+The new element is always enqueued to q1. In pop() operation, if q2 is empty then all the elements except the last, are moved to q2. Finally, the last element is dequeued from q1 and returned.
+
+Follow the below steps to implement the push(s, x) operation: 
+Enqueue x to q1 (assuming the size of q1 is unlimited).
+Follow the below steps to implement the pop(s) operation: 
+One by one dequeue everything except the last element from q1 and enqueue to q2.
+Dequeue the last item of q1, the dequeued item is the result, store it.
+Swap the names of q1 and q2
+Return the item stored in step 2.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Program to implement a stack using
+# two queue
+from _collections import deque
+ 
+ 
+class Stack:
+ 
+    def __init__(self):
+ 
+        # Two inbuilt queues
+        self.q1 = deque()
+        self.q2 = deque()
+ 
+    def push(self, x):
+        self.q1.append(x)
+ 
+    def pop(self):
+        # if no elements are there in q1
+        if (not self.q1):
+            return
+        # Leave one element in q1 and push others in q2
+        while(len(self.q1) != 1):
+            self.q2.append(self.q1.popleft())
+ 
+        # swap the names of two queues
+        self.q1, self.q2 = self.q2, self.q1
+ 
+    def top(self):
+        # if no elements are there in q1
+        if (not self.q1):
+            return
+        # Leave one element in q1 and push others in q2
+        while(len(self.q1) != 1):
+            self.q2.append(self.q1.popleft())
+ 
+        # Pop the only left element from q1 to q2
+        top = self.q1[0]
+        self.q2.append(self.q1.popleft())
+ 
+        # swap the names of two queues
+        self.q1, self.q2 = self.q2, self.q1
+ 
+        return top
+ 
+    def size(self):
+        return len(self.q1)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    s = Stack()
+    s.push(1)
+    s.push(2)
+    s.push(3)
+ 
+    print("current size: ", s.size())
+    print(s.top())
+    s.pop()
+    print(s.top())
+    s.pop()
+    print(s.top())
+ 
+    print("current size: ", s.size())
+ 
+# This code is contributed by jainlovely450
+C#
+Javascript
+Output
+current size: 3
+3
+2
+1
+current size: 1
+Time Complexity: 
+
+Push operation: O(1), As, on each push operation the new element is added at the end of the Queue.
+Pop operation: O(N), As, on each pop operation, all the elements are popped out from the Queue (q1) except the last element and pushed into the Queue (q2).
+Auxiliary Space: O(N) since 2 queues are used.
+
+Implement Stack using 1 queue:
+Below is the idea to solve the problem:
+
+Using only one queue and make the queue act as a Stack in modified way of the above discussed approach.
+
+Follow the below steps to implement the idea: 
+
+The idea behind this approach is to make one queue and push the first element in it. 
+After the first element, we push the next element and then push the first element again and finally pop the first element. 
+So, according to the FIFO rule of the queue, the second element that was inserted will be at the front and then the first element as it was pushed again later and its first copy was popped out. 
+So, this acts as a Stack and we do this at every step i.e. from the initial element to the second last element, and the last element will be the one that we are inserting and since we will be pushing the initial elements after pushing the last element, our last element becomes the first element.
+Below is the implementation for the above approach:
+
+C++
+Java
+Python3
+from _collections import deque
+ 
+# Stack Class that acts as a queue
+ 
+ 
+class Stack:
+    def __init__(self):
+        self.q = deque()
+ 
+    # Push operation
+    def push(self, data):
+        # Get previous size of queue
+        s = len(self.q)
+ 
+        # Push the current element
+        self.q.append(data)
+ 
+        # Pop all the previous elements and put them after
+        # current element
+        for i in range(s):
+            self.q.append(self.q.popleft())
+ 
+    # Removes the top element
+    def pop(self):
+        if (not self.q):
+            print("No elements")
+        else:
+            self.q.popleft()
+ 
+    # Returns top of stack
+    def top(self):
+        if (not self.q):
+            return
+        return self.q[0]
+ 
+    def size(self):
+        return len(self.q)
+ 
+ 
+if __name__ == '__main__':
+    st = Stack()
+    st.push(1)
+    st.push(2)
+    st.push(3)
+    print("current size: ", st.size())
+    print(st.top())
+    st.pop()
+    print(st.top())
+    st.pop()
+    print(st.top())
+    print("current size: ", st.size())
+C#
+Javascript
+Output
+current size: 3
+3
+2
+1
+current size: 1
+Time Complexity:
+
+Push operation: O(N)
+Pop operation: O(1)
+Auxiliary Space: O(N) since 1 queue is used.
+
+Recursive Method:
+Below is the implementation for the above approach using recursion –
+
+C++
+Java
+Python3
+from _collections import deque
+ 
+# Stack Class that acts as a queue
+ 
+ 
+class Stack:
+    def __init__(self):
+        self.q = deque()
+ 
+    # Push operation
+    def push(self, data, c):
+ 
+        # Push the current element
+        self.q.append(data)
+ 
+        # Return if size becomes 0
+        if c <= 0:
+            return
+ 
+        # Store and then pop the current front
+        x = self.q.popleft()
+ 
+        # Decrement size by 1 in every recursion
+        c = c-1
+        self.push(x, c)
+ 
+    # Removes the top element
+    def pop(self):
+        if (not self.q):
+            print("No elements")
+        else:
+            self.q.popleft()
+ 
+    # Returns top of stack
+    def top(self):
+        if (not self.q):
+            return
+        return self.q[0]
+ 
+    def size(self):
+        return len(self.q)
+ 
+ 
+if __name__ == '__main__':
+    st = Stack()
+    st.push(1, st.size())
+    st.push(2, st.size())
+    st.push(3, st.size())
+    print("current size: ", st.size())
+    print(st.top())
+    st.pop()
+    print(st.top())
+    st.pop()
+    print(st.top())
+    print("current size: ", st.size())
+ 
+# This code is contributed by Susobhan Akhuli
+C#
+Output
+current size: 3
+3
+2
+1
+current size: 1
+Time Complexity:
+
+Push operation: O(N)
+Pop operation: O(1)
+Auxiliary Space: O(N) since 1 queue is used and also for the stack used for recursion.
+References: 
+Implement Stack using Two Queues
+This article was compiled by Sumit Jain and reviewed by the GeeksforGeeks team. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+166
+Previous
+Design and Implement Special Stack Data Structure | Added Space Optimized Version
+Next
+Design a stack with operations on middle element
+Related Articles
+1.
+Array-Based Queues vs List-Based Queues
+2.
+How to efficiently implement k Queues in a single array?
+3.
+Level order traversal line by line | Set 2 (Using Two Queues)
+4.
+Different Types of Queues and its Applications
+5.
+Introduction to Monotonic Queues
+6.
+Implement a stack using single queue
+7.
+How to implement a Stack using list in C++ STL
+8.
+Implement Dynamic Multi Stack (K stacks) using only one Data Structure
+9.
+How to implement Stack and Queue using ArrayDeque in Java
+10.
+Implement Stack and Queue using Deque
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+andrew1234
+PranchalKatiyar
+spn12
+princi singh
+ShivamKamboj
+jainlovely450
+shreyasnaphad
+prasanna1995
+sahithy
+animeshdey
+kashishkumar2
+aashutoshparoha
+adityamaharshi21
+vishal_singh_shekhawat
+susobhanakhuli
+Article Tags :
+Accolite
+Adobe
+Amazon
+CouponDunia
+D-E-Shaw
+Grofers
+Kritikal Solutions
+Oracle
+Snapdeal
+Queue
+Stack
+Practice Tags :
+Accolite
+Adobe
+Amazon
+CouponDunia
+D-E-Shaw
+Grofers
+Kritikal Solutions
+Oracle
+Snapdeal
+Queue
+Stack
+Improve Article
+Report Issue

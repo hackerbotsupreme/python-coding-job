@@ -1,0 +1,296 @@
+Find maximum of minimum for every window size in a given array
+
+Difficulty Level : Expert
+Last Updated : 02 Nov, 2022
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Given an integer array arr[] of size N, find the maximum of the minimums for every window size in the given array. 
+Note: The window size varies from 1 to N.
+
+Example:
+
+Input: arr[] = {10, 20, 30, 50, 10, 70, 30} 
+Output: 70, 30, 20, 10, 10, 10, 10
+Explanation:
+The first element in the output indicates the maximum of minimums of all windows of size 1. 
+Minimums of windows of size 1 are {10}, {20}, {30}, {50}, {10}, {70} and {30}. 
+Maximum of these minimums is 70
+The second element in the output indicates the maximum of minimums of all windows of size 2. 
+Minimums of windows of size 2 are {10}, {20}, {30}, {10}, {10}, and {30}. 
+Maximum of these minimums is 30
+The third element in the output indicates the maximum of minimums of all windows of size 3. 
+Minimums of windows of size 3 are {10}, {20}, {10}, {10} and {10}. 
+Maximum of these minimums is 20
+Similarly, other elements of output are computed. 
+
+Recommended Problem
+Maximum of minimum for every window size
+sliding-window
+Stack
++2 more
+Flipkart
+Amazon
++1 more
+Solve Problem
+Submission count: 30.4K
+Finding the Maximum of Minimums for every window size by Brute-force method:
+The idea is to calculate the minimum of every window separately and print the maximum of each window size.
+
+Follow the steps below to implement the above idea:
+
+Traverse a loop on K from1 till N
+Initialize a variable maxOfMin = INT_MIN
+Initialize a nested on i loop from 0 till N – K
+Initialize a variable min = arr[i]
+Initialize another nested loop on j from 1 till K
+If min > arr[i + j]
+Update min = arr[i + j]
+If maxOfMin < min
+Update maxOfMin = min
+Print maxOfMin for the window of size K.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A naive method to find maximum of
+# minimum of all windows of different sizes
+INT_MIN = -1000000
+ 
+ 
+def printMaxOfMin(arr, n):
+ 
+    # Consider all windows of different
+    # sizes starting from size 1
+    for k in range(1, n + 1):
+ 
+        # Initialize max of min for
+        # current window size k
+        maxOfMin = INT_MIN
+ 
+        # Traverse through all windows
+        # of current size k
+        for i in range(n - k + 1):
+ 
+            # Find minimum of current window
+            min = arr[i]
+            for j in range(k):
+                if (arr[i + j] < min):
+                    min = arr[i + j]
+ 
+            # Update maxOfMin if required
+            if (min > maxOfMin):
+                maxOfMin = min
+ 
+        # Print max of min for current window size
+        print(maxOfMin, end=" ")
+ 
+ 
+# Driver Code
+arr = [10, 20, 30, 50, 10, 70, 30]
+n = len(arr)
+printMaxOfMin(arr, n)
+ 
+# This code is contributed by sahilshelangia
+C#
+PHP
+Javascript
+Output
+
+
+70 30 20 10 10 10 10 
+Time Complexity: O(N3), where N is the size of the given array.
+Auxiliary Space: O(1), constant extra space is being used.
+
+Finding the Maximum of Minimums for every window size by using Stack:
+The idea is to find the next smaller and previous smaller of each element and update the maximum of window with size as the difference in their indices.
+
+Follow the steps below to implement the above idea:
+
+Initialize a stack s.
+Create two arrays, left and right of size N + 1 to store the next smaller and the previous smaller elements.
+Traverse a loop on i from 0 till N
+Assign left[i] = -1 and right[i] = N
+Traverse a loop on i from 0 till N
+Pop the elements from s while the current element is not greater than the element at top of stack s.
+If the stack is not empty
+Update left[i] = s.top()
+Push current index in stack s
+Empty the stack s.
+Traverse a loop on i from N – 1 till 0
+Pop the elements from s while the current element is not greater than the element at top of stack s.
+If the stack is not empty
+Update right[i] = s.top()
+Push current index in stack s
+Initialize an array ans of size N + 1 with 0.
+Traverse a loop on i from 0 till N
+Initialize len = left[i] – right[i] + 1
+Update ans[len] = max(ans[len], arr[i])
+Traverse a loop on i from N – 1 till 0
+Update ans[i] = max(ans[i], ans[i + 1])
+Print ans array. 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# An efficient Python3 program to find
+# maximum of all minimums of windows of
+# different sizes
+ 
+ 
+def printMaxOfMin(arr, n):
+ 
+    s = []  # Used to find previous
+    # and next smaller
+ 
+    # Arrays to store previous and next
+    # smaller. Initialize elements of
+    # left[] and right[]
+    left = [-1] * (n + 1)
+    right = [n] * (n + 1)
+ 
+    # Fill elements of left[] using logic discussed on
+    # https:#www.geeksforgeeks.org/next-greater-element
+    for i in range(n):
+        while (len(s) != 0 and
+               arr[s[-1]] >= arr[i]):
+            s.pop()
+ 
+        if (len(s) != 0):
+            left[i] = s[-1]
+ 
+        s.append(i)
+ 
+    # Empty the stack as stack is going
+    # to be used for right[]
+    while (len(s) != 0):
+        s.pop()
+ 
+    # Fill elements of right[] using same logic
+    for i in range(n - 1, -1, -1):
+        while (len(s) != 0 and arr[s[-1]] >= arr[i]):
+            s.pop()
+ 
+        if(len(s) != 0):
+            right[i] = s[-1]
+ 
+        s.append(i)
+ 
+    # Create and initialize answer array
+    ans = [0] * (n + 1)
+    for i in range(n + 1):
+        ans[i] = 0
+ 
+    # Fill answer array by comparing minimums
+    # of all. Lengths computed using left[]
+    # and right[]
+    for i in range(n):
+ 
+        # Length of the interval
+        Len = right[i] - left[i] - 1
+ 
+        # arr[i] is a possible answer for this
+        #  Length 'Len' interval, check if arr[i]
+        # is more than max for 'Len'
+        ans[Len] = max(ans[Len], arr[i])
+ 
+    # Some entries in ans[] may not be filled
+    # yet. Fill them by taking values from
+    # right side of ans[]
+    for i in range(n - 1, 0, -1):
+        ans[i] = max(ans[i], ans[i + 1])
+ 
+    # Print the result
+    for i in range(1, n + 1):
+        print(ans[i], end=" ")
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    arr = [10, 20, 30, 50, 10, 70, 30]
+    n = len(arr)
+    printMaxOfMin(arr, n)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+70 30 20 10 10 10 10 
+Time Complexity: O(N), where N is the size of the given array.
+Auxiliary Space: O(N), for using stack and additional arrays.
+
+This article is contributed by Ekta Goel and Ayush Govil. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+204
+Previous
+How to Reverse a String using Stack
+Next
+Iterative Depth First Traversal of Graph
+Related Articles
+1.
+First negative integer in every window of size k
+2.
+Count distinct elements in every window of size k
+3.
+Sliding Window Maximum (Maximum of all subarrays of size K)
+4.
+Sliding Window Maximum (Maximum of all subarrays of size k) using stack in O(n) time
+5.
+Maximum Unique Element in every subarray of size K
+6.
+Merge an array of size n into another array of size m+n
+7.
+Find maximum (or minimum) sum of a subarray of size k
+8.
+Sliding Window Maximum : Set 2
+9.
+Minimum count of array elements that must be changed such that difference between maximum and minimum array element is N - 1
+10.
+Sum of minimum and maximum elements of all subarrays of size k.
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+nitin mittal
+shrikanth13
+sahilshelangia
+sanskar27jain
+PranchalKatiyar
+nidhi_biet
+bidibaaz123
+brashcaran
+aashish1995
+decode2207
+simranarora5sos
+hardikkoriintern
+rohit_iyer
+sweetyty
+manjulgfg
+Article Tags :
+Amazon
+sliding-window
+Stack
+Practice Tags :
+Amazon
+sliding-window
+Stack
+Improve Article
+Report Issue

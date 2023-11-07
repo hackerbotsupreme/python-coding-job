@@ -1,0 +1,168 @@
+Find if an expression has duplicate parenthesis or not
+
+Difficulty Level : Medium
+Last Updated : 12 Oct, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a balanced expression, find if it contains duplicate parenthesis or not. A set of parenthesis are duplicate if the same subexpression is surrounded by multiple parenthesis. 
+
+Examples: 
+
+Below expressions have duplicate parenthesis - 
+((a+b)+((c+d)))
+The subexpression "c+d" is surrounded by two
+pairs of brackets.
+
+(((a+(b)))+(c+d))
+The subexpression "a+(b)" is surrounded by two 
+pairs of brackets.
+
+(((a+(b))+c+d))
+The whole expression is surrounded by two 
+pairs of brackets.
+
+((a+(b))+(c+d))
+(b) and ((a+(b)) is surrounded by two
+pairs of brackets.
+
+Below expressions don't have any duplicate parenthesis -
+((a+b)+(c+d)) 
+No subexpression is surrounded by duplicate
+brackets.
+It may be assumed that the given expression is valid and there are not any white spaces present. 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to use stack. Iterate through the given expression and for each character in the expression, if the character is a open parenthesis ‘(‘ or any of the operators or operands, push it to the top of the stack. If the character is close parenthesis ‘)’, then pop characters from the stack till matching open parenthesis ‘(‘ is found and a counter is used, whose value is incremented for every character encountered till the opening parenthesis ‘(‘ is found. If the number of characters encountered between the opening and closing parenthesis pair, which is equal to the value of the counter, is less than 1, then a pair of duplicate parenthesis is found else there is no occurrence of redundant parenthesis pairs. For example, (((a+b))+c) has duplicate brackets around “a+b”. When the second “)” after a+b is encountered, the stack contains “((“. Since the top of stack is a opening bracket, it can be concluded that there are duplicate brackets.
+
+Below is the implementation of above idea : 
+
+C++
+Java
+Python3
+# Python3 program to find duplicate
+# parenthesis in a balanced expression
+ 
+# Function to find duplicate parenthesis
+# in a balanced expression
+def findDuplicateparenthesis(string):
+ 
+    # create a stack of characters
+    Stack = []
+ 
+    # Iterate through the given expression
+    for ch in string:
+     
+        # if current character is
+        # close parenthesis ')'
+        if ch == ')':
+         
+            # pop character from the stack
+            top = Stack.pop()
+ 
+            # stores the number of characters between
+            # a closing and opening parenthesis
+            # if this count is less than or equal to 1
+            # then the brackets are redundant else not
+            elementsInside = 0
+            while top != '(':
+             
+                elementsInside += 1
+                top = Stack.pop()
+             
+            if elementsInside < 1:
+                return True
+ 
+        # push open parenthesis '(', operators
+        # and operands to stack
+        else:
+            Stack.append(ch)
+     
+    # No duplicates found
+    return False
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    # input balanced expression
+    string = "(((a+(b))+(c+d)))"
+ 
+    if findDuplicateparenthesis(string) == True:
+        print("Duplicate Found")
+    else:
+        print("No Duplicates Found")
+ 
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output: 
+
+Duplicate Found
+Time complexity of above solution is O(n). 
+
+
+
+Auxiliary space used by the program is O(n).
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+23
+Previous
+Expression contains redundant bracket or not
+Next
+Find maximum difference between nearest left and right smaller elements
+Related Articles
+1.
+Find a valid parenthesis sequence of length K from a given valid parenthesis sequence
+2.
+Identify and mark unmatched parenthesis in an expression
+3.
+InfyTQ 2019 : Find the position from where the parenthesis is not balanced
+4.
+Find maximum depth of nested parenthesis in a string
+5.
+Convert Infix expression to Postfix expression
+6.
+Check for balanced parenthesis without using stack
+7.
+Calculate weight of parenthesis based on the given conditions
+8.
+Minimize length by removing subsequences forming valid parenthesis from a given string
+9.
+Minimize length of a given string by removing subsequences forming valid parenthesis
+10.
+Reverse substrings between each pair of parenthesis
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sirjan13
+rituraj_jain
+Rajput-Ji
+mr.garg
+29AjayKumar
+rag2127
+sangamchoudhary7
+vinayedula
+Article Tags :
+Stack
+Practice Tags :
+Stack
+Improve Article
+Report Issue

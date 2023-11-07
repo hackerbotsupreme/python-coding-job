@@ -1,0 +1,142 @@
+Prefix to Infix Conversion
+
+Difficulty Level : Easy
+Last Updated : 03 Aug, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Infix : An expression is called the Infix expression if the operator appears in between the operands in the expression. Simply of the form (operand1 operator operand2). 
+Example : (A+B) * (C-D)
+
+Prefix : An expression is called the prefix expression if the operator appears in the expression before the operands. Simply of the form (operator operand1 operand2). 
+Example : *+AB-CD (Infix : (A+B) * (C-D) )
+
+Given a Prefix expression, convert it into a Infix expression. 
+Computers usually does the computation in either prefix or postfix (usually postfix). But for humans, its easier to understand an Infix expression rather than a prefix. Hence conversion is need for human understanding.
+
+Examples: 
+
+Input :  Prefix :  *+AB-CD
+Output : Infix : ((A+B)*(C-D))
+
+Input :  Prefix :  *-A/BC-/AKL
+Output : Infix : ((A-(B/C))*((A/K)-L))
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Algorithm for Prefix to Infix: 
+
+Read the Prefix expression in reverse order (from right to left)
+If the symbol is an operand, then push it onto the Stack
+If the symbol is an operator, then pop two operands from the Stack 
+Create a string by concatenating the two operands and the operator between them. 
+string = (operand1 + operator + operand2) 
+And push the resultant string back to Stack
+Repeat the above steps until the end of Prefix expression.
+At the end stack will have only 1 string i.e resultant string
+Implementation:
+
+C++
+Java
+Python3
+# Python Program to convert prefix to Infix
+def prefixToInfix(prefix):
+    stack = []
+     
+    # read prefix in reverse order
+    i = len(prefix) - 1
+    while i >= 0:
+        if not isOperator(prefix[i]):
+             
+            # symbol is operand
+            stack.append(prefix[i])
+            i -= 1
+        else:
+           
+            # symbol is operator
+            str = "(" + stack.pop() + prefix[i] + stack.pop() + ")"
+            stack.append(str)
+            i -= 1
+     
+    return stack.pop()
+ 
+def isOperator(c):
+    if c == "*" or c == "+" or c == "-" or c == "/" or c == "^" or c == "(" or c == ")":
+        return True
+    else:
+        return False
+ 
+# Driver code
+if __name__=="__main__":
+    str = "*-A/BC-/AKL"
+    print(prefixToInfix(str))
+     
+# This code is contributed by avishekarora
+C#
+Javascript
+Output
+
+
+Infix : ((A-(B/C))*((A/K)-L))
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+83
+Previous
+Count of total anagram substrings
+Next
+Prefix to Postfix Conversion
+Related Articles
+1.
+Infix to Prefix conversion using two stacks
+2.
+Convert Infix To Prefix Notation
+3.
+Postfix to Prefix Conversion
+4.
+Prefix to Postfix Conversion
+5.
+Postfix to Infix
+6.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+7.
+Program to convert Infix notation to Expression Tree
+8.
+Convert Infix expression to Postfix expression
+9.
+Check if count of substrings in S with string S1 as prefix and S2 as suffix is equal to that with S2 as prefix and S1 as suffix
+10.
+Case conversion (Lower to Upper and Vice Versa) of a string using BitWise operators in C/C++
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+shubham_rana_77
+@shubham_rana_77
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+abhy1209120
+rutvik_56
+avishekarora
+suresh07
+swatijha0829
+ajaymakvana
+hardikkoriintern
+Article Tags :
+expression-evaluation
+Stack
+Strings
+Practice Tags :
+Stack
+Strings
+Improve Article
+Report Issue

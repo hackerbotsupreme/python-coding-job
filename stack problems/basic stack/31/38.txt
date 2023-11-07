@@ -1,0 +1,273 @@
+Iterative Tower of Hanoi
+
+Difficulty Level : Hard
+Last Updated : 24 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+The Tower of Hanoi is a mathematical puzzle. It consists of three poles and a number of disks of different sizes which can slide onto any poles. The puzzle starts with the disk in a neat stack in ascending order of size in one pole, the smallest at the top thus making a conical shape. The objective of the puzzle is to move all the disks from one pole (say ‘source pole’) to another pole (say ‘destination pole’) with the help of the third pole (say auxiliary pole).
+
+The puzzle has the following two rules:
+      1. You can’t place a larger disk onto a smaller disk 
+      2. Only one disk can be moved at a time
+
+We’ve already discussed a recursive solution for the Tower of Hanoi. We have also seen that for n disks, a total of  2n – 1 moves are required. 
+
+Iterative Algorithm: 
+
+1. Calculate the total number of moves required i.e. "pow(2, n)
+   - 1" here n is number of disks.
+2. If number of disks (i.e. n) is even then interchange destination 
+   pole and auxiliary pole.
+3. for i = 1 to total number of moves:
+     if i%3 == 1:
+    legal movement of top disk between source pole and 
+        destination pole
+     if i%3 == 2:
+    legal movement top disk between source pole and 
+        auxiliary pole    
+     if i%3 == 0:
+        legal movement top disk between auxiliary pole 
+        and destination pole 
+Example: 
+
+Let us understand with a simple example with 3 disks:
+So, total number of moves required = 7
+1
+
+        S                      A                   D
+
+When i= 1, (i % 3 == 1) legal movement between‘S’ and ‘D’ 
+2
+
+
+
+When i = 2,  (i % 3 == 2) legal movement between ‘S’ and ‘A’ 
+2
+
+When i = 3, (i % 3 == 0) legal movement between ‘A’ and ‘D’ ’
+2
+
+When i = 4, (i % 3 == 1) legal movement between ‘S’ and ‘D’ 
+2
+
+When i = 5, (i % 3 == 2) legal movement between ‘S’ and ‘A’
+2
+
+When i = 6, (i % 3 == 0) legal movement between ‘A’ and ‘D’ 
+2
+
+When i = 7, (i % 3 == 1) legal movement between ‘S’ and ‘D’ 
+2
+
+So, after all these destination poles contains all the in order of size. 
+After observing above iterations, we can think that after a disk other than the smallest disk is moved, the next disk to be moved must be the smallest disk because it is the top disk resting on the spare pole and there are no other choices to move a disk.
+
+C++
+C
+Java
+Python3
+# Python3 program for iterative Tower of Hanoi
+import sys
+ 
+# A structure to represent a stack
+class Stack:
+    # Constructor to set the data of
+    # the newly created tree node
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.top = -1
+        self.array = [0]*capacity
+ 
+# function to create a stack of given capacity.
+def createStack(capacity):
+    stack = Stack(capacity)
+    return stack
+  
+# Stack is full when top is equal to the last index
+def isFull(stack):
+    return (stack.top == (stack.capacity - 1))
+   
+# Stack is empty when top is equal to -1
+def isEmpty(stack):
+    return (stack.top == -1)
+   
+# Function to add an item to stack.
+# It increases top by 1
+def push(stack, item):
+    if(isFull(stack)):
+        return
+    stack.top+=1
+    stack.array[stack.top] = item
+   
+# Function to remove an item from stack.
+# It decreases top by 1
+def Pop(stack):
+    if(isEmpty(stack)):
+        return -sys.maxsize
+    Top = stack.top
+    stack.top-=1
+    return stack.array[Top]
+   
+# Function to implement legal
+# movement between two poles
+def moveDisksBetweenTwoPoles(src, dest, s, d):
+    pole1TopDisk = Pop(src)
+    pole2TopDisk = Pop(dest)
+ 
+    # When pole 1 is empty
+    if (pole1TopDisk == -sys.maxsize):
+        push(src, pole2TopDisk)
+        moveDisk(d, s, pole2TopDisk)
+       
+    # When pole2 pole is empty
+    else if (pole2TopDisk == -sys.maxsize):
+        push(dest, pole1TopDisk)
+        moveDisk(s, d, pole1TopDisk)
+       
+    # When top disk of pole1 > top disk of pole2
+    else if (pole1TopDisk > pole2TopDisk):
+        push(src, pole1TopDisk)
+        push(src, pole2TopDisk)
+        moveDisk(d, s, pole2TopDisk)
+       
+    # When top disk of pole1 < top disk of pole2
+    else:
+        push(dest, pole2TopDisk)
+        push(dest, pole1TopDisk)
+        moveDisk(s, d, pole1TopDisk)
+   
+# Function to show the movement of disks
+def moveDisk(fromPeg, toPeg, disk):
+    print("Move the disk", disk, "from '", fromPeg, "' to '", toPeg, "'")
+   
+# Function to implement TOH puzzle
+def tohIterative(num_of_disks, src, aux, dest):
+    s, d, a = 'S', 'D', 'A'
+   
+    # If number of disks is even, then interchange
+    # destination pole and auxiliary pole
+    if (num_of_disks % 2 == 0):
+        temp = d
+        d = a
+        a = temp
+    total_num_of_moves = int(pow(2, num_of_disks) - 1)
+   
+    # Larger disks will be pushed first
+    for i in range(num_of_disks, 0, -1):
+        push(src, i)
+   
+    for i in range(1, total_num_of_moves + 1):
+        if (i % 3 == 1):
+            moveDisksBetweenTwoPoles(src, dest, s, d)
+   
+        else if (i % 3 == 2):
+            moveDisksBetweenTwoPoles(src, aux, s, a)
+   
+        else if (i % 3 == 0):
+            moveDisksBetweenTwoPoles(aux, dest, a, d)
+ 
+# Input: number of disks
+num_of_disks = 3
+ 
+# Create three stacks of size 'num_of_disks'
+# to hold the disks
+src = createStack(num_of_disks)
+dest = createStack(num_of_disks)
+aux = createStack(num_of_disks)
+ 
+tohIterative(num_of_disks, src, aux, dest)
+ 
+# This code is contributed by divyeshrabadiya07.
+C#
+Javascript
+Output
+Tower of Hanoi for 3 disks:
+Move disk 1 from rod S to rod D
+Move disk 2 from rod S to rod A
+Move disk 1 from rod D to rod A
+Move disk 3 from rod S to rod D
+Move disk 1 from rod A to rod S
+Move disk 2 from rod A to rod D
+Move disk 1 from rod S to rod D
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Related Articles 
+
+Recursive Functions
+Tail recursion
+Quiz on Recursion
+References: 
+http://en.wikipedia.org/wiki/Tower_of_Hanoi#Iterative_solution
+
+This article is contributed by Anand Barnwal. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+51
+Previous
+Stack | Set 4 (Evaluation of Postfix Expression)
+Next
+Print next greater number of Q queries
+Related Articles
+1.
+Program for Tower of Hanoi Algorithm
+2.
+Cost Based Tower of Hanoi
+3.
+Iterative Postorder Traversal | Set 1 (Using Two Stacks)
+4.
+Iterative Postorder Traversal | Set 2 (Using One Stack)
+5.
+Iterative method to find ancestors of a given binary tree
+6.
+Iterative Fast Fourier Transformation for polynomial multiplication
+7.
+Print the last k nodes of the linked list in reverse order | Iterative Approaches
+8.
+Iterative Postorder traversal | Set 3
+9.
+Iterative approach to check if a Binary Tree is BST or not
+10.
+Iterative Depth First Traversal of Graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+VIKASGUPTA1127
+andrew1234
+singhpriansh
+jitendra jaria
+ashish1994
+kk773572498
+decode2207
+divyeshrabadiya07
+shivanisinghss2110
+surinderdawra388
+technophpfij
+Article Tags :
+Divide and Conquer
+Stack
+Practice Tags :
+Divide and Conquer
+Stack
+Improve Article
+Report Issue

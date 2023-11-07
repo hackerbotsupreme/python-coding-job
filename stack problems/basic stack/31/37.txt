@@ -1,0 +1,298 @@
+Maximum product of indexes of next greater on left and right
+
+Difficulty Level : Medium
+Last Updated : 22 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array a[1..N]. For each element at position i (1 <= i <= N). Where 
+
+L(i) is defined as closest index j such that j < i and a[j] > a[i]. If no such j exists then L(i) = 0.
+R(i) is defined as closest index k such that k > i and a[k] > a[i]. If no such k exists then R(i) = 0.
+LRProduct(i) = L(i)*R(i) . 
+We need to find an index with maximum LRProduct
+
+Examples: 
+
+Input : 1 1 1 1 0 1 1 1 1 1 
+Output : 24 
+For {1, 1, 1, 1, 0, 1, 1, 1, 1, 1} all element are same except 0. So only for zero their exist greater element and for others it will be zero. for zero, on left 4th element is closest and greater than zero and on right 6th element is closest and greater. so maximum 
+product will be 4*6 = 24.
+
+Input : 5 4 3 4 5 
+Output : 8 
+For {5, 4, 3, 4, 5}, L[] = {0, 1, 2, 1, 0} and R[] 
+= {0, 5, 4, 5, 0}, 
+LRProduct = {0, 5, 8, 5, 0} and max in this is 8. 
+
+Note: Taking starting index as 1 for finding LRproduct. 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+This problem is based on Next Greater Element. 
+From the current position, we need to find the closest greater element on its left and right side. 
+So to find next greater element, we used stack one from left and one from right.simply we are checking which element is greater and storing their index at specified position. 
+1- if stack is empty, push current index. 
+2- if stack is not empty 
+….a) if current element is greater than top element then store the index of current element on index of top element. 
+Do this, once traversing array element from left and once from right and form the left and right array, then, multiply them to find max product value. 
+
+
+
+C++
+Java
+Python3
+# Python3 program to find the 
+# max LRproduct[i] among all i
+ 
+# Method to find the next greater
+# value in left side
+def nextGreaterInLeft(a):
+     
+    left_index = [0] * len(a)
+    s = []
+     
+    for i in range(len(a)):
+         
+        # Checking if current
+        # element is greater than top
+        while len(s) != 0 and a[i] >= a[s[-1]]:
+             
+            # Pop the element till we can't
+            # get the larger value then
+            # the current value
+            s.pop()
+             
+        if len(s) != 0:
+            left_index[i] = s[-1]
+        else:
+            left_index[i] = 0
+ 
+        # Else push the element in the stack
+        s.append(i)
+ 
+    return left_index
+         
+# Method to find the next
+# greater value in right
+def nextGreaterInRight(a):
+     
+    right_index = [0] * len(a)
+    s = []
+     
+    for i in range(len(a) - 1, -1, -1):
+         
+        # Checking if current element
+        # is greater than top
+        while len(s) != 0 and a[i] >= a[s[-1]]:
+             
+            # Pop the element till we can't
+            # get the larger value then
+            # the current value
+            s.pop()
+             
+        if len(s) != 0:
+            right_index[i] = s[-1]
+        else:
+            right_index[i] = 0
+             
+        # Else push the element in the stack
+        s.append(i)
+ 
+    return right_index
+         
+def LRProduct(arr):
+     
+    # For each element storing
+    # the index of just greater
+    # element in left side
+    left = nextGreaterInLeft(arr)
+ 
+    # For each element storing
+    # the index of just greater
+    # element in right side
+    right = nextGreaterInRight(arr)
+ 
+    ans = -1
+ 
+    # As we know the answer will
+    # belong to the range from
+    # 1st index to second last index.
+    # Because for 1st index left
+    # will be 0 and for last
+    # index right will be 0
+    for i in range(1, len(left) - 1):
+         
+        if left[i] == 0 or right[i] == 0:
+             
+            # Finding the max index product
+            ans = max(ans, 0)
+        else:
+            temp = (left[i] + 1) * (right[i] + 1)
+             
+            # Finding the max index product
+            ans = max(ans, temp)
+ 
+    return ans
+ 
+# Driver Code
+arr = [ 5, 4, 3, 4, 5 ]
+ 
+print(LRProduct(arr))
+ 
+# This code is contributed by Mohit Pathneja
+C#
+Javascript
+Output: 
+8
+ 
+
+Complexity Analysis:
+
+Time Complexity: O(n)
+
+Space Complexity: O(n)
+
+Method 2: Reducing the space used by using only one array to store both left and right max.
+
+Approach:
+
+Prerequisite: https://www.geeksforgeeks.org/next-greater-element/
+
+To find the next greater element to left, we used a stack from the left, and the same stack is used for multiplying the right greatest element index with the left greatest element index.
+Function maxProduct( ) is used for returning the max product by iterating the resultant array.
+C++
+Java
+Python3
+# Python3 program to find max LR product
+mystack = []
+       
+# To find greater element to left
+def nextGreaterToLeft(arr, res):
+    mystack.append(0)
+    res[0] = 0
+       
+    # iterate through the array
+    for i in range(1, len(arr)):
+        while(len(mystack) > 0  and arr[mystack[-1]] <= arr[i]):
+            mystack.pop()
+           
+        # place the index to the left in the resultant array
+        if (len(mystack) == 0):
+            res[i] = 0
+        else:
+            res[i] = mystack[-1]+1
+        mystack.append(i)
+   
+# To find greater element to right
+def nextGreaterToRight(arr, res):
+    mystack = []
+       
+    n = len(arr)
+    mystack.append(n-1)
+    res[n-1] *= 0
+       
+    # iterate through the array in the reverse order
+    for i in range(n - 2, -1, -1):
+        while(len(mystack) > 0  and arr[mystack[-1]] <= arr[i]):
+            mystack.pop()
+           
+        # multiply the index to the right with the index to the left
+        # in the resultant array
+        if (len(mystack) == 0):
+            res[i] = res[i]*0
+        else :
+            res[i] = res[i]*(mystack[-1]+1)
+        mystack.append(i)
+   
+# function to return the max value in the resultant array
+def maxProduct(arr, res):
+    nextGreaterToLeft(arr,res)       #to find left max
+    nextGreaterToRight(arr,res)      #to find right max
+ 
+    Max = res[0]
+    for i in range(1, len(res)):
+        Max = max(Max, res[i])
+    return Max
+ 
+  # Driver code
+arr = [5, 4, 3, 4, 5]
+res = [0]*(len(arr))
+ 
+maxprod = maxProduct(arr, res)
+print(maxprod)
+ 
+# This code is contributed by mukesh07.
+C#
+Javascript
+Output
+8
+Complexity Analysis:
+
+Time Complexity: O(n)
+
+Space Complexity: O(n)
+
+
+
+
+
+Like
+31
+Previous
+Number of NGEs to the right
+Next
+The Celebrity Problem
+Related Articles
+1.
+Count of Array elements greater than all elements on its left and next K elements on its right
+2.
+Smallest pair of indices with product of subarray co-prime with product of the subarray on the left or right
+3.
+Find next Smaller of next Greater in an array
+4.
+Count smaller elements on right side and greater elements on left side using Binary Index Tree
+5.
+Count of Array elements greater than all elements on its left and at least K elements on its right
+6.
+Java Program to Count of Array elements greater than all elements on its left and at least K elements on its right
+7.
+C++ Program to Count of Array elements greater than all elements on its left and at least K elements on its right
+8.
+Partition array into two subarrays with every element in the right subarray strictly greater than every element in left subarray
+9.
+Find product of all elements at indexes which are factors of M for all possible sorted subsequences of length M
+10.
+Maximum element in an array such that its previous and next element product is maximum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Ravi_Maurya
+@Ravi_Maurya
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+Vivek Agarwal
+mohit42329
+avllikhita
+simranarora5sos
+suresh07
+divyesh072019
+divyeshrabadiya07
+mukesh07
+decode2207
+sainitushar438
+Article Tags :
+Arrays
+Stack
+Practice Tags :
+Arrays
+Stack
+Improve Article
+Report Issue

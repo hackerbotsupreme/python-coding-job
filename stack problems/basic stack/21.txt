@@ -1,0 +1,244 @@
+Convert Infix expression to Postfix expression
+
+Difficulty Level : Medium
+Last Updated : 12 Jan, 2023
+Read
+Discuss(190+)
+Courses
+Practice
+Video
+Write a program to Convert Infix expression to Postfix.
+
+Infix expression: The expression of the form a operator b (a + b). When an operator is in-between every pair of operands.
+Postfix expression: The expression of the form a b operator (ab+). When an operator is followed by every pair of operands.
+
+Examples:
+
+Input: A + B * C + D
+Output: ABC*+D+
+
+
+Input: ((A + B) – C * (D / E)) + F
+Output: AB+CDE/*-F+  
+
+Recommended Problem
+Infix to Postfix
+Stack
+Data Structures
+Paytm
+VMWare
++1 more
+Solve Problem
+Submission count: 52.6K
+Why postfix representation of the expression? 
+The compiler scans the expression either from left to right or from right to left. 
+Consider the expression: a + b * c + d
+
+The compiler first scans the expression to evaluate the expression b * c, then again scans the expression to add a to it. The result is then added to d after another scan. The repeated scanning makes it very inefficient and Infix expressions are easily readable and solvable by humans whereas the computer cannot differentiate the operators and parenthesis easily so, it is better to convert the expression to postfix(or prefix) form before evaluation.
+The corresponding expression in postfix form is abc*+d+. The postfix expressions can be evaluated easily using a stack. 
+
+
+
+Recommended PracticeInfix to PostfixTry It!
+Steps to convert Infix expression to Postfix expression using Stack:
+Scan the infix expression from left to right. 
+If the scanned character is an operand, output it. 
+Else, 
+If the precedence and associativity of the scanned operator are greater than the precedence and associativity of the operator in the stack(or the stack is empty or the stack contains a ‘(‘ ), then push it.
+‘^’ operator is right associative and other operators like ‘+’,’-‘,’*’ and ‘/’ are left-associative. Check especially for a condition when both,  operator at the top of the stack and the scanned operator are ‘^’. In this condition, the precedence of the scanned operator is higher due to its right associativity. So it will be pushed into the operator stack. In all the other cases when the top of the operator stack is the same as the scanned operator, then pop the operator from the stack because of left associativity due to which the scanned operator has less precedence. 
+Else, Pop all the operators from the stack which are greater than or equal to in precedence than that of the scanned operator. After doing that Push the scanned operator to the stack. (If you encounter parenthesis while popping then stop there and push the scanned operator in the stack.) 
+If the scanned character is an ‘(‘, push it to the stack. 
+If the scanned character is an ‘)’, pop the stack and output it until a ‘(‘ is encountered, and discard both the parenthesis. 
+Repeat steps 2-6 until the infix expression is scanned. 
+Print the output 
+Pop and output from the stack until it is not empty.
+Below is the implementation of the above algorithm: 
+
+C++14
+C
+Java
+Python
+# Python program to convert infix expression to postfix
+ 
+# Class to convert the expression
+ 
+ 
+class Conversion:
+ 
+    # Constructor to initialize the class variables
+    def __init__(self, capacity):
+        self.top = -1
+        self.capacity = capacity
+        # This array is used a stack
+        self.array = []
+        # Precedence setting
+        self.output = []
+        self.precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '^': 3}
+ 
+    # check if the stack is empty
+    def isEmpty(self):
+        return True if self.top == -1 else False
+ 
+    # Return the value of the top of the stack
+    def peek(self):
+        return self.array[-1]
+ 
+    # Pop the element from the stack
+    def pop(self):
+        if not self.isEmpty():
+            self.top -= 1
+            return self.array.pop()
+        else:
+            return "$"
+ 
+    # Push the element to the stack
+    def push(self, op):
+        self.top += 1
+        self.array.append(op)
+ 
+    # A utility function to check is the given character
+    # is operand
+    def isOperand(self, ch):
+        return ch.isalpha()
+ 
+    # Check if the precedence of operator is strictly
+    # less than top of stack or not
+    def notGreater(self, i):
+        try:
+            a = self.precedence[i]
+            b = self.precedence[self.peek()]
+            return True if a <= b else False
+        except KeyError:
+            return False
+ 
+    # The main function that
+    # converts given infix expression
+    # to postfix expression
+    def infixToPostfix(self, exp):
+ 
+        # Iterate over the expression for conversion
+        for i in exp:
+            # If the character is an operand,
+            # add it to output
+            if self.isOperand(i):
+                self.output.append(i)
+ 
+            # If the character is an '(', push it to stack
+            elif i == '(':
+                self.push(i)
+ 
+            # If the scanned character is an ')', pop and
+            # output from the stack until and '(' is found
+            elif i == ')':
+                while((not self.isEmpty()) and
+                      self.peek() != '('):
+                    a = self.pop()
+                    self.output.append(a)
+                if (not self.isEmpty() and self.peek() != '('):
+                    return -1
+                else:
+                    self.pop()
+ 
+            # An operator is encountered
+            else:
+                while(not self.isEmpty() and self.notGreater(i)):
+                    self.output.append(self.pop())
+                self.push(i)
+ 
+        # pop all the operator from the stack
+        while not self.isEmpty():
+            self.output.append(self.pop())
+ 
+        print "".join(self.output)
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    exp = "a+b*(c^d-e)^(f+g*h)-i"
+    obj = Conversion(len(exp))
+ 
+    # Function call
+    obj.infixToPostfix(exp)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+abcd^e-fgh*+^*+i-
+Time Complexity: O(N), where N is the size of the infix expression
+Auxiliary Space: O(N)
+
+Quiz: Stack Questions
+ Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+520
+Previous
+Stack | Set 4 (Evaluation of Postfix Expression)
+Next
+Finding sum of digits of a number until sum becomes single digit
+Related Articles
+1.
+Postfix to Infix
+2.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+3.
+Program to convert Infix notation to Expression Tree
+4.
+Stack | Set 4 (Evaluation of Postfix Expression)
+5.
+Convert Infix To Prefix Notation
+6.
+Prefix to Infix Conversion
+7.
+Infix to Prefix conversion using two stacks
+8.
+Postfix to Prefix Conversion
+9.
+Prefix to Postfix Conversion
+10.
+Why do we need Prefix and Postfix notations?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+topcoder786
+shrikanth13
+viping74
+vishwsr
+sudhanshublaze
+abraiyan
+kunalkumarsawece19
+menonkartikeya
+decode2207
+ganeshreddychimmula
+sudhirdaga1998
+milanjadav
+pandeykushagra51
+janardansthox
+harendrakumar123
+debojyoti0391
+sayanc170
+kp1007
+Article Tags :
+Amazon
+expression-evaluation
+Paytm
+Samsung
+VMWare
+Stack
+Practice Tags :
+Amazon
+Paytm
+Samsung

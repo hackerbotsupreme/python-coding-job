@@ -1,0 +1,220 @@
+Reversing the first K elements of a Queue
+
+Difficulty Level : Easy
+Last Updated : 13 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an integer k and a queue of integers, The task is to reverse the order of the first k elements of the queue, leaving the other elements in the same relative order.
+
+Only following standard operations are allowed on queue. 
+
+enqueue(x) : Add an item x to rear of queue
+dequeue() : Remove an item from front of queue
+size() : Returns number of elements in queue.
+front() : Finds front item.
+Approach:
+
+We can use recursive call stack and we can add remaining items of front without using additional queue.
+
+Below are the steps:
+
+1. Reverse first k elements.
+
+2. Remove from front and add to back (N – K) elements.
+
+
+
+Below is the implementation of above approach:
+
+C++
+Java
+Python3
+from collections import deque
+ 
+def reverse_first_k(q, k):
+    solve(q, k)
+    s = len(q) - k
+    for _ in range(s):
+        x = q.popleft()
+        q.append(x)
+    return q
+ 
+def solve(q, k):
+    if k == 0:
+        return
+    e = q.popleft()
+    solve(q, k - 1)
+    q.append(e)
+ 
+# Driver code
+queue = deque([10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+k = 5
+queue = reverse_first_k(queue, k)
+ 
+# Printing queue
+while queue:
+    print(queue.popleft(), end=' ')
+Javascript
+Output
+50 40 30 20 10 60 70 80 90 100 
+Recommended Problem
+Reverse First K elements of Queue
+Stack
+Queue
++1 more
+Amazon
+Solve Problem
+Submission count: 63.9K
+Approach: 
+
+The idea is to use an auxiliary stack. Store the first k elements of the queue in a stack and pop it from the queue, then push it back to the queue and perform pop operation for n-k times and again push the popped element.
+
+Follow the below steps to implement the idea:
+
+Create an empty stack.
+One by one dequeue first K items from given queue and push the dequeued items to stack.
+Enqueue the contents of stack at the back of the queue
+Dequeue (size-k) elements from the front and enqueue them one by one to the same queue.
+Below is the implementation of above approach:
+
+C++
+Java
+Python3
+# Python3 program to reverse first k
+# elements of a queue.
+from queue import Queue
+ 
+# Function to reverse the first K
+# elements of the Queue
+ 
+ 
+def reverseQueueFirstKElements(k, Queue):
+    if (Queue.empty() == True or
+            k > Queue.qsize()):
+        return
+    if (k <= 0):
+        return
+ 
+    Stack = []
+ 
+    # put the first K elements
+    # into a Stack
+    for i in range(k):
+        Stack.append(Queue.queue[0])
+        Queue.get()
+ 
+    # Enqueue the contents of stack
+    # at the back of the queue
+    while (len(Stack) != 0):
+        Queue.put(Stack[-1])
+        Stack.pop()
+ 
+    # Remove the remaining elements and
+    # enqueue them at the end of the Queue
+    for i in range(Queue.qsize() - k):
+        Queue.put(Queue.queue[0])
+        Queue.get()
+ 
+# Utility Function to print the Queue
+ 
+ 
+def Print(Queue):
+    while (not Queue.empty()):
+        print(Queue.queue[0], end=" ")
+        Queue.get()
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    Queue = Queue()
+    Queue.put(10)
+    Queue.put(20)
+    Queue.put(30)
+    Queue.put(40)
+    Queue.put(50)
+    Queue.put(60)
+    Queue.put(70)
+    Queue.put(80)
+    Queue.put(90)
+    Queue.put(100)
+ 
+    k = 5
+    reverseQueueFirstKElements(k, Queue)
+    Print(Queue)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+50 40 30 20 10 60 70 80 90 100 
+Time Complexity: O(N + k), Where ‘n’ is the total number of elements in the queue and ‘k’ is the number of elements to be reversed. This is because firstly the whole queue is emptied into the stack and after that first ‘k’ elements are emptied and enqueued in the same way.
+Auxiliary Space: O(k) where k is no of elements to be reversed since stack is being used to store values for the purpose of reversing.
+
+ 
+This article is contributed by Raghav Sharma. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+66
+Previous
+Reversing a queue using recursion
+Next
+Interleave the first half of the queue with second half
+Related Articles
+1.
+Reversing a Queue using another Queue
+2.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+3.
+Reversing a Queue
+4.
+Reversing a queue using recursion
+5.
+Stack and Queue in Python using queue Module
+6.
+Check if a queue can be sorted into another queue using a stack
+7.
+Difference between Circular Queue and Priority Queue
+8.
+Difference Between Linear Queue and Circular Queue
+9.
+Advantages of circular queue over linear queue
+10.
+Difference between Queue and Deque (Queue vs. Deque)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+NikhilKumar23
+SnehashishKalamkar
+bidibaaz123
+tanyakemkar
+simmytarika5
+shinjanpatra
+prasanna1995
+hardikkoriintern
+aashutoshparoha
+vikrantpandey466
+vikramshirsath177
+satwiksuman
+Article Tags :
+Queue
+Stack
+Practice Tags :
+Queue
+Stack

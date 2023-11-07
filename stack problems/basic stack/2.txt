@@ -1,0 +1,344 @@
+Introduction to Stack – Data Structure and Algorithm Tutorials
+
+Difficulty Level : Easy
+Last Updated : 21 Dec, 2022
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Stack
+It is a linear data structure that follows a particular order in which the operations are performed.
+
+To implement the stack, it is required to maintain the pointer to the top of the stack, which is the last element to be inserted because we can access the elements only on the top of the stack.
+
+LIFO( Last In First Out ):
+
+This strategy states that the element that is inserted last will come out first. You can take a pile of plates kept on top of each other as a real-life example. The plate which we put last is on the top and since we remove the plate that is at the top, we can say that the plate that was put last comes out first.
+
+Basic Operations on Stack
+In order to make manipulations in a stack, there are certain operations provided to us.
+
+push() to insert an element into the stack
+pop() to remove an element from the stack
+top() Returns the top element of the stack.
+isEmpty() returns true if stack is empty else false.
+size() returns the size of stack.
+
+Stack
+
+Push:
+Adds an item to the stack. If the stack is full, then it is said to be an Overflow condition.
+
+Algorithm for push:
+
+
+
+begin
+ if stack is full
+    return
+ endif
+else  
+ increment top
+ stack[top] assign value
+end else
+end procedure
+Pop:
+Removes an item from the stack. The items are popped in the reversed order in which they are pushed. If the stack is empty, then it is said to be an Underflow condition.
+
+Algorithm for pop:
+
+begin
+ if stack is empty
+    return
+ endif
+else
+ store value of stack[top]
+ decrement top
+ return value
+end else
+end procedure
+Top:
+Returns the top element of the stack.
+
+Algorithm for Top:
+
+begin 
+  return stack[top]
+end procedure
+isEmpty:
+Returns true if the stack is empty, else false.
+
+Algorithm for isEmpty:
+
+begin
+ if top < 1
+    return true
+ else
+    return false
+end procedure
+Understanding stack practically:
+There are many real-life examples of a stack. Consider the simple example of plates stacked over one another in a canteen. The plate which is at the top is the first one to be removed, i.e. the plate which has been placed at the bottommost position remains in the stack for the longest period of time. So, it can be simply seen to follow the LIFO/FILO order.
+
+Complexity Analysis:
+Time Complexity
+Operations  	Complexity
+push() 	O(1)
+pop()   	O(1)
+isEmpty() 	O(1)
+size()	O(1)
+Types of Stacks:
+Register Stack: This type of stack is also a memory element present in the memory unit and can handle a small amount of data only. The height of the register stack is always limited as the size of the register stack is very small compared to the memory.
+Memory Stack: This type of stack can handle a large amount of memory data. The height of the memory stack is flexible as it occupies a large amount of memory data. 
+Applications of the stack:
+Infix to Postfix /Prefix conversion
+Redo-undo features at many places like editors, photoshop.
+Forward and backward features in web browsers
+Used in many algorithms like Tower of Hanoi, tree traversals, stock span problems, and histogram problems.
+Backtracking is one of the algorithm designing techniques. Some examples of backtracking are the Knight-Tour problem, N-Queen problem, find your way through a maze, and game-like chess or checkers in all these problems we dive into someway if that way is not efficient we come back to the previous state and go into some another path. To get back from a current state we need to store the previous state for that purpose we need a stack.
+In Graph Algorithms like Topological Sorting and Strongly Connected Components
+In Memory management, any modern computer uses a stack as the primary management for a running purpose. Each program that is running in a computer system has its own memory allocations
+String reversal is also another application of stack. Here one by one each character gets inserted into the stack. So the first character of the string is on the bottom of the stack and the last element of a string is on the top of the stack. After Performing the pop operations on the stack we get a string in reverse order.
+Stack also helps in implementing function call in computers. The last called function is always completed first.
+Stacks are also used to implement the undo/redo operation in text editor.
+Implementation of Stack:
+There are two ways to implement a stack
+
+Using array
+Using linked list
+Implementing Stack using Arrays:
+Recommended Problem
+Implement Stack using Linked List
+Linked List
+Stack
++1 more
+Microsoft
+Samsung
++3 more
+Solve Problem
+Submission count: 88.5K
+C++
+C
+Java
+Python3
+# Python program for implementation of stack
+ 
+# import maxsize from sys module
+# Used to return -infinite when stack is empty
+from sys import maxsize
+ 
+# Function to create a stack. It initializes size of stack as 0
+def createStack():
+    stack = []
+    return stack
+ 
+# Stack is empty when stack size is 0
+def isEmpty(stack):
+    return len(stack) == 0
+ 
+# Function to add an item to stack. It increases size by 1
+def push(stack, item):
+    stack.append(item)
+    print(item + " pushed to stack ")
+     
+# Function to remove an item from stack. It decreases size by 1
+def pop(stack):
+    if (isEmpty(stack)):
+        return str(-maxsize -1) # return minus infinite
+     
+    return stack.pop()
+ 
+# Function to return the top from stack without removing it
+def peek(stack):
+    if (isEmpty(stack)):
+        return str(-maxsize -1) # return minus infinite
+    return stack[len(stack) - 1]
+ 
+# Driver program to test above functions   
+stack = createStack()
+push(stack, str(10))
+push(stack, str(20))
+push(stack, str(30))
+print(pop(stack) + " popped from stack")
+C#
+Javascript
+Output
+10 pushed into stack
+20 pushed into stack
+30 pushed into stack
+30 Popped from stack
+Top element is : 20
+Elements present in stack : 20 10 
+Advantages of array implementation:
+Easy to implement.
+Memory is saved as pointers are not involved.
+Disadvantages of array implementation:
+It is not dynamic i.e., it doesn’t grow and shrink depending on needs at runtime. [But in case of dynamic sized arrays like vector in C++, list in Python, ArrayList in Java, stacks can grow and shrink with array implementation as well].
+The total size of the stack must be defined beforehand.
+Implementing Stack using Linked List:
+C++
+C
+Java
+Python3
+# Python program for linked list implementation of stack
+ 
+# Class to represent a node
+ 
+ 
+class StackNode:
+ 
+    # Constructor to initialize a node
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class Stack:
+ 
+    # Constructor to initialize the root of linked list
+    def __init__(self):
+        self.root = None
+ 
+    def isEmpty(self):
+        return True if self.root is None else False
+ 
+    def push(self, data):
+        newNode = StackNode(data)
+        newNode.next = self.root
+        self.root = newNode
+        print ("% d pushed to stack" % (data))
+ 
+    def pop(self):
+        if (self.isEmpty()):
+            return float("-inf")
+        temp = self.root
+        self.root = self.root.next
+        popped = temp.data
+        return popped
+ 
+    def peek(self):
+        if self.isEmpty():
+            return float("-inf")
+        return self.root.data
+ 
+ 
+# Driver code
+stack = Stack()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+ 
+print ("% d popped from stack" % (stack.pop()))
+print ("Top element is % d " % (stack.peek()))
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+10 pushed to stack
+20 pushed to stack
+30 pushed to stack
+30 popped from stack
+Top element is 20
+Elements present in stack : 20 10 
+Advantages of Linked List implementation:
+The linked list implementation of a stack can grow and shrink according to the needs at runtime.
+It is used in many virtual machines like JVM.
+Disadvantages of Linked List implementation:
+Requires extra memory due to the involvement of pointers.
+Random accessing is not possible in stack.
+Related Articles:
+
+Implement a stack using singly linked list
+Applications, Advantages and Disadvantages of Stack
+
+
+
+
+Like
+715
+Next
+Applications, Advantages and Disadvantages of Stack
+Related Articles
+1.
+Introduction to Arrays - Data Structure and Algorithm Tutorials
+2.
+Introduction to Linked List - Data Structure and Algorithm Tutorials
+3.
+Static Data Structure vs Dynamic Data Structure
+4.
+Design and Implement Special Stack Data Structure | Added Space Optimized Version
+5.
+Implement Dynamic Multi Stack (K stacks) using only one Data Structure
+6.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+7.
+Sort a stack using a temporary stack
+8.
+Stack Permutations (Check if an array is stack permutation of other)
+9.
+Find maximum in stack in O(1) without using additional stack
+10.
+Reversing a Stack with the help of another empty Stack
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mr_processor
+SoumikMondal
+SahilSharma19
+Ankit Rai
+rathbhupendra
+princiraj1992
+KIRTANPATEL2
+gp6
+sidhijain
+deepak710agarwal
+asdhamidi
+akashjindal06
+vaibhavsinghtanwar
+amartyaghoshgfg
+Rajput-Ji
+datomarjanidze
+guptavivek0503
+ashishkyjp11
+shreyasnaphad
+hardikkoriintern
+garvitpr1hev
+animeshdey
+sagar0719kumar
+madhanthupakula123
+snehalmahasagar
+Article Tags :
+Codenation
+FactSet
+Goldman Sachs
+Kritikal Solutions
+Microsoft
+Qualcomm
+Samsung
+Visa
+Arrays
+Linked List
+Stack
+Practice Tags :
+Codenation
+FactSet
+Goldman Sachs
+Kritikal Solutions
+Microsoft
+Qualcomm
+Samsung
+Visa
+Arrays
+Linked List
+Stack
+Improve Article
+Report Issue

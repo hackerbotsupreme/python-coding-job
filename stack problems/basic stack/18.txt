@@ -1,0 +1,140 @@
+How to implement stack using priority queue or heap?
+
+Difficulty Level : Medium
+Last Updated : 23 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+How to Implement stack using a priority queue(using min heap)?. Asked In: Microsoft, Adobe. 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Solution: In priority queue, we assign priority to the elements that are being pushed. A stack requires elements to be processed in Last in First Out manner. The idea is to associate a count that determines when it was pushed. This count works as a key for the priority queue. So the implementation of stack uses a priority queue of pairs, with the first element serving as the key.
+
+CPP
+pair& lt;
+int, int& gt;
+(key, value)
+See Below Image to understand Better 
+
+
+
+ Below is C++ implementation of the idea. 
+
+CPP
+Java
+Python3
+import heapq
+ 
+# User defined stack class
+class Stack:
+    # cnt is used to keep track of the number of
+    # elements in the stack and also serves as key
+    # for the priority queue.
+    def __init__(self):
+        self.cnt = 0
+        self.pq = []
+ 
+    def push(self, n):
+        # push function increases cnt by 1 and
+        # inserts this cnt with the original value.
+        self.cnt += 1
+        heapq.heappush(self.pq, (-self.cnt, n))
+ 
+    def pop(self):
+        # pops element and reduces count.
+        if not self.pq:
+            print("Nothing to pop!!!")
+        self.cnt -= 1
+        return heapq.heappop(self.pq)[1]
+ 
+    def top(self):
+        # returns the top element in the stack using
+        # cnt as key to determine top(highest priority),
+        # default comparator for pairs works fine in this case
+        return self.pq[0][1]
+ 
+    def isEmpty(self):
+        # return true if stack is empty
+        return not bool(self.pq)
+ 
+# Driver code
+s = Stack()
+s.push(1)
+s.push(2)
+s.push(3)
+while not s.isEmpty():
+    print(s.top())
+    s.pop()
+Output
+
+
+3
+2
+1
+Time Complexity: O(logn)
+
+Now, as we can see this implementation takes O(log n) time for both push and pop operations. This can be slightly optimized by using fibonacci heap implementation of priority queue which would give us O(1) time complexity for push operation, but pop still requires O(log n) time. 
+
+Auxiliary Space: O(n) where n is size of priority queue
+
+ 
+This article is contributed by Mr. Somesh Awasthi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+22
+Previous
+Applications of Priority Queue
+Next
+Delete consecutive same words in a sequence
+Related Articles
+1.
+What is Priority Queue | Introduction to Priority Queue
+2.
+How to implement Priority Queue - using Heap or Array?
+3.
+Can we use Simple Queue instead of Priority queue to implement Dijkstra's Algorithm?
+4.
+Priority Queue using Binary Heap
+5.
+Heap and Priority Queue using heapq module in Python
+6.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+7.
+Why is Binary Heap Preferred over BST for Priority Queue?
+8.
+Priority Queue using Queue and Heapdict module in Python
+9.
+Difference between Circular Queue and Priority Queue
+10.
+Turn a Queue into a Priority Queue
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hardikkoriintern
+noviced3vq6
+vikramshirsath177
+adityamaharshi21
+Article Tags :
+priority-queue
+Heap
+Stack
+Practice Tags :
+Heap
+priority-queue
+Stack
+Improve Article
+Report Issue

@@ -1,0 +1,214 @@
+Delete consecutive same words in a sequence
+
+Difficulty Level : Easy
+Last Updated : 20 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a sequence of n strings, the task is to check if any two similar words come together and then destroy each other then print the number of words left in the sequence after this pairwise destruction.
+
+Examples: 
+
+Input : ab aa aa bcd ab
+Output : 3
+As aa, aa destroys each other so, 
+ab bcd ab is the new sequence.
+
+Input :  tom jerry jerry tom
+Output : 0
+
+As first both jerry will destroy each other.
+Then sequence will be tom, tom they will also destroy
+each other. So, the final sequence doesn’t contain any
+word.
+
+Recommended Problem
+String Manipulation
+Arrays
+Stack
++1 more
+Solve Problem
+Submission count: 12.8K
+Method 1: 
+
+1- Start traversing the sequence by storing it in vector.
+  a) Check if the current string is equal to next string
+     if yes, erase both from the vector.
+  b) And check the same till last.
+2- Return vector size.
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 program to remove consecutive
+# same words
+ 
+# Function to find the size of
+# manipulated sequence
+def removeConsecutiveSame(v):
+ 
+    n = len(v)
+ 
+    # Start traversing the sequence
+    i = 0
+    while(i < n - 1):
+         
+        # Compare the current string with
+        # next one Erase both if equal
+        if ((i + 1) < len(v)) and (v[i] == v[i + 1]):
+         
+            # Erase function delete the element and
+            # also shifts other element that's why
+            # i is not updated
+            v = v[:i]
+            v = v[:i]
+ 
+            # Update i, as to check from previous
+            # element again
+            if (i > 0):
+                i -= 1
+ 
+            # Reduce sequence size
+            n = n - 2
+         
+        # Increment i, if not equal
+        else:
+            i += 1
+     
+    # Return modified size
+    return len(v[:i - 1])
+     
+# Driver Code
+if __name__ == '__main__':
+    v = ["tom", "jerry", "jerry", "tom"]
+    print(removeConsecutiveSame(v))
+     
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+0
+Time Complexity: O(n)
+Auxiliary Space : O(1)
+
+Method 2:(Using Stack) 
+
+1- Start traversing the strings and push into stack.
+    a) Check if the current string is same as the string
+       at the top of the stack
+        i) If yes, pop the string from top.
+        ii) Else push the current string.
+2- Return stack size if the whole sequence is traversed.
+Implementation:
+
+C++
+Java
+Python3
+# Python implementation of above method
+ 
+# Function to find the size of manipulated sequence
+def removeConsecutiveSame(v):
+    st = []
+ 
+    # Start traversing the sequence
+    for i in range(len(v)):
+         
+        # Push the current string if the stack
+        # is empty
+        if (len(st) == 0):
+            st.append(v[i])
+        else:
+            Str = st[-1]
+ 
+            # compare the current string with stack top
+            # if equal, pop the top
+            if (Str == v[i]):
+                st.pop()
+ 
+            # Otherwise push the current string
+            else:
+                st.append(v[i])
+ 
+    # Return stack size
+    return len(st)
+ 
+# Driver code
+if __name__ == '__main__':
+    V = [ "ab", "aa", "aa", "bcd", "ab"]
+    print(removeConsecutiveSame(V))
+ 
+# This code is contributed by PranchalK.
+C#
+Javascript
+Output
+3
+Time Complexity: O(N), where N is the size of the given sequence.
+Auxiliary Space: O(N), since we are using a stack to store the elements of the sequence.
+
+This article is contributed by Sahil Chhabra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+6
+Previous
+Count natural numbers whose all permutation are greater than that number
+Next
+Decode a string recursively encoded as count followed by substring
+Related Articles
+1.
+Find all words from String present after given N words
+2.
+k-th missing element in increasing sequence which is not present in a given sequence
+3.
+Minimum operations required to transform a sequence of numbers to a sequence where a[i]=a[i+2]
+4.
+Find original sequence from Array containing the sequence merged many times in order
+5.
+Find a valid parenthesis sequence of length K from a given valid parenthesis sequence
+6.
+Number of sub-sequence such that it has one consecutive element with difference less than or equal to 1
+7.
+Construct a sequence from given frequencies of N consecutive integers with unit adjacent difference
+8.
+Length of second longest sequence of consecutive 1s in a binary array
+9.
+Length of longest consecutive sequence that can be formed from Array by converting 0s
+10.
+Minimum delete operations to make all elements of array same
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+SHUBHAMSINGH10
+gfgking
+decode2207
+hardikkoriintern
+mitalibhola94
+factworx4i2
+Article Tags :
+Arrays
+Sorting
+Stack
+Practice Tags :
+Arrays
+Sorting
+Stack
+Improve Article
+Report Issue

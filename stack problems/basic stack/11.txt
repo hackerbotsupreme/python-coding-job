@@ -1,0 +1,250 @@
+Stack in Scala
+
+Difficulty Level : Basic
+Last Updated : 25 Apr, 2019
+Read
+Discuss
+Courses
+Practice
+Video
+A stack is a data structure that follows the last-in, first-out(LIFO) principle. We can add or remove element only from one end called top. Scala has both mutable and immutable versions of a stack.
+Syntax :
+
+import scala.collection.mutable.Stack
+var s = Stack[type]()
+
+// OR
+var s = Stack(val1, val2, val3, ...)
+Operations on Stack
+Once stack has been created we can either push elements to the stack or pop them out of the stack.
+
+Push: We can push element of any type to the stack using push() function. All elements must have same data type.
+Example :
+// Scala program to
+// push element
+// to the stack
+  
+import scala.collection.mutable.Stack
+  
+// Creating object
+object GfG
+{
+      
+    // Main method
+    def main(args:Array[String])
+    {
+  
+        var s = Stack[Int]()
+      
+        // pushing values
+        // one at a time
+        s.push(5)
+        s.push(1)
+        s.push(2)
+        println("s:" + s)
+  
+        var s2 = Stack[Int]()
+  
+        // pushing multiple values
+        s2.push(5,1,2)
+        println("s2:" + s2)
+      
+    }
+}
+Output:
+
+s:Stack(2, 1, 5)
+s2:Stack(2, 1, 5)
+Pop: We can pop element from top of the stack using pop function. The function returns the same type as that of elements of the stack.
+Example :
+// Scala program to
+// pop element from
+// top of the stack
+  
+import scala.collection.mutable.Stack
+  
+// Creating object
+object GfG
+{
+      
+    // Main method
+    def main(args:Array[String])
+    {
+  
+        var s = Stack[Int]()
+  
+        s.push(5)
+        s.push(1)
+        s.push(2)
+        println(s)
+  
+        // pop element from
+        // top of the stack
+  
+        println("Popped:" + s.pop)
+        println("Popped:" + s.pop)
+        println("Popped:" + s.pop)
+    }
+}
+Output:
+
+Stack(2, 1, 5)
+Popped:2
+Popped:1
+Popped:5
+Other Functions
+Other Functions :
+Let’s discuss some more functions with examples.
+
+isEmpty: To check whether the stack is empty. Returns true if it is empty.
+Example :
+// Scala program to
+// check if the stack
+// is empty
+  
+import scala.collection.mutable.Stack
+  
+// Creating object
+object GfG
+{
+      
+    // Main method
+    def main(args:Array[String])
+    {
+  
+        var s = Stack[Int]()
+  
+        s.push(5)
+        s.push(1)
+        s.push(2)
+        println(s)
+  
+        // pop element from
+        // top of the stack
+  
+        println("Popped:" + s.pop)
+        println("Popped:" + s.pop)
+        println("Empty:" + s.isEmpty)
+        println("Popped:" + s.pop)
+  
+        // all three elements popped
+        println("Empty:" + s.isEmpty)
+    }
+}
+Output:
+
+Stack(2, 1, 5)
+Popped:2
+Popped:1
+Empty:false
+Popped:5
+Empty:true
+top: Returns the element that is currently at the top of the stack.
+Example :
+// Scala program to
+// print top of stack
+  
+import scala.collection.mutable.Stack
+  
+// Creating object
+object GfG
+{
+      
+    // Main method
+    def main(args:Array[String])
+    {
+  
+        var s = Stack[Int]()
+  
+        s.push(5)
+        s.push(1)
+        s.push(2)
+        println(s)
+        println("Top: " + s.top)
+        println("Popped:" + s.pop)
+        println("Top: " + s.top)
+    }
+}
+Output:
+
+Stack(2, 1, 5)
+Top: 2
+Popped:2
+Top: 1
+size:Returns the number of elements present in the stack.
+Example :
+// Scala program to
+// print size of the stack
+  
+import scala.collection.mutable.Stack
+  
+// Creating object
+object GfG
+{
+      
+    // Main method
+    def main(args:Array[String])
+    {
+  
+        var s = Stack[Int]()
+  
+        s.push(5)
+        s.push(1)
+        s.push(2)
+        println(s)
+        println("Size: " + s.size)
+        println("Popped:" + s.pop)
+        println("Size: " + s.size)
+    }
+}
+Output:
+
+Stack(2, 1, 5)
+Size: 3
+Popped:2
+Size: 2
+
+
+Like
+Previous
+HashSet In Scala
+Next
+HashMap in Scala
+Related Articles
+1.
+Scala Stack ++ method with example
+2.
+Scala Stack ++:() method with example
+3.
+Scala Stack +:() method with example
+4.
+Scala Stack :+() method with example
+5.
+Scala Stack /:() method with example
+6.
+Scala Stack :() method with example
+7.
+Scala Stack push() method with example
+8.
+Scala Stack pop() method with example
+9.
+Scala Stack pushAll() method with example
+10.
+Scala Stack contains() method with example
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+MohammadKhalid
+@MohammadKhalid
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Scala
+scala-collection
+Scala
+Report Issue

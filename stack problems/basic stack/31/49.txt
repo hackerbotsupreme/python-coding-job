@@ -1,0 +1,260 @@
+
+Check mirror in n-ary tree
+
+Difficulty Level : Hard
+Last Updated : 16 Jan, 2023
+Read
+Discuss(20)
+Courses
+Practice
+Video
+Given two n-ary trees, the task is to check if they are the mirror of each other or not. Print “Yes” if they are the mirror of each other else “No”.
+
+Examples: 
+
+Input : Node = 3, Edges = 2
+Edge 1 of first N-ary: 1 2
+Edge 2 of first N-ary: 1 3
+Edge 1 of second N-ary: 1 3
+Edge 2 of second N-ary: 1 2
+Output : Yes
+
+
+Input : Node = 3, Edges = 2
+Edge 1 of first N-ary: 1 2 
+Edge 2 of first N-ary: 1 3
+Edge 1 of second N-ary: 1 2
+Edge 2 of second N-ary: 1 3
+Output : No
+Recommended Problem
+Check Mirror in N-ary tree
+Stack
+Queue
++3 more
+Amazon
+D-E-Shaw
++2 more
+Solve Problem
+Submission count: 26.9K
+Approach  1: (Using Hashing)
+
+The idea is to use an unordered map of stacks to check if given N-ary tree are mirror of each other or not. 
+Let the first n-ary tree be t1 and the second n-ary tree is t2. For each node in t1, push its connected node in their corresponding stack in the map. Now, for each node in t2, their connected node match with the top of the stack, then pop elements from the stack.  
+
+Otherwise, if the node does not match with the top of the stack then it means two trees are not mirror of each other. 
+
+Now, for each corresponding node do the following:  
+
+
+
+  1. Iterate over map of stack
+      Push all connected nodes of each node of first tree in map of  stack.
+
+  2. Again iterate over map for each node of second tree
+      For example :     
+
+      Let us take one node X of second tree 
+      
+      For this node X , check in map which stack is used
+
+      a = Top of that stack for node X present in second tree;
+      b = Connected node of X in second tree
+      if (a != b)
+           return false;
+      pop node X from stack.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to check if two n-ary trees are mirror.
+ 
+# Function to check given two trees are mirror
+# of each other or not
+def checkMirrorTree(M, N, u1, v1, u2, v2):
+    # Map to store nodes of the tree
+    mp = {}
+ 
+    # Traverse first tree nodes
+    for i in range(N):
+        if u1[i] in mp:
+            mp[u1[i]].append(v1[i])
+        else:
+            mp[u1[i]] = []
+      
+    # Traverse second tree nodes
+    for i in range(N):
+        if u2[i] in mp and len(mp[u2[i]]) > 0:
+            if(mp[u2[i]][-1] != v2[i]):
+                return 0
+            mp[u2[i]].pop()
+    return 1
+ 
+M, N = 7, 6
+      
+#Tree 1
+u1 = [ 1, 1, 1, 10, 10, 10 ]
+v1 = [ 10, 7, 3, 4, 5, 6 ]
+ 
+#Tree 2
+u2 = [ 1, 1, 1, 10, 10, 10 ]
+v2 = [ 3, 7, 10, 6, 5, 4 ]
+ 
+if(checkMirrorTree(M, N, u1, v1, u2, v2)):
+   print("Yes")
+else:
+   print("No")
+     
+    # This code is contributed by rameshtravel07.
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N).
+Auxiliary  Space: O(N).
+
+Approach 2: (Using LinkedList):
+
+The main approach is to use one list of stack and one list of queue to store to value of nodes given in the form of two arrays.
+
+Initialize both the lists with empty stack and empty queues respectively.
+Now, iterate over the lists 
+Push all connected nodes of each node of first tree in list of stack and second tree list of queue.
+Now iterate over the array and pop item from both stack and queue and check if they are same, if not same then return 0.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to check two n-ary trees are mirror.
+ 
+# Function to check given two trees are mirror
+# of each other or not
+def checkMirrorTree(n, e, A, B):
+    # Lists to store nodes of the tree
+    s = []
+    q = []
+ 
+    # initializing both list with empty stack and queue
+    for i in range(n + 1):
+        s.append([])
+        queue = []
+        q.append(queue)
+ 
+   # add all nodes of tree 1 to
+   # list of stack and tree 2 to list of queue
+    for i in range(0, 2 * e, 2):
+        s[A[i]].append(A[i + 1])
+        q[B[i]].append(B[i + 1])
+ 
+    # now take out the stack and queues
+    # for each of the nodes and compare them
+    # one by one
+    for i in range(1, n + 1):
+        while (len(s[i]) > 0 and len(q[i]) > 0):
+            a = s[i][len(s[i]) - 1]
+            s[i].pop()
+            b = q[i][0]
+            q[i].pop(0)
+ 
+            if (a != b):
+                return 0
+    return 1
+ 
+  # Driver code
+n = 3
+e = 2
+A = [ 1, 2, 1, 3 ]
+B = [ 1, 3, 1, 2 ]
+ 
+if (checkMirrorTree(n, e, A, B) == 1):
+    print("Yes")
+else:
+    print("No")
+     
+    # This code is contributed by decode2207.
+C#
+Javascript
+Output
+Yes
+Time complexity: O(N) where N is no of nodes in given n-ary tree
+Auxiliary space: O(N)
+
+Reference: https://practice.geeksforgeeks.org/problems/check-mirror-in-n-ary-tree/0
+
+This article is contributed by Nitin Kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+52
+Previous
+Distance of nearest cell having 1 in a binary matrix
+Related Articles
+1.
+Convert a Binary Tree into its Mirror Tree
+2.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+3.
+Create a mirror tree from the given binary tree
+4.
+Symmetric Tree (Mirror Image of itself)
+5.
+Find mirror of a given node in Binary tree
+6.
+Sum of the mirror image nodes of a complete binary tree in an inorder way
+7.
+Number of edges in mirror image of Complete binary tree
+8.
+Mirror of n-ary Tree
+9.
+Check if two trees are Mirror
+10.
+Iterative method to check if two trees are mirror of each other
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+cs_abhi
+rutvik_56
+tridib_samanta
+GauravRajput1
+nitinkumarco19
+dwightschrute05
+suresh07
+rameshtravel07
+mukesh07
+divyeshrabadiya07
+divyesh072019
+decode2207
+hardikkoriintern
+agfro1cac
+factworx4i2
+surajrasr7277
+lokeshpotta20
+Article Tags :
+Amazon
+MakeMyTrip
+n-ary-tree
+STL
+Queue
+Stack
+Tree
+Practice Tags :
+Amazon
+MakeMyTrip
+Queue
+Stack
+STL
+Tree
+Improve Article
+Report Issue

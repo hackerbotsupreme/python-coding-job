@@ -1,0 +1,158 @@
+Stack in C++ STL
+
+Difficulty Level : Easy
+Last Updated : 05 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Stacks are a type of container adaptors with LIFO(Last In First Out) type of working, where a new element is added at one end (top) and an element is removed from that end only.  Stack uses an encapsulated object of either vector or deque (by default) or list (sequential container class) as its underlying container, providing a specific set of member functions to access its elements. 
+
+If there is confusion in remembering the basic difference between stack and queue, then just have a real life example for this differentiation, for stack, stacking of books we can take the top book easily and for queue remember when you have to stand in queue front of ATM for taking out the cash, then first person near to ATM has the first chance to take out the money from ATM. So, queue is the FIFO (First In First Out) type working.
+
+Stack Syntax:-
+
+For creating  a stack, we must include the <stack> header file in our code. We then use this syntax to define the std::stack:
+
+
+template <class Type, class Container = deque<Type> > class stack;
+Type – is the Type of element contained in the std::stack. It can be any valid C++ type or even a user-defined type.
+
+Container – is the Type of underlying container object.
+
+Member Types:-
+
+
+
+value_type- The first template parameter, T. It denotes the element types.
+
+container_type- The second template parameter, Container. It denotes the underlying container type.
+
+size_type- Unsigned integral type.
+  
+The functions associated with stack are: 
+empty() – Returns whether the stack is empty – Time Complexity : O(1) 
+size() – Returns the size of the stack – Time Complexity : O(1) 
+top() – Returns a reference to the top most element of the stack – Time Complexity : O(1) 
+push(g) – Adds the element ‘g’ at the top of the stack – Time Complexity : O(1) 
+pop() – Deletes the most recent entered element of the stack – Time Complexity : O(1) 
+
+GeeksforGeeks-CPP-Foundation-Course
+
+ 
+C++
+#include <iostream>
+#include <stack>
+using namespace std;
+int main() {
+    stack<int> stack;
+    stack.push(21);// The values pushed in the stack should be of the same data which is written during declaration of stack
+    stack.push(22);
+    stack.push(24);
+    stack.push(25);
+    int num=0;
+      stack.push(num);
+    stack.pop();
+    stack.pop();
+      stack.pop();
+   
+    while (!stack.empty()) {
+        cout << stack.top() <<" ";
+        stack.pop();
+    }
+}
+Output
+22 21 
+ 
+CPP-STL-Self-Paced-Course
+
+Code Explanation:
+
+Include the iostream header file or <iostream> in our code to use its functions.
+Include the stack header file in our code to use its functions if already included <iostream> then no need of stack header file because it has already inbuilt function in it.
+Include the std namespace in our code to use its classes without calling it.
+Call the main() function. The program logic should be added within this function.
+Create a stack to store integer values.
+Use the push() function to insert the value 21 into the stack.
+Use the push() function to insert the value 22 into the stack.
+Use the push() function to insert the value 24 into the stack.
+Use the push() function to insert the value 25 into the stack.
+Use a integer variable “num” to enter a variable value. Here its value is 0, but we can assign any integer value using cin >> num.
+Use the push() function to insert the value of “num” variable.
+Use the pop() function to remove the top element from the stack, that is, 25. The top element now becomes 24.
+Use the pop() function to remove the top element from the stack, that is, 24. The top element now becomes 22.
+Use a while loop and empty() function to check whether the stack is NOT empty. The ! is the NOT operator. So, when stack is not empty then empty() function will return false and NOT operator convert it in true and the while loop keep running. But, when the stack become empty then empty() function will return true and NOT operator will make it false and the loop come to an end.
+Printing the current contents of the stack on the console.
+Call the pop() function on the stack.
+End of the body of the while loop.
+End of the main() function body.
+List of functions of Stack: 
+
+stack::top() in C++ STL
+stack::empty() and stack::size() in C++ STL
+stack::push() and stack::pop() in C++ STL
+stack::swap() in C++ STL
+stack::emplace() in C++ STL
+Recent Articles on C++ Stack
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+495
+Previous
+Combinatorial Game Theory | Set 1 (Introduction)
+Next
+Trie | (Insert and Search)
+Related Articles
+1.
+stack empty() and stack size() in C++ STL
+2.
+Sort a stack using a temporary stack
+3.
+Reversing a Stack with the help of another empty Stack
+4.
+stack swap() in C++ STL
+5.
+stack top() in C++ STL
+6.
+Stack push() and pop() in C++ STL
+7.
+stack emplace() in C++ STL
+8.
+Stack of Pair in C++ STL with Examples
+9.
+How to implement a Stack using list in C++ STL
+10.
+Stack-buffer based STL allocator
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+naveenkumar173
+hit
+chiranshu3444
+akarshitbatra7
+anuswethaa2003
+kumarb694
+Article Tags :
+cpp-containers-library
+cpp-stack
+cpp-stack-functions
+STL
+C++
+Practice Tags :
+CPP
+STL
+Improve Article
+Report Issue

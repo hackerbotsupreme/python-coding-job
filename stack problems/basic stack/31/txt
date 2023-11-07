@@ -1,0 +1,378 @@
+Reverse individual words
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+ Output skeeG rof skeeG Given string str, we need to print the reverse of individual words.
+
+Examples: 
+
+Input : Hello World
+Output : olleH dlroW
+ 
+Input :  Geeks for Geeks
+Output : skeeG rof skeeG
+Recommended Problem
+Reverse each word in a given string
+Strings
+Stack
++1 more
+Paytm
+Zoho
++6 more
+Solve Problem
+Submission count: 32.6K
+Method 1 (Simple): Generate all words separated by space. One by one reverse words and print them separated by space. 
+Method 2 (Space Efficient): We use a stack to push all words before space. As soon as we encounter a space, we empty the stack. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to reverse individual words
+# in a given string using STL list
+ 
+# reverses individual words of a string
+def reverseWords(string):
+    st = list()
+ 
+    # Traverse given string and push all characters
+    # to stack until we see a space.
+    for i in range(len(string)):
+        if string[i] != " ":
+            st.append(string[i])
+ 
+        # When we see a space, we print
+        # contents of stack.
+        else:
+            while len(st) > 0:
+                print(st[-1], end= "")
+                st.pop()
+            print(end = " ")
+ 
+    # Since there may not be space after
+    # last word.
+    while len(st) > 0:
+        print(st[-1], end = "")
+        st.pop()
+ 
+# Driver Code
+if __name__ == "__main__":
+    string = "Geeks for Geeks"
+    reverseWords(string)
+ 
+# This code is contributed by
+# sanjeev2552
+C#
+Javascript
+Output
+skeeG rof skeeG
+Time Complexity: O(n), where n is the length of the string
+Auxiliary Space: O(n), where n is the length of the string
+
+Python | Reverse each word in a sentence
+Using stringstream in C++ : 
+
+
+
+Implementation:
+
+CPP
+#include<bits/stdc++.h>
+using namespace std;
+  
+void printWords(string str)
+{
+    // word variable to store word
+    string word;
+  
+    // making a string stream
+    stringstream iss(str);
+  
+    // Read and print each word.
+    while (iss >> word){
+        reverse(word.begin(),word.end());
+        cout<<word<<" ";
+    }
+}
+  
+// Driver code
+int main()
+{
+    string s = "GeeksforGeeks is good to learn";
+    printWords(s);
+    return 0;
+}
+// This code is contributed by Nikhil Rawat
+Output
+skeeGrofskeeG si doog ot nrael 
+Time complexity : O(n) 
+Auxiliary Space : O(n)
+
+Using Java 8 Streams 
+
+Implementation:
+
+Java
+import java.util.Arrays;
+import java.util.stream.Collectors;
+ 
+// This code is contributed by Mayank Sharma
+public class reverseIndividual {
+ 
+    public static void main(String[] args) {
+ 
+        String str = "Welcome to GFG";
+         
+        // Splitting the string based on space and reverse each part
+        // and then join
+        String result = Arrays.asList(str.split(" "))
+                .stream()
+                .map(s -> new StringBuilder(s).reverse())
+                .collect(Collectors.joining(" "));
+ 
+        System.out.println(result);
+ 
+    }
+ 
+}
+Output
+emocleW ot GFG
+Time complexity : O(n) 
+Auxiliary Space : O(n)
+
+Alternate Approach: To Print the reversed string by using StringBuffer Class.
+
+Steps:
+
+O(n) First, convert the string object into a StringBuffer object.
+By using the reverse method of the StringBuffer class reverse the string.
+Now, store the reverse sequence in a String array.
+Run a loop that will create a new String by using these reverse words
+Finally, return the new string.
+Implementation:
+
+Java
+Python3
+# Function to make the reverse of the string
+def make_reverse(string: str) -> str:
+    # Reversing the string
+    string = string[::-1]
+    # Splitting the string by space
+    rev = string.split(" ")
+    # Reversing the list of words
+    rev = rev[::-1]
+    # Joining the words to form a new string
+    reversed_string = " ".join(rev)
+    return reversed_string
+ 
+# Driver code
+if __name__ == "__main__":
+    string = "Geeks for Geeks"
+    print(make_reverse(string))
+ 
+# This code is contributed by Shivam Tiwari
+Output
+skeeG rof skeeG 
+Time complexity : O(n) 
+Auxiliary Space : O(n)
+
+Alternate Approach: To store the reversed string instead of just printing
+
+Steps:
+
+Create a stack and push all the characters of the given input string.
+Create  ‘rev’ and ‘temp’ strings
+Do the following steps till the stack becomes empty.
+If the peek( ) of the stack is a character, append it to temp
+If the peek( ) of the stack is a space, then append space to rev and also temp to rev
+Finally, if the temp is not empty, append the temp to rev in the front
+Return the reversed string
+Implementation:
+
+Java
+//java program to reverse the individual words
+import java.util.Stack;
+ 
+public class Reverse {
+     
+    //function to reverse the individual words
+    String reverse(String str) {
+        //create a stack to access the string from end
+        Stack<Character> s = new Stack<>();
+         
+        //push all the characters of the stack
+        for(int i = 0; i < str.length();i++)
+            s.push(str.charAt(i));
+         
+        //rev string to store the required output
+        String rev = "";
+        String temp = "";
+         
+        //till the stack becomes empty
+        while(!s.isEmpty()) {
+            //if top of the stack is a letter,
+            //then append it to temp;
+            if(Character.isLetter(s.peek()))
+                temp = temp + s.pop();
+            //if it is a space, the append space to rev
+            //and also temp to rev
+            else {
+                rev = " " + temp +rev;
+                //make the temp empty
+                temp = "";
+                s.pop();
+            }
+        }
+        //if temp is not empty, add temp to rev at the front
+        if(temp != "")
+            rev = temp + rev;
+         
+        //return the output string
+        return rev;
+    }
+     
+    public static void main(String[] args) {
+        String str = "Geeks for Geeks";
+         
+        Reverse obj = new Reverse();
+        System.out.println(obj.reverse(str));
+    }
+}
+ 
+//This method is contributed by Likhita AVL
+Output
+skeeG rof skeeG
+Time Complexity: O(n).
+Auxiliary Space:: O(n) for using stack.
+
+Using Split and iterator in Python
+
+Implementation:
+
+Python3
+def rev_sentence(sentence):
+  
+    # first split the string into words
+    words = sentence.split(' ')
+    reverse_sentence=""
+    for i in words:
+        reverse_sentence+=i[::-1]+' '
+    # then reverse the split string list and join using space
+    
+  
+    # finally return the joined string
+    return reverse_sentence
+  
+if __name__ == "__main__":
+    input = 'geeks quiz practice code'
+    print (rev_sentence(input))
+Output
+skeeg ziuq ecitcarp edoc 
+Time Complexity: O(n)
+Auxiliary Space:: O(n).
+
+Method: Using join and split functions
+
+Implementation:
+
+Python3
+# Python code to reverse words
+ 
+s = " Geeks for Geeks"
+l = []
+# splitting the string
+s = s.split()
+for i in s:
+    # reversing each word
+    l.append(i[::-1])
+# printing string using join
+ 
+# function after reversing the
+# words
+ 
+ 
+print(" ".join(l))
+Output
+skeeG rof skeeG
+Time Complexity: O(n) 
+Auxiliary Space: O(n)
+
+
+
+
+
+
+
+Like
+28
+Previous
+Reverse words in a given string
+Next
+Reverse a string preserving space positions
+Related Articles
+1.
+Reverse individual words with O(1) extra space
+2.
+Count words that appear exactly two times in an array of words
+3.
+Find all words from String present after given N words
+4.
+Check if the given string of words can be formed from words present in the dictionary
+5.
+Reverse words in a given String in Java
+6.
+Print words of a string in reverse order
+7.
+Reverse String according to the number of words
+8.
+Reverse middle words of a string
+9.
+Reverse the Words of a String using Stack
+10.
+Program to reverse words in a given string in C++
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+AFZAL ANSARI
+@AFZAL ANSARI
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+sanjeev2552
+MayankS19
+avllikhita
+iadarsh
+surinderdawra388
+mananbansal1806
+laxmigangarajula03
+hardikkoriintern
+samim2000
+adityamaharshi21
+factworx4i2
+shivamtiwari00021
+Article Tags :
+Amazon
+cpp-stack
+cpp-string
+cpp-stringstream
+STL
+Stack
+Strings
+Practice Tags :
+Amazon
+Stack
+STL
+Strings
+Improve Article
+Report Issue

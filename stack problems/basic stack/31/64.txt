@@ -1,0 +1,210 @@
+Range Queries for Longest Correct Bracket Subsequence Set | 2
+
+Difficulty Level : Hard
+Last Updated : 07 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a bracket sequence or in other words a string S of length n, consisting of characters ‘(‘ and ‘)’. Find the length of the maximum correct bracket subsequence of sequence for a given query range. Note: A correct bracket sequence is the one that has matched bracket pairs or which contains another nested correct bracket sequence. For e.g (), (()), ()() are some correct bracket sequence. 
+
+Examples:
+
+Input : S = ())(())(())(
+        Start Index of Range = 0, 
+        End Index of Range = 11
+Output : 10
+Explanation:  Longest Correct Bracket Subsequence is ()(())(())
+
+Input : S = ())(())(())(
+        Start Index of Range = 1, 
+        End Index of Range = 2
+Output : 0
+
+Approach: In the Previous post (SET 1) we discussed a solution that works in O(long) for each query, now is this post we will go to see a solution that works in O(1) for each query. 
+
+The idea is based on the Post length of the longest valid balanced substring If we marked indexes of all Balanced parentheses/brackets in a temporary array (here we named it BCP[], BOP[] ) then we answer each query in O(1) time. 
+
+Algorithm :
+
+
+
+stack is used to get the index of balance bracket.
+Traverse a string from 0 ..to n
+IF we seen a closing bracket, 
+      ( i.e., str[i] = ')' && stack is not empty )
+ 
+Then mark both "open & close" bracket indexes as 1.
+BCP[i] = 1; 
+BOP[stk.top()] = 1;
+
+And At last, stored cumulative sum of BCP[] & BOP[] 
+Run a loop from 1 to n
+BOP[i] +=BOP[i-1], BCP[i] +=BCP[i-1]
+Now you can answer each query in O(1) time
+
+(BCP[e] - BOP[s-1]])*2;
+Below is the implementation of the above idea.
+
+C++
+Java
+Python3
+# Python3 code to answer the query in constant time
+ 
+'''
+BOP[] stands for "Balanced open parentheses"
+BCP[] stands for "Balanced close parentheses"
+ 
+'''
+# Function for precomputation
+def constructBalanceArray(BOP, BCP, str, n):
+     
+    # Create a stack and push -1
+    # as initial index to it.
+    stk = []
+ 
+    # Traverse all characters of given String
+    for i in range(n):
+         
+        # If opening bracket, push index of it
+        if (str[i] == '('):
+            stk.append(i);
+             
+        # If closing bracket, i.e., str[i] = ')'
+        else:
+             
+            # If closing bracket, i.e., str[i] = ')'
+            # && stack is not empty then mark both
+            # "open & close" bracket indexes as 1 .
+            # Pop the previous opening bracket's index
+            if (len(stk) != 0):
+                BCP[i] = 1;
+                BOP[stk[-1]] = 1;
+                stk.pop();
+ 
+            # If stack is empty.
+            else:
+                BCP[i] = 0;
+         
+    for i in range(1, n):
+ 
+        BCP[i] += BCP[i - 1];
+        BOP[i] += BOP[i - 1];
+     
+# Function return output of each query in O(1)
+def query(BOP, BCP, s, e):
+ 
+    if (BOP[s - 1] == BOP[s]):
+        return (BCP[e] - BOP[s]) * 2;
+     
+    else:
+        return (BCP[e] - BOP[s] + 1) * 2;
+ 
+# Driver code
+if __name__=='__main__':
+ 
+    string = "())(())(())(";
+    n = len(string)
+ 
+    BCP = [0 for i in range(n + 1)];
+    BOP = [0 for i in range(n + 1)];
+ 
+    constructBalanceArray(BOP, BCP, string, n);
+    startIndex = 5
+    endIndex = 11;
+    print("Maximum Length Correct " +
+                     "Bracket Subsequence between " +
+                     str(startIndex) + " and " + str(endIndex) +
+                     " = " + str(query(BOP, BCP, startIndex,
+                                   endIndex)));
+    startIndex = 4;
+    endIndex = 5;
+    print("Maximum Length Correct " + 
+                     "Bracket Subsequence between " +
+                     str(startIndex) + " and " + str(endIndex) +
+                     " = " + str(query(BOP, BCP, startIndex,
+                                   endIndex)))
+    startIndex = 1;
+    endIndex = 5;
+    print("Maximum Length Correct " +
+                     "Bracket Subsequence between " +
+                     str(startIndex) + " and " + str(endIndex) +
+                     " = " + str(query(BOP, BCP, startIndex,
+                                   endIndex)));
+ 
+# This code is contributed by rutvik_56.
+C#
+Javascript
+Output
+Maximum Length Correct Bracket Subsequence between 5 and 11 = 4
+Maximum Length Correct Bracket Subsequence between 4 and 5 = 0
+Maximum Length Correct Bracket Subsequence between 1 and 5 = 2
+The time complexity for each query is O(1).
+Overall time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+3
+Previous
+Spaghetti Stack
+Related Articles
+1.
+Range Queries for Longest Correct Bracket Subsequence
+2.
+Check if the bracket sequence can be balanced with at most one change in the position of a bracket | Set 2
+3.
+RGYB(color) Slots Game to guess the correct color for the correct slot
+4.
+Find index of closing bracket for a given opening bracket in an expression
+5.
+Array range queries over range queries
+6.
+Number of balanced bracket subsequence of length 2 and 4
+7.
+Longest subsequence such that every element in the subsequence is formed by multiplying previous element with a prime
+8.
+Longest Subsequence with absolute difference of pairs as at least Subsequence's maximum
+9.
+Queries to find longest subsequence having no similar adjacent elements with updates
+10.
+Construct a Binary Tree from String with bracket representation | Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Nishant_Singh
+@Nishant_Singh
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Raj Bansal
+29AjayKumar
+amit143katiyar
+rutvik_56
+anikakapoor
+sumitgumber28
+hardikkoriintern
+simmytarika5
+raj2002
+Article Tags :
+cpp-stack
+expression-evaluation
+Arrays
+Stack
+Practice Tags :
+Arrays
+Stack
+Improve Article
+Report Issue

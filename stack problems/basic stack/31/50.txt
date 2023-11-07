@@ -1,0 +1,137 @@
+Reverse a number using stack
+
+Difficulty Level : Easy
+Last Updated : 15 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number , write a program to reverse this number using stack.
+
+Examples: 
+
+Input : 365
+Output : 563
+
+Input : 6899
+Output : 9986
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have already discussed the simple method to reverse a number in this post. In this post we will discuss about how to reverse a number using stack.
+The idea to do this is to extract digits of the number and push the digits on to a stack. Once all of the digits of the number are pushed to the stack, we will start popping the contents of stack one by one and form a number. 
+As stack is a LIFO data structure, digits of the newly formed number will be in reverse order.
+
+Below is the implementation of above idea: 
+
+C++
+Java
+Python3
+# Python3 program to reverse the
+# number using a stack
+ 
+# Stack to maintain order of digits
+st = [];
+ 
+# Function to push digits into stack
+def push_digits(number):
+ 
+    while (number != 0):
+        st.append(number % 10);
+        number = int(number / 10);
+ 
+# Function to reverse the number
+def reverse_number(number):
+     
+    # Function call to push number's
+    # digits to stack
+    push_digits(number);
+     
+    reverse = 0;
+    i = 1;
+     
+    # Popping the digits and forming
+    # the reversed number
+    while (len(st) > 0):
+        reverse = reverse + (st[len(st) - 1] * i);
+        st.pop();
+        i = i * 10;
+     
+    # Return the reversed number formed
+    return reverse;
+ 
+# Driver Code
+number = 39997;
+ 
+# Function call to reverse number
+print(reverse_number(number));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output
+79993
+Time Complexity: O( logN ) 
+Auxiliary Space: O( logN ), Where N is the input number.
+
+
+
+
+
+This article is contributed by Rohit Thapliyal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+13
+Previous
+Find next greater number with same set of digits
+Next
+Check if a number is jumbled or not
+Related Articles
+1.
+Sort a stack using a temporary stack
+2.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+3.
+Find maximum in stack in O(1) without using additional stack
+4.
+How to Reverse a Stack using Recursion
+5.
+C Program to Reverse a Stack using Recursion
+6.
+Reverse the Words of a String using Stack
+7.
+Java Program to Reverse a String using Stack
+8.
+Reverse an array using Stack
+9.
+Reverse a Stack using Queue
+10.
+Print Reverse a linked list using Stack
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+Mithun Kumar
+Akanksha_Rai
+lokeshpotta20
+simmytarika5
+hardikkoriintern
+Article Tags :
+number-digits
+Mathematical
+Stack
+Practice Tags :
+Mathematical
+Stack

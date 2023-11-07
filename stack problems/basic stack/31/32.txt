@@ -1,0 +1,223 @@
+How to Reverse a String using Stack
+
+Difficulty Level : Easy
+Last Updated : 18 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a string, reverse it using stack. 
+
+Example:
+
+Input: str = “GeeksQuiz”
+Output: ziuQskeeG
+
+Input: str = “abc”
+Output: cba
+
+Recommended Problem
+Reverse a string using Stack
+Strings
+Stack
++1 more
+Solve Problem
+Submission count: 72.2K
+Approach:
+
+The idea is to create an empty stack and push all the characters from the string into it. Then pop each character one by one from the stack and put them back into the input string starting from the 0’th index. As we all know, stacks work on the principle of first in, last out. After popping all the elements and placing them back to string, the formed string would be reversed.
+
+Follow the steps given below to reverse a string using stack. 
+
+
+
+Create an empty stack.
+One by one push all characters of string to stack.
+One by one pop all characters from stack and put them back to string.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to reverse a string using stack
+ 
+# Function to create an empty stack.
+# It initializes size of stack as 0
+ 
+ 
+def createStack():
+    stack = []
+    return stack
+ 
+# Function to determine the size of the stack
+ 
+ 
+def size(stack):
+    return len(stack)
+ 
+# Stack is empty if the size is 0
+ 
+ 
+def isEmpty(stack):
+    if size(stack) == 0:
+        return true
+ 
+# Function to add an item to stack .
+# It increases size by 1
+ 
+ 
+def push(stack, item):
+    stack.append(item)
+ 
+# Function to remove an item from stack.
+# It decreases size by 1
+ 
+ 
+def pop(stack):
+    if isEmpty(stack):
+        return
+    return stack.pop()
+ 
+# A stack based function to reverse a string
+ 
+ 
+def reverse(string):
+    n = len(string)
+ 
+    # Create a empty stack
+    stack = createStack()
+ 
+    # Push all characters of string to stack
+    for i in range(0, n, 1):
+        push(stack, string[i])
+ 
+    # Making the string empty since all
+    # characters are saved in stack
+    string = ""
+ 
+    # Pop all characters of string and
+    # put them back to string
+    for i in range(0, n, 1):
+        string += pop(stack)
+ 
+    return string
+ 
+ 
+# Driver program to test above functions
+string = "GeeksQuiz"
+string = reverse(string)
+print("Reversed string is " + string)
+ 
+# This code is contributed by Sunny Karira
+C#
+Javascript
+Output
+Reversed string is ziuQskeeG
+Time Complexity: O(N)  
+Auxiliary Space: O(N) for Stack.
+
+ Reversing The String become Easy If You Use Stack InBulid  liberay (STL).
+
+  Here in this approach we have use stack(stl) Which is LIFO type DataStructure.
+
+C++
+#include <bits/stdc++.h>
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+ 
+//passing str by reference because be need to do changes in str
+//only not want to create any copy and when return it.
+void the_helper(string &str){
+  //stack which takw char input.
+  stack<char>s;
+  //we push all char in stack.
+  for(auto it:str)s.push(it);
+  //here we clear all char present in str.
+  str.clear();
+  // as stack is LIFO DS we push_back all char and our string is reverse now.
+  while(!s.empty()){
+    str.push_back(s.top());
+    s.pop();
+  }
+}
+int main() {
+  //string we want to reverse.
+  string str = "GeeksQuiz";
+  //the function that make all necessary changes.
+  the_helper(str);
+  //finally return/output the reverse string
+  cout << "Reversed string is : " << str;
+  return 0;
+}
+Output
+Reversed string is : ziuQskeeG
+Time Complexity: O(N)  Only one traversal to push and pop so O(n)+O(n)==O(n).
+Auxiliary Space: O(N) Extra for Stack.
+
+For other methods, please refer reverse a string.
+
+
+
+
+Like
+75
+Previous
+Largest Rectangular Area in a Histogram using Stack
+Next
+Find maximum of minimum for every window size in a given array
+Related Articles
+1.
+Reverse the Words of a String using Stack
+2.
+Java Program to Reverse a String using Stack
+3.
+C++ Program to Reverse a String Using Stack
+4.
+Sort a stack using a temporary stack
+5.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+6.
+Find maximum in stack in O(1) without using additional stack
+7.
+How to Reverse a Stack using Recursion
+8.
+Reverse a number using stack
+9.
+C Program to Reverse a Stack using Recursion
+10.
+Reverse an array using Stack
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+krikti
+29AjayKumar
+princiraj1992
+gfg_sal_gfg
+rathbhupendra
+nidhi_biet
+Rajput-Ji
+rohan07
+rag2127
+amartyaghoshgfg
+polymatir3j
+garvitpr1hev
+sanketgode0
+surinderdawra388
+Article Tags :
+Stack
+Practice Tags :
+Stack
+Improve Article
+Report Issue

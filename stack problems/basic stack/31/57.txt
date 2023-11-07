@@ -1,0 +1,170 @@
+Expression contains redundant bracket or not
+
+Difficulty Level : Medium
+Last Updated : 22 Aug, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a string of balanced expressions, find if it contains a redundant parenthesis or not. A set of parenthesis is redundant if the same sub-expression is surrounded by unnecessary or multiple brackets. Print ‘Yes‘ if redundant, else ‘No‘.
+
+Note: Expression may contain ‘+‘, ‘*‘, ‘–‘ and ‘/‘ operators. Given expression is valid and there are no white spaces present.
+
+Examples: 
+
+Input: str = “((a+b))”
+Output: YES
+Explanation: ((a+b)) can reduced to (a+b), this Redundant
+
+Input: str = “(a+(b)/c)”
+Output: YES
+Explanation: (a+(b)/c) can reduced to (a+b/c) because b is surrounded by () which is redundant.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Checking Redundant Bracket using Stack
+The idea is to use the stack, For any sub-expression of expression, if we are able to pick any sub-expression of expression surrounded by (), then we are again left with ( ) as part of the string, we have redundant braces. 
+
+Follow the steps mentioned below to implement the approach:
+
+
+
+We iterate through the given expression and for each character in the expression
+if the character is an open parenthesis ‘(‘ or any of the operators or operands, we push it to the stack.
+If the character is close parenthesis ‘)’, then pop characters from the stack till matching open parenthesis ‘(‘ is found.
+Now for redundancy two conditions will arise while popping.
+If immediate pop hits an open parenthesis ‘(‘, then we have found a duplicate parenthesis. For example, (((a+b))+c) has duplicate brackets around a+b. When we reach the second “)” after a+b, we have “((” in the stack. Since the top of the stack is an opening bracket, we conclude that there are duplicate brackets. 
+If immediate pop doesn’t hit any operand(‘*’, ‘+’, ‘/’, ‘-‘) then it indicates the presence of unwanted brackets surrounded by expression. For instance, (a)+b contains unwanted () around a thus it is redundant.  
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 Program to check whether valid
+# expression is redundant or not
+ 
+# Function to check redundant brackets
+# in a balanced expression
+def checkRedundancy(Str):
+     
+    # create a stack of characters
+    st = []
+ 
+    # Iterate through the given expression
+    for ch in Str:
+ 
+        # if current character is close
+        # parenthesis ')'
+        if (ch == ')'):
+            top = st[-1]
+            st.pop()
+ 
+            # If immediate pop have open parenthesis
+            # '(' duplicate brackets found
+            flag = True
+ 
+            while (top != '('):
+ 
+                # Check for operators in expression
+                if (top == '+' or top == '-' or
+                    top == '*' or top == '/'):
+                    flag = False
+ 
+                # Fetch top element of stack
+                top = st[-1]
+                st.pop()
+ 
+            # If operators not found
+            if (flag == True):
+                return True
+ 
+        else:
+            st.append(ch) # append open parenthesis '(',
+                          # operators and operands to stack
+    return False
+ 
+# Function to check redundant brackets
+def findRedundant(Str):
+    ans = checkRedundancy(Str)
+    if (ans == True):
+        print("Yes")
+    else:
+        print("No")
+ 
+# Driver code
+if __name__ == '__main__':
+    Str = "((a+b))"
+    findRedundant(Str)
+ 
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+120
+Previous
+Iterative Depth First Traversal of Graph
+Next
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+Related Articles
+1.
+Check if expression contains redundant bracket or not | Set 2
+2.
+Find index of closing bracket for a given opening bracket in an expression
+3.
+Check if the bracket sequence can be balanced with at most one change in the position of a bracket
+4.
+Check if the bracket sequence can be balanced with at most one change in the position of a bracket | Set 2
+5.
+Maximum Pairs of Bracket Sequences which can be concatenated to form a Regular Bracket Sequence
+6.
+Minimum number of bracket reversals needed to make an expression balanced
+7.
+Minimum number of bracket reversals needed to make an expression balanced | Set - 2
+8.
+Count distinct regular bracket sequences which are not N periodic
+9.
+Convert Infix expression to Postfix expression
+10.
+Building Expression tree from Prefix Expression
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shubham Bansal 13
+@bansal1232
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+PranchalKatiyar
+princiraj1992
+randomuserhere
+rutvik_56
+rishabhdevba
+2002sukhdevsuthar
+pushpendrayadav1057
+mahendrabagul569
+hardikkoriintern
+garvitpr1hev
+Article Tags :
+expression-evaluation
+Stack
+Strings
+Practice Tags :
+Stack
+Strings
+Improve Article
+Report Issue

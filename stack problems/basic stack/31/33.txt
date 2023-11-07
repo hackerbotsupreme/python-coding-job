@@ -1,0 +1,208 @@
+Reversing a Queue
+
+Difficulty Level : Easy
+Last Updated : 05 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Give an algorithm for reversing a queue Q. Only the following standard operations are allowed on queue. 
+
+enqueue(x): Add an item x to the rear of the queue.
+dequeue(): Remove an item from the front of the queue.
+empty(): Checks if a queue is empty or not.
+The task is to reverse the queue.
+
+Examples: 
+
+Input: Q = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+Output: Q = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]
+
+
+Input: [1, 2, 3, 4, 5]
+Output: [5, 4, 3, 2, 1]
+
+Recommended Problem
+Queue Reversal
+Stack
+Queue
++1 more
+Amazon
+Solve Problem
+Submission count: 57.9K
+Reversing a Queue using stack:
+For reversing the queue one approach could be to store the elements of the queue in a temporary data structure in a manner such that if we re-insert the elements in the queue they would get inserted in reverse order. So now our task is to choose such a data structure that can serve the purpose. According to the approach, the data structure should have the property of ‘LIFO’ as the last element to be inserted in the data structure should actually be the first element of the reversed queue. 
+
+Follow the below steps to implement the idea:
+
+
+
+Pop the elements from the queue and insert into the stack now topmost element of the stack is the last element of the queue.
+Pop the elements of the stack to insert back into the queue the last element is the first one to be inserted into the queue.
+Below is the implementation of above approach:
+
+C++
+Java
+Python3
+# Python3 program to reverse a queue
+from collections import deque
+ 
+# Function to reverse the queue
+ 
+ 
+def reversequeue(queue):
+    Stack = []
+ 
+    while (queue):
+        Stack.append(queue[0])
+        queue.popleft()
+ 
+    while (len(Stack) != 0):
+        queue.append(Stack[-1])
+        Stack.pop()
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    queue = deque([10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+ 
+    reversequeue(queue)
+    print(queue)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+100 90 80 70 60 50 40 30 20 10 
+Time Complexity: O(N), As we need to insert all the elements in the stack and later to the queue.
+Auxiliary Space: O(N), Use of stack to store values. 
+
+Reversing a Queue using recursion: 
+Instead of explicitly using stack goal can be achieved using recursion (recursion at backend will itself maintain stack).
+
+Follow the below steps to implement the idea:
+
+Recursively perform the following steps:
+If the queue size is 0 return.
+Else pop and store the front element and recur for remaining queue.
+push the current element in the queue.
+Thank you Nakshatra Chhillar for suggesting this approach and contributing the code 
+
+Below is the implementation of above approach:
+
+C++
+Java
+Python3
+# Python3 program to reverse a Queue
+ 
+# Utility function to print the queue
+def Print(Queue):
+    while (len(Queue) > 0):
+        print(Queue[0],end = " ")
+        Queue.pop(0)
+ 
+# Function to reverse the queue
+def reverseQueue(q):
+   
+    # base case
+    if (len(q) == 0):
+        return
+    # storing front(first element) of queue
+    fr = q[0]
+ 
+    # removing front
+    q.pop(0)
+ 
+    # asking recursion to reverse the
+    # leftover queue
+    reverseQueue(q)
+ 
+    # placing first element
+    # at its correct position
+    q.append(fr)
+ 
+# Driver code
+Queue = []
+Queue.append(10)
+Queue.append(20)
+Queue.append(30)
+Queue.append(40)
+Queue.append(50)
+Queue.append(60)
+Queue.append(70)
+Queue.append(80)
+Queue.append(90)
+Queue.append(100)
+ 
+reverseQueue(Queue)
+Print(Queue)
+ 
+# This code is contributed by akashish__
+C#
+Javascript
+Output
+100 90 80 70 60 50 40 30 20 10 
+Time Complexity: O(N). 
+Auxiliary Space: O(N). The recursion stack contains all elements of queue at a moment. 
+
+This article is contributed by Raghav Sharma and improved by Nakshatra Chhillar . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+61
+Previous
+Design a data structure that supports insert, delete, search and getRandom in constant time
+Next
+Reversing a queue using recursion
+Related Articles
+1.
+Reversing a Queue using another Queue
+2.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+3.
+Reversing a queue using recursion
+4.
+Reversing the first K elements of a Queue
+5.
+Stack and Queue in Python using queue Module
+6.
+Check if a queue can be sorted into another queue using a stack
+7.
+Difference between Circular Queue and Priority Queue
+8.
+Difference Between Linear Queue and Circular Queue
+9.
+Advantages of circular queue over linear queue
+10.
+Difference between Queue and Deque (Queue vs. Deque)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+PranchalKatiyar
+bidibaaz123
+rameshtravel07
+nakshatra160201
+hardikkoriintern
+RishabhPrabhu
+aashutoshparoha
+adityamaharshi21
+akashish__
+Article Tags :
+Queue
+Stack
+Practice Tags :
+Queue
+Stack

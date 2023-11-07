@@ -1,0 +1,204 @@
+Print ancestors of a given binary tree node without recursion
+
+Difficulty Level : Hard
+Last Updated : 14 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given a Binary Tree and a key, write a function that prints all the ancestors of the key in the given binary tree.
+For example, consider the following Binary Tree 
+
+            1
+        /       \
+       2         3
+     /   \     /   \
+    4     5    6    7 
+   /       \       /
+  8         9     10  
+Following are different input keys and their ancestors in the above tree
+
+Input Key    List of Ancestors 
+-------------------------
+ 1            
+ 2            1
+ 3            1
+ 4            2 1
+ 5            2 1
+ 6            3 1
+ 7            3 1
+ 8            4 2 1
+ 9            5 2 1
+10            7 3 1
+A recursive solution for this problem is discussed here. 
+
+It is clear that we need to use a stack-based iterative traversal of the Binary Tree. The idea is to have all ancestors in the stack when we reach the node with the given key. Once we reach the key, all we have to do is print the contents of the stack. 
+
+How to get all ancestors in the stack when we reach the given node? We can traverse all nodes in a Postorder way. If we take a closer look at the recursive postorder traversal, we can easily observe that, when the recursive function is called for a node, the recursion call stack contains ancestors of the node. So the idea is to do iterative Postorder traversal and stop the traversal when we reach the desired node. 
+Following is the implementation of the above approach. 
+Implementation:
+
+C
+C++
+Java
+Python3
+# Python3 program to print all ancestors of a given key
+ 
+# Class for a tree node
+class Node:
+ 
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+# Iterative Function to print all ancestors of a given key
+def printAncestors(root, key):
+    if(root == None):
+        return;
+     
+     # Create a stack to hold ancestors
+    st = []
+     
+    # Traverse the complete tree in postorder way till we find the key
+    while(True):
+         
+        # Traverse the left side. While traversing, append the nodes into
+        # the stack so that their right subtrees can be traversed later
+        while(root != None and root.data != key):
+         
+            st.append(root);   # append current node
+            root = root.left;   # move to next node
+         
+        # If the node whose ancestors are to be printed is found,
+        # then break the while loop.
+        if(root != None and root.data == key):
+            break;
+         
+        # Check if right sub-tree exists for the node at top
+        # If not then pop that node because we don't need this
+        # node any more.
+        if(st[-1].right == None):
+            root = st[-1];
+            st.pop();
+             
+            # If the popped node is right child of top, then remove the top
+            # as well. Left child of the top must have processed before.
+            while(len(st) != 0 and st[-1].right == root):
+                root = st[-1];
+                st.pop();
+         
+        # if stack is not empty then simply set the root as right child
+        # of top and start traversing right sub-tree.
+        root = None if len(st) == 0 else st[-1].right;
+     
+    # If stack is not empty, print contents of stack
+    # Here assumption is that the key is there in tree
+    while(len(st) != 0):
+        print(st[-1].data, end = " ")
+        st.pop();
+     
+# Driver program to test above functions
+if __name__=='__main__':
+ 
+     # Let us construct a binary tree
+    root = Node(1);
+    root.left = Node(2);
+    root.right = Node(3);
+    root.left.left = Node(4);
+    root.left.right = Node(5);
+    root.right.left = Node(6);
+    root.right.right = Node(7);
+    root.left.left.left = Node(8);
+    root.left.right.right = Node(9);
+    root.right.right.left = Node(10);
+     
+    print("Following are all keys and their ancestors");
+    for key in range(1, 11):
+ 
+        print(key, end = ": ");
+        printAncestors(root, key);
+        print();
+     
+# This code is contributed by rutvik_56.
+C#
+Javascript
+Output
+Following are all keys and their ancestors
+1: 
+2: 1 
+3: 1 
+4: 2 1 
+5: 2 1 
+6: 3 1 
+7: 3 1 
+8: 4 2 1 
+9: 5 2 1 
+10: 7 3 1 
+Time Complexity: O(N).
+Space Complexity: O(N) for stack space.
+
+
+
+Exercise 
+Note that the above solution assumes that the given key is present in the given Binary Tree. It may go in an infinite loop if the key is not present. Extend the above solution to work even when the key is not present in the tree.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+10
+Previous
+Design a stack with operations on middle element
+Next
+How to Reverse a String using Stack
+Related Articles
+1.
+Iterative method to find ancestors of a given binary tree
+2.
+Inorder Tree Traversal without Recursion
+3.
+Print leaf nodes in binary tree from left to right using one stack
+4.
+Print all K-sum levels in a Binary Tree
+5.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+6.
+Print all the paths from root to leaf, with a specified sum in Binary tree
+7.
+How to Reverse a Stack using Recursion
+8.
+How to Sort a Stack using Recursion
+9.
+C Program to Reverse a Stack using Recursion
+10.
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rutvik_56
+decode2207
+surinderdawra388
+hardikkoriintern
+factworx4i2
+Article Tags :
+Stack
+Practice Tags :
+Stack
+Improve Article
+Repo

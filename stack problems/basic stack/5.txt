@@ -1,0 +1,291 @@
+Introduction to Monotonic Stack
+
+Difficulty Level : Hard
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Stack is basically a restrictive array that uses LIFO Property. We use pop() and push() Operations to delete and insert elements into the stack respectively.
+
+Stack-based problems are considered as so easy, but Monotonic Stacks are generally used to solve medium to hard-level problems.
+
+What is a Monotonic Stack?
+Let’s understand the term Monotonic Stacks by breaking it down.
+
+Monotonic = It is a word for mathematics functions. A function y = f(x) is monotonically increasing or decreasing when it follows the below conditions: 
+
+
+As x increases, y also increases always, then it’s a monotonically increasing function. 
+As x increases, y decreases always, then it’s a monotonically decreasing function.
+See the below examples:
+
+y = 2x +5, it’s a monotonically increasing function.
+y = -(2x), it’s a monotonically decreasing function.  
+Similarly, A stack is called a monotonic stack if all the elements starting from the bottom of the stack is either in increasing or in decreasing order.
+
+Types of Monotonic Stack:
+There are 2 types of monotonic stacks:
+
+
+
+Monotonic Increasing Stack
+Monotonic Decreasing Stack
+Monotonic Increasing Stack:
+It is a stack in which the elements are in increasing order from the bottom to the top of the stack. 
+
+Example: 1, 3, 10, 15, 17
+
+How do we achieve it?
+
+If we pop larger elements from the stack before pushing a new element, the stack is increasing from bottom to top.
+
+Steps to implement:
+
+As we need monotonically increasing stack, we should not have a smaller element at top of a bigger element.
+So Iterate the given list of elements one by one :
+Before pushing into the stack, POP all the elements till either of one condition fails:
+Stack is not empty
+Stack’s top is bigger than the element to be inserted.
+Then push the element into the stack.
+See the illustration below to understand the idea:
+
+
+Illustration:
+
+Consider an array Arr[] = {1, 4, 5, 3, 12, 10}
+For i = 0: stk = {1}
+For i = 1: stk = {1, 4}
+For i = 2: stk = {1, 4, 5}
+For i = 3: stk = {1, 3}  [pop 4 and 5 as 4 > 3 and 5 > 3]
+For i = 4: stk = {1, 3, 12}
+For i = 5: stk = {1, 3, 10} [pop 12 as 12 > 10] 
+
+Below is the code for the above approach:
+
+C++
+Java
+Python3
+# Python code to implement the approach
+ 
+# Function to build Monotonic
+# increasing stack
+def increasingStack(arr, N):
+    # Initialise stack
+    stk=[]
+     
+    for i in range(N):
+        # Either stack is empty or
+        # all bigger nums are popped off
+        while(len(stk) > 0 and stk[len(stk) - 1] > arr[i]):
+            stk.pop()
+        stk.append(arr[i])
+         
+    N2 = len(stk)
+    ans = [0]*N2
+    j = N2 - 1
+     
+    # Empty Stack
+    while(len(stk) != 0):
+        ans[j] = stk[len(stk) - 1]
+        stk.pop()
+        j = j - 1
+     
+    # Displaying the original array
+    print("The Array: ",end="")
+    for i in range(N):
+        print(arr[i],end=" ")
+    print()
+     
+    # Displaying Monotonic increasing stack
+    print("The Stack: ",end="")
+    for i in range(N2):
+        print(ans[i],end=" ")
+    print()
+     
+# Driver code
+arr = [1, 4, 5, 3, 12, 10]
+N = len(arr)
+ 
+# Function Call
+increasingStack(arr,N)
+ 
+# This code is contributed by Pushpesh Raj.
+C#
+Javascript
+Output
+The Array: 1 4 5 3 12 10 
+The Stack: 1 3 10 
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Monotonic Decreasing Stack:
+A stack is monotonically decreasing if It’s elements are in decreasing order from the bottom to the top of the stack. 
+
+Example: 17, 14, 10, 5, 1
+
+How do we achieve it?
+
+If we pop smaller elements from the stack before pushing a new element, the stack is decreasing from bottom to top.
+
+Steps to implement:
+
+As we need monotonically decreasing stack, we should not have a bigger element at top of a smaller element.
+So Iterate the elements of the list one by one:
+Before pushing into the stack, POP all the elements till either of one condition fails:
+Stack is not empty
+Stack’s top is smaller than the element to be Inserted.
+Then push the element into the stack.
+See the below illustration for a better understanding:
+
+Illustration:
+
+Consider an array: arr[] = {15, 17, 12, 13, 14, 10}
+For i = 0: stk = {15}
+For i = 1: stk = {17} [pop 15 as 15 < 17]
+For i = 2: stk = {17, 12}
+For i = 3: stk = {17, 13}  [pop 12 as 12 < 13]
+For i = 4: stk = {17, 14}  [pop 13 as 13 < 14]
+For i = 5: stk = {17, 14, 10}
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python code to implement the approach
+ 
+# Function to find a Monotonic
+# decreasing stack
+def decreasingStack(arr, N):
+    stack = []
+    for i in range(N):
+       
+        # Either stack empty or
+        # all smaller nums are popped off
+        while len(stack)>0 and stack[-1] < arr[i]:
+            stack.pop()
+        stack.append(arr[i])
+         
+    N2 = len(stack)
+    ans = [0]*N2
+    j = N2-1
+     
+    # Empty Stack
+    while stack != []:
+        ans[j] = stack.pop()
+        j -= 1
+     
+    # Displaying the original array
+    print('The array: ',end = ' ')
+    for i in range(N):
+        print(arr[i],end = ' ')
+    print()
+     
+    # Displaying Monotonic Decreasing Stack
+    print('The array: ',end = ' ')
+    for i in range(N2):
+        print(ans[i],end = ' ')
+    print()
+         
+# Driver code
+arr = [15, 17, 12, 13, 14, 10]
+N = len(arr)
+ 
+# Function call
+decreasingStack(arr, N)
+ 
+# This code is contributed by hardikkhuswaha.
+C#
+Javascript
+Output
+The Array: 15 17 12 13 14 10 
+The Stack: 17 14 10 
+Time Complexity: O(N)
+Auxiliary Space: O(N) 
+
+Applications of Monotonic Stack :
+Monotonic stack is generally used to deal with a typical problem like Next Greater Element. NGE (Find the first value on the right that is greater than the element.
+Also can be used for its varieties.
+Next Smaller Element
+Previous Greater Element
+Previous Smaller Element
+Also, we use it to get the greatest or smallest array or string by the given conditions (remaining size k/ no duplicate).
+To understand the optimization power of monotonic stacks, let’s take this example problem: Minimum Cost Tree From Leaf Values. This problem can be solved in 3 different algorithm ways, out of which the monotonic stack is the most optimized approach.
+Dynamic Programming Algorithmic Approach: O(N^3) Time O(N^2) Space
+Greedy Algorithmic Approach: O(N^2) Time O(1) Space
+Monotonic Stack Algorithmic Approach: O(N) Time O(N) Space
+Advantages of Monotonic Stack:
+We can use the extra space of a monotonic stack to reduce the time complexity.
+We can get the nearest smaller or greater element depending on the monotonic stack type, by just retrieving the stack’s top element, which is just an O(1) operation.
+The monotonic stack helps us maintain maximum and minimum elements in the range and keeps the order of elements in the range. Therefore, we don’t need to compare elements one by one again to get minima and maxima in the range. Meanwhile, because it keeps the element’s order, we only need to update the stack based on the newest added element.
+Disadvantages of Monotonic Stack:
+It increases the space complexity of the algorithm by a factor of O(N), i.e. by a linear complexity.
+It is often more complex to handle as now with the existing problem, we also need to handle the stack carefully. As once the elements are popped from the stack, we cannot get them back.
+Related Articles:
+
+Introduction to Stack – Data Structure and Algorithm Tutorials
+Next Greater Element (NGE) for every element in given Array
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+34
+Previous
+How to send REST response to html in Angular ?
+Next
+Turn a Queue into a Priority Queue
+Related Articles
+1.
+Sort a stack using a temporary stack
+2.
+Stack Permutations (Check if an array is stack permutation of other)
+3.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+4.
+Find maximum in stack in O(1) without using additional stack
+5.
+Reversing a Stack with the help of another empty Stack
+6.
+Introduction to Stack - Data Structure and Algorithm Tutorials
+7.
+Introduction of Stack based CPU Organization
+8.
+How to Reverse a Stack using Recursion
+9.
+Spaghetti Stack
+10.
+Iterative Postorder Traversal | Set 2 (Using One Stack)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rbkraj000
+@rbkraj000
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rbkraj000
+lokeshpotta20
+pushpeshrajdx01
+lokeshmvs21
+ishankhandelwals
+user_7gr9iodclfx
+hardikkushwaha
+rkbhola5
+ruhelaa48
+Article Tags :
+Technical Scripter 2022
+Stack
+Technical Scripter
+Practice Tags :
+Stack

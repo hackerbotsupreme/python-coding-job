@@ -1,0 +1,199 @@
+Find maximum difference between nearest left and right smaller elements
+
+Difficulty Level : Medium
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of integers, the task is to find the maximum absolute difference between the nearest left and the right smaller element of every element in the array. 
+
+Note: If there is no smaller element on right side or left side of any element then we take zero as the smaller element. For example for the leftmost element, the nearest smaller element on the left side is considered as 0. Similarly, for rightmost elements, the smaller element on the right side is considered as 0.
+
+Examples: 
+
+Input : arr[] = {2, 1, 8}
+Output : 1
+Left smaller  LS[] {0, 0, 1}
+Right smaller RS[] {1, 0, 0}
+Maximum Diff of abs(LS[i] - RS[i]) = 1 
+
+Input  : arr[] = {2, 4, 8, 7, 7, 9, 3}
+Output : 4
+Left smaller   LS[] = {0, 2, 4, 4, 4, 7, 2}
+Right smaller  RS[] = {0, 3, 7, 3, 3, 3, 0}
+Maximum Diff of abs(LS[i] - RS[i]) = 7 - 3 = 4 
+
+Input : arr[] = {5, 1, 9, 2, 5, 1, 7}
+Output : 1
+Recommended Practice
+Maximum Difference
+Try It!
+A simple solution is to find the nearest left and right smaller elements for every element and then update the maximum difference between left and right smaller element, this takes O(n^2) time. 
+
+An efficient solution takes O(n) time. We use a stack. The idea is based on the approach discussed in next greater element article. The interesting part here is we compute both left smaller and right smaller using same function. 
+
+Let input array be 'arr[]' and size of array be 'n'
+
+Find all smaller element on left side
+     1. Create a new empty stack S and an array LS[]
+     2. For every element 'arr[i]' in the input arr[],
+          where 'i' goes from 0 to n-1.
+        a) while S is nonempty and the top element of 
+           S is greater than or equal to 'arr[i]':
+           pop S
+    
+        b) if S is empty:
+           'arr[i]' has no preceding smaller value 
+            LS[i] = 0 
+            
+        c) else:
+            the nearest smaller value to 'arr[i]' is top
+            of stack
+              LS[i] = s.top()
+
+        d) push 'arr[i]' onto S   
+
+Find all smaller element on right side
+     3. First reverse array arr[]. After reversing the array, 
+        right smaller become left smaller.
+     4. Create an array RRS[] and repeat steps  1 and 2 to 
+        fill RRS (in-place of LS).
+         
+5. Initialize result as -1 and do following for every element
+   arr[i]. In the reversed array right smaller for arr[i] is
+   stored at RRS[n-i-1]
+      return result = max(result, LS[i]-RRS[n-i-1])
+Below is implementation of above idea  
+
+C++
+Java
+Python3
+# Python program to find the difference b/w left and
+# right smaller element of every element in the array
+ 
+# Function to fill left smaller element for every
+# element of arr[0..n-1]. These values are filled
+# in SE[0..n-1]
+def leftsmaller(arr, n, SE):
+ 
+    # create an empty stack
+    sta = []
+    # Traverse all array elements
+    # compute nearest smaller elements of every element
+    for i in range(n):
+         
+        # Keep removing top element from S while the top
+        # element is greater than or equal to arr[i]
+        while(sta != [] and sta[len(sta)-1] >= arr[i]):
+            sta.pop()
+ 
+        # Store the smaller element of current element
+        if(sta != []):
+            SE[i]=sta[len(sta)-1]
+        # If all elements in S were greater than arr[i]
+        else:
+            SE[i]=0
+ 
+        # push this element
+        sta.append(arr[i])
+ 
+# Function returns maximum difference b/w  Left  &
+# right smaller element
+def findMaxDiff(arr, n):
+    ls=[0]*n # to store left smaller elements
+    rs=[0]*n # to store right smaller elements
+ 
+    # find left smaller elements of every element
+    leftsmaller(arr, n, ls)
+     
+    # find right smaller element of every element
+    # by sending reverse of array
+    leftsmaller(arr[::-1], n, rs)
+ 
+    # find maximum absolute difference b/w LS  & RRS
+    # In the reversed array right smaller for arr[i] is
+    # stored at RRS[n-i-1]
+    res = -1
+    for i in range(n):
+        res = max(res, abs(ls[i] - rs[n-1-i]))
+    # return maximum difference b/w LS  & RRS
+    return res
+ 
+     
+# Driver Program
+if __name__=='__main__':
+    arr = [2, 4, 8, 7, 7, 9, 3]
+    print "Maximum Diff :", findMaxDiff(arr, len(arr))
+     
+#Contributed By: Harshit Sidhwa
+C#
+PHP
+Javascript
+Output
+
+
+Maximum diff : 4
+Time complexity: O(n)
+Auxiliary Space: O(n).
+
+This article is contributed by Nishant_singh(pintu). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+17
+Previous
+Check if a given array can represent Preorder Traversal of Binary Search Tree
+Next
+Tracking current Maximum Element in a Stack
+Related Articles
+1.
+Find the nearest smaller numbers on left side in an array
+2.
+Count smaller elements on right side and greater elements on left side using Binary Index Tree
+3.
+Nearest power of 2 of nearest perfect squares of non-repeating array elements
+4.
+Count array elements having at least one smaller element on its left and right side
+5.
+Count decrements to nearest smaller element required to make all array elements equal
+6.
+Find all Array elements that are smaller than all elements to their right
+7.
+Nearest smaller character to a character K from a Sorted Array
+8.
+Delete array elements which are smaller than next or become smaller
+9.
+Minimum elements to change so that for an index i all elements on the left are -ve and all elements on the right are +ve
+10.
+Count of Array elements greater than all elements on its left and at least K elements on its right
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+princi singh
+29AjayKumar
+rag2127
+sweetyty
+anandkumarshivam2266
+hardikkoriintern
+Article Tags :
+Arrays
+Stack
+Practice Tags :
+Arrays
+Stack
+Improve Article
+Report Issue

@@ -1,0 +1,78 @@
+Spaghetti Stack
+
+Difficulty Level : Medium
+Last Updated : 12 Feb, 2018
+Read
+Discuss
+Courses
+Practice
+Video
+Spaghetti stack
+A spaghetti stack is an N-ary tree data structure in which child nodes have pointers to the parent nodes (but not vice-versa)
+
+
+
+Spaghetti stack structure is used in situations when records are dynamically pushed and popped onto a stack as execution progresses, but references to the popped records remain in use. Following are some applications of Spaghetti Stack.
+
+Compilers for languages such as C create a spaghetti stack as it opens and closes symbol tables representing block scopes. When a new block scope is opened, a symbol table is pushed onto a stack. When the closing curly brace is encountered, the scope is closed and the symbol table is popped. But that symbol table is remembered, rather than destroyed. And of course it remembers its higher level “parent” symbol table and so on.
+
+
+Spaghetti Stacks are also used to implement Disjoint-set data structure.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Sources:
+http://en.wikipedia.org/wiki/Spaghetti_stack
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+4
+Previous
+Tracking current Maximum Element in a Stack
+Next
+Range Queries for Longest Correct Bracket Subsequence Set | 2
+Related Articles
+1.
+Sort a stack using a temporary stack
+2.
+Stack Permutations (Check if an array is stack permutation of other)
+3.
+Infix to Postfix using different Precedence Values for In-Stack and Out-Stack
+4.
+Find maximum in stack in O(1) without using additional stack
+5.
+Reversing a Stack with the help of another empty Stack
+6.
+How to Reverse a Stack using Recursion
+7.
+Iterative Postorder Traversal | Set 2 (Using One Stack)
+8.
+Largest Rectangular Area in a Histogram using Stack
+9.
+How to Sort a Stack using Recursion
+10.
+Design a stack that supports getMin() in O(1) time and O(1) extra space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Advanced Data Structure
+Stack
+Practice Tags :
+Advanced Data Structure
+Stack

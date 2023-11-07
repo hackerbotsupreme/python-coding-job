@@ -1,0 +1,160 @@
+Implement a stack using single queue
+
+Difficulty Level : Easy
+Last Updated : 31 Jul, 2022
+Read
+Discuss(40)
+Courses
+Practice
+Video
+We are given queue data structure, the task is to implement stack using only given queue data structure.
+We have discussed a solution that uses two queues. In this article, a new solution is discussed that uses only one queue. This solution assumes that we can find size of queue at any point. The idea is to keep newly inserted element always at front of queue, keeping order of previous elements same. 
+
+Below are complete steps.
+
+// x is the element to be pushed and s is stack
+push(s, x) 
+  1) Let size of q be s. 
+  1) Enqueue x to q
+  2) One by one Dequeue s items from queue and enqueue them.
+  
+// Removes an item from stack
+pop(s)
+  1) Dequeue an item from q
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is implementation of the idea.
+
+C++
+Java
+Python3
+# Python3 program to implement stack using a
+# single queue
+  
+q = []
+ 
+# append operation
+def append(val):
+ 
+    # get previous size of queue
+    size = len(q)
+ 
+    # Add current element
+    q.append(val);
+ 
+    # Pop (or Dequeue) all previous
+    # elements and put them after current
+    # element
+    for i in range(size):
+ 
+        # this will add front element into
+        # rear of queue
+        x = q.pop(0);
+        q.append(x);
+            
+# Removes the top element
+def pop():
+ 
+    if (len(q) == 0):
+ 
+        print("No elements");
+        return -1;
+     
+    x = q.pop(0);
+    return x;
+ 
+# Returns top of stack
+def top():
+ 
+    if(len(q) == 0):
+        return -1;
+    return q[-1]
+ 
+# Returns true if Stack is empty else false
+def isEmpty():
+ 
+    return len(q)==0;
+ 
+# Driver program to test above methods
+if __name__=='__main__':
+ 
+    s = []
+ 
+    s.append(10);
+    s.append(20);
+    print("Top element :" + str(s[-1]));
+    s.pop();
+    s.append(30);
+    s.pop();
+    print("Top element :" + str(s[-1]));
+     
+    # This code is contributed by rutvik_56.
+C#
+Javascript
+Output
+20
+10
+Time complexity: O(N) where N is size of stack
+
+Auxiliary Space: O(N)
+
+This article is contributed by Manu Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+
+
+Like
+75
+Previous
+Create a customized data structure which evaluates functions in O(1)
+Next
+How to Reverse a Stack using Recursion
+Related Articles
+1.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+2.
+Stack and Queue in Python using queue Module
+3.
+Check if a queue can be sorted into another queue using a stack
+4.
+How to implement Stack and Queue using ArrayDeque in Java
+5.
+Implement Stack and Queue using Deque
+6.
+How to implement stack using priority queue or heap?
+7.
+Can we use Simple Queue instead of Priority queue to implement Dijkstra's Algorithm?
+8.
+Reversing a Queue using another Queue
+9.
+How to Implement Queue in Java using Array and Generics?
+10.
+Implement dynamic queue using templates class and a circular array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+NeerajJain
+Rajput-Ji
+rutvik_56
+decode2207
+sureel1327
+hardikkoriintern
+technophpfij
+Article Tags :
+Queue
+Stack
+Practice Tags :
+Queue
+Stack
+Improve Article
+Report Issue

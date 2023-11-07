@@ -1,0 +1,238 @@
+Implementation of Stack in JavaScript
+
+Difficulty Level : Easy
+Last Updated : 18 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+In this article, we would be implementing Stack Data Structure in Javascript. Stack is a very useful data structure and has a wide range of application. Stack is a linear data structure in which addition or removal of element follows a particular order i.e. LIFO(Last in First Out) AND FILO(First in Last Out). 
+
+Note : Assuming the stack can grow dynamically we are not considering the overflow condition. 
+
+Lets see an example of an stack class using array in Java script:- 
+
+Examples: 
+
+Javascript
+// Stack class
+class Stack {
+ 
+    // Array is used to implement stack
+    constructor()
+    {
+        this.items = [];
+    }
+ 
+    // Functions to be implemented
+    // push(item)
+    // pop()
+    // peek()
+    // isEmpty()
+    // printStack()
+}
+As you can see the above definition we have created a skeleton of a stack class which contains a constructor in which we declare an array to implement stack. Hence, with the creation of an object of a stack class this constructor would be called automatically. 
+
+Now let’s see implementation of each method:
+
+Push: Adds an element to the stack 
+Javascript
+// push function
+push(element)
+{
+    // push element into the items
+    this.items.push(element);
+}
+This method adds an element at the top of the stack.
+
+Pop() : Removes an element from the stack, if the function is call on an empty stack it indicates “Underflow” 
+Javascript
+// pop function
+pop()
+{
+    // return top most element in the stack
+    // and removes it from the stack
+    // Underflow if stack is empty
+    if (this.items.length == 0)
+        return "Underflow";
+    return this.items.pop();
+}
+This method returns the topmost element of stack and removes it. Return underflow when called on an empty stack.
+
+Peek() : returns the top most elements in the stack, but doesn’t delete it. 
+Javascript
+// peek function
+peek()
+{
+    // return the top most element from the stack
+    // but does'nt delete it.
+    return this.items[this.items.length - 1];
+}
+Return the topmost element without removing it from the stack.
+
+
+Helper methods
+
+These are the three basic operation perform by an Stack lets declare some helper method which can be useful while working with stack.
+
+isEmpty() : return true if the stack is empty 
+Javascript
+// isEmpty function
+isEmpty()
+{
+    // return true if stack is empty
+    return this.items.length == 0;
+}
+Returns true if the stack is empty.
+
+printStack() : This method returns a string in which all the element of an stack is concatenated. 
+Javascript
+// printStack function
+printStack()
+{
+    var str = "";
+    for (var i = 0; i < this.items.length; i++)
+        str += this.items[i] + " ";
+    return str;
+}
+Note : Different helper function can be declared in Stack class as per the requirement. Now as we are done with defining the stack class lets use it.
+
+Sample Functions
+
+In this example we would create an object of stack class and test few functions of it. 
+
+Javascript
+// creating object for stack class
+var stack = new Stack();
+ 
+// testing isEmpty and pop on an empty stack
+ 
+// returns false
+console.log(stack.isEmpty());
+ 
+// returns Underflow
+console.log(stack.pop());
+Some more functions of stack class 
+
+Example : 
+
+Javascript
+// Adding element to the stack
+stack.push(10);
+stack.push(20);
+stack.push(30);
+ 
+// Printing the stack element
+// prints [10, 20, 30]
+console.log(stack.printStack());
+ 
+// returns 30
+console.log(stack.peek());
+ 
+// returns 30 and remove it from stack
+console.log(stack.pop());
+ 
+// returns [10, 20]
+console.log(stack.printStack());
+Once we are done with implementing and testing the stack class now we can use it in different application.
+
+Application: Evaluation of Postfix Expression
+
+In this example, we would use the above stack class to evaluate postfix expression 
+
+Javascript
+// Performs Postfix Evaluation on a given exp
+function postFixEvaluation(exp)
+{
+    var stack = new Stack();
+    for (var i = 0; i < exp.length; i++) {
+        var c = exp[i];
+        if (!isNaN(c))
+            stack.push(c - '0');
+        else {
+            var val1 = stack.pop();
+            var val2 = stack.pop();
+            if (val1 == "Underflow" || val2 == "Underflow")
+                return "Can't perform postfix evaluation";
+            switch (c) {
+            case '+':
+                stack.push(val2 + val1);
+                break;
+ 
+            case '-':
+                stack.push(val2 - val1);
+                break;
+ 
+            case '/':
+                stack.push(val2 / val1);
+                break;
+ 
+            case '*':
+                stack.push(val2 * val1);
+                break;
+            }
+        }
+    }
+ 
+    return stack.pop();
+}
+ 
+// calling the above method
+// returns 9
+console.log(postFixEvaluation("235*+8-"));
+ 
+// returns postfix evaluation can't be performed
+console.log(postFixEvaluation("23*+"));
+This article is contributed by Sumit Ghosh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+27
+Previous
+Implementation of Queue in Javascript
+Next
+Implementation of LinkedList in Javascript
+Related Articles
+1.
+Implementation of LinkedList in Javascript
+2.
+Implementation of Priority Queue in Javascript
+3.
+Implementation of Binary Search Tree in Javascript
+4.
+Implementation of Graph in JavaScript
+5.
+Implementation of Array class in JavaScript
+6.
+Web Search Bar Implementation Using Javascript Conditional Flow
+7.
+Implementation of Queue in Javascript
+8.
+How to rethrow an exception in JavaScript, but preserve the stack?
+9.
+How to get JavaScript stack trace when throw an exception ?
+10.
+JavaScript Error.prototype.stack Property
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mitalibhola94
+impetus
+Article Tags :
+JavaScript-DS
+Articles
+JavaScript
+Improve Article
+Report Issue
