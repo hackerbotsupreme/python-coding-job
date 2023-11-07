@@ -1,0 +1,225 @@
+Program for Muller Method
+
+Difficulty Level : Expert
+Last Updated : 27 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a function f(x) on floating number x and three initial distinct guesses for root of the function, find the root of function. Here, f(x) can be an algebraic or transcendental function.
+Examples: 
+ 
+
+Input : A function f(x) = x^3 + 2x^2 + 10x - 20         and three initial guesses - 0, 1 and 2 .Output : The value of the root is 1.3688 or          any other value within permittable deviation          from the root.         Input : A function f(x) = x^5 - 5x + 2         and three initial guesses - 0, 1 and 2 .Output :The value of the root is 0.4021 or         any other value within permittable deviation         from the root. 
+ 
+
+Muller Method
+
+Muller Method is a root-finding algorithm for finding the root of a equation of the form, f(x)=0. It was discovered by David E. Muller in 1956.
+It begins with three initial assumptions of the root, and then constructing a parabola through these three points, and takes the intersection of the x-axis with the parabola to be the next approximation. This process continues until a root with the desired level of accuracy is found .
+ 
+
+Why to learn Muller’s Method?
+
+Muller Method, being one of the root-finding method along with the other ones like Bisection Method, Regula – Falsi Method, Secant Method and Newton – Raphson Method. But, it offers certain advantages over these methods, as follows – 
+ 
+
+The rate of convergence, i.e., how much closer we move to the root at each step, is approximately 1.84 in Muller Method, whereas it is 1.62 for secant method, and linear, i.e., 1 for both Regula – falsi Method and bisection method . So, Muller Method is faster than Bisection, Regula – Falsi and Secant method.
+Although, it is slower than Newton – Raphson’s Method, which has a rate of convergence of 2, but it overcomes one of the biggest drawbacks of Newton-Raphson Method, i.e., computation of derivative at each step. 
+ 
+So, this shows that Muller Method is an efficient method in calculating root of the function.
+ 
+
+Algorithm And Its Working
+
+ 
+
+Assume any three distinct initial roots of the function, let it be x0, x1 and x2. 
+ 
+Now, draw a second degree polynomial, i.e., a parabola, through the values of function f(x) for these points – x0, x1 and x2. 
+The equation of the parabola, p(x), through these points is as follows- 
+p(x) = c + b(x – x_2  ) + a(x – x_2  )^2  , where a, b and c are constants.
+ 
+
+
+ 
+After drawing the parabola, then find the intersection of this parabola with the x-axis, let us say x3 . 
+ 
+Finding the intersection of parabola with the x-axis, i.e., x3: 
+To find x_3  , the root of p(x), where p(x) = c + b(x – x_2  ) + a(x – x_2  )^2  , such that p(x_3  ) = c + b(x_3  – x_2  ) + a(x_3  – x_2  )^2  = 0, apply the quadratic formula to p(x).Since, there will be two roots, but we have to take that one which is closer to x_2  .To avoid round-off errors due to subtraction of nearby equal numbers, use the following equation:
+x_3 - x_2 = \frac{-2c}{b\pm \sqrt{b^{2}-4ac}}  
+Now, since, root of p(x) has to be closer to x_2  , so we have to take that value which has a greater denominator out of the two values possible from the above equation.
+To find a, b and c for the above equation, put x in p(x) as x_0  , x_1  and x_2  , and let these values be p(x_0  ), p(x_1  ) and p(x_2  ), which are as follows-
+p(x_0  ) = c + b(x_0  – x_2  ) + a(x_0  – x_2  )^2  = f(x_0  ). 
+p(x_1  ) = c + b(x_1  – x_2  ) + a(x_1  – x_2  )^2  = f(x_1  ). 
+p(x_2  ) = c + b(x_2  – x_2  ) + a(x_2  – x_2  )^2  = c = f(x_2  ). 
+ 
+So, we have three equations and three variables – a, b, c. After solving them to found out the values of these variables, we get the following values of a, b and c- 
+ 
+c = p(x_2) = f(x_2) .b = (d_2*(h_1)^2 - d_1*(h_2)^2 ) / ( h_1h_2 * (h_1 - h_2)) .a = (d_1*(h_2) - d_2*(h_1)) / ( h_1h_2 * (h_1 - h_2)).
+where, 
+d_1  = p(x_0  ) – p(x_2  ) = f(x_0  ) – f(x_2  ) 
+d_2  = p(x_1  ) – p(x_2  ) = f(x_1  ) – f(x_2  ) 
+h_1  = x_0  – x_2  
+h_2  = x_1  – x_2  
+ 
+Now, put these values in the expression for x_3  – x_2  , and obtain x_3  . 
+This is how root of p(x) = x_3  is obtained. 
+ 
+If x_3  is very close to x_2  within the permittable error, then x_3  becomes the root of f(x), otherwise, keep repeating the process of finding the next x_3  , with previous x_1  , x_2  and x_3  as the new x_0  , x_1  and x_2  . 
+ 
+ 
+
+C++
+Java
+Python3
+# Python3 Program to find root of
+# a function, f(x)
+import math;
+ 
+MAX_ITERATIONS = 10000;
+ 
+# Function to calculate f(x)
+def f(x):
+ 
+    # Taking f(x) = x ^ 3 + 2x ^ 2 + 10x - 20
+    return (1 * pow(x, 3) + 2 * x * x +
+                           10 * x - 20);
+ 
+def Muller(a, b, c):
+ 
+    res = 0;
+    i = 0;
+ 
+    while (True):
+     
+        # Calculating various constants
+        # required to calculate x3
+        f1 = f(a); f2 = f(b); f3 = f(c);
+        d1 = f1 - f3;
+        d2 = f2 - f3;
+        h1 = a - c;
+        h2 = b - c;
+        a0 = f3;
+        a1 = (((d2 * pow(h1, 2)) -
+               (d1 * pow(h2, 2))) /
+              ((h1 * h2) * (h1 - h2)));
+        a2 = (((d1 * h2) - (d2 * h1)) /
+              ((h1 * h2) * (h1 - h2)));
+        x = ((-2 * a0) / (a1 +
+             abs(math.sqrt(a1 * a1 - 4 * a0 * a2))));
+        y = ((-2 * a0) / (a1 -
+            abs(math.sqrt(a1 * a1 - 4 * a0 * a2))));
+ 
+        # Taking the root which is
+        # closer to x2
+        if (x >= y):
+            res = x + c;
+        else:
+            res = y + c;
+ 
+        # checking for resemblance of x3
+        # with x2 till two decimal places
+        m = res * 100;
+        n = c * 100;
+        m = math.floor(m);
+        n = math.floor(n);
+        if (m == n):
+            break;
+        a = b;
+        b = c;
+        c = res;
+        if (i > MAX_ITERATIONS):
+            print("Root cannot be found using",
+                            "Muller's method");
+            break;
+        i += 1;
+    if (i <= MAX_ITERATIONS):
+        print("The value of the root is",
+                          round(res, 4));
+ 
+# Driver Code
+a = 0;
+b = 1;
+c = 2;
+Muller(a, b, c);
+     
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+ 
+
+The value of the root is 1.3688
+Auxiliary Space: O(1)
+Advantages 
+ 
+
+Can find imaginary roots.
+No need to find derivatives.
+Disadvantages 
+ 
+
+Long to do by hand, more room for error.
+Extraneous roots can be found.
+Reference- 
+ 
+
+Higher Engineer Mathematics by B.S. Grewal. 
+ 
+This article is contributed by Mrigendra Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Program for dot product and cross product of two vectors
+Next
+Roots of Unity
+Related Articles
+1.
+Difference between Gauss Elimination Method and Gauss Jordan Method | Numerical Method
+2.
+Program for Bisection Method
+3.
+Program for Newton Raphson Method
+4.
+Program to find root of an equations using secant method
+5.
+Program for Gauss-Jordan Elimination Method
+6.
+Program for Picard's iterative method | Computational Mathematics
+7.
+Transportation Problem | Set 6 (MODI Method - UV Method)
+8.
+Write program to calculate pow(x, n)
+9.
+Program to find whether a given number is power of 2
+10.
+Write an Efficient C Program to Reverse Bits of a Number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mithun Kumar
+surbhityagi15
+rishavnitro
+Article Tags :
+Mathematical
+Practice Tags :
+Mathematical

@@ -1,0 +1,149 @@
+Generate Pythagorean Triplets
+
+Difficulty Level : Easy
+Last Updated : 25 Oct, 2022
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+A Pythagorean triplet is a set of three positive integers a, b and c such that a2 + b2 = c2. Given a limit, generate all Pythagorean Triples with values smaller than given limit.
+
+Input : limit = 20
+Output : 3 4 5
+         8 6 10
+         5 12 13
+         15 8 17
+         12 16 20
+A Simple Solution is to generate these triplets smaller than given limit using three nested loop. For every triplet, check if Pythagorean condition is true, if true, then print the triplet. Time complexity of this solution is O(limit3) where ‘limit’ is given limit.
+
+An Efficient Solution can print all triplets in O(k) time where k is number of triplets printed. The idea is to use square sum relation of Pythagorean triplet, i.e., addition of squares of a and b is equal to square of c, we can write these number in terms of m and n such that,  
+
+       a = m2 - n2
+       b = 2 * m * n
+       c  = m2 + n2
+because,
+       a2 = m4 + n4 – 2 * m2 * n2
+       b2 = 4 * m2 * n2
+       c2 = m4 + n4 + 2* m2 * n2
+We can see that a2 + b2 = c2, so instead of iterating for a, b and c we can iterate for m and n and can generate these triplets. 
+
+Below is the implementation of above idea :  
+
+C++
+Java
+Python3
+# Python3 program to generate pythagorean
+# triplets smaller than a given limit
+ 
+# Function to generate pythagorean
+# triplets smaller than limit
+def pythagoreanTriplets(limits) :
+    c, m = 0, 2
+ 
+    # Limiting c would limit
+    # all a, b and c
+    while c < limits :
+         
+        # Now loop on n from 1 to m-1
+        for n in range(1, m) :
+            a = m * m - n * n
+            b = 2 * m * n
+            c = m * m + n * n
+ 
+            # if c is greater than
+            # limit then break it
+            if c > limits :
+                break
+ 
+            print(a, b, c)
+ 
+        m = m + 1
+ 
+ 
+# Driver Code
+if __name__ == '__main__' :
+     
+    limit = 20
+    pythagoreanTriplets(limit)
+ 
+ 
+# This code is contributed by Shrikant13.
+C#
+PHP
+Javascript
+Output
+3 4 5
+8 6 10
+5 12 13
+15 8 17
+12 16 20
+Time complexity of this approach is O(k) where k is number of triplets printed for a given limit (We iterate for m and n only and every iteration prints a triplet)
+Auxiliary space: O(1) as it is using constant space for variables
+
+
+
+Note: The above method doesn’t generate all triplets smaller than a given limit. For example “9 12 15” which is a valid triplet is not printed by above method. Thanks to Sid Agrawal for pointing this out. 
+References: 
+https://en.wikipedia.org/wiki/Formulas_for_generating_Pythagorean_triples
+
+This article is contributed by Utkarsh Trivedi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+15
+Previous
+Roots of Unity
+Next
+Program to add two polynomials
+Related Articles
+1.
+Twin Pythagorean triplets in an array
+2.
+Check if a Lexicographical Pythagorean Triplets exists in range [0, K) of lexicographically largest string
+3.
+Pythagorean Triplet with given sum
+4.
+Check if a number is a Pythagorean Prime or not
+5.
+Pythagorean Triplet with given sum using single loop
+6.
+Possible pairs forming a Pythagorean Triple with a given value
+7.
+Count triplets such that product of two numbers added with third number is N
+8.
+Count number of triplets with product equal to given number with duplicates allowed
+9.
+Count number of triplets (a, b, c) such that a^2 + b^2 = c^2 and 1 <= a <= b <= c <= n
+10.
+Count of ordered triplets with indices (i, j, k) representing distinct values and j - i != k - j
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Manish_100
+jit_t
+vt_m
+Shubham Mishra 22
+divyesh072019
+rkbhola5
+surinderdawra388
+himanshiyadav7011
+Article Tags :
+Mathematical
+Practice Tags :
+Mathematical

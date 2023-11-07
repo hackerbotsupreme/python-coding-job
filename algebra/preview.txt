@@ -1,0 +1,136 @@
+                                     algebra
+polynomials
+  add
+  multiply
+  substraction 
+  division 
+linear equation 
+  roots
+  discriminant 
+vectors
+  dot product 
+  cross product 
+logarithm 
+corelation coefficient
+muller method 
+solutions of an equation
+pythagorian triplet
+                                 catalan numbers 
+applications for catalan numbers 
+dyck path 
+succinct encoding of binary tree
+                               chinese reminder theorem
+introduction, advantages, disadvantages, real-life applications
+chineseremainder theorem to combine modular equations
+                              DIVISIBILITY , LARGE Numbers
+DIVISIBLE BY ODD NUMBEERS
+divisiblle by even numbers
+large numbers divisible by odd numbers
+large numbers divisible by even numbers
+                                      LCM AND GCD
+LCM
+LCM OF arrays
+GCD 
+GCD OF ARRAYS 
+                                    EULAR'S TOTIENT PROBLEMMS
+
+EULER'S TOTIENT PROBLEM 
+EULAR'S TOTIENT PROBLEMS FOR MULTIPLE Evaluations
+Euler’s Totient function for all numbers smaller than or equal to n
+                                     Modulo CONCEPTS
+
+Modulo OF A Number
+                                    FACTORIAL CONCEPTS
+FACTORIAL OF A Number
+Legendre’s formula
+Primorial of a number
+maximum power of a number that divides a factorial
+Krishnamurthy Number
+Last non-zero digit of a factorial
+Count digits in a factorial using Logarithm
+Program for Fibonacci numbers
+ 
+
+
+FACTORIAL OF A NUMBER 
+Zeckendorf’s Theorem (Non-Neighbouring Fibonacci Representation)
+MATRIX EXPONENTIONN
+Cassini’s Identity
+Tail Recursion for Fibonacci
+Golden Ratio
+                                     RECURSION CONCEPT
+
+Recursion
+                                    
+
+LCM  OF ARRAYS
+GCD of more than two (or array) numbers
+Euclidean algorithms (Basic and Extended)
+GCD, LCM and Distributive Property
+GCD OF FLOATING POINT Numbers
+SUMMATION OF GCD
+                                        MODULAR CONCEPTS
+
+MODULAR EXPONENTIONN
+MODULAR MULTIPLICATION AND Division
+
+                                        BIONOMIAL CONCEPTS
+BIONOMIAL Coefficient
+NCr APPLICATIONS-SUM, MULTIPLICATION,Division
+PROGRAM TO CALCULATE THE VALUE OF NCR
+Sum of squares of binomial coefficients
+Horner’s METHOD
+
+
+
+COVERTING A BINARY NUMBER TO DECIMAL NUMBER
+
+
+BOINOMIANT Coefficient
+Converting a Real Number (between 0 and 1) to Binary String
+Convert from any base to decimal and vice versa
+Decimal to binary conversion without using arithmetic operators
+
+
+
+Pollard’s Rho Algorithm for Prime Factorization
+prime factors of a given number
+PRIME Numbers
+Left-Truncatable Prime
+Mersenne Prime
+Super Prime
+Hardy-Ramanujan Theorem
+Rosser’s Theorem
+Fermat’s little theorem
+AKS Primality Test
+Lucas Primality Test
+
+
+Smith Number
+Sphenic Number
+Hoax Number
+k-th prime factor of a given number
+Finding power of prime number p in n!
+all factors of a Natural Number
+Find numbers with n-divisors in a given range
+                                           SET CONCEPTS
+JUGGLERS SEQUENCE
+Padovan Sequence
+Aliquot Sequence
+Moser-de Bruijn Sequence
+Stern-Brocot Sequence
+Newman-Conway Sequence
+Sylvester’s sequence
+Sum of the sequence 2, 22, 222, ………
+Sum of series 1^2 + 3^2 + 5^2 + . . . + (2*n – 1)^2
+Sum of the series 0.6, 0.06, 0.006, 0.0006, …to n terms
+n-th term in series 2, 12, 36, 80, 150….
+
+
+
+sETS 
+Sum of average of all subsets
+
+
+
+

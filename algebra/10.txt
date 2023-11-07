@@ -1,0 +1,169 @@
+Number of non-negative integral solutions of a + b + c = n
+
+Difficulty Level : Medium
+Last Updated : 24 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a number n, find the number of ways in which  we can add 3 non-negative integers so that their sum is n.
+Examples : 
+ 
+
+Input : n = 1
+Output : 3
+There are three ways to get sum 1.
+(1, 0, 0), (0, 1, 0) and (0, 0, 1)
+
+Input : n = 2
+Output : 6
+There are six ways to get sum 2.
+(2, 0, 0), (0, 2, 0), (0, 0, 2), (1, 1, 0)
+(1, 0, 1) and (0, 1, 1)
+
+Input : n = 3
+Output : 10
+There are ten ways to get sum 3.
+(3, 0, 0), (0, 3, 0), (0, 0, 3), (1, 2, 0)
+(1, 0, 2), (0, 1, 2), (2, 1, 0), (2, 0, 1),
+(0, 2, 1) and (1, 1, 1)
+ 
+
+Recommended Problem
+Number of ways
+Dynamic Programming
+Mathematical
++1 more
+Flipkart
+Amazon
+Solve Problem
+Submission count: 23.8K
+Method 1 [ Brute Force : O(n3) ] 
+A simple solution is to consider all triplets using three loops. For every triplet, check if its sum is equal to n. If the sum is n, increment the count of solutions. 
+Below is the implementation. 
+ 
+
+C++
+Java
+Python3
+# Python3 code to count
+# solutions of a + b + c = n
+ 
+# Returns count of solutions
+# of a + b + c = n
+def countIntegralSolutions (n):
+ 
+    # Initialize result
+    result = 0
+     
+    # Consider all triplets and
+    # increment result whenever
+    # sum of a triplet is n.
+    for i in range(n + 1):
+        for j in range(n + 1):
+            for k in range(n + 1):
+                if i + j + k == n:
+                    result += 1
+     
+    return result
+     
+# Driver code
+n = 3
+print(countIntegralSolutions(n))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output: 
+
+10
+Time complexity: O(n3)
+
+Auxiliary Space: O(1)
+
+Method 2 [ Direct Formula : O(1) ] 
+If we take a closer look at the pattern, we can find that the count of solutions is ((n+1) * (n+2)) / 2. The problem is equivalent to distributing n identical balls  in three boxes and the solution is n+2C2. In general, if there are m variables (or boxes) and n balls , the formula becomes n+m-1Cm-1. 
+ 
+
+C++
+Java
+Python3
+# Python3 solution to count
+# solutions of a + b + c = n
+ 
+# Returns count of solutions
+# of a + b + c = n
+def countIntegralSolutions (n):
+    return int(((n + 1) * (n + 2)) / 2)
+     
+# Driver code
+n = 3
+print(countIntegralSolutions(n))
+ 
+# This code is contributed by "Sharad_Bhardwaj".
+C#
+PHP
+Javascript
+Output : 
+
+10
+Time complexity: O(1)
+
+Auxiliary Space: O(1)
+This article is contributed by Shivam Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+Like
+Next
+Number of subsequences of the form a^i b^j c^k
+Related Articles
+1.
+C Program For Finding Subarray With Given Sum - Set 1 (Nonnegative Numbers)
+2.
+Java Program For Finding Subarray With Given Sum - Set 1 (Nonnegative Numbers)
+3.
+Python Program For Finding Subarray With Given Sum - Set 1 (Nonnegative Numbers)
+4.
+Php Program For Finding Subarray With Given Sum - Set 1 (Nonnegative Numbers)
+5.
+Javascript Program For Finding Subarray With Given Sum - Set 1 (Nonnegative Numbers)
+6.
+Number of integral solutions of the equation x1 + x2 +.... + xN = k
+7.
+Number of non-negative integral solutions of sum equation
+8.
+Number of integral solutions for equation x = b*(sumofdigits(x)^a)+c
+9.
+Number of Integral Points between Two Points
+10.
+Count Integral points inside a Triangle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+parashar
+Smitha Dinesh Semwal
+vt_m
+souravghosh0416
+surbhityagi15
+jatingrg2399
+Article Tags :
+Amazon
+Dynamic Programming
+Mathematical
+Practice Tags :
+Amazon
+Dynamic Programming
+Mathematical

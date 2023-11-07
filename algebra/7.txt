@@ -1,0 +1,142 @@
+Iterated Logarithm log*(n)
+
+Difficulty Level : Medium
+Last Updated : 19 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Iterated Logarithm or Log*(n) is the number of times the logarithm function must be iteratively applied before the result is less than or equal to 1.
+
+\log ^{*}n:=\begin{cases}0n\leq 1;\\1+\log ^{*}(\log n)n>1\end{cases}        
+ 
+
+Applications: It is used in the analysis of algorithms (Refer Wiki for details)
+
+C++
+Java
+Python3
+# Recursive Python3 program to find value of
+# Iterated Logarithm
+import math
+ 
+def _log(x, base):
+ 
+    return (int)(math.log(x) / math.log(base))
+ 
+def recursiveLogStar(n, b):
+ 
+    if(n > 1.0):
+        return 1.0 + recursiveLogStar(_log(n, b), b)
+    else:
+        return 0
+ 
+ 
+# Driver code
+if __name__=='__main__':
+    n = 100
+    base = 5
+    print("Log*(", n, ") = ", recursiveLogStar(n, base))
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+PHP
+Javascript
+Output : 
+
+Log*(100) = 2
+Time Complexity: O(logn)
+
+Auxiliary Space: O(logn) due to recursive stack space
+Iterative Implementation : 
+
+C++
+Java
+Python3
+# Iterative Python function to find value of
+# Iterated Logarithm
+ 
+ 
+def iterativeLogStar(n, b):
+ 
+    count = 0
+    while(n >= 1):
+        n = _log(n, b)
+        count = count + 1
+ 
+    return count
+ 
+# This code is contributed by
+# Sanjit_Prasad
+C#
+Javascript
+Time Complexity: O(logn)
+
+
+
+Auxiliary Space: O(1)
+
+This article is contributed by Abhishek rajput. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+3
+Previous
+Calculate the Discriminant Value
+Next
+Program for dot product and cross product of two vectors
+Related Articles
+1.
+Queries to find distance between two nodes of a Binary tree - O(logn) method
+2.
+Discrete logarithm (Find an integer k such that a^k is congruent modulo b)
+3.
+Logarithm
+4.
+Logarithm tricks for Competitive Programming
+5.
+Count digits in a factorial using Logarithm
+6.
+Damerau–Levenshtein distance
+7.
+Check if players can meet on the same cell of the matrix in odd number of operations
+8.
+Find an integer such that if it is multiplied by any of the given integers they form G.P.
+9.
+Find maximum LCM that can be obtained from four numbers less than or equal to N
+10.
+Check if A[] can be made equal to B[] by choosing X indices in each operation
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+jit_t
+Sanjit_Prasad
+rutvik_56
+pratham76
+sanjoy_62
+29AjayKumar
+rishav1329
+Article Tags :
+Analysis
+Mathematical
+Practice Tags :
+Mathematical

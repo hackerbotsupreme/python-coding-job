@@ -1,0 +1,368 @@
+Multiply two polynomials-gfg------------------------------------good problem 
+
+Difficulty Level : Hard
+Last Updated : 15 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given two polynomials represented by two arrays, write a function that multiplies given two polynomials. 
+
+Example: 
+
+Input:  A[] = {5, 0, 10, 6} 
+        B[] = {1, 2, 4} 
+Output: prod[] = {5, 10, 30, 26, 52, 24}
+
+The first input array represents "5 + 0x^1 + 10x^2 + 6x^3"
+The second array represents "1 + 2x^1 + 4x^2" 
+And Output is "5 + 10x^1 + 30x^2 + 26x^3 + 52x^4 + 24x^5"
+Recommended Problem
+Multiply two polynomials
+Mathematical
+Algorithms
+Samsung
+Solve Problem
+Submission count: 9.5K
+A simple solution is to one by one consider every term of the first polynomial and multiply it with every term of the second polynomial. Following is the algorithm of this simple method. 
+
+multiply(A[0..m-1], B[0..n-1])
+1) Create a product array prod[] of size m+n-1.
+2) Initialize all entries in prod[] as 0.
+3) Traverse array A[] and do following for every element A[i]
+...(3.a) Traverse array B[] and do following for every element B[j]
+          prod[i+j] = prod[i+j] + A[i] * B[j]
+4) Return prod[].
+Complete Interview Preparation - GFG
+
+The following is the implementation of the above algorithm. 
+
+C++
+Java
+Python3
+# Simple Python3 program to multiply two polynomials
+ 
+# A[] represents coefficients of first polynomial
+# B[] represents coefficients of second polynomial
+# m and n are sizes of A[] and B[] respectively
+def multiply(A, B, m, n):
+ 
+    prod = [0] * (m + n - 1);
+     
+    # Multiply two polynomials term by term
+     
+    # Take ever term of first polynomial
+    for i in range(m):
+         
+        # Multiply the current term of first
+        # polynomial with every term of
+        # second polynomial.
+        for j in range(n):
+            prod[i + j] += A[i] * B[j];
+ 
+    return prod;
+ 
+# A utility function to print a polynomial
+def printPoly(poly, n):
+ 
+    for i in range(n):
+        print(poly[i], end = "");
+        if (i != 0):
+            print("x^", i, end = "");
+        if (i != n - 1):
+            print(" + ", end = "");
+ 
+# Driver Code
+ 
+# The following array represents
+# polynomial 5 + 10x^2 + 6x^3
+A = [5, 0, 10, 6];
+ 
+# The following array represents
+# polynomial 1 + 2x + 4x^2
+B = [1, 2, 4];
+m = len(A);
+n = len(B);
+ 
+print("First polynomial is ");
+printPoly(A, m);
+print("\nSecond polynomial is ");
+printPoly(B, n);
+ 
+prod = multiply(A, B, m, n);
+ 
+print("\nProduct polynomial is ");
+printPoly(prod, m+n-1);
+ 
+# This code is contributed by chandan_jnu
+C#
+PHP
+Javascript
+Output
+First polynomial is 5 + 0x^1 + 10x^2 + 6x^3
+Second polynomial is 1 + 2x^1 + 4x^2
+Product polynomial is 5 + 10x^1 + 30x^2 + 26x^3 + 52x^4 + 24x^5
+The time complexity of the above solution is O(mn). If the size of two polynomials same, then the time complexity is O(n2).
+
+Auxiliary Space: O(m + n)
+
+Can we do better? 
+There are methods to do multiplication faster than O(n2) time. These methods are mainly based on divide and conquer. Following is one simple method that divides the given polynomial (of degree n) into two polynomials one containing lower degree terms(lower than n/2) and the other containing higher degree terms (higher than or equal to n/2) 
+
+Let the two given polynomials be A and B.  
+For simplicity, Let us assume that the given two polynomials are of
+same degree and have degree in powers of 2, i.e., n = 2i
+
+The polynomial 'A' can be written as A0 + A1*xn/2
+The polynomial 'B' can be written as B0 + B1*xn/2
+
+For example 1 + 10x + 6x2 - 4x3 + 5x4 can be
+written as (1 + 10x) + (6 - 4x + 5x2)*x2
+
+A * B  = (A0 + A1*xn/2) * (B0 + B1*xn/2)
+       = A0*B0 + A0*B1*xn/2 + A1*B0*xn/2 + A1*B1*xn
+       = A0*B0 + (A0*B1 + A1*B0)xn/2 + A1*B1*xn  
+So the above divide and conquer approach requires 4 multiplications and O(n) time to add all 4 results. Therefore the time complexity is T(n) = 4T(n/2) + O(n). The solution of the recurrence is O(n2) which is the same as the above simple solution.
+The idea is to reduce the number of multiplications to 3 and make the recurrence as T(n) = 3T(n/2) + O(n) 
+
+How to reduce the number of multiplications? 
+This requires a little trick similar to Strassen’s Matrix Multiplication. We do the following 3 multiplications. 
+
+X = (A0 + A1)*(B0 + B1) // First Multiplication
+Y = A0B0  // Second 
+Z = A1B1  // Third
+
+The missing middle term in above multiplication equation A0*B0 + (A0*B1 + 
+A1*B0)xn/2 + A1*B1*xn can obtained using below.
+A0B1 + A1B0 = X - Y - Z  
+In-Depth Explanation 
+Conventional polynomial multiplication uses 4 coefficient multiplications: 
+
+(ax + b)(cx + d) = acx2 + (ad + bc)x + bd
+However, notice the following relation:
+
+(a + b)(c + d) = ad + bc + ac + bd
+The rest of the two components are exactly the middle coefficient for the product of two polynomials. Therefore, the product can be computed as:
+
+(ax + b)(cx + d) = acx2 + 
+((a + b)(c + d) - ac - bd )x + bd
+Hence, the latter expression has only three multiplications.
+So the time taken by this algorithm is T(n) = 3T(n/2) + O(n) 
+The solution of the above recurrence is O(nLg3) which is better than O(n2).
+We will soon be discussing the implementation of the above approach. 
+There is an O(nLogn) algorithm also that uses Fast Fourier Transform to multiply two polynomials (Refer to this and this for details)
+
+
+
+Like
+Previous
+Program to add two polynomials
+Next
+Efficient program to calculate e^x
+Related Articles
+1.
+Polynomials in One Variable - Polynomials | Class 9 Maths
+2.
+Adding two polynomials using Linked List using map
+3.
+Adding two polynomials using Circular Linked List
+4.
+C++ Program For Adding Two Polynomials Using Linked List
+5.
+Java Program For Adding Two Polynomials Using Linked List
+6.
+Multiplication of two polynomials using Linked list
+7.
+Adding two polynomials using Linked List
+8.
+Program to add two polynomials
+9.
+Remainder Theorem - Polynomials | Class 9 Maths
+10.
+Types of Polynomials
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Mr.L
+Chandan_Kumar
+Rajput-Ji
+29AjayKumar
+sumeshthakur402
+shubham_singh
+rohitsingh07052
+surindertarika1234
+simmytarika5
+subham348
+chhabradhanvi
+hardikkoriintern
+deolsimmi53
+Article Tags :
+maths-polynomial
+Samsung
+Divide and Conquer
+Linked List
+Mathematical
+Practice Tags :
+Samsung
+Divide and Conquer
+Linked List
+Mathematical
+Report Issue
+
+
+trial 1
+what are the polynomial equations ? first 
+ A polynomial equation is a form of an algebraic equation. There is a minute difference between a polynomial and a polynomial equation. Polynomials are expressions whereas polynomial equations are expressions equated to zero.
+
+
+A polynomial can be expressed as the sum of a finite number of terms, each term being the product of a constant coefficient and one or more variables raised to a positive integer exponent (or power).
+
+
+
+trial 2
+produce output:(4x^2+12y^2+14xy)
+as the result of multiplication of two polynomials:(4x+6y)*(x+2y)
+
+there will be two steps in this process .1.multiplication
+                                        2.addition of similar terms and represent the utilized format
+
+
+
+
+trial 3
+program to multiply two  integer number
+a=int(input());
+b=int(input());
+c=a*b
+print (c)
+
+
+
+
+
+
+triL 4 
+TRYING TO MULTIPLUY TWO POLYNOMIALS
+x=vars
+y=vars
+
+a=(4*x+6*y) #Traceback (most recent call last):
+              #File "c:\Users\rekha\OneDrive\Desktop\mathematical problems\algebra\tests.py", line 4, in <module>
+              # a=(4*x+6*y)
+              #eError: unsupported operand type(s) for *: 'int' and 'builtin_function_or_method'
+b=(x+2*y)
+c=a*b
+print(c)
+
+
+
+
+
+
+
+trial 5
+i try to do the multiplication in tbis way
+X={1,2,3,4}
+Y={6,7,8,9}
+Z= (i in X)*(i in Y)# problem is i is not defined so here we can see computer also treats / identifies i as components of  input  under certain in-built format or syntax.
+
+
+
+trial 6
+X={1,2,3,4}
+Y={6,7,8,9}
+Z= X*Y
+print(Z) #   Z= X*Y
+         #TypeError: unsupported operand type(s) for *: 'set' and 'set'
+
+
+
+
+
+X={1,2,3,4}
+Y={6,7,8,9}
+for i in X:
+    z=i*Y[i]
+    print(z) 
+
+PS C:\Users\rekha\OneDrive\Desktop\mathematical problems> & C:/Users/rekha/AppData/Local/Microsoft/WindowsApps/python3.10.exe "c:/Users/rekha/OneDrive/Desktop/mathematical problems/algebra/tests.py"   
+Traceback (most recent call last):
+  File "c:\Users\rekha\OneDrive\Desktop\mathematical problems\algebra\tests.py", line 3, in <module>
+    Z= X*Y
+TypeError: unsupported operand type(s) for *: 'set' and 'set'
+PS C:\Users\rekha\OneDrive\Desktop\mathematical problems> & C:/Users/rekha/AppData/Local/Microsoft/WindowsApps/python3.10.exe "c:/Users/rekha/OneDrive/Desktop/mathematical problems/algebra/tests.py"
+Traceback (most recent call last):
+  File "c:\Users\rekha\OneDrive\Desktop\mathematical problems\algebra\tests.py", line 4, in <module>
+    z=i*Y[i]
+TypeError: 'set' object is not subscriptable
+PS C:\Users\rekha\OneDrive\Desktop\mathematical problems> 
+
+
+
+
+
+
+
+X={1,2,3,4}
+Y={6,7,8,9}
+for i in X:
+    for j in Y:
+        z=X[i]*Y[j]
+        print(z)
+#  File "c:\Users\rekha\OneDrive\Desktop\mathematical problems\algebra\tests.py", line 5, in <module>
+#    z=X[i]*Y[j]
+#TypeError: 'set' object is not subscriptable
+#PS C:\Users\rekha\OneDrive\Desktop\mathematical problems> 
+
+
+
+
+The [ and ] characters, in this context, are used to construct array literals:
+
+>>> []
+[]
+>>> [0]
+[0]
+>>> ['a', 'b', 'c']
+['a', 'b', 'c']
+Multiplying arrays is idiomatic, and generates an array gotten by repeating the elements in the array by the given factor:
+
+>>> ['a'] * 4
+['a', 'a', 'a', 'a']
+>>> [0] * 9
+[0, 0, 0, 0, 0, 0, 0, 0, 0]
+>>> [0, 1, 2] * 2
+[0, 1, 2, 0, 1, 2]
+Note that [ and ] are also used to index into an existing array. In that case, [0] accesses the first element in the array:
+
+>>> a = ['first', 'second', 'third']
+>>> a[0]
+'first'
+>>> a[2]
+'third'
+>>> 
+
+
+
+
+
+
+
+Blank List: 
+[]
+
+List of numbers: ---->called array
+[10, 20, 14]
+[aloke,pramanik,rekha, pramanik]-------->called list
+List Items: 
+Geeks
+Geeks

@@ -1,0 +1,210 @@
+
+Find number of solutions of a linear equation of n variables
+
+Difficulty Level : Hard
+Last Updated : 16 Dec, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a linear equation of n variables, find number of non-negative integer solutions of it. For example, let the given equation be “x + 2y = 5”, solutions of this equation are “x = 1, y = 2”, “x = 5, y = 0” and “x = 3, y = 1”. It may be assumed that all coefficients in given equation are positive integers.
+Example : 
+ 
+
+Input:  coeff[] = {1, 2}, rhs = 5
+Output: 3
+The equation "x + 2y = 5" has 3 solutions.
+(x=3,y=1), (x=1,y=2), (x=5,y=0)
+
+Input:  coeff[] = {2, 2, 3}, rhs = 4
+Output: 3
+The equation "2x + 2y + 3z = 4"  has 3 solutions.
+(x=0,y=2,z=0), (x=2,y=0,z=0), (x=1,y=1,z=0)
+We strongly recommend you to minimize your browser and try this yourself first.
+We can solve this problem recursively. The idea is to subtract first coefficient from rhs and then recur for remaining value of rhs.
+ 
+
+If rhs = 0
+  countSol(coeff, 0, rhs, n-1) = 1
+Else
+  countSol(coeff, 0, rhs, n-1) = ∑countSol(coeff, i, rhs-coeff[i], m-1) 
+                                 where coeff[i]<=rhs and 
+                                 i varies from 0 to n-1                             
+Below is recursive implementation of above solution.
+ 
+
+C++
+Java
+Python3
+# A naive recursive Python program
+# to find number of non-negative
+# solutions for a given linear equation
+ 
+# Recursive function that returns
+# count of solutions for given rhs
+# value and coefficients coeff[stat...end]
+def countSol(coeff, start, end, rhs):
+ 
+    # Base case
+    if (rhs == 0):
+        return 1
+ 
+    # Initialize count of solutions
+    result = 0
+ 
+    # One by one subtract all smaller or
+    # equal coefficients and recur
+    for i in range(start, end+1):
+        if (coeff[i] <= rhs):
+            result += countSol(coeff, i, end,
+                               rhs - coeff[i])
+ 
+    return result
+ 
+# Driver Code
+coeff = [2, 2, 5]
+rhs = 4
+n = len(coeff)
+print(countSol(coeff, 0, n - 1, rhs))
+ 
+# This code is contributed
+# by Soumen Ghosh
+C#
+PHP
+Javascript
+Output : 
+
+3
+Time Complexity: O(2^n)
+
+Auxiliary Space: O(2^n) , because of recursive calls
+
+The time complexity of above solution is exponential. We can solve this problem in Pseudo Polynomial Time (time complexity is dependent on numeric value of input) using Dynamic Programming. The idea is similar to Dynamic Programming solution Subset Sum problem. Below is Dynamic Programming based implementation.
+ 
+
+
+
+C++
+Java
+Python3
+# A Dynamic Programming based
+# Python program to find number
+# of non-negative solutions for
+# a given linear equation
+ 
+# Returns count of solutions for given
+# rhs and coefficients coeff[0...n-1]
+def countSol(coeff, n, rhs):
+ 
+    # Create and initialize a table
+    # to store results of subproblems
+    dp = [0 for i in range(rhs + 1)]
+    dp[0] = 1
+ 
+    # Fill table in bottom up manner
+    for i in range(n):
+        for j in range(coeff[i], rhs + 1):
+            dp[j] += dp[j - coeff[i]]
+ 
+    return dp[rhs]
+ 
+# Driver Code
+coeff = [2, 2, 5]
+rhs = 4
+n = len(coeff)
+print(countSol(coeff, n, rhs))
+ 
+# This code is contributed
+# by Soumen Ghosh
+C#
+PHP
+Javascript
+Output : 
+
+3
+Time Complexity: O(n * rhs)
+
+Auxiliary Space: O(rhs) , because of the size of dp used.
+
+This article is contributed by Ashish Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+26
+Previous
+Find maximum possible stolen value from houses
+Next
+Count number of ways to reach a given score in a game
+Related Articles
+1.
+Class 10 RD Sharma Solutions - Chapter 3 Pair of Linear Equations in Two Variables - Exercise 3.5 | Set 1
+2.
+Find initial integral solution of Linear Diophantine equation if finite solution exists
+3.
+Find an integral solution of the non-linear equation 2X + 5Y = N
+4.
+Quadratic equation whose roots are reciprocal to the roots of given equation
+5.
+Draw circle using polar equation and Bresenham's equation
+6.
+Quadratic equation whose roots are K times the roots of given equation
+7.
+Solve the Linear Equation of Single Variable
+8.
+Program to find number of solutions in Quadratic Equation
+9.
+Find the number of solutions to the given equation
+10.
+System of Linear Equations in three variables using Cramer's Rule
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+Vishal_Khoda
+ManasChhabra2
+decode2207
+rameshtravel07
+abhishekvk100
+mitalibhola94
+prophet1999
+sumitgumber28
+Article Tags :
+permutation
+Dynamic Programming
+Mathematical
+Practice Tags :
+Dynamic Programming
+Mathematical
+permutation
+
+trial 1
+A solution is an assignment of values to the unknown variables that makes the equality in the equation true. In other words, a solution is a value or a collection of values (one for each unknown) such that, when substituted for the unknowns, the equation becomes an equality.
+
+
+
+
+
+trial 2 
+to do this problem i need to get sense of when a linar equation contains 0,innfinite, and 1, 2,, 3,4... .etc, solutions 
+1. if an equation ends up with x=x, 0=0 then the equation will have infinite solution etc. -7x+2=2x+2-9x(solve this one to get the exact idea )
+2. if an equation ends up with unmeet-able conditions then the eqaution ill have no solution etc. -7x+3=2x+2-9x(solve this one to get the exact idea )
+3. if an equation ends up with x=value then the equattion has the ssollution etc. -7x+3=2x+2(solve this one to get the exact idea )
+

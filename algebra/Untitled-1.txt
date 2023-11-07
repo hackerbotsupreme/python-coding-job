@@ -1,0 +1,5 @@
+def descriminant(a,b,c):
+    D=b^2-4*a*c
+    return D
+j=descriminant(2,3,4)
+print (" the discriminant of the linear equation is , " ,j )

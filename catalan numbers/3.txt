@@ -1,0 +1,145 @@
+Dyck path
+
+Difficulty Level : Medium
+Last Updated : 07 Jul, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Consider a n x n grid with indexes of top left corner as (0, 0). Dyck path is a staircase walk from bottom left, i.e., (n-1, 0) to top right, i.e., (0, n-1) that lies above the diagonal cells (or cells on line from bottom left to top right).
+The task is to count the number of Dyck Paths from (n-1, 0) to (0, n-1).
+Examples : 
+
+Input : n = 1
+Output : 1
+
+Input : n = 2
+Output : 2
+
+Input : n = 3
+Output : 5
+
+Input : n = 4
+Output : 14
+ 
+
+dyckpaths
+
+The number of Dyck paths from (n-1, 0) to (0, n-1) can be given by the Catalan numberC(n).
+C_n=\frac{(2n)!}{(n+1)!n1}=\prod_{k=2}^{n}\frac{n+k}{k} \ for\ n\geq 0  
+ 
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+Below are the implementations to find count of Dyck Paths (or n’th Catalan number).
+ 
+
+C++
+Java
+Python3
+# Python3 program to count
+# number of Dyck Paths
+ 
+# Returns count Dyck
+# paths in n x n grid
+def countDyckPaths(n):
+     
+    # Compute value of 2nCn
+    res = 1
+    for i in range(0, n):
+        res *= (2 * n - i)
+        res /= (i + 1)
+ 
+    # return 2nCn/(n+1)
+    return res / (n+1)
+ 
+# Driver Code
+n = 4
+print("Number of Dyck Paths is ",
+    str(int(countDyckPaths(n))))
+ 
+# This code is contributed by
+# Prasad Kshirsagar
+C#
+PHP
+Javascript
+Output : 
+ 
+
+Number of Dyck Paths is 14
+Exercise : 
+ 
+
+
+
+Find number of sequences of 1 and -1 such that every sequence follows below constraints : 
+a) The length of a sequence is 2n 
+b) There are equal number of 1’s and -1’s, i.e., n 1’s, n -1s 
+c) Sum of prefix of every sequence is greater than or equal to 0. For example, 1, -1, 1, -1 and 1, 1, -1, -1 are valid, but -1, -1, 1, 1 is not valid.
+Number of paths of length m + n from (m-1, 0) to (0, n-1) that are restricted to east and north steps.
+ 
+
+This article is contributed by Aditya Chatterjee. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+ 
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+4
+Previous
+Applications of Catalan Numbers
+Next
+Succinct Encoding of Binary Tree
+Related Articles
+1.
+Dyck Words of given length
+2.
+Shortest path from source to destination such that edge weights along path are alternatively increasing and decreasing
+3.
+Construct a Tree whose sum of nodes of all the root to leaf path is not divisible by the count of nodes in that path
+4.
+Shortest path in a Binary Maze
+5.
+Check if a path exists in a tree with K vertices present or are at most at a distance D
+6.
+Minimum length of the shortest path of a triangle
+7.
+Maximum path sum in an Inverted triangle | SET 2
+8.
+Count of Unique Direct Path Between N Points On a Plane
+9.
+Source to destination in 2-D path with fixed sized jumps
+10.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Prasad_Kshirsagar
+target_2
+Article Tags :
+catalan
+Mathematical
+Practice Tags :
+Mathematical
+Improve Article
+Report Issue

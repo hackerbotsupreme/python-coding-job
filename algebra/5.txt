@@ -1,0 +1,157 @@
+Calculate the Discriminant Value
+
+Difficulty Level : Easy
+Last Updated : 26 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+In algebra, Discriminant helps us deduce various properties of the roots of a polynomial or polynomial function without even computing them. Let’s look at this general quadratic polynomial of degree two: 
+ 
+
+ax^2+bx+c
+Here the discriminant of the equation is calculated using the formula: 
+ 
+
+b^2-4ac 
+Now we can deduce the following properties: 
+ 
+
+If the discriminant is equal to zero then the polynomial has equal roots i.e., a=b.
+If the discriminant is positive and the coefficients are real, then the polynomial has two real roots.
+Here are a few conditions that we must keep in mind while programming and making deductions from the discriminant: 
+ 
+
+If the discriminant is equal to zero then one solution is possible.
+If the discriminant is positive then two solutions are possible.
+If the discriminant is negative then no real solutions are possible.
+Examples: 
+ 
+
+Input:
+a = 20
+b = 30
+c = 10
+Explanation:
+(30**2) - (4*20*10) 
+Output:
+Discriminant is 100 which is positive
+Hence Two solutions
+
+Input:
+a = 9
+b = 7
+c = 12
+Explanation:
+(30**2) - (4*20*10) 
+Output:
+Discriminant is -383 which is negative
+Hence no real solutions
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+Java
+Python3
+# Python program to calculate Discriminant
+ 
+def discriminant(a, b, c):
+ 
+    discriminant = (b**2) - (4*a*c)
+    if discriminant > 0:
+         
+        print('Discriminant is', discriminant,
+                "which is Positive")
+                 
+        print('Hence Two Solutions')
+         
+    elif discriminant == 0:
+         
+        print('Discriminant is', discriminant,
+                "which is Zero")
+                 
+        print('Hence One Solution')
+         
+    elif discriminant < 0:
+         
+        print('Discriminant is', discriminant,
+                "which is Negative")
+                 
+        print('Hence No Real Solutions')
+ 
+# Driver Code
+a = 20
+b = 30
+c = 10
+discriminant(a, b, c)
+C#
+PHP
+Javascript
+Output: 
+ 
+
+Discriminant is 100 which is Positive
+Hence Two Solutions
+Time Complexity: O(1) since constant operations are being performed
+
+Auxiliary Space: O(1), since no extra space has been taken.
+This article is contributed by Chinmoy Lenka. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Find x and y satisfying ax + by = n
+Next
+Iterated Logarithm log*(n)
+Related Articles
+1.
+Gaussian Discriminant Analysis
+2.
+Minimize value of x that minimizes value of |a1−x|^c+|a2−x|^c+···+|an−x|^c for value of c as 1 and 2
+3.
+C program to calculate the value of nPr
+4.
+Program to calculate the value of sin(x) and cos(x) using Expansion
+5.
+Find minimum number of Log value needed to calculate Log upto N
+6.
+Program to calculate the value of nCr Efficiently
+7.
+Calculate the value of 2 raised to the power of twice the binary representation of N
+8.
+Program to calculate value of nCr
+9.
+Program to calculate value of nCr using Recursion
+10.
+Find the maximum possible value of the minimum value of modified array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Sanjit_Prasad
+Shashank_Sharma
+todaysgaurav
+simranarora5sos
+bernardocampos99
+technophpfij
+rishav1329
+suchananag
+Article Tags :
+Mathematical
+School Programming
+Practice Tags :
+Mathematical

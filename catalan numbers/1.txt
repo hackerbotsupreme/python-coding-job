@@ -1,0 +1,374 @@
+Program for nth Catalan Number
+
+Difficulty Level : Medium
+Last Updated : 23 Nov, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Catalan numbers are defined as a mathematical sequence that consists of positive integers, which can be used to find the number of possibilities of various combinations. 
+
+The nth term in the sequence denoted Cn, is found in the following formula: \frac{(2n)!}{(n + 1)! n!)}             
+
+The first few Catalan numbers for n = 0, 1, 2, 3, … are : 1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, …  
+
+Catalan numbers occur in many interesting counting problems like the following.
+
+
+Count the number of expressions containing n pairs of parentheses that are correctly matched. For n = 3, possible expressions are ((())), ()(()), ()()(), (())(), (()()).
+Count the number of possible Binary Search Trees with n keys (See this)
+Count the number of full binary trees (A rooted binary tree is full if every vertex has either two children or no children) with n+1 leaves.
+Given a number n, return the number of ways you can draw n chords in a circle with 2 x n points such that no 2 chords intersect.
+See this for more applications. 
+
+Examples:
+
+Input: n = 6
+Output: 132
+
+
+
+Input: n = 8
+Output: 1430
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Recursive Solution for Catalan number:
+Catalan numbers satisfy the following recursive formula: C_0=1 \ and \ C_{n+1}=\sum_{i=0}^{n}C_iC_{n-i} \ for \ n\geq 0           
+
+Follow the steps below to implement the above recursive formula
+
+Base condition for the recursive approach, when n <= 1, return 1
+Iterate from i = 0 to i < n
+Make a recursive call catalan(i) and catalan(n – i – 1) and keep adding the product of both into res.
+Return the res.
+Following is the implementation of the above recursive formula.  
+
+C++
+Java
+Python3
+# A recursive function to
+# find nth catalan number
+ 
+ 
+def catalan(n):
+    # Base Case
+    if n <= 1:
+        return 1
+ 
+    # Catalan(n) is the sum
+    # of catalan(i)*catalan(n-i-1)
+    res = 0
+    for i in range(n):
+        res += catalan(i) * catalan(n-i-1)
+ 
+    return res
+ 
+ 
+# Driver Code
+for i in range(10):
+    print(catalan(i), end=" ")
+# This code is contributed by
+# Nikhil Kumar Singh (nickzuck_007)
+C#
+PHP
+Javascript
+Output
+1 1 2 5 14 42 132 429 1430 4862 
+Time Complexity: The above implementation is equivalent to nth Catalan number. 
+
+
+T(n)=\sum_{i=0}^{n-1}T(i)*T(n-i-1) \ for \ n\geq 1;                                      
+
+The value of nth Catalan number is exponential which makes the time complexity exponential.
+Auxiliary Space: O(n)
+
+Dynamic Programming Solution for Catalan number:
+We can observe that the above recursive implementation does a lot of repeated work. Since there are overlapping subproblems, we can use dynamic programming for this.
+
+Below is the implementation of the above idea:
+
+Create an array catalan[] for storing ith Catalan number.
+Initialize, catalan[0] and catalan[1] = 1
+Loop through i = 2 to the given Catalan number n.
+Loop through j = 0 to j < i and Keep adding value of catalan[j] * catalan[i – j – 1] into catalan[i].
+Finally, return catalan[n]
+Follow the steps below to implement the above approach:
+
+C++
+Java
+Python3
+# A dynamic programming based function to find nth
+# Catalan number
+ 
+ 
+def catalan(n):
+    if (n == 0 or n == 1):
+        return 1
+ 
+    # Table to store results of subproblems
+    catalan = [0]*(n+1)
+ 
+    # Initialize first two values in table
+    catalan[0] = 1
+    catalan[1] = 1
+ 
+    # Fill entries in catalan[]
+    # using recursive formula
+    for i in range(2, n + 1):
+        for j in range(i):
+            catalan[i] += catalan[j] * catalan[i-j-1]
+ 
+    # Return last entry
+    return catalan[n]
+ 
+ 
+# Driver code
+for i in range(10):
+    print(catalan(i), end=" ")
+# This code is contributed by Ediga_manisha
+C#
+PHP
+Javascript
+Output
+1 1 2 5 14 42 132 429 1430 4862 
+Time Complexity: O(n2)
+Auxiliary Space: O(n)
+
+Binomial Coefficient  Solution for Catalan number:
+We can also use the below formula to find nth Catalan number in O(n) time. 
+
+C_n=\frac{1}{n+1}\binom{2n}{n}                                        
+
+Below are the steps for calculating nCr.
+
+Create a variable to store the answer and change r to n – r if r is greater than n – r because we know that C(n, r) = C(n, n-r) if r > n – r 
+Run a loop from 0 to r-1
+In every iteration update ans as (ans*(n-i))/(i+1), where i is the loop counter.
+So the answer will be equal to ((n/1)*((n-1)/2)*…*((n-r+1)/r), which is equal to nCr.
+Below are steps to calculate Catalan numbers using the formula: 2nCn/(n+1)
+
+Calculate 2nCn using the similar steps that we use to calculate nCr
+Return the value 2nCn/ (n + 1)\
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program for nth Catalan Number
+# Returns value of Binomial Coefficient C(n, k)
+ 
+ 
+def binomialCoefficient(n, k):
+ 
+    # since C(n, k) = C(n, n - k)
+    if (k > n - k):
+        k = n - k
+ 
+    # initialize result
+    res = 1
+ 
+    # Calculate value of [n * (n-1) *---* (n-k + 1)]
+    # / [k * (k-1) *----* 1]
+    for i in range(k):
+        res = res * (n - i)
+        res = res / (i + 1)
+    return res
+ 
+# A Binomial coefficient based function to
+# find nth catalan number in O(n) time
+ 
+ 
+def catalan(n):
+    c = binomialCoefficient(2*n, n)
+    return c/(n + 1)
+ 
+ 
+# Driver Code
+for i in range(10):
+    print(catalan(i), end=" ")
+ 
+# This code is contributed by Aditi Sharma
+C#
+PHP
+Javascript
+Output
+1 1 2 5 14 42 132 429 1430 4862 
+Time Complexity: O(n).
+Auxiliary Space: O(1)
+
+We can also use the below formulas to find nth Catalan number in O(n) time. 
+
+C_n=\frac{(2n)!}{(n+1)!n!}=\prod_{k=2}^{n}\frac{n+k}{k} \ for \ n\geq 0           
+C_n = \frac{2(2n-1)}{n+1}*C_{n-1} \ \ \  {|} \ \ {n>0}
+Catalan number using the multi-Precision library:
+In this method, we have used a boost multi-precision library, and the motive behind its use is just only to have precision meanwhile finding the large Catalan number and a generalized technique using for loop to calculate Catalan numbers.  
+
+Pseudocode: 
+
+a) initially set cat_=1 and print it
+b) run a for loop i=1 to i<=n
+            cat_ *= (4*i-2)
+            cat_ /= (i+1)
+            print cat_
+c) end loop and exit        
+Below is the implementation using the muli-precision library:
+
+C++
+Java
+Python3
+# Function to print the number
+def catalan(n):
+ 
+    cat_ = 1
+ 
+    # For the first number
+    print(cat_, " ", end='')  # C(0)
+ 
+    # Iterate till N
+    for i in range(1, n):
+ 
+        # Calculate the number
+        # and print it
+        cat_ *= (4 * i - 2)
+        cat_ //= (i + 1)
+        print(cat_, " ", end='')
+ 
+ 
+# Driver code
+n = 5
+ 
+# Function call
+catalan(n)
+ 
+# This code is contributed by rohan07
+C#
+Javascript
+Output
+1 1 2 5 14 
+Time Complexity: O(n)
+Auxiliary Space: O(1), since no extra space has been taken.
+
+Catalan number using BigInteger in java:
+Finding values of Catalan numbers for N>80 is not possible even by using long in java, so we use BigInteger.
+
+Follow the steps below for the implementation:
+
+Create a BigInteger variable b and initialize it to 1.
+Calculate n! and store it into b.
+Calculate n! * n! and store into b.
+Create another BigInteger variable d and initialize it to 1.
+Calculate 2n! and store into d.
+Calculate (2n)! / (n! * n!) into ans
+Calculate ans / (n + 1) and return ans.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+def findCatalan(n):
+    b = 1
+ 
+    # calculating n!
+    for i in range(1, n + 1, 1):
+        b = b * i
+ 
+    # calculating n! * n!
+    b = b * b
+    d = 1
+ 
+    # calculating (2n)!
+    for i in range(1, 2 * n + 1, 1):
+        d = d * i
+         
+    # calculating (2n)! / (n! * n!)
+    ans = d / b
+     
+    # calculating (2n)! / ((n! * n!) * (n+1))
+    ans = ans / (n + 1)
+ 
+    return ans
+ 
+# Driver Code
+n = 50
+print(int(findCatalan(n)))
+ 
+# This code is contributed by ajaymakavana.
+C#
+Javascript
+Output
+42
+Time Complexity: O(n)
+Auxiliary Space: O(1), since no extra space has been taken.
+ 
+
+
+
+
+
+Like
+207
+Previous
+Ugly Numbers
+Next
+Bell Numbers (Number of ways to Partition a Set)
+Related Articles
+1.
+Program for nth Fuss–Catalan Number
+2.
+Total number of possible Binary Search Trees using Catalan Number
+3.
+Applications of Catalan Numbers
+4.
+Minimum changes required to make a Catalan Sequence
+5.
+Program to find last two digits of Nth Fibonacci number
+6.
+Program to find the nth Kynea number
+7.
+Program to find the Nth Harmonic Number
+8.
+Program to find the Nth number of the series 2, 10, 24, 44, 70.....
+9.
+Program to delete Nth digit of a Number
+10.
+Program to find the Nth Prime Number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+icr0
+jit_t
+nitin mittal
+vt_m
+soumya7
+29AjayKumar
+Harshit Singhal 2
+ankthon
+Akanksha_Rai
+Chandan_Kumar
+Rajput-Ji
+anantiitrk
+ankit_deshmukh
+madhav_mohan
+RohitOberoi
+manishaediga23
+jyoti369
+_saurabh_jaiswal
+mayanktyagi1709
+rohan07
+bunnyram19
+manishku12j
+amartyaghoshgfg
+prasanna1995
+07prashantsgh
+phasing17
+rishav1329
+harendrakumar12
