@@ -1,0 +1,246 @@
+Unbounded Knapsack (Repetition of items allowed)
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss(70)
+Courses
+Practice
+Video
+Given a knapsack weight W and a set of n items with certain value vali and weight wti, we need to calculate the maximum amount that could make up this quantity exactly. This is different from classical Knapsack problem, here we are allowed to use unlimited number of instances of an item.
+
+Examples: 
+
+Input : W = 100
+       val[]  = {1, 30}
+       wt[] = {1, 50}
+Output : 100
+There are many ways to fill knapsack.
+1) 2 instances of 50 unit weight item.
+2) 100 instances of 1 unit weight item.
+3) 1 instance of 50 unit weight item and 50
+   instances of 1 unit weight items.
+We get maximum value with option 2.
+
+Input : W = 8
+       val[] = {10, 40, 50, 70}
+       wt[]  = {1, 3, 4, 5}       
+Output : 110 
+We get maximum value with one unit of
+weight 5 and one unit of weight 3.
+Recommended Problem
+Knapsack with Duplicate Items
+Dynamic Programming
+Algorithms
+Amazon
+Google
+Solve Problem
+Submission count: 67.2K
+Recursive Approach: 
+
+A simple solution is to consider all subsets of items and calculate the total weight and value of all subsets. Consider the only subsets whose total weight is smaller than W. From all such subsets, pick the maximum value subset.
+Optimal Sub-structure: To consider all subsets of items, there can be two cases for every item.
+
+Case 1: The item is included in the optimal subset.
+Case 2: The item is not included in the optimal set.
+Therefore, the maximum value that can be obtained from ‘n’ items is the max of the following two values.
+
+Maximum value obtained by n-1 items and W weight (excluding nth item).
+Value of nth item plus maximum value obtained by n(because of infinite supply) items and W minus the weight of the nth item (including nth item).
+If the weight of ‘nth’ item is greater than ‘W’, then the nth item cannot be included and Case 1 is the only possibility.
+
+Below is the implementation of the above approach: 
+
+
+
+C++
+Java
+C#
+Python3
+# Python3 program to find maximum
+# achievable value with a knapsack
+# of weight W and multiple instances allowed.
+ 
+# Returns the maximum value
+# with knapsack of W capacity
+# A Naive recursive implementation of unbounded Knapsack problem
+def unboundedKnapsack(W, index, val, wt):
+ 
+    #Base case of recursion when only one element is there.
+    if index==0 :return (W//wt[0])*val[0]
+    #If the element with referred by index is doesn't occur even once in the required solution
+    notTake=0+unboundedKnapsack(W,index-1,val,wt)
+    #If the element is occur atleast once in the required solution
+    take=-100000
+    if wt[index]<=W:
+        take=val[index]+unboundedKnapsack(W-wt[index],index,val,wt)
+    return max(take,notTake)   
+ 
+ 
+# Driver program
+W = 100
+val = [10, 30, 20]
+wt = [5, 10, 15]
+n = len(val)
+ 
+print(unboundedKnapsack(W, n-1, val, wt))
+Javascript
+Output
+300
+Memoization:  Like other typical Dynamic Programming(DP) problems, re-computation of same subproblems can be avoided by constructing a temporary array K[][] in bottom-up manner. Following is Dynamic Programming based implementation.
+
+C++
+Java
+Python3
+def unboundedKnapsack(W, wt, val, idx, dp):
+    # Base Case
+    # if we are at idx 0.
+    if idx == 0:
+        return (W // wt[0]) * val[0]
+    # If the value is already calculated then we will
+    # previous calculated value
+    if dp[idx][W] != -1:
+        return dp[idx][W]
+    # There are two cases either take element or not take.
+    # If not take then
+    notTake = 0 + unboundedKnapsack(W, wt, val, idx - 1, dp)
+    # if take then weight = W-wt[idx] and index will remain
+    # same.
+    take = float('-inf')
+    if wt[idx] <= W:
+        take = val[idx] + unboundedKnapsack(W - wt[idx], wt, val, idx, dp)
+    dp[idx][W] = max(take, notTake)
+    return dp[idx][W]
+ 
+# Driver code
+W = 100
+val = [10, 30, 20]
+wt = [5, 10, 15]
+n = len(val)
+dp = [[-1 for _ in range(W+1)] for _ in range(n)]
+print(unboundedKnapsack(W, wt, val, n-1, dp))
+Javascript
+Output
+300
+Time Complexity: O(N*W)
+Auxiliary Space: O(N*W) + O(N)’
+
+Dynamic Programming: Its an unbounded knapsack problem as we can use 1 or more instances of any resource. A simple 1D array, say dp[W+1] can be used such that dp[i] stores the maximum value which can achieved using all items and i capacity of knapsack. Note that we use 1D array here which is different from classical knapsack where we used 2D array. Here number of items never changes. We always have all items available.
+We can recursively compute dp[] using below formula
+
+dp[i] = 0
+dp[i] = max(dp[i], dp[i-wt[j]] + val[j] 
+                   where j varies from 0 
+                   to n-1 such that:
+                   wt[j] <= i
+
+result = d[W]
+Below is the implementation of above idea. 
+
+C++
+Java
+Python3
+# Python3 program to find maximum
+# achievable value with a knapsack
+# of weight W and multiple instances allowed.
+ 
+# Returns the maximum value
+# with knapsack of W capacity
+def unboundedKnapsack(W, n, val, wt):
+ 
+    # dp[i] is going to store maximum
+    # value with knapsack capacity i.
+    dp = [0 for i in range(W + 1)]
+ 
+    ans = 0
+ 
+    # Fill dp[] using above recursive formula
+    for i in range(W + 1):
+        for j in range(n):
+            if (wt[j] <= i):
+                dp[i] = max(dp[i], dp[i - wt[j]] + val[j])
+ 
+    return dp[W]
+ 
+# Driver program
+W = 100
+val = [10, 30, 20]
+wt = [5, 10, 15]
+n = len(val)
+ 
+print(unboundedKnapsack(W, n, val, wt))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+300
+Time Complexity: O(W*N) where W is the total weight(capacity) and N is the total number of items.
+Auxiliary Space: O(W) where W is the total weight.
+
+This article is compiled using inputs from Shubham Gupta, Shubham Joshi and Ashish kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+107
+Previous
+0-1 Knapsack Problem | DP-10
+Next
+Cutting a Rod | DP-13
+Related Articles
+1.
+Unbounded Knapsack (Repetition of items allowed) | Set 2
+2.
+Unbounded Fractional Knapsack
+3.
+Maximum sum of values of N items in 0-1 Knapsack by reducing weight of at most K items in half
+4.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+5.
+Ways to sum to N using array elements with repetition allowed
+6.
+Printing Items in 0/1 Knapsack
+7.
+Arrangements of N and M items of two types when max X and Y items of each can be consecutive
+8.
+Count of ways in which N can be represented as sum of Fibonacci numbers without repetition
+9.
+Minimize the count of characters to be added or removed to make String repetition of same substring
+10.
+Count of Derangements of given Array with Repetition
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Vishal_Khoda
+dStudent
+s_madaan25
+mishrakush1999
+divyesh072019
+pushpeshrajdx01
+sanskar84
+ssneeraj23here
+hkdass001
+satwiksuman
+Article Tags :
+Amazon
+Google
+knapsack
+Dynamic Programming
+Practice Tags :
+Amazon
+Google
+Dynamic Programming

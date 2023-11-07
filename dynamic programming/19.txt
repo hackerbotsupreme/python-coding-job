@@ -1,0 +1,176 @@
+Longest subsequence such that difference between adjacents is one
+
+Difficulty Level : Easy
+Last Updated : 20 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array of n size, the task is to find the longest subsequence such that difference between adjacents is one. 
+
+Examples: 
+
+Input :  arr[] = {10, 9, 4, 5, 4, 8, 6}
+Output :  3
+As longest subsequences with difference 1 are, "10, 9, 8", 
+"4, 5, 4" and "4, 5, 6"
+
+Input :  arr[] = {1, 2, 3, 2, 3, 7, 2, 1}
+Output :  7
+As longest consecutive sequence is "1, 2, 3, 2, 3, 2, 1"
+Recommended Problem
+Longest subsequence-1
+Dynamic Programming
+Algorithms
+Flipkart
+Solve Problem
+Submission count: 36.9K
+This problem is based upon the concept of Longest Increasing Subsequence Problem. 
+
+Let arr[0..n-1] be the input array and 
+dp[i] be the length of the longest subsequence (with
+differences one) ending at index i such that arr[i] 
+is the last element of the subsequence.
+
+Then, dp[i] can be recursively written as:
+dp[i] = 1 + max(dp[j]) where 0 < j < i and 
+       [arr[j] = arr[i] -1  or arr[j] = arr[i] + 1]
+dp[i] = 1, if no such j exists.
+
+To find the result for a given array, we need 
+to return max(dp[i]) where 0 < i < n.
+Following is a Dynamic Programming based implementation. It follows the recursive structure discussed above. 
+
+C++
+Java
+Python3
+# Function to find the length of longest subsequence
+def longestSubseqWithDiffOne(arr, n):
+    # Initialize the dp[] array with 1 as a
+    # single element will be of 1 length
+    dp = [1 for i in range(n)]
+ 
+    # Start traversing the given array
+    for i in range(n):
+        # Compare with all the previous elements
+        for j in range(i):
+            # If the element is consecutive then
+            # consider this subsequence and update
+            # dp[i] if required.
+            if ((arr[i] == arr[j]+1) or (arr[i] == arr[j]-1)):
+                dp[i] = max(dp[i], dp[j]+1)
+ 
+    # Longest length will be the maximum value
+    # of dp array.
+    result = 1  
+    for i in range(n):
+        if (result < dp[i]):
+            result = dp[i]
+            
+    return result
+ 
+# Driver code
+arr = [1, 2, 3, 4, 5, 3, 2]
+# Longest subsequence with one difference is
+# {1, 2, 3, 4, 3, 2}
+n = len(arr)
+print (longestSubseqWithDiffOne(arr, n))
+ 
+# This code is contributed by Afzal Ansari
+C#
+PHP
+Javascript
+Output
+6
+Time Complexity: O(n2) 
+Auxiliary Space: O(n)
+
+Efficient Approach
+ 
+
+
+
+C++
+Java
+Python3
+def longestSubsequence(A, N):
+    L = [1]*N
+    hm = {}
+    for i in range(1,N):
+        if abs(A[i]-A[i-1]) == 1:
+            L[i] = 1 + L[i-1]
+        elif hm.get(A[i]+1,0) or hm.get(A[i]-1,0):
+            L[i] = 1+max(hm.get(A[i]+1,0), hm.get(A[i]-1,0))
+        hm[A[i]] = L[i]
+    return max(L)
+# Driver code
+A =  [1, 2, 3, 4, 5, 3, 2]
+N = len(A)
+print(longestSubsequence(A, N))
+C#
+Javascript
+Output
+6
+Time Complexity : O(n)
+
+Space Complexity : O(n)
+
+This article is contributed by Sahil Chhabra (KILLER). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+31
+Next
+Maximum length subsequence with difference between adjacent elements as either 0 or 1
+Related Articles
+1.
+Longest Increasing Subsequence using Longest Common Subsequence Algorithm
+2.
+Longest subsequence such that every element in the subsequence is formed by multiplying previous element with a prime
+3.
+Longest subsequence such that adjacent elements have at least one common digit
+4.
+Longest Consecutive Subsequence when only one insert operation is allowed
+5.
+Longest Common Subsequence of two arrays out of which one array consists of distinct elements only
+6.
+Find length of longest subsequence of one string which is substring of another string
+7.
+Maximum length subsequence such that adjacent elements in the subsequence have a common factor
+8.
+Count maximum occurrence of subsequence in string such that indices in subsequence is in A.P.
+9.
+Longest non-decreasing subsequence having difference between adjacent elements less than D
+10.
+Length of the longest increasing subsequence such that no two adjacent elements are coprime
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+souravghosh0416
+rajsanghavi9
+praveen7230
+amartyaghoshgfg
+aakankshamittal22
+aditya942003patil
+satwiksuman
+surajrasr7277
+Article Tags :
+LIS
+Dynamic Programming
+Practice Tags :
+Dynamic Programming

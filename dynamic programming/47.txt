@@ -1,0 +1,209 @@
+Program for Bridge and Torch problem
+
+Difficulty Level : Hard
+Last Updated : 13 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of positive distinct integer denoting the crossing time of ‘n’ people. These ‘n’ people are standing at one side of bridge. Bridge can hold at max two people at a time. When two people cross the bridge, they must move at the slower person’s pace. Find the minimum total time in which all persons can cross the bridge. See this puzzle to understand more. 
+
+Note: Slower person space is given by larger time. 
+
+Input:  Crossing Times = {10, 20, 30}
+Output: 60
+Explanation
+1. Firstly person '1' and '2' cross the bridge
+   with total time about 20 min(maximum of 10, 20) 
+2. Now the person '1' will come back with total 
+   time of '10' minutes.
+3. Lastly the person '1' and '3' cross the bridge
+   with total time about 30 minutes
+Hence total time incurred in whole journey will be
+20 + 10 + 30 = 60
+
+Input: Crossing Times = [1, 2, 5, 8}
+Output: 15
+Explanation
+See this for full explanation.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The approach is to use Dynamic programming. Before getting dive into dynamic programming let’s see the following observation that will be required in solving the problem. 
+
+When any two people cross the bridge, then the fastest person crossing time will not be contributed in answer as both of them move with slowest person speed. 
+When some of the people will cross the river and reached the right side then only the fastest people(smallest integer) will come back to the left side. 
+Person can only be present either left side or right side of the bridge. Thus, if we maintain the left mask, then right mask can easily be calculated by setting the bits ‘1’ which is not present in the left mask. For instance, Right_mask = ((2n) – 1) XOR (left_mask). 
+Any person can easily be represented by bitmask(usually called as ‘mask’). When ith bit of ‘mask’ is set, that means that person is present at left side of the bridge otherwise it would be present at right side of bridge. For instance, let the mask of 6 people is 100101, which represents the person 1, 4, 6 are present at left side of bridge and the person 2, 3 and 5 are present at the right side of the bridge.
+Implementation:
+
+C++
+Java
+Python3
+# Python program to find minimum time required
+# to send people on other side of bridge
+dp = [[0 for x in range(2)] for y in range(1 << 20)]
+ 
+# Counts set bits in a number
+def countSetBits(n):
+   
+    # Using bin function in number
+    ans = bin(n)
+    return ans.count("1")
+ 
+ 
+# Utility function to find total time required
+# to send people to other side of bridge
+def findMinTime(leftmask, turn, arr, n):
+        # If all people has been transferred
+    if(leftmask == 0):
+        return 0
+ 
+    res = dp[leftmask][1 if(turn == True) else 0]
+ 
+    # If we already have solved this subproblem,
+    # return the answer.
+    if(~res != 0):
+        return res
+ 
+    # Calculate mask of right side of people
+    rightmask = ((1 << n)-1) ^ leftmask
+ 
+    # if turn == 1 means currently people are at
+    # right side, thus we need to transfer
+    # people to the left side
+    if(turn == True):
+        minRow = float('inf')
+        person = 0
+        for i in range(n):
+                # Select one people whose time is less
+            # among all others present at right
+            # side
+            if((rightmask & (1 << i)) != 0):
+                if(minRow > arr[i]):
+                    person = i
+                    minRow = arr[i]
+ 
+        # Add that person to answer and recurse for
+        # next turn after initializing that person at
+        # left side
+        res = arr[person] + \
+            findMinTime(leftmask | (1 << person), not turn, arr, n)
+    else:
+        # count total set bits in 'leftmask'
+        if(countSetBits(leftmask) == 1):
+            for i in range(n):
+                # Since one person is present at left
+                # side, thus return that person only
+                if((leftmask & (1 << i)) != 0):
+                    res = arr[i]
+                    break
+        else:
+                # try for every pair of people by
+            # sending them to right side
+ 
+                # Initialize the result with maximum value
+            res = float('inf')
+            for i in range(n):
+                # If ith person is not present then skip the rest loop
+                if((leftmask & (1 << i)) == 0):
+                    continue
+                for j in range(i+1, n):
+                    if((leftmask & (1 << j)) != 0):
+                        # Find maximum integer(slowest person's time)
+                        val = max(arr[i], arr[j])
+                        # Recurse for other people after un-setting the ith and jth bit of left-mask
+                        val += findMinTime((leftmask ^ (1 << i)
+                                            ^ (1 << j)), not turn, arr, n)
+                        # Find minimum answer among all chosen values
+                        res = min(res, val)
+ 
+    return res
+ 
+# Utility function to find minimum time
+ 
+ 
+def findTime(arr, n):
+        # Find the mask of 'n' peoples
+    mask = (1 << n) - 1
+ 
+    # Initialize all entries in dp as -1
+    for i in range((1 << 20)):
+        dp[i][0] = -1
+        dp[i][1] = -1
+ 
+    return findMinTime(mask, False, arr, n)
+ 
+ 
+arr = [10, 20, 30]
+n = 3
+print(findTime(arr, n))
+ 
+# This code is contributed by lokeshmvs21.
+C#
+Javascript
+Output
+60
+Time complexity:  O(N2)
+Auxiliary space:        O(220) = O(1)
+
+
+
+
+
+Like
+6
+Previous
+Find maximum in an array without using Relational Operators
+Next
+Maximum array sum with prefix and suffix multiplications with -1 allowed
+Related Articles
+1.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+2.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+3.
+Nuts & Bolts Problem (Lock & Key problem) using Hashmap
+4.
+C++ Program For Chocolate Distribution Problem
+5.
+Java Program For Chocolate Distribution Problem
+6.
+Python Program For Chocolate Distribution Problem
+7.
+Php Program For Chocolate Distribution Problem
+8.
+Javascript Program For Chocolate Distribution Problem
+9.
+Sort an array of 0s, 1s and 2s | Dutch National Flag problem
+10.
+Bitmasking and Dynamic Programming | Travelling Salesman Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shubham Bansal 13
+@bansal1232
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rajeev0719singh
+sumitgumber28
+germanshephered48
+sweetyty
+hardikkoriintern
+rohit768
+aadityapburujwale
+vivekedula
+lokeshmvs21
+satwiksuman
+Article Tags :
+Arrays
+Dynamic Programming
+Practice Tags :
+Arrays
+Dynamic Programming
+Improve Article
+Report Issue

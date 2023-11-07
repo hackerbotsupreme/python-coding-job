@@ -1,0 +1,480 @@
+Palindrome Partitioning | DP-17
+
+Difficulty Level : Hard
+Last Updated : 20 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given a string, a partitioning of the string is a palindrome partitioning if every substring of the partition is a palindrome. For example, “aba|b|bbabb|a|b|aba” is a palindrome partitioning of “ababbbabbababa”. Determine the fewest cuts needed for a palindrome partitioning of a given string. For example, minimum of 3 cuts are needed for “ababbbabbababa”. The three cuts are “a|babbbab|b|ababa”. If a string is a palindrome, then minimum 0 cuts are needed. If a string of length n containing all different characters, then minimum n-1 cuts are needed. 
+
+palindrome-partitioning
+
+Recommended Problem
+Palindromic Partitioning
+Dynamic Programming
+Algorithms
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 77.5K
+Examples :  
+
+Input : str = “geek” 
+Output : 2 
+We need to make minimum 2 cuts, i.e., “g ee k”
+Input : str = “aaaa” 
+Output : 0 
+The string is already a palindrome.
+Input : str = “abcde” 
+Output : 4
+Input : str = “abbac” 
+Output : 1 
+ 
+
+This problem is a variation of Matrix Chain Multiplication problem. If the string is a palindrome, then we simply return 0. Else, like the Matrix Chain Multiplication problem, we try making cuts at all possible places, recursively calculate the cost for each cut and return the minimum value. 
+Let the given string be str and minPalPartion() be the function that returns the fewest cuts needed for palindrome partitioning. following is the optimal substructure property.
+
+Using Recursion 
+
+// i is the starting index and j is the ending index. i must be passed as 0 and j as n-1
+minPalPartion(str, i, j) = 0 if i == j. // When string is of length 1.
+minPalPartion(str, i, j) = 0 if str[i..j] is palindrome.
+
+// If none of the above conditions is true, then minPalPartion(str, i, j) can be 
+// calculated recursively using the following formula.
+minPalPartion(str, i, j) = Min { minPalPartion(str, i, k) + 1 +
+                                 minPalPartion(str, k+1, j) } 
+                           where k varies from i to j-1
+C++
+Java
+Python3
+# Python code for implementation of Naive Recursive
+# approach
+def isPalindrome(x):
+    return x == x[::-1]
+ 
+ 
+def minPalPartion(string, i, j):
+    if i >= j or isPalindrome(string[i:j + 1]):
+        return 0
+    ans = float('inf')
+    for k in range(i, j):
+        count = (
+            1 + minPalPartion(string, i, k)
+            + minPalPartion(string, k + 1, j)
+        )
+        ans = min(ans, count)
+    return ans
+ 
+ 
+def main():
+    string = "ababbbabbababa"
+     print(
+     "Min cuts needed for Palindrome Partitioning is ",
+     minPalPartion(string, 0, len(string) - 1),
+    )
+ 
+if __name__ == "__main__":
+    main()
+ 
+# This code is contributed by itsvinayak
+C#
+Javascript
+Output: 
+
+Min cuts needed for Palindrome Partitioning is 3 
+Time Complexity: O(2n)
+
+Auxiliary Space: O(n)
+Using Dynamic Programming :
+Following is Dynamic Programming solution. It stores the solutions to subproblems in two arrays P[][] and C[][], and reuses the calculated values. 
+
+C++
+C
+Java
+Python3
+# Dynamic Programming Solution for
+# Palindrome Partitioning Problem
+ 
+# Returns the minimum number of
+# cuts needed to partition a string
+# such that every part is a palindrome
+def minPalPartion(str):
+     
+    # Get the length of the string
+    n = len(str)
+     
+    # Create two arrays to build the
+    # solution in bottom up manner
+    # C[i][j] = Minimum number of cuts
+    # needed for palindrome
+    # partitioning of substring str[i..j]
+    # P[i][j] = true if substring str[i..j]
+    # is palindrome, else false. Note that
+    # C[i][j] is 0 if P[i][j] is true
+    C = [[0 for i in range(n)]
+            for i in range(n)]
+    P = [[False for i in range(n)]
+                for i in range(n)]
+ 
+    # different looping variables
+    j = 0
+    k = 0
+    L = 0
+     
+    # Every substring of length
+    # 1 is a palindrome
+    for i in range(n):
+        P[i][i] = True;
+        C[i][i] = 0;
+         
+    # L is substring length. Build the
+    # solution in bottom-up manner by
+    # considering all substrings of
+    # length starting from 2 to n.
+    # The loop structure is the same as
+    # Matrix Chain Multiplication problem 
+    # (See https://www.geeksforgeeks.org / matrix-chain-multiplication-dp-8/ )
+    for L in range(2, n + 1):
+         
+        # For substring of length L, set
+        # different possible starting indexes
+        for i in range(n - L + 1):
+            j = i + L - 1 # Set ending index
+             
+            # If L is 2, then we just need to
+            # compare two characters. Else
+            # need to check two corner characters
+            # and value of P[i + 1][j-1]
+            if L == 2:
+                P[i][j] = (str[i] == str[j])
+            else:
+                P[i][j] = ((str[i] == str[j]) and
+                             P[i + 1][j - 1])
+                              
+            # IF str[i..j] is palindrome,
+            # then C[i][j] is 0
+            if P[i][j] == True:
+                C[i][j] = 0
+            else:
+                 
+                # Make a cut at every possible
+                # location starting from i to j,
+                # and get the minimum cost cut.
+                C[i][j] = 100000000
+                for k in range(i, j):
+                    C[i][j] = min (C[i][j], C[i][k] +
+                                   C[k + 1][j] + 1)
+                                    
+    # Return the min cut value for
+    # complete string. i.e., str[0..n-1]
+    return C[0][n - 1]
+ 
+# Driver code
+str = "ababbbabbababa"
+print ('Min cuts needed for Palindrome Partitioning is',
+                                     minPalPartion(str))
+                                       
+# This code is contributed
+# by Sahil shelangia
+C#
+PHP
+Javascript
+Output: 
+
+Min cuts needed for Palindrome Partitioning is 3 
+Time Complexity: O(n3)
+
+Auxiliary Space: O(n2)
+
+We can optimize the above code a bit further. Instead of calculating C[i] separately in O(n^2), we can do it with the P[i] itself. Below is the highly optimized code of this problem:
+
+C++
+Java
+Python3
+def minCut(a):
+ 
+    cut = [0 for i in range(len(a))]
+    palindrome = [[False for i in range(len(a))] for j in range(len(a))]
+    for i in range(len(a)):
+        minCut = i;
+        for j in range(i + 1):
+            if (a[i] == a[j] and (i - j < 2 or palindrome[j + 1][i - 1])):      
+                palindrome[j][i] = True;
+                minCut = min(minCut,0 if  j == 0 else (cut[j - 1] + 1));
+        cut[i] = minCut;  
+    return cut[len(a) - 1];
+ 
+# Driver code
+if __name__=='__main__':
+ 
+    print(minCut("aab"))
+    print(minCut("aabababaxx"))
+     
+    # This code is contributed by rutvik_56
+C#
+Javascript
+Time Complexity: O(n2)
+
+Auxiliary Space: O(n2)
+
+An optimization to above approach 
+In the above approach, we can calculate the minimum cut while finding all palindromic substring. If we find all palindromic substring 1st and then we calculate minimum cut, time complexity will reduce to O(n2). 
+Thanks for Vivek for suggesting this optimization. 
+
+C++
+C
+Java
+Python3
+# Dynamic Programming Solution for
+# Palindrome Partitioning Problem
+import sys
+ 
+# Returns the minimum number of cuts
+# needed to partition a string such
+# that every part is a palindrome
+def minPalPartion(str1):
+     
+    # Get the length of the string
+    n = len(str1);
+     
+    # Create two arrays to build the solution
+    # in bottom up manner
+    # C[i] = Minimum number of cuts needed
+    # for palindrome partitioning of
+    # substring str[0..i]
+    # P[i][j] = true if substring str[i..j]
+    # is palindrome, else false
+    # Note that C[i] is 0 if P[0][i] is true
+    C = [0]*(n + 1);
+    P = [[False for x in range(n + 1)] for y in range(n + 1)];
+     
+    # Every substring of length 1 is
+    # a palindrome
+    for i in range(n):
+        P[i][i] = True;
+     
+    # L is substring length. Build the solution
+    # in bottom up manner by considering all
+    # substrings of length starting from 2 to n.
+    for L in range(2, n + 1):
+         
+        # For substring of length L, set
+        # different possible starting indexes
+        for i in range(n - L + 1):
+            j = i + L - 1;
+             
+            # Set ending index
+            # If L is 2, then we just need to
+            # compare two characters. Else need
+            # to check two corner characters and
+            # value of P[i + 1][j-1]
+            if (L == 2):
+                P[i][j] = (str1[i] == str1[j]);
+            else:
+                P[i][j] = ((str1[i] == str1[j]) and P[i + 1][j - 1]);
+    for i in range(n):
+        if (P[0][i] == True):
+            C[i] = 0;
+        else:
+            C[i] = sys.maxsize;
+            for j in range(i):
+                if(P[j + 1][i] == True and 1 + C[j] < C[i]):
+                    C[i] = 1 + C[j];
+     
+    # Return the min cut value for complete
+    # string. i.e., str[0..n-1]
+    return C[n - 1];
+ 
+# Driver Code
+str1 = "ababbbabbababa";
+print("Min cuts needed for Palindrome Partitioning is", minPalPartion(str1));
+ 
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output: 
+
+Min cuts needed for Palindrome Partitioning is 3 
+Time Complexity: O(n2)
+
+Auxiliary Space: O(n2)
+
+Using Memorization to solve this problem. 
+The basic idea is to cache the intermittent results calculated in recursive functions. We can put these results into a hashmap/unordered_map. 
+To calculate the keys for the Hashmap we will use the starting and end index of the string as the key i.e. [“start_index”.append(“end_index”)] would be the key for the Hashmap. 
+
+Below is the implementation of above approach :  
+
+C++
+Java
+Python3
+# Using memoizatoin to solve the partition problem.
+ 
+# Function to check if input string is palindrome or not
+def ispalindrome(input, start, end):
+ 
+    # Using two pointer technique to check palindrome
+    while (start < end):
+        if (input[start] != input[end]):
+            return False;
+        start += 1
+        end -= 1
+    return True;
+ 
+# Function to find keys for the Hashmap
+def convert(a, b):
+    return str(a) + str(b);
+ 
+# Returns the minimum number of cuts needed to partition a string
+# such that every part is a palindrome
+def minpalparti_memo(input, i, j, memo):
+ 
+    if (i > j):
+        return 0;
+       
+    # Key for the Input String
+    ij = convert(i, j);
+ 
+    # If the no of partitions for string "ij" is already calculated
+    # then return the calculated value using the Hashmap
+    if (ij in memo):
+        return memo[ij];
+     
+    # Every String of length 1 is a palindrome
+    if (i == j):
+        memo[ij] = 0;
+        return 0;
+    if (ispalindrome(input, i, j)):
+        memo[ij] = 0;
+        return 0;  
+    minimum = 1000000000
+     
+    # Make a cut at every possible location starting from i to j
+    for k in range(i, j):
+        left_min = 1000000000
+        right_min = 1000000000
+        left = convert(i, k);
+        right = convert(k + 1, j);
+ 
+        # If left cut is found already
+        if (left in memo):
+            left_min = memo[left];
+         
+        # If right cut is found already
+        if (right in memo):
+            right_min = memo[right];
+         
+        # Recursively calculating for left and right strings
+        if (left_min == 1000000000):
+            left_min = minpalparti_memo(input, i, k, memo);
+        if (right_min == 1000000000):
+            right_min = minpalparti_memo(input, k + 1, j, memo);
+ 
+        # Taking minimum of all k possible cuts
+        minimum = min(minimum, left_min + 1 + right_min);
+    memo[ij] = minimum;
+     
+    # Return the min cut value for complete string.
+    return memo[ij];
+ 
+  # Driver code
+if __name__=='__main__':
+ 
+    input = "ababbbabbababa";
+    memo = dict()
+    print(minpalparti_memo(input, 0, len(input) - 1, memo))
+     
+# This code is contributed by Pratham76.
+C#
+Javascript
+Time Complexity: O(n3)
+
+Auxiliary Space: O(n2)
+
+This article is contributed by Aarti_Rathi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+ 
+
+
+
+Like
+Previous
+Dynamic Programming | Building Bridges
+Next
+Mobile Numeric Keypad Problem
+Related Articles
+1.
+Clustering/Partitioning an array such that sum of square differences is minimum
+2.
+Partitioning into two contiguous element subarrays with equal sums
+3.
+Minimize the cost of partitioning an array into K groups
+4.
+Find maximum subset sum formed by partitioning any subset of array into 2 partitions with equal sum
+5.
+Sentence Palindrome (Palindrome after removing spaces, dots, .. etc)
+6.
+Count all palindrome which is square of a palindrome
+7.
+Given a number, find the next smallest palindrome
+8.
+Check if a given string is a rotation of a palindrome
+9.
+Print all palindrome permutations of a string
+10.
+Check if a linked list of strings forms a palindrome
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+ukasp
+rathbhupendra
+mahendrapatel2
+Mithun Kumar
+likeicare
+itsvinayak
+divyeshrabadiya07
+divyesh072019
+rutvik_56
+pratham76
+adityapande88
+avanitrachhadiya2155
+rag2127
+suresh07
+as5853535
+simmytarika5
+shivanisinghss2110
+kk9826225
+GauravRajput1
+Rajput-Ji
+sagar0719kumar
+shinjanpatra
+_shinchancode
+aryangoyal1812
+lokeshpotta20
+Article Tags :
+Amazon
+palindrome
+Dynamic Programming
+Strings
+Practice Tags :
+Amazon
+Dynamic Programming
+palindrome
+Palindrome
+Strings
+Report Issue

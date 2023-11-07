@@ -1,0 +1,388 @@
+Coin Change | DP-7
+
+Difficulty Level : Hard
+Last Updated : 27 Oct, 2022
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Given an integer array of coins[ ] of size N representing different types of currency and an integer sum, The task is to find the number of ways to make sum by using different combinations from coins[].  
+
+Note: Assume that you have an infinite supply of each type of coin. 
+
+Examples: 
+
+Input: sum = 4, coins[] = {1,2,3}, 
+Output: 4
+Explanation: there are four solutions: {1, 1, 1, 1}, {1, 1, 2}, {2, 2}, {1, 3}. 
+
+
+Input: sum = 10, coins[] = {2, 5, 3, 6}
+Output: 5
+Explanation: There are five solutions: 
+{2,2,2,2,2}, {2,2,3,3}, {2,2,6}, {2,3,5} and {5,5}.
+
+Recommended Problem
+Coin Change
+Arrays
+Dynamic Programming
++2 more
+Paytm
+Flipkart
++7 more
+Solve Problem
+Submission count: 1.7L
+Coin Change Problem using Recursion:
+Solve the Coin Change is to traverse the array by applying the recursive solution and keep finding the possible ways to find the occurrence.
+
+Illustration: 
+
+It should be noted that the above function computes the same subproblems again and again. See the following recursion tree for coins[] = {1, 2, 3} and n = 5. 
+
+The function C({1}, 3) is called two times. If we draw the complete tree, then we can see that there are many subproblems being called more than once.  
+
+C() –> count()
+
+                              C({1,2,3}, 5)                     
+
+                           /                     \    
+                         /                         \                  
+
+             C({1,2,3}, 2)                   C({1,2}, 5)
+
+
+                 /       \                          /    \         
+             /              \                   /            \   
+
+C({1,2,3}, -1)  C({1,2}, 2)        C({1,2}, 3)    C({1}, 5)
+                       /    \                  /     \           /     \
+                     /       \                /       \         /        \
+
+    C({1,2},0)  C({1},2)   C({1,2},1) C({1},3)    C({1}, 4)  C({}, 5)
+
+                        / \           / \          /\           /     \         
+                     /      \      /     \       /   \        /        \  
+
+                .      .  .     .   .     .              C({1}, 3)      C({}, 4)
+
+                                                           / \  
+                                                          /   \                                                 .      
+
+Follow the below steps to Implement the idea:
+
+We have 2 choices for a coin of a particular denomination, either i) to include, or ii) to exclude.
+If we are at coins[n-1], we can take as many instances of that coin ( unbounded inclusion ) i.e count(coins, n, sum – coins[n-1] ); then we move to coins[n-2]. 
+After moving to coins[n-2], we can’t move back and can’t make choices for coins[n-1] i.e count(coins, n-1, sum).     
+Finally, as we have to find the total number of ways, so we will add these 2 possible choices, i.e count(coins, n, sum – coins[n-1] ) + count(coins, n-1, sum );
+Below is the Implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Recursive Python3 program for
+# coin change problem.
+ 
+# Returns the count of ways we can sum
+# coins[0...n-1] coins to get sum "sum"
+ 
+ 
+def count(coins, n, sum):
+ 
+    # If sum is 0 then there is 1
+    # solution (do not include any coin)
+    if (sum == 0):
+        return 1
+ 
+    # If sum is less than 0 then no
+    # solution exists
+    if (sum < 0):
+        return 0
+ 
+    # If there are no coins and sum
+    # is greater than 0, then no
+    # solution exist
+    if (n <= 0):
+        return 0
+ 
+    # count is sum of solutions (i)
+    # including coins[n-1] (ii) excluding coins[n-1]
+    return count(coins, n - 1, sum) + count(coins, n, sum-coins[n-1])
+ 
+ 
+# Driver program to test above function
+coins = [1, 2, 3]
+n = len(coins)
+print(count(coins, n, 4))
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+ 4
+Time Complexity: O(2sum)
+Auxiliary Space: O(target)
+
+Since the same sub-problems are called again, this problem has the Overlapping Subproblems property. So the Coin Change problem has both properties (see this and this) of a dynamic programming problem. Like other typical Dynamic Programming(DP) problems, recomputations of the same subproblems can be avoided by constructing a temporary array table[][] in a bottom-up manner.
+
+Coin Change By Using Dynamic Programming:
+The Idea to Solve this Problem is by using the Bottom Up Memoization. Here is the Bottom up approach to solve this Problem.
+
+Follow the below steps to Implement the idea:
+
+Using 2-D vector to store the Overlapping subproblems.
+Traversing the whole array to find the solution and storing in the memoization table.
+Using the memoization table to find the optimal solution.
+Below is the implementation of the above Idea.
+
+C++
+C
+Java
+Python
+# Dynamic Programming Python implementation of Coin
+# Change problem
+ 
+ 
+def count(coins, n, sum):
+    # We need sum+1 rows as the table is constructed
+    # in bottom up manner using the base case 0 value
+    # case (sum = 0)
+    table = [[0 for x in range(n)] for x in range(sum+1)]
+ 
+    # Fill the entries for 0 value case (n = 0)
+    for i in range(n):
+        table[0][i] = 1
+ 
+    # Fill rest of the table entries in bottom up manner
+    for i in range(1, sum+1):
+        for j in range(n):
+ 
+            # Count of solutions including coins[j]
+            x = table[i - coins[j]][j] if i-coins[j] >= 0 else 0
+ 
+            # Count of solutions excluding coins[j]
+            y = table[i][j-1] if j >= 1 else 0
+ 
+            # total count
+            table[i][j] = x + y
+ 
+    return table[sum][n-1]
+ 
+ 
+# Driver program to test above function
+if __name__ == '__main__':
+    coins = [1, 2, 3]
+    n = len(coins)
+    sum = 4
+    print(count(coins, n, sum))
+ 
+# This code is contributed by Bhavya Jain
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity: O(M*sum)
+Auxiliary Space: O(M*sum) 
+
+Coin change Using the Space Optimized 1D array:
+The Idea to Solve this Problem is by using the Bottom Up(Tabulation). By using the linear array for space optimization.
+
+Follow the below steps to Implement the idea:
+
+Initialize with a linear array table with values equal to 0.
+With sum = 0, there is a way.
+Update the level wise number of ways of coin till the ith coin.
+Solve till j <= sum.
+Below is the implementation of the above Idea.
+
+C++
+Java
+Python
+# Dynamic Programming Python implementation of Coin
+# Change problem
+ 
+ 
+def count(coins, n, sum):
+ 
+    # table[i] will be storing the number of solutions for
+    # value i. We need sum+1 rows as the table is constructed
+    # in bottom up manner using the base case (sum = 0)
+    # Initialize all table values as 0
+    table = [0 for k in range(sum+1)]
+ 
+    # Base case (If given value is 0)
+    table[0] = 1
+ 
+    # Pick all coins one by one and update the table[] values
+    # after the index greater than or equal to the value of the
+    # picked coin
+    for i in range(0, n):
+        for j in range(coins[i], sum+1):
+            table[j] += table[j-coins[i]]
+ 
+    return table[sum]
+ 
+ 
+# Driver program to test above function
+coins = [1, 2, 3]
+n = len(coins)
+sum = 4
+x = count(coins, n, sum)
+print(x)
+ 
+# This code is contributed by Afzal Ansari
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity: O(N*sum)
+Auxiliary Space: O(sum)
+
+Coin change using the Top Down (Memoization) Dynamic Programming: 
+The idea is to find the Number of ways of Denominations By using the Top Down (Memoization). 
+
+Follow the below steps to Implement the idea:
+
+Creating a 2-D vector to store the Overlapping Solutions
+Keep Track of the overlapping subproblems while Traversing the array coins[]
+Recall them whenever needed 
+Below is the implementation using the Top Down Memoized Approach
+
+C++
+Java
+Python3
+# Python program for the above approach
+def coinchange(a, v, n, dp):
+    if (v == 0):
+        dp[n][v] = 1
+        return dp[n][v]
+    if (n == 0):
+        return 0
+    if (dp[n][v] != -1):
+        return dp[n][v]
+    if (a[n - 1] <= v):
+ 
+        # Either Pick this coin or not
+        dp[n][v] = coinchange(a, v - a[n - 1], n, dp) + \
+            coinchange(a, v, n - 1, dp)
+        return dp[n][v]
+    else:  # We have no option but to leave this coin
+        dp[n][v] = coinchange(a, v, n - 1, dp)
+        return dp[n][v]
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    tc = 1
+    while (tc != 0):
+        n = 3
+        v = 4
+        a = [1, 2, 3]
+        dp = [[-1 for i in range(v+1)] for j in range(n+1)]
+        res = coinchange(a, v, n, dp)
+        print(res)
+        tc -= 1
+ 
+# This code is contributed by Rajput-Ji
+C#
+Javascript
+Output
+4
+Time Complexity: O(N*sum)
+Auxiliary Space: O(N*sum)
+
+This article is contributed by: Mayukh Sinha. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Bell Numbers (Number of ways to Partition a Set)
+Next
+Subset Sum Problem | DP-25
+Related Articles
+1.
+Make a fair coin from a biased coin
+2.
+Understanding The Coin Change Problem With Dynamic Programming
+3.
+Coin Change | BFS Approach
+4.
+Frobenius coin problem
+5.
+Minimum cost for acquiring all coins with k extra coins allowed with every coin
+6.
+Coin game winner where every player has three choices
+7.
+Coin game of two corners (Greedy Approach)
+8.
+Probability of getting two consecutive heads after choosing a random coin among two different types of coins
+9.
+Expected number of coin flips to get two heads in a row?
+10.
+Find the player who will win the Coin game
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+khyatigrover
+Mithun Kumar
+nicklodeon10
+R_Raj
+Akanksha_Rai
+ukasp
+PLACEMENT__CHAHIYE
+piyush25pv
+amit143katiyar
+29AjayKumar
+decode2207
+mayukh99
+sagartomar9927
+shivanisinghss2110
+HarshitAgrawal8
+akshaysingh98088
+rajsanghavi9
+roynilarghya
+jyoti369
+umadevi9616
+Rajput-Ji
+imcoder
+r_c
+chaudharikunals02
+animeshdey
+ajaymakvana
+riteshar69ed
+rkbhola5
+Article Tags :
+Accolite
+Microsoft
+Morgan Stanley
+Paytm
+Samsung
+Snapdeal
+Dynamic Programming
+Greedy
+Mathematical
+Practice Tags :
+Accolite
+Microsoft
+Morgan Stanley
+Paytm
+Samsung
+Snapdeal
+Dynamic Programming
+Greedy
+Mathematical
+Report Issue

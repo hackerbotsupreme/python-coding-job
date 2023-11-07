@@ -1,0 +1,277 @@
+Ways to arrange Balls such that adjacent balls are of different types
+
+Difficulty Level : Hard
+Last Updated : 20 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+There are ‘p’ balls of type P, ‘q’ balls of type Q and ‘r’ balls of type R. Using the balls we want to create a straight line such that no two balls of same type are adjacent.
+Examples : 
+
+Input  : p = 1, q = 1, r = 0
+Output : 2
+There are only two arrangements PQ and QP
+
+Input  : p = 1, q = 1, r = 1
+Output : 6
+There are only six arrangements PQR, QPR,
+QRP, RQP, PRQ and RPQ
+
+Input  : p = 2, q = 1, r = 1
+Output : 6
+There are only six arrangements PQRP, QPRP,
+PRQP, RPQP, PRPQ and PQPR
+ 
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+Naive Solution: 
+The naive solution to this problem is a recursive solution. We recursively call for three cases 
+1) Last ball to be placed is of type P 
+2) Last ball to be placed is of type Q 
+3) Last ball to be placed is of type R
+Below is the implementation of above idea. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to count
+# number of ways to arrange
+# three types of balls such 
+# that no two balls of same
+# color are adjacent to each
+# other
+ 
+# Returns count of arrangements
+# where last placed ball is
+# 'last'. 'last' is 0 for 'p',
+# 1 for 'q' and 2 for 'r'
+def countWays(p, q, r, last):
+     
+    # if number of balls of
+    # any color becomes less
+    # than 0 the number of
+    # ways arrangements is 0.
+    if (p < 0 or q < 0 or r < 0):
+        return 0;
+ 
+    # If last ball required is
+    # of type P and the number
+    # of balls of P type is 1
+    # while number of balls of
+    # other color is 0 the number
+    # of ways is 1.
+    if (p == 1 and q == 0 and
+        r == 0 and last == 0):
+        return 1;
+ 
+    # Same case as above
+    # for 'q' and 'r'
+    if (p == 0 and q == 1 and
+        r == 0 and last == 1):
+        return 1;
+         
+    if (p == 0 and q == 0 and
+        r == 1 and last == 2):
+        return 1;
+ 
+    # if last ball required is P
+    # and the number of ways is
+    # the sum of number of ways
+    # to form sequence with 'p-1' P
+    # balls, q Q Balls and r R
+    # balls ending with Q and R.
+    if (last == 0):
+        return (countWays(p - 1, q, r, 1) +
+                countWays(p - 1, q, r, 2));
+ 
+    # Same as above case
+    # for 'q' and 'r'
+    if (last == 1):
+        return (countWays(p, q - 1, r, 0) +
+                countWays(p, q - 1, r, 2));
+    if (last == 2):
+        return (countWays(p, q, r - 1, 0) +
+                countWays(p, q, r - 1, 1));
+ 
+# Returns count of
+# required arrangements
+def countUtil(p, q, r):
+     
+    # Three cases arise:
+    # Last required balls is type P
+    # Last required balls is type Q
+    # Last required balls is type R
+    return (countWays(p, q, r, 0) +
+            countWays(p, q, r, 1) +
+            countWays(p, q, r, 2));
+ 
+# Driver Code
+p = 1;
+q = 1;
+r = 1;
+print(countUtil(p, q, r));
+     
+# This code is contributed by mits
+C#
+PHP
+Javascript
+Output
+6
+Time Complexity of this solution is exponential.
+We can observe that there are many subproblems being solved again and again so the problem can be solved using Dynamic Programming (DP). We can easily make memoization solution to this problem. 
+ 
+
+C++
+Java
+C#
+Python3
+# Python3 program to count number of ways to
+# arrange three types of balls such that no
+# two balls of same color are adjacent to each other
+MAX = 100;
+ 
+# table to store to store results of subproblems
+dp = [[[[-1] * 4 for i in range(MAX)]
+                 for j in range(MAX)]
+                 for k in range(MAX)];
+ 
+# Returns count of arrangements where last
+# placed ball is 'last'. 'last' is 0 for 'p',
+# 1 for 'q' and 2 for 'r'
+def countWays(p, q, r, last):
+ 
+    # if number of balls of any color becomes less
+    # than 0 the number of ways arrangements is 0.
+    if (p < 0 or q < 0 or r < 0):
+        return 0;
+ 
+    # If last ball required is of type P and the
+    # number of balls of P type is 1 while number
+    # of balls of other color is 0 the number of
+    # ways is 1.
+    if (p == 1 and q == 0 and
+        r == 0 and last == 0):
+        return 1;
+ 
+    # Same case as above for 'q' and 'r'
+    if (p == 0 and q == 1 and
+        r == 0 and last == 1):
+        return 1;
+    if (p == 0 and q == 0 and
+        r == 1 and last == 2):
+        return 1;
+ 
+    # If this subproblem is already evaluated
+    if (dp[p][q][r][last] != -1):
+        return dp[p][q][r][last];
+ 
+    # if last ball required is P and the number
+    # of ways is the sum of number of ways to 
+    # form sequence with 'p-1' P balls, q Q Balls
+    # and r R balls ending with Q and R.
+    if (last == 0):
+        dp[p][q][r][last] = (countWays(p - 1, q, r, 1) +
+                             countWays(p - 1, q, r, 2));
+ 
+    # Same as above case for 'q' and 'r'
+    elif (last == 1):
+        dp[p][q][r][last] = (countWays(p, q - 1, r, 0) +
+                             countWays(p, q - 1, r, 2));
+    else:
+         
+        #(last==2)
+        dp[p][q][r][last] = (countWays(p, q, r - 1, 0) +
+                             countWays(p, q, r - 1, 1));
+ 
+    return dp[p][q][r][last];
+ 
+# Returns count of required arrangements
+def countUtil(p, q, r):
+     
+    # Three cases arise:
+    # Last required balls is type P
+    # Last required balls is type Q
+    # Last required balls is type R
+    return (countWays(p, q, r, 0) +
+            countWays(p, q, r, 1) +
+            countWays(p, q, r, 2));
+ 
+# Driver Code
+p, q, r = 1, 1, 1;
+print(countUtil(p, q, r));
+ 
+# This code is contributed by mits
+PHP
+Javascript
+Output
+6
+Time complexity : O(p*q*r) 
+Auxiliary Space : O(p*q*r*3)
+This article is contributed by Bhavuk Chawla. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+20
+Previous
+Ways to fill N positions using M colors such that there are exactly K pairs of adjacent different colors
+Next
+Ways of transforming one string to other by removing 0 or more characters
+Related Articles
+1.
+Find ways to arrange K green balls among N balls such that exactly i moves is needed to collect all K green balls
+2.
+Count ways of selecting X red balls and Y blue balls
+3.
+Find winner in game of N balls, in which a player can remove any balls in range [A, B] in a single move
+4.
+Calculate Stirling numbers which represents the number of ways to arrange r objects around n different circles
+5.
+Number of ways to arrange K different objects taking N objects at a time
+6.
+Maximize removals of balls of at least two different types
+7.
+Number of ways to arrange a word such that all vowels occur together
+8.
+Number of ways to arrange a word such that no vowels occur together
+9.
+Ways to choose balls such that at least one ball is chosen
+10.
+Ways to fill N positions using M colors such that there are exactly K pairs of adjacent different colors
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Mithun Kumar
+target_2
+princi singh
+vforviksvy5
+Article Tags :
+Dynamic Programming
+Mathematical
+Practice Tags :
+Dynamic Programming
+Mathematical
+Improve Article
+Report Issue

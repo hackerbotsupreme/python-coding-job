@@ -1,0 +1,199 @@
+Introduction to Dynamic Programming on Trees
+
+Difficulty Level : Medium
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Dynamic Programming(DP) is a technique to solve problems by breaking them down into overlapping sub-problems which follows the optimal substructure. There are various problems using DP like subset sum, knapsack, coin change etc. DP can also be applied on trees to solve some specific problems.
+Pre-requisite: DFS
+Given a tree with N nodes and N-1 edges, calculate the maximum sum of the node values from root to any of the leaves without re-visiting any node. 
+ 
+
+
+
+Given above is a diagram of a tree with N=14 nodes and N-1=13 edges. The values at node being 3, 2, 1, 10, 1, 3, 9, 1, 5, 3, 4, 5, 9 and 8 respectively for nodes 1, 2, 3, 4….14. 
+The diagram below shows all the paths from root to leaves : 
+ 
+
+
+
+All the paths are marked by different colors : 
+Path 1(red, 3-2-1-4) : sum of all node values = 10 
+Path 2(orange, 3-2-1-5) : sum of all node values = 11 
+Path 3(yellow, 3-2-3) : sum of all node values = 8 
+Path 4(green, 3-1-9-9) : sum of all node values = 22 
+Path 5(violet, 3-1-9-8) : sum of all node values = 21 
+Path 6(pink, 3-10-1) : sum of all node values = 14 
+Path 7(blue, 3-10-5) : sum of all node values = 18 
+Path 8(brown, 3-10-3) : sum of all node values = 16 
+The answer is 22, as Path 4 has the maximum sum of values of nodes in its path from a root to leaves. 
+
+The greedy approach fails in this case. Starting from the root and take 3 from the first level, 10 from the next level and 5 from the third level greedily. Result is path-7 if after following the greedy approach, hence do not apply greedy approach over here. 
+The problem can be solved using Dynamic Programming on trees. Start memoizing from the leaves and add the maximum of leaves to the root of every sub-tree. At the last step, there will be root and the sub-tree under it, adding the value at node and maximum of sub-tree will give us the maximum sum of the node values from root to any of the leaves.
+ 
+
+
+
+
+
+The diagram above shows how to start from the leaves and add the maximum of leaves of a sub-tree to its root. Move upward and repeat the same procedure of storing the maximum of every sub-tree leaves and adding it to its root. In this example, the maximum of node 11 and 12 is taken to count and then added to node 5 (In this sub-tree, 5 is the root and 11, 12 are its leaves). Similarly, the maximum of node 13 and 14 is taken to count and then added to node 7. Repeat the steps for every sub-tree till we reach the node. 
+
+Let DPi be the maximum summation of node values in the path between i and any of its leaves moving downwards. Traverse the tree using DFS traversal. Store the maximum of all the leaves of the sub-tree, and add it to the root of the sub-tree. At the end, DP1 will have the maximum sum of the node values from root to any of the leaves without re-visiting any node. 
+Below is the implementation of the above idea : 
+ 
+
+C++
+Java
+Python3
+# Python3 code to find the maximum path sum 
+dp = [0]*100
+  
+# Function for dfs traversal and
+# to store the maximum value in
+# dp[] for every node till the leaves 
+def dfs(a, v, u, parent):
+      
+    # Initially dp[u] is always a[u]
+    dp[u] = a[u - 1]
+      
+    # Stores the maximum value from nodes
+    maximum = 0
+      
+    # Traverse the tree
+    for child in v[u]:
+          
+        # If child is parent, then we continue 
+        # without recursing further 
+        if child == parent:
+            continue
+          
+        # Call dfs for further traversal 
+        dfs(a, v, child, u)
+          
+        # Store the maximum of previous visited  
+        # node and present visited node 
+        maximum = max(maximum, dp[child])
+          
+    # Add the maximum value 
+    # returned to the parent node 
+    dp[u] += maximum
+  
+  
+# Function that returns the maximum value
+def maximumValue(a, v):
+    dfs(a, v, 1, 0)
+    return dp[1]
+  
+# Driver Code 
+def main():
+      
+    # Number of nodes 
+    n = 14
+      
+    # Adjacency list as a dictionary
+    v = {}
+    for i in range(n + 1):
+        v[i] = []
+          
+    # Create undirected edges 
+    # initialize the tree given in the diagram 
+    v[1].append(2), v[2].append(1)
+    v[1].append(3), v[3].append(1) 
+    v[1].append(4), v[4].append(1) 
+    v[2].append(5), v[5].append(2) 
+    v[2].append(6), v[6].append(2) 
+    v[3].append(7), v[7].append(3) 
+    v[4].append(8), v[8].append(4) 
+    v[4].append(9), v[9].append(4) 
+    v[4].append(10), v[10].append(4) 
+    v[5].append(11), v[11].append(5) 
+    v[5].append(12), v[12].append(5) 
+    v[7].append(13), v[13].append(7) 
+    v[7].append(14), v[14].append(7) 
+      
+    # Values of node 1, 2, 3....14 
+    a = [ 3, 2, 1, 10, 1, 3, 9,
+          1, 5, 3, 4, 5, 9, 8 ]
+      
+    # Function call
+    print(maximumValue(a, v))
+main()
+  
+# This code is contributed by stutipathak31jan  
+C#
+Javascript
+Output
+22
+Time Complexity: O(N), where N is the number of nodes.
+Auxiliary Space: O(N), for creating an additional dp array.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+27
+Previous
+Maximum profit by buying and selling a share at most k times
+Next
+Traversal of tree with k jumps allowed between nodes of same height
+Related Articles
+1.
+Introduction and Dynamic Programming solution to compute nCr%p
+2.
+Introduction to Dynamic Programming - Data Structures and Algorithm Tutorials
+3.
+Dynamic Segment Trees : Online Queries for Range Sum with Point Updates
+4.
+Total number of possible Binary Search Trees and Binary Trees with n keys
+5.
+Generic Trees(N-ary Trees)
+6.
+Overlapping Subproblems Property in Dynamic Programming | DP-1
+7.
+Travelling Salesman Problem using Dynamic Programming
+8.
+Dynamic Programming | High-effort vs. Low-effort Tasks Problem
+9.
+Top 20 Dynamic Programming Interview Questions
+10.
+Dynamic Programming | Building Bridges
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+princiraj1992
+stutipathak31jan
+saumyanayak264
+rutvik_56
+ashutoshsinghgeeksforgeeks
+rishavpgl4
+manjulgfg
+Article Tags :
+Advanced Data Structure
+Algorithms
+Dynamic Programming
+Tree
+Practice Tags :
+Advanced Data Structure
+Algorithms
+Dynamic Programming
+Tree
+Improve Article
+Report Issue

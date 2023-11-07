@@ -1,0 +1,363 @@
+Subset Sum Problem | DP-25
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+ 
+Given a set of non-negative integers, and a value sum, determine if there is a subset of the given set with sum equal to given sum. 
+
+Example: 
+
+Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 9
+Output: True  
+There is a subset (4, 5) with sum 9.
+
+Input: set[] = {3, 34, 4, 12, 5, 2}, sum = 30
+Output: False
+There is no subset that add up to 30.
+Recommended Problem
+Subset Sum Problem
+Dynamic Programming
+Algorithms
+Amazon
+Microsoft
+Solve Problem
+Submission count: 1.1L
+Method 1: Recursion.
+Approach: For the recursive approach we will consider two cases. 
+
+Consider the last element and now the required sum = target sum – value of ‘last’ element and number of elements = total elements – 1
+Leave the ‘last’ element and now the required sum = target sum and number of elements = total elements – 1
+Following is the recursive formula for isSubsetSum() problem. 
+
+isSubsetSum(set, n, sum) 
+= isSubsetSum(set, n-1, sum) || 
+  isSubsetSum(set, n-1, sum-set[n-1])
+Base Cases:
+isSubsetSum(set, n, sum) = false, if sum > 0 and n == 0
+isSubsetSum(set, n, sum) = true, if sum == 0 
+Let’s take a look at the simulation of above approach-: 
+
+set[]={3, 4, 5, 2}
+sum=9
+(x, y)= 'x' is the left number of elements,
+'y' is the required sum
+  
+              (4, 9)
+             {True}
+           /        \  
+        (3, 6)       (3, 9)
+               
+        /    \        /   \ 
+     (2, 2)  (2, 6)   (2, 5)  (2, 9)
+     {True}  
+     /   \ 
+  (1, -3) (1, 2)  
+{False}  {True} 
+         /    \
+       (0, 0)  (0, 2)
+       {True} {False}      
+
+
+C++
+C
+Java
+Python3
+# A recursive solution for subset sum
+# problem
+  
+# Returns true if there is a subset
+# of set[] with sun equal to given sum
+  
+  
+def isSubsetSum(set, n, sum):
+  
+    # Base Cases
+    if (sum == 0):
+        return True
+    if (n == 0):
+        return False
+  
+    # If last element is greater than
+    # sum, then ignore it
+    if (set[n - 1] > sum):
+        return isSubsetSum(set, n - 1, sum)
+  
+    # else, check if sum can be obtained
+    # by any of the following
+    # (a) including the last element
+    # (b) excluding the last element
+    return isSubsetSum(
+        set, n-1, sum) or isSubsetSum(
+        set, n-1, sum-set[n-1])
+  
+  
+# Driver code
+set = [3, 34, 4, 12, 5, 2]
+sum = 9
+n = len(set)
+if (isSubsetSum(set, n, sum) == True):
+    print("Found a subset with given sum")
+else:
+    print("No subset with given sum")
+  
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+
+
+Found a subset with given sum
+Complexity Analysis: The above solution may try all subsets of given set in worst case. Therefore time complexity of the above solution is exponential. The problem is in-fact NP-Complete (There is no known polynomial time solution for this problem).
+
+Method 2: To solve the problem in Pseudo-polynomial time use the Dynamic programming.
+So we will create a 2D array of size (arr.size() + 1) * (target + 1) of type boolean. The state DP[i][j] will be true if there exists a subset of elements from A[0….i] with sum value = ‘j’. The approach for the problem is: 
+
+if (A[i-1] > j)
+DP[i][j] = DP[i-1][j]
+else 
+DP[i][j] = DP[i-1][j] OR DP[i-1][j-A[i-1]]
+This means that if current element has value greater than ‘current sum value’ we will copy the answer for previous cases
+And if the current sum value is greater than the ‘ith’ element we will see if any of previous states have already experienced the sum=’j’ OR any previous states experienced a value ‘j – A[i]’ which will solve our purpose.
+The below simulation will clarify the above approach: 
+
+set[]={3, 4, 5, 2}
+target=6
+ 
+    0    1    2    3    4    5    6
+
+0   T    F    F    F    F    F    F
+
+3   T    F    F    T    F    F    F
+     
+4   T    F    F    T    T    F    F   
+      
+5   T    F    F    T    T    T    F
+
+2   T    F    T    T    T    T    T
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python3
+# A Dynamic Programming solution for subset 
+# sum problem Returns true if there is a subset of 
+# set[] with sun equal to given sum 
+  
+# Returns true if there is a subset of set[] 
+# with sum equal to given sum
+def isSubsetSum(set, n, sum):
+      
+    # The value of subset[i][j] will be 
+    # true if there is a
+    # subset of set[0..j-1] with sum equal to i
+    subset =([[False for i in range(sum + 1)] 
+            for i in range(n + 1)])
+      
+    # If sum is 0, then answer is true 
+    for i in range(n + 1):
+        subset[i][0] = True
+          
+    # If sum is not 0 and set is empty, 
+    # then answer is false 
+    for i in range(1, sum + 1):
+         subset[0][i]= False
+              
+    # Fill the subset table in bottom up manner
+    for i in range(1, n + 1):
+        for j in range(1, sum + 1):
+            if j<set[i-1]:
+                subset[i][j] = subset[i-1][j]
+            if j>= set[i-1]:
+                subset[i][j] = (subset[i-1][j] or 
+                                subset[i - 1][j-set[i-1]])
+      
+    # uncomment this code to print table 
+    # for i in range(n + 1):
+    # for j in range(sum + 1):
+    # print (subset[i][j], end =" ")
+    # print()
+    return subset[n][sum]
+          
+# Driver code
+if __name__=='__main__':
+    set = [3, 34, 4, 12, 5, 2]
+    sum = 9
+    n = len(set)
+    if (isSubsetSum(set, n, sum) == True):
+        print("Found a subset with given sum")
+    else:
+        print("No subset with given sum")
+          
+# This code is contributed by 
+# sahil shelangia. 
+C#
+PHP
+Javascript
+Output
+Found a subset with given sum
+Complexity Analysis:
+
+Time Complexity: O(sum*n), where sum is the ‘target sum’ and ‘n’ is the size of array.
+Auxiliary Space: O(sum*n), as the size of 2-D array is sum*n. + O(n) for recursive stack space
+Memoization Technique for finding Subset Sum:
+
+Method:
+
+In this method, we also follow the recursive approach but In this method, we use another 2-D matrix in  we first initialize with -1 or any negative value.
+In this method, we avoid the few of the recursive call which is repeated itself that’s why we use 2-D matrix. In this matrix we store the value of the previous call value.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program for the above approach
+  
+# Taking the matrix as globally
+tab = [[-1 for i in range(2000)] for j in range(2000)]
+  
+# Check if possible subset with 
+# given sum is possible or not
+def subsetSum(a, n, sum):
+      
+    # If the sum is zero it means 
+    # we got our expected sum
+    if (sum == 0):
+        return 1
+      
+    if (n <= 0):
+        return 0
+          
+    # If the value is not -1 it means it 
+    # already call the function 
+    # with the same value.
+    # it will save our from the repetition.
+    if (tab[n - 1][sum] != -1):
+        return tab[n - 1][sum]
+          
+    # if the value of a[n-1] is
+    # greater than the sum.
+    # we call for the next value
+    if (a[n - 1] > sum):
+        tab[n - 1][sum] = subsetSum(a, n - 1, sum)
+        return tab[n - 1][sum]
+    else:
+          
+        # Here we do two calls because we 
+        # don't know which value is 
+        # full-fill our criteria
+        # that's why we doing two calls
+        tab[n - 1][sum] = subsetSum(a, n - 1, sum)
+        return tab[n - 1][sum] or subsetSum(a, n - 1, sum - a[n - 1])
+  
+# Driver Code
+  
+n = 5
+a = [1, 5, 3, 7, 4]
+sum = 12
+  
+if (subsetSum(a, n, sum)):
+    print("YES")
+else:
+    print("NO")
+  
+# This code is contributed by shivani.
+C#
+Javascript
+Output
+YES
+Complexity Analysis: 
+
+Time Complexity: O(sum*n), where sum is the ‘target sum’ and ‘n’ is the size of array.
+Auxiliary Space: O(sum*n) + O(n) -> O(sum*n) = the size of 2-D array is sum*n and O(n)=auxiliary stack space.
+Subset Sum Problem in O(sum) space 
+Perfect Sum Problem (Print all subsets with given sum)
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+415
+Previous
+Coin Change | DP-7
+Next
+Subset Sum Problem in O(sum) space
+Related Articles
+1.
+Sum of maximum and minimum of Kth subset ordered by increasing subset sum
+2.
+Find maximum subset sum formed by partitioning any subset of array into 2 partitions with equal sum
+3.
+Split Array into K non-overlapping subset such that maximum among all subset sum is minimum
+4.
+Subset Sum Problem in O(sum) space
+5.
+Subset sum problem where Array sum is at most N
+6.
+Largest possible Subset from an Array such that no element is K times any other element in the Subset
+7.
+Maximum size of subset such that product of all subset elements is a factor of N
+8.
+Subset Sum problem
+9.
+Prime Subset Product Problem
+10.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+sahilshelangia
+pallagolladwarakesh
+ayushmaanj
+kevinjoseph61
+bidibaaz123
+shethnisarg1998
+Dhananjay_Kumar
+sguptashivang
+kaushal kishore 1
+ankitkumar774
+18ucs175
+mukesh07
+decode2207
+shree_hari
+lokeshpotta20
+rajsanghavi9
+shivanisinghss2110
+arorakashish0911
+sanskar84
+r_c
+hianmoyo3s
+Article Tags :
+Adobe
+Adobe-Question
+Amazon
+Drishti-Soft
+subset
+Arrays
+Dynamic Programming
+Practice Tags :
+Adobe
+Amazon
+Drishti-Soft
+Arrays
+Dynamic Programming
+subset
+Improve Article
+Report Issue

@@ -1,0 +1,431 @@
+Word Break Problem | DP-32
+
+Difficulty Level : Hard
+Last Updated : 12 Jan, 2023
+Read
+Discuss(70)
+Courses
+Practice
+Video
+Given an input string and a dictionary of words, find out if the input string can be segmented into a space-separated sequence of dictionary words. See following examples for more details. 
+This is a famous Google interview question, also being asked by many other companies now a days.
+
+Consider the following dictionary 
+{ i, like, sam, sung, samsung, mobile, ice, 
+  cream, icecream, man, go, mango}
+
+Input:  ilike
+Output: Yes 
+The string can be segmented as "i like".
+
+Input:  ilikesamsung
+Output: Yes
+The string can be segmented as "i like samsung" 
+or "i like sam sung".
+Recommended Problem
+Word Break
+Dynamic Programming
+Algorithms
+Zoho
+Flipkart
++7 more
+Solve Problem
+Submission count: 73.6K
+Recursive implementation: 
+The idea is simple, we consider each prefix and search for it in dictionary. If the prefix is present in dictionary, we recur for rest of the string (or suffix).
+
+Python3
+def wordBreak(wordList, word):
+    if word == '':
+        return True
+    else:
+        wordLen = len(word)
+        return any([(word[:i] in wordList) and wordBreak(wordList, word[i:]) for i in range(1, wordLen+1)])
+If the recursive call for suffix returns true, we return true, otherwise we try next prefix. If we have tried all prefixes and none of them resulted in a solution, we return false.
+We strongly recommend to see substr function which is used extensively in following implementations.
+
+C++
+Java
+Python3
+# Recursive implementation of
+# word break problem in Python
+ 
+# returns True if the word can be segmented into parts such
+# that each part is contained in dictionary
+def wordBreak(word):
+    
+    global dictionary
+ 
+    size = len(word)
+ 
+    # base case
+    if (size == 0):
+        return True
+ 
+    # else check for all words
+    for i in range(1,size + 1):
+        # Now we will first divide the word into two parts ,
+        # the prefix will have a length of i and check if it is
+        # present in dictionary ,if yes then we will check for
+        # suffix of length size-i recursively. if both prefix and
+        # suffix are present the word is found in dictionary.
+ 
+        if (word[0:i] in dictionary and wordBreak(word[i: size])):
+            return True
+ 
+    # if all cases failed then return False
+    return False
+ 
+# set to hold dictionary values
+dictionary = set()   
+ 
+# array of strings to be added in dictionary set.
+temp_dictionary = [ "mobile", "samsung", "sam", "sung", "man", "mango", "icecream", "and", "go", "i","like", "ice", "cream" ]
+ 
+# loop to add all strings in dictionary set
+for temp in temp_dictionary:
+    dictionary.add(temp)
+ 
+# sample input cases
+print("Yes" if wordBreak("ilikesamsung") else "No")
+print("Yes" if wordBreak("iiiiiiii") else "No")
+print("Yes" if wordBreak("") else "No")
+print("Yes" if wordBreak("ilikelikeimangoiii") else "No")
+print("Yes" if wordBreak("samsungandmango") else "No")
+print("Yes" if wordBreak("samsungandmangok") else "No")
+ 
+# This code is contributed by shinjanpatra
+Javascript
+Output
+Yes
+Yes
+Yes
+Yes
+Yes
+No
+Dynamic Programming 
+Why Dynamic Programming? The above problem exhibits overlapping sub-problems. For example, see the following partial recursion tree for string “abcde” in the worst case.
+ 
+
+wordBreak
+
+CPP
+Java
+Python3
+# A Dynamic Programming based program to test whether a given String can
+# be segmented into space separated words in dictionary
+ 
+# A utility function to check whether a word is present in dictionary or not.
+# An array of Strings is used for dictionary. Using array of Strings for
+# dictionary is definitely not a good idea. We have used for simplicity of the
+# program
+def dictionaryContains(word):
+    dictionary = [ "mobile", "samsung", "sam", "sung", "man", "mango", "icecream", "and", "go", "i",
+                "like", "ice", "cream" ]
+    size = len(dictionary)
+    for i in range(size):
+        if (dictionary[i]== word):
+            return True
+    return False
+ 
+# Returns True if String can be segmented into space separated
+# words, otherwise returns False
+def wordBreak(Str):
+    size = len(Str)
+    if (size == 0):
+        return True
+ 
+        # Create the DP table to store results of subproblems. The value wb[i]
+        # will be True if str[0..i-1] can be segmented into dictionary words,
+        # otherwise False.
+    wb = [False for i in range(size + 1)]
+ 
+    for i in range(1,size + 1):
+        # if wb[i] is False, then check if current prefix can make it True.
+        # Current prefix is "str.substring(0, i)"
+        if (wb[i] == False and dictionaryContains(Str[0: i])):
+            wb[i] = True
+ 
+        # wb[i] is True, then check for all subStrings starting from
+        # (i+1)th character and store their results.
+        if (wb[i] == True):
+            # If we reached the last prefix
+            if (i == size):
+                return True
+ 
+            for j in range(i + 1,size + 1):
+                # Update wb[j] if it is False and can be updated
+                # Note the parameter passed to dictionaryContains() is
+                # subString starting from index 'i' and length 'j-i'
+                if (wb[j] == False and dictionaryContains(Str[i: j])):
+                    wb[j] = True
+ 
+                # If we reached the last character
+                if (j == size and wb[j] == True):
+                    return True
+                 
+             
+ 
+    # If we have tried all prefixes and none of them worked
+    return False
+ 
+# Driver program to test above functions
+     
+if (wordBreak("ilikesamsung")):
+    print("Yes")
+else:
+    print("No")
+if (wordBreak("iiiiiiii")):
+    print("Yes")
+else:
+    print("No")
+if (wordBreak("")):
+    print("Yes")
+else:
+    print("No")
+if (wordBreak("ilikelikeimangoiii")):
+    print("Yes")
+else:
+    print("No")
+if (wordBreak("samsungandmango")):
+    print("Yes")
+else:
+    print("No")
+if (wordBreak("samsungandmangok")):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+
+
+Yes
+Yes
+Yes
+Yes
+Yes
+No
+Optimized Dynamic Programming: 
+In this approach, apart from the dp table, we also maintain all the indexes which have matched earlier. Then we will check the substrings from those indexes to the current index. If anyone of that matches then we can divide the string up to that index.
+In this program, we are using some extra space. However, its time complexity is O(n*n) if n>s or O(n*s) if s>n  where s is the length of the largest string in the dictionary and n is the length of the given string. 
+
+CPP
+Java
+Python3
+def wordBreak(s, dictionary):
+     
+    # create a dp table to store results of subproblems
+    # value of dp[i] will be true if string s can be segmented
+    # into dictionary words from 0 to i.
+    dp = [False for i in range(len(s) + 1)]
+ 
+    # dp[0] is true because an empty string can always be segmented.
+    dp[0] = True
+ 
+    for i in range(len(s) + 1):
+        for j in range(i):
+            if dp[j] and s[j: i] in dictionary:
+                dp[i] = True
+                break
+     
+    return dp[len(s)]
+  
+# driver code
+dictionary = [ "mobile", "samsung", "sam", "sung", "man", "mango", "icecream", "and", "go", "i", "like", "ice", "cream" ]
+ 
+dict = set()
+for s in dictionary:
+    dict.add(s)
+ 
+if (wordBreak("ilikesamsung", dict)):
+    print("Yes")
+else :
+    print("No")
+ 
+if (wordBreak("iiiiiiii", dict)):
+    print("Yes")
+else:
+    print("No")
+ 
+if (wordBreak("", dict)):
+    print("Yes")
+else:
+    print("No")
+ 
+if (wordBreak("samsungandmango", dict)):
+    print("Yes")
+else:
+    print("No")
+ 
+if (wordBreak("ilikesamsung", dict)):
+    print("Yes")
+else:
+    print("No")
+ 
+if (wordBreak("samsungandmangok", dict)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by shinjanpatra
+Javascript
+Output
+Yes
+Yes
+Yes
+Yes
+Yes
+No
+Word Break Problem | (Trie solution)
+Exercise: 
+The above solutions only find out whether a given string can be segmented or not. Extend the above Dynamic Programming solution to print all possible partitions of input string.
+Examples:
+
+Input: ilikeicecreamandmango
+Output: 
+i like ice cream and man go
+i like ice cream and mango
+i like icecream and man go
+i like icecream and mango
+
+Input: ilikesamsungmobile
+Output:
+i like sam sung mobile
+i like samsung mobile
+Word Break Problem | (Hashmap solution):
+
+In this approach first, we are storing all the words in a Hashmap. after that, we traverse the input string and check if there is a match or not. 
+
+C++
+Java
+Python3
+def CanParseUtil(mp,word):
+ 
+    # if the size id zero that means we completed the word. so we can return True
+    size = len(word)
+    if(size == 0):
+        return True
+     
+    temp = ""
+    for i in range(len(word)):
+     
+        temp += word[i]
+        # if the temp exist in hashmap and the parsing operation of the remaining word is True, we can return True.
+        if(temp in mp and CanParseUtil(mp, word[i+1:])):
+         
+            return True
+         
+    # if there is a mismatch in the dictionary, we can return false.
+    return False
+ 
+def CanParse(words,word):
+ 
+    start = 0
+    # store the words in the hashmap
+    mp = {}
+    for it in words:
+        mp[it] = True
+     
+    return "YES" if CanParseUtil(mp,word ) == True else "NO"
+ 
+ 
+# driver code
+ 
+words = ["mobile","samsung","sam","sung",
+         "man","mango","icecream","and",
+         "go","i","like","ice","cream"]
+word = "samsungandmangok"
+print(CanParse(words, word))
+ 
+# This code is contributed by shinjanpatra
+Javascript
+Output
+NO
+Time Complexity: The time complexity of the above code will be O(2^n).
+Auxiliary Space: The space complexity will be O(n) as we are using recursion and the recursive call stack will take O(n) space.
+
+Refer below post for solution of exercise. 
+Word Break Problem using Backtracking
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+143
+Previous
+Word Break Problem using Backtracking
+Next
+Top 20 Dynamic Programming Interview Questions
+Related Articles
+1.
+Word Break Problem using Backtracking
+2.
+Word Break Problem | DP-32 | Set - 2
+3.
+Word Wrap problem ( Space optimized solution )
+4.
+Word Wrap Problem | DP-19
+5.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+6.
+Nuts & Bolts Problem (Lock & Key problem) using Hashmap
+7.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+8.
+Recursively break a number in 3 parts to get maximum sum
+9.
+Word formation using concatenation of two dictionary words
+10.
+String containing first letter of every word in a given string with spaces
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sparsh singhal
+ChongSun
+shivendr7
+harshvasoya008
+vaibhavpatel1904
+Rajput-Ji
+simmytarika5
+surinderdawra388
+sagartomar9927
+shinjanpatra
+dineshreddy1015
+mukulsomukesh
+karandeep1234
+suryacherukuri
+surajrasr7277
+Article Tags :
+Amazon
+Google
+IBM
+MAQ Software
+Microsoft
+Walmart
+Zoho
+Dynamic Programming
+Practice Tags :
+Amazon
+Google
+IBM
+MAQ Software
+Microsoft
+Walmart
+Zoho
+Dynamic Programming
+Improve Article
+Report Issue

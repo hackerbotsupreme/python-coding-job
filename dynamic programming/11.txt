@@ -1,0 +1,231 @@
+Digit DP | Introduction
+
+Difficulty Level : Hard
+Last Updated : 17 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Prerequisite : How to solve a Dynamic Programming Problem ?
+There are many types of problems that ask to count the number of integers ‘x‘ between two integers say ‘a‘ and ‘b‘ such that x satisfies a specific property that can be related to its digits.
+So, if we say G(x) tells the number of such integers between 1 to x (inclusively), then the number of such integers between a and b can be given by G(b) – G(a-1). This is when Digit DP (Dynamic Programming) comes into action. All such integer counting problems that satisfy the above property can be solved by digit DP approach.
+ 
+
+Key Concept:
+
+Let given number x has n digits. The main idea of digit DP is to first represent the digits as an array of digits t[]. Let’s say a we have tntn-1tn-2 … t2t1 as the decimal representation where ti (0 < i <= n) tells the i-th digit from the right. The leftmost digit tn is the most significant digit. 
+ 
+Now, after representing the given number this way we generate the numbers less than the given number and simultaneously calculate using DP, if the number satisfy the given property. We start generating integers having number of digits = 1 and then till number of digits = n. Integers having less number of digits than n can be analyzed by setting the leftmost digits to be zero. 
+ 
+Example Problem : 
+Given two integers a and b. Your task is to print the sum of 
+all the digits appearing in the integers between a and b.
+For example if a = 5 and b = 11, then answer is 38 (5 + 6 + 7 + 8 + 9 + 1 + 0 + 1 + 1)
+Constraints : 1 <= a < b <= 10^18
+Now we see that if we have calculated the answer for state having n-1 digits, i.e., tn-1 tn-2 … t2 t1 and we need to calculate answer for state having n digits tn tn-1 tn-2 … t2 t1. So, clearly, we can use the result of the previous state instead of re-calculating it. Hence, it follows the overlapping property.
+Let’s think for a state for this DP
+Our DP state will be dp(idx, tight, sum)
+1) idx  
+
+It tells about the index value from right in the given integer
+2) tight  
+
+This will tell if the current digits range is restricted or not. If the current digit’s 
+range is not restricted then it will span from 0 to 9 (inclusively) else it will span 
+from 0 to digit[idx] (inclusively).
+Example: consider our limiting integer to be 3245 and we need to calculate G(3245) 
+index : 4 3 2 1 
+digits : 3 2 4 5 
+ 
+Unrestricted range: 
+Now suppose the integer generated till now is : 3 1 * * ( * is empty place, where digits are to be inserted to form the integer). 
+
+  index  : 4 3 2 1  
+  digits : 3 2 4 5
+ generated integer: 3 1 _ _ 
+here, we see that index 2 has unrestricted range. Now index 2 can have digits from range 0 to 9(inclusively). 
+For unrestricted range tight = 0
+Restricted range: 
+Now suppose the integer generated till now is : 3 2 * * ( ‘*’ is an empty place, where digits are to be inserted to form the integer). 
+
+  index  : 4 3 2 1  
+  digits : 3 2 4 5
+ generated integer: 3 2 _ _ 
+here, we see that index 2 has a restricted range. Now index 2 can only have digits from range 0 to 4 (inclusively) 
+For restricted range tight = 1
+3) sum 
+
+
+
+This parameter will store the sum of digits in the generated integer from msd to idx. 
+ 
+Max value for this parameter sum can be 9*18 = 162, considering 18 digits in the integer
+State Relation:
+The basic idea for state relation is very simple. We formulate the dp in top-down fashion. 
+Let’s say we are at the msd having index idx. So initially the sum will be 0.
+Therefore, we will fill the digit at index by the digits in its range. Let’s say its range is from 0 to k (k<=9, depending on the tight value) and fetch the answer from the next state having index = idx-1 and sum = previous sum + digit chosen. 
+
+int ans = 0;
+for (int i=0; i<=k; i++) {
+   ans += state(idx-1, newTight, sum+i)
+}
+
+state(idx,tight,sum) = ans;
+How to calculate the newTight value? 
+The new tight value from a state depends on its previous state. If tight value form the previous state is 1 and the digit at idx chosen is digit[idx](i.e the digit at idx in limiting integer) , then only our new tight will be 1 as it only then tells that the number formed till now is prefix of the limiting integer. 
+
+// digitTaken is the digit chosen
+// digit[idx] is the digit in the limiting 
+//            integer at index idx from right
+// previouTight is the tight value form previous 
+//              state
+
+newTight = previousTight & (digitTake == digit[idx])
+Below is the implementation of the above approach
+
+CPP
+Java
+Python3
+# Given two integers a and b. The task is to
+# print sum of all the digits appearing in the
+# integers between a and b
+ 
+# Memoization for the state results
+dp = [[[-1 for i in range(2)] for j in range(180)]for k in range(20)]
+ 
+# Stores the digits in x in a list digit
+def getDigits(x, digit):
+    while x:
+        digit.append(x % 10)
+        x //= 10
+         
+# Return sum of digits from 1 to integer in digit list
+def digitSum(index, sumof, tight, digit):
+   
+    # Base case
+    if index == -1:
+        return sumof
+       
+        # Checking if already calculated this state
+    if dp[index][sumof][tight] != -1 and tight != 1:
+        return dp[index][sumof][tight]
+    ret = 0
+     
+    # Calculating range value
+    k = digit[index] if tight else 9
+    for i in range(0, k+1):
+       
+        # Calculating newTight value for nextstate
+        newTight = tight if digit[index] == i else 0
+         
+        # Fetching answer from next state
+        ret += digitSum(index-1, sumof+i, newTight, digit)
+    if not tight:
+        dp[index][sumof][tight] = ret
+    return ret
+   
+# Returns sum of digits in numbers from a to b
+def rangeDigitSum(a, b):
+    digitA = []
+     
+    # Storing digits of a-1 in digitA
+    getDigits(a-1, digitA)
+     
+    # Finding sum of digits from 1 to "a-1" which is passed as digitA
+    ans1 = digitSum(len(digitA)-1, 0, 1, digitA)
+    digitB = []
+     
+    # Storing digits of b in digitB
+    getDigits(b, digitB)
+     
+    # Finding sum of digits from 1 to "b" which is passed as digitB
+    ans2 = digitSum(len(digitB)-1, 0, 1, digitB)
+    return ans2-ans1
+ 
+ 
+a, b = 123, 1024
+print("digit sum for given range: ", rangeDigitSum(a, b))
+ 
+# This code is contributed by rupasriachanta421
+C#
+Javascript
+Output:
+
+digit sum for given range : 12613
+Time Complexity:
+There are total idx*sum*tight states and we are performing 0 to 9 iterations to visit every state. Therefore, The Time Complexity will be O(10*idx*sum*tight). Here, we observe that tight = 2 and idx can be max 18 for 64 bit unsigned integer and moreover, the sum will be max 9*18 ~ 200. So, overall we have 10*18*200*2 ~ 10^5 iterations which can be easily executed in 0.01 seconds.
+
+Space Complexity:
+
+The space complexity of this algorithm is O(d*sum*tight) as it uses a dp array of size d*sum*tight. where d is the number of digits in the number, sum is the sum of the digits and tight is a boolean value indicating whether or not the current digit is restricted to the digit in the number or not. 
+
+The above problem can also be solved using simple recursion without any memoization. The recursive solution for the above problem can be found here. We will be soon adding more problems on digit dp in our future posts.
+This article is contributed by Nitish Kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+70
+Previous
+Bitmasking and Dynamic Programming | Set 1 (Count ways to assign unique cap to every person)
+Next
+Ugly Numbers
+Related Articles
+1.
+Count of N-digit numbers having digit XOR as single digit
+2.
+Count ways to generate N digit number such that its every digit divisible by previous digit
+3.
+Generate a number such that the frequency of each digit is digit times the frequency in given number
+4.
+Largest number less than N with digit sum greater than the digit sum of N
+5.
+Count of Numbers in Range where first digit is equal to last digit of the number
+6.
+Count numbers in a range with digit sum divisible by K having first and last digit different
+7.
+Min steps to convert N-digit prime number into another by replacing a digit in each step
+8.
+Minimum N-Digit number required to obtain largest N-digit number after performing given operations
+9.
+Count possible N-digit numbers such that each digit does not appear more than given number of times consecutively
+10.
+Count N-digit numbers that contains every possible digit atleast once
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sauravtygg
+SahilSingh
+sansa_stark
+gulshankumarar231
+rupasriachanta421
+jainlovely450
+vinayedula
+ritik_369
+ishankhandelwals
+divyansh2212
+factworx4i2
+Article Tags :
+digit-DP
+Competitive Programming
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+Improve Article
+Report Issue

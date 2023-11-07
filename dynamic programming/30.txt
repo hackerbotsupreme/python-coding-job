@@ -1,0 +1,371 @@
+Vertex Cover Problem (Dynamic Programming Solution for Tree)
+
+Difficulty Level : Hard
+Last Updated : 24 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+A vertex cover of an undirected graph is a subset of its vertices such that for every edge (u, v) of the graph, either ‘u’ or ‘v’ is in vertex cover. Although the name is Vertex Cover, the set covers all edges of the given graph. 
+The problem to find minimum size vertex cover of a graph is NP complete. But it can be solved in polynomial time for trees. In this post a solution for Binary Tree is discussed. The same solution can be extended for n-ary trees.
+
+For example, consider the following binary tree. The smallest vertex cover is {20, 50, 30} and size of the vertex cover is 3. 
+
+LargestIndependentSet1
+
+The idea is to consider following two possibilities for root and recursively for all nodes down the root. 
+1) Root is part of vertex cover: In this case root covers all children edges. We recursively calculate size of vertex covers for left and right subtrees and add 1 to the result (for root).
+
+
+2) Root is not part of vertex cover: In this case, both children of root must be included in vertex cover to cover all root to children edges. We recursively calculate size of vertex covers of all grandchildren and number of children to the result (for two children of root).
+
+Below are implementation of above idea. 
+
+C
+Java
+Python3
+# A naive recursive Python3 implementation
+# for vertex cover problem for a tree
+ 
+# A utility function to find min of two integers
+ 
+# A binary tree node has data, pointer to
+# left child and a pointer to right child
+class Node:
+     
+    def __init__(self, x):
+         
+        self.data = x
+        self.left = None
+        self.right = None
+ 
+# The function returns size of
+# the minimum vertex cover
+def vCover(root):
+     
+    # The size of minimum vertex cover
+    # is zero if tree is empty or there
+    # is only one node
+    if (root == None):
+        return 0
+         
+    if (root.left == None and
+       root.right == None):
+        return 0
+ 
+    # Calculate size of vertex cover when
+    # root is part of it
+    size_incl = (1 + vCover(root.left) +
+                     vCover(root.right))
+ 
+    # Calculate size of vertex cover
+    # when root is not part of it
+    size_excl = 0
+    if (root.left):
+      size_excl += (1 + vCover(root.left.left) +
+                        vCover(root.left.right))
+    if (root.right):
+      size_excl += (1 + vCover(root.right.left) +
+                        vCover(root.right.right))
+ 
+    # Return the minimum of two sizes
+    return min(size_incl, size_excl)
+ 
+# Driver Code
+if __name__ == '__main__':
+     
+    # Let us construct the tree
+    # given in the above diagram
+    root  = Node(20)
+    root.left = Node(8)
+    root.left.left = Node(4)
+    root.left.right = Node(12)
+    root.left.right.left = Node(10)
+    root.left.right.right = Node(14)
+    root.right  = Node(22)
+    root.right.right = Node(25)
+ 
+    print("Size of the smallest vertex cover is", vCover(root))
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output: 
+
+
+
+Size of the smallest vertex cover is 3
+Time complexity of the above naive recursive approach is exponential. It should be noted that the above function computes the same subproblems again and again. For example, vCover of node with value 50 is evaluated twice as 50 is grandchild of 10 and child of 20.
+
+Since same subproblems are called again, this problem has Overlapping Subproblems property. So Vertex Cover problem has both properties (see this and this) of a dynamic programming problem. Like other typical Dynamic Programming(DP) problems, re-computations of same subproblems can be avoided by storing the solutions to subproblems and solving problems in bottom up manner.
+
+Following is the implementation of Dynamic Programming based solution. In the following solution, an additional field ‘vc’ is added to tree nodes. The initial value of ‘vc’ is set as 0 for all nodes. The recursive function vCover() calculates ‘vc’ for a node only if it is not already set.
+
+C
+/* Dynamic programming based program for Vertex Cover problem for
+   a Binary Tree */
+#include <stdio.h>
+#include <stdlib.h>
+ 
+// A utility function to find min of two integers
+int min(int x, int y) { return (x < y)? x: y; }
+ 
+/* A binary tree node has data, pointer to left child and a pointer to
+   right child */
+struct node
+{
+    int data;
+    int vc;
+    struct node *left, *right;
+};
+ 
+// A memoization based function that returns size of the minimum vertex cover.
+int vCover(struct node *root)
+{
+    // The size of minimum vertex cover is zero if tree is empty or there
+    // is only one node
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        return 0;
+ 
+    // If vertex cover for this node is already evaluated, then return it
+    // to save recomputation of same subproblem again.
+    if (root->vc != 0)
+        return root->vc;
+ 
+    // Calculate size of vertex cover when root is part of it
+    int size_incl = 1 + vCover(root->left) + vCover(root->right);
+ 
+    // Calculate size of vertex cover when root is not part of it
+    int size_excl = 0;
+    if (root->left)
+      size_excl += 1 + vCover(root->left->left) + vCover(root->left->right);
+    if (root->right)
+      size_excl += 1 + vCover(root->right->left) + vCover(root->right->right);
+ 
+    // Minimum of two values is vertex cover, store it before returning
+    root->vc =  min(size_incl, size_excl);
+ 
+    return root->vc;
+}
+ 
+// A utility function to create a node
+struct node* newNode( int data )
+{
+    struct node* temp = (struct node *) malloc( sizeof(struct node) );
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    temp->vc = 0; // Set the vertex cover as 0
+    return temp;
+}
+ 
+// Driver program to test above functions
+int main()
+{
+    // Let us construct the tree given in the above diagram
+    struct node *root         = newNode(20);
+    root->left                = newNode(8);
+    root->left->left          = newNode(4);
+    root->left->right         = newNode(12);
+    root->left->right->left   = newNode(10);
+    root->left->right->right  = newNode(14);
+    root->right               = newNode(22);
+    root->right->right        = newNode(25);
+ 
+    printf ("Size of the smallest vertex cover is %d ", vCover(root));
+ 
+    return 0;
+}
+C++
+Java
+C#
+Javascript
+Output: 
+
+Size of the smallest vertex cover is 3
+References: 
+http://courses.csail.mit.edu/6.006/spring11/lectures/lec21.pdf
+Exercise: 
+Extend the above solution for n-ary trees. 
+This article is contributed by Udit Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Approach for any general tree :
+
+1. Approach will be same dynamic programming approach as discussed.
+
+2. For every node, if we exclude this node from vertex cover than we have to include its neighbouring nodes,
+
+   and if we include this node in the vertex cover than we will take the minimum of the two possibilities of taking its neighbouring
+
+   nodes in the vertex cover to get minimum vertex cover. 
+
+3. We will store the above information in the dp array.
+
+C++
+// C++ implementation for the above approach
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// An utility function to add an edge in the tree
+void addEdge(vector<int> adj[], int x, int y)
+{
+    adj[x].push_back(y);
+    adj[y].push_back(x);
+}
+ 
+void dfs(vector<int> adj[], vector<int> dp[], int src,
+         int par)
+{
+    for (auto child : adj[src]) {
+        if (child != par)
+            dfs(adj, dp, child, src);
+    }
+ 
+    for (auto child : adj[src]) {
+        if (child != par) {
+            // not including source in the vertex cover
+            dp[src][0] += dp[child][1];
+ 
+            // including source in the vertex cover
+            dp[src][1] += min(dp[child][1], dp[child][0]);
+        }
+    }
+}
+ 
+// function to find minimum size of vertex cover
+void minSizeVertexCover(vector<int> adj[], int N)
+{
+    vector<int> dp[N + 1];
+ 
+    for (int i = 1; i <= N; i++) {
+        // 0 denotes not included in vertex cover
+        dp[i].push_back(0);
+ 
+        // 1 denotes included in vertex cover
+        dp[i].push_back(1);
+    }
+ 
+    dfs(adj, dp, 1, -1);
+ 
+    // printing minimum size vertex cover
+    cout << min(dp[1][0], dp[1][1]) << endl;
+}
+ 
+// Driver Code
+int main()
+{  
+    /*                          1
+   
+                        /            \
+  
+                     2                7
+  
+               /             \
+  
+             3                6
+  
+    /        |        \
+  
+  4          8          5
+    
+ */
+     
+    // number of nodes in the tree
+    int N = 8;
+ 
+    // adjacency list representation of the tree
+    vector<int> adj[N + 1];
+ 
+    addEdge(adj, 1, 2);
+    addEdge(adj, 1, 7);
+    addEdge(adj, 2, 3);
+    addEdge(adj, 2, 6);
+    addEdge(adj, 3, 4);
+    addEdge(adj, 3, 8);
+    addEdge(adj, 3, 5);
+ 
+    minSizeVertexCover(adj, N);
+ 
+    return 0;
+}
+Java
+Javascript
+Output
+3
+Time Complexity : O(N)
+
+Auxiliary space : O(N)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+34
+Next
+Introduction and Approximate Solution for Vertex Cover Problem
+Related Articles
+1.
+Introduction and Approximate Solution for Vertex Cover Problem
+2.
+Proof that vertex cover is NP complete
+3.
+Introduction and Dynamic Programming solution to compute nCr%p
+4.
+Greedy Approximate Algorithm for Set Cover Problem
+5.
+Introduction to Exact Cover Problem and Algorithm X
+6.
+Implementation of Exact Cover Problem and Algorithm X using DLX
+7.
+Travelling Salesman Problem using Dynamic Programming
+8.
+Dynamic Programming | High-effort vs. Low-effort Tasks Problem
+9.
+Print equal sum sets of Array (Partition Problem) using Dynamic Programming
+10.
+Understanding The Coin Change Problem With Dynamic Programming
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+29AjayKumar
+mohit kumar 29
+unknown2108
+sweetyty
+pawanharwani11
+rag2127
+karandeep1234
+satwiksuman
+Article Tags :
+NPHard
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Master Data Science & ML
+View Details
+
+DSA- Live Classes
+View Details
+
+System Design- Live Classes
+View Details

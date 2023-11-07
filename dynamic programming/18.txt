@@ -1,0 +1,400 @@
+Longest Increasing Subsequence | DP-3
+
+Difficulty Level : Medium
+Last Updated : 13 Jan, 2023
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+We have already discussed Overlapping Subproblems and Optimal Substructure properties. 
+Now, let us discuss the Longest Increasing Subsequence (LIS) problem as an example problem that can be solved using Dynamic Programming. 
+
+The Longest Increasing Subsequence (LIS) problem is to find the length of the longest subsequence of a given sequence such that all elements of the subsequence are sorted in increasing order. For example, the length of LIS for {10, 22, 9, 33, 21, 50, 41, 60, 80} is 6 and LIS is {10, 22, 33, 50, 60, 80}. 
+
+longest-increasing-subsequence
+
+Examples: 
+
+Input: arr[] = {3, 10, 2, 1, 20}
+Output: Length of LIS = 3
+The longest increasing subsequence is 3, 10, 20
+
+Input: arr[] = {3, 2}
+Output: Length of LIS = 1
+The longest increasing subsequences are {3} and {2}
+
+Input: arr[] = {50, 3, 10, 7, 40, 80}
+Output: Length of LIS = 4
+The longest increasing subsequence is {3, 7, 40, 80}
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+
+Method 1: Recursion.
+Optimal Substructure: Let arr[0..n-1] be the input array and L(i) be the length of the LIS ending at index i such that arr[i] is the last element of the LIS.
+
+Then, L(i) can be recursively written as: 
+
+L(i) = 1 + max( L(j) ) where 0 < j < i and arr[j] < arr[i]; or
+L(i) = 1, if no such j exists.
+To find the LIS for a given array, we need to return max(L(i)) where 0 < i < n.
+Formally, the length of the longest increasing subsequence ending at index i, will be 1 greater than the maximum of lengths of all longest increasing subsequences ending at indices before i, where arr[j] < arr[i] (j < i).
+Thus, we see the LIS problem satisfies the optimal substructure property as the main problem can be solved using solutions to subproblems.
+
+
+
+The recursive tree given below will make the approach clearer:  
+
+Input  : arr[] = {3, 10, 2, 11}
+f(i): Denotes LIS of subarray ending at index 'i'
+
+(LIS(1)=1)
+
+      f(4)  {f(4) = 1 + max(f(1), f(2), f(3))}
+  /    |    \
+f(1)  f(2)  f(3) {f(3) = 1, f(2) and f(1) are > f(3)}
+       |      |  \
+      f(1)  f(2)  f(1) {f(2) = 1 + max(f(1)}
+              |
+            f(1) {f(1) = 1}
+Below is the implementation of the recursive approach: 
+
+C++
+C
+Java
+Python3
+# A naive Python implementation of LIS problem
+ 
+""" To make use of recursive calls, this function must return
+ two things:
+ 1) Length of LIS ending with element arr[n-1]. We use
+ max_ending_here for this purpose
+ 2) Overall maximum as the LIS may end with an element
+ before arr[n-1] max_ref is used this purpose.
+ The value of LIS of full array of size n is stored in
+ *max_ref which is our final result """
+ 
+# global variable to store the maximum
+global maximum
+ 
+ 
+def _lis(arr, n):
+ 
+    # to allow the access of global variable
+    global maximum
+ 
+    # Base Case
+    if n == 1:
+        return 1
+ 
+    # maxEndingHere is the length of LIS ending with arr[n-1]
+    maxEndingHere = 1
+ 
+    """Recursively get all LIS ending with arr[0], arr[1]..arr[n-2]
+       IF arr[i-1] is smaller than arr[n-1], and max ending with
+       arr[n-1] needs to be updated, then update it"""
+    for i in range(1, n):
+        res = _lis(arr, i)
+        if arr[i-1] < arr[n-1] and res+1 > maxEndingHere:
+            maxEndingHere = res + 1
+ 
+    # Compare maxEndingHere with overall maximum. And
+    # update the overall maximum if needed
+    maximum = max(maximum, maxEndingHere)
+ 
+    return maxEndingHere
+ 
+ 
+def lis(arr):
+ 
+    # to allow the access of global variable
+    global maximum
+ 
+    # length of arr
+    n = len(arr)
+ 
+    # maximum variable holds the result
+    maximum = 1
+ 
+    # The function _lis() stores its result in maximum
+    _lis(arr, n)
+ 
+    return maximum
+ 
+ 
+# Driver program to test the above function
+arr = [10, 22, 9, 33, 21, 50, 41, 60]
+n = len(arr)
+print ("Length of lis is ", lis(arr))
+ 
+# This code is contributed by NIKHIL KUMAR SINGH
+C#
+Javascript
+Output
+Length of lis is 5
+Complexity Analysis: 
+
+Time Complexity: The time complexity of this recursive approach is exponential as there is a case of overlapping subproblems as explained in the recursive tree diagram above.
+Auxiliary Space: O(1). No external space used for storing values apart from the internal stack space.
+Method 2: Dynamic Programming.
+We can see that there are many subproblems in the above recursive solution which are solved again and again. So this problem has Overlapping Substructure property and recomputation of same subproblems can be avoided by either using Memoization or Tabulation.
+
+The simulation of approach will make things clear:   
+
+Input  : arr[] = {3, 10, 2, 11}
+LIS[] = {1, 1, 1, 1} (initially)
+Iteration-wise simulation : 
+
+arr[2] > arr[1] {LIS[2] = max(LIS [2], LIS[1]+1)=2}
+arr[3] < arr[1] {No change}
+arr[3] < arr[2] {No change}
+arr[4] > arr[1] {LIS[4] = max(LIS [4], LIS[1]+1)=2}
+arr[4] > arr[2] {LIS[4] = max(LIS [4], LIS[2]+1)=3}
+arr[4] > arr[3] {LIS[4] = max(LIS [4], LIS[3]+1)=3}
+We can avoid recomputation of subproblems by using tabulation as shown in the below code: 
+
+Below is the implementation of the above approach:  
+
+C++
+Java
+Python3
+# Dynamic programming Python implementation
+# of LIS problem
+ 
+# lis returns length of the longest
+# increasing subsequence in arr of size n
+ 
+ 
+def lis(arr):
+    n = len(arr)
+ 
+    # Declare the list (array) for LIS and
+    # initialize LIS values for all indexes
+    lis = [1]*n
+ 
+    # Compute optimized LIS values in bottom up manner
+    for i in range(1, n):
+        for j in range(0, i):
+            if arr[i] > arr[j] and lis[i] < lis[j] + 1:
+                lis[i] = lis[j]+1
+ 
+    # Initialize maximum to 0 to get
+    # the maximum of all LIS
+    maximum = 0
+ 
+    # Pick maximum of all LIS values
+    for i in range(n):
+        maximum = max(maximum, lis[i])
+ 
+    return maximum
+# end of lis function
+ 
+ 
+# Driver program to test above function
+arr = [10, 22, 9, 33, 21, 50, 41, 60]
+print ("Length of lis is", lis(arr))
+# This code is contributed by Nikhil Kumar Singh
+C#
+Javascript
+Output
+Length of lis is 5
+Complexity Analysis: 
+
+Time Complexity: O(n2). 
+As nested loop is used.
+Auxiliary Space: O(n). 
+Use of any array to store LIS values at each index.
+Note: The time complexity of the above Dynamic Programming (DP) solution is O(n^2) and there is a O(N log N) solution for the LIS problem. We have not discussed the O(N log N) solution here as the purpose of this post is to explain Dynamic Programming with a simple example. See below post for O(N log N) solution. 
+Longest Increasing Subsequence Size (N log N)
+
+Method 3: Dynamic Programming
+
+If we closely observe the problem then we can convert this problem to longest Common Subsequence Problem. Firstly we will create another array of unique elements of original array and sort it. Now the longest increasing subsequence of our array must be present as a subsequence in our sorted array. That’s why our problem is now reduced to finding the common subsequence between the two arrays.
+
+Eg. arr =[50,3,10,7,40,80]
+    // Sorted array
+    arr1 = [3,7,10,40,50,80]
+    // LIS is longest common subsequence between the two arrays
+    ans = 4
+    The longest increasing subsequence is {3, 7, 40, 80}
+C++
+Java
+Python3
+# Dynamic Programming Approach of Finding LIS by reducing the problem to longest common Subsequence
+ 
+ 
+def lis(a):
+    n = len(a)
+    # Creating the sorted list
+    b = sorted(list(set(a)))
+    m = len(b)
+ 
+    # Creating dp table for storing the answers of sub problems
+    dp = [[-1 for i in range(m+1)] for j in range(n+1)]
+ 
+    # Finding Longest common Subsequence of the two arrays
+    for i in range(n+1):
+ 
+        for j in range(m+1):
+            if i == 0 or j == 0:
+                dp[i][j] = 0
+            elif a[i-1] == b[j-1]:
+                dp[i][j] = 1+dp[i-1][j-1]
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    return dp[-1][-1]
+ 
+ 
+# Driver program to test above function
+arr = [10, 22, 9, 33, 21, 50, 41, 60]
+print("Length of lis is ", lis(arr))
+# This code is Contributed by Dheeraj Khatri
+Output
+Length of lis is 5
+Complexity Analysis : O(n*n)
+
+As nested loop is used
+
+Space Complexity : O(n*n)
+
+As a matrix is used for storing the values.
+
+Method 4 : Memoization DP
+
+This is extension of recursive method
+
+We can see that there are many subproblems in the above recursive solution which are solved again and again. So this problem has Overlapping Substructure property and recomputation of same subproblems can be avoided by either using Memoization
+
+C++
+Java
+Python3
+# A Naive Python recursive implementation
+# of LIS problem
+ 
+# To make use of recursive calls, this
+# function must return two things:
+# 1) Length of LIS ending with element arr[n-1].
+#     We use max_ending_here for this purpose
+# 2) Overall maximum as the LIS may end with
+#     an element before arr[n-1] max_ref is
+#     used this purpose.
+# The value of LIS of full array of size n
+# is stored in *max_ref which is our final result
+import sys
+ 
+def f(idx, prev_idx, n, a,dp):
+ 
+    if (idx == n):
+        return 0
+ 
+    if (dp[idx][prev_idx + 1] != -1):
+        return dp[idx][prev_idx + 1]
+ 
+    notTake = 0 + f(idx + 1, prev_idx, n, a, dp)
+    take = -sys.maxsize -1
+    if (prev_idx == -1 or a[idx] > a[prev_idx]):
+        take = 1 + f(idx + 1, idx, n, a, dp)
+ 
+    dp[idx][prev_idx + 1] = max(take, notTake)
+    return dp[idx][prev_idx + 1]
+ 
+# Function to find length of longest increasing
+# subsequence.
+def longestSubsequence(n, a):
+ 
+    dp = [[-1 for i in range(n + 1)]for j in range(n + 1)]
+    return f(0, -1, n, a, dp)
+ 
+# Driver program to test above function
+a = [ 3, 10, 2, 1, 20 ]
+n = len(a)
+print("Length of lis is ",longestSubsequence(n, a))
+ 
+# This code is contributed by shinjanpatra
+Javascript
+Output
+Length of lis is 3
+Complexity Analysis:
+
+Time Complexity: O(n2). 
+Auxiliary Space: O(n2). 
+ 
+
+https://www.youtube.com/watch?v=Ns4LCeeOFS4
+
+Printing LIS of array
+Recent articles based on LIS!
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+330
+Previous
+Maximum size square sub-matrix with all 1s
+Next
+Longest Increasing Subsequence Size (N log N)
+Related Articles
+1.
+Longest Increasing Subsequence using Longest Common Subsequence Algorithm
+2.
+Construction of Longest Increasing Subsequence (N log N)
+3.
+Longest Common Increasing Subsequence (LCS + LIS)
+4.
+Construction of Longest Increasing Subsequence(LIS) and printing LIS sequence
+5.
+Longest Monotonically Increasing Subsequence Size (N log N): Simple implementation
+6.
+Find the Longest Increasing Subsequence in Circular manner
+7.
+C/C++ Program for Longest Increasing Subsequence
+8.
+C++ Program for Longest Increasing Subsequence
+9.
+Java Program for Longest Increasing Subsequence
+10.
+Python program for Longest Increasing Subsequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ankthon
+ukasp
+bidibaaz123
+avanitrachhadiya2155
+dheerajkhatri0802
+avijitmondal1998
+anikakapoor
+shivanisinghss2110
+arunbang17
+amartyaghoshgfg
+rexomkar
+simmytarika5
+rkbhola5
+prasanna1995
+shinjanpatra
+sanskar84
+idayushko4rh
+satwiksuman
+Article Tags :
+Amazon
+LIS
+Samsung
+Zoho
+Dynamic Programming
+Practice Tags :
+Amazon
+Samsung
+Zoho
+Dynamic Programming
+Improve Article
+Report Issue

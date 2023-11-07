@@ -1,0 +1,382 @@
+Unique paths in a Grid with Obstacles
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a grid of size m * n, let us assume you are starting at (1, 1) and your goal is to reach (m, n). At any instance, if you are on (x, y), you can either go to (x, y + 1) or (x + 1, y).
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+An obstacle and empty space are marked as 1 and 0 respectively in the grid.
+
+Examples:  
+
+Input: [[0, 0, 0],
+        [0, 1, 0],
+        [0, 0, 0]]
+Output : 2
+There is only one obstacle in the middle.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: Recursion
+
+We have discussed the problem to count the number of unique paths in a Grid when no obstacle was present in the grid. But here the situation is quite different. While moving through the grid, we can get some obstacles that we can not jump and the way to reach the bottom right corner is blocked. 
+
+C++
+Java
+Python3
+# Python code to find number of unique paths
+# in a Matrix
+def  UniquePathHelper(i, j, r, c, A):
+   
+    # boundary condition or constraints
+    if(i == r or j == c):
+      return 0
+     
+    if(A[i][j] == 1):
+      return 0
+     
+    # base case
+    if(i == r-1 and j == c-1):
+      return 1
+ 
+    return  UniquePathHelper(i+1, j, r, c, A) + UniquePathHelper(i, j+1, r, c, A)
+ 
+def uniquePathsWithObstacles(A):
+    r,c = len(A),len(A[0])
+     
+    return UniquePathHelper(0, 0, r, c, A)
+ 
+# Driver code
+A = [ [ 0, 0, 0 ],
+      [ 0, 1, 0 ],
+      [ 0, 0, 0 ] ]
+                              
+print(uniquePathsWithObstacles(A))                                          
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+2 
+Time Complexity: O(2m*n)
+Auxiliary Space: O(m*n)
+
+Method 2: Using DP
+
+
+
+1) Top-Down
+
+The most efficient solution to this problem can be achieved using dynamic programming. Like every dynamic problem concept, we will not recompute the subproblems. A temporary 2D matrix will be constructed and value will be stored using the top-down approach. 
+
+C++
+Java
+Python3
+# Python code to find number of unique paths
+# in a Matrix
+ 
+ 
+def UniquePathHelper(i, j, r, c, A, paths):
+    # boundary condition or constraints
+    if (i == r or j == c):
+        return 0
+ 
+    if (A[i][j] == 1):
+        return 0
+ 
+    # base case
+    if (i == r - 1 and j == c - 1):
+        return 1
+ 
+    if (paths[i][j] != -1):
+        return paths[i][j]
+ 
+    paths[i][j] = UniquePathHelper(
+        i + 1, j, r, c, A, paths) + UniquePathHelper(i, j + 1, r, c, A, paths)
+    return paths[i][j]
+ 
+ 
+def uniquePathsWithObstacles(A):
+ 
+    r, c = len(A), len(A[0])
+ 
+    # create a 2D-matrix and initializing
+    # with value 0
+ 
+    paths = [[-1 for i in range(c)]for j in range(r)]
+ 
+    return UniquePathHelper(0, 0, r, c, A, paths)
+ 
+# Driver code
+ 
+ 
+A = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+ 
+print(uniquePathsWithObstacles(A))
+ 
+# code is contributed by shinjanpatra
+C#
+Javascript
+Output
+2 
+Time Complexity: O(m*n) 
+Auxiliary Space: O(m*n)
+
+2) Bottom-Up
+
+A temporary 2D matrix will be constructed and value will be stored using the bottom-up approach. 
+
+Approach:
+
+Create a 2D matrix of the same size as the given matrix to store the results.
+Traverse through the created array row-wise and start filling the values in it.
+If an obstacle is found, set the value to 0.
+For the first row and column, set the value to 1 if an obstacle is not found.
+Set the sum of the right and the upper values if an obstacle is not present at that corresponding position in the given matrix
+Return the last value of the created 2d matrix
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python code to find number of unique paths in a
+# matrix with obstacles.
+ 
+def uniquePathsWithObstacles(A):
+ 
+    # create a 2D-matrix and initializing with value 0
+    paths = [[0]*len(A[0]) for i in A]
+     
+    # initializing the left corner if no obstacle there
+    if A[0][0] == 0:
+        paths[0][0] = 1
+     
+    # initializing first column of the 2D matrix
+    for i in range(1, len(A)):
+         
+        # If not obstacle
+        if A[i][0] == 0:
+            paths[i][0] = paths[i-1][0]
+             
+    # initializing first row of the 2D matrix
+    for j in range(1, len(A[0])):
+         
+        # If not obstacle
+        if A[0][j] == 0:
+            paths[0][j] = paths[0][j-1]
+             
+    for i in range(1, len(A)):
+        for j in range(1, len(A[0])):
+ 
+            # If current cell is not obstacle
+            if A[i][j] == 0:
+                paths[i][j] = paths[i-1][j] + paths[i][j-1]
+ 
+    # returning the corner value of the matrix
+    return paths[-1][-1]
+ 
+ 
+# Driver Code
+A = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+print(uniquePathsWithObstacles(A))
+C#
+Javascript
+Output
+2 
+Time Complexity: O(m*n) 
+Auxiliary Space: O(m*n)
+
+Method 3: Space Optimization of DP solution.
+
+In this method, we will use the given ‘A’ 2D matrix to store the previous answer using the bottom-up approach.
+
+Approach
+
+Start traversing through the given ‘A’ 2D matrix row-wise and fill the values in it.
+For the first row and the first column set the value to 1 if an obstacle is not found.
+For the first row and first column, if an obstacle is found then start filling 0 till the last index in that particular row or column.
+Now start traversing from the second row and column ( eg: A[ 1 ][ 1 ]).
+If an obstacle is found, set 0 at particular Grid ( eg: A[ i ][ j ] ), otherwise set sum of upper and left values at A[ i ][ j ].
+Return the last value of the 2D matrix.
+Below is the implementation of the above approach. 
+
+C++
+Java
+Python3
+# Python program for the above approach
+ 
+ 
+def uniquePathsWithObstacles(A):
+ 
+    r = len(A)
+    c = len(A[0])
+ 
+    # If obstacle is at starting position
+    if (A[0][0]):
+        return 0
+ 
+    #  Initializing starting position
+    A[0][0] = 1
+ 
+    # first row all are '1' until obstacle
+    for j in range(1,c):
+ 
+        if (A[0][j] == 0):
+            A[0][j] = A[0][j - 1]
+        else:
+            # No ways to reach at this index
+            A[0][j] = 0
+ 
+    # first column all are '1' until obstacle
+    for i in range(1,r):
+ 
+        if (A[i][0] == 0):
+            A[i][0] = A[i - 1][0]
+        else:
+            # No ways to reach at this index
+            A[i][0] = 0
+ 
+    for i in range(1,r):
+ 
+        for j in range(1,c):
+            # If current cell has no obstacle
+            if (A[i][j] == 0):
+ 
+                A[i][j] = A[i - 1][j] + A[i][j - 1]
+            else:
+                # No ways to reach at this index
+                A[i][j] = 0
+ 
+    # returning the bottom right
+    # corner of Grid
+    return A[r - 1]
+ 
+# Driver Code
+ 
+A = [ [ 0, 0, 0 ], [ 0, 1, 0 ], [ 0, 0, 0 ] ]
+ 
+print(uniquePathsWithObstacles(A))
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+2
+Time Complexity: O(m*n)  
+Auxiliary Space: O(1)
+
+The 2D Dp Approach:
+
+As Per Problem tell us that we can move in two ways  can either go to (x, y + 1) or (x + 1, y). So we just calculate all possible outcome in both ways and store in 2d dp vector and return the dp[0][0] i.e all possible ways that takes you from (0,0) to (n-1,m-1);
+
+C++
+Java
+Python3
+# Python code for the above approach
+def uniquePathsWithObstacles(grid):
+    n = len(grid)
+    m = len(grid[0])
+    if n == 1 and m == 1 and grid[0][0] == 0:
+        return 1
+    if n == 1 and m == 1 and grid[0][0] == 1:
+        return 0
+    dp = [[-1 for j in range(m)] for i in range(n)]
+    def path(dp, grid, i, j):
+        if i < n and j < m and grid[i][j] == 1:
+            return 0
+        if i == n - 1 and j == m - 1:
+            return 1
+        if i >= n or j >= m:
+            return 0
+        if dp[i][j] != -1:
+            return dp[i][j]
+        left = path(dp, grid, i + 1, j)
+        right = path(dp, grid, i, j + 1)
+        dp[i][j] = left + right
+        return dp[i][j]
+    path(dp, grid, 0, 0)
+    if dp[0][0] == -1:
+        return 0
+    return dp[0][0]
+ 
+# Driver Code
+grid = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+print(uniquePathsWithObstacles(grid))
+ 
+# This code is contributed by lokeshpotta20.
+Output
+2 
+Time Complexity: O(M*N),For traversing all possible ways.
+Auxiliary Space: O(M*N),For storing in 2D Dp Vector.
+
+
+
+
+
+Like
+44
+Previous
+Print all possible paths from top left to bottom right of a mXn matrix
+Next
+Unique paths covering every non-obstacle block exactly once in a grid
+Related Articles
+1.
+Unique paths covering every non-obstacle block exactly once in a grid
+2.
+Shortest path between two points in a Matrix with at most K obstacles
+3.
+Check if a path exists from start to end cell in given Matrix with obstacles in at most K moves
+4.
+Maximum coin in minimum time by skipping K obstacles along path in Matrix
+5.
+Number of cells a queen can move with obstacles on the chessboard
+6.
+Minimum steps to convert all paths in matrix from top left to bottom right as palindromic paths
+7.
+Minimum steps to convert all paths in matrix from top left to bottom right as palindromic paths | Set 2
+8.
+Number of shortest paths to reach every cell from bottom-left cell in the grid
+9.
+Print the indices for every row of a grid from which escaping from the grid is possible
+10.
+Maximize median of a KxK sub-grid in an NxN grid
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ajaykr00kj
+bluecoder_
+divyesh072019
+divyeshrabadiya07
+snape_here
+suresh07
+hemantraj712
+TECHWorld1
+punamsingh628700
+rajsanghavi9
+sooda367
+mailtoproma
+prasanna1995
+shinjanpatra
+nipun_aggarwal
+tapeshdua420
+dhruvbhatia246
+hkdass001
+sanketgode0
+Article Tags :
+Dynamic Programming
+Matrix
+Practice Tags :
+Dynamic Programming
+Matrix
+Improve Article
+Report Issue

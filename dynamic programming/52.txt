@@ -1,0 +1,174 @@
+Count of AP (Arithmetic Progression) Subsequences in an array
+
+Difficulty Level : Hard
+Last Updated : 25 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n positive integers. The task is to count the number of Arithmetic Progression subsequence in the array. Note: Empty sequence or single element sequence is Arithmetic Progression. 1 <= arr[i] <= 1000000.
+Examples: 
+ 
+
+Input : arr[] = { 1, 2, 3 }
+Output : 8
+Arithmetic Progression subsequence from the 
+given array are: {}, { 1 }, { 2 }, { 3 }, { 1, 2 },
+{ 2, 3 }, { 1, 3 }, { 1, 2, 3 }.
+
+Input : arr[] = { 10, 20, 30, 45 }
+Output : 12
+
+Input : arr[] = { 1, 2, 3, 4, 5 }
+Output : 23
+ 
+
+Recommended Problem
+Count of AP Subsequences
+Dynamic Programming
+Algorithms
+Solve Problem
+Submission count: 1.5K
+Since empty sequence and single element sequence is also arithmetic progression, so we initialize the answer with n(number of element in the array) + 1. 
+Now, we need to find the arithmetic progression subsequence of length greater than or equal to 2. Let minimum and maximum of the array be minarr and maxarr respectively. Observe, in all the arithmetic progression subsequences, the range of common difference will be from (minarr – maxarr) to (maxarr – minarr). Now, for each common difference, say d, calculate the subsequence of length greater than or equal to 2 using dynamic programming. 
+Let dp[i] be the number of subsequence that end with arr[i] and have common difference of d. So, 
+ 
+
+
+
+
+The number of subsequence of length greater than or equal to 2 with common difference d is sum of dp[i] – 1, 0 <= i = 2 with difference d. To speed up, store the sum of dp[j] with arr[j] + d = arr[i] and j < i.
+Below is implementation of above idea :
+ 
+
+C++
+Java
+Python3
+# Python program to find number of AP
+# subsequences in the given array
+ 
+MAX = 1000001
+ 
+def numofAP(a, n):
+ 
+    # initializing the minimum value and
+    # maximum value of the array.
+    minarr = +2147483647
+    maxarr = -2147483648
+ 
+    # Finding the minimum and
+    # maximum value of the array.
+    for i in range(n):
+        minarr = min(minarr, a[i])
+        maxarr = max(maxarr, a[i])
+     
+ 
+    # dp[i] is going to store count of APs ending
+    # with arr[i].
+    # sum[j] is going to store sum of all dp[]'s
+    # with j as an AP element.
+    dp = [0 for i in range(n + 1)]
+     
+ 
+    # Initialize answer with n + 1 as single
+    # elements and empty array are also DP.
+    ans = n + 1
+ 
+    # Traversing with all common difference.
+    for d in range((minarr - maxarr), (maxarr - minarr) + 1):
+        sum = [0 for i in range(MAX + 1)]
+         
+        # Traversing all the element of the array.
+        for i in range(n):
+         
+            # Initialize dp[i] = 1.
+            dp[i] = 1
+ 
+            # Adding counts of APs with given differences
+            # and a[i] is last element.
+            # We consider all APs where an array element
+            # is previous element of AP with a particular
+            # difference
+            if (a[i] - d >= 1 and a[i] - d <= 1000000):
+                dp[i] += sum[a[i] - d]
+ 
+            ans += dp[i] - 1
+            sum[a[i]] += dp[i]
+ 
+    return ans
+ 
+# Driver code
+arr = [ 1, 2, 3 ]
+n = len(arr)
+ 
+print(numofAP(arr, n))
+ 
+# This code is contributed by Anant Agarwal.
+C#
+Javascript
+Output : 
+ 
+
+8
+Time complexity: O(n*d) given an array of n positive integers and d is the difference between the maximum and minimum value in the array.
+
+
+
+Auxiliary Space: O(MAX)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+13
+Next
+Longest Arithmetic Progression | DP-35
+Related Articles
+1.
+Count common elements in two arrays which are in Arithmetic Progression
+2.
+Count of subarrays forming an Arithmetic Progression (AP)
+3.
+Minimum De-arrangements present in array of AP (Arithmetic Progression)
+4.
+Convert given array to Arithmetic Progression by adding an element
+5.
+Change one element in the given array to make it an Arithmetic Progression
+6.
+Minimum elements inserted in a sorted array to form an Arithmetic progression
+7.
+Check whether Arithmetic Progression can be formed from the given array
+8.
+Queries to check if array elements from indices [L, R] forms an Arithmetic Progression or not
+9.
+Longest Arithmetic Progression | DP-35
+10.
+Find the missing number in Arithmetic Progression
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+mukesh07
+technophpfij
+mitalibhola94
+Article Tags :
+arithmetic progression
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+Improve Article
+Report Issue

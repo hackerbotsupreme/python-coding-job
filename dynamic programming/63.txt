@@ -1,0 +1,463 @@
+0-1 Knapsack Problem | DP-10
+
+Difficulty Level : Medium
+Last Updated : 05 Dec, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given weights and values of N items, put these items in a knapsack of capacity W to get the maximum total value in the knapsack. In other words, given two integer arrays val[0..N-1] and wt[0..N-1] which represent values and weights associated with N items respectively. Also given an integer W which represents knapsack capacity, find out the maximum value subset of val[] such that the sum of the weights of this subset is smaller than or equal to W. You cannot break an item, either pick the complete item or don’t pick it (0-1 property)
+
+Example:
+
+Input: N = 3, W = 4
+values[] = {1,2,3}
+weight[] = {4,5,1}
+Output: 3
+
+Input: N = 3, W = 3
+values[] = {1,2,3}
+weight[] = {4,5,6}
+Output: 0
+
+Recommended Problem
+0 - 1 Knapsack Problem
+Dynamic Programming
+Algorithms
+Flipkart
+Morgan Stanley
++9 more
+Solve Problem
+Submission count: 2.8L
+0-1 Knapsack Problem using recursion:
+To solve the problem follow the below idea:
+
+A simple solution is to consider all subsets of items and calculate the total weight and value of all subsets. Consider the only subsets whose total weight is smaller than W. From all such subsets, pick the maximum value subset.
+
+Optimal Sub-structure: To consider all subsets of items, there can be two cases for every item. 
+
+Case 1: The item is included in the optimal subset.
+Case 2: The item is not included in the optimal set.
+Follow the below steps to solve the problem:
+
+The maximum value obtained from ‘N’ items is the max of the following two values. 
+
+Maximum value obtained by N-1 items and W weight (excluding nth item)
+Value of nth item plus maximum value obtained by N-1 items and W minus the weight of the Nth item (including Nth item)
+If the weight of the ‘Nth’ item is greater than ‘W’, then the Nth item cannot be included and Case 1 is the only possibility.
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python
+# A naive recursive implementation
+# of 0-1 Knapsack Problem
+ 
+# Returns the maximum value that
+# can be put in a knapsack of
+# capacity W
+ 
+ 
+def knapSack(W, wt, val, n):
+ 
+    # Base Case
+    if n == 0 or W == 0:
+        return 0
+ 
+    # If weight of the nth item is
+    # more than Knapsack of capacity W,
+    # then this item cannot be included
+    # in the optimal solution
+    if (wt[n-1] > W):
+        return knapSack(W, wt, val, n-1)
+ 
+    # return the maximum of two cases:
+    # (1) nth item included
+    # (2) not included
+    else:
+        return max(
+            val[n-1] + knapSack(
+                W-wt[n-1], wt, val, n-1),
+            knapSack(W, wt, val, n-1))
+ 
+# end of function knapSack
+ 
+ 
+# Driver Code
+val = [60, 100, 120]
+wt = [10, 20, 30]
+W = 50
+n = len(val)
+print knapSack(W, wt, val, n)
+ 
+# This code is contributed by Nikhil Kumar Singh
+C#
+PHP
+Javascript
+Output
+220
+Time Complexity: O(2N)
+Auxiliary Space: O(N), Stack space required for recursion
+
+Note: It should be noted that the above function computes the same sub-problems again and again. See the following recursion tree, K(1, 1) is being evaluated twice. 
+
+In the following recursion tree, K() refers 
+to knapSack(). The two parameters indicated in the
+following recursion tree are n and W.
+
+The recursion tree is for following sample inputs.
+wt[] = {1, 1, 1}, W = 2, val[] = {10, 20, 30}
+
+                                         K(n, W)
+
+                                         K(3, 2)  
+                                   /                 \ 
+                                /                     \               
+                       K(2, 2)                       K(2, 1)
+                   /             \                 /               \ 
+                /                 \             /                   \
+         K(1, 2)            K(1, 1)     K(1, 1)           K(1, 0)
+           /  \                 /   \              /                  \
+        /      \             /       \          /                       \
+K(0, 2)  K(0, 1)  K(0, 1)  K(0, 0)  K(0, 1)          K(0, 0)
+
+Recursion tree for Knapsack capacity 2 units and 3 items of 1 unit weight.
+
+0-1 Knapsack Problem using memoization:
+To solve the problem follow the below idea:
+
+This method is basically an extension to the recursive approach so that we can overcome the problem of calculating redundant cases and thus increased complexity. If we get it the first time, we can solve this problem by creating a 2-D array that can store a particular state (n, w). Now if we come across the same state (n, w) again instead of calculating it in exponential complexity we can directly return its result stored in the table in constant time. This method gives an edge over the recursive approach in this aspect.
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# This is the memoization approach of
+# 0 / 1 Knapsack in Python in simple
+# we can say recursion + memoization = DP
+ 
+# Driver code
+val = [60, 100, 120]
+wt = [10, 20, 30]
+W = 50
+n = len(val)
+ 
+# We initialize the matrix with -1 at first.
+t = [[-1 for i in range(W + 1)] for j in range(n + 1)]
+ 
+ 
+def knapsack(wt, val, W, n):
+ 
+    # base conditions
+    if n == 0 or W == 0:
+        return 0
+    if t[n][W] != -1:
+        return t[n][W]
+ 
+    # choice diagram code
+    if wt[n-1] <= W:
+        t[n][W] = max(
+            val[n-1] + knapsack(
+                wt, val, W-wt[n-1], n-1),
+            knapsack(wt, val, W, n-1))
+        return t[n][W]
+    elif wt[n-1] > W:
+        t[n][W] = knapsack(wt, val, W, n-1)
+        return t[n][W]
+ 
+ 
+print(knapsack(wt, val, W, n))
+ 
+# This code is contributed by Prosun Kumar Sarkar
+C#
+Javascript
+Output
+220
+Time Complexity: O(N * W). As redundant calculations of states are avoided.
+Auxiliary Space: O(N * W) + O(N). The use of a 2D array data structure for storing intermediate states and O(N) auxiliary stack space(ASS) has been used for recursion stack
+
+0-1 Knapsack Problem using dynamic programming:
+To solve the problem follow the below idea:
+
+Since subproblems are evaluated again, this problem has Overlapping Sub-problems property. So the 0-1 Knapsack problem has both properties (see this and this) of a dynamic programming problem. Like other typical Dynamic Programming(DP) problems, re-computation of the same subproblems can be avoided by constructing a temporary array K[][] in a bottom-up manner. 
+
+Follow the below steps to solve the problem:
+
+Consider the same cases as mentioned in the recursive approach. 
+In a DP[][] table let’s consider all the possible weights from ‘1’ to ‘W’ as the columns and weights that can be kept as rows. 
+The state DP[i][j] will denote the maximum value of ‘j-weight’ considering all values from ‘1 to ith’. So if we consider ‘wi’ (weight in ‘ith’ row) we can fill it in all columns which have ‘weight values > wi’. Now two possibilities can take place: 
+Fill ‘wi’ in the given column.
+Do not fill ‘wi’ in the given column.
+Now we have to take a maximum of these two possibilities, formally if we do not fill the ‘ith’ weight in the ‘jth’ column then the DP[i][j] state will be the same as DP[i-1][j] but if we fill the weight, DP[i][j] will be equal to the value of ‘wi’+ value of the column weighing ‘j-wi’ in the previous row. 
+So we take the maximum of these two possibilities to fill the current state. 
+Below is the illustration of the above approach:
+
+Let weight elements = {1, 2, 3}
+Let weight values = {10, 15, 40}
+Capacity=6
+
+    0   1   2   3   4   5   6
+0  0   0   0   0   0   0   0
+1  0  10  10  10  10  10  10
+2  0  10  15  25  25  25  25
+
+3  0
+
+ Explanation:
+
+For filling ‘weight = 2’ we come 
+across ‘j = 3’ in which 
+we take maximum of 
+(10, 15 + DP[1][3-2]) = 25   
+   |                        |
+‘2 not filled’     ‘2 filled’
+
+    0   1   2   3   4   5   6
+0  0   0   0   0   0   0   0
+1  0  10  10  10  10  10  10
+2  0  10  15  25  25  25  25
+3  0  10  15  40  50  55  65
+
+Explanation:
+
+For filling ‘weight=3’, 
+we come across ‘j=4’ in which 
+we take maximum of (25, 40 + DP[2][4-3])  = 50
+
+For filling ‘weight=3’ 
+we come across ‘j=5’ in which 
+we take maximum of (25, 40 + DP[2][5-3]) = 55
+
+For filling ‘weight=3’ 
+we come across ‘j=6’ in which 
+we take maximum of (25, 40 + DP[2][6-3]) = 65
+
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python
+# A Dynamic Programming based Python
+# Program for 0-1 Knapsack problem
+# Returns the maximum value that can
+# be put in a knapsack of capacity W
+ 
+ 
+def knapSack(W, wt, val, n):
+    K = [[0 for x in range(W + 1)] for x in range(n + 1)]
+ 
+    # Build table K[][] in bottom up manner
+    for i in range(n + 1):
+        for w in range(W + 1):
+            if i == 0 or w == 0:
+                K[i][w] = 0
+            elif wt[i-1] <= w:
+                K[i][w] = max(val[i-1]
+                              + K[i-1][w-wt[i-1]],
+                              K[i-1][w])
+            else:
+                K[i][w] = K[i-1][w]
+ 
+    return K[n][W]
+ 
+ 
+# Driver code
+val = [60, 100, 120]
+wt = [10, 20, 30]
+W = 50
+n = len(val)
+print(knapSack(W, wt, val, n))
+ 
+# This code is contributed by Bhavya Jain
+C#
+PHP
+Javascript
+Output
+220
+Time Complexity: O(N * W). where ‘N’ is the number of elements and ‘W’ is capacity. 
+Auxiliary Space: O(N * W). The use of a 2-D array of size ‘N*W’.
+
+Below is the implementation of the same approach but with optimized space complexity:
+
+C++
+Java
+Python3
+# we can further improve the above Knapsack function's space
+# complexity
+ 
+ 
+def knapSack(W, wt, val, n):
+ 
+    K = [[0 for x in range(W+1)] for y in range(2)]
+ 
+    # We know we are always using the  current row or
+    # the previous row of the array/vector . Thereby we can
+    # improve it further by using a 2D array but with only
+    # 2 rows i%2 will be giving the index inside the bounds
+    # of 2d array K
+    for i in range(n + 1):
+        for w in range(W + 1):
+            if (i == 0 or w == 0):
+                K[i % 2][w] = 0
+            elif (wt[i - 1] <= w):
+                K[i % 2][w] = max(
+                    val[i - 1]
+                    + K[(i - 1) % 2][w - wt[i - 1]],
+                    K[(i - 1) % 2][w])
+ 
+            else:
+                K[i % 2][w] = K[(i - 1) % 2][w]
+ 
+    return K[n % 2][W]
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    val = [60, 100, 120]
+    wt = [10, 20, 30]
+    W = 50
+    n = len(val)
+ 
+    print(knapSack(W, wt, val, n))
+ 
+    # This code is contributed by ukasp.
+C#
+Javascript
+Output
+220
+Time Complexity: O(N * W)
+Auxiliary Space: O(2 * W) As we are using a 2-D array but with only 2 rows
+
+0-1 Knapsack Problem using dynamic programming(Space optimized):
+To solve the problem follow the below idea:
+
+For calculating the current row of the dp array we require only previous row, but if we start traversing the rows from right to left then it can be done with a single row only
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# code
+# A Dynamic Programming based Python
+# Program for 0-1 Knapsack problem
+# Returns the maximum value that can
+# be put in a knapsack of capacity W
+ 
+ 
+def knapSack(W, wt, val, n):
+    dp = [0 for i in range(W+1)]  # Making the dp array
+ 
+    for i in range(1, n+1):  # taking first i elements
+        for w in range(W, 0, -1):  # starting from back,so that we also have data of
+                                # previous computation when taking i-1 items
+            if wt[i-1] <= w:
+                # finding the maximum value
+                dp[w] = max(dp[w], dp[w-wt[i-1]]+val[i-1])
+ 
+    return dp[W]  # returning the maximum value of knapsack
+ 
+ 
+# Driver code
+val = [60, 100, 120]
+wt = [10, 20, 30]
+W = 50
+n = len(val)
+# This code is contributed by Suyash Saxena
+print(knapSack(W, wt, val, n))
+C#
+Javascript
+Output
+220
+Time Complexity: O(N * W). As redundant calculations of states are avoided
+Auxiliary Space: O(W) As we are using a 1-D array instead of a 2-D array
+
+
+
+Like
+Previous
+Floyd Warshall Algorithm | DP-16
+Next
+Egg Dropping Puzzle | DP-11
+Related Articles
+1.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+2.
+A Space Optimized DP solution for 0-1 Knapsack Problem
+3.
+Java Program 0-1 Knapsack Problem
+4.
+Python Program for 0-1 Knapsack Problem
+5.
+0/1 Knapsack Problem to print all possible solutions
+6.
+Extended Knapsack Problem
+7.
+C++ Program for the Fractional Knapsack Problem
+8.
+Fractional Knapsack Problem
+9.
+Implementation of 0/1 Knapsack using Branch and Bound
+10.
+Printing Items in 0/1 Knapsack
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+rathbhupendra
+MohammadMudassir
+bidibaaz123
+prosunsarkar7
+ssatyanand7
+aaku34
+uchiha1101
+fa6879
+believer411
+dharanendralv23
+sahityakmr
+namdeoanuj15052001
+jyoti369
+decode2207
+suresh07
+suyashsincever13
+akshitsaxenaa09
+moumenhamada30
+elbradey8
+uditsingla2000
+GauravRajput1
+umadevi9616
+Rajput-Ji
+aakash verma 2
+sumitgumber28
+srimanswamy
+ukasp
+sweetyty
+janardhansharma2012
+janardansthox
+Article Tags :
+knapsack
+MakeMyTrip
+Snapdeal
+Visa
+Zoho
+Dynamic Programming
+Practice Tags :
+MakeMyTrip
+Snapdeal
+Visa
+Zoho
+Dynamic Programming
+Report Issue

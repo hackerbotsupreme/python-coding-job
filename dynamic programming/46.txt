@@ -1,0 +1,289 @@
+The painter’s partition problem
+
+Difficulty Level : Hard
+Last Updated : 22 Aug, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+We have to paint n boards of length {A1, A2…An}. There are k painters available and each takes 1 unit of time to paint 1 unit of the board. The problem is to find the minimum time to get 
+this job was done under the constraints that any painter will only paint continuous sections of boards, say board {2, 3, 4} or only board {1} or nothing but not board {2, 4, 5}.
+
+Examples: 
+
+Input : k = 2, A = {10, 10, 10, 10} 
+Output : 20
+Explanation: Here we can divide the boards into 2 equal sized partitions, so each painter gets 20 units of board and the total time taken is 20. 
+
+Input : k = 2, A = {10, 20, 30, 40} 
+Output : 60
+Explanation: Here we can divide first 3 boards for one painter and the last board for second painter.
+
+Recommended PracticeThe Painter\’s Partition Problem-IITry It!
+From the above examples, it is obvious that the strategy of dividing the boards into k equal partitions won’t work for all cases. We can observe that the problem can be broken down into: Given an array A of non-negative integers and a positive integer k, we have to divide A into k of fewer partitions such that the maximum sum of the elements in a partition, overall partitions is minimized. So for the second example above, possible divisions are: 
+
+One partition: so time is 100. 
+Two partitions: (10) & (20, 30, 40), so time is 90. Similarly, we can put the first divider 
+after 20 (=> time 70) or 30 (=> time 60); so this means the minimum time: (100, 90, 70, 60) is 60.
+Brute force: A brute force solution is to consider all possible sets of contiguous partitions and calculate the maximum sum partition in each case and return the minimum of all these cases. 
+
+1) Optimal Substructure: We can implement the naive solution using recursion with the following optimal substructure property: 
+Assuming that we already have k-1 partitions in place (using k-2 dividers), we now have to put the k-1 th divider to get k partitions.
+
+
+
+Question: How can we do this?
+Answer: We can put the k-1 th divider between the i th and i+1 th element where i = 1 to n. Please note that putting it before the first element is the same as putting it after the last element.
+
+The total cost of this arrangement can be calculated as the maximum of the following: 
+
+A.) The cost of the last partition: sum(Ai…..An), where the k-1 th divider is 
+before element i. This can be found out using a simple helper function to calculate sum 
+of elements between two indices in the array.
+B) The maximum cost of any partition already formed to the left of the k-1 th divider. We can observe that this is actually to place the k-2 separators as fairly as possible, so it is a subproblem of the given problem. Thus we can write the optimal substructure property as the following recurrence relation:
+ 
+painter-partition
+
+Following is the implementation of the above recursive equation: 
+
+C++
+Java
+Python3
+# Python program for The painter's
+# partition problem function to
+# calculate sum between two indices
+# in array
+def sum(arr, frm, to):
+    total = 0;
+    for i in range(frm, to + 1):
+        total += arr[i]
+    return total
+     
+# for n boards and k partitions
+def partition(arr, n, k):
+     
+    # base cases
+    if k == 1: # one partition
+        return sum(arr, 0, n - 1)
+    if n == 1: # one board
+        return arr[0]
+    best = 100000000
+     
+    # find minimum of all possible 
+    # maximum k-1 partitions to 
+    # the left of arr[i], with i
+    # elements, put k-1 th divider
+    # between arr[i-1] & arr[i] to
+    # get k-th partition
+    for i in range(1, n + 1):
+        best = min(best,
+               max(partition(arr, i, k - 1),
+                         sum(arr, i, n - 1)))
+    return best
+     
+# Driver Code
+arr = [10, 20, 60, 50, 30, 40 ]
+n = len(arr)
+k = 3
+print(partition(arr, n, k))
+ 
+# This code is contributed
+# by sahilshelangia
+C#
+PHP
+Javascript
+Output
+90
+Time complexity: The time complexity of the above solution is exponential.
+Auxiliary Space: O(1)
+
+2) Overlapping subproblems: Following is the partial recursion tree for T(4, 3) in the above equation. 
+
+      T(4, 3)
+     /    /    \ ..         
+T(1, 2)  T(2, 2) T(3, 2) 
+          /..      /..     
+      T(1, 1)    T(1, 1)
+We can observe that many subproblems like T(1, 1) in the above problem are being solved again and again. Because of these two properties of this problem, we can solve it using dynamic programming, either by top-down memoized method or bottom-up 
+tabular method.
+
+Following is the bottom-up tabular implementation: 
+
+C++
+Java
+Python3
+# A DP based Python3 program for
+# painter's partition problem
+ 
+# function to calculate sum between
+# two indices in list
+def sum(arr, start, to):
+    total = 0
+    for i in range(start, to + 1):
+        total += arr[i]
+    return total
+ 
+# bottom up tabular dp
+def findMax(arr, n, k):
+     
+    # initialize table
+    dp = [[0 for i in range(n + 1)]
+             for j in range(k + 1)]
+ 
+    # base cases
+    # k=1
+    for i in range(1, n + 1):
+        dp[1][i] = sum(arr, 0, i - 1)
+ 
+    # n=1
+    for i in range(1, k + 1):
+        dp[i][1] = arr[0]
+ 
+    # 2 to k partitions
+    for i in range(2, k + 1): # 2 to n boards
+        for j in range(2, n + 1):
+             
+            # track minimum
+            best = 100000000
+             
+            # i-1 th separator before position arr[p=1..j]
+            for p in range(1, j + 1):
+                best = min(best, max(dp[i - 1][p],
+                                 sum(arr, p, j - 1)))    
+ 
+            dp[i][j] = best
+ 
+    # required
+    return dp[k][n]
+ 
+# Driver Code
+arr = [10, 20, 60, 50, 30, 40]
+n = len(arr)
+k = 3
+print(findMax(arr, n, k))
+ 
+# This code is contributed by ashutosh450
+C#
+PHP
+Javascript
+Output
+90
+Time complexity: O(k∗N3)
+Auxiliary Space: O(k*N)
+
+3) Further Optimizations: The time complexity of the above program is O(k*N^3)                                . It can be easily brought down to O(k*N^2)                                by precomputing the cumulative sums in an array thus avoiding repeated calls to the sum function:  
+
+C++
+Java
+Python3
+sum = [0] * (n + 1)
+ 
+# sum from 1 to i elements of arr
+for i in range(1, n + 1):
+    sum[i] = sum[i-1] + arr[i-1]
+ 
+for i in range(1, n + 1):
+    dp[1][i] = sum[i]
+ 
+# and using it to calculate the result as:
+best = min(best, max(dp[i-1][p], sum[j] - sum[p]));
+ 
+# This code is contributed by kraanzu.
+C#
+Javascript
+2) Though here we consider dividing A into k or fewer partitions, we can observe that 
+the optimal case always occurs when we divide A into exactly k partitions. So we can use: 
+
+C++
+Java
+Python3
+for i range(k-1,n+1):
+    best=min(best, max(partition(arr, i, k-1),sum(arr, i, n-1)))
+     
+# This code is contributed by Aman Kumar.
+C#
+Javascript
+Exercise: 
+Can you come up with a solution using binary search? Please refer Allocate minimum number of pages for details.
+References: 
+https://articles.leetcode.com/the-painters-partition-problem/
+
+
+
+
+
+Like
+110
+Previous
+Longest Common Subsequence with at most k changes allowed
+Next
+Matrix Chain Multiplication | DP-8
+Related Articles
+1.
+Print equal sum sets of array (Partition problem) | Set 1
+2.
+Print equal sum sets of Array (Partition Problem) using Dynamic Programming
+3.
+Partition problem | DP-18
+4.
+The painter's partition problem using Binary Search
+5.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+6.
+Count number of ways to partition a set into k subsets
+7.
+Bell Numbers (Number of ways to Partition a Set)
+8.
+Maximum average sum partition of an array
+9.
+Number of ways to partition a string into two balanced subsequences
+10.
+Partition the array into three equal sum segments
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rsatish1110
+@rsatish1110
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+jit_t
+sahilshelangia
+harshal_97
+ashutosh450
+__tejas_
+divyeshrabadiya07
+divyesh072019
+pratham76
+rutvik_56
+mukesh07
+susmitakundugoaldanga
+ankita_saini
+varshagumber28
+_saurabh_jaiswal
+kraanzu
+amankr0211
+rishavmahyry2
+ruhelaa48
+Article Tags :
+Binary Search
+Codenation
+Google
+Divide and Conquer
+Dynamic Programming
+Searching
+Practice Tags :
+Codenation
+Google
+Binary Search
+Divide and Conquer
+Dynamic Programming
+Searching
+Improve Article
+Report Issue

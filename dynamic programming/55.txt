@@ -1,0 +1,175 @@
+Longest repeating and non-overlapping substring
+
+Difficulty Level : Hard
+Last Updated : 05 Jul, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a string str, find the longest repeating non-overlapping substring in it. In other words find 2 identical substrings of maximum length which do not overlap. If there exists more than one such substring return any of them.
+
+Examples: 
+
+Input : str = "geeksforgeeks"
+Output : geeks
+
+Input : str = "aab"
+Output : a
+
+Input : str = "aabaabaaba"
+Output : aaba
+
+Input : str = "aaaaaaaaaaa"
+Output : aaaaa
+
+Input : str = "banana"
+Output : an 
+         or na
+Recommended Problem
+Longest repeating and non-overlapping substring
+Strings
+Dynamic Programming
++2 more
+MakeMyTrip
+Walmart
+Solve Problem
+Submission count: 5.7K
+Naive Solution : The problem can be solved easily by taking all the possible substrings and for all the substrings check it for the remaining(non-overlapping) string if there exists an identical substring. There are O(n2) total substrings and checking them against the remaining string will take O(n) time. So overall time complexity of above solution is O(n3). 
+
+Dynamic Programming : This problem can be solved in O(n2) time using Dynamic Programming. The basic idea is to find the longest repeating suffix for all prefixes in the string str. 
+
+Length of longest non-repeating substring can be recursively
+defined as below.
+
+LCSRe(i, j) stores length of the matching and
+            non-overlapping substrings ending 
+            with i'th and j'th characters.
+
+If str[i-1] == str[j-1] && (j-i) > LCSRe(i-1, j-1)
+     LCSRe(i, j) = LCSRe(i-1, j-1) + 1, 
+Else
+     LCSRe(i, j) = 0
+
+Where i varies from 1 to n and 
+      j varies from i+1 to n
+To avoid overlapping we have to ensure that the length of suffix is less than (j-i) at any instant. 
+The maximum value of LCSRe(i, j) provides the length of the longest repeating substring and the substring itself can be found using the length and the ending index of the common suffix.
+
+Below is the implementation of the recurrence. 
+
+C++
+Java
+Python 3
+# Python 3 program to find the longest repeated
+# non-overlapping substring
+ 
+# Returns the longest repeating non-overlapping
+# substring in str
+def longestRepeatedSubstring(str):
+ 
+    n = len(str)
+    LCSRe = [[0 for x in range(n + 1)]
+                for y in range(n + 1)]
+ 
+    res = "" # To store result
+    res_length = 0 # To store length of result
+ 
+    # building table in bottom-up manner
+    index = 0
+    for i in range(1, n + 1):
+        for j in range(i + 1, n + 1):
+             
+            # (j-i) > LCSRe[i-1][j-1] to remove
+            # overlapping
+            if (str[i - 1] == str[j - 1] and
+                LCSRe[i - 1][j - 1] < (j - i)):
+                LCSRe[i][j] = LCSRe[i - 1][j - 1] + 1
+ 
+                # updating maximum length of the
+                # substring and updating the finishing
+                # index of the suffix
+                if (LCSRe[i][j] > res_length):
+                    res_length = LCSRe[i][j]
+                    index = max(i, index)
+                 
+            else:
+                LCSRe[i][j] = 0
+ 
+    # If we have non-empty result, then insert
+    # all characters from first character to
+    # last character of string
+    if (res_length > 0):
+        for i in range(index - res_length + 1,
+                                    index + 1):
+            res = res + str[i - 1]
+ 
+    return res
+ 
+# Driver Code
+if __name__ == "__main__":
+     
+    str = "geeksforgeeks"
+    print(longestRepeatedSubstring(str))
+ 
+# This code is contributed by ita_c
+C#
+Javascript
+Output
+geeks
+Time Complexity: O(n2) 
+Auxiliary Space: O(n2)
+
+References: 
+https://www.geeksforgeeks.org/longest-common-substring/
+
+This article is contributed by Ayush Khanduri. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Next
+Longest Repeating Subsequence
+Related Articles
+1.
+Print Longest substring without repeating characters
+2.
+C++ Program To Find Length Of The Longest Substring Without Repeating Characters
+3.
+Java Program To Find Length Of The Longest Substring Without Repeating Characters
+4.
+Python Program To Find Length Of The Longest Substring Without Repeating Characters
+5.
+Javascript Program To Find Length Of The Longest Substring Without Repeating Characters
+6.
+Length of the longest substring without repeating characters
+7.
+Longest substring whose any non-empty substring not prefix or suffix of given String
+8.
+Longest Substring of A that can be changed to Substring of B in at most T cost
+9.
+Lexicographically smallest string of maximum length made up of first K alphabets that does not contain any repeating substring
+10.
+Length of recurring substring formed by repeating characters their index times in range [L, R] for Q queries
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+ukasp
+rag2127
+hardikkoriintern
+Article Tags :
+Dynamic Programming
+Strings
+Technical Scripter
+Practice Tags :
+Dynamic Programming
+Strings

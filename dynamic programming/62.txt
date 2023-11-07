@@ -1,0 +1,301 @@
+Optimal Strategy for a Game | DP-31
+
+Difficulty Level : Hard
+Last Updated : 05 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Consider a row of N coins of values V1 . . . Vn, where N is even. We play a game against an opponent by alternating turns. In each turn, a player selects either the first or last coin from the row, removes it from the row permanently, and receives the value of the coin. Determine the maximum possible amount of money we can definitely win if we move first.
+
+Note: The opponent is as clever as the user.
+
+Examples:
+
+Input: {5, 3, 7, 10}
+Output: 15 -> (10 + 5)
+
+ Input: {8, 15, 3, 7}
+Output: 22 -> (7 + 15)
+
+Why greedy algorithm fails here?
+
+Does choosing the best at each move give an optimal solution? No. 
+In the second example, this is how the game can be finished in two ways:
+
+
+
+…….The user chooses 8. 
+…….The opponent chooses 15. 
+…….The user chooses 7. 
+…….The opponent chooses 3. 
+The total value collected by the user is 15(8 + 7)
+…….The user chooses 7. 
+…….The opponent chooses 8. 
+…….The user chooses 15. 
+…….The opponent chooses 3. 
+The total value collected by the user is 22(7 + 15)
+Note: If the user follows the second game state, the maximum value can be collected although the first move is not the best. 
+
+Recommended Problem
+Optimal Strategy For A Game
+Solve Problem
+Submission count: 43.8K
+Optimal Strategy for a Game using memoization:
+To solve the problem follow the below idea:
+
+There are two choices:  
+
+The user chooses the ‘ith’ coin with value ‘Vi’: The opponent either chooses (i+1)th coin or jth coin. The opponent intends to choose the coin which leaves the user with minimum value. 
+i.e. The user can collect the value Vi + min(F(i+2, j), F(i+1, j-1) ) where [i+2,j] is the range of array indices available to the user if the opponent chooses Vi+1 and [i+1,j-1] is the range of array indexes available if opponent chooses the jth coin. 
+coinGame1
+
+The user chooses the ‘jth’ coin with value ‘Vj’: The opponent either chooses ‘ith’ coin or ‘(j-1)th’ coin. The opponent intends to choose the coin which leaves the user with the minimum value, i.e. the user can collect the value Vj + min(F(i+1, j-1), F(i, j-2) ) where [i,j-2] is the range of array indices available for the user if the opponent picks jth coin and [i+1,j-1] is the range of indices available to the user if the opponent picks up the ith coin.
+ 
+coinGame2
+
+Below is the recursive approach that is based on the above two choices. We take a maximum of two choices. 
+
+F(i, j) represents the maximum value the user
+can collect from i’th coin to j’th coin.
+
+F(i, j) = Max(Vi + min(F(i+2, j), F(i+1, j-1) ), 
+            Vj + min(F(i+1, j-1), F(i, j-2) ))
+
+As user wants to maximise the number of coins.
+
+Base Cases
+
+    F(i, j) = Vi           If j == i
+    F(i, j) = max(Vi, Vj)  If j == i + 1
+
+ Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code to implement the approach
+ 
+def optimalStrategyOfGame(arr, n):
+    memo = {}
+ 
+    # recursive top down memoized solution
+    def solve(i, j):
+        if i > j or i >= n or j < 0:
+            return 0
+ 
+        k = (i, j)
+        if k in memo:
+            return memo[k]
+ 
+        # if the user chooses ith coin, the opponent can choose from i+1th or jth coin.
+        # if he chooses i+1th coin, user is left with [i+2,j] range.
+        # if opp chooses jth coin, then user is left with [i+1,j-1] range to choose from.
+        # Also opponent tries to choose
+        # in such a way that the user has minimum value left.
+        option1 = arr[i] + min(solve(i+2, j), solve(i+1, j-1))
+ 
+        # if user chooses jth coin, opponent can choose ith coin or j-1th coin.
+        # if opp chooses ith coin,user can choose in range [i+1,j-1].
+        # if opp chooses j-1th coin, user can choose in range [i,j-2].
+        option2 = arr[j] + min(solve(i+1, j-1), solve(i, j-2))
+ 
+        # since the user wants to get maximum money
+        memo[k] = max(option1, option2)
+        return memo[k]
+ 
+    return solve(0, n-1)
+ 
+   
+# Driver Code
+arr1 = [8, 15, 3, 7]
+n = len(arr1)
+print(optimalStrategyOfGame(arr1, n))
+ 
+arr2 = [2, 2, 2, 2]
+n = len(arr2)
+print(optimalStrategyOfGame(arr2, n))
+ 
+arr3 = [20, 30, 2, 2, 2, 10]
+n = len(arr3)
+print(optimalStrategyOfGame(arr3, n))
+ 
+# This code is contributed
+# by sahilshelangia
+C#
+Javascript
+Output
+22
+4
+42
+Time complexity: O(n^2), The time complexity of this approach is O(n^2) as we are using memoization to store the subproblem solutions which are calculated again and again.
+Auxiliary Space: O(n^2), The space complexity of this approach is O(n^2) as we are using a map of size n^2 to store the solutions of the subproblems.
+
+Optimal Strategy for a Game using dp:
+To solve the problem follow the below idea:
+
+Since the same subproblems are called again, this problem has the Overlapping Subproblems property. So the re-computations of the same subproblems can be avoided by constructing a temporary array in a bottom-up manner using the above recursive formula.
+
+Follow the below steps to solve the problem:
+
+Create a 2-D array table of size N * N
+Run a nested for loop to consider i and j at every possible position with a distance equal to ‘gap’ between them
+Declare an integer x, If (i+2) is less than or equal to j then set x equal to table[i+2][j], else equal to zero
+Declare an integer y, If (i+1) is less than or equal to j-1 then set y equal to table[i+1][j-1], else equal to zero
+Declare an integer z, If i is less than or equal to j-2 then set z equal to table[i][j-2], else equal to zero
+Set table[i][j] equal to maximum of arr[i] + min(x, y) or arr[j] + min(y, z)
+Return table[0][N-1]
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to find out maximum
+# value from a given sequence of coins
+ 
+# Returns optimal value possible that
+# a player can collect from an array
+# of coins of size n. Note than n
+# must be even
+ 
+ 
+def optimalStrategyOfGame(arr, n):
+ 
+    # Create a table to store
+    # solutions of subproblems
+    table = [[0 for i in range(n)]
+             for i in range(n)]
+ 
+    # Fill table using above recursive
+    # formula. Note that the table is
+    # filled in diagonal fashion
+    # (similar to http://goo.gl / PQqoS),
+    # from diagonal elements to
+    # table[0][n-1] which is the result.
+    for gap in range(n):
+        for j in range(gap, n):
+            i = j - gap
+ 
+            # Here x is value of F(i + 2, j),
+            # y is F(i + 1, j-1) and z is
+            # F(i, j-2) in above recursive
+            # formula
+            x = 0
+            if((i + 2) <= j):
+                x = table[i + 2][j]
+            y = 0
+            if((i + 1) <= (j - 1)):
+                y = table[i + 1][j - 1]
+            z = 0
+            if(i <= (j - 2)):
+                z = table[i][j - 2]
+            table[i][j] = max(arr[i] + min(x, y),
+                              arr[j] + min(y, z))
+    return table[0][n - 1]
+ 
+ 
+# Driver Code
+arr1 = [8, 15, 3, 7]
+n = len(arr1)
+print(optimalStrategyOfGame(arr1, n))
+ 
+arr2 = [2, 2, 2, 2]
+n = len(arr2)
+print(optimalStrategyOfGame(arr2, n))
+ 
+arr3 = [20, 30, 2, 2, 2, 10]
+n = len(arr3)
+print(optimalStrategyOfGame(arr3, n))
+ 
+# This code is contributed
+# by sahilshelangia
+C#
+PHP
+Javascript
+Output
+22
+4
+42
+Time Complexity: O(N2). 
+Auxiliary Space: O(N2). As a 2-D table is used for storing states.
+
+Note: The above solution can be optimized by using less number of comparisons for every choice. Please refer below. 
+Optimal Strategy for a Game | Set 2
+
+Exercise: 
+Your thoughts on the strategy when the user wishes to only win instead of winning with the maximum value. Like the above problem, the number of coins is even. 
+Can the Greedy approach work quite well and give an optimal solution? Will your answer change if the number of coins is odd? Please see Coin game of two corners
+This article is compiled by Aashish Barnwal. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+162
+Previous
+Optimal Strategy for a Game | Set 2
+Next
+Top 20 Dynamic Programming Interview Questions
+Related Articles
+1.
+Game Theory (Normal form game) | Set 2 (Game with Pure Strategy)
+2.
+Game Theory (Normal-form game) | Set 3 (Game with Mixed Strategy)
+3.
+Optimal Strategy for a Game | Set 3
+4.
+Optimal Strategy for a Game | Special Gold Coin
+5.
+Optimal strategy for a Game with modifications
+6.
+Optimal Strategy for the Divisor game using Dynamic Programming
+7.
+Optimal Strategy for a Game | Set 2
+8.
+Game Theory (Normal-form Game) | Set 4 (Dominance Property-Pure Strategy)
+9.
+Game Theory (Normal-form Game) | Set 5 (Dominance Property-Mixed Strategy)
+10.
+Game Theory (Normal-form Game) | Set 6 (Graphical Method [2 X N] Game)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+jit_t
+Chandan_Kumar
+CheshtaKwatra
+bidibaaz123
+divyesh072019
+surinderdawra388
+danceboyyaya
+phasing17
+sagartomar9927
+janardansthox
+surajrasr7277
+Article Tags :
+Amazon
+Hike
+Linkedin
+Dynamic Programming
+Game Theory
+Mathematical
+Practice Tags :
+Amazon
+Hike
+Linkedin
+Dynamic Programming
+Game Theory
+Mathematical
+Improve Article
+Report Issue

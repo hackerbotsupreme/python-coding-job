@@ -1,0 +1,154 @@
+ile Stacking Problem
+
+Difficulty Level : Hard
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+A stable tower of height n is a tower consisting of exactly n tiles of unit height stacked vertically in such a way, that no bigger tile is placed on a smaller tile.
+An example is shown below : 
+ 
+
+
+
+We have an infinite number of tiles of sizes 1, 2, …, m. The task is to calculate the number of the different stable towers of height n that can be built from these tiles, with a restriction that you can use at most k tiles of each size in the tower.
+Note: Two towers of height n are different if and only if there exists a height h (1 <= h <= n), such that the towers have tiles of different sizes at height h.
+
+Examples: 
+
+
+Input : n = 3, m = 3, k = 1.
+Output : 1
+Possible sequences: { 1, 2, 3}. 
+Hence answer is 1.
+
+Input : n = 3, m = 3, k = 2.
+Output : 7
+{1, 1, 2}, {1, 1, 3}, {1, 2, 2},
+{1, 2, 3}, {1, 3, 3}, {2, 2, 3}, 
+{2, 3, 3}.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We basically need to count a number of decreasing sequences of length n using numbers from 1 to m where every number can be used at most k times. We can recursively compute count for n using count for n-1. 
+The idea is to use Dynamic Programming. Declare a 2D array dp[][], where each state dp[i][j] denotes the number of decreasing sequences of length i using numbers from j to m. We need to take care of the fact that a number can be used most of k time. This can be done by considering 1 to k occurrences of a number. Hence, our recurrence relation becomes: 
+{\huge DP[i][j] = \sum_{x=0}^{k}[i-x][j-1]}      
+Also, we can use the fact that for a fixed j we are using the consecutive values of previous k values of i. Hence, we can maintain a prefix sum array for each state. Now we have gotten rid of the k factor for each state.
+
+Below is the implementation of this approach: 
+
+C++
+Java
+Python 3
+# Python3 code to find number of ways 
+# to make stable tower of given height
+n = 100
+def possibleWays(n, m, k):
+    dp = [[0 for i in range(10)] 
+             for j in range(10)]
+    presum=[[0 for i in range(10)]
+               for j in range(10)]
+      
+    # Initializing 0th row to 0
+    for i in range(1, n + 1):
+        dp[0][i] = 0
+        presum[0][i] = 1
+      
+    # Initializing 0th column to 0
+    for i in range(0, m + 1):
+        presum[i][0] = 1
+        dp[i][0] = 1
+      
+    # for each from 1 to m
+    for i in range(1, m + 1):
+          
+        # for each column from 1 to n.
+        for j in range(1, n + 1):
+              
+            # for each column from 1 to n
+            # Initializing dp[i][j] to presum 
+            # of (i-1,j).
+            dp[i][j] = presum[i - 1][j]
+            if j > k:
+                dp[i][j] -= presum[i - 1][j - k - 1]
+                  
+        for j in range(1, n + 1):
+            presum[i][j] = dp[i][j] + presum[i][j - 1]
+          
+    return dp[m][n] 
+      
+# Driver Code
+n, m, k = 3, 3, 2
+  
+print(possibleWays(n, m, k))
+  
+# This code is contributed
+# by Mohit kumar 29
+C#
+Javascript
+Output
+7
+Time Complexity: O(m*n)
+Auxiliary Space: O(n*n)
+ This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+10
+Previous
+Counting pairs when a person can form pair with at most one
+Next
+Alexander Bogomolny’s UnOrdered Permutation Algorithm
+Related Articles
+1.
+Box Stacking Problem | DP-22
+2.
+Count the number of ways to tile the floor of size n x m using 1 x m size tiles
+3.
+Count ways to tile an N - length board using tiles of specified dimensions
+4.
+Difference between 0/1 Knapsack problem and Fractional Knapsack problem
+5.
+0-1 Knapsack Problem | DP-10
+6.
+Travelling Salesman Problem using Dynamic Programming
+7.
+Boolean Parenthesization Problem | DP-37
+8.
+Tiling Problem
+9.
+Dynamic Programming | High-effort vs. Low-effort Tasks Problem
+10.
+A Space Optimized DP solution for 0-1 Knapsack Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mohit kumar 29
+ankthon
+DrRoot_
+TarunPothulapati
+29AjayKumar
+nidhi_biet
+souravghosh0416
+hkdass001
+ruhelaa48
+Article Tags :
+Combinatorial
+Dynamic Programming
+Practice Tags :
+Combinatorial
+Dynamic Programming
+Improve Article
+Report Issue

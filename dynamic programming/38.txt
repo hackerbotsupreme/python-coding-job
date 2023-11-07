@@ -1,0 +1,164 @@
+Longest Common Increasing Subsequence (LCS + LIS)
+
+Difficulty Level : Hard
+Last Updated : 01 Jul, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Prerequisites : LCS, LIS
+
+Given two arrays, find length of the longest common increasing subsequence [LCIS] and print one of such sequences (multiple sequences may exist)
+Suppose we consider two arrays – 
+arr1[] = {3, 4, 9, 1} and 
+arr2[] = {5, 3, 8, 9, 10, 2, 1}
+Our answer would be {3, 9} as this is the longest common subsequence which is increasing also.
+
+Recommended Problem
+Longest Common Increasing Subsequence
+Arrays
+Dynamic Programming
++2 more
+Solve Problem
+Submission count: 7.7K
+The idea is to use dynamic programming here as well. We store the longest common increasing sub-sequence ending at each index of arr2[]. We create an auxiliary array table[] such that table[j] stores length of LCIS ending with arr2[j]. At the end, we return maximum value from this table. For filling values in this table, we traverse all elements of arr1[] and for every element arr1[i], we traverse all elements of arr2[]. If we find a match, we update table[j] with length of current LCIS. To maintain current LCIS, we keep checking valid table[j] values.
+
+Below is the program to find length of LCIS. 
+
+C++
+Java
+Python 3
+# Python 3 Program to find length of the
+# Longest Common Increasing Subsequence (LCIS)
+ 
+# Returns the length and the LCIS of two
+# arrays arr1[0..n-1] and arr2[0..m-1]
+def LCIS(arr1, n, arr2, m):
+ 
+    # table[j] is going to store length of LCIS
+    # ending with arr2[j]. We initialize it as 0,
+    table = [0] * m
+    for j in range(m):
+        table[j] = 0
+ 
+    # Traverse all elements of arr1[]
+    for i in range(n):
+     
+        # Initialize current length of LCIS
+        current = 0
+ 
+        # For each element of arr1[],
+        # traverse all elements of arr2[].
+        for j in range(m):
+             
+            # If both the array have same elements.
+            # Note that we don't break the loop here.
+            if (arr1[i] == arr2[j]):
+                if (current + 1 > table[j]):
+                    table[j] = current + 1
+ 
+            # Now seek for previous smaller common
+            # element for current element of arr1
+            if (arr1[i] > arr2[j]):
+                if (table[j] > current):
+                    current = table[j]
+ 
+    # The maximum value in table[]
+    # is out result
+    result = 0
+    for i in range(m):
+        if (table[i] > result):
+            result = table[i]
+ 
+    return result
+ 
+# Driver Code
+if __name__ == "__main__":
+     
+    arr1 = [3, 4, 9, 1]
+    arr2 = [5, 3, 8, 9, 10, 2, 1]
+ 
+    n = len(arr1)
+    m = len(arr2)
+ 
+    print("Length of LCIS is",
+           LCIS(arr1, n, arr2, m))
+ 
+# This code is contributed by ita_c
+C#
+PHP
+Javascript
+Output : 
+
+Length of LCIS is 2
+Time Complexity: O(n*m), where n and m represents the size of the given two arrays.
+Auxiliary Space: O(m), where m represents the size of the given second array.
+
+This article is contributed Rachit Belwariar. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+
+
+Like
+44
+Previous
+Maximum absolute difference between sum of two contiguous sub-arrays
+Next
+Find number of subarrays with even sum
+Related Articles
+1.
+Construction of Longest Increasing Subsequence(LIS) and printing LIS sequence
+2.
+Edit distance and LCS (Longest Common Subsequence)
+3.
+Longest Common Subsequence (LCS) by repeatedly swapping characters of a string with characters of another string
+4.
+Find the Longest Common Subsequence (LCS) in given K permutations
+5.
+LCS (Longest Common Subsequence) of three strings
+6.
+Longest Increasing Subsequence using Longest Common Subsequence Algorithm
+7.
+Length of Longest Increasing Subsequences (LIS) using Segment Tree
+8.
+Variations of LIS | DP-21
+9.
+LIS using Segment Tree
+10.
+Minimum concatenation required to get strictly LIS for array with repetitive elements | Set-2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+jit_t
+AyanBanerjee
+ukasp
+mohit kumar 29
+souravghosh0416
+simranarora5sos
+samim2000
+hardikkoriintern
+Article Tags :
+LCS
+LIS
+subsequence
+Arrays
+Dynamic Programming
+Practice Tags :
+Arrays
+Dynamic Programming
+LCS
+Improve Article
+Report Issue

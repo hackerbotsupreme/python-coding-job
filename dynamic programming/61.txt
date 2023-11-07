@@ -1,0 +1,166 @@
+Find the longest path in a matrix with given constraints
+
+Difficulty Level : Medium
+Last Updated : 28 Aug, 2022
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given a n*n matrix where all numbers are distinct, find the maximum length path (starting from any cell) such that all cells along the path are in increasing order with a difference of 1. 
+We can move in 4 directions from a given cell (i, j), i.e., we can move to (i+1, j) or (i, j+1) or (i-1, j) or (i, j-1) with the condition that the adjacent cells have a difference of 1.
+
+Example: 
+
+Input:  mat[][] = {{1, 2, 9}
+                   {5, 3, 8}
+                   {4, 6, 7}}
+Output: 4
+The longest path is 6-7-8-9. 
+Recommended Problem
+Longest Path in a matrix
+Dynamic Programming
+Algorithms
+Solve Problem
+Submission count: 8.7K
+The idea is simple, we calculate longest path beginning with every cell. Once we have computed longest for all cells, we return maximum of all longest paths. One important observation in this approach is many overlapping sub-problems. Therefore this problem can be optimally solved using Dynamic Programming. 
+
+Below is Dynamic Programming based implementation that uses a lookup table dp[][] to check if a problem is already solved or not.
+
+C++
+Java
+Python3
+# Python3 program to find the longest path in a matrix
+# with given constraints
+ 
+n = 3
+# Returns length of the longest path beginning with mat[i][j].
+# This function mainly uses lookup table dp[n][n]
+ 
+ 
+def findLongestFromACell(i, j, mat, dp):
+    # Base case
+    if (i < 0 or i >= n or j < 0 or j >= n):
+        return 0
+ 
+    # If this subproblem is already solved
+    if (dp[i][j] != -1):
+        return dp[i][j]
+ 
+    # To store the path lengths in all the four directions
+    x, y, z, w = -1, -1, -1, -1
+ 
+    # Since all numbers are unique and in range from 1 to n * n,
+    # there is atmost one possible direction from any cell
+    if (j < n-1 and ((mat[i][j] + 1) == mat[i][j + 1])):
+        x = 1 + findLongestFromACell(i, j + 1, mat, dp)
+ 
+    if (j > 0 and (mat[i][j] + 1 == mat[i][j-1])):
+        y = 1 + findLongestFromACell(i, j-1, mat, dp)
+ 
+    if (i > 0 and (mat[i][j] + 1 == mat[i-1][j])):
+        z = 1 + findLongestFromACell(i-1, j, mat, dp)
+ 
+    if (i < n-1 and (mat[i][j] + 1 == mat[i + 1][j])):
+        w = 1 + findLongestFromACell(i + 1, j, mat, dp)
+ 
+    # If none of the adjacent fours is one greater we will take 1
+    # otherwise we will pick maximum from all the four directions
+    dp[i][j] = max(x, max(y, max(z, max(w, 1))))
+    return dp[i][j]
+ 
+ 
+# Returns length of the longest path beginning with any cell
+def finLongestOverAll(mat):
+    result = 1  # Initialize result
+ 
+    # Create a lookup table and fill all entries in it as -1
+    dp = [[-1 for i in range(n)]for i in range(n)]
+ 
+    # Compute longest path beginning from all cells
+    for i in range(n):
+        for j in range(n):
+            if (dp[i][j] == -1):
+                findLongestFromACell(i, j, mat, dp)
+            # Update result if needed
+            result = max(result, dp[i][j])
+    return result
+ 
+ 
+# Driver program
+mat = [[1, 2, 9],
+       [5, 3, 8],
+       [4, 6, 7]]
+print("Length of the longest path is ", finLongestOverAll(mat))
+ 
+# this code is improved by sahilshelangia
+Javascript
+C#
+Output
+Length of the longest path is 4
+Time complexity of the above solution is O(n2). It may seem more at first look. If we take a closer look, we can notice that all values of dp[i][j] are computed only once.
+Auxiliary Space: O(N x N), since N x N extra space has been taken.
+
+This article is contributed by Aarti_Rathi and Ekta Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Find if string is K-Palindrome or not | Set 1
+Next
+Find minimum sum such that one of every three consecutive elements is taken
+Related Articles
+1.
+Maximum number of ones in a N*N matrix with given constraints
+2.
+Check if the Matrix follows the given constraints or not
+3.
+Longest Increasing Path in Matrix
+4.
+Longest path in a Matrix from a specific source cell to destination cell
+5.
+Find length of the longest consecutive path from a given starting character
+6.
+Count digit groupings of a number with given constraints
+7.
+Count of strings that can be formed using a, b and c under given constraints
+8.
+Count ways to build street under given constraints
+9.
+Number of ways to arrange N items under given constraints
+10.
+Ways to form a group from three groups with given constraints
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sahilshelangia
+shrikanth13
+MOHNEESHGARG
+gp6
+Jaspreet Singh
+rohitsingh07052
+atharvakango
+sksusha8853
+codewithshinchan
+hardikkoriintern
+rishavk61ns
+Article Tags :
+Amazon
+Samsung
+Dynamic Programming
+Matrix
+Practice Tags :
+Amazon
+Samsung
+Dynamic Programming
+Matrix
+Report Issue

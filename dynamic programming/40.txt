@@ -1,0 +1,304 @@
+Weighted Job Scheduling
+
+Difficulty Level : Medium
+Last Updated : 23 Mar, 2022
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Given N jobs where every job is represented by following three elements of it.
+
+Start Time
+Finish Time
+Profit or Value Associated (>= 0)
+Find the maximum profit subset of jobs such that no two jobs in the subset overlap. 
+
+Example: 
+
+Input: Number of Jobs n = 4
+       Job Details {Start Time, Finish Time, Profit}
+       Job 1:  {1, 2, 50} 
+       Job 2:  {3, 5, 20}
+       Job 3:  {6, 19, 100}
+       Job 4:  {2, 100, 200}
+Output: The maximum profit is 250.
+We can get the maximum profit by scheduling jobs 1 and 4.
+Note that there is longer schedules possible Jobs 1, 2 and 3 
+but the profit with this schedule is 20+50+100 which is less than 250.
+Recommended Practice
+Job Sequencing Problem
+Try It!
+A simple version of this problem is discussed here where every job has the same profit or value. The Greedy Strategy for activity selection doesn’t work here as a schedule with more jobs may have smaller profit or value.
+
+The above problem can be solved using the following recursive solution.  
+
+1) First sort jobs according to finish time.
+2) Now apply following recursive process. 
+   // Here arr[] is array of n jobs
+   findMaximumProfit(arr[], n)
+   {
+     a) if (n == 1) return arr[0];
+     b) Return the maximum of following two profits.
+         (i) Maximum profit by excluding current job, i.e., 
+             findMaximumProfit(arr, n-1)
+         (ii) Maximum profit by including the current job            
+   }
+
+How to find the profit including current job?
+The idea is to find the latest job before the current job (in 
+sorted array) that doesn't conflict with current job 'arr[n-1]'. 
+Once we find such a job, we recur for all jobs till that job and
+add profit of current job to result.
+In the above example, "job 1" is the latest non-conflicting
+for "job 4" and "job 2" is the latest non-conflicting for "job 3".
+The following is the implementation of the above naive recursive method. 
+
+C++
+Java
+Python3
+# Python3 program for weighted job scheduling using
+# Naive Recursive Method
+ 
+# Importing the following module to sort array
+# based on our custom comparison function
+from functools import cmp_to_key
+ 
+# A job has start time, finish time and profit
+class Job:
+     
+    def __init__(self, start, finish, profit):
+         
+        self.start = start
+        self.finish = finish
+        self.profit = profit
+ 
+# A utility function that is used for
+# sorting events according to finish time
+def jobComparator(s1, s2):
+     
+    return s1.finish < s2.finish
+ 
+# Find the latest job (in sorted array) that
+# doesn't conflict with the job[i]. If there
+# is no compatible job, then it returns -1
+def latestNonConflict(arr, i):
+     
+    for j in range(i - 1, -1, -1):
+        if arr[j].finish <= arr[i - 1].start:
+            return j
+             
+    return -1
+ 
+# A recursive function that returns the
+# maximum possible profit from given
+# array of jobs. The array of jobs must
+# be sorted according to finish time
+def findMaxProfitRec(arr, n):
+     
+    # Base case
+    if n == 1:
+        return arr[n - 1].profit
+ 
+    # Find profit when current job is included
+    inclProf = arr[n - 1].profit
+    i = latestNonConflict(arr, n)
+     
+    if i != -1:
+        inclProf += findMaxProfitRec(arr, i + 1)
+ 
+    # Find profit when current job is excluded
+    exclProf = findMaxProfitRec(arr, n - 1)
+    return max(inclProf, exclProf)
+ 
+# The main function that returns the maximum
+# possible profit from given array of jobs
+def findMaxProfit(arr, n):
+     
+    # Sort jobs according to finish time
+    arr = sorted(arr, key = cmp_to_key(jobComparator))
+    return findMaxProfitRec(arr, n)
+ 
+# Driver code
+values = [ (3, 10, 20), (1, 2, 50),
+           (6, 19, 100), (2, 100, 200) ]
+arr = []
+for i in values:
+    arr.append(Job(i[0], i[1], i[2]))
+     
+n = len(arr)
+ 
+print("The optimal profit is", findMaxProfit(arr, n))
+ 
+# This code is code contributed by Kevin Joshi
+Javascript
+Output: 
+
+
+
+The optimal profit is 250
+The above solution may contain many overlapping subproblems. For example, if lastNonConflicting() always returns the previous job, then findMaxProfitRec(arr, n-1) is called twice and the time complexity becomes O(n*2n). As another example when lastNonConflicting() returns previous to the previous job, there are two recursive calls, for n-2 and n-1. In this example case, recursion becomes the same as Fibonacci Numbers. 
+
+So this problem has both properties of Dynamic Programming, Optimal Substructure, and Overlapping Subproblems. 
+Like other Dynamic Programming Problems, we can solve this problem by making a table that stores solutions of subproblems.
+
+Below is an implementation based on Dynamic Programming. 
+
+C++
+Java
+Python3
+# Python3 program for weighted job scheduling
+# using Dynamic Programming
+ 
+# Importing the following module to sort array
+# based on our custom comparison function
+from functools import cmp_to_key
+ 
+# A job has start time, finish time and profit
+ 
+ 
+class Job:
+ 
+    def __init__(self, start, finish, profit):
+ 
+        self.start = start
+        self.finish = finish
+        self.profit = profit
+ 
+# A utility function that is used for sorting
+# events according to finish time
+ 
+ 
+def jobComparator(s1, s2):
+ 
+    return s1.finish < s2.finish
+ 
+# Find the latest job (in sorted array) that
+# doesn't conflict with the job[i]. If there
+# is no compatible job, then it returns -1
+ 
+ 
+def latestNonConflict(arr, i):
+ 
+    for j in range(i - 1, -1, -1):
+        if arr[j].finish <= arr[i - 1].start:
+            return j
+ 
+    return -1
+ 
+# The main function that returns the maximum possible
+# profit from given array of jobs
+ 
+ 
+def findMaxProfit(arr, n):
+ 
+    # Sort jobs according to finish time
+    arr = sorted(arr, key=cmp_to_key(jobComparator))
+ 
+    # Create an array to store solutions of subproblems.
+    # table[i] stores the profit for jobs till arr[i]
+    # (including arr[i])
+    table = [None] * n
+    table[0] = arr[0].profit
+ 
+    # Fill entries in M[] using recursive property
+    for i in range(1, n):
+ 
+        # Find profit including the current job
+        inclProf = arr[i].profit
+        l = latestNonConflict(arr, i)
+ 
+        if l != -1:
+            inclProf += table[l]
+ 
+        # Store maximum of including and excluding
+        table[i] = max(inclProf, table[i - 1])
+ 
+    # Store result and free dynamic memory
+    # allocated for table[]
+    result = table[n - 1]
+ 
+    return result
+ 
+ 
+# Driver code
+values = [(3, 10, 20), (1, 2, 50),
+          (6, 19, 100), (2, 100, 200)]
+arr = []
+for i in values:
+    arr.append(Job(i[0], i[1], i[2]))
+ 
+n = len(arr)
+ 
+print("The optimal profit is", findMaxProfit(arr, n))
+ 
+# This code is contributed by Kevin Joshi
+Javascript
+Output: 
+
+The optimal profit is 250
+Time Complexity of the above Dynamic Programming Solution is O(n2). Note that the above solution can be optimized to O(nLogn) using Binary Search in latestNonConflict() instead of linear search. Thanks to Garvit for suggesting this optimization. Please refer below post for details.
+
+Weighted Job Scheduling in O(n Log n) time
+
+References: 
+http://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf
+
+This article is contributed by Shivam. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+
+
+Like
+98
+Previous
+Find all distinct subset (or subsequence) sums of an array
+Next
+Number of paths with exactly k coins
+Related Articles
+1.
+Find Jobs involved in Weighted Job Scheduling
+2.
+Weighted Job Scheduling in O(n Log n) time
+3.
+Weighted Job Scheduling | Set 2 (Using LIS)
+4.
+Shortest path with exactly k edges in a directed and weighted graph
+5.
+Shortest path with exactly k edges in a directed and weighted graph | Set 2
+6.
+Maximum weighted edge in path between two nodes in an N-ary tree using binary lifting
+7.
+Queries to find sum of distance of a given node to every leaf node in a Weighted Tree
+8.
+Minimum halls required for class scheduling
+9.
+Maximum sum of at most two non-overlapping intervals in a list of Intervals | Interval Scheduling Problem
+10.
+Assembly Line Scheduling | DP-34
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+adrien
+rayhuangcj
+kevinjoshi46b
+jyoti369
+arorakashish0911
+swapnilgupta007
+shinjanpatra
+Article Tags :
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+Improve Article
+Report Issue

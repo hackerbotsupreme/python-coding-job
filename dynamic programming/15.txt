@@ -1,0 +1,354 @@
+Cutting a Rod | DP-13
+
+Difficulty Level : Medium
+Last Updated : 22 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+ 
+Given a rod of length n inches and an array of prices that includes prices of all pieces of size smaller than n. Determine the maximum value obtainable by cutting up the rod and selling the pieces. For example, if the length of the rod is 8 and the values of different pieces are given as the following, then the maximum obtainable value is 22 (by cutting in two pieces of lengths 2 and 6) 
+
+length   | 1   2   3   4   5   6   7   8  
+--------------------------------------------
+price    | 1   5   8   9  10  17  17  20
+And if the prices are as follows, then the maximum obtainable value is 24 (by cutting in eight pieces of length 1) 
+
+length   | 1   2   3   4   5   6   7   8  
+--------------------------------------------
+price    | 3   5   8   9  10  17  17  20
+Recommended Problem
+Rod Cutting
+Arrays
+Dynamic Programming
++2 more
+Google
+Solve Problem
+Submission count: 56.6K
+Method 1: A naive solution to this problem is to generate all configurations of different pieces and find the highest-priced configuration. This solution is exponential in terms of time complexity. Let us see how this problem possesses both important properties of a Dynamic Programming (DP) Problem and can efficiently be solved using Dynamic Programming.
+
+1) Optimal Substructure: 
+
+We can get the best price by making a cut at different positions and comparing the values obtained after a cut. We can recursively call the same function for a piece obtained after a cut.
+Let cutRod(n) be the required (best possible price) value for a rod of length n. cutRod(n) can be written as follows.
+cutRod(n) = max(price[i] + cutRod(n-i-1)) for all i in {0, 1 .. n-1}
+
+C++
+Java
+Python3
+#  A recursive solution for Rod cutting problem
+ 
+#  Returns the best obtainable price for a rod of length n
+#   and price[] as prices of different pieces
+def cutRod(price, index, n):
+     
+    #  base case
+    if index == 0:
+        return n*price[0]
+     
+    #   At any index we have 2 options either
+    #   cut the rod of this length or not cut
+    #   it
+    notCut = cutRod(price,index - 1,n)
+    cut = float("-inf")
+    rod_length = index + 1
+ 
+    if (rod_length <= n):
+         
+        cut = price[index]+cutRod(price,index,n - rod_length)
+   
+    return max(notCut, cut)
+ 
+#  Driver program to test above functions
+arr = [ 1, 5, 8, 9, 10, 17, 17, 20 ]
+size = len(arr)
+print("Maximum Obtainable Value is ",cutRod(arr, size - 1, size))
+ 
+# This code is contributed by Vivek Maddeshiya
+C#
+Javascript
+Output
+Maximum Obtainable Value is 22
+2) Overlapping Subproblems:
+
+The following is a simple recursive implementation of the Rod Cutting problem. 
+The implementation simply follows the recursive structure mentioned above.  
+
+C++
+Java
+Python3
+# A memoization solution for Rod cutting problem
+ 
+ # Returns the best obtainable price for
+  # a rod of length n and price[] as
+  # prices of different pieces
+def cutRoad(price,index,n,dp):
+   
+    # base case
+    if(index == 0):
+        return n*price[0]
+    if(dp[index][n] != -1):
+        return dp[index][n]
+       
+    # At any index we have 2 options either
+    # cut the rod of this length or not cut it
+    notCut = cutRoad(price,index-1,n,dp)
+    cut = -5
+    rod_length = index + 1
+    if(rod_length <= n):
+        cut = price[index] + cutRoad(price,index,n-rod_length,dp)
+    dp[index][n] = max(notCut,cut)
+    return dp[index][n]
+ 
+# Driver program to test above functions
+if __name__ == "__main__":
+    arr = [1,5,8,9,10,17,17,20]
+    size = len(arr)
+    dp = []
+    temp = []
+    for i in range(0,size+1):
+        temp.append(-1)
+    for i in range(0,size):
+        dp.append(temp)
+    # print(dp)
+    print("Maximum Obtainable Value is :",end=' ')
+    print(cutRoad(arr,size-1,size,dp))
+C#
+Output
+Maximum Obtainable Value is 22
+Time Complexity: O(n2)
+Auxiliary Space: O(n2)+O(n) 
+
+Considering the above implementation, the following is the recursion tree for a Rod of length 4. 
+
+cR() ---> cutRod() 
+
+                             cR(4)
+                  /        /           
+                 /        /              
+             cR(3)       cR(2)     cR(1)   cR(0)
+            /  |         /         |
+           /   |        /          |  
+      cR(2) cR(1) cR(0) cR(1) cR(0) cR(0)
+     /        |          |
+    /         |          |   
+  cR(1) cR(0) cR(0)      cR(0)
+   /
+ /
+CR(0)
+In the above partial recursion tree, cR(2) is solved twice. We can see that there are many subproblems that are solved again and again. Since the same subproblems are called again, this problem has the Overlapping Subproblems property. So the Rod Cutting problem has both properties (see this and this) of a dynamic programming problem. Like other typical Dynamic Programming(DP) problems, recomputations of the same subproblems can be avoided by constructing a temporary array val[] in a bottom-up manner. 
+
+C++
+C
+Java
+Python3
+# A Dynamic Programming solution for Rod cutting problem
+INT_MIN = -32767
+ 
+# Returns the best obtainable price for a rod of length n and
+# price[] as prices of different pieces
+def cutRod(price, n):
+    val = [0 for x in range(n+1)]
+    val[0] = 0
+ 
+    # Build the table val[] in bottom up manner and return
+    # the last entry from the table
+    for i in range(1, n+1):
+        max_val = INT_MIN
+        for j in range(i):
+             max_val = max(max_val, price[j] + val[i-j-1])
+        val[i] = max_val
+ 
+    return val[n]
+ 
+# Driver program to test above functions
+arr = [1, 5, 8, 9, 10, 17, 17, 20]
+size = len(arr)
+print("Maximum Obtainable Value is " + str(cutRod(arr, size)))
+ 
+# This code is contributed by Bhavya Jain
+C#
+PHP
+Javascript
+Output
+Maximum Obtainable Value is 22
+The Time Complexity of the above implementation is O(n^2), which is much better than the worst-case time complexity of Naive Recursive implementation.
+
+3) Using the idea of Unbounded Knapsack.
+
+This problem is very similar to the Unbounded Knapsack Problem, where there are multiple occurrences of the same item. Here the pieces of the rod. Now I will create an analogy between Unbounded Knapsack and the Rod Cutting Problem. 
+
+
+
+C++
+C
+Java
+Python3
+# Python program for above approach
+ 
+# Global Array for
+# the purpose of memoization.
+t = [[0 for i in range(9)] for j in range(9)]
+ 
+# A recursive program, using ,
+# memoization, to implement the
+# rod cutting problem(Top-Down).
+def un_kp(price, length, Max_len, n):
+ 
+    # The maximum price will be zero,
+    # when either the length of the rod
+    # is zero or price is zero.
+    if (n == 0 or Max_len == 0):
+        return 0;
+     
+ 
+    # If the length of the rod is less
+    # than the maximum length, Max_lene will
+    # consider it.Now depending
+    # upon the profit,
+    # either Max_lene we will take
+    # it or discard it.
+    if (length[n - 1] <= Max_len):
+        t[n][Max_len] = max(price[n - 1] + un_kp(price, length, Max_len - length[n - 1], n),
+                un_kp(price, length, Max_len, n - 1));
+     
+ 
+    # If the length of the rod is
+    # greater than the permitted size,
+    # Max_len we will not consider it.
+    else:
+        t[n][Max_len] = un_kp(price, length, Max_len, n - 1);
+     
+ 
+    # Max_lene Max_lenill return the maximum
+    # value obtained, Max_lenhich is present
+    # at the nth roMax_len and Max_length column.
+    return t[n][Max_len];
+ 
+ 
+if __name__ == '__main__':
+ 
+    price = [1, 5, 8, 9, 10, 17, 17, 20 ];
+    n =len(price);
+    length = [0]*n;
+    for i in range(n):
+        length[i] = i + 1;
+     
+    Max_len = n;
+    print("Maximum obtained value is " ,un_kp(price, length, n, Max_len));
+ 
+# This code is contributed by gauravrajput1
+C#
+Javascript
+Output
+Maximum obtained value  is 22
+Time Complexity: O(n2)
+Auxiliary Space: O(n), since n extra space has been taken.
+
+4) Dynamic Programming Approach Iterative Solution
+
+We will divide the problem into smaller sub-problems. Then using a 2-D matrix, we will calculate the maximum price we can achieve for any particular weight
+
+C++
+Java
+Python3
+#  Python program for above approach
+ 
+ 
+def cutRod(prices, n):
+    mat = [[0 for i in range(n+1)]for j in range(n+1)]
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            if i == 1:
+                mat[i][j] = j*prices[i-1]
+            else:
+                if i > j:
+                    mat[i][j] = mat[i-1][j]
+                else:
+                    mat[i][j] = max(prices[i-1]+mat[i][j-i], mat[i-1][j])
+    return mat[n][n]
+ 
+ 
+prices = [1, 5, 8, 9, 10, 17, 17, 20]
+n = len(prices)
+ 
+print("Maximum obtained value is ", cutRod(prices, n))
+ 
+# This Code is Contributed By Vivek Maddeshiya
+C#
+Output
+Maximum obtained value is 22
+Time Complexity: O(n2)
+Auxiliary Space: O(n2)
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+Like
+Previous
+Introduction and Dynamic Programming solution to compute nCr%p
+Next
+Painting Fence Algorithm
+Related Articles
+1.
+Maximum Product Cutting | DP-36
+2.
+Number of ways of cutting a Matrix such that atleast one cell is filled in each part
+3.
+Maximise number of cuts in a rod if it can be cut only in given 3 sizes
+4.
+Number of ways whose sum is greater than or equal to K
+5.
+Count ways to reach each index by taking steps that is multiple of incremented K
+6.
+Least cost required to empty an Array by removing elements from front
+7.
+Largest number upto T formed by combination of As and Bs
+8.
+Count of ways to form N digit number div by 3 with no adjacent duplicates
+9.
+Count ways to create N digit number with given conditions
+10.
+Count ways to create string of size N with given restrictions
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+vt_m
+aniketmaurya
+duttabhishek0
+decode2207
+suresh07
+sweetyty
+target_2
+abhinavgargchand
+pra8eek
+shivanisinghss2110
+rajsanghavi9
+GauravRajput1
+amartyaghoshgfg
+sumitgumber28
+sanskar84
+jainlovely450
+rishavnitro
+sniggy
+nikitamehrotra99
+ajaymakvana
+vivekmaddheshiya205
+garg28harsh
+hianmoyo3s
+karandeep1234
+Article Tags :
+Dynamic Programming
+Practice Tags :
+Dynamic Programming

@@ -1,0 +1,160 @@
+Longest Common Substring (Space optimized DP solution)
+
+Difficulty Level : Medium
+Last Updated : 26 Apr, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given two strings ‘X’ and ‘Y’, find the length of longest common substring. Expected space complexity is linear.
+Examples : 
+ 
+
+Input : X = "GeeksforGeeks", Y = "GeeksQuiz"
+Output : 5
+The longest common substring is "Geeks" and is of
+length 5.
+
+Input : X = "abcdxyz", Y = "xyzabcd"
+Output : 4
+The longest common substring is "abcd" and is of
+length 4.
+ 
+
+longest-common-substring
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed Dynamic programming based solution for Longest common substring. The auxiliary space used by the solution is O(m*n), where m and n are lengths of string X and Y. The space used by solution can be reduced to O(2*n). 
+Suppose we are at position mat[i][j]. Now if X[i-1] == Y[j-1], then we add the value of mat[i-1][j-1] to our result. That is we add value from previous row and value for all other rows below the previous row are never used. So, at a time we are using only two consecutive rows. This observation can be used to reduce the space required to find length of longest common substring. 
+Instead of creating a matrix of size m*n, we create a matrix of size 2*n. A variable currRow is used to represent that either row 0 or row 1 of this matrix is currently used to find length. Initially row 0 is used as current row for the case when length of string X is zero. At the end of each iteration, current row is made previous row and previous row is made new current row. 
+ 
+
+C++
+Java
+Python3
+# Space optimized Python3 implementation 
+# of longest common substring.
+import numpy as np
+ 
+# Function to find longest common substring.
+def LCSubStr(X, Y) :
+ 
+    # Find length of both the strings.
+    m = len(X)
+    n = len(Y)
+ 
+    # Variable to store length of
+    # longest common substring.
+    result = 0
+ 
+    # Matrix to store result of two
+    # consecutive rows at a time.
+    len_mat = np.zeros((2, n))
+ 
+    # Variable to represent which row 
+    # of matrix is current row.
+    currRow = 0
+ 
+    # For a particular value of i and j,
+    # len_mat[currRow][j] stores length of
+    # longest common substring in string
+    # X[0..i] and Y[0..j].
+    for i in range(m) :
+        for j in range(n) :
+                         
+            if (i == 0 | j == 0) :
+                len_mat[currRow][j] = 0
+             
+            elif (X[i - 1] == Y[j - 1]) :
+                                 
+                len_mat[currRow][j] = len_mat[1 - currRow][j - 1] + 1
+                result = max(result, len_mat[currRow][j])
+             
+            else :
+                len_mat[currRow][j] = 0
+             
+        # Make current row as previous row and
+        # previous row as new current row.
+        currRow = 1 - currRow
+ 
+    return result
+ 
+# Driver Code
+if __name__ == "__main__" :
+ 
+    X = "GeeksforGeeks"
+    Y = "GeeksQuiz"
+ 
+    print(LCSubStr(X, Y))
+ 
+# This code is contributed by Ryuga
+C#
+PHP
+Javascript
+Output : 
+5
+ 
+
+Time Complexity: O(m*n) 
+Auxiliary Space: O(n)
+ 
+
+
+
+
+
+
+
+Like
+9
+Previous
+Minimize number of unique characters in string
+Next
+Balanced expression with replacement
+Related Articles
+1.
+A Space Optimized DP solution for 0-1 Knapsack Problem
+2.
+Word Wrap problem ( Space optimized solution )
+3.
+Number of n digit stepping numbers | Space optimized solution
+4.
+Printing Matrix Chain Multiplication (A Space Optimized Solution)
+5.
+A Space Optimized Solution of LCS
+6.
+Print Longest Bitonic subsequence (Space Optimized Approach)
+7.
+Longest common substring in binary representation of two numbers
+8.
+Print the longest common substring
+9.
+Longest Common Substring in an Array of Strings
+10.
+SequenceMatcher in Python for Longest Common Substring
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+nik1996
+@nik1996
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manishshaw1
+ankthon
+itsok
+Article Tags :
+Dynamic Programming
+Strings
+Practice Tags :
+Dynamic Programming
+Strings
+Improve Article
+Report Issue

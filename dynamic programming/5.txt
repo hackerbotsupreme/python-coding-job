@@ -1,0 +1,228 @@
+Optimal Substructure Property in Dynamic Programming | DP-2
+
+Difficulty Level : Easy
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+ 
+As we discussed in Set 1, the following are the two main properties of a problem that suggest that the given problem can be solved using Dynamic programming: 
+1) Overlapping Subproblems 
+2) Optimal Substructure 
+We have already discussed the Overlapping Subproblem property in Set 1. Let us discuss the Optimal Substructure property here. 
+
+
+ 
+
+In Dynamic  programming, the ideal base property alludes to the way that an ideal answer for an issue can be built from ideal answers for subproblems. This property is utilized to plan dynamic programming calculations that tackle streamlining issues by separating them into more modest subproblems and afterward consolidating the answers for those subproblems to get an answer for the first issue.
+For instance, think about the issue of tracking down the most brief way between two focuses in a diagram. 
+
+On the off chance that we apply dynamic programming to this issue, we can characterize the subproblems as the briefest ways between halfway focuses on the chart, and afterward utilize the answers for those subproblems to build an answer for the first issue.
+To show this thought all the more officially, we should assume we disapprove of an ideal arrangement S* and a bunch of subproblems S1, S2, …, Sn. On the off chance that the ideal answer for the issue can be developed from the ideal answers for the subproblems, then the issue displays the ideal base property.
+2) Optimal Substructure:
+
+A given problem is said to have Optimal Substructure Property if the optimal solution of the given problem can be obtained by using the optimal solution to its subproblems instead of trying every possible way to solve the subproblems. 
+Example: 
+
+The Shortest Path problem has the following optimal substructure property: 
+If node x lies in the shortest path from a source node U to destination node V then the shortest path from U to V is a combination of the shortest path from U to X and the shortest path from X to V. The standard All Pair Shortest Path algorithm like Floyd–Warshall and Single Source Shortest path algorithm for negative weight edges like Bellman–Ford are typical examples of Dynamic Programming. 
+On the other hand, the Longest Path problem doesn’t have the Optimal Substructure property. Here by Longest Path, we mean the longest simple path (path without cycle) between two nodes. Consider the following unweighted graph given in the CLRS book. There are two longest paths from q to t: q→r→t and q→s→t. Unlike shortest paths, these longest paths do not have the optimal substructure property. For example, The longest path q→r→t is not a combination of the longest path from q to r and the longest path from r to t, because the longest path from q to r is q→s→t→r and the longest path from r to t is r→q→s→t. 
+ 
+
+
+
+Some Standard problems having optimal substructure are:
+
+
+S. No.
+
+Article 
+
+Practice Problem
+
+1
+
+Longest Common Subsequence 
+
+solve
+
+2
+
+Count ways to reach the n’th stair 
+
+solve
+
+3
+
+Coin Change 
+
+solve
+
+4
+
+Edit Distance | DP-5 – GeeksforGeeks
+
+solve
+
+5
+
+Cutting a Rod
+
+solve
+
+6
+
+Program for Fibonacci numbers – GeeksforGeeks
+
+solve
+
+The above problems can be solved optimally using Dynamic programming as each of these problems have an optimal substructure, On the other hand, there are some problems that need to be solved by trying all possible solutions one such problem is Rat in a Maze problem. In these types of problems, the optimal solution for subproblems may not surely give the solution to the entire problem. In Rat in a Maze problem, all paths need to be explored to find out the final path from the source that leads to the destination. Thus in these problems, Recursion and Backtracking are the way to go.
+
+Pseudo code: 
+
+for x in V:
+ for y in V:
+   dp[x][y] = INF
+
+dp[u][u] = 0
+
+for x in V:
+ for y in V:
+   for z in V:
+     if (x, y) is an edge in E:
+       dp[x][y] = min(dp[x][y], dp[x][z] + dp[z][y])
+
+return dp[u][v]
+ 
+
+C++
+#include <iostream>
+#include <algorithm>
+#include <limits>
+ 
+using namespace std;
+ 
+const int N = 100010;
+ 
+// The number of vertices in the graph
+int n;
+ 
+// The adjacency matrix representation of the graph
+int adj[N][N];
+ 
+// The array for storing the shortest distances between the vertices
+int dist[N][N];
+ 
+void floyd() {
+  // Initialize the distances with the weights of the edges
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      dist[i][j] = adj[i][j];
+    }
+  }
+ 
+  // Solve the subproblems using the optimal substructure property
+  for (int k = 0; k < n; k++) {
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        // Relax the edge (i, j) using the vertex k as the intermediate vertex
+        dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+      }
+    }
+  }
+}
+ 
+int main() {
+  // Read the input
+  cin >> n;
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      cin >> adj[i][j];
+      if (adj[i][j] == 0) {
+        // There is no edge between the vertices
+        adj[i][j] = numeric_limits<int>::max();
+      }
+    }
+  }
+ 
+  // Solve the shortest path problem
+  floyd();
+ 
+  // Print the shortest distances between the vertices
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      cout << i << " " << j << " " << dist[i][j] << endl;
+    }
+  }
+ 
+  return 0;
+}
+Java
+Output
+Shortest path from 0 to 3: -2
+We will be covering some example problems in future posts on Dynamic Programming. 
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+References: 
+http://en.wikipedia.org/wiki/Optimal_substructure 
+CLRS book
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+256
+Next
+Overlapping Subproblems Property in Dynamic Programming | DP-1
+Related Articles
+1.
+Optimal Strategy for the Divisor game using Dynamic Programming
+2.
+Overlapping Subproblems Property in Dynamic Programming | DP-1
+3.
+Optimal Strategy for a Game | Set 3
+4.
+Optimal strategy for a Game with modifications
+5.
+Optimal Strategy for a Game | DP-31
+6.
+Optimal Binary Search Tree | DP-24
+7.
+Optimal Strategy for a Game | Set 2
+8.
+Travelling Salesman Problem using Dynamic Programming
+9.
+Introduction and Dynamic Programming solution to compute nCr%p
+10.
+Dynamic Programming | High-effort vs. Low-effort Tasks Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ASAJ RAWAT
+munishkumar123264
+geeky01adarsh
+aashutoshparoha
+harendrakumar123
+avinashrat55252
+laxmishinde5t82
+Article Tags :
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+Improve Article
+Report Issue

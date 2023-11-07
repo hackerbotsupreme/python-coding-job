@@ -1,0 +1,268 @@
+Maximum height of Tree when any Node can be considered as Root
+
+Difficulty Level : Hard
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a tree with N nodes and N-1 edges, find out the maximum height of the tree when any node in the tree is considered as the root of the tree. 
+
+
+
+The above diagram represents a tree with 11 nodes and 10 edges and the path that gives us the maximum height when node 1 is considered as a root. The maximum height is 3. 
+ 
+
+
+
+In the above diagram, when 2 is considered as a root, then the longest path found is in RED color. A naive approach would be to traverse the tree using DFS traversal for every node and calculate the maximum height when the node is treated as the root of the tree. The time complexity for the DFS traversal of a tree is O(N). The overall time complexity of DFS for all N nodes will be O(N)*N i.e., O(N2).
+
+The above problem can be solved by using Dynamic Programming on Trees. To solve this problem, pre-calculate two things for every node. One will be the maximum height while traveling downwards via its branches to the leaves. While the other will be the maximum height when traveling upwards via its parent to any of the leaves. 
+
+Optimal Substructure: 
+
+
+
+When node i is considered as a root, 
+in[i] be the maximum height of the tree when we travel downwards via its sub-trees and leaves.
+Also, out[i] be the maximum height of the tree while traveling upwards via its parent. 
+
+The maximum height of a tree when node i is 
+considered as a root will be max(in[i], out[i]).
+
+Calculation of in[i]:  
+
+
+
+In the image above, values in[i] have been calculated for every node i. The maximum of every subtree is taken and added with 1 to the parent of that subtree. Add 1 for the edge between parent and subtree. Traverse the tree using DFS and calculate in[i] as max(in[i], 1+in[child]) for every node. 
+Calculation of out[i]: 
+
+
+
+The above diagram shows all the out[i] values and the path. For calculation of out[i], move upwards to the parent of node i. From the parent of node i, there are two ways to move in, one will be in all the branches of the parent. The other direction is to move to the parent(call it parent2 to avoid confusion) of the parent(call it parent1) of node i. The maximum height upwards via parent2 is out[parent1] itself. Generally, out[node i] as 1+max(out[i], 1+max of all branches). Add 1 for the edges between node and parent. 
+
+
+
+The above diagram explains the calculation of out[i] when 2 is considered as the root of the tree. The branches of node 2 are not taken into count since the maximum height via that path has already been calculated and stored in i[2]. Moving up, in this case, the parent of 2, i.e., 1, has no parent. So, the branches except for the one which has the node are considered while calculating the maximum.
+
+
+
+The above diagram explains the calculation of out[10]. The parent of node 10, i.e., 7 has a parent and a branch(precisely a child in this case). So the maximum height of both has been taken to count in such cases when parent and branches exist. 
+
+In case of multiple branches of a parent, take the longest of them to count(excluding the branch in which the node lies) 
+
+Calculating the maximum height of all the branches connected to parent : 
+
+in[i] stores the maximum height while moving downwards. No need to store all the lengths of branches. Only the first and second maximum length among all the branches will give the answer. Since the algorithm used is based on DFS, all the branches connected to the parent will be considered, including the branch which has the node. If the first maximum path thus obtained is the same as in[i], then maximum1 is the length of the branch in which node i lies. In this case, our longest path will be maximum2.
+Recurrence relation of in[i] and out[i]:  
+
+in[i] = max(in[i], 1 + in[child]) 
+out[i] = 1 + max(out[parent of i], 1 + longest path of all branches of parent of i) 
+
+Below is the implementation of the above idea: 
+
+C++
+Java
+Python3
+# Python3 code to find the maximum path length
+# considering any node as root
+inn = [0] * 100
+out = [0] * 100
+  
+# function to pre-calculate the array inn[]
+# which stores the maximum height when travelled
+# via branches
+def dfs1(v, u, parent):
+    global inn, out
+      
+    # initially every node has 0 height
+    inn[u] = 0
+  
+    # traverse in the subtree of u
+    for child in v[u]:
+  
+        # if child is same as parent
+        if (child == parent):
+            continue
+  
+        # dfs called
+        dfs1(v, child, u)
+  
+        # recursively calculate the max height
+        inn[u] = max(inn[u], 1 + inn[child])
+  
+# function to pre-calculate the array out[]
+# which stores the maximum height when traveled
+# via parent
+def dfs2(v, u, parent):
+    global inn, out
+      
+    # stores the longest and second
+    # longest branches
+    mx1, mx2 = -1, -1
+  
+    # traverse in the subtrees of u
+    for child in v[u]:
+        if (child == parent):
+            continue
+  
+        # compare and store the longest
+        # and second longest
+        if (inn[child] >= mx1):
+            mx2 = mx1
+            mx1 = inn[child]
+  
+        elif (inn[child] > mx2):
+            mx2 = inn[child]
+  
+    # traverse in the subtree of u
+    for child in v[u]:
+        if (child == parent):
+            continue
+  
+        longest = mx1
+  
+        # if longest branch has the node, then
+        # consider the second longest branch
+        if (mx1 == inn[child]):
+            longest = mx2
+  
+        # recursively calculate out[i]
+        out[child] = 1 + max(out[u], 1 + longest)
+  
+        # dfs function call
+        dfs2(v, child, u)
+  
+# function to print all the maximum heights
+# from every node
+def printHeights(v, n):
+    global inn, out
+      
+    # traversal to calculate inn[] array
+    dfs1(v, 1, 0)
+  
+    # traversal to calculate out[] array
+    dfs2(v, 1, 0)
+  
+    # print all maximum heights
+    for i in range(1, n + 1):
+        print("The maximum height when node", i, "is considered as root is", max(inn[i], out[i]))
+  
+# Driver Code
+if __name__ == '__main__':
+    n = 11
+    v = [[] for i in range(n + 1)]
+  
+    # initialize the tree given in the diagram
+    v[1].append(2)
+    v[2].append(1)
+    v[1].append(3)
+    v[3].append(1)
+    v[1].append(4)
+    v[4].append(1)
+    v[2].append(5)
+    v[5].append(2)
+    v[2].append(6)
+    v[6].append(2)
+    v[3].append(7)
+    v[7].append(3)
+    v[7].append(10)
+    v[10].append(7)
+    v[7].append(11)
+    v[11].append(7)
+    v[4].append(8)
+    v[8].append(4)
+    v[4].append(9)
+    v[9].append(4)
+  
+    # function to print the maximum height from every node
+    printHeights(v, n)
+  
+# This code is contributed by mohit kumar 29.
+C#
+Javascript
+Output : 
+The maximum height when node 1 is considered as root is 3
+The maximum height when node 2 is considered as root is 4
+The maximum height when node 3 is considered as root is 3
+The maximum height when node 4 is considered as root is 4
+The maximum height when node 5 is considered as root is 5
+The maximum height when node 6 is considered as root is 5
+The maximum height when node 7 is considered as root is 4
+The maximum height when node 8 is considered as root is 5
+The maximum height when node 9 is considered as root is 5
+The maximum height when node 10 is considered as root is 5
+The maximum height when node 11 is considered as root is 5
+ 
+
+Time Complexity : O(N) 
+Auxiliary Space : O(N)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+27
+Previous
+Combinatorial Game Theory | Set 1 (Introduction)
+Next
+Trie | (Insert and Search)
+Related Articles
+1.
+Sqrt (or Square Root) Decomposition | Set 2 (LCA of Tree in O(sqrt(height)) time)
+2.
+Path from the root node to a given node in an N-ary Tree
+3.
+Distance of each node of a Binary Tree from the root node using BFS
+4.
+Maximum XOR with given value in the path from root to given node in the tree
+5.
+Find if there is a pair in root to a leaf path with sum equals to root's data
+6.
+Height and Depth of a node in a Binary Tree
+7.
+Check if a given Binary Tree is height balanced like a Red-Black Tree
+8.
+Comparison between Height Balanced Tree and Weight Balanced Tree
+9.
+Find distance from root to given node in a binary tree
+10.
+Print path from root to a given node in a binary tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Striver
+@Striver
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+deepaksati
+Akanksha_Rai
+pgmreddy
+mohit kumar 29
+patel2127
+nidhi_biet
+avanitrachhadiya2155
+ashutoshsinghgeeksforgeeks
+adnanirshad158
+hardikkoriintern
+varshagumber28
+sumitgumber28
+Article Tags :
+Advanced Data Structure
+Algorithms
+Dynamic Programming
+Tree
+Practice Tags :
+Advanced Data Structure
+Algorithms

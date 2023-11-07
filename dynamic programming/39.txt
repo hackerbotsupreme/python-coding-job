@@ -1,0 +1,265 @@
+Find all distinct subset (or subsequence) sums of an array
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a set of integers, find a distinct sum that can be generated from the subsets of the given sets and print them in increasing order. It is given that sum of array elements is small.
+
+Examples:  
+
+Input  : arr[] = {1, 2, 3}
+Output : 0 1 2 3 4 5 6
+Distinct subsets of given set are
+{}, {1}, {2}, {3}, {1,2}, {2,3}, 
+{1,3} and {1,2,3}.  Sums of these
+subsets are 0, 1, 2, 3, 3, 5, 4, 6
+After removing duplicates, we get
+0, 1, 2, 3, 4, 5, 6  
+
+Input : arr[] = {2, 3, 4, 5, 6}
+Output : 0 2 3 4 5 6 7 8 9 10 11 12 
+         13 14 15 16 17 18 20
+
+Input : arr[] = {20, 30, 50}
+Output : 0 20 30 50 70 80 100
+Recommended Problem
+Find all distinct subset (or subsequence) sums
+Dynamic Programming
+Algorithms
+Flipkart
+Solve Problem
+Submission count: 15.9K
+The naive solution for this problem is to generate all the subsets, store their sums in a hash set and finally print all keys from the hash set.  
+
+C++
+Java
+Python3
+# Python 3 program to print distinct subset sums of
+# a given array.
+ 
+# sum denotes the current sum of the subset
+# currindex denotes the index we have reached in
+# the given array
+def distSumRec(arr, n, sum, currindex, s):
+    if (currindex > n):
+        return
+ 
+    if (currindex == n):
+        s.add(sum)
+        return
+ 
+    distSumRec(arr, n, sum + arr[currindex], currindex+1, s)
+    distSumRec(arr, n, sum, currindex+1, s)
+ 
+# This function mainly calls recursive function
+# distSumRec() to generate distinct sum subsets.
+# And finally prints the generated subsets.
+def printDistSum(arr,n):
+    s = set()
+    distSumRec(arr, n, 0, 0, s)
+ 
+    # Print the result
+    for i in s:
+        print(i,end = " ")
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [2, 3, 4, 5, 6]
+    n = len(arr)
+    printDistSum(arr, n)
+ 
+# This code is contributed by
+# Surendra_Gangwar
+C#
+Javascript
+Output:  
+
+0 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20
+Time Complexity: O(2n).
+Auxiliary Space: O(N), due to the use of an unordered_set to store the subset sums.
+
+Dynamic Programming Approach
+The time complexity of the above problem can be improved using Dynamic Programming, especially when the sum of given elements is small. We can make a dp table with rows containing the size of the array and the size of the column will be the sum of all the elements in the array.  
+
+C++
+Java
+Python3
+# Python3 program to print distinct subset
+# Sums of a given array.
+ 
+# Uses Dynamic Programming to find
+# distinct subset Sums
+def printDistSum(arr, n):
+ 
+    Sum = sum(arr)
+     
+    # dp[i][j] would be true if arr[0..i-1]
+    # has a subset with Sum equal to j.
+    dp = [[False for i in range(Sum + 1)]
+                 for i in range(n + 1)]
+                  
+    # There is always a subset with 0 Sum
+    for i in range(n + 1):
+        dp[i][0] = True
+ 
+    # Fill dp[][] in bottom up manner
+    for i in range(1, n + 1):
+ 
+        dp[i][arr[i - 1]] = True
+ 
+        for j in range(1, Sum + 1):
+             
+            # Sums that were achievable
+            # without current array element
+            if (dp[i - 1][j] == True):
+                dp[i][j] = True
+                dp[i][j + arr[i - 1]] = True
+             
+    # Print last row elements
+    for j in range(Sum + 1):
+        if (dp[n][j] == True):
+            print(j, end = " ")
+ 
+# Driver code
+arr = [2, 3, 4, 5, 6]
+n = len(arr)
+printDistSum(arr, n)
+ 
+# This code is contributed
+# by mohit kumar
+C#
+Javascript
+Output:  
+
+
+
+0 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20
+Time complexity of the above approach is O(n*sum) where n is the size of the array and sum is the sum of all the integers in the array.
+
+Space Complexity: O(N * SUM). We are using a two-dimensional array of size N*SUM to store the solution to subproblems.
+
+Optimized Bit-set Approach
+
+dp = dp | dp << a[i]
+Above Code snippet does the same as naive solution, where dp is a bit mask (we’ll use bit-set). Lets see how:
+
+dp → all the sums which were produced before element a[i]
+dp << a[i] → shifting all the sums by a[i], i.e. adding a[i] to all the sums.
+For example, Suppose initially the bit-mask was 000010100 meaning we could generate only 2 and 4 (count from right).
+Now if we get a element 3, we could make 5 and 7 as well by adding to 2 and 4 respectively.
+This can be denoted by 010100000 which is equivalent to (000010100) << 3
+dp | (dp << a[i]) → 000010100 | 010100000 = 010110100 This is union of above two sums representing which sums are possible, namely 2, 4, 5 and 7.
+
+bitset optimized knapsack
+
+
+C++
+Javascript
+Java
+Python3
+# Input Vector
+a = [2, 3, 4, 5, 6]
+ 
+# We have to make a constant size for bit-set
+# and to be safe keep it significantly high
+n = len(a)
+mx = 40
+ 
+# bitset of size mx, dp[i] is 1 if sum i is possible
+# and 0 otherwise
+dp = [0] * mx
+# Sum 0 is always possible
+dp[0] = 1
+ 
+# dp transitions as explained in article
+for i in range(n):
+    for j in range(mx - a[i]):
+        dp[j + a[i]] |= dp[j]
+    dp[a[i]] = 1
+ 
+# Print all the  1s in bit-set, this will be the
+# all the unique sums possible
+for i in range(mx):
+    if dp[i] == 1:
+        print(i, end=' ')
+Output
+0 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 20 
+Time Complexity also seems to be O(N * S). Because if we would have used a array instead of bitset the shifting would have taken linear time O(S). However the shift (and almost all) operation on bitset takes O(S / W) time. Where W is the word size of the system, Usually its 32 bit or 64 bit. Thus the final time complexity becomes O(N * S / W)
+
+Space Complexity: The space complexity of this approach is O(m) where m is the maximum value of the input array.
+
+Some Important Points:
+
+The size of bitset must be a constant, this sometimes is a drawback as we might waste some space.
+Bitset can be thought of a array where every element takes care of W elements. For example 010110100 is equivalent to {2, 6, 4} in a hypothetical system with word size W = 3.
+Bitset optimized knapsack solution reduced the time complexity by a factor of W which sometimes is just enough to get AC.
+This article is contributed by Karan Goyal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+17
+Previous
+Longest alternating subsequence
+Next
+Weighted Job Scheduling
+Related Articles
+1.
+Find all distinct subset (or subsequence) sums of an array | Set-2
+2.
+Check if all K-length subset sums of first array greater than that of the second array
+3.
+Sum of all subset sums of a linked list
+4.
+Median of all non-empty subset sums
+5.
+Find maximum subset sum formed by partitioning any subset of array into 2 partitions with equal sum
+6.
+Partition a set into two non-empty subsets such that the difference of subset sums is maximum
+7.
+Partition a set into two subsets such that the difference of subset sums is minimum
+8.
+Maximum size of subset such that product of all subset elements is a factor of N
+9.
+Largest possible Subset from an Array such that no element is K times any other element in the Subset
+10.
+Sum of maximum and minimum of Kth subset ordered by increasing subset sum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+princiraj1992
+mohit kumar 29
+SURENDRA_GANGWAR
+unknown2108
+importantly
+surinderdawra388
+sarvjot
+simmytarika5
+satwiksuman
+factworx4i2
+Article Tags :
+subsequence
+subset
+Dynamic Programming
+Practice Tags :
+Dynamic Programming
+subset
+Improve Article
+Report Issue
