@@ -1,0 +1,181 @@
+Convert Min Heap to Max Heap
+
+Difficulty Level : Easy
+Last Updated : 17 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given an array representation of min Heap, convert it to max Heap.
+
+Examples: 
+
+Input: arr[] = {3, 5, 9, 6, 8, 20, 10, 12, 18, 9}
+
+               3
+            /     \
+          5       9
+        /   \    /  \
+      6     8  20   10
+    /  \   /
+12   18 9 
+
+Output: arr[] = {20, 18, 10, 12, 9, 9, 3, 5, 6, 8}
+
+           20
+         /    \
+      18      10
+     /    \    /  \
+  12     9  9    3
+ /  \   /
+5    6 8 
+
+Input: arr[] = {3, 4, 8, 11, 13}
+Output:  arr[] = {13, 11, 8, 4, 3}
+ 
+
+
+
+Approach: To solve the problem follow the below idea:
+
+The idea is, simply build Max Heap without caring about the input. Start from the bottom-most and rightmost internal node of Min-Heap and heapify all internal nodes in the bottom-up way to build the Max heap.
+
+Follow the given steps to solve the problem:
+
+Call the Heapify function from the rightmost internal node of Min-Heap
+Heapify all internal nodes in the bottom-up way to build max heap
+Print the Max-Heap
+Algorithm: Here’s an algorithm for converting a min heap to a max heap:
+
+Start at the last non-leaf node of the heap (i.e., the parent of the last leaf node). For a binary heap, this node is located at the index floor((n – 1)/2), where n is the number of nodes in the heap.
+For each non-leaf node, perform a “heapify” operation to fix the heap property. In a min heap, this operation involves checking whether the value of the node is greater than that of its children, and if so, swapping the node with the smaller of its children. In a max heap, the operation involves checking whether the value of the node is less than that of its children, and if so, swapping the node with the larger of its children.
+Repeat step 2 for each of the non-leaf nodes, working your way up the heap. When you reach the root of the heap, the entire heap should now be a max heap.
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+# A Python3 program to convert min Heap
+# to max Heap
+ 
+# to heapify a subtree with root
+# at given index
+ 
+ 
+def MaxHeapify(arr, i, N):
+    l = 2 * i + 1
+    r = 2 * i + 2
+    largest = i
+    if l < N and arr[l] > arr[i]:
+        largest = l
+    if r < N and arr[r] > arr[largest]:
+        largest = r
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        MaxHeapify(arr, largest, N)
+ 
+# This function basically builds max heap
+ 
+ 
+def convertMaxHeap(arr, N):
+ 
+    # Start from bottommost and rightmost
+    # internal node and heapify all
+    # internal nodes in bottom up way
+    for i in range(int((N - 2) / 2), -1, -1):
+        MaxHeapify(arr, i, N)
+ 
+# A utility function to print a
+# given array of given size
+ 
+ 
+def printArray(arr, size):
+    for i in range(size):
+        print(arr[i], end=" ")
+    print()
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    # array representing Min Heap
+    arr = [3, 5, 9, 6, 8, 20, 10, 12, 18, 9]
+    N = len(arr)
+ 
+    print("Min Heap array : ")
+    printArray(arr, N)
+ 
+    # Function call
+    convertMaxHeap(arr, N)
+ 
+    print("Max Heap array : ")
+    printArray(arr, N)
+ 
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+Min Heap array : 3 5 9 6 8 20 10 12 18 9 
+Max Heap array : 20 18 10 12 9 9 3 5 6 8 
+Time Complexity: O(N), for details, please refer: Time Complexity of building a heap
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+58
+Next
+Time Complexity of building a heap
+Related Articles
+1.
+Find min and max values among all maximum leaf nodes from all possible Binary Max Heap
+2.
+Difference between Min Heap and Max Heap
+3.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+4.
+Heap Sort for decreasing order using min heap
+5.
+Convert BST to Max Heap
+6.
+Convert BST to Min Heap
+7.
+Minimum element in a max heap
+8.
+K-th Greatest Element in a Max-Heap
+9.
+Max Heap in Python
+10.
+Max Heap in Java
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+PranchalKatiyar
+Mithun Kumar
+29AjayKumar
+gabaa406
+tanmay_thaker
+simranarora5sos
+polymatir3j
+janardansthox
+raj2002
+sayanc170
+kushalpareek
+Article Tags :
+Heap
+Practice Tags :
+Heap

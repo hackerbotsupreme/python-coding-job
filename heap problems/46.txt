@@ -1,0 +1,308 @@
+Rearrange characters in a String such that no two adjacent characters are same
+
+Difficulty Level : Hard
+Last Updated : 16 Jan, 2023
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Given a string with lowercase repeated characters, the task is to rearrange characters in a string so that no two adjacent characters are the same. If it is not possible to do so, then print “Not possible”.
+
+Examples: 
+
+Input: aaabc 
+Output: abaca 
+
+Input: aaabb
+Output: ababa 
+
+Input: aa 
+Output: Not Possible
+
+Input: aaaabc 
+Output: Not Possible
+
+Asked In: Amazon Interview  
+
+
+
+Recommended Problem
+Rearrange characters
+Strings
+Heap
++2 more
+Amazon
+Microsoft
+Solve Problem
+Submission count: 20.1K
+To solve the problem using this approach follow the below idea:
+
+The idea is to put the highest frequency character first (a greedy approach). Use a priority queue (Or Binary Max Heap) and put all characters and ordered by their frequencies (highest frequency character at root). One by one take the highest frequency character from the heap and add it to result. After adding it, just decrease the frequency of the character and then temporarily move this character out of priority queue so that it is not picked again next time.
+
+Follow the given steps to solve the problem:
+
+Build a Priority_queue or max_heap, pq that stores characters with their frequencies. 
+Priority_queue or max_heap is built on the basis of the frequency of character. 
+Create a temporary Key that will be used as the previously visited element (the previous element in the resultant string. Initialize it { char = ‘#’ , freq = ‘-1’ } 
+While pq is not empty. 
+Pop an element and add it to the result. 
+Decrease the frequency of the popped element by ‘1’ 
+Push the previous element back into the priority_queue if its frequency is greater than zero. 
+Make the current element as the previous element for the next iteration. 
+If the length of the resultant string and the original string is not equal, then print “not possible”, else print the resultant string.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to rearrange characters in a string
+# so that no two adjacent characters are same.
+ 
+from heapq import heappush, heappop
+from collections import Counter
+ 
+# A key class for readability
+ 
+ 
+class Key:
+    def __init__(self, character: str, freq: int) -> None:
+        self.character = character
+        self.freq = freq
+ 
+    def __lt__(self, other: "Key") -> bool:
+        return self.freq > other.freq
+ 
+ 
+# Function to rearrange character of a string
+# so that no char repeat twice
+def rearrangeString(str: str):
+    n = len(str)
+    # Creating a frequency hashmap
+    count = dict()
+    for i in str:
+        count[ord(i)] = count.get(ord(i), 0) + 1
+ 
+    pq = []
+    for c in range(97, 123):
+        if count.get(c, 0):
+            heappush(pq, Key(chr(c), count))
+ 
+    # null character for default previous checking
+    prev = Key('#', -1)
+    str = ""
+ 
+    while pq:
+        key = heappop(pq)
+        str += key.character
+ 
+        # Since one character is already added
+        key.freq -= 1
+ 
+        # We avoid inserting if the frequency drops to 0
+        if prev.freq > 0:
+            heappush(pq, prev)
+ 
+        prev = key
+ 
+    if len(str) != n:
+        print("Not possible")
+    else:
+        print(str)
+ 
+ 
+# Driver's Code
+if __name__ == "__main__":
+    string = "bbbaa"
+ 
+    # Function call
+    rearrangeString(string)
+ 
+    # This code is contributed by kraanzu.
+Output
+babab
+Time complexity : O(N log(N))
+Auxiliary Space: O(N), Extra space is used to store the resultant string
+
+Rearrange characters in a String such that no two adjacent characters are same using Frequency:
+To solve the problem using this approach follow the below idea:
+
+Fill all the even positions of the result string first, with the highest frequency character. If there are still some even positions remaining, fill them first. Once even positions are done, then fill the odd positions. This way, it can be ensured that no two adjacent characters are the same. 
+
+Follow the given steps to solve the problem:
+
+Calculate the frequencies of every character in the input string
+If a character with a maximum frequency has a frequency greater than (n + 1) / 2, then return an empty string, as it is not possible to construct a string
+Now fill the even index positions with the maximum frequency character, if some even positions are remaining then first fill them with remaining characters
+Then fill odd index positions with the remaining characters
+Return the constructed string
+Below is the implementation of the above approach:
+
+C
+C++14
+Java
+Python3
+# Python program for rearranging characters in a string such
+# that no two adjacent are same
+ 
+# Function to find the char with maximum frequency in the given
+# string
+ 
+ 
+def getMaxCountChar(count):
+    maxCount = 0
+    for i in range(26):
+        if count[i] > maxCount:
+            maxCount = count[i]
+            maxChar = chr(i + ord('a'))
+ 
+    return maxCount, maxChar
+ 
+# Main function for rearranging the characters
+ 
+ 
+def rearrangeString(S):
+    N = len(S)
+ 
+    # if length of string is None return False
+    if not N:
+        return False
+ 
+    # create a hashmap for the alphabets
+    count = [0] * 26
+    for char in S:
+        count[ord(char) - ord('a')] += 1
+ 
+    maxCount, maxChar = getMaxCountChar(count)
+ 
+    # if the char with maximum frequency is more than the half of the
+    # total length of the string than return False
+    if maxCount > (N + 1) // 2:
+        return False
+ 
+    # create a list for storing the result
+    res = [None] * N
+ 
+    ind = 0
+ 
+    # place all occurrences of the char with maximum frequency in
+    # even positions
+    while maxCount:
+        res[ind] = maxChar
+        ind += 2
+        maxCount -= 1
+ 
+    # replace the count of the char with maximum frequency to zero
+    # as all the maxChar are already placed in the result
+    count[ord(maxChar) - ord('a')] = 0
+ 
+    # place all other char in the result starting from remaining even
+    # positions and then place in the odd positions
+    for i in range(26):
+        while count[i] > 0:
+            if ind >= N:
+                ind = 1
+            res[ind] = chr(i + ord('a'))
+            ind += 2
+            count[i] -= 1
+ 
+    # convert the result list to string and return
+    return ''.join(res)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    str = 'bbbaa'
+ 
+    # Function call
+    res = rearrangeString(str)
+    if res:
+        print(res)
+    else:
+        print('Not possible')
+ 
+# This code is contributed by Manish Thapa
+C#
+Javascript
+Output
+babab 
+Time complexity: O(N)
+Auxiliary Space: O(N+26), as there are 26 lowercase english characters
+
+This article is contributed by Nishant Singh . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+184
+Previous
+Removing punctuations from a given string
+Next
+Program to check if input is an integer or a string
+Related Articles
+1.
+Rearrange characters in a sorted string such that no pair of adjacent characters are the same
+2.
+Rearrange characters in a string such that no two adjacent are same using hashing
+3.
+Rearrange the characters of the string such that no two adjacent characters are consecutive English alphabets
+4.
+Rearrange string such that no pair of adjacent characters are of the same type
+5.
+Rearrange numbers in an array such that no two adjacent numbers are same
+6.
+Minimize swaps of pairs of characters required such that no two adjacent characters in the string are same
+7.
+Replace '?' in a string such that no two adjacent characters are same
+8.
+Rearrange two given arrays such that sum of same indexed elements lies within given range
+9.
+Rearrange the given string such that all prime multiple indexes have same character
+10.
+Rearrange a string so that all same characters become d distance away
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+gp6
+ankit_bansal_2020
+Anshul Sharma 2
+ArjunSharma
+yezhengli9
+SwathiKedarasetty
+iammanish041
+karthikeshwar
+kunalgupta20
+surindertarika1234
+simranarora5sos
+shinjanpatra
+RishabhPrabhu
+kraanzu
+abhijeet19403
+janardansthox
+akashish__
+suvamtestpurpose
+Article Tags :
+Amazon
+STL
+Greedy
+Heap
+Strings
+Practice Tags :
+Amazon
+Greedy
+Heap
+STL
+Strings

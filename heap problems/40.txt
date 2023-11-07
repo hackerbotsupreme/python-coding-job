@@ -1,0 +1,131 @@
+Maximum difference between two subsets of m elements
+
+Difficulty Level : Basic
+Last Updated : 03 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n integers and a number m, find the maximum possible difference between two sets of m elements chosen from given array.
+
+Examples: 
+
+Input : arr[] = 1 2 3 4 5
+            m = 4
+Output : 4
+The maximum four elements are 2, 3, 
+4 and 5. The minimum four elements are 
+1, 2, 3 and 4. The difference between
+two sums is (2 + 3 + 4 + 5) - (1 + 2
++ 3 + 4) = 4
+  
+Input : arr[] = 5 8 11 40 15
+           m = 2
+Output : 42
+The difference is (40 + 15) - (5  + 8)           
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+The idea is to first sort the array, then find sum of first m elements and sum of last m elements. Finally return difference between two sums.
+
+Implementation:
+
+CPP
+Java
+Python3
+# Python program to
+# find difference
+# between max and
+# min sum of array
+ 
+def find_difference(arr, n, m):
+    max = 0; min = 0
+      
+    # sort array
+    arr.sort();
+    j = n-1
+    for i in range(m):
+        min += arr[i]
+        max += arr[j]
+        j = j - 1
+      
+    return (max - min)
+  
+# Driver code
+if __name__ == "__main__":
+    arr = [1, 2, 3, 4, 5]
+    n = len(arr)
+    m = 4
+ 
+    print(find_difference(arr, n, m))  
+ 
+# This code is contributed by
+# Harshit Saini
+C#
+PHP
+Javascript
+Output
+4
+Time Complexity : O(n Log n) 
+Auxiliary Space : O(1)
+
+We can optimize the above solution using more efficient approaches discussed in below post. 
+k largest(or smallest) elements in an array | added Min Heap method
+
+
+
+
+
+
+
+Like
+2
+Next
+Height of a complete binary tree (or Heap) with N nodes
+Related Articles
+1.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+2.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+3.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+4.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+5.
+Sum of subsets of all the subsets of an array | O(3^N)
+6.
+Sum of subsets of all the subsets of an array | O(N)
+7.
+Sum of subsets of all the subsets of an array | O(2^N)
+8.
+Maximum Partitions such that any two numbers from two Subsets are co-prime
+9.
+Maximum sum of Bitwise XOR of all elements of two equal length subsets
+10.
+Partition into two subsets of lengths K and (N - k) such that the difference of sums is maximum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+TheGameOf256
+@TheGameOf256
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+SanyamAggarwal
+splevel62
+adi1212
+hardikkoriintern
+Article Tags :
+Arrays
+Heap
+Searching
+Practice Tags :
+Arrays
+Heap
+Searching
+Improve Article
+Report Issue

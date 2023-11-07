@@ -1,0 +1,295 @@
+Median in a stream of integers (running integers)
+
+Difficulty Level : Hard
+Last Updated : 27 Jan, 2023
+Read
+Discuss(220+)
+Courses
+Practice
+Video
+Given that integers are read from a data stream. Find the median of elements read so for in an efficient way. For simplicity assume, there are no duplicates. For example, let us consider the streams 5, 15, 1, 3 … 
+ 
+
+After reading 1st element of stream - 5 -> median - 5
+After reading 2nd element of stream - 5, 15 -> median - 10
+After reading 3rd element of stream - 5, 15, 1 -> median - 5
+After reading 4th element of stream - 5, 15, 1, 3 -> median - 4, so on...
+Making it clear, when the input size is odd, we take the middle element of sorted data. If the input size is even, we pick the average of the middle two elements in the sorted stream.
+Note that output is the effective median of integers read from the stream so far. Such an algorithm is called an online algorithm. Any algorithm that can guarantee the output of i-elements after processing i-th element, is said to be online algorithm. Let us discuss three solutions to the above problem.
+
+Recommended Problem
+Find median in a stream
+Heap
+Design-Pattern
++1 more
+Flipkart
+Morgan Stanley
++14 more
+Solve Problem
+Submission count: 1L
+Method 1: Insertion Sort
+
+If we can sort the data as it appears, we can easily locate the median element. Insertion Sort is one such online algorithm that sorts the data appeared so far. At any instance of sorting, say after sorting i-th element, the first i elements of the array are sorted. The insertion sort doesn’t depend on future data to sort data input till that point. In other words, insertion sort considers data sorted so far while inserting the next element. This is the key part of insertion sort that makes it an online algorithm.
+
+However, insertion sort takes O(n2) time to sort n elements. Perhaps we can use binary search on insertion sort to find the location of the next element in O(log n) time. Yet, we can’t do data movement in O(log n) time. No matter how efficient the implementation is, it takes polynomial time in case of insertion sort.
+Interested readers can try the implementation of Method 1.
+
+C++
+Java
+Python3
+# Function to find position to insert current element of
+# stream using binary search
+ 
+ 
+def binarySearch(arr, item, low, high):
+ 
+    if (low >= high):
+        return (low + 1) if (item > arr[low]) else low
+ 
+    mid = (low + high) // 2
+ 
+    if (item == arr[mid]):
+        return mid + 1
+ 
+    if (item > arr[mid]):
+        return binarySearch(arr, item, mid + 1, high)
+ 
+    return binarySearch(arr, item, low, mid - 1)
+ 
+# Function to print median of stream of integers
+ 
+ 
+def printMedian(arr, n):
+ 
+    i, j, pos, num = 0, 0, 0, 0
+    count = 1
+ 
+    print(f"Median after reading 1 element is {arr[0]}.0")
+ 
+    for i in range(1, n):
+        median = 0
+        j = i - 1
+        num = arr[i]
+ 
+        # find position to insert current element in sorted
+        # part of array
+        pos = binarySearch(arr, num, 0, j)
+ 
+        # move elements to right to create space to insert
+        # the current element
+        while (j >= pos):
+            arr[j + 1] = arr[j]
+            j -= 1
+ 
+        arr[j + 1] = num
+ 
+        # increment count of sorted elements in array
+        count += 1
+ 
+        # if odd number of integers are read from stream
+        # then middle element in sorted order is median
+        # else average of middle elements is median
+        if (count % 2 != 0):
+            median = arr[count // 2] / 1
+ 
+        else:
+            median = (arr[(count // 2) - 1] + arr[count // 2]) / 2
+ 
+        print(f"Median after reading {i + 1} elements is {median} ")
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+    arr = [5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4]
+    n = len(arr)
+ 
+    printMedian(arr, n)
+ 
+# This code is contributed by rakeshsahni
+ 
+# This code is modified by Susobhan Akhuli
+C#
+Javascript
+Output
+Median after reading 1 element is 5
+Median after reading 2 elements is 10
+Median after reading 3 elements is 5
+Median after reading 4 elements is 4
+Median after reading 5 elements is 3
+Median after reading 6 elements is 4
+Median after reading 7 elements is 5
+Median after reading 8 elements is 6
+Median after reading 9 elements is 7
+Median after reading 10 elements is 6.5
+Median after reading 11 elements is 7
+Median after reading 12 elements is 6.5
+Time Complexity: O(n2)
+Auxiliary Space: O(1)
+
+
+
+Method 2: Augmented self-balanced binary search tree (AVL, RB, etc…)
+At every node of BST, maintain a number of elements in the subtree rooted at that node. We can use a node as the root of a simple binary tree, whose left child is self-balancing BST with elements less than root and right child is self-balancing BST with elements greater than root. The root element always holds effective median.
+
+If the left and right subtrees contain a same number of elements, the root node holds the average of left and right subtree root data. Otherwise, the root contains the same data as the root of subtree which is having more elements. After processing an incoming element, the left and right subtrees (BST) are differed utmost by 1.
+
+Self-balancing BST is costly in managing the balancing factor of BST. However, they provide sorted data which we don’t need. We need median only. The next method makes use of Heaps to trace the median.
+
+Method 3: Heaps
+Similar to balancing BST in Method 2 above, we can use a max heap on the left side to represent elements that are less than effective median, and a min-heap on the right side to represent elements that are greater than effective median.
+
+After processing an incoming element, the number of elements in heaps differs utmost by 1 element. When both heaps contain the same number of elements, we pick the average of heaps root data as effective median. When the heaps are not balanced, we select effective median from the root of the heap containing more elements.
+
+Given below is the implementation of the above method. For the algorithm to build these heaps, please read the highlighted code.
+
+C++14
+Java
+Python3
+# Python code to implement the approach
+ 
+from heapq import heappush, heappop, heapify
+import math
+ 
+# Function to find the median of stream of data
+def streamMed(arr, N):
+     
+    # Declaring two min heap
+    g = []
+    s = []
+    for i in range(len(arr)):
+       
+        # Negation for treating it as max heap
+        heappush(s, -arr[i])
+        heappush(g, -heappop(s))
+        if len(g) > len(s):
+            heappush(s, -heappop(g))
+ 
+        if len(g) != len(s):
+            print(-s[0])
+        else:
+            print((g[0] - s[0])/2)
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    A = [5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4]
+    N = len(A)
+     
+    # Function call
+    streamMed(A, N)
+Javascript
+Output
+5
+10
+5
+4
+3
+4
+5
+6
+7
+6.5
+7
+6.5
+Time Complexity: If we omit the way how stream was read, complexity of median finding is O(N log N), as we need to read the stream, and due to heap insertions/deletions.
+
+Auxiliary Space: O(N) At first glance the above code may look complex. If you read the code carefully, it is simple algorithm. 
+
+Median of Stream of Running Integers using STL
+
+
+
+
+
+Like
+118
+Previous
+Minimum sum of two numbers formed from digits of an array
+Related Articles
+1.
+Median of Stream of Running Integers using STL
+2.
+Median of Stream of Running Integers using STL | Set 2
+3.
+Mode in a stream of integers (running integers)
+4.
+Find Median for each Array element by excluding the index at which Median is calculated
+5.
+Median after K additional integers
+6.
+Sort a stream of integers
+7.
+Program for average of an array without running into overflow
+8.
+Randomized Algorithms | Set 3 (1/2 Approximate Median)
+9.
+Efficiently design Insert, Delete and Median queries on a set
+10.
+Find median of BST
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+amankd777
+subhammahato348
+abhishek0719kadiyan
+saxenaanjali239
+simmytarika5
+rakeshsahni
+arorakashish0911
+Benequith
+sanjoy_62
+code_hunt
+hardikkoriintern
+animeshdey
+susobhanakhuli
+shivamtiwari00021
+Article Tags :
+Adobe
+Amazon
+Apple
+array-stream
+Belzabar
+Facebook
+FactSet
+Google
+Hike
+MAQ Software
+median-finding
+Microsoft
+Morgan Stanley
+Ola Cabs
+Oracle
+SAP Labs
+statistical-algorithms
+Yahoo
+Heap
+Mathematical
+Practice Tags :
+Adobe
+Amazon
+Apple
+Belzabar
+Facebook
+FactSet
+Google
+Hike
+MAQ Software
+Microsoft
+Morgan Stanley
+Ola Cabs
+Oracle
+SAP Labs
+Yahoo
+Heap
+Mathematical
+Improve Article
+Report Issue

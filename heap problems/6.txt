@@ -1,0 +1,101 @@
+Time Complexity of building a heap
+
+Difficulty Level : Medium
+Last Updated : 17 Jun, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Consider the following algorithm for building a Heap of an input array A. 
+
+BUILD-HEAP(A) 
+
+    heapsize := size(A); 
+
+    for i := floor(heapsize/2) downto 1 
+
+
+        do HEAPIFY(A, i); 
+
+    end for 
+
+END
+
+A quick look over the above algorithm suggests that the running time is O(n * lg(n))   since each call to Heapify costs O(lg(n))  and Build-Heap makes O(n)  such calls. 
+
+This upper bound, though correct, is not asymptotically tight. 
+
+We can derive a tighter bound by observing that the running time of Heapify depends on the height of the tree ‘h’ (which is equal to lg(n), where n is a number of nodes) and the heights of most sub-trees are small. The height ’h’ increases as we move upwards along the tree. Line-3 of Build-Heap runs a loop from the index of the last internal node (heapsize/2) with height=1, to the index of root(1) with height = lg(n). Hence, Heapify takes a different time for each node, which is:
+
+For finding the Time Complexity of building a heap, we must know the number of nodes having height h. For this we use the fact that, A heap of size n has at most \left \lceil \frac{n}{2^{h+1}} \right \rceil  nodes with height h. 
+
+a  to derive the time complexity, we express the total cost of Build-Heap as-
+
+ T(n) = \sum_{h = 0}^{lg(n)}\left \lceil \frac{n}{2^{h+1}} \right \rceil * O(h)= O(n * \sum_{h = 0}^{lg(n)}\frac{h}{2^{h}})= O(n * \sum_{h = 0}^{\infty}\frac{h}{2^{h}})
+
+
+Step 2 uses the properties of the Big-Oh notation to ignore the ceiling function and the constant 2(2^{h+1} = 2.2^h  ). Similarly in Step three, the upper limit of the summation can be increased to infinity since we are using Big-Oh notation. Sum of infinite G.P. (x < 1)
+
+ \sum_{n = 0}^{\infty}{x}^{n} = \frac{1}{1-x}
+
+On differentiating both sides and multiplying by x, we get
+
+ \sum_{n = 0}^{\infty}n{x}^{n} = \frac{x}{(1-x)^{2}}
+
+Putting the result obtained in (3) back in our derivation (1), we get
+
+ = O(n * \frac{\frac{1}{2}}{(1 - \frac{1}{2})^2})= O(n * 2)= O(n)
+
+Hence Proved that the Time complexity for Building a Binary Heap is O(n). 
+
+This article is contributed by Chirag Manwani. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+Applications of Heap Data Structure
+Next
+Binary Heap
+Related Articles
+1.
+When building a Heap, is the structure of Heap unique?
+2.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+3.
+Time Complexity and Space Complexity
+4.
+Python Code for time Complexity plot of Heap Sort
+5.
+Building Heap from Array
+6.
+Complexity analysis of various operations of Binary Min Heap
+7.
+Heap Sort for decreasing order using min heap
+8.
+Difference between Min Heap and Max Heap
+9.
+Convert Min Heap to Max Heap
+10.
+A Time Complexity Question
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hardikkoriintern
+Article Tags :
+Analysis
+Heap
+Practice Tags :
+Heap

@@ -1,0 +1,156 @@
+Largest triplet product in a stream
+
+Difficulty Level : Easy
+Last Updated : 15 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a stream of integers represented as arr[]. For each index i from 0 to n-1, print the multiplication of largest, second largest, third largest element of the subarray arr[0…i]. If i < 2 print -1. 
+
+Examples: 
+
+Input : arr[] = {1, 2, 3, 4, 5}
+Output :-1
+        -1
+         6
+         24
+         60
+Explanation : for i = 2 only three elements 
+are there {1, 2, 3} so answer is 6. For i = 3
+largest three elements are {2, 3, 4} their
+product is 2*3*4 = 24 ....so on            
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We will use priority queue here. 
+
+Insert arr[i] in the priority queue
+As the top element in priority queue is largest so pop it and store it as x. Now the top element in the priority queue will be the second largest element in subarray arr[0…i] pop it and store as y. Now the top element is third largest element in subarray arr[0…i] so pop it and store it as z.
+Print x*y*z
+Reinsert x, y, z.
+Below is the implementation of the above approach:
+
+
+C++
+Java
+Python3
+# Python3 implementation of largest triplet
+# multiplication
+from queue import PriorityQueue
+ 
+# Prints the product of three largest
+# numbers in subarray arr[0..i]
+def LargestTripletMultiplication(arr, n):
+     
+    # Call a priority queue
+    q = PriorityQueue()
+ 
+    # Traversing the array
+    for i in range(n):
+         
+        # Pushing -arr[i] in array
+        # to get max PriorityQueue
+        q.put(-arr[i])
+ 
+        # If less than three elements
+        # are present in array print -1
+        if (q.qsize() < 3):
+            print(-1)
+        else:
+             
+            # pop three largest elements
+            x = q.get()
+            y = q.get()
+            z = q.get()
+ 
+            # Reinsert x, y, z in
+            # priority_queue
+            ans = x * y * z
+             
+            print(-ans)
+             
+            q.put(x);
+            q.put(y);
+            q.put(z);
+ 
+# Driver Code
+if __name__ == '__main__':
+  
+    arr = [ 1, 2, 3, 4, 5 ]
+    n = len(arr)
+     
+    LargestTripletMultiplication(arr, n)
+     
+# This code is contributed by math_lover
+C#
+Javascript
+Output
+-1
+-1
+6
+24
+60
+Time Complexity: O(N * log N ).
+Auxiliary Space: O(N), N is the length of the array.
+
+This article is contributed by Ayush Jha. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+9
+Next
+Find K most occurring elements in the given Array
+Related Articles
+1.
+Largest lexicographic triplet from a given Array that forms a triangle
+2.
+Maximum product of a triplet (subsequence of size 3) in array
+3.
+Find distinct integers for a triplet with given product
+4.
+Java Program to Find the K'th largest element in a stream
+5.
+C++ Program to Find the K'th largest element in a stream
+6.
+K'th largest element in a stream
+7.
+Find a triplet that sum to a given value
+8.
+Pythagorean Triplet in an array
+9.
+Smallest Difference Triplet from Three arrays
+10.
+Find a triplet such that sum of two equals to third element
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nobody_cares
+math_lover
+Rajput-Ji
+umadevi9616
+arorakashish0911
+hardikkoriintern
+sayanc170
+surajrasr7277
+Article Tags :
+array-stream
+Arrays
+Heap
+Practice Tags :
+Arrays
+Heap
+Improve Article
+Report Issue

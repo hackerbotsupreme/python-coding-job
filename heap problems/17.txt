@@ -1,0 +1,192 @@
+Iterative HeapSort
+
+Difficulty Level : Medium
+Read
+Discuss
+Courses
+Practice
+Video
+HeapSort is a comparison-based sorting technique where we first build Max Heap and then swap the root element with the last element (size times) and maintains the heap property each time to finally make it sorted. 
+
+Examples:
+
+Input :  10 20 15 17 9 21
+Output : 9 10 15 17 20 21 
+
+Input:  12 11 13 5 6 7 15 5 19
+Output: 5 5 6 7 11 12 13 15 19 
+In first Example, first we have to build Max Heap. 
+
+So, we will start from 20 as child and check for its parent. Here 10 is smaller, so we will swap these two. 
+
+Now, 20 10 15 17 9 21 
+
+Now, child 17 is greater than its parent 10. So, both will be swapped and order will be 20 17 15 10 9 21 
+
+Now, child 21 is greater than parent 15. So, both will be swapped. 
+
+20 17 21 10 9 15 
+
+Now, again 21 is bigger than parent 20. So, 21 17 20 10 9 15 
+
+This is Max Heap. 
+
+Now, we have to apply sorting. Here, we have to swap first element with last one and we have to maintain Max Heap property. So, after first swapping : 15 17 20 10 9 21 It clearly violates Max Heap property. 
+
+So, we have to maintain it. So, order will be 
+
+20 17 15 10 9 21 
+
+17 10 15 9 20 21 
+
+15 10 9 17 20 21 
+
+10 9 15 17 20 21 
+
+9 10 15 17 20 21 
+
+Here, underlined part is sorted part.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Implementation:
+
+C++
+C
+Java
+Python3
+# Python3 program for implementation
+# of Iterative Heap Sort
+ 
+# function build Max Heap where value
+# of each child is always smaller
+# than value of their parent
+def buildMaxHeap(arr, n):
+ 
+    for i in range(n):
+         
+        # if child is bigger than parent
+        if arr[i] > arr[int((i - 1) / 2)]:
+            j = i
+     
+            # swap child and parent until
+            # parent is smaller
+            while arr[j] > arr[int((j - 1) / 2)]:
+                (arr[j],
+                 arr[int((j - 1) / 2)]) = (arr[int((j - 1) / 2)],
+                                           arr[j])
+                j = int((j - 1) / 2)
+ 
+def heapSort(arr, n):
+ 
+    buildMaxHeap(arr, n)
+ 
+    for i in range(n - 1, 0, -1):
+         
+        # swap value of first indexed
+        # with last indexed
+        arr[0], arr[i] = arr[i], arr[0]
+     
+        # maintaining heap property
+        # after each swapping
+        j, index = 0, 0
+         
+        while True:
+            index = 2 * j + 1
+             
+            # if left child is smaller than
+            # right child point index variable
+            # to right child
+            if (index < (i - 1) and
+                arr[index] < arr[index + 1]):
+                index += 1
+         
+            # if parent is smaller than child
+            # then swapping parent with child
+            # having higher value
+            if index < i and arr[j] < arr[index]:
+                arr[j], arr[index] = arr[index], arr[j]
+         
+            j = index
+            if index >= i:
+                break
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [10, 20, 15, 17, 9, 21]
+    n = len(arr)
+     
+    print("Given array: ")
+    for i in range(n):
+        print(arr[i], end = " ")
+         
+    print()
+ 
+    heapSort(arr, n)
+ 
+    # print array after sorting
+    print("Sorted array: ")
+    for i in range(n):
+        print(arr[i], end = " ")
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output
+Given array: 10 20 15 17 9 21 
+
+Sorted array: 9 10 15 17 20 21 
+Time Complexity: O(n log n), Here, both function buildMaxHeap and heapSort runs in O(nlogn) time.
+Auxiliary Space: O(1)
+
+
+
+Like
+Previous
+Heap Sort
+Next
+Counting Sort
+Related Articles
+1.
+Program to check if an array is sorted or not (Iterative and Recursive)
+2.
+C Program for Iterative Merge Sort
+3.
+Java Program for Iterative Merge Sort
+4.
+Python Program for Iterative Merge Sort
+5.
+C Program for Iterative Quick Sort
+6.
+Java Program for Iterative Quick Sort
+7.
+Check if linked list is sorted (Iterative and Recursive)
+8.
+QuickSelect (A Simple Iterative Implementation)
+9.
+Iterative Quick Sort
+10.
+Iterative Merge Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+kaditya139
+@kaditya139
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+vreflect
+Rajput-Ji
+rexomkar
+aditya942003patil
+hkdass001
+Article Tags :
+Heap
+Sorting
+Practice Tags :
+Heap
+Sorting

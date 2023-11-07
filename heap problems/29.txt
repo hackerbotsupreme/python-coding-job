@@ -1,0 +1,254 @@
+K’th largest element in a stream
+
+Difficulty Level : Medium
+Last Updated : 30 Dec, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given an infinite stream of integers, find the Kth largest element at any point of time.
+
+Note: Here we have a stream instead of a whole array and we are allowed to store only K elements.
+
+Examples: 
+
+Input: stream[] = {10, 20, 11, 70, 50, 40, 100, 5, . . .}, K = 3
+Output: {_,   _, 10, 11, 20, 40, 50,  50, . . .}
+
+
+Input: stream[] = {2, 5, 1, 7, 9, . . .}, K = 2
+Output: {_, 2, 2, 5, 7, . . .} 
+
+Recommended Problem
+Kth largest element in a stream
+Heap
+Data Structures
+Flipkart
+Amazon
++5 more
+Solve Problem
+Submission count: 63.4K
+Naive Approach: To solve the problem follow the below idea:
+
+Keep an array of size K. The idea is to keep the array sorted so that the Kth largest element can be found in O(1) time (we just need to return the first element of the array, if the array is sorted in increasing order
+
+How to process a new element of the stream? 
+
+For every new element in the stream, check if the new element is smaller than the current Kth largest element. If yes, then ignore it. If no, then remove the smallest element from the array and insert the new element in sorted order. 
+
+The time complexity of processing a new element is O(K)
+
+Kth largest element in a stream using a self-balancing binary search tree:
+To solve the problem follow the below idea:
+
+Create a self-balancing binary search tree and for every new element in the stream, check if the new element is smaller than the current k’th largest element. If yes, then ignore it. If no, then remove the smallest element from the tree and insert a new element. 
+
+The Kth largest element can be found in O(log K) time.
+
+Kth largest element in a stream using a Min-Heap:
+To solve the problem follow the below idea:
+
+An Efficient Solution is to use a Min Heap of size K to store K largest elements of the stream. The Kth largest element is always at the root and can be found in O(1) time
+
+How to process a new element of the stream? 
+
+Compare the new element with the root of the heap. If a new element is smaller, then ignore it. Otherwise, replace the root with a new element and call heapify for the root of the modified heap
+
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python
+# Python program for the above approach
+import heapq
+ 
+# min heap DS
+min = []
+k = 3
+ 
+# function to get all kth number
+def getAllKthNumber(arr):
+ 
+    # list to store kth largest number
+    list = []
+ 
+    # one by one adding values to the min heap
+    for val in arr:
+ 
+        # if the heap size is less than k , we add to
+        # the heap
+        if len(min) < k:
+            heapq.heappush(min, val)
+ 
+        # otherwise ,
+        # first we compare the current value with the
+        # min heap TOP value
+ 
+        # if TOP val > current element , no need to
+        # remove TOP , bocause it will be the largest kth
+        # element anyhow
+ 
+        # else we need to update the kth largest element
+        # by removing the top lowest element
+        else:
+            if val > min[0]:
+                heapq.heappop(min)
+                heapq.heappush(min, val)
+ 
+        # if heap size >=k we add
+        # kth largest element
+        # otherwise -1
+        if len(min) >= k:
+            list.append(min[0])
+        else:
+            list.append(-1)
+    return list
+ 
+# Driver Code
+arr = [1, 2, 3, 4, 5, 6]
+ 
+# Function call
+res = getAllKthNumber(arr)
+ 
+for x in res:
+    print("Kth largest element is", x)
+ 
+# This code is contributed by adityamaharshi21
+C#
+Javascript
+Output
+Kth largest element is -1 
+Kth largest element is -1 
+Kth largest element is 1
+Kth largest element is 2
+Kth largest element is 3
+Kth largest element is 4
+Time Complexity: O(N * log K)
+Auxiliary Space: O(K)
+
+Below is the implementation of the above approach using priority-queue:
+C++
+Java
+Python3
+# Python3 program for the above approach
+from queue import PriorityQueue
+ 
+ 
+def kthLargest(k,  arr,  n):
+    ans = [0]*n
+ 
+    # Creating a min-heap using priority queue
+    pq = PriorityQueue()
+ 
+    # Iterating through each element
+    for i in range(n):
+        # If size of priority
+        # queue is less than k
+        if (pq.qsize() < k):
+            pq.put(arr[i])
+        else:
+            if (arr[i] > pq.queue[0]):
+                pq.get()
+                pq.put(arr[i])
+ 
+    # If size is less than k
+        if (pq.qsize() < k):
+            ans[i] = -1
+        else:
+            ans[i] = pq.queue[0]
+ 
+    return ans
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+    n = 6
+    arr = [1, 2, 3, 4, 5, 6]
+    k = 4
+ 
+    # Function call
+    v = kthLargest(k, arr, n)
+    print(*v)
+ 
+# This code is contributed by Lovely Jain
+C#
+Javascript
+Output
+-1 -1 -1 1 2 3 
+Time Complexity: O(N * log K) 
+Auxiliary Space: O(K)
+
+Related Articles:
+K’th Smallest/Largest Element in Unsorted Array | Set 1 
+K’th Smallest/Largest Element in Unsorted Array | Set 2 (Expected Linear Time)
+K’th Smallest/Largest Element in Unsorted Array | Set 3 (Worst Case Linear Time)
+
+This article is contributed by Shivam Gupta. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Find if there is a pair with a given sum in the rotated sorted Array
+Next
+Find the element that appears once in a sorted array
+Related Articles
+1.
+Java Program to Find the K'th largest element in a stream
+2.
+C++ Program to Find the K'th largest element in a stream
+3.
+Largest triplet product in a stream
+4.
+Largest element smaller than current element on left for every element in Array
+5.
+Count of subarrays with largest element at least twice the largest of remaining elements
+6.
+Rank of an element in a stream
+7.
+Remaining array element after repeated removal of last element and subtraction of each element from next adjacent element
+8.
+Replace elements with absolute difference of smallest element on left and largest element on right
+9.
+Array formed from difference of each element from the largest element in the given array
+10.
+Find Array formed by adding each element of given array with largest element in new array to its left
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+pradeepmondalp
+UtkarshPandey6
+sooda367
+kashishsoda
+shikhasingrajput
+_shinchancode
+jainlovely450
+rishavk61ns
+janardansthox
+adityamaharshi21
+Article Tags :
+Amazon
+array-stream
+Cisco
+Order-Statistics
+Arrays
+Binary Search Tree
+Heap
+Searching
+Practice Tags :
+Amazon
+Cisco
+Arrays
+Binary Search Tree
+Heap
+Searching
+Report Issue

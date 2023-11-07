@@ -1,0 +1,369 @@
+Heap Sort
+
+Difficulty Level : Medium
+Last Updated : 17 Jan, 2023
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+What is Heap Sort
+Heap sort is a comparison-based sorting technique based on Binary Heap data structure. It is similar to the selection sort where we first find the minimum element and place the minimum element at the beginning. Repeat the same process for the remaining elements.
+
+Heap sort is an in-place algorithm. 
+Its typical implementation is not stable, but can be made stable (See this)
+Typically 2-3 times slower than well-implemented QuickSort.  The reason for slowness is a lack of locality of reference.
+Advantages of heapsort:
+Efficiency –  The time required to perform Heap sort increases logarithmically while other algorithms may grow exponentially slower as the number of items to sort increases. This sorting algorithm is very efficient.
+Memory Usage – Memory usage is minimal because apart from what is necessary to hold the initial list of items to be sorted, it needs no additional memory space to work
+Simplicity –  It is simpler to understand than other equally efficient sorting algorithms because it does not use advanced computer science concepts such as recursion.
+Disadvantages of Heap Sort:
+Costly: Heap sort is costly.
+Unstable: Heat sort is unstable. It might rearrange the relative order.
+Efficient: Heap Sort are not very efficient when working with highly complex data. 
+Applications of HeapSort:
+Heapsort is mainly used in hybrid algorithms like the IntroSort.
+Sort a nearly sorted (or K sorted) array 
+k largest(or smallest) elements in an array 
+The heap sort algorithm has limited uses because Quicksort and Mergesort are better in practice. Nevertheless, the Heap data structure itself is enormously used. See Applications of Heap Data Structure
+
+Recommended Problem
+Heap Sort
+Sorting
+Heap
++2 more
+Amazon
+Microsoft
++7 more
+Solve Problem
+Submission count: 68.7K
+What is meant by Heapify? 
+Heapify is the process of creating a heap data structure from a binary tree represented using an array. It is used to create Min-Heap or Max-heap. Start from the first index of the non-leaf node whose index is given by n/2 – 1. Heapify uses recursion.
+
+Algorithm for Heapify:
+heapify(array)
+ Root = array[0]
+
+   Largest = largest( array[0] , array [2 * 0 + 1]/ array[2 * 0 + 2])
+if(Root != Largest)
+ Swap(Root, Largest)
+
+How does Heapify work? 
+ 
+Array = {1, 3, 5, 4, 6, 13, 10, 9, 8, 15, 17}
+Corresponding Complete Binary Tree is:
+
+                 1
+              /     \
+           3         5
+        /    \     /  \
+      4      6   13  10
+     / \    / \
+   9   8  15 17
+
+
+
+The task to build a Max-Heap from above array.
+
+Total Nodes = 11.
+
+Total non-leaf nodes= (11/2)-1=5
+
+last non-leaf node = 6.
+
+Therefore, Last Non-leaf node index = 4.
+
+To build the heap, heapify only the nodes: [1, 3, 5, 4, 6] in reverse order.
+
+Heapify 6: Swap 6 and 17.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     4      17   13  10
+    / \    /  \
+  9   8  15   6
+
+Heapify 4: Swap 4 and 9.
+
+                 1
+              /     \
+           3         5
+        /    \      /  \
+     9      17   13  10
+    / \    /  \
+  4   8  15   6
+
+Heapify 5: Swap 13 and 5.
+
+                 1
+              /     \
+           3         13
+        /    \      /  \
+     9      17   5   10
+    / \    /  \
+ 4   8  15   6
+
+Heapify 3: First Swap 3 and 17, again swap 3 and 15.
+
+                 1
+             /     \
+        17         13
+       /    \      /  \
+    9      15   5   10
+   / \    /  \
+ 4   8  3   6
+
+Heapify 1: First Swap 1 and 17, again swap 1 and 15, finally swap 1 and 6.
+
+                 17
+              /      \
+          15         13
+         /    \      /  \
+       9      6    5   10
+      / \    /  \
+    4   8  3    1
+
+Heap Sort Algorithm
+To solve the problem follow the below idea:
+
+ First convert the array into heap data structure using heapify, then one by one delete the root node of the Max-heap and replace it with the last node in the heap and then heapify the root of the heap. Repeat this process until size of heap is greater than 1.
+
+Follow the given steps to solve the problem:
+
+Build a max heap from the input data. 
+At this point, the maximum element is stored at the root of the heap. Replace it with the last item of the heap followed by reducing the size of the heap by 1. Finally, heapify the root of the tree. 
+Repeat step 2 while the size of the heap is greater than 1.
+Note: The heapify procedure can only be applied to a node if its children nodes are heapified. So the heapification must be performed in the bottom-up order.
+
+Detailed Working of Heap Sort
+To understand heap sort more clearly, let’s take an unsorted array and try to sort it using heap sort.
+Consider the array: arr[] = {4, 10, 3, 5, 1}.
+
+Build Complete Binary Tree: Build a complete binary tree from the array.
+
+Build complete binary tree from the array
+Build complete binary tree from the array
+
+Transform into max heap: After that, the task is to construct a tree from that unsorted array and try to convert it into max heap.
+
+To transform a heap into a max-heap, the parent node should always be greater than or equal to the child nodes
+Here, in this example, as the parent node 4 is smaller than the child node 10, thus, swap them to build a max-heap.
+Transform it into a max heap image widget
+
+Now, as seen, 4 as a parent is smaller than the child 5, thus swap both of these again and the resulted heap and array should be like this:
+Make the tree a max heap
+Make the tree a max heap
+
+Perform heap sort: Remove the maximum element in each step (i.e., move it to the end position and remove that) and then consider the remaining elements and transform it into a max heap.
+
+Delete the root element (10) from the max heap. In order to delete this node, try to swap it with the last node, i.e. (1). After removing the root element, again heapify it to convert it into max heap.
+Resulted heap and array should look like this:
+Remove 10 and perform heapify
+Remove 10 and perform heapify
+
+Repeat the above steps and it will look like the following:
+Remove 5 and perform heapify
+Remove 5 and perform heapify
+
+Now remove the root (i.e. 3) again and perform heapify.
+Remove 4 and perform heapify
+Remove 4 and perform heapify
+
+Now when the root is removed once again it is sorted. and the sorted array will be like arr[] = {1, 3, 4, 5, 10}.
+The sorted array
+The sorted array
+
+Implementation of Heap Sort
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+# Python program for implementation of heap Sort
+ 
+# To heapify subtree rooted at index i.
+# n is size of heap
+ 
+ 
+def heapify(arr, N, i):
+    largest = i  # Initialize largest as root
+    l = 2 * i + 1     # left = 2*i + 1
+    r = 2 * i + 2     # right = 2*i + 2
+ 
+    # See if left child of root exists and is
+    # greater than root
+    if l < N and arr[largest] < arr[l]:
+        largest = l
+ 
+    # See if right child of root exists and is
+    # greater than root
+    if r < N and arr[largest] < arr[r]:
+        largest = r
+ 
+    # Change root, if needed
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # swap
+ 
+        # Heapify the root.
+        heapify(arr, N, largest)
+ 
+# The main function to sort an array of given size
+ 
+ 
+def heapSort(arr):
+    N = len(arr)
+ 
+    # Build a maxheap.
+    for i in range(N//2 - 1, -1, -1):
+        heapify(arr, N, i)
+ 
+    # One by one extract elements
+    for i in range(N-1, 0, -1):
+        arr[i], arr[0] = arr[0], arr[i]  # swap
+        heapify(arr, i, 0)
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    arr = [12, 11, 13, 5, 6, 7]
+ 
+    # Function call
+    heapSort(arr)
+    N = len(arr)
+ 
+    print("Sorted array is")
+    for i in range(N):
+        print("%d" % arr[i], end=" ")
+# This code is contributed by Mohit Kumra
+C#
+PHP
+Javascript
+Output
+Sorted array is 
+5 6 7 11 12 13 
+Time Complexity: O(N log N)
+Auxiliary Space: O(1)
+
+Some FAQs related to Heap Sort
+What are the two phases of Heap Sort?
+The heap sort algorithm consists of two phases. In the first phase the array is converted into a max heap. And in the second phase the highest element is removed (i.e., the one at the tree root) and the remaining elements are used to create a new max heap.
+
+Why Heap Sort is not stable?
+Heap sort algorithm is not a stable algorithm. This algorithm is not stable because the operations that are performed in a heap can change the relative ordering of the equivalent keys.
+
+Is Heap Sort an example of “Divide and Conquer” algorithm?
+Heap sort is NOT at all a Divide and Conquer algorithm. It uses a heap data structure to efficiently sort its element and not a “divide and conquer approach” to sort the elements.
+
+Which sorting algorithm is better – Heap sort or Merge Sort?
+The answer lies in the comparison of their time complexity and space requirement. The Merge sort is slightly faster than the Heap sort. But on the other hand merge sort takes extra memory. Depending on the requirement, one should choose which one to use.
+
+Why Heap sort better than Selection sort?
+Heap sort is similar to selection sort, but with a better way to get the maximum element. It takes advantage of the heap data structure to get the maximum element in constant time.
+
+Related articles:
+Quiz on Heap Sort
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz:
+QuickSort, 
+Selection Sort, 
+Bubble Sort, 
+Insertion Sort, 
+Merge Sort, 
+Heap Sort, 
+QuickSort, 
+Radix Sort, 
+Counting Sort, 
+Bucket Sort, 
+ShellSort, 
+Comb Sort, 
+Pigeonhole Sort
+Coding practice for sorting
+
+
+
+
+Like
+462
+Previous
+QuickSort
+Next
+Iterative HeapSort
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Heap Sort for decreasing order using min heap
+3.
+Difference between Min Heap and Max Heap
+4.
+When building a Heap, is the structure of Heap unique?
+5.
+Convert Min Heap to Max Heap
+6.
+Where is Heap Sort used practically?
+7.
+C++ Program for Heap Sort
+8.
+Python Code for time Complexity plot of Heap Sort
+9.
+Lexicographical ordering using Heap Sort
+10.
+Sorting algorithm visualization : Heap Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Shivi_Aggarwal
+Akanksha_Rai
+RishiAdvani
+Vibhav Gupta
+kushjaing
+rishiraj1996
+Ameya Gharpure
+jainabhi279
+triptisharma25220
+SoumikMondal
+nathanfriendgeeksforgeeks
+volumezero9786
+amartajisce
+amartyaghoshgfg
+kashishkumar2
+_i_plus_plus_
+sagartomar9927
+surwaseshrikant1729
+janardansthox
+sweetyty
+ghoshtamojit531
+itskawal2000
+Article Tags :
+24*7 Innovation Labs
+Amazon
+Belzabar
+Heap Sort
+Intuit
+Oracle
+Samsung
+SAP Labs
+Visa
+Heap
+Sorting
+Practice Tags :
+24*7 Innovation Labs
+Amazon
+Belzabar
+Intuit
+Oracle
+Samsung
+SAP Labs
+Visa
+Heap
+Sorting

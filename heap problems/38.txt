@@ -1,0 +1,226 @@
+Smallest Derangement of Sequence
+
+Difficulty Level : Medium
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the sequence 
+
+\ S = {1, 2, 3 \dots N}                       
+find the lexicographically smallest (earliest in dictionary order) derangement of 
+\ S                    
+A derangement of S is any permutation of S such that no two elements in S and its permutation occur at the same position.
+
+Examples:   
+
+Input: 3
+Output : 2 3 1
+Explanation: The Sequence is 1 2 3.
+Possible permutations are (1, 2, 3), (1, 3, 2),
+          (2, 1, 3), (2, 3, 1), (3, 1, 2) (3, 2, 1).
+Derangements are (2, 3, 1), (3, 1, 2).
+Smallest Derangement: (2, 3, 1)
+
+Input : 5
+Output : 2 1 4 5 3.
+Explanation: Out of all the permutations of 
+(1, 2, 3, 4, 5), (2, 1, 4, 5, 3) is the first derangement.
+Method 1: 
+
+
+We can modify the method shown in this article: Largest Derangement 
+Using a min heap we can successively get the least element and place them in more significant positions, taking care that the property of derangement is maintained. 
+
+Below is the implementation of the above approach.   
+
+C++
+Java
+Python3
+# Python3 program to generate
+# smallest derangement
+# using priority queue.
+def generate_derangement(N) :
+     
+    # Generate Sequence and insert
+    # into a priority queue.
+    S = [i for i in range(N + 1)]   
+    PQ = []   
+    for i in range(1, N + 1) :      
+        PQ.append(S[i])
+         
+    # Generate Least Derangement
+    D = [0] * (N + 1)   
+    PQ.sort()  
+    for i in range(1, N + 1) :     
+        PQ.sort()     
+        d = PQ[0]
+        del PQ[0]    
+        if (d != S[i]) or (i == N) :        
+            D[i] = d         
+        else :        
+            PQ.sort()
+            D[i] = PQ[0]
+            del PQ[0]
+            PQ.append(d)           
+    if D[N] == S[N] :       
+        t = D[N - 1]
+        D[N - 1] = D[N]
+        D[N] = t
+         
+    # Print Derangement
+    for i in range(1, N + 1) :
+        print(D[i], end = " ")       
+    print()
+     
+generate_derangement(10)
+ 
+# This code is contributed by divyeshrabadiya07
+C#
+Javascript
+Output
+
+
+2 1 4 3 6 5 8 7 10 9 
+Time Complexity: O(N * log N).
+Auxiliary Space: O(N)
+
+Method 2: 
+Since we are given a very specific sequence i.e 
+
+S_i = i \ \ \forall i <= N              
+
+We can calculate the answer even more efficiently.
+Divide the original sequence into pairs of two elements, and then swap the elements of each pair. 
+If N is odd then the last pair needs to be swapped again. 
+
+Pictorial Representation  
+
+
+
+
+
+
+Complexity: We perform at most N/2 + 1 swaps, so the complexity is O(N).
+
+Why does this method work 
+This method is a very specific application of method 1 and is based on observation. Given the nature of the sequence, at position i we already know the least element that can be put, which is either i+1 or i-1. Since we are already given the least permutation of S it is clear that the derangement must start from 2 and not 1 ie of the form i+1 (i = 1). The next element will be of form i – 1 . The element after this will be i + 1 and then next i – 1. This pattern will continue until the end. 
+This operation is most easily understood as the swapping of adjacent elements of pairs of elements of S.
+If we can determine the least element in constant time, then the complexity overhead from the heap is eliminated. Hence, from O(N * log N) the complexity reduces to O(N). 
+
+Below is the implementation of the above approach: 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Implementation:
+
+C++
+Java
+Python3
+# Efficient Python3 program to find
+# smallest derangement.
+ 
+def generate_derangement(N):
+     
+    # Generate Sequence S
+    S = [0] * (N + 1)
+    for i in range(1, N + 1):
+        S[i] = i
+ 
+    # Generate Derangement
+    D = [0] * (N + 1)
+    for i in range(1, N + 1, 2):
+        if i == N:
+ 
+            # Only if i is odd
+            # Swap S[N-1] and S[N]
+            D[N] = S[N - 1]
+            D[N - 1] = S[N]
+        else:
+            D[i] = i + 1
+            D[i + 1] = i
+ 
+    # Print Derangement
+    for i in range(1, N + 1):
+        print(D[i], end = " ")
+    print()
+ 
+# Driver Code
+if __name__ == '__main__':
+    generate_derangement(10)
+     
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+2 1 4 3 6 5 8 7 10 9 
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+Note: The auxiliary space can be reduced to O(1) if we perform the swapping operations on S itself.
+
+This article is contributed by Sayan Mahapatra. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksfor geeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+7
+Previous
+Merge k sorted arrays | Set 1
+Next
+Maximum distinct elements after removing k elements
+Related Articles
+1.
+Largest Derangement of a Sequence
+2.
+Number of Binary Trees for given Preorder Sequence length
+3.
+Minimum number of operations to convert a given sequence into a Geometric Progression
+4.
+Count permutation such that sequence is non decreasing
+5.
+Print the two possible permutations from a given sequence
+6.
+Find the K-th Permutation Sequence of first N natural numbers
+7.
+Print all Possible Decodings of a given Digit Sequence
+8.
+Count of sequence of length K in range [1, N] where every element is a multiple of its previous one
+9.
+Find m-th smallest value in k sorted arrays
+10.
+Get the kth smallest number using the digits of the given number
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+Akanksha_Rai
+andrew1234
+padh_Le_Beta
+amit143katiyar
+divyeshrabadiya07
+code_hunt
+avanitrachhadiya2155
+aryanphulkar1
+simranarora5sos
+hardikkoriintern
+surajrasr7277
+raj2002
+Article Tags :
+Combinatorial
+Heap
+Practice Tags :
+Combinatorial
+Heap

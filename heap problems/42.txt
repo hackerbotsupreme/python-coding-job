@@ -1,0 +1,181 @@
+Merge two binary Max Heaps
+
+Difficulty Level : Easy
+Last Updated : 16 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two binary max heaps as arrays, the task is to merge the given heaps.
+
+Examples : 
+
+Input: a = {10, 5, 6, 2}, b = {12, 7, 9}
+Output: {12, 10, 9, 2, 5, 7, 6}
+
+
+
+
+
+
+ 
+
+Input: a = {2, 5, 1, 9, 12}, b = {3, 7, 4, 10}
+Output: {12, 10, 7, 9, 5, 3, 1, 4, 2}
+
+Recommended Problem
+Merge two binary Max heaps
+Arrays
+Heap
++1 more
+Solve Problem
+Submission count: 25.3K
+Approach: To solve the problem follow the below idea:
+
+Create an array to store the result. Copy both given arrays one by one into result. Once all the elements have been copied, then call standard build heap to construct full merged max heap. 
+
+Follow the given steps to solve the problem:
+
+Create an array merged of size N+M
+Copy elements of both the arrays in the array merged
+Build Max-Heap of this array
+Print elements of the Max-Heap
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+# Python3 program to merge two Max heaps.
+ 
+# Standard heapify function to heapify a
+# subtree rooted under idx. It assumes that
+# subtrees of node are already heapified.
+ 
+ 
+def MaxHeapify(arr, N, idx):
+ 
+    # Find largest of node and
+    # its children
+    if idx >= N:
+        return
+    l = 2 * idx + 1
+    r = 2 * idx + 2
+    Max = 0
+    if l < N and arr[l] > arr[idx]:
+        Max = l
+    else:
+        Max = idx
+    if r < N and arr[r] > arr[Max]:
+        Max = r
+ 
+    # Put Maximum value at root and
+    # recur for the child with the
+    # Maximum value
+    if Max != idx:
+        arr[Max], arr[idx] = arr[idx], arr[Max]
+        MaxHeapify(arr, N, Max)
+ 
+# Builds a Max heap of given arr[0..n-1]
+ 
+ 
+def buildMaxHeap(arr, N):
+ 
+    # building the heap from first non-leaf
+    # node by calling Max heapify function
+    for i in range(int(N / 2) - 1, -1, -1):
+        MaxHeapify(arr, N, i)
+ 
+# Merges Max heaps a[] and b[] into merged[]
+ 
+ 
+def mergeHeaps(merged, a, b, N, M):
+ 
+    # Copy elements of a[] and b[] one
+    # by one to merged[]
+    for i in range(N):
+        merged[i] = a[i]
+    for i in range(M):
+        merged[N + i] = b[i]
+ 
+    # build heap for the modified
+    # array of size n+m
+    buildMaxHeap(merged, N + M)
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    a = [10, 5, 6, 2]
+    b = [12, 7, 9]
+ 
+    N = len(a)
+    M = len(b)
+ 
+    merged = [0] * (M + N)
+ 
+    # Function call
+    mergeHeaps(merged, a, b, N, M)
+ 
+    for i in range(N + M):
+        print(merged[i], end=" ")
+ 
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+12 10 9 2 5 7 6 
+Time Complexity: O(N + M)
+Auxiliary Space: O(N + M)  
+
+
+
+Like
+Previous
+Height of a complete binary tree (or Heap) with N nodes
+Next
+Convert BST to Min Heap
+Related Articles
+1.
+Find min and max values among all maximum leaf nodes from all possible Binary Max Heap
+2.
+Insertion and Deletion in Heaps
+3.
+Longest subarray with absolute difference between elements less than or equal to K using Heaps
+4.
+Difference between Heaps and Sorted Array
+5.
+Partition a set into two subsets such that difference between max of one and min of other is minimized
+6.
+Minimize sum of max sized Subsequence such that no two elements are adjacent
+7.
+Merge two sorted arrays with O(1) extra space
+8.
+Merge two sorted arrays in Python using heapq
+9.
+Merge two sorted arrays in constant space using Min Heap
+10.
+Merge first two minimum elements of the array until all the elements are greater than K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+PranchalKatiyar
+umadevi9616
+hardikkoriintern
+janardansthox
+Article Tags :
+Arrays
+Heap
+Practice Tags :
+Arrays
+Heap

@@ -1,0 +1,239 @@
+K maximum sum combinations from two arrays
+
+Difficulty Level : Hard
+Last Updated : 03 Jan, 2023
+Read
+Discuss(70+)
+Courses
+Practice
+Video
+Given two equally sized arrays (A, B) and N (size of both arrays). 
+A sum combination is made by adding one element from array A and another element of array B. Display the maximum K valid sum combinations from all the possible sum combinations. 
+
+Examples: 
+
+Input :  A[] : {3, 2} 
+         B[] : {1, 4}
+         K : 2 [Number of maximum sum
+               combinations to be printed]
+Output : 7    // (A : 3) + (B : 4)
+         6    // (A : 2) + (B : 4)
+
+Input :  A[] : {4, 2, 5, 1}
+         B[] : {8, 0, 3, 5}
+         K : 3
+Output : 13   // (A : 5) + (B : 8)
+         12   // (A : 4) + (B :  8)
+         10   // (A : 2) + (B : 8)
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach 1 (Naive Algorithm): We can use Brute force through all the possible combinations that can be made by taking one element from array A and another from array B and inserting them to a max heap. In a max heap maximum element is at the root node so whenever we pop from max heap we get the maximum element present in the heap. After inserting all the sum combinations we take out K elements from max heap and display it.
+
+Below is the implementation of the above approach. 
+
+C++
+Java
+Python 3
+# Python program to find
+# K maximum combinations
+# from two arrays
+import math
+from queue import PriorityQueue
+ 
+# Function to display first K
+# maximum sum combinations
+ 
+ 
+def KMaxCombinations(A, B, N, K):
+ 
+    # Max heap.
+    pq = PriorityQueue()
+ 
+    # Insert all the possible
+    # combinations in max heap.
+    for i in range(0, N):
+        for j in range(0, N):
+            a = A[i] + B[j]
+            pq.put((-a, a))
+ 
+    # Pop first N elements from
+    # max heap and display them.
+    count = 0
+    while (count < K):
+        print(pq.get()[1])
+        count = count + 1
+ 
+ 
+# Driver method
+A = [4, 2, 5, 1]
+B = [8, 0, 5, 3]
+N = len(A)
+K = 3
+ 
+# Function call
+KMaxCombinations(A, B, N, K)
+ 
+# This code is contributed
+# by Gitanjali.
+C#
+Javascript
+Output
+13
+12
+10
+Time Complexity: O(N2)
+Auxiliary Space : O(N2)
+
+Approach 2 (Sorting, Max heap, Map) : 
+
+Instead of brute-forcing through all the possible sum combinations, we should find a way to limit our search space to possible candidate sum combinations. 
+
+Sort both arrays array A and array B.
+Create a max heap i.e priority_queue in C++ to store the sum combinations along with the indices of elements from both arrays A and B which make up the sum. Heap is ordered by the sum.
+Initialize the heap with the maximum possible sum combination i.e (A[N – 1] + B[N – 1] where N is the size of array) and with the indices of elements from both arrays (N – 1, N – 1). The tuple inside max heap will be (A[N-1] + B[N – 1], N – 1, N – 1). Heap is ordered by first value i.e sum of both elements.
+Pop the heap to get the current largest sum and along with the indices of the element that make up the sum. Let the tuple be (sum, i, j).
+Next insert (A[i – 1] + B[j], i – 1, j) and (A[i] + B[j – 1], i, j – 1) into the max heap but make sure that the pair of indices i.e (i – 1, j) and (i, j – 1) are not 
+already present in the max heap. To check this we can use set in C++.
+Go back to 4 until K times.
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python3
+import heapq
+ 
+# Function prints k maximum possible combinations
+def KMaxCombinations(a, b, k):
+     
+    # Sorting the arrays.
+    a.sort()
+    b.sort()
+     
+    n = len(a)
+     
+    # Using a max-heap.
+    pq = []
+    heapq.heapify(pq)
+    pq.append((-a[n-1] - b[n-1], (n - 1, n - 1)))
+     
+    # Using a set.
+    my_set = set()
+    my_set.add((n - 1, n - 1))
+     
+     
+     
+    for count in range(K):
+         
+        #  tuple format (sum, (i, j)).
+        temp = heapq.heappop(pq)
+         
+        print(-temp[0])
+         
+        i = temp[1][0]
+        j = temp[1][1]
+        sum = a[i - 1] + b[j]
+         
+        temp1 = (i - 1, j)
+         
+        # insert (A[i - 1] + B[j], (i - 1, j))
+        # into max heap.
+         
+        #  insert only if the pair (i - 1, j) is
+        # not already present inside the map i.e.
+        # no repeating pair should be present inside
+        # the heap.
+        if(temp1 not in my_set):
+            heapq.heappush(pq, (-sum, temp1))
+            my_set.add(temp1)
+         
+        sum = a[i] + b[j - 1]
+         
+        temp1 = (i, j - 1)
+         
+        # insert (A[i1] + B[j = 1], (i, j - 1))
+        # into max heap.
+         
+        # insert only if the pair (i, j - 1)
+        # is not present inside the heap.
+        if(temp1 not in my_set):
+            heapq.heappush(pq, (-sum, temp1))
+            my_set.add(temp1)
+ 
+ 
+ 
+# Driver Code.
+A = [ 1, 4, 2, 3 ];
+B = [ 2, 5, 1, 6 ];
+K = 4;
+   
+# Function call
+KMaxCombinations(A, B, K);
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+10
+9
+9
+8
+Time Complexity : O(N log N) assuming K <= N
+Auxiliary Space : O(N)
+
+
+
+Like
+Previous
+K-th Largest Sum Contiguous Subarray
+Next
+K maximum sums of overlapping contiguous sub-arrays
+Related Articles
+1.
+Maximum OR sum of sub-arrays of two different arrays
+2.
+Minimize sum of product of same-indexed elements of two arrays by reversing a subarray of one of the two arrays
+3.
+Combinations from n arrays picking one element from each array
+4.
+Find all combinations of two equal sum subsequences
+5.
+Split the given array into K sub-arrays such that maximum sum of all sub arrays is minimum
+6.
+Find sub-arrays from given two arrays such that they have equal sum
+7.
+Find Sum of pair from two arrays with maximum sum
+8.
+Print all the combinations of N elements by changing sign such that their sum is divisible by M
+9.
+All unique combinations whose sum equals to K
+10.
+Count of all valid combinations of at most K numbers that sum up to N
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+foreverrookie
+@foreverrookie
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nikhil741
+UmangSingh1
+rhlkmr089
+mayanktyagi1709
+Rajput-Ji
+gfgking
+surinderdawra388
+codewithmini
+vakanihetav
+hardikkoriintern
+phasing17
+Article Tags :
+Order-Statistics
+Arrays
+Heap
+Practice Tags :
+Arrays
+Heap

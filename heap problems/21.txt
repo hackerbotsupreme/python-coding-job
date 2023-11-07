@@ -1,0 +1,290 @@
+Sort a nearly sorted (or K sorted) array
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(170+)
+Courses
+Practice
+Video
+Given an array of N elements, where each element is at most K away from its target position, devise an algorithm that sorts in O(N log K) time.
+
+Examples: 
+
+Input: arr[] = {6, 5, 3, 2, 8, 10, 9}, K = 3 
+Output: arr[] = {2, 3, 5, 6, 8, 9, 10}
+
+Input: arr[] = {10, 9, 8, 7, 4, 70, 60, 50}, k = 4
+Output: arr[] = {4, 7, 8, 9, 10, 50, 60, 70}
+
+
+Recommended Problem
+Nearly sorted
+Arrays
+Heap
++1 more
+Flipkart
+Amazon
+Solve Problem
+Submission count: 25.3K
+Sort a nearly sorted (or K sorted) array using insertion sort:
+To solve the problem follow the below idea:
+
+We can use insertion sort to sort the array efficiently as index of every element can be changed by atmost K places, which will reduce the time complexity of this algorithm from O(N2) to O(NK).
+
+Follow the below steps to solve the problem:
+
+
+
+Iterate from arr[1] to arr[N] over the array. 
+Compare the current element (key) to its predecessor. 
+If the key element is smaller than its predecessor, compare it to the elements before. Move the greater elements one position up to make space for the swapped element.
+Below is the implementation of the above approach: 
+
+C++
+C
+Java
+Python3
+# Function to sort an array using
+# insertion sort
+ 
+ 
+def insertionSort(A, size):
+    i, key, j = 0, 0, 0
+    for i in range(size):
+        key = A[i]
+        j = i-1
+ 
+        # Move elements of A[0..i-1], that are
+        # greater than key, to one position
+        # ahead of their current position.
+        # This loop will run at most k times
+        while j >= 0 and A[j] > key:
+            A[j + 1] = A[j]
+            j = j - 1
+        A[j + 1] = key
+C#
+Javascript
+Output
+2 3 5 6 8 9 10 
+Time Complexity: O(N*K), The inner loop will run at most K times. To move every element to its correct place, at most K elements need to be moved. 
+Auxiliary Space: O(1)
+
+Complete Interview Preparation - GFG
+
+Sort a nearly sorted (or K sorted) array using heap:
+Follow the below steps to solve the problem:
+
+Create a Min Heap of size K+1 with the first K+1 elements. We are creating a heap of size K as the element can be at most K distance from its index in a sorted array. 
+One by one remove the min element from the heap, put it in the result array, and add a new element to the heap from the remaining elements.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python3 program to sort a
+# nearly sorted array.
+ 
+from heapq import heappop, heappush, heapify
+ 
+ 
+# A utility function to print
+# array elements
+def print_array(arr: list):
+    for elem in arr:
+        print(elem, end=' ')
+ 
+# Given an array of size n, where every
+# element is k away from its target
+# position, sorts the array in O(nLogk) time.
+ 
+ 
+def sort_k(arr: list, n: int, k: int):
+    """
+    :param arr: input array
+    :param n: length of the array
+    :param k: max distance, which every
+     element is away from its target position.
+    :return: None
+    """
+    # List of first k+1 items
+    heap = arr[:k + 1]
+ 
+    # using heapify to convert list
+    # into heap(or min heap)
+    heapify(heap)
+ 
+    # "rem_elmnts_index" is index for remaining
+    # elements in arr and "target_index" is
+    # target index of for current minimum element
+    # in Min Heap "heap".
+    target_index = 0
+ 
+    # here even if size=k then n will be n=k,so i<n works fine
+    for rem_elmnts_index in range(k + 1, n):
+        arr[target_index] = heappop(heap)
+        heappush(heap, arr[rem_elmnts_index])
+        target_index += 1
+ 
+    while heap:
+        arr[target_index] = heappop(heap)
+        target_index += 1
+ 
+ 
+# Driver Code
+k = 3
+arr = [2, 6, 3, 12, 56, 8]
+n = len(arr)
+sort_k(arr, n, k)
+ 
+print_array(arr)
+ 
+# This code is contributed by
+# Veerat Beri(viratberi)
+C#
+Javascript
+Output
+Following is sorted array
+2 3 6 8 12 56 
+Time Complexity: O(K) + O(m * log(k)) ,  where M = N – K
+Auxiliary Space: O(K)
+
+Note: We can also use a Balanced Binary Search Tree instead of a Heap to store k+1 elements. The insert and delete operations on Balanced BST also take O(log k) time. So Balanced BST-based method will also take O(n log k) time, but the Heap based method seems to be more efficient as the minimum element will always be at the root. Also, Heap doesn’t need extra space for left and right pointers.
+
+Sort a nearly sorted (or K sorted) array using Quick-Sort:
+To solve the problem follow the below idea:
+
+The algorithm uses quick sort but changes the partition function in 2 ways.
+
+Selects the pivot element as the middle element instead of the first or last element.
+Scans the array from max(low, mid – k) to min(mid + k, high) instead of low to high.
+The middle element is chosen as the pivot for diving the array into almost 2 halves for logarithmic time complexity
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python program for the above approach
+def sort(array, l, h, k):
+    mid = l + (h - l) // 2 # Choose middle element as pivot
+    i = max(l, mid - k)
+    j = i
+    end = min(mid + k, h) # Set appropriate range
+    array[mid], array[end] = array[end], array[mid] # Swap middle and last element to avoid extra complications
+    while j < end:
+        if array[j] < array[end]:
+            array[i], array[j] = array[j], array[i]
+            i += 1
+        j += 1
+    array[end], array[i] = array[i], array[end]
+    return i
+ 
+def ksorter(array, l, h, k):
+    if l < h:
+        q = sort(array, l, h, k)
+        ksorter(array, l, q - 1, k)
+        ksorter(array, q + 1, h, k)
+ 
+# Driver code
+array = [3, 3, 2, 1, 6, 4, 4, 5, 9, 7, 8, 11, 12]
+k = 3
+print("Array before K sort")
+print(array)
+ 
+# Function call
+ksorter(array, 0, len(array) - 1, k)
+print("Array after K sort")
+print(array)
+ 
+# This code is contributed by aadityamaharshi21.
+C#
+Javascript
+Output
+Array before k sort
+3 3 2 1 6 4 4 5 9 7 8 11 12 
+Array after k sort
+1 2 3 3 4 4 5 6 7 8 9 11 12 
+Time Complexity: O(N * Log N) 
+Auxiliary Space: O(Log N)
+
+Please write comments if you find any of the above codes/algorithms incorrect, or find other ways to solve the same problem. 
+
+
+
+
+
+Like
+244
+Previous
+Sort an array according to absolute difference with given value
+Next
+Sort 1 to N by swapping adjacent elements
+Related Articles
+1.
+Sort a nearly sorted (or K sorted) array | Set 2 (Gap method - Shell sort)
+2.
+Sort a nearly sorted array using STL
+3.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+4.
+Sort a K sorted Doubly Linked List | Set 2 (Using Shell Sort)
+5.
+Sort an array where a subarray of a sorted array is in reverse order
+6.
+Check if two sorted arrays can be merged to form a sorted array with no adjacent pair from the same array
+7.
+Circularly Sorted Array (Sorted and Rotated Array)
+8.
+Count number of common elements between a sorted array and a reverse sorted array
+9.
+Bucket Sort To Sort an Array with Negative Numbers
+10.
+Program to sort an array of strings using Selection Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+viratberi
+PranchalKatiyar
+aman neekhara
+jit_t
+manpreetsngh294
+SakshayMahna
+divyeshrabadiya07
+rahulas1505
+itsok
+shivanisinghss2110
+nishant3690
+unknown2108
+ninjackiee97
+ekantchandrakar07
+HatimLokhandwala
+ayushhhkhare
+adeebhs1
+aditya942003patil
+sagartomar9927
+harendrakumar123
+abhijeet19403
+janardansthox
+adityamaharshi21
+Article Tags :
+cpp-priority-queue
+Insertion Sort
+Arrays
+Heap
+Sorting
+Practice Tags :
+Arrays
+Heap
+Sorting
+Improve Article
+Report Issue

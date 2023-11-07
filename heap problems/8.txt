@@ -1,0 +1,95 @@
+Comparison between Heap and Tree
+
+Last Updated : 24 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is Heap?
+A Heap is a special Tree-based data structure in which the tree is a complete binary tree.
+
+Types of Heap Data Structure:
+Generally, Heaps can be of two types:
+
+Max-Heap: In a Max-Heap the key present at the root node must be greatest among the keys present at all of its children. The same property must be recursively true for all sub-trees in that Binary Tree.
+Min-Heap: In a Min-Heap the key present at the root node must be minimum among the keys present at all of its children. The same property must be recursively true for all sub-trees in that Binary Tree.
+What is a Tree?
+A tree is non-linear and has a hierarchical data structure consisting of a collection of nodes such that each node of the tree stores a value and a list of references to other nodes (the “children”).
+
+Types of Tree data structures:
+Usually, the different types of tree data structures are as follows:
+
+
+Binary tree: A node of a binary tree can have a maximum of two child nodes.  
+Binary search tree: As the name implies, binary search trees are used for various searching and sorting algorithms. The examples include AVL tree and the red-black tree. It is a non-linear data structure. It shows that the value of the left node is less than its parent, while the value of the right node is greater than its parent.
+Comparison between heap and tree:
+S.No	
+Heap
+
+Tree
+
+1	Heap is a kind of Tree itself.	The tree is not a kind of heap.
+2	Usually, Heap is of two types, Max-Heap and Min-Heap.	Whereas a Tree can be of various types for eg. binary Tree, BST(Binary Search tree), AVL tree, etc.
+3	Heap is ordered.	Binary Tree is not ordered but BST is ordered.
+4	Insert and remove will take O(log(N)) time in the worst case.	Insert and remove will take O(N) in the worst case in case the tree is skewed.
+5	Finding Min/Max value in Heap is O(1) in the respective Min/Max heap.	Finding Min/Max value in BST is O(log(N)) and Binary Tree is O(N).
+6	Heap can also be referred to as Priority Queue.	A tree can also be referred to as a connected undirected graph with no cycle.
+7	Heap can be built in linear time complexity.	BST: O(N * log(N)) and Binary Tree: O(N).
+8	Applications: Prim’s Algorithm and Dijkstra’s algorithm.	Applications: Spanning Trees, Trie, B+ Tree, BST, Heap.
+Related Articles:
+
+Introduction to Tree – Data Structures and Algorithms Tutorials
+Introduction to Heap – Data Structures and Algorithms Tutorials
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+Like
+Previous
+C++ Std vs Stl
+Next
+How to define a mathematical function in SymPy?
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Difference between Min Heap and Max Heap
+3.
+What's the relationship between "a" heap and "the" heap?
+4.
+Comparison between Height Balanced Tree and Weight Balanced Tree
+5.
+Heap Sort for decreasing order using min heap
+6.
+When building a Heap, is the structure of Heap unique?
+7.
+Convert Min Heap to Max Heap
+8.
+Tournament Tree (Winner Tree) and Binary Heap
+9.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+10.
+What is the difference between Heap and Red-Black Tree?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+akashjha2671
+@akashjha2671
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Technical Scripter 2022
+Data Structures
+Heap
+Technical Scripter
+Tree
+Practice Tags :
+Data Structures
+Heap
+Tree

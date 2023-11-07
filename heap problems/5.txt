@@ -1,0 +1,104 @@
+Applications, Advantages and Disadvantages of Heap
+
+Difficulty Level : Basic
+Last Updated : 12 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Heap is a special tree-based data structure where the tree is always a complete binary tree. Heaps are of two types: Max heap and Min heap. In the case of the max-heap, the root node will have a higher value than its subtree, and for the min-heap, the root node will have a lower value than its subtree.
+
+Operations of Heap:
+
+Heapify: a process of creating a heap from an array.
+Insertion: process to insert an element in existing heap time complexity O(log N).
+Deletion: deleting the top element of the heap or the highest priority element, and then organizing the heap and returning the element with time complexity O(log N).
+Peek: to check or find the most prior element in the heap, (max or min element for max and min heap).
+Application of Heap Data Structure:
+
+Heap is used to construct a priority queue.
+Heap sort is one of the fastest sorting algorithms with time complexity of O(N* log(N), and it’s easy to implement.
+Best First Search (BFS) is an informed search, where unlike the queue in Breadth-First Search, this technique is implemented using a priority queue.
+Heaps can be used to efficiently maintain the median element in a constantly updating data set.
+Heaps can be used in the construction of Huffman coding trees.
+Heap data structures are used in memory management to efficiently allocate and deallocate memory blocks.
+Real-Time Application of Heap:
+
+Patient treatment: In a hospital, an emergency patient, or the patient with more injury is treated first. Here the priority is the degree of injury.
+Systems concerned with security use heap sort, like the Linux kernel.
+Advantages of Heap Data Structure:
+
+Less time complexity, for inserting or deleting an element in the heap the time complexity is just O(log N).
+It helps to find the minimum number and greatest number.
+To just peek at the most prior element the time complexity is constant O(1).
+Can be implemented using an array, it doesn’t need any extra space for pointer.
+A binary heap is a balanced binary tree, and easy to implement.
+Heap can be created with O(N) time.
+ Heaps can be used to implement a priority queue.
+ Heaps are efficient for large data sets.
+The memory is dynamically allocated.
+Ability to efficiently find the minimum and the maximum element.
+Used in graph algorithms such as Dijkstra and A* search algorithms.
+Disadvantages of Heap Data Structure:
+
+The time complexity for searching an element in Heap is O(N).
+To find a successor or predecessor of an element, the heap takes O(N) time, whereas BST takes only O(log N) time.
+To print all elements of the heap in sorted order time complexity is O(N*log N), whereas, for BST, it takes only O(N) time.
+Memory management is more complex in heap memory because it is used globally. Heap memory is divided into two parts-old generations and the young generation etc. at java garbage collection.
+Not suitable for small datasets.
+Complex implementation.
+Traversing is not easy as we need to remove the top element in order to access the rest of the elements.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+17
+Previous
+Benefits of Heap over Sorted Arrays
+Next
+Top Data Structures That Every Programmer Must Know
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Difference between Min Heap and Max Heap
+3.
+Heap Sort for decreasing order using min heap
+4.
+When building a Heap, is the structure of Heap unique?
+5.
+Convert Min Heap to Max Heap
+6.
+Applications of Heap Data Structure
+7.
+Tournament Tree (Winner Tree) and Binary Heap
+8.
+Fibonacci Heap - Insertion and Union
+9.
+Fibonacci Heap - Deletion, Extract min and Decrease key
+10.
+Find min and max values among all maximum leaf nodes from all possible Binary Max Heap
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+maityashis766
+@maityashis766
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+bhaskarkurukuri1
+shreyasnaphad
+Article Tags :
+Picked
+Heap
+Practice Tags :
+Heap

@@ -1,0 +1,590 @@
+k largest(or smallest) elements in an array
+
+Difficulty Level : Medium
+Last Updated : 16 Jan, 2023
+Read
+Discuss(310+)
+Courses
+Practice
+Video
+Write an efficient program for printing K largest elements in an array. Elements in an array can be in any order
+
+Examples:
+
+Input:  [1, 23, 12, 9, 30, 2, 50], K = 3
+Output: 50, 30, 23
+
+Input:  [11, 5, 12, 9, 44, 17, 2], K = 2
+Output: 44, 17
+
+Recommended Problem
+k largest elements
+Arrays
+Sorting
++3 more
+Amazon
+Microsoft
++3 more
+Solve Problem
+Submission count: 1.1L
+Naive Approaches: To solve the problem follow the below ideas: 
+
+1. Using Bubble sort:
+Follow the below steps to solve the problem:
+
+Modify Bubble Sort to run the outer loop at most K times. 
+Print the last K elements of the array obtained in step 1
+Time Complexity: O(N * K) 
+Thanks to Shailendra for suggesting this approach. 
+
+
+
+Note: Like Bubble sort, other sorting algorithms like Selection Sort can also be modified to get the K largest elements.
+
+2. Using temporary array:
+Follow the below steps to solve the problem:
+
+Store the first K elements in a temporary array temp[0..K-1]
+Find the smallest element in temp[], and let the smallest element be min
+For each element x in arr[K] to arr[N-1]. If x is greater than the min, remove min from temp[] and insert x
+Then, determine the new min from temp[]
+Print final K elements of temp[]
+Time Complexity: O((N – K) * K). If we want the output sorted then O((N – K) * K + K * log(K))
+Thanks to nesamani1822 for suggesting this method. 
+
+K largest(or smallest) elements in an array using sorting:
+To solve the problem follow the below idea:
+
+We can sort the input array in descending order so that the first K elements in the array are the K largest elements
+
+Follow the below steps to solve the problem:
+
+Sort the elements in descending order
+Print the first K numbers of the sorted array
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python
+''' Python3 code for k largest elements in an array'''
+ 
+ 
+def kLargest(arr, k):
+    # Sort the given array arr in reverse
+    # order.
+    arr.sort(reverse=True)
+    # Print the first kth largest elements
+    for i in range(k):
+        print(arr[i], end=" ")
+ 
+ 
+# Driver code
+arr = [1, 23, 12, 9, 30, 2, 50]
+# n = len(arr)
+k = 3
+kLargest(arr, k)
+ 
+# This code is contributed by shreyanshi_arun.
+C#
+PHP
+Javascript
+Output
+50 30 23 
+Time complexity: O(N * log(N))
+Auxiliary Space: O(1)
+
+Efficient Approaches: To solve the problem follow the below ideas: 
+
+1. Using Max-Heap:
+Follow the below steps to solve the problem:
+
+Build a Max Heap
+Use Extract Max K times to get K maximum elements from the Max Heap
+Time complexity: O(N * log(N) + K * log(N)) 
+
+2. Using order Statistics:
+Follow the below steps to solve the problem:
+
+Use an order statistic algorithm to find the Kth largest element. Please see the topic selection in worst-case linear time
+Use the QuickSort Partition algorithm to partition around the Kth largest number
+Sort the K-1 elements (elements greater than the Kth largest element)
+Note: This step is needed only if the sorted output is required
+Time complexity: O(N) if we don’t need the sorted output, otherwise O(N + K * log(K))
+Thanks to Shilpi for suggesting the first two approaches.
+
+K largest(or smallest) elements in an array using Min-Heap:
+To solve the problem follow the below idea:
+
+We can create a Min-Heap of size K and then compare the root of the Min-Heap with other elements and if it is greater than the root, then swap the value of the root and heapify the heap. This will help us to get the K largest elements in the end
+
+Follow the below steps to solve the problem:
+
+Build a Min Heap MH of the first K elements (arr[0] to arr[K-1]) of the given array
+For each element, after the Kth element (arr[K] to arr[N-1]), compare it with the root of MH
+If the element is greater than the root then make it root and call heapify for MH 
+Else ignore it
+Finally, MH has the K largest elements, and the root of the MH is the Kth largest element
+Note: All of the above methods can also be used to find the kth smallest elements
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program for the above approach
+ 
+# importing heapq module
+# to implement heap
+import heapq as hq
+ 
+ 
+def FirstKelements(arr, size, k):
+    # Creating Min Heap for given
+    # array with only k elements
+    # Create min heap using heapq module
+    minHeap = []
+ 
+    for i in range(k):
+        minHeap.append(arr[i])
+    hq.heapify(minHeap)
+    # Loop For each element in array
+    # after the kth element
+ 
+    for i in range(k, size):
+        # If current element is smaller
+        # than minimum ((top element of
+        # the minHeap) element, do nothing
+        # and continue to next element
+ 
+        if minHeap[0] > arr[i]:
+            continue
+        # Otherwise Change minimum element
+        # (top element of the minHeap) to
+        # current element by polling out
+        # the top element of the minHeap
+        else:
+              # deleting top element of the min heap
+            minHeap[0] = minHeap[-1]
+            minHeap.pop()
+            minHeap.append(arr[i])
+            # maintaining heap again using
+            # O(n) time operation....
+            hq.heapify(minHeap)
+    # Now min heap contains k maximum
+    # elements, Iterate and print
+    for i in minHeap:
+        print(i, end=" ")
+ 
+ 
+# Driver code
+arr = [11, 3, 2, 1, 15, 5, 4, 45, 88, 96, 50, 45]
+size = len(arr)
+# Size of Min Heap
+k = 3
+FirstKelements(arr, size, k)
+'''Code is written by Rajat Kumar.....'''
+C#
+Javascript
+Output
+50 88 96 
+Time Complexity: O(N * log K)
+Auxiliary Space: O(K)
+
+K largest(or smallest) elements in an array using Quick Sort partitioning algorithm:
+To solve the problem follow the below idea:
+
+We will find the pivot in the array until pivot element index is equal to K, because in the quick sort partioning algorithm all the elements less than pivot are on the left side of the pivot and greater than or equal to that are on the right side. So we can print the array (low to pivot to get K-smallest elements and (N-pivot_Index) to N for K-largest elements)
+
+Follow the below steps to solve the problem:
+
+Choose a pivot number
+if K is lesser than the pivot_Index then repeat the step
+if K is equal to pivot_Index: Print the array (low to pivot to get K-smallest elements and (n-pivot_Index) to n for K-largest elements)
+if  K is greater than pivot_Index: Repeat the steps for the right part
+Note: We can improve on the standard quicksort algorithm by using the random() function. Instead of using the pivot element as the last element, we can randomly choose the pivot element randomly.
+
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program for the above approach
+ 
+import random
+ 
+ 
+def kthSmallest(arr, l, r, K, n):
+ 
+    # If k is smaller than number of
+    # elements in array
+    if (K > 0 and K <= r - l + 1):
+ 
+        # Partition the array around last
+        # element and get position of pivot
+        # element in sorted array
+        pos = partition(arr, l, r)
+ 
+        # If position is same as k
+        if (pos - l == K - 1):
+            return
+        if (pos - l > K - 1):  # If position is more,
+                              # recur for left subarray
+            return kthSmallest(arr, l, pos - 1, K, n)
+ 
+        # Else recur for right subarray
+        return kthSmallest(arr, pos + 1, r,
+                           K - pos + l - 1, n)
+ 
+    # If k is more than number of
+    # elements in array
+    print("Invalid value of K")
+ 
+ 
+def KthLargest(arr, l, r, K, N):
+ 
+    # This function arranges k Largest elements in last k positions
+    #   It means it arranges N-K-1 smallest elements from starting
+ 
+    kthSmallest(arr, l, r, N - K - 1, N)
+ 
+ 
+# Standard partition process of QuickSort().
+# It considers the last element as pivot and
+# moves all smaller element to left of it
+# and greater elements to right
+ 
+ 
+def partition(arr, l, r):
+ 
+    x = arr[r]
+    i = l
+    for j in range(l, r):
+        if (arr[j] <= x):
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+    arr[i], arr[r] = arr[r], arr[i]
+    return i
+ 
+ 
+# Driver code
+a = [11, 3, 2, 1, 15, 5, 4, 45, 88, 96, 50, 45]
+n = len(a)
+ 
+low = 0
+high = n - 1
+ 
+# assume k is 3
+k = 3
+ 
+#  Function call
+ 
+#  For Smallest
+kthSmallest(a, 0, n - 1, k, n)
+ 
+#  Print KSmallest no.
+if (k >= 1 and k <= n):
+    print(str(k) + " smallest elements are :", end=" ")
+    for i in range(k):
+        print(a[i], end=" ")
+    print()
+ 
+ 
+#  For Largest
+KthLargest(a, 0, n-1, k, n)
+#  Print KLargest no.
+if (k >= 1 and k <= n):
+    print(str(k) + " largest elements are :", end=" ")
+    for i in range(n - 1, n-k-1, -1):
+        print(a[i], end=" ")
+ 
+ 
+# This code is contributed by shubhamm050402
+C#
+Javascript
+Output
+3 smallest elements are : 3  2  1  
+3 largest elements are : 96  50  88  
+Time Complexity: O(N log N)
+Auxiliary Space: O(1)
+
+K largest(or smallest) elements in an array using priority queue library:
+To solve the problem follow the below idea:
+
+Priority queue can be used in the Min-Heap method above to get the K largest or smallest elements
+
+Follow the below steps to solve the problem:
+
+Push the first K elements into the priority queue from the array
+After comparing the top of the priority queue with the current array element, we will pop the element at the top of priority_queue and insert the element.
+In the case of the K largest element, the priority_queue will be in increasing order, and thus top most element will be the smallest so we are removing it
+Similarly, in the case of the K smallest element, the priority_queue is in decreasing order and hence the topmost element is the largest one so we will remove it
+In this fashion whole array is traversed and the priority queue of size K is printed which contains the K largest/smallest elements
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python code for k largest/ smallest elements in an array
+import heapq
+ 
+# Function to find k largest array element
+ 
+ 
+def kLargest(v, N, K):
+ 
+    # Implementation using
+    # a Priority Queue
+    pq = []
+    heapq.heapify(pq)
+ 
+    for i in range(N):
+ 
+        # Insert elements into
+        # the priority queue
+        heapq.heappush(pq, v[i])
+ 
+        # If size of the priority
+        # queue exceeds k
+        if (len(pq) > K):
+            heapq.heappop(pq)
+ 
+    # Print the k largest element
+    while(len(pq) != 0):
+        print(heapq.heappop(pq), end=' ')
+    print()
+ 
+ 
+# Function to find k smallest array element
+def kSmalest(v,  N, K):
+ 
+    # Implementation using
+    # a Priority Queue
+    pq = []
+ 
+    for i in range(N):
+ 
+        # Insert elements into
+        # the priority queue
+        heapq.heappush(pq, -1*v[i])
+ 
+        # If size of the priority
+        # queue exceeds k
+        if (len(pq) > K):
+            heapq.heappop(pq)
+ 
+    # Print the k largest element
+    while(len(pq) != 0):
+        print(heapq.heappop(pq)*-1, end=' ')
+    print()
+ 
+ 
+# driver program
+ 
+# Given array
+arr = [11, 3, 2, 1, 15, 5, 4, 45, 88, 96, 50, 45]
+# Size of array
+n = len(arr)
+k = 3
+print(k, " largest elements are : ", end='')
+kLargest(arr, n, k)
+print(k, " smallest elements are : ", end='')
+kSmalest(arr, n, k)
+ 
+ 
+# This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Output
+3 largest elements are : 50 88 96 
+3 smallest elements are : 3 2 1 
+Time Complexity: O(N * log(K))
+Auxiliary Space: O(K)
+
+K largest(or smallest) elements in an array by creating a BST and Getting K greatest Elements:
+To solve the problem follow the below idea:
+
+We can create a BST of the given array elements and then print the K greatest/smallest elements
+
+Follow the below steps to solve the problem:
+
+We will create a Binary Search Tree
+Then traverse the BST in reverse inorder fashion for K times
+Print the K largest elements
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python program for the above approach
+class Node:
+    def __init__(self):
+        self.data = None
+        self.left = None
+        self.right = None
+ 
+class Tree:
+    def __init__(self):
+        self.root = None
+ 
+    def add_node(self, data):
+        new_node = Node()
+        new_node.data = data
+        if not self.root:
+            self.root = new_node
+        else:
+            cur = self.root
+            while cur:
+                if cur.data > data:
+                    if cur.left:
+                        cur = cur.left
+                    else:
+                        cur.left = new_node
+                        return
+                else:
+                    if cur.right:
+                        cur = cur.right
+                    else:
+                        cur.right = new_node
+                        return
+ 
+    def print_greatest(self, K, sol, node):
+        if not node or K == 0:
+            return
+        self.print_greatest(K, sol, node.right)
+        if K <= 0:
+            return
+        sol.append(node.data)
+        K -= 1
+        self.print_greatest(K, sol, node.left)
+ 
+ 
+class Solution:
+    def k_largest(self, arr, n, k):
+        sol = []
+        tree = Tree()
+        for i in range(n):
+            tree.add_node(arr[i])
+        tree.print_greatest(k, sol, tree.root)
+        sol.pop()
+        sol.pop()
+        return sol
+ 
+# Driver code
+n = 5
+k = 2
+arr = [12, 5, 787, 1, 23]
+ob = Solution()
+ans = ob.k_largest(arr, n, k)
+print("Top", k, "Elements:")
+for x in ans:
+    print(x)
+ 
+    # This code is contributed by aadityamaharshi21.
+C#
+Javascript
+Output
+Top 2 Elements: 787 23 
+Time Complexity: O(N * log(N)) + O(K) ~= O(N * log(N)) (here making of Binary Search Tree from array take n*log(n) time + O(n) time for finding top k element)
+Auxiliary Space: O(N) (to store the tree with N nodes we need O(N) space + O(K) space for storing the top K element to print)
+
+Please write comments if you find any of the above explanations/algorithms incorrect, or find better ways to solve the same problem.
+
+
+
+
+
+Like
+228
+Previous
+K’th Smallest/Largest Element using STL
+Next
+Sort a nearly sorted (or K sorted) array
+Related Articles
+1.
+Find the smallest and second smallest elements in an array
+2.
+Smallest possible integer to be added to N-1 elements in array A such that elements of array B are present in A
+3.
+Maximum sum of smallest and second smallest in an array
+4.
+Rearrange an array in order - smallest, largest, 2nd smallest, 2nd largest, ..
+5.
+Sort Array such that smallest is at 0th index and next smallest it at last index and so on
+6.
+Average of remaining elements after removing K largest and K smallest elements from array
+7.
+Minimize swaps required to make the first and last elements the largest and smallest elements in the array respectively
+8.
+Modify array by removing M smallest elements maintaining the order of remaining elements
+9.
+Queries to return the absolute difference between L-th smallest number and the R-th smallest number
+10.
+Print X array elements closest to the Kth smallest element in the array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+erikest
+Rajput-Ji
+Ankur Goel
+sethivansh6
+nirajd24
+aashish1995
+avanitrachhadiya2155
+imsushant12
+rjrachit
+mank1083
+shivansh20127
+chand25
+punamsingh628700
+GauravRajput1
+clintra
+sanjoy_62
+shinjanpatra
+sweetyty
+pushpeshrajdx01
+_shinchancode
+adityakumar129
+mayanksingh5399
+rajatkumargla19
+abhijeet19403
+krisania804
+wolflee
+vptrocks
+ajaymakvana
+user_7gr9iodclfx
+shubhamm050402
+janardansthox
+adityamaharshi21
+lokeshpotta20
+Article Tags :
+Amazon
+Microsoft
+Order-Statistics
+Samsung
+Walmart
+Arrays
+Heap
+Searching
+Sorting
+Practice Tags :
+Amazon
+Microsoft
+Samsung
+Walmart
+Arrays
+Heap
+Searching
+Sorting
+Improve Article
+Report Issue

@@ -1,0 +1,130 @@
+Height of a complete binary tree (or Heap) with N nodes
+
+Difficulty Level : Easy
+Last Updated : 09 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Consider a Binary Heap of size N. We need to find the height of it.
+
+Examples:  
+
+Input : N = 6
+Output : 2
+        ()
+      /    \
+     ()     ()
+    /  \    /
+  ()    () ()
+
+Input : N = 9
+Output : 3
+        ()
+      /    \
+     ()     ()
+    /  \    /  \
+  ()    () ()   ()
+ / \
+()  ()
+Recommended Problem
+Height of Heap
+Tree
+Heap
++1 more
+Solve Problem
+Submission count: 17.5K
+Let the size of the heap be N and the height be h. If we take a few examples, we can notice that the value of h in a complete binary tree is floor(log2N). 
+
+Examples:  
+
+ N    h
+---------
+ 1    0
+ 2    1
+ 3    1
+ 4    2
+ 5    2
+ .....
+ .....
+Implementation: 
+
+C++
+Java
+Python 3
+# Python 3 program to find
+# height of complete binary
+# tree from total nodes.
+import math
+def height(N):
+    return math.ceil(math.log2(N + 1)) - 1
+ 
+# driver node
+N = 6
+print(height(N))
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+1
+Time Complexity: O(1), Since performing constant operations.
+Auxiliary Space: O(1), Since constant extra space is used.
+
+
+
+Like
+Previous
+Maximum distinct elements after removing k elements
+Next
+Merge two binary Max Heaps
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Heap Sort for decreasing order using min heap
+3.
+Difference between Min Heap and Max Heap
+4.
+When building a Heap, is the structure of Heap unique?
+5.
+Convert Min Heap to Max Heap
+6.
+Find height of a special binary tree whose leaf nodes are connected
+7.
+Relationship between number of nodes and height of binary tree
+8.
+Print the nodes of the Binary Tree whose height is a Prime number
+9.
+Tournament Tree (Winner Tree) and Binary Heap
+10.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shashank_Pathak
+@Shashank_Pathak
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Smitha Dinesh Semwal
+jit_t
+suresh07
+demishassabis
+polymatir3j
+abc1z
+abhijeet19403
+hardikkoriintern
+Article Tags :
+Heap
+Tree
+Practice Tags :
+Heap
+Tree

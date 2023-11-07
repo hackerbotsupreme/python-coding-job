@@ -1,0 +1,140 @@
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+
+Difficulty Level : Easy
+Last Updated : 26 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given the level order traversal of a Complete Binary Tree, determine whether the Binary Tree is a valid Min-Heap
+
+Examples:
+
+Input : level = [10, 15, 14, 25, 30]
+Output : True
+The tree of the given level order traversal is
+                     10
+                    /  \
+                   15   14
+                  /  \
+                 25   30
+We see that each parent has a value less than
+its child, and hence satisfies the min-heap 
+property
+ 
+Input : level = [30, 56, 22, 49, 30, 51, 2, 67]
+Output : False
+The tree of the given level order traversal is
+                         30
+                      /      \
+                    56         22
+                 /      \     /   \
+               49        30  51    2
+              /
+             67
+We observe that at level 0, 30 > 22, and hence
+min-heap property is not satisfied
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We need to check whether each non-leaf node (parent) satisfies the heap property. For this, we check whether each parent (at index i) is smaller than its children (at indices 2*i+1 and 2*i+2, if the parent has two children). If only one child, we only check the parent against index 2*i+1.
+
+C++
+Java
+Python3
+# Python3 program to check if a given
+# tree is Binary Heap or not
+ 
+# Returns true if given level order
+# traversal is Min Heap.
+def isMinHeap(level, n):
+     
+    # First non leaf node is at index
+    # (n/2-1). Check whether each parent
+    # is greater than child
+    for i in range(int(n / 2) - 1, -1, -1):
+         
+        # Left child will be at index 2*i+1
+        # Right child will be at index 2*i+2
+        if level[i] > level[2 * i + 1]:
+            return False
+ 
+        if 2 * i + 2 < n:
+             
+            # If parent is greater than right child
+            if level[i] > level[2 * i + 2]:
+                return False
+    return True
+ 
+# Driver code
+if __name__ == '__main__':
+    level = [10, 15, 14, 25, 30]
+    n = len(level)
+    if isMinHeap(level, n):
+        print("True")
+    else:
+        print("False")
+ 
+# This code is contributed by PranchalK
+C#
+PHP
+Javascript
+Output
+True
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+This article is contributed by Deepak Srivatsav. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above
+
+
+
+Like
+Previous
+Check if given Preorder, Inorder and Postorder traversals are of same tree
+Next
+Check if leaf traversal of two Binary Trees is same?
+Related Articles
+1.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+2.
+Level order traversal of Binary Tree using Morris Traversal
+3.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+4.
+Flatten Binary Tree in order of Level Order Traversal
+5.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+6.
+Check if the given array can represent Level Order Traversal of Binary Search Tree
+7.
+Insertion in n-ary tree in given order and Level order traversal
+8.
+Check if the level order traversal of a Binary Tree results in a palindrome
+9.
+Connect Nodes at same Level (Level Order Traversal)
+10.
+Deletion of a given node K in a Binary Tree using Level Order Traversal
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+Akanksha_Rai
+PranchalKatiyar
+famously
+polymatir3j
+hkdass001
+Article Tags :
+tree-level-order
+Heap
+Tree
+Practice Tags :
+Heap
+Tree

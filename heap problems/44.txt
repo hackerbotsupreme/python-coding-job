@@ -1,0 +1,78 @@
+Leaf starting point in a Binary Heap data structure
+
+Difficulty Level : Easy
+Last Updated : 21 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Binary Heap is a complete tree (All levels are completely filled except possibly the last level and the last level has all keys as left as possible). In other words, we can say that it’s an almost complete binary tree. A Binary heap is typically represented as array. If we take a closer look, we can noticed that in a Heap with number of nodes n, the leaves start from a particular index and following it, all the nodes are leaves till index n. Let’s see an example to observe this:
+
+            10 
+         /      \               
+       20        100          
+      /                      
+    30                     
+Let us represent this in the form of an array Arr whose index starts from 1 : we have: Arr[1] = 10 Arr[2] = 20 Arr[3] = 100 Arr[4] = 30 If we observe, the first leaf (i.e. 100) starts from the index 3. Following it Arr[4] is also a leaf. By carefully analyzing, the following conclusion is observed:
+
+The first leaf in a Heap starts from [floor(n/2)]+1 and all the nodes following it till n are leaves.
+
+Conclusion: In a Heap having n elements, Elements from indexes [(floor(n/2)+1) to n] are leaves. What is starting index of leaves if indexes start from 0 instead of 1? The above explanation assumes indexes starting from 1, but in most of the programming languages, index starts with 0. 
+
+
+
+If we consider 0 as starting index, then leaves starts from floor(n/2) and exist till end, i.e., (n-1).
+
+This article is contributed by Ranju Kumari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+5
+Next
+Why is Binary Heap Preferred over BST for Priority Queue?
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+When building a Heap, is the structure of Heap unique?
+3.
+Print all the leaf nodes of Binary Heap
+4.
+Find min and max values among all maximum leaf nodes from all possible Binary Max Heap
+5.
+Heap Sort for decreasing order using min heap
+6.
+Difference between Min Heap and Max Heap
+7.
+Convert Min Heap to Max Heap
+8.
+Introduction to Heap - Data Structure and Algorithm Tutorials
+9.
+Applications of Heap Data Structure
+10.
+Tournament Tree (Winner Tree) and Binary Heap
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hardikkoriintern
+Article Tags :
+Heap
+Practice Tags :
+Heap

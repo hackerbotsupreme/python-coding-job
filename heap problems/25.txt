@@ -1,0 +1,219 @@
+Maximum distinct elements after removing k elements
+
+Difficulty Level : Medium
+Last Updated : 22 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given an array arr[] containing n elements. The problem is to find the maximum number of distinct elements (non-repeating) after removing k elements from the array. 
+Note: 1 <= k <= n.
+Examples: 
+
+Input : arr[] = {5, 7, 5, 5, 1, 2, 2}, k = 3
+Output : 4
+Remove 2 occurrences of element 5 and
+1 occurrence of element 2.
+
+Input : arr[] = {1, 2, 3, 4, 5, 6, 7}, k = 5
+Output : 2
+
+Input : arr[] = {1, 2, 2, 2}, k = 1
+Output : 1
+Recommended Problem
+Maximum distinct elements after removing K elements
+Arrays
+Hash
++2 more
+Solve Problem
+Submission count: 8.4K
+Approach: Following are the steps: 
+
+Make a multi set from the given array.
+During making this multiset check if the current element is present or not in multiset, if it is already present then simply reduce the k value and do not insert in the multiset.
+If k becomes 0 then simply just put values in multiset.
+After traversing the whole given array, 
+If k is not equal to zero then it means the multiset is consist of only unique elements and we have to remove any of the k elements from the multiset to make k=0, so in this case the answer will be size of multiset minus k value at that time.
+If k is equal to zero then it means there may be duplicate values present in the multiset so put all the values in a set and the size of this set will be the number of distinct elements after removing k elements
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python implementation of the above approach
+ 
+# function to find maximum distinct elements after removing k elements
+def maxDistinctNum(a, n, k):
+   
+   # making multiset from given array multisets are like dictionaries ,
+   # so will initialise a dictionary
+    s = {}
+    for i in range(n):
+        if a[i] not in s or k == 0:
+            s[a[i]] = s.get(a[i], 0)+1
+        else:
+            s[a[i]] = 1
+            k -= 1
+    if k != 0:
+        return len(s)-k
+    else:
+ 
+        st = set()
+        for i in s:
+            st.add(i)
+        return len(st)
+ 
+# Driver Code
+if __name__ == "__main__":
+ 
+  # Array
+    arr = [5, 7, 5, 5, 1, 2, 2]
+    K = 3
+ 
+    # Size of array
+    N = len(arr)
+     
+    # Function Call
+    print("Maximum distinct elements = ", maxDistinctNum(arr, N, K))
+ 
+# This code is contributed by vivekmaddheshiya205
+C#
+Javascript
+Output
+
+Maximum distinct elements = 4
+Time Complexity: O(k*logd), where d is the number of distinct elements in the given array.
+Auxiliary Space: O(N), because we are using multiset.
+
+Another Approach: Follow the below steps, to solve this problem:
+
+Find the Number of distinct Toys.
+Sum of number of element except one element form every distinct Toys.
+Check sum if greater than or equal K then Return all distinct element.
+Otherwise decrement number of distinct element and to fill K.
+Return Size of vector.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code for the above approach
+ 
+# function to return maximum number of distinct Toys
+def MaxNumber(arr, N, K):
+   
+    # Count Number of distinct Number
+    mp = {}
+    for i in range(N):
+        if arr[i] not in mp:
+            mp[arr[i]] = 0
+        mp[arr[i]] += 1
+         
+        # push them into vector
+    v1 = []
+    for i in mp:
+        v1.append(mp[i])
+ 
+     # add number of element except one element from every
+    # distinct element
+    temp = 0
+    for i in range(len(v1)):
+        temp += v1[i]-1
+         
+     # check if it is greater than simply return size of
+    # vector otherwise decrement size of vector to fill k
+    if K <= temp:
+        return len(v1)
+    else:
+        K = K-temp
+        ans = len(v1)
+        while K:
+            ans -= 1
+            K -= 1
+        return ans
+ 
+# Driver Code
+if __name__ == "__main__":
+   
+  # Array
+    arr = [10, 10, 10, 50, 50]
+    K = 3
+     
+    # Size of array
+    N = len(arr)
+    print(MaxNumber(arr, N, K))
+ 
+    # This code is contributed by vivekmaddheshiya205
+C#
+Javascript
+Output
+2
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+Like
+Previous
+Smallest Derangement of Sequence
+Next
+Height of a complete binary tree (or Heap) with N nodes
+Related Articles
+1.
+Minimum number of distinct elements after removing m items
+2.
+Minimum number of distinct elements after removing M items | Set 2
+3.
+Sort array of strings after sorting each string after removing characters whose frequencies are not a powers of 2
+4.
+Maximum subarray sum possible after removing at most K array elements
+5.
+Queries to find the maximum array element after removing elements from a given range
+6.
+Maximum possible difference between two Subarrays after removing N elements from Array
+7.
+Longest remaining array of distinct elements possible after repeated removal of maximum and minimum elements of triplets
+8.
+Maximum points covered after removing an Interval
+9.
+Maximize the maximum subarray sum after removing atmost one element
+10.
+Maximum length of Strictly Increasing Sub-array after removing at most one element
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ayushjauhari14
+@ayushjauhari14
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+sonugiri
+rutvik_56
+deepanshujindal634
+itsok
+anikakapoor
+sauarbhyadav
+varshagumber28
+sagar0719kumar
+simmytarika5
+surinderdawra388
+vivekmaddheshiya205
+lokeshmvs21
+surajrasr7277
+divya_p123
+vforviksvy5
+Article Tags :
+cpp-priority-queue
+Arrays
+Hash
+Heap
+Practice Tags :
+Arrays
+Hash
+Heap

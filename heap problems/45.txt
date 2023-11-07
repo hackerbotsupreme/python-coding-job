@@ -1,0 +1,172 @@
+Minimum product of k integers in an array of positive Integers
+
+Difficulty Level : Easy
+Last Updated : 11 Jan, 2023
+Read
+Discuss(20)
+Courses
+Practice
+Video
+Given an array of n positive integers. We are required to write a program to print the minimum product of k integers of the given array.
+
+Examples: 
+
+Input : 198 76 544 123 154 675
+         k = 2
+Output : 9348
+We get minimum product after multiplying
+76 and 123.
+
+Input : 11 8 5 7 5 100
+        k = 4
+Output : 1400
+Recommended Problem
+Minimum Product of k Integers
+Arrays
+Sorting
++3 more
+Solve Problem
+Submission count: 16.3K
+An approach using Sorting:
+
+Sort the array in increasing order.
+Take the product of the first K elements of the array
+Return the result.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+# Python program to find minimum product of
+# k elements in an array
+def minProduct(arr, n, k):
+    arr.sort()
+ 
+    result = 1
+ 
+    for i in range(k):
+        result = (arr[i] * result)
+ 
+    return result
+ 
+# Driver code
+arr = [198, 76, 544, 123, 154, 675]
+k = 2
+n = len(arr)
+print("Minimum product is", minProduct(arr, n, k))
+ 
+# This code is contributed by aadityamaharshi21.
+C#
+Javascript
+Output
+Minimum product is 9348
+Time Complexity: O(n*log(n))
+Auxiliary Space: O(1)
+
+An approach using Heap data structure: The idea is simple, we find the smallest k elements and print multiplication of them. In the below implementation, we have used a simple Heap-based approach where we insert array elements into a min-heap and then find product of top k elements.
+
+Flowchart:
+
+
+Flowchart
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find minimum
+# product of k elements in an array
+ 
+import math
+import heapq
+ 
+def minProduct(arr, n, k):
+ 
+    heapq.heapify(arr)
+    count = 0
+    ans = 1
+ 
+    # One by one extract
+    # items from min heap
+    while ( arr ) and count < k:
+        x = heapq.heappop(arr)
+        ans = ans * x
+        count = count + 1
+     
+    return ans;
+ 
+# Driver method
+arr = [198, 76, 544, 123, 154, 675]
+k = 2
+n = len(arr)
+print ("Minimum product is",
+       minProduct(arr, n, k))
+C#
+Javascript
+Output
+Minimum product is 9348
+Time Complexity: O(n * log n), 
+Auxiliary Space: O(n) for priority queue
+
+Note: The above problem can be solved in O(n) time using methods discussed here and here.
+
+This article is contributed by Gitanjali Sharma. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Median of Stream of Running Integers using STL
+Next
+K-th Largest Sum Contiguous Subarray
+Related Articles
+1.
+Minimum product pair an array of positive Integers
+2.
+C++ Program for Minimum product pair an array of positive Integers
+3.
+Java Program for Minimum product pair an array of positive Integers
+4.
+Generate an array with K positive numbers such that arr[i] is either -1 or 1 and sum of the array is positive
+5.
+Only integer with positive value in positive negative value in array
+6.
+Find the last positive element remaining after repeated subtractions of smallest positive element from all Array elements
+7.
+Count sequences of positive integers having product X
+8.
+Minimum operations for which all integers from [0, N] appears as smallest positive missing number (MEX)
+9.
+Flip minimum signs of array elements to get minimum sum of positive elements possible
+10.
+Count pairs in Array whose product is a Kth power of any positive integer
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+Rajput-Ji
+_saurabh_jaiswal
+codewithmini
+guptavivek0503
+hardikkoriintern
+hkdass001
+adityamaharshi21
+yashagarwal2852002
+Article Tags :
+Order-Statistics
+Arrays
+Heap
+Sorting
+Practice Tags :
+Arrays
+Heap
+Sorting

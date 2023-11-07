@@ -1,0 +1,472 @@
+Merge k sorted arrays | Set 1
+
+Difficulty Level : Hard
+Last Updated : 24 Jan, 2023
+Read
+Discuss(220+)
+Courses
+Practice
+Video
+Given K sorted arrays of size N each, merge them and print the sorted output.
+
+Examples:
+
+Input: K = 3, N = 4, arr = { {1, 3, 5, 7}, {2, 4, 6, 8}, {0, 9, 10, 11}}
+Output: 0 1 2 3 4 5 6 7 8 9 10 11 
+Explanation: The output array is a sorted array that contains all the elements of the input matrix. 
+
+Input: k = 4, n = 4, arr = { {1, 5, 6, 8}, {2, 4, 10, 12}, {3, 7, 9, 11}, {13, 14, 15, 16}} 
+Output: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 
+Explanation: The output array is a sorted array that contains all the elements of the input matrix. 
+
+Recommended Problem
+Merge k Sorted Arrays
+Arrays
+Sorting
++3 more
+VMWare
+Flipkart
++3 more
+Solve Problem
+Submission count: 62.4K
+Naive Approach for Merging k sorted arrays:
+Create an output array of size (N * K) and then copy all the elements into the output array followed by sorting. 
+
+Follow the given steps to solve the problem:
+
+Create an output array of size N * K. 
+Traverse the matrix from start to end and insert all the elements in the output array.
+Sort and print the output array.
+Below is the implementation of the above approach:
+
+C++14
+Java
+Python3
+# Python3 program to merge k sorted arrays of size n each.
+ 
+# This function takes an array of arrays as an argument
+# and
+# All arrays are assumed to be sorted. It merges them
+# together and prints the final sorted output.
+ 
+ 
+def mergeKArrays(arr, a, output):
+    c = 0
+ 
+    # traverse the matrix
+    for i in range(a):
+        for j in range(4):
+            output = arr[i][j]
+            c += 1
+ 
+    # sort the array
+    output.sort()
+ 
+# A utility function to print array elements
+ 
+ 
+def printArray(arr, size):
+    for i in range(size):
+        print(arr[i], end=" ")
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    arr = [[2, 6, 12, 34], [1, 9, 20, 1000], [23, 34, 90, 2000]]
+    K = 4
+    N = 3
+    output = [0 for i in range(N * K)]
+ 
+    # Function call
+    mergeKArrays(arr, N, output)
+ 
+    print("Merged array is ")
+    printArray(output, N * K)
+ 
+# This code is contributed by umadevi9616
+C#
+Javascript
+Output
+Merged array is 
+1 2 6 9 12 20 23 34 34 90 1000 2000 
+Time Complexity: O(N * K * log (N*K)), Since the resulting array is of size N*K.
+Space Complexity: O(N * K), The output array is of size N * K.
+
+Merge K sorted arrays using merging:
+The process begins with merging arrays into groups of two. After the first merge, there will be K/2 arrays remaining. Again merge arrays in groups, now K/4 arrays will be remaining. This is similar to merge sort. Divide K arrays into two halves containing an equal number of arrays until there are two arrays in a group. This is followed by merging the arrays in a bottom-up manner. 
+
+Complete Interview Preparation - GFG
+
+Follow the given steps to solve the problem:
+
+Create a recursive function that takes K arrays and returns the output array.
+In the recursive function, if the value of K is 1 then return the array else if the value of K is 2 then merge the two arrays in linear time and return the array.
+If the value of K is greater than 2 then divide the group of k elements into two equal halves and recursively call the function, i.e 0 to K/2 array in one recursive function and K/2 to K array in another recursive function.
+Print the output array.
+Below is the implementation of the above approach:
+
+C++14
+Java
+Python3
+# Python program to merge K
+# sorted arrays of size n each.
+N = 4
+ 
+# Merge arr1[0..n1-1] and arr2[0..n2-1] into
+# arr3[0..n1+n2-1]
+ 
+ 
+def mergeArrays(arr1, arr2, N1, N2, arr3):
+ 
+    i, j, k = 0, 0, 0
+ 
+    # Traverse both array
+    while (i < N1 and j < N2):
+ 
+        # Check if current element of first
+        # array is smaller than current element
+        # of second array. If yes, store first
+        # array element and increment first array
+        # index. Otherwise do same with second array
+        if (arr1[i] < arr2[j]):
+            arr3[k] = arr1[i]
+            k += 1
+            i += 1
+        else:
+            arr3[k] = arr2[j]
+            k += 1
+            j += 1
+ 
+    # Store remaining elements of first array
+    while (i < N1):
+        arr3[k] = arr1[i]
+        k += 1
+        i += 1
+ 
+    # Store remaining elements of second array
+    while (j < N2):
+        arr3[k] = arr2[j]
+        k += 1
+        j += 1
+ 
+# A utility function to print array elements
+ 
+ 
+def printArray(arr, size):
+ 
+    for i in range(size):
+        print(arr[i], end=" ")
+ 
+# This function takes an array of arrays
+# as an argument and all arrays are assumed
+# to be sorted. It merges them together
+# and prints the final sorted output.
+ 
+ 
+def mergeKArrays(arr, i, j, output):
+ 
+    global N
+ 
+    # If one array is in range
+    if (i == j):
+        for p in range(N):
+            output[p] = arr[i][p]
+ 
+        return
+ 
+    # If only two arrays are left
+    # them merge them
+    if (j - i == 1):
+        mergeArrays(arr[i], arr[j],
+                    N, N, output)
+        return
+ 
+    # Output arrays
+    out1 = [0 for i in range(N * (((i + j) // 2) - i + 1))]
+    out2 = [0 for i in range(N * (j - ((i + j) // 2)))]
+ 
+    # Divide the array into halves
+    mergeKArrays(arr, i, (i + j) // 2, out1)
+    mergeKArrays(arr, (i + j) // 2 + 1, j, out2)
+ 
+    # Merge the output array
+    mergeArrays(out1, out2,
+                N * (((i + j) / 2) - i + 1),
+                N * (j - ((i + j) / 2)), output)
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    arr = [[2, 6, 12, 34],
+           [1, 9, 20, 1000],
+           [23, 34, 90, 2000]]
+ 
+    K = len(arr)
+    output = [0 for i in range(N * K)]
+ 
+    # Function call
+    mergeKArrays(arr, 0, 2, output)
+ 
+    print("Merged array is ")
+    printArray(output, N * K)
+ 
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+Merged array is 
+1 2 6 9 12 20 23 34 34 90 1000 2000 
+Time Complexity: O(N * K * log K).  There are log K levels as in each level the K arrays are divided in half and at each level, the K arrays are traversed.
+Auxiliary Space: O(N * K * log K). In each level O(N * K) space is required.
+
+Merge K sorted arrays using Min-Heap:
+The idea is to use Min Heap. This MinHeap based solution has the same time complexity which is O(NK log K). But for a different and particular sized array, this solution works much better. The process must start with creating a MinHeap and inserting the first element of all the k arrays. Remove the root element of Minheap and put it in the output array and insert the next element from the array of removed element. To get the result the step must continue until there is no element left in the MinHeap. 
+
+Follow the given steps to solve the problem:
+
+Create a min Heap and insert the first element of all the K arrays.
+Run a loop until the size of MinHeap is greater than zero.
+Remove the top element of the MinHeap and print the element.
+Now insert the next element from the same array in which the removed element belonged.
+If the array doesn’t have any more elements, then replace root with infinite. After replacing the root, heapify the tree.
+Return the output array
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+import sys
+ 
+# Python 3 program to merge K sorted
+# arrays of size N each.
+# A Min heap node
+class MinHeapNode :
+    element = 0
+     
+    # The element to be stored
+    # index of the array from
+    # which the element is taken
+    i = 0
+     
+    # index of the next element
+    # to be picked from array
+    j = 0
+    def __init__(self, element,  i,  j) :
+        self.element = element
+        self.i = i
+        self.j = j
+         
+# A class for Min Heap
+class MinHeap :
+    harr = None
+     
+    # Array of elements in heap
+    heap_size = 0
+     
+    # Current number of elements in min heap
+    # Constructor: Builds a heap from
+    # a given array a[] of given size
+    def __init__(self, a,  size) :
+        self.heap_size = size
+        self.harr = a
+        i = int((self.heap_size - 1) / 2)
+        while (i >= 0) :
+            self.MinHeapify(i)
+            i -= 1
+             
+    # A recursive method to heapify a subtree
+    # with the root at given index This method
+    # assumes that the subtrees are already heapified
+    def MinHeapify(self, i) :
+        l = self.left(i)
+        r = self.right(i)
+        smallest = i
+        if (l < self.heap_size and self.harr[l].element < self.harr[i].element) :
+            smallest = l
+        if (r < self.heap_size and self.harr[r].element < self.harr[smallest].element) :
+            smallest = r
+        if (smallest != i) :
+            self.swap(self.harr, i, smallest)
+            self.MinHeapify(smallest)
+             
+    # to get index of left child of node at index i
+    def  left(self, i) :
+        return (2 * i + 1)
+       
+    # to get index of right child of node at index i
+    def  right(self, i) :
+        return (2 * i + 2)
+       
+    # to get the root
+    def  getMin(self) :
+        if (self.heap_size <= 0) :
+            print("Heap underflow")
+            return None
+        return self.harr[0]
+       
+    # to replace root with new node
+    # "root" and heapify() new root
+    def replaceMin(self, root) :
+        self.harr[0] = root
+        self.MinHeapify(0)
+         
+    # A utility function to swap two min heap nodes
+    def swap(self, arr,  i,  j) :
+        temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+         
+    # A utility function to print array elements
+    @staticmethod
+    def printArray( arr) :
+        for i in arr :
+            print(str(i) + " ", end ="")
+        print()
+         
+    # This function takes an array of
+    # arrays as an argument and All
+    # arrays are assumed to be sorted.
+    # It merges them together and
+    # prints the final sorted output.
+    @staticmethod
+    def mergeKSortedArrays( arr,  K) :
+        hArr = [None] * (K)
+        resultSize = 0
+        i = 0
+        while (i < len(arr)) :
+            node = MinHeapNode(arr[i][0], i, 1)
+            hArr[i] = node
+            resultSize += len(arr[i])
+            i += 1
+             
+        # Create a min heap with k heap nodes. Every heap
+        # node has first element of an array
+        mh = MinHeap(hArr, K)
+        result = [0] * (resultSize)
+         
+        # To store output array
+        # Now one by one get the minimum element from min
+        # heap and replace it with next element of its
+        # array
+        i = 0
+        while (i < resultSize) :
+           
+            # Get the minimum element and store it in
+            # result
+            root = mh.getMin()
+            result[i] = root.element
+             
+            # Find the next element that will replace
+            # current root of heap. The next element
+            # belongs to same array as the current root.
+            if (root.j < len(arr[root.i])) :
+                root.element = arr[root.i][root.j]
+                root.j += 1
+            else :
+                root.element = sys.maxsize
+                 
+            # Replace root with next element of array
+            mh.replaceMin(root)
+            i += 1
+        MinHeap.printArray(result)
+         
+    # Driver's code
+    @staticmethod
+    def main( args) :
+        arr = [[2, 6, 12, 34], [1, 9, 20, 1000], [23, 34, 90, 2000]]
+        print("Merged array is :")
+        # Function call
+        MinHeap.mergeKSortedArrays(arr, len(arr))
+     
+if __name__=="__main__":
+    MinHeap.main([])
+     
+    # This code is contributed by aadityaburujwale.
+C#
+Javascript
+Output
+Merged array is 
+1 2 6 9 12 20 23 34 34 90 1000 2000 
+Time Complexity: O(N * K * log K), Insertion and deletion in a Min Heap requires log K time.
+Auxiliary Space: O(K), If Output is not stored then the only space required is the Min-Heap of K elements.
+
+Merge k sorted arrays | Set 2 (Different Sized Arrays)
+
+
+
+Like
+Previous
+How to check if a given array represents a Binary Heap?
+Next
+Smallest Derangement of Sequence
+Related Articles
+1.
+Merge k sorted arrays | Set 2 (Different Sized Arrays)
+2.
+Generate all possible sorted arrays from alternate elements of two given sorted arrays
+3.
+Merge K sorted arrays | Set 3 ( Using Divide and Conquer Approach )
+4.
+Merge K sorted Doubly Linked List in Sorted Order
+5.
+Merge two sorted arrays with O(1) extra space
+6.
+Merge two sorted arrays in Python using heapq
+7.
+Merge two sorted arrays in constant space using Min Heap
+8.
+Merge two sorted arrays in O(1) extra space using QuickSort partition
+9.
+Merge two sorted arrays in O(1) extra space using Heap
+10.
+Merge two sorted arrays using Priority queue
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+maxflex
+nobody_cares
+rajatsri94
+29AjayKumar
+andrew1234
+ashish poddar 1
+RohitOberoi
+Rajput-Ji
+GauravRajput1
+mayanktyagi1709
+ayushgupta75
+simranarora5sos
+umadevi9616
+surinderdawra388
+shinjanpatra
+janardansthox
+garvitpr1hev
+aadityapburujwale
+Article Tags :
+Amazon
+Citrix
+Flipkart
+Merge Sort
+Microsoft
+VMWare
+Arrays
+Heap
+Sorting
+Practice Tags :
+Amazon
+Citrix
+Flipkart
+Microsoft
+VMWare
+Arrays
+Heap
+Merge Sort
+Sorting
+Report Issue

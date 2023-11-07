@@ -1,0 +1,225 @@
+Sum of all elements between k1’th and k2’th smallest elements
+
+Difficulty Level : Easy
+Last Updated : 29 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of integers and two numbers k1 and k2. Find the sum of all elements between given two k1’th and k2’th smallest elements of the array. It may be assumed that (1 <= k1 < k2 <= n) and all elements of array are distinct.
+
+Examples : 
+
+Input : arr[] = {20, 8, 22, 4, 12, 10, 14},  k1 = 3,  k2 = 6  
+Output : 26          
+         3rd smallest element is 10. 6th smallest element 
+         is 20. Sum of all element between k1 & k2 is
+         12 + 14 = 26
+
+Input : arr[] = {10, 2, 50, 12, 48, 13}, k1 = 2, k2 = 6 
+Output : 73 
+Recommended Problem
+Sum of elements between k1'th and k2'th smallest elements
+Arrays
+Sorting
++3 more
+Solve Problem
+Submission count: 37.2K
+Method 1 (Sorting): First sort the given array using an O(n log n) sorting algorithm like Merge Sort, Heap Sort, etc and return the sum of all element between index k1 and k2 in the sorted array.
+
+Implementation:
+
+C++
+Java
+Python3
+# Python program to find sum of
+# all element between to K1'th and
+# k2'th smallest elements in array
+ 
+# Returns sum between two kth
+# smallest element of array
+def sumBetweenTwoKth(arr, n, k1, k2):
+ 
+    # Sort the given array
+    arr.sort()
+ 
+    result = 0
+    for i in range(k1, k2-1):
+        result += arr[i]
+    return result
+ 
+# Driver code
+arr = [ 20, 8, 22, 4, 12, 10, 14 ]
+k1 = 3; k2 = 6
+n = len(arr)
+print(sumBetweenTwoKth(arr, n, k1, k2))
+ 
+ 
+# This code is contributed by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+26
+Time Complexity: O(n log n) 
+Auxiliary Space: O(1)
+
+Method 2 (Using Min Heap):
+
+
+
+We can optimize the above solution by using a min-heap. 
+
+Create a min heap of all array elements. (This step takes O(n) time) 
+Do extract minimum k1 times (This step takes O(K1 Log n) time) 
+Do extract minimum k2 – k1 – 1 time and sum all extracted elements. (This step takes O ((K2 – k1) * Log n) time)
+Time Complexity Analysis: 
+
+By doing a simple analysis, we can observe that time complexity of step3 [ Determining step for overall time complexity ] can reach to O(nlogn) also. 
+Take a look at the following description:
+Time Complexity of step3 is:  O((k2-k1)*log(n)) . 
+In worst case, (k2-k1) would be almost O(n) [ Assume situation when k1=0  and k2=len(arr)-1 ]
+When O(k2-k1) =O(n) then overall complexity will be O(n* Log n ) .
+but in most cases…it will be lesser than O(n Log n) which is equal to sorting approach described above.
+Implementation:
+
+C++
+Java
+Python3
+# Python 3 implementation of above approach
+n = 7
+ 
+def minheapify(a, index):
+    small = index
+    l = 2 * index + 1
+    r = 2 * index + 2
+ 
+    if (l < n and a[l] < a[small]):
+        small = l
+ 
+    if (r < n and a[r] < a[small]):
+        small = r
+ 
+    if (small != index):
+        (a[small], a[index]) = (a[index], a[small])
+        minheapify(a, small)
+     
+# Driver Code
+i = 0
+k1 = 3
+k2 = 6
+ 
+a = [ 20, 8, 22, 4, 12, 10, 14 ]
+ans = 0
+ 
+for i in range((n //2) - 1, -1, -1):
+    minheapify(a, i)
+ 
+# decreasing value by 1 because we want
+# min heapifying k times and it starts
+# from 0 so we have to decrease it 1 time
+k1 -= 1
+k2 -= 1
+ 
+# Step 1: Do extract minimum k1 times
+# (This step takes O(K1 Log n) time)
+for i in range(0, k1 + 1):
+    a[0] = a[n - 1]
+    n -= 1
+    minheapify(a, 0)
+ 
+# Step 2: Do extract minimum k2 – k1 – 1 times and
+# sum all extracted elements.
+# (This step takes O ((K2 – k1) * Log n) time)*/
+for i in range(k1 + 1, k2) :
+    ans += a[0]
+    a[0] = a[n - 1]
+    n -= 1
+    minheapify(a, 0)
+ 
+print (ans)
+ 
+# This code is contributed
+# by Atul_kumar_Shrivastava
+C#
+Javascript
+Output
+26
+Time Complexity: O(n + k2 Log n)
+Auxiliary Space: O(1)
+
+Method 3 : (Using Max Heap – most optimized )
+The Below Idea uses the Max Heap Strategy to find the solution.
+
+Algorithm:
+
+The idea is to find the Kth Smallest element for the K2 . 
+Then just keep an popping the elements until the size of heap is K1, and make sure to add the elements to a variable before popping the elements.
+Now the idea revolves around Kth Smallest Finding:
+
+ The CRUX over here is that, we are storing the K smallest elements in the MAX Heap
+ So while every push, if the size goes over K, then we pop the Maximum value.
+ This way after whole traversal. we are left out with K elements.
+ Then the N-K th Largest Element is Popped and given, which is as same as  K’th Smallest element.
+So by this manner we can write a functional code with using the C++ STL Priority_Queue, we get the most time and space optimized solution.
+
+C++
+Java
+Python3
+# Python3 program to find sum of all element between
+# to K1'th and k2'th smallest elements in array
+def sumBetweenTwoKth(A, N, K1, K2):
+   
+    # Using max heap to find K1'th and K2'th smallest
+    # elements
+    maxH = []
+ 
+    # Using this for loop we eliminate the extra elements
+    # which are greater than K2'th smallest element as they
+    # are not required for us
+ 
+    for i in range(0,N):
+        maxH.append(A[i])
+        maxH.sort(reverse=True)
+ 
+        if (len(maxH) > K2):
+            maxH.pop(0)
+    # popping out the K2'th smallest element
+    maxH.pop(0)
+ 
+    ans = 0
+    # adding the elements to ans until we reach the K1'th
+    # smallest element
+    while (len(maxH) > K1):
+        ans += maxH[0]
+        maxH.pop(0)
+ 
+    return ans
+ 
+ 
+arr = [ 20, 8, 22, 4, 12, 10, 14 ]
+k1 = 3
+k2 = 6
+n = len(arr)
+print(sumBetweenTwoKth(arr, n, k1, k2))
+ 
+# This code is contributed by akashish__
+C#
+Javascript
+Output
+26
+Time Complexity: ( N * log K2 ) + ( (K2-K1) * log (K2-K1) ) + O(N) = O(NLogK2) (Dominant Term)
+
+Reasons:
+
+The Traversal O(N) in the function
+Time Complexity for finding K2’th smallest element is ( N * log K2 )
+Time Complexity for popping ( K2-K1 ) elements is ( (K2-K1) * log (K2-K1) )
+As 1 Insertion takes O(LogK) where K is the size of Heap.
+As 1 Deletion takes  O(LogK) where K is the size of Heap.
+Extra Space Complexity: O(K2), As we use Heap / Priority Queue and we only store at max K elements, not more than that.
+The above Method-3 Idea, Algorithm, and Code are contributed by Balakrishnan R (rbkraj000 – GFG ID).
+
+References : https://www.geeksforgeeks.org/heap-sort 
+This article is contributed by Nishant_Singh (Pintu). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 

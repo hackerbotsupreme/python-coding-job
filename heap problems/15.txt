@@ -1,0 +1,358 @@
+Check if a given Binary Tree is a Heap
+
+Difficulty Level : Medium
+Last Updated : 23 Jan, 2023
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a binary tree, check if it has heap property or not, Binary tree needs to fulfill the following two conditions for being a heap – 
+
+It should be a complete tree (i.e. all levels except the last should be full).
+Every node’s value should be greater than or equal to its child node (considering max-heap).
+Examples:
+
+Input: 
+
+yes
+
+Output: Given binary tree is a heap 
+
+Input: 
+
+no
+
+
+
+Output: Given binary tree is not a heap
+
+Recommended Problem
+Is Binary Tree Heap
+Binary Search Tree
+Tree
++2 more
+Hike
+Solve Problem
+Submission count: 57.6K
+Check if a given Binary Tree is Heap using Complete Binary Tree
+Follow the given steps to solve the problem:
+
+Check each of the above conditions separately, for checking completeness isComplete and for checking heap isHeapUtil functions are written. 
+First, check if the given binary tree is complete or not.
+Then to check if the binary tree is a heap or not, check the following points:
+Every Node has 2 children, 0 children (last level nodes), or 1 child (there can be at most one such node).
+If Node has No children then it’s a leaf node and returns true (Base case)
+If Node has one child (it must be the left child because it is a complete tree) then compare this node with its single child only.
+If the Node has both children then check heap property at this Node and recur for both subtrees. 
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 code To check if a binary
+# tree is a MAX Heap or not
+ 
+ 
+class GFG:
+    def __init__(self, value):
+        self.key = value
+        self.left = None
+        self.right = None
+ 
+    def count_nodes(self, root):
+        if root is None:
+            return 0
+        else:
+            return (1 + self.count_nodes(root.left) +
+                    self.count_nodes(root.right))
+ 
+    def heap_property_util(self, root):
+ 
+        if (root.left is None and
+                root.right is None):
+            return True
+ 
+        if root.right is None:
+            return root.key >= root.left.key
+        else:
+            if (root.key >= root.left.key and
+                    root.key >= root.right.key):
+                return (self.heap_property_util(root.left) and
+                        self.heap_property_util(root.right))
+            else:
+                return False
+ 
+    def complete_tree_util(self, root,
+                           index, node_count):
+        if root is None:
+            return True
+        if index >= node_count:
+            return False
+        return (self.complete_tree_util(root.left, 2 *
+                                        index + 1, node_count) and
+                self.complete_tree_util(root.right, 2 *
+                                        index + 2, node_count))
+ 
+    def check_if_heap(self):
+        node_count = self.count_nodes(self)
+        if (self.complete_tree_util(self, 0, node_count) and
+                self.heap_property_util(self)):
+            return True
+        else:
+            return False
+ 
+ 
+# Driver's Code
+if __name__ == '__main__':
+    root = GFG(5)
+    root.left = GFG(2)
+    root.right = GFG(3)
+    root.left.left = GFG(1)
+ 
+    # Function call
+    if root.check_if_heap():
+        print("Given binary tree is a heap")
+    else:
+        print("Given binary tree is not a Heap")
+ 
+# This code has been
+# contributed by Yash Agrawal
+C#
+Javascript
+Output
+Given binary tree is a Heap
+Time Complexity: O(N), where N is the number of nodes
+Auxiliary Space: O(logN), for recursive stack space.
+
+Check if tree is MAX HEAP using complete Binary tree property with SPACE COMPLEXITY O(1) 
+Set the initial result to true as if it does not child than it is a heap
+First check if the child is greater than parent, if so return false
+Than check if the left child is null and right child has children or vice-versa, if so return false
+Than check if the left child doesn’t have children but right child have children, if so return false
+Than recursively call for left and right child and return AND of result of subtrees
+C++
+Java
+Python3
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+class IsBinaryTree_MaxHeap:
+    def isHeap(self, tree):
+        result = True
+ 
+        # check if child is greater than parent
+        if tree is not None and (tree.left is not None and tree.left.data > tree.data) or (tree.right is not None and tree.right.data > tree.data):
+            return False
+ 
+        # check if left subtree has children but right is None
+        if tree.left is not None:
+            if (tree.left.left is not None or tree.left.right is not None) and tree.right is None:
+                return False
+ 
+        # check if right subtree has children and left is None
+        if tree.right is not None:
+            if (tree.right.left is not None or tree.right.right is not None) and tree.left is None:
+                return False
+ 
+        # check if right subtre has children but not left subtree
+        if tree.left is not None:
+            if tree.left.left is None and tree.left.right is None:
+                if tree.right is not None:
+                    if tree.right.left is not None or tree.right.right is not None:
+                        return False
+ 
+        # recursively call for left and right subtree
+        if tree is not None and tree.left is not None:
+            l = self.isHeap(tree.left)
+            result = result and l
+        if tree is not None and tree.right is not None:
+            r = self.isHeap(tree.right)
+            result = result and r
+ 
+        return result
+ 
+def main():
+    bt = IsBinaryTree_MaxHeap()
+ 
+    root = Node(10)
+    root.left = Node(9)
+    root.right = Node(8)
+    root.left.left = Node(7)
+    root.left.right = Node(6)
+    root.right.left = Node(5)
+    root.right.right = Node(4)
+    root.left.left.left = Node(3)
+    root.left.left.right = Node(2)
+    root.left.right.left = Node(1)
+ 
+    if bt.isHeap(root) == True:
+        print("Given binary tree is a Heap")
+    else:
+        print("Given binary tree is not a Heap")
+ 
+if __name__ == "__main__":
+    main()
+ 
+    # This code is contributed by vikramshirsath177.
+C#
+Javascript
+Output
+Given binary tree is a Heap
+Time Complexity: O(N), where N is the total number of nodes.                                                                                                                                  Auxiliary Space: O(1)
+
+Check if a given Binary Tree is Heap using Level Order Traversal:
+Level order traversal can be used to check heap properties at each level of the binary tree. Check whether value of each node is greater than the value of its children and keep track of when the last node is encountered and whether it is following the heap properties using a boolean flag 
+
+Follow the given steps to solve the problem:
+
+declare a queue for level order traversal and a flag variable nullish equal to false
+Start level order traversal 
+Check for the left child of the node and if either the nullish is true or root’s value is less than its left child node, then return false, else push this node into the queue
+If the node’s left child is null then set nullish equal to true, which means we have already encountered the last node, as the node with only zero or one children can occur only once in the complete tree
+Now check the right child of the node and if either the nullish is true or root’s value is less than its right child node, then return false, else push this node into the queue.
+If the node’s right child is null then set nullish equal to true, which means we have already encountered the last node, as the node with only zero or one children can occur only once in the complete tree
+Return true after checking every node in the level order traversal
+C++
+Java
+Python3
+# Python3 program to check if a binary tree is max heap or not.
+ 
+from collections import deque
+ 
+ 
+class Node:
+    def __init__(self, value):
+        self.key = value
+        self.left = None
+        self.right = None
+ 
+ 
+def isHeap(root):
+    queue = deque()
+    queue.append(root)
+    nullish = False
+    while len(queue) > 0:
+        temp = queue[0]
+        queue.popleft()
+        if temp.left:
+            if nullish or temp.left.key > temp.key:
+                return False
+            queue.append(temp.left)
+        else:
+            nullish = True
+        if temp.right:
+            if nullish or temp.right.key > temp.key:
+                return False
+            queue.append(temp.right)
+        else:
+            nullish = True
+    return True
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    root = Node(10)
+    root.left = Node(9)
+    root.right = Node(8)
+    root.left.left = Node(7)
+    root.left.right = Node(6)
+    root.right.left = Node(5)
+    root.right.right = Node(4)
+    root.left.left.left = Node(3)
+    root.left.left.right = Node(2)
+    root.left.right.left = Node(1)
+ 
+    # Function call
+    if isHeap(root):
+        print("Given binary tree is a Heap")
+    else:
+        print("Given binary tree is not a Heap")
+ 
+# This code is contributed by lokeshmvs21.
+C#
+Javascript
+Output
+Given binary tree is a Heap
+Time Complexity: O(N) where N is the total number of nodes in a given binary tree.
+Auxiliary Space: O(N)
+
+This article is contributed by Utkarsh Trivedi. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+55
+Previous
+Heap queue (or heapq) in Python
+Next
+How to check if a given array represents a Binary Heap?
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+3.
+Heap Sort for decreasing order using min heap
+4.
+Difference between Min Heap and Max Heap
+5.
+When building a Heap, is the structure of Heap unique?
+6.
+Convert Min Heap to Max Heap
+7.
+Tournament Tree (Winner Tree) and Binary Heap
+8.
+How to check if a given array represents a Binary Heap?
+9.
+Check whether a given binary tree is skewed binary tree or not?
+10.
+Height of a complete binary tree (or Heap) with N nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+scorncer17
+Akanksha_Rai
+andrew1234
+SHUBHAMSINGH10
+devilwebdev
+Rajput-Ji
+aashish1995
+rrrtnx
+suresh07
+amartyaghoshgfg
+simmytarika5
+arynkr
+polymatir3j
+lokeshmvs21
+janardansthox
+suryacherukuri
+utsav1k
+vikramshirsath177
+shivamtiwari00021
+Article Tags :
+Hike
+Binary Search Tree
+Heap
+Tree
+Practice Tags :
+Hike
+Binary Search Tree
+Heap
+Tree
+Improve Article
+Report Issue

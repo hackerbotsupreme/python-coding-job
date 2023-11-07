@@ -1,0 +1,396 @@
+Introduction to Heap – Data Structure and Algorithm Tutorials
+
+Difficulty Level : Easy
+Last Updated : 24 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is Heap Data Structure?
+A Heap is a special Tree-based Data Structure in which the tree is a complete binary tree.
+
+Types of heaps:
+Generally, heaps are of two types.
+
+Max-Heap: 
+In this heap, the value of the root node must be the greatest among all its child nodes and the same thing must be done for its left and right sub-tree also.
+
+Min-Heap: 
+In this heap, the value of the root node must be the smallest among all its child nodes and the same thing must be done for its left ans right sub-tree also.
+
+
+Types of Heap Data Structure
+Types of Heap Data Structure
+
+Characteristics of Heap:
+Heap has the following characteristics:
+The system assigns a unique heap identifier to each heap within the activation group. The heap identifier for the default heap is always zero. A storage management-bindable API, called by a program or procedure, uses the heap identifier to identify the heap on which it is to act. The bindable API must run within the activation group that owns the heap.
+The size of a heap is dynamically extended to satisfy allocation requests. The maximum size of the heap is (4GB – 512KB). This is the maximum heap size if the total number of allocations (at any one time) does not exceed 128 000.
+The maximum size of any single allocation from a heap is limited to (16MB – 64KB).
+Operations Supported by Heap:
+Operations supported by min – heap and max – heap are same. The difference is just that min-heap contains minimum element at root of the tree and max – heap contains maximum element at the root of the tree.
+
+Heapify:
+It is the process to rearrange the elements to maintain the property of heap data structure. It is done when a certain node creates an imbalance in the heap due to some operations on that node. It takes O(log N) to balance the tree. 
+
+For max-heap, it balances in such a way that the maximum element is the root of that binary tree and 
+For min-heap, it balances in such a way that the minimum element is the root of that binary tree.
+Insertion:
+If we insert a new element into the heap since we are adding a new element into the heap so it will distort the properties of the heap so we need to perform the heapify operation so that it maintains the property of the heap.
+This operation also takes O(logN) time.
+
+Examples:
+
+Assume initially heap(taking max-heap) is as follows
+
+           8
+        /   \
+     4     5
+   / \
+1   2
+
+Now if we insert 10 into the heap
+             8
+        /      \
+      4       5
+   /  \      /
+1    2  10 
+
+After heapify operation final heap will be look like this
+           10
+         /    \
+      4      8
+   /  \     /
+1    2  5
+
+Deletion:
+If we delete the element from the heap it always deletes the root element of the tree and replaces it with the last element of the tree.
+Since we delete the root element from the heap it will distort the properties of the heap so we need to perform heapify operations so that it maintains the property of the heap. 
+It takes O(logN) time.
+
+
+Example:
+
+Assume initially heap(taking max-heap) is as follows
+           15
+         /   \
+      5     7
+   /  \
+2     3
+
+Now if we delete 15 into the heap it will be replaced by leaf node of the tree for temporary.
+           3
+        /   \
+     5     7
+   /    
+2
+
+After heapify operation final heap will be look like this
+           7
+        /   \
+     5     3
+   /   
+2
+
+getMax (For max-heap) or getMin (For min-heap):
+It finds the maximum element or minimum element for max-heap and min-heap respectively and as we know minimum and maximum elements will always be the root node itself for min-heap and max-heap respectively. It takes O(1) time.
+
+removeMin or removeMax:
+This operation returns and deletes the maximum element and minimum element from the max-heap and min-heap respectively. In short, it deletes the root element of the heap binary tree.
+
+Implementation of Heap Data Structure:-
+The following code shows the implementation of a max-heap.
+
+Let’s understand the maxHeapify function in detail:-
+
+maxHeapify is the function responsible for restoring the property of the Max Heap. It arranges the node i, and its subtrees accordingly so that the heap property is maintained.
+
+Suppose we are given an array, arr[] representing the complete binary tree. The left and the right child of ith node are in indices 2*i+1 and 2*i+2.
+We set the index of the current element, i, as the ‘MAXIMUM’.
+If arr[2 * i + 1] > arr[i], i.e., the left child is larger than the current value, it is set as ‘MAXIMUM’.
+Similarly if arr[2 * i + 2] > arr[i], i.e., the right child is larger than the current value, it is set as ‘MAXIMUM’.
+Swap the ‘MAXIMUM’ with the current element.
+Repeat steps 2 to 5 till the property of the heap is restored.
+C++
+// C++ code to depict
+// the implementation of a max heap.
+ 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// A class for Max Heap.
+class MaxHeap {
+    // A pointer pointing to the elements
+    // in the array in the heap.
+    int* arr;
+ 
+    // Maximum possible size of
+    // the Max Heap.
+    int maxSize;
+ 
+    // Number of elements in the
+    // Max heap currently.
+    int heapSize;
+ 
+public:
+    // Constructor function.
+    MaxHeap(int maxSize);
+ 
+    // Heapifies a sub-tree taking the
+    // given index as the root.
+    void MaxHeapify(int);
+ 
+    // Returns the index of the parent
+    // of the element at ith index.
+    int parent(int i)
+    {
+        return (i - 1) / 2;
+    }
+ 
+    // Returns the index of the left child.
+    int lChild(int i)
+    {
+        return (2 * i + 1);
+    }
+ 
+    // Returns the index of the
+    // right child.
+    int rChild(int i)
+    {
+        return (2 * i + 2);
+    }
+ 
+    // Removes the root which in this
+    // case contains the maximum element.
+    int removeMax();
+ 
+    // Increases the value of the key
+    // given by index i to some new value.
+    void increaseKey(int i, int newVal);
+ 
+    // Returns the maximum key
+    // (key at root) from max heap.
+    int getMax()
+    {
+        return arr[0];
+    }
+ 
+    int curSize()
+    {
+        return heapSize;
+    }
+ 
+    // Deletes a key at given index i.
+    void deleteKey(int i);
+ 
+    // Inserts a new key 'x' in the Max Heap.
+    void insertKey(int x);
+};
+ 
+// Constructor function builds a heap
+// from a given array a[]
+// of the specified size.
+MaxHeap::MaxHeap(int totSize)
+{
+    heapSize = 0;
+    maxSize = totSize;
+    arr = new int[totSize];
+}
+ 
+// Inserting a new key 'x'.
+void MaxHeap::insertKey(int x)
+{
+    // To check whether the key
+    // can be inserted or not.
+    if (heapSize == maxSize) {
+        cout << "\nOverflow: Could not insertKey\n";
+        return;
+    }
+ 
+    // The new key is initially
+    // inserted at the end.
+    heapSize++;
+    int i = heapSize - 1;
+    arr[i] = x;
+ 
+    // The max heap property is checked
+    // and if violation occurs,
+    // it is restored.
+    while (i != 0 && arr[parent(i)] < arr[i]) {
+        swap(arr[i], arr[parent(i)]);
+        i = parent(i);
+    }
+}
+ 
+// Increases value of key at
+// index 'i' to new_val.
+void MaxHeap::increaseKey(int i, int newVal)
+{
+    arr[i] = newVal;
+    while (i != 0 && arr[parent(i)] < arr[i]) {
+        swap(arr[i], arr[parent(i)]);
+        i = parent(i);
+    }
+}
+ 
+// To remove the root node which contains
+// the maximum element of the Max Heap.
+int MaxHeap::removeMax()
+{
+    // Checking whether the heap array
+    // is empty or not.
+    if (heapSize <= 0)
+        return INT_MIN;
+    if (heapSize == 1) {
+        heapSize--;
+        return arr[0];
+    }
+ 
+    // Storing the maximum element
+    // to remove it.
+    int root = arr[0];
+    arr[0] = arr[heapSize - 1];
+    heapSize--;
+ 
+    // To restore the property
+    // of the Max heap.
+    MaxHeapify(0);
+ 
+    return root;
+}
+ 
+// In order to delete a key
+// at a given index i.
+void MaxHeap::deleteKey(int i)
+{
+    // It increases the value of the key
+    // to infinity and then removes
+    // the maximum value.
+    increaseKey(i, INT_MAX);
+    removeMax();
+}
+ 
+// To heapify the subtree this method
+// is called recursively
+void MaxHeap::MaxHeapify(int i)
+{
+    int l = lChild(i);
+    int r = rChild(i);
+    int largest = i;
+    if (l < heapSize && arr[l] > arr[i])
+        largest = l;
+    if (r < heapSize && arr[r] > arr[largest])
+        largest = r;
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        MaxHeapify(largest);
+    }
+}
+ 
+// Driver program to test above functions.
+int main()
+{
+    // Assuming the maximum size of the heap to be 15.
+    MaxHeap h(15);
+ 
+    // Asking the user to input the keys:
+    int k, i, n = 6, arr[10];
+    cout << "Entered 6 keys:- 3, 10, 12, 8, 2, 14 \n";
+    h.insertKey(3);
+    h.insertKey(10);
+    h.insertKey(12);
+    h.insertKey(8);
+    h.insertKey(2);
+    h.insertKey(14);
+ 
+    // Printing the current size
+    // of the heap.
+    cout << "The current size of the heap is "
+         << h.curSize() << "\n";
+ 
+    // Printing the root element which is
+    // actually the maximum element.
+    cout << "The current maximum element is " << h.getMax()
+         << "\n";
+ 
+    // Deleting key at index 2.
+    h.deleteKey(2);
+ 
+    // Printing the size of the heap
+    // after deletion.
+    cout << "The current size of the heap is "
+         << h.curSize() << "\n";
+ 
+    // Inserting 2 new keys into the heap.
+    h.insertKey(15);
+    h.insertKey(5);
+    cout << "The current size of the heap is "
+         << h.curSize() << "\n";
+    cout << "The current maximum element is " << h.getMax()
+         << "\n";
+ 
+    return 0;
+}
+Output
+Entered 6 keys:- 3, 10, 12, 8, 2, 14 
+The current size of the heap is 6
+The current maximum element is 14
+The current size of the heap is 5
+The current size of the heap is 7
+The current maximum element is 15
+Applications of Heap Data Structure:
+Priority Queues: Priority queues can be efficiently implemented using Binary Heap because it supports insert(), delete() and extractmax(), decreaseKey() operations in O(log N) time. 
+Binomial Heap and Fibonacci Heap are variations of Binary Heap. These variations perform union also in O(log N) time which is an O(N) operation in Binary Heap.
+Order statistics: The Heap data structure can be used to efficiently find the kth smallest (or largest) element in an array. You can see this gfg article to know more about the kth smallest or largest element.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Check if Binary Heap is completely filled
+Next
+What is the difference between Heap and Red-Black Tree?
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+When building a Heap, is the structure of Heap unique?
+3.
+Difference between Min Heap and Max Heap
+4.
+Heap Sort for decreasing order using min heap
+5.
+Convert Min Heap to Max Heap
+6.
+Leaf starting point in a Binary Heap data structure
+7.
+Applications of Heap Data Structure
+8.
+Sorting algorithm visualization : Heap Sort
+9.
+Fibonacci Heap | Set 1 (Introduction)
+10.
+Introduction to Hierarchical Data Structure
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+kk9826225
+mitalibhola94
+palimohan
+Article Tags :
+Picked
+Heap
+Practice Tags :
+Heap

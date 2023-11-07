@@ -1,0 +1,144 @@
+Largest Derangement of a Sequence
+
+Difficulty Level : Medium
+Last Updated : 22 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given any sequence, find the largest derangement of .
+A derangement D                    is any permutation of, such that no two elements at the same position in S                    and D                    are equal. 
+The Largest Derangement is such that.
+
+Examples:  
+
+Input : seq[] = {5, 4, 3, 2, 1}
+Output : 4 5 2 1 3
+
+Input : seq[] = {56, 21, 42, 67, 23, 74}
+Output : 74, 67, 56, 42, 21, 23
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Since we are interested in generating the largest derangement, we start putting larger elements in more significant positions.
+Start from left, at any position i                    place the next largest element among the values of the sequence which have not yet been placed in positions before.
+To scan all positions takes N iteration. In each iteration we are required to find a maximum number, so a trivial implementation would be O(N^2)                    complexity,
+However, if we use a data structure like max-heap to find the maximum element, then the complexity reduces to O(N * log{N})                
+
+Below is the implementation. 
+
+C++
+Java
+Python3
+# Python3 program to find the largest derangement
+def printLargest(seq, N) :
+ 
+    res = [0]*N # Stores result
+   
+    # Insert all elements into a priority queue
+    pq = []
+    for i in range(N) :
+        pq.append(seq[i])  
+   
+    # Fill Up res[] from left to right
+    for i in range(N) :   
+        pq.sort()
+        pq.reverse()
+        d = pq[0]
+        del pq[0]
+        if (d != seq[i] or i == N - 1) :
+            res[i] = d       
+        else :       
+   
+            # New Element popped equals the element
+            # in original sequence. Get the next
+            # largest element
+            res[i] = pq[0]
+            del pq[0]
+            pq.append(d)
+   
+    # If given sequence is in descending order then
+    # we need to swap last two elements again
+    if (res[N - 1] == seq[N - 1]) :   
+        res[N - 1] = res[N - 2]
+        res[N - 2] = seq[N - 1]
+          
+    print("Largest Derangement")
+    for i in range(N) :
+        print(res[i], end = " ")
+ 
+# Driver code
+seq = [ 92, 3, 52, 13, 2, 31, 1 ]
+n = len(seq)
+printLargest(seq, n)
+ 
+# This code is contributed by divyesh072019.
+C#
+Javascript
+Output
+Largest Derangement 
+52 92 31 3 13 1 2 
+Time Complexity: O(n log n)
+Auxiliary Space: O(N), because, we use an N size array to store results.
+
+Note: 
+
+The method can be easily modified to obtain the smallest derangement as well. 
+Instead of a Max Heap, we should use a Min Heap to consecutively get minimum elements
+
+This article is contributed by Sayan Mahapatra. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Smallest Derangement of Sequence
+Next
+Maximum size rectangle binary sub-matrix with all 1s
+Related Articles
+1.
+Smallest Derangement of Sequence
+2.
+k-th missing element in increasing sequence which is not present in a given sequence
+3.
+Minimum operations required to transform a sequence of numbers to a sequence where a[i]=a[i+2]
+4.
+Find original sequence from Array containing the sequence merged many times in order
+5.
+Lexicographically largest N-length Bitonic sequence made up of elements from given range
+6.
+Rearrange an array in order - smallest, largest, 2nd smallest, 2nd largest, ..
+7.
+Count of subarrays with largest element at least twice the largest of remaining elements
+8.
+Find Index of 0 to be replaced with 1 to get longest continuous sequence of 1s in a binary array
+9.
+Jolly Jumper Sequence
+10.
+Find bitonic point in given bitonic sequence
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Bhaskar Santosh K
+aditya7409
+divyeshrabadiya07
+divyesh072019
+gfgking
+surindertarika1234
+hardikkoriintern
+surajrasr7277
+sayanc170
+Article Tags :
+Arrays
+Heap
+Practice Tags :
+Arrays
+Heap

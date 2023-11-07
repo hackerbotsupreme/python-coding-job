@@ -1,0 +1,234 @@
+Connect n ropes with minimum cost
+
+Difficulty Level : Medium
+Last Updated : 16 Aug, 2022
+Read
+Discuss(110)
+Courses
+Practice
+Video
+Given are N ropes of different lengths, the task is to connect these ropes into one rope with minimum cost, such that the cost to connect two ropes is equal to the sum of their lengths.
+
+Examples:
+
+Input: arr[] = {4,3,2,6} , N = 4
+Output: 29
+Explanation: 
+
+First, connect ropes of lengths 2 and 3. Now we have three ropes of lengths 4, 6, and 5. 
+Now connect ropes of lengths 4 and 5. Now we have two ropes of lengths 6 and 9. 
+Finally connect the two ropes and all ropes have connected.
+                 
+
+Input: arr[] = {1, 2, 3} , N = 3
+Output: 9
+Explanation: 
+
+First, connect ropes of lengths 1 and 2. Now we have two ropes of lengths 3 and 3. 
+Finally connect the two ropes and all ropes have connected.
+We strongly recommend that you click here and practice it, before moving on to the solution.
+Connect N ropes with minimum cost using Min-Heap
+Approach: If we observe the above problem closely, we can notice that the lengths of the ropes which are picked first are included more than once in the total cost. Therefore, the idea is to connect the smallest two ropes first and recur for the remaining ropes. This approach is similar to Huffman Coding. We put the smallest ropes down the tree so they can be repeated multiple times rather than the longer ones.
+
+Illustration:
+
+First, we will connect ropes of lengths 2 and 3 because they are the smallest. Now we have three ropes left of lengths 4, 6, and 5.
+Now we connect ropes of lengths 4 and 5. Now we have two ropes of lengths 6 and 9.
+Finally, we will connect the two ropes so that all ropes are connected.
+
+
+The total cost contains the sum of depth of each value. For array [ 2, 3, 4, 6 ] the sum is equal to (2 * 3) + (3 * 3) + (4 * 2) + (6 * 1) = 29 (According to the diagram). 
+Algorithm: Follow the steps mentioned below to implement the idea:
+
+Create a min-heap and insert all lengths into the min-heap.
+Do following while the number of elements in min-heap is greater than one. 
+Extract the minimum and second minimum from min-heap
+Add the above two extracted values and insert the added value to the min-heap.
+Maintain a variable for total cost and keep incrementing it by the sum of extracted values.
+Return the value of total cost.
+Below is the implementation of the above approach:
+
+C++
+Java
+C#
+Python3
+# Python3 program to connect n
+# ropes with minimum cost
+import heapq
+ 
+ 
+def minCost(arr, n):
+ 
+    # Create a priority queue out of the
+    # given list
+    heapq.heapify(arr)
+ 
+    # Initialize result
+    res = 0
+ 
+    # While size of priority queue
+    # is more than 1
+    while(len(arr) > 1):
+ 
+        # Extract shortest two ropes from arr
+        first = heapq.heappop(arr)
+        second = heapq.heappop(arr)
+ 
+        # Connect the ropes: update result
+        # and insert the new rope to arr
+        res += first + second
+        heapq.heappush(arr, first + second)
+ 
+    return res
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    lengths = [4, 3, 2, 6]
+    size = len(lengths)
+ 
+    print("Total cost for connecting ropes is " +
+          str(minCost(lengths, size)))
+ 
+# This code is contributed by shivampatel5
+Javascript
+Output
+Total cost for connecting ropes is 29
+Time Complexity: O(N*log(N))
+Auxiliary Space: O(N)
+
+Connect N ropes with minimum cost using Pre Defined Function
+In this approach, we use the predefined priority queue which is already available. The approach and algorithm remain the same. The min heap is replaced by a priority queue.
+
+Follow the steps mentioned below to implement the idea:
+
+declare a priority queue and push all the elements in it.
+Do following while the number of elements in min-heap is greater than one. 
+Extract the minimum and second minimum from min-heap
+Add the above two extracted values and insert the added value to the min-heap.
+Maintain a variable for total cost and keep incrementing it by the sum of extracted values.
+Return the value of total cost.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to connect n
+# ropes with minimum cost
+import heapq
+ 
+ 
+def minCost(arr, n):
+ 
+    # Create a priority queue out of the
+    # given list
+    heapq.heapify(arr)
+ 
+    # Initialize result
+    res = 0
+ 
+    # While size of priority queue
+    # is more than 1
+    while(len(arr) > 1):
+ 
+        # Extract shortest two ropes from arr
+        first = heapq.heappop(arr)
+        second = heapq.heappop(arr)
+ 
+        # Connect the ropes: update result
+        # and insert the new rope to arr
+        res += first + second
+        heapq.heappush(arr, first + second)
+ 
+    return res
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    lengths = [4, 3, 2, 6]
+    size = len(lengths)
+ 
+    print("Total cost for connecting ropes is " +
+          str(minCost(lengths, size)))
+ 
+# This code is contributed by shivampatel5
+C#
+Javascript
+Output
+Total cost for connecting ropes is 29
+Time Complexity: O(N*log(N))
+Auxiliary Space: O(N)
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Minimum rooms for m events of n batches with given schedule
+Next
+Minimum edges to reverse to make path from a source to a destination
+Related Articles
+1.
+Maximum length of all possible K equal length ropes generated by cutting N ropes
+2.
+Maximize ropes of consecutive length possible by connecting given ropes
+3.
+Minimize cost to connect the graph by connecting any pairs of vertices having cost at least 0
+4.
+Minimum cost required to connect all houses in a city
+5.
+Minimum cost to connect all cities
+6.
+Minimum Cost using Dijkstra by Modifying Cost of an Edge
+7.
+Minimum cost to empty Array where cost of removing an element is 2^(removed_count) * arr[i]
+8.
+Minimum cost to complete given tasks if cost of 1, 7 and 30 days are given
+9.
+Minimum Cost To set Digital Clock Timer with given movement and push cost
+10.
+Minimize cost to split an array into K subsets such that the cost of each element is its product with its position in the subset
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+JAGRITIBANSAL
+AbhijeetSrivastava
+nobody_cares
+andrew1234
+shivampatel5
+Rajput-Ji
+avanitrachhadiya2155
+simranarora5sos
+pintusaini
+anikakapoor
+neerajgupta8524
+hardikkoriintern
+garvitpr1hev
+Article Tags :
+Amazon
+Goldman Sachs
+OYO Rooms
+Greedy
+Heap
+Queue
+Practice Tags :
+Amazon
+Goldman Sachs
+OYO Rooms
+Greedy
+Heap
+Queue
+Report Issue

@@ -1,0 +1,163 @@
+Heap Sort for decreasing order using min heap
+
+Difficulty Level : Easy
+Last Updated : 04 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of elements, sort the array in decreasing order using min heap. 
+
+Examples: 
+
+Input : arr[] = {5, 3, 10, 1}
+Output : arr[] = {10, 5, 3, 1}
+
+Input : arr[] = {1, 50, 100, 25}
+Output : arr[] = {100, 50, 25, 1}
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Prerequisite : Heap sort using min heap.
+
+Algorithm : 
+
+
+Build a min heap from the input data. 
+At this point, the smallest item is stored at the root of the heap. Replace it with the last item of the heap followed by reducing the size of heap by 1. Finally, heapify the root of tree. 
+Repeat above steps while size of heap is greater than 1.
+Note :Heap Sort using min heap sorts in descending order where as max heap sorts in ascending order
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program for implementation
+# of Heap Sort
+ 
+# To heapify a subtree rooted with
+# node i which is an index in arr[].
+# n is size of heap
+def heapify(arr, n, i):
+    smallest = i # Initialize smallest as root
+    l = 2 * i + 1 # left = 2*i + 1
+    r = 2 * i + 2 # right = 2*i + 2
+ 
+    # If left child is smaller than root
+    if l < n and arr[l] < arr[smallest]:
+        smallest = l
+ 
+    # If right child is smaller than
+    # smallest so far
+    if r < n and arr[r] < arr[smallest]:
+        smallest = r
+ 
+    # If smallest is not root
+    if smallest != i:
+        (arr[i],
+         arr[smallest]) = (arr[smallest],
+                           arr[i])
+ 
+        # Recursively heapify the affected
+        # sub-tree
+        heapify(arr, n, smallest)
+ 
+# main function to do heap sort
+def heapSort(arr, n):
+     
+    # Build heap (rearrange array)
+    for i in range(int(n / 2) - 1, -1, -1):
+        heapify(arr, n, i)
+ 
+    # One by one extract an element
+    # from heap
+    for i in range(n-1, -1, -1):
+         
+        # Move current root to end #
+        arr[0], arr[i] = arr[i], arr[0]
+ 
+        # call min heapify on the reduced heap
+        heapify(arr, i, 0)
+ 
+# A utility function to print
+# array of size n
+def printArray(arr, n):
+     
+    for i in range(n):
+        print(arr[i], end = " ")
+    print()
+ 
+# Driver Code
+if __name__ == '__main__':
+    arr = [4, 6, 3, 2, 9]
+    n = len(arr)
+ 
+    heapSort(arr, n)
+ 
+    print("Sorted array is ")
+    printArray(arr, n)
+ 
+# This code is contributed by PranchalK
+C#
+Javascript
+Output: 
+Sorted array is 
+9 6 4 3 2
+ 
+
+Time complexity:It takes O(logn) for heapify and O(n) for constructing a heap. Hence, the overall time complexity of heap sort using min heap or max heap is O(nlogn)
+Space complexity: O(n) for call stack
+
+
+
+Like
+Previous
+Print number in ascending order which contains 1, 2 and 3 in their digits.
+Next
+Strand Sort
+Related Articles
+1.
+Difference between Binary Heap, Binomial Heap and Fibonacci Heap
+2.
+Difference between Min Heap and Max Heap
+3.
+Convert Min Heap to Max Heap
+4.
+Given level order traversal of a Binary Tree, check if the Tree is a Min-Heap
+5.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+6.
+Sort even-placed elements in increasing and odd-placed in decreasing order
+7.
+Sort an array of strings having characters at odd and even indices sorted in decreasing and increasing order respectively
+8.
+Minimize moves to sort Array in non decreasing order by breaking elements in two parts
+9.
+Sort a String in decreasing order of values associated after removal of values smaller than X
+10.
+Maximise the number of toys that can be purchased with amount K using min Heap
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Shashank_Pathak
+@Shashank_Pathak
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PranchalKatiyar
+rrrtnx
+rajatkumargla19
+simmytarika5
+technophpfij
+hardikkoriintern
+Article Tags :
+Heap Sort
+Heap
+Sorting
+Practice Tags :
+Heap
+Sorting
