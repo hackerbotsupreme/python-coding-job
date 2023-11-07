@@ -1,0 +1,2 @@
+1. It can have any number of arguments but only one expression
+#keep watch of the syntax of the functions being used in lambda

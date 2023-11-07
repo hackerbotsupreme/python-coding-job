@@ -1,0 +1,156 @@
+Difference between Normal def defined function and Lambda
+Last Updated : 19 Dec, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+
+In this article, we will discuss the difference between normal def defined function and lambda in Python.
+
+Def keyword​​​​​​​
+In python, def defined functions are commonly used because of their simplicity. The def defined functions do not return anything if not explicitly returned whereas the lambda function does return an object. The def functions must be declared in the namespace. The def functions can perform any python task including multiple conditions, nested conditions or loops of any level, printing, importing libraries, raising Exceptions, etc. 
+
+Example:
+
+
+# Define function to calculate cube root
+# using def keyword
+  
+def calculate_cube_root(x):
+    return x**(1/3)
+  
+# Call the def function to calculate cube
+# root and print it
+print(calculate_cube_root(27))
+  
+# Define function to check if language is present in
+# language list using def keyword
+languages = ['Sanskrut', 'English', 'French', 'German']
+  
+def check_language(x):
+    if x in languages:
+        return True
+    return False
+  
+# Call the def function to check if keyword 'English'
+# is present in the languages list and print it
+print(check_language('English'))
+Output:
+
+
+3.0
+True
+Lambda keyword
+The lambda functions can be used without any declaration in the namespace. The lambda functions defined above are like single-line functions. These functions do not have parenthesis like the def defined functions but instead, take parameters after the lambda keyword as shown above. There is no return keyword defined explicitly because the lambda function does return an object by default.
+
+Example:
+
+
+# Define function using lambda for cube root
+cube_root= lambda x: x**(1/3)
+  
+# Call the lambda function
+print(cube_root(27))
+  
+  
+languages = ['Sanskrut', 'English', 'French', 'German']
+  
+  
+# Define function using lambda
+l_check_language = lambda x: True if x in languages else False
+  
+# Call the lambda function
+print(l_check_language('Sanskrut'))
+Output:
+
+3.0
+True
+Table of Difference Between def and Lambda
+def defined functions
+
+lambda functions
+
+Easy to interpret
+
+Interpretation might be tricky
+
+Can consists of any number of execution statements inside the function definition
+
+The limited operation can be performed using lambda functions
+
+
+To return an object from the function, return should be explicitly defined
+
+No need of using the return statement
+
+Execution time is relatively slower for the same operation performed using lambda functions
+
+Execution time of the program is fast for the same operation
+
+Defined using the keyword def and holds a function name in the local namespace
+
+Defined using the keyword lambda and does not compulsorily hold a function name in the local namespace
+
+
+Related Articles
+1.
+Python def Keyword
+2.
+Why do Python lambda defined in a loop with different values all return the same result?
+3.
+Difference between List comprehension and Lambda in Python
+4.
+Python - Lambda function to find the smaller value between two elements
+5.
+Map function and Lambda expression in Python to replace characters
+6.
+Intersection of two arrays in Python ( Lambda expression and filter function )
+7.
+Python | Find the Number Occurring Odd Number of Times using Lambda expression and reduce function
+8.
+Ways to sort list of dictionaries by values in Python - Using lambda function
+9.
+Nested Lambda Function in Python
+10.
+Python - Lambda Function to Check if value is in a List
+
+Like
+6
+Previous
+Python: Iterating With Python Lambda
+Next
+How to Calculate Rolling Median in Pandas?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+apathak092
+@apathak092
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Python-Functions
+python-lambda
+Python
+Practice Tags :
+python
+python-functions
+Improve Article
+Report Issue
+WHAT'S NEW
+
+Python Backend Development With Django
+8 Weeks of LIVE Classes
+View Details
+
+Master Android App Development with Kotlin
+New Course Launch!
+View Details
+
+Complete Interview Preparation Course
+View Details
+

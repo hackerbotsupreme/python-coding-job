@@ -1,0 +1,52 @@
+Map function and Lambda expression in Python to replace characters
+Difficulty Level : Hard
+Last Updated : 27 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+
+Given a string S, c1 and c2. Replace character c1 with c2 and c2 with c1. Examples:
+
+Input : str = 'grrksfoegrrks'
+        c1 = e, c2 = r 
+Output : geeksforgeeks 
+
+Input : str = 'ratul'
+        c1 = t, c2 = h 
+Output : rahul
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have an existing solution for this problem in C++. Please refer to Replace a character c1 with c2 and c2 with c1 in a string S. We can solve this problem quickly in Python using a Lambda expression and the map() function. 
+
+We will create a lambda expression where character c1 in string will be replaced by c2 and c2 will be replaced by c1. All other characters will remain the same. Then we will map this expression on each character of string and return an updated string. 
+
+Implementation:
+
+
+
+# Function to replace a character c1 with c2
+# and c2 with c1 in a string S
+ 
+def replaceChars(input,c1,c2):
+ 
+     # create lambda to replace c1 with c2, c2
+     # with c1 and other will remain same
+     # expression will be like "lambda x:
+     # x if (x!=c1 and x!=c2) else c1 if (x==c2) else c2"
+     # and map it onto each character of string
+     newChars = map(lambda x: x if (x!=c1 and x!=c2) else \
+                c1 if (x==c2) else c2,input)
+ 
+     # now join each character without space
+     # to print resultant string
+     print (''.join(newChars))
+ 
+# Driver program
+if __name__ == "__main__":
+    input = 'grrksfoegrrks'
+    c1 = 'e'
+    c2 = 'r'
+    replaceChars(input,c1,c2)
+Output
+geeksforgeeks

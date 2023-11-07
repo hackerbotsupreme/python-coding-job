@@ -1,0 +1,49 @@
+Nested Lambda Function in Python
+Difficulty Level : Hard
+Last Updated : 08 Jun, 2020
+Read
+Discuss
+Courses
+Practice
+Video
+
+Prerequisites: Python lambda
+
+In Python, anonymous function means that a function is without a name. As we already know the def keyword is used to define the normal functions and the lambda keyword is used to create anonymous functions. When we use lambda function inside another lambda function then it is called Nested Lambda Function.
+
+Example 1:
+
+
+# Python program to demonstrate
+# nested lambda functions
+  
+  
+f = lambda a = 2, b = 3:lambda c: a+b+c
+  
+o = f()
+print(o(4))
+Output:
+
+
+9
+Here, when the object o with parameter 4 is called, the control shift to f() which is caller object of the whole lambda function. Then the following execution takes place-
+
+The nested lambda function takes the value of a and b from the first lambda function as a=2 and b=3.
+It takes the value of c from its caller object o which passes c = 4.
+Finally we get the output which is the summation of a, b and c that is 9.
+Example 2:
+
+
+# Python program to demonstrate
+# nested lambda functions
+  
+  
+square = lambda x: x**2
+product = lambda f, n: lambda x: f(x)*n
+  
+ans = product(square, 2)(10)
+print(ans)
+Output:
+
+200
+In the above example, when the product function is called square function gets bound to f and 2 gets bound to n which then returns a function which is bound to the product which when called with 10, x is assigned this and square is called, which returns 100 and this, in turn, is multiplied with n which is 2. So it’ll finally return 200.

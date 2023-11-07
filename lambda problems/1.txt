@@ -1,0 +1,328 @@
+Lambda and filter in Python Examples
+Difficulty Level : Easy
+Last Updated : 09 Jul, 2021
+
+
+Prerequisite : Lambda in Python
+
+Given a list of numbers, find all numbers divisible by 13.
+
+Input : my_list = [12, 65, 54, 39, 102, 
+                     339, 221, 50, 70]
+Output : [65, 39, 221]
+We can use Lambda function inside the filter() built-in function to find all the numbers divisible by 13 in the list. In Python, anonymous function means that a function is without a name.
+
+The filter() function in Python takes in a function and a list as arguments. This offers an elegant(
+elegant
+ˈeləɡənt
+মার্জিত) way to filter out all the elements of a sequence “sequence”, for which the function returns True.
+
+
+
+# Python Program to find numbers divisible 
+# by thirteen from a list using anonymous 
+# function
+  
+# Take a list of numbers. 
+my_list = [12, 65, 54, 39, 102, 339, 221, 50, 70, ]
+  
+# use anonymous function to compare and filter 
+# if divisible or not
+result = list(filter(lambda x: (x % 13 == 0), my_list)) 
+  
+# printing the result
+print(result) 
+Output:
+
+[65, 39, 221]
+Given a list of strings, find all palindromes.
+
+
+# Python Program to find palindromes in 
+# a list of strings.
+  
+my_list = ["geeks", "geeg", "keek", "practice", "aa"]
+  
+# use anonymous function to filter palindromes.
+#What is meant by palindrome string?
+Image result for what does a palindrome mean in python for a string
+A string is said to be palindrome if it remains the same on reading from both ends. It means that when you reverse a given string, it should be the same as the original string.
+# Please refer below article for details of reversed
+# https://www.geeksforgeeks.org/reverse-string-python-5-different-ways/
+result = list(filter(lambda x: (x == "".join(reversed(x))), my_list)) 
+  
+# printing the result
+print(result) 
+Output :
+
+['geeg', 'keek', 'aa']
+Given a list of strings and a string str, print all anagrams of str
+
+
+# Python Program to find all anagrams of str in 
+# a list of strings.
+from collections import Counter
+  
+my_list = ["geeks", "geeg", "keegs", "practice", "aa"]
+str = "eegsk"
+  
+# use anonymous function to filter anagrams of x.
+# Please refer below article for details of reversed
+# https://www.geeksforgeeks.org/anagram-checking-python-collections-counter/
+result = list(filter(lambda x: (Counter(str) == Counter(x)), my_list)) 
+  
+# printing the result
+print(result) 
+Output :
+
+['geeks', 'keegs']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Reverse string in Python (6 different ways)
+Difficulty Level : Easy
+
+
+
+
+Python string library doesn’t support the in-built “reverse()” as done by other python containers like list, hence knowing other methods to reverse string can prove to be useful. This article discusses several ways to achieve it in Python. 
+
+Example:
+
+Input:  Geeksforgeeks
+Output: skeegrofskeeG
+Reverse a string in Python using a loop
+In this example, we call a function to reverse a string, which iterates to every element and intelligently joins each character in the beginning so as to obtain the reversed string. 
+
+Time complexity: O(n) 
+Auxiliary Space: O(1) 
+
+
+Implementation:
+
+
+def reverse(s):
+    str = ""
+    for i in s:
+        str = i + str
+    return str
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string is : ", end="")
+print(s)
+ 
+print("The reversed string(using loops) is : ", end="")
+print(reverse(s))
+Output
+The original string is : Geeksforgeeks
+The reversed string(using loops) is : skeegrofskeeG
+Reverse a string in Python using recursion
+The string is passed as an argument to a recursive function to reverse the string. In the function, the base condition is that if the length of the string is equal to 0, the string is returned. If not equal to 0, the reverse function is recursively called to slice the part of the string except the first character and concatenate the first character to the end of the sliced string. ‘
+
+Implementation:
+
+
+def reverse(s):
+    if len(s) == 0:
+        return s
+    else:
+        return reverse(s[1:]) + s[0]
+ 
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string is : ", end="")
+print(s)
+ 
+print("The reversed string(using recursion) is : ", end="")
+print(reverse(s))
+Output
+The original string is : Geeksforgeeks
+The reversed string(using recursion) is : skeegrofskeeG
+Time complexity: O(n), for recursion to reverse 
+Auxiliary Space: O(n), for recursion call stack
+
+Reverse string in Python using stack
+An empty stack is created. One by one character of the string is pushed to the stack. One by one all characters from the stack are popped and put back to a string. 
+
+Time complexity: O(n) 
+Auxiliary Space: O(n) 
+
+Implementation:
+
+
+
+# Function to create an empty stack. It
+# initializes size of stack as 0
+def createStack():
+    stack = []
+    return stack
+ 
+# Function to determine the size of the stack
+def size(stack):
+    return len(stack)
+ 
+# Stack is empty if the size is 0
+def isEmpty(stack):
+    if size(stack) == 0:
+        return true
+ 
+# Function to add an item to stack . It
+# increases size by 1
+def push(stack, item):
+    stack.append(item)
+ 
+# Function to remove an item from stack.
+# It decreases size by 1
+def pop(stack):
+    if isEmpty(stack):
+        return
+    return stack.pop()
+ 
+# A stack based function to reverse a string
+def reverse(string):
+    n = len(string)
+ 
+    # Create a empty stack
+    stack = createStack()
+ 
+    # Push all characters of string to stack
+    for i in range(0, n, 1):
+        push(stack, string[i])
+ 
+    # Making the string empty since all
+    # characters are saved in stack
+    string = ""
+ 
+    # Pop all characters of string and put
+    # them back to string
+    for i in range(0, n, 1):
+        string += pop(stack)
+ 
+    return string
+ 
+ 
+# Driver code
+s = "Geeksforgeeks"
+print("The original string is : ", end="")
+print(s)
+print("The reversed string(using stack) is : ", end="")
+print(reverse(s))
+Output
+The original string is : Geeksforgeeks
+The reversed string(using stack) is : skeegrofskeeG
+Reverse string in Python using an extended slice
+Extended slice offers to put a “step” field as [start, stop, step], and giving no field as start and stop indicates default to 0 and string length respectively, and “-1” denotes starting from the end and stop at the start, hence reversing a string. 
+
+Time complexity: O(n) 
+Auxiliary Space: O(1) 
+
+Implementation:
+
+
+# Function to reverse a string
+def reverse(string):
+    string = string[::-1]
+    return string
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string is : ", end="")
+print(s)
+ 
+print("The reversed string(using extended slice syntax) is : ", end="")
+print(reverse(s))
+Output
+The original string is : Geeksforgeeks
+The reversed string(using extended slice syntax) is : skeegrofskeeG
+Reverse string in Python using reversed() method
+The reversed() returns the reversed iterator of the given string and then its elements are joined empty string separated using join(). And reversed order string is formed. 
+
+Time complexity: O(n) 
+Auxiliary Space: O(n) 
+
+Implementation:
+
+
+# Python code to reverse a string
+# using reversed()
+ 
+# Function to reverse a string
+def reverse(string):
+    string = "".join(reversed(string))
+    return string
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string is : ", end="")
+print(s)
+ 
+print("The reversed string(using reversed) is : ", end="")
+print(reverse(s))
+Output
+The original string is : Geeksforgeeks
+The reversed string(using reversed) is : skeegrofskeeG
+Reverse string in Python using list comprehension()
+List comprehension creates the list of elements of a string in reverse order and then its elements are joined using join(). And reversed order string is formed.
+
+Time complexity: O(n)
+Auxiliary Space: O(1) 
+
+Implementation:
+
+
+# Function to reverse a string
+def reverse(string):
+    string = [string[i] for i in range(len(string)-1, -1, -1)]
+    return "".join(string)
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string  is : ", s)
+ 
+print("The reversed string(using reversed) is : ", reverse(s))
+Output
+The original string  is :  Geeksforgeeks
+The reversed string(using reversed) is :  skeegrofskeeG
+Reverse string in Python using the function call
+Function to reverse a string by converting string to list then reversed it and again convert it to string.
+
+Time complexity: O(n)
+Auxiliary Space: O(1) 
+
+Implementation:
+
+
+# Function to reverse a string
+# by converting string to list
+# then reversed it and again convert it to string
+def reverse(string):
+    string = list(string)
+    string.reverse()
+    return "".join(string)
+ 
+s = "Geeksforgeeks"
+ 
+print("The original string  is : ", s)
+ 
+print("The reversed string(using reversed) is : ", reverse(s))
+ 
+# This code is contributed by Susobhan AKhuli
+Output
+The original string  is :  Geeksforgeeks
+The reversed string(using reversed) is :  skeegrofskeeG

@@ -1,0 +1,241 @@
+Ways to sort list of dictionaries by values in Python – Using lambda function
+
+
+In this article, we will cover how to sort a dictionary by value in Python. 
+
+Sorting has always been a useful utility in day-to-day programming. Dictionary in Python is widely used in many applications ranging from competitive domain to developer domain(e.g. handling JSON data). Having the knowledge to sort dictionaries according to their values can prove useful in such cases.
+
+There are 2 ways to achieve this sorting:
+
+
+ 
+
+What is the lambda function in python?
+This article deals with sorting using the lambda function and using the “sorted()” inbuilt function. Various variations can also be achieved for sorting the dictionaries. 
+
+
+For descending order : Use “reverse = True” in addition to the sorted() function.
+For sorting w.r.t multiple values: Separate by “comma” mentioning the correct order in which sorting has to be performed.
+Example:
+
+# Python code demonstrate the working of
+# sorted() with lambda
+ 
+# Initializing list of dictionaries
+list = [{"name": "Nandini", "age": 20},
+       {"name": "Manjeet", "age": 20},
+       {"name": "Nikhil", "age": 19}]
+ 
+# using sorted and lambda to print list sorted
+# by age
+print("The list printed sorting by age: ")
+print(sorted(list, key=lambda i: i['age']))
+ 
+print("\r")
+ 
+# using sorted and lambda to print list sorted
+# by both age and name. Notice that "Manjeet"
+# now comes before "Nandini"
+print("The list printed sorting by age and name: ")
+print(sorted(list, key=lambda i: (i['age'], i['name'])))
+ 
+print("\r")
+ 
+# using sorted and lambda to print list sorted
+# by age in descending order
+print("The list printed sorting by age in descending order: ")
+print(sorted(list, key=lambda i: i['age'], reverse=True))
+Output:
+
+The list printed sorting by age: 
+[{'age': 19, 'name': 'Nikhil'}, {'age': 20, 'name': 'Nandini'}, {'age': 20, 'name': 'Manjeet'}]
+
+The list printed sorting by age and name: 
+[{'age': 19, 'name': 'Nikhil'}, {'age': 20, 'name': 'Manjeet'}, {'age': 20, 'name': 'Nandini'}]
+
+The list printed sorting by age in descending order: 
+[{'age': 20, 'name': 'Nandini'}, {'age': 20, 'name': 'Manjeet'}, {'age': 19, 'name': 'Nikhil'}]
+
+
+
+In this article, we will see how to take care of a backslash combined with certain alphabet forms literal characters which can change the entire meaning of the string using Python. Here, we will see the various ways to use the string text as it is without its meaning getting changed.
+
+When to use raw strings in Python ?
+Raw strings are particularly useful when working with regular expressions, as they allow you to specify patterns that may contain backslashes without having to escape them. They are also useful when working with file paths, as they allow you to specify paths that contain backslashes without having to escape them. Raw strings can also be useful when working with strings that contain characters that are difficult to type or read, such as newline characters or tabs. In general, raw strings are useful anytime you need to specify a string that contains characters that have special meaning in Python, such as backslashes, and you want to specify those characters literally without having to escape them.
+
+Example 
+
+str = r'Python\nis\easy\to\learn'
+Output: Python\nis\easy\to\learn
+Explanation: As we can see that the string is printed as raw, 
+                and it neglected all newline sign(\n) or tab space (\t).
+Count occurrences of escape sequence in string
+In this example, we will find the length of the string by using the Python len() function. Then, we replace backslash ( \ ) with double backslashes ( \\ ) in the string and now find the length of the update string. Later, we find the difference between the lengths of the updated string and the original string to calculate the count of escape sequences in the string.
+
+
+
+# Python program to count escape sequence
+ 
+# Define the string and declare in variable
+a='Python\nis\easy\to\learn'
+ 
+# Get length of a string using len() function
+length_with_escape=len(a)
+ 
+# Replace \ with \\ in a string
+b=a.replace("\\" , "\\\\")
+ 
+# Get length of updated string using len() function
+length_without_escape=len(b)
+ 
+# Get count of escape sequence in Python
+count_escape=length_without_escape-length_with_escape
+ 
+# Printing the difference
+print('Count of escape sequence: ',count_escape)
+Output:
+
+Count of escape sequence: 2
+Through this example, we saw that if we do not use the appropriate fix for the string, it will result in a completely different output.
+
+Ways to convert regular string to raw string
+Using r before string declaration
+Using double backslashes instead of a single backslash
+Using repr() function
+Get Python Raw Strings using r before string declaration
+In this approach, we will see one of the most common ways to solve this issue, i.e., convert the regular string to raw string. What we need to do is just put the alphabet r before defining the string. Here r means raw string which will display the text in quotes as it is.
+
+Syntax:
+
+string_text = r'#Text to be inserted in the string'
+Example 1: Using raw strings to handle text
+In this example, we defined a string using r before quotes and assigned it to a variable. Further, we have printed that variable to see the result.
+
+
+# Python program to use raw strings
+ 
+# Define string with r before quotes
+# and assign to variable
+s1 = r'Python\nis\easy\to\learn'
+ 
+# Print the new string s1
+print(s1)
+Output:
+
+Python\nis\easy\to\learn
+Example 2: Using raw strings to handle file path on Windows 
+In this example, we defined a string, which is basically a file path of Windows, using r before quotes and assigned it to a variable. Further, we have printed that variable to see the result.
+
+
+# Python program to use raw strings
+ 
+# Define string with r before quotes
+# and assign to variable
+s1 = r'c:\parent\tasks\new'
+ 
+# Print the new string s1
+print(s1)
+Output:
+
+c:\parent\tasks\new
+Get Python Raw Strings using double backslashes instead of a single backslash
+Another way to solve this problem of converting regular string is by using double backslashes ( \\ ) instead of a single backslash ( \ ). Thus, whenever we need to use a backslash while defining the string in Python, we have to use double backslashes ( \\ ). Through this technique, you can also handle one of the most common errors in Python, i.e., EOL while scanning string literal. 
+
+
+Syntax:
+
+string_text = 'Python\\tis\\neasy\\to\\understand'
+Compare backslash ( \ ) with double backslashes ( \\ )
+In this example, we have defined two strings, string_text1 and string_text2, string_text1 by using a single backslash, and string_text2 by using double backslashes. Further, we have printed those variables to see the output.
+
+# Python program to use raw strings
+ 
+# Define string with single backslash
+# and assign to variable
+string_text1 = 'Python\tis\neasy\to\learn'
+ 
+# Print the string string_text1
+print(string_text1)
+ 
+# Define string with double backslash
+# and assign to variable
+string_text2 = 'Python\\tis\\neasy\\to\\learn'
+ 
+# Print the string s2
+print(string_text2)
+Output:
+
+Python    is
+easy    o\learn
+Python\tis\neasy\to\learn
+Get Python Raw Strings using repr() function
+We have also got for you one of the unique but a bit lengthy solutions as compared to the previous two solutions. In this solution, we will use the function repr(), which will generate the object orientation in string format, but it also gives single quotes around the text. Thus, we will truncate the quotes by using the slicing method.
+
+Syntax:
+
+raw_string = repr(string_defined)[1:-1]
+Example:
+
+In this example, we have defined the string. Now, we will return the object orientation in string format using function repr(), which will print the text with single quotes. Thus, we will truncate the quotes by using the slicing method and assigning it to a variable. Finally, print the variable to see the result.
+
+
+# Python program to use raw strings
+ 
+# Define string and assign to variable
+s = '\n'
+ 
+# Return object orientation in string format
+# and truncating quotes
+raw_string = repr(s)[1:-1]
+ 
+# Print the new string created
+print(raw_string)
+ 
+# Print the original string
+print(s)
+ 
+# Print the new string created
+print(raw_string)
+Output:
+
+\n
+
+
+\n
+Raw strings cannot end with an odd number of backslashes
+If there are an odd number of backslashes \ at the end of the text, an error will happen because backslashes escape the trailing ” or “. 
+
+Note: Always use an even number of backslashes.
+
+# print(r'\\')
+# It will print \\
+ 
+print(r'\')
+# SyntaxError: EOL while scanning string literal
+ 
+ 
+# print(r'\\\')
+# SyntaxError: EOL while scanning string literal
+Output:
+
+  File "<ipython-input-32-aa21331d8cba>", line 4
+    print(r'\')
+               ^
+SyntaxError: EOL while scanning string literal
+Fix SyntaxError: EOL while scanning string literal 
+
+In this example, we will see how can we fix the most commonly occurring error, SyntaxError: EOL while scanning string literal. This error usually occurs when it encounters a single backslash before quotes. We can fix this issue by using double backslashes ( \\ ) instead of single backslash ( \ ) before quotes.
+
+
+# Python program to fix
+# SyntaxError: EOL while scanning string literal
+ 
+# Define string with double backslash
+# and assign to variable
+string_text2 = 'c:\\parent\\tasks\\new\\'
+ 
+# Print the string s2
+print(string_text2)
+Output:
+
+c:\parent\tasks\new\

@@ -1,0 +1,212 @@
+Python | Check if a nested list is a subset of another nested list
+Last Updated : 14 Mar, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+
+Given two lists list1 and list2, check if list2 is a subset of list1 and return True or False accordingly. Examples:
+
+Input : list1 = [[2, 3, 1], [4, 5], [6, 8]]
+        list2 = [[4, 5], [6, 8]]
+Output : True
+
+Input : list1 = [['a', 'b'], ['e'], ['c', 'd']]
+        list2 = [['g']]
+Output : False
+  Let’s discuss few approaches to solve the problem. 
+
+Approach #1 : Naive Approach Take a variable ‘exist’ which keeps track of each element, whether it is present in list1 or not. Start a loop and in each iteration ‘i’, check if ith element is present in list1. If present, set exist to True else false. 
+
+
+# Python3 Program to Check is a nested
+# list is a subset of another nested list
+ 
+def checkSubset(list1, list2):
+    l1, l2 = list1[0], list2[0]
+    exist = True
+    for i in list2:
+        if i not in list1:
+            exist = False
+    return exist
+     
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+Output:
+
+True
+  Approach #2 : Using Python set Convert each sublist of both the given nested lists to tuples, because sets can’t hold lists as they rely on their elements being immutable and lists are mutable. But converting them to tuple works well. After this, simply check if set of list2 is a subset of list1 or not. 
+
+
+# Python3 Program to Check is a nested
+# list is a subset of another nested list
+ 
+def checkSubset(list1, list2):
+    temp1 = []
+    temp2 = []
+    for i in list1:
+        temp1.append(tuple(i))
+    for i in list2:
+        temp2.append(tuple(i))
+     
+    return set(temp2) < set(temp1)
+     
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+Output:
+True
+  Approach #3 : Using all and for loop This method uses a for loop to check if all elements(using all) belongs to list1 or not. 
+
+
+# Python3 Program to Check is a nested
+# list is a subset of another nested list
+ 
+def checkSubset(list1, list2):
+    return all(x in list1 for x in list2)
+     
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+Output:
+True
+  Approach #4 : Using map() and __contains__ In this approach we use Python map() using the “containment check” operator __contains__, checking whether list1 elements are contained withing list2 or not. 
+
+
+# Python3 Program to Check is a nested
+# list is a subset of another nested list
+ 
+def checkSubset(list1, list2):
+    return all(map(list1.__contains__, list2))
+     
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+Output:
+True
+The time complexity  is O(N*M), where N is the number of sublists in list2 and M is the maximum number of elements in a sublist of list2. 
+
+The space complexity of the function is O(1), because it only uses a constant amount of extra memory to store the input lists and a few local variables.
+
+  Approach #5 :  Using issubset() method:
+
+
+To check if a nested list is a subset of another nested list using the issubset method of sets, you can do the following:
+
+
+def is_subset(list1, list2):
+    # convert both lists to sets of tuples
+    set1 = set(tuple(x) for x in list1)
+    set2 = set(tuple(x) for x in list2)
+    # check if set2 is a subset of set1 using the intersection method
+    return set2.issubset(set1)
+ 
+# test the function
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(is_subset(list1, list2))  # should output True
+ 
+list1 = [['a', 'b'], ['e'], ['c', 'd']]
+list2 = [['g']]
+print(is_subset(list1, list2))  # should output False
+#This code is contributed by Edula Vinay Kumar Reddy
+Output
+True
+False
+This approach first converts the nested lists to sets of tuples, since sets cannot contain lists as elements. Then it uses the issubset method of sets to check if set2 is a subset of set1. This approach has the advantage of being more efficient than a recursive solution, as it uses the built-in issubset method which is implemented in C and therefore runs faster than a Python implementation.
+
+ Approach #6 :  Using the ‘itertools.product’ function
+
+
+import itertools
+ 
+def checkSubset(list1, list2):
+    # Convert the nested lists to sets so that they can be compared
+    list1 = [set(i) for i in list1]
+    list2 = [set(i) for i in list2]
+ 
+    # Use the itertools.product method to get all possible combinations of elements in the two sets
+    result = any(set1 == set2 for set1, set2 in itertools.product(list1, list2))
+    return result
+ 
+# Test the function with sample inputs
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+Output
+True
+Time Complexity:  O(n^2) 
+Auxiliary Space:  O(n^2) 
+
+Approach #7:Using enumerate
+
+The checkSubset function takes two lists, list1 and list2, as input and checks whether list2 is a subset of list1.
+
+It does this by iterating through each row (row2) in list2 and checking if it is present in list1. It uses a nested loop to iterate through each row (row1) in list1 and compares it to row2. If a match is found, it sets the found variable to True and breaks out of the inner loop. If no match is found, it immediately returns False because list2 cannot be a subset of list1 if at least one row is not present in list1.
+
+If all rows in list2 are present in list1, the function returns True.
+
+In the driver code, list1 and list2 are defined and passed to the checkSubset function. The function is then called with these arguments, and the returned result is printed to the console.
+
+
+def checkSubset(list1, list2):
+    for row2 in list2:
+        found = False
+        for i, row1 in enumerate(list1):
+            if row2 == row1:
+                found = True
+                break
+        if not found:
+            return False
+    return True
+ 
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(checkSubset(list1, list2))
+#This code is contributed by Vinay pinjala.
+Output
+True
+Time Complexity:  O(n^2) 
+Auxiliary Space:  O(n^2) 
+
+Method#8: Using Recursive method.
+
+Algorithm for the is_subset function:
+
+Check if list2 is empty. If it is, return True because an empty list is a subset of any other list.
+Check if list1 is empty. If it is, return False because it is not possible for list2 to be a subset of an empty list.
+Check if the first element of list2 is a subset of the first element of list1. Use the issubset method of the set class to perform this check.
+If the first element of list2 is a subset of the first element of list1, make a recursive call to is_subset with the rest of the elements of list1 and list2.
+If the first element of list2 is not a subset of the first element of list1, make a recursive call to is_subset with the rest of the elements of list1 and the entire list2.
+If no subset is found, return False.
+
+def is_subset(list1, list2):
+    if not list2:
+        return True
+    if not list1:
+        return False
+    if set(list2[0]).issubset(set(list1[0])):
+        return is_subset(list1[1:], list2[1:])
+    return is_subset(list1[1:], list2)
+ 
+ 
+# Driver Code
+list1 = [[2, 3, 1], [4, 5], [6, 8]]
+list2 = [[4, 5], [6, 8]]
+print(is_subset(list1, list2))
+#This code is contributed by Tvsk.
+Output
+True
+Time complexity:
+The time complexity of this function is O(nm) where n is the length of list1 and m is the length of list2. This is because the function needs to check each element in list2 against each element in list1.
+
+Auxiliary space complexity:
+The auxiliary space complexity of this function is O(max(n, m)) because the function uses a set to check if one list is a subset of another. The size of the set depends on the size of the larger list, so the space complexity is proportional to the larger of the two lists. Additionally, the function makes recursive calls, so the space complexity is also proportional to the maximum depth of the recursion, which is at most min(n, m).
+

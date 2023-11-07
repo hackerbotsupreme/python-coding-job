@@ -1,0 +1,362 @@
+Python Program for Fibonacci numbers
+
+
+The Fibonacci numbers are the numbers in the following integer sequence.
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ……..
+In mathematical terms, the sequence Fn of Fibonacci numbers is defined by the recurrence relation 
+
+    Fn = Fn-1 + Fn-2
+with seed values  
+
+   F0 = 0 and F1 = 1.
+Method 1 ( Use recursion ) :  
+
+
+# Function for nth Fibonacci number
+def Fibonacci(n):
+   
+    # Check if input is 0 then it will
+    # print incorrect input
+    if n < 0:
+        print("Incorrect input")
+ 
+    # Check if n is 0
+    # then it will return 0
+    elif n == 0:
+        return 0
+ 
+    # Check if n is 1,2
+    # it will return 1
+    elif n == 1 or n == 2:
+        return 1
+ 
+    else:
+        return Fibonacci(n-1) + Fibonacci(n-2)
+ 
+# Driver Program
+print(Fibonacci(9))
+ 
+# This code is contributed by Saket Modi
+# then corrected and improved by Himanshu Kanojiya
+Output
+
+34
+Method 2 ( Use Dynamic Programming ) :  
+
+
+# Function for nth fibonacci
+# number - Dynamic Programming
+# Taking 1st two fibonacci numbers as 0 and 1
+FibArray = [0, 1]
+ 
+def fibonacci(n):
+   
+    # Check is n is less
+    # than 0
+    if n < 0:
+        print("Incorrect input")
+         
+    # Check is n is less
+    # than len(FibArray)
+    elif n < len(FibArray):
+        return FibArray[n]
+    else:       
+        FibArray.append(fibonacci(n - 1) + fibonacci(n - 2))
+        return FibArray[n]
+ 
+# Driver Program
+print(fibonacci(9))
+ 
+# This code is contributed by Saket Modi
+Output
+34
+Method 3 ( Space Optimized):  
+
+
+# Function for nth fibonacci
+# number - Space Optimisation
+# Taking 1st two fibonacci numbers as 0 and 1
+ 
+def fibonacci(n):
+    a = 0
+    b = 1
+     
+    # Check is n is less
+    # than 0
+    if n < 0:
+        print("Incorrect input")
+         
+    # Check is n is equal
+    # to 0
+    elif n == 0:
+        return 0
+       
+    # Check if n is equal to 1
+    elif n == 1:
+        return b
+    else:
+        for i in range(1, n):
+            c = a + b
+            a = b
+            b = c
+        return b
+ 
+# Driver Program
+print(fibonacci(9))
+ 
+# This code is contributed by Saket Modi
+# Then corrected and improved by Himanshu Kanojiya
+Output
+34
+Method 4 (Cache):  
+
+
+from functools import lru_cache
+ 
+# Function for nth Fibonacci number
+ 
+# lru_cache will store the result
+# so we don't have to find
+# fibonacci for same num again
+ 
+ 
+@lru_cache(None)
+def fibonacci(num: int) -> int:
+ 
+    # check if num is less than 0
+    # it will return none
+    if num < 0:
+        print("Incorrect input")
+        return
+ 
+    # check if num between 1, 0
+    # it will return num
+    elif num < 2:
+        return num
+ 
+    # return the fibonacci of num - 1 & num - 2
+    return fibonacci(num - 1) + fibonacci(num - 2)
+ 
+ 
+# Driver Program
+print(fibonacci(9))
+ 
+# This code is contributed by Sayedul Haque Sarker
+Output
+34
+Method 5(Using Backtracking):
+
+
+def fibonacci(n, memo={}):
+    if n <= 0:
+        return 0
+    elif n == 1:
+        return 1
+    elif n in memo:
+        return memo[n]
+    else:
+        memo[n] = fibonacci(n-1) + fibonacci(n-2)
+        return memo[n]
+ 
+# Driver Program
+print(fibonacci(9))
+Output
+34
+Time complexity: O(n)
+Auxiliary Space: O(n)
+
+Please refer complete article on Program for Fibonacci numbers for more details! 
+
+
+Python sorted() function returns a sorted list from the iterable object.
+
+Python sorted() Function Syntax
+Syntax: sorted(iterable, key, reverse)
+
+Parameters: sorted takes three parameters from which two are optional. 
+
+Iterable: sequence (list, tuple, string) or collection (dictionary, set, frozenset) or any other iterator that needs to be sorted.
+Key(optional): A function that would serve as a key or a basis of sort comparison.
+Reverse(optional): If True, then the iterable would be sorted in reverse (descending) order, by default it is set as False.
+Return: Returns a list with elements in sorted order.
+
+
+Python sorted() Function Example
+print(sorted([4, 1, 3, 2]))
+Output:
+
+[1, 2, 3, 4]
+Example 1: Sorting Python list using sorted()
+Using sorted() on Python list
+
+
+x = [2, 8, 1, 4, 6, 3, 7]
+ 
+print("Sorted List returned :", sorted(x))
+ 
+print("Reverse sort :", sorted(x, reverse=True))
+ 
+print("\nOriginal list not modified :", x)
+Output:
+
+Sorted List returned : [1, 2, 3, 4, 6, 7, 8]
+Reverse sort : [8, 7, 6, 4, 3, 2, 1]
+
+Original list not modified : [2, 8, 1, 4, 6, 3, 7]
+Example 2: Sorting different data types
+
+# List
+x = ['q', 'w', 'r', 'e', 't', 'y']
+print(sorted(x))
+ 
+# Tuple
+x = ('q', 'w', 'e', 'r', 't', 'y')
+print(sorted(x))
+ 
+# String-sorted based on ASCII translations
+x = "python"
+print(sorted(x))
+ 
+# Dictionary
+x = {'q': 1, 'w': 2, 'e': 3, 'r': 4, 't': 5, 'y': 6}
+print(sorted(x))
+ 
+# Set
+x = {'q', 'w', 'e', 'r', 't', 'y'}
+print(sorted(x))
+ 
+# Frozen Set
+x = frozenset(('q', 'w', 'e', 'r', 't', 'y'))
+print(sorted(x))
+Output:
+
+['e', 'q', 'r', 't', 'w', 'y']
+['e', 'q', 'r', 't', 'w', 'y']
+['h', 'n', 'o', 'p', 't', 'y']
+['e', 'q', 'r', 't', 'w', 'y']
+['e', 'q', 'r', 't', 'w', 'y']
+['e', 'q', 'r', 't', 'w', 'y']
+Example 3: Reverse sorting using Python sorted()
+Sorting a string in lexicographically reverse order by setting reverse=True in sorted() function.
+
+
+# Python3 code to demonstrate
+# Reverse Sort a String
+# using join() + sorted() + reverse
+   
+# initializing string
+test_string = "geekforgeeks"
+   
+# printing original string
+print("The original string : " + str(test_string))
+   
+# using join() + sorted() + reverse
+# Sorting a string
+res = ''.join(sorted(test_string, reverse = True))
+       
+# print result
+print("String after reverse sorting : " + str(res))
+Output:
+
+The original string : geekforgeeks
+String after reverse sorting : srokkggfeeee
+Example 4: Python sorted() lambda
+Using sorted() inside Python lambda function
+
+
+# import the module
+import functools
+# initializing string
+test_string = "geekforgeeks"
+ 
+# printing original string
+print("The original string : " + str(test_string))
+ 
+# using sorted() + reduce() + lambda
+# Reverse Sort a String
+res = functools.reduce(lambda x, y: x + y,
+                       sorted(test_string,
+                              reverse=True))
+# print result
+print("String after reverse sorting : " + str(res))
+Output:
+
+The original string : geekforgeeks
+String after reverse sorting : srokkggfeeee
+Python sorted() key
+sorted() function has an optional parameter called ‘key’ which takes a function as its value. This key function transforms each element before sorting, it takes the value and returns 1 value which is then used within sort instead of the original value. For example, if we pass a list of strings in sorted(), it gets sorted alphabetically. But if we specify key = len, i.e. give len() function as key, then the strings would be passed to len(), and the value it returns, i.e. the length of strings will be sorted. This means that the strings would be sorted based on their lengths instead
+
+
+L = ["cccc", "b", "dd", "aaa"]
+ 
+print("Normal sort :", sorted(L))
+ 
+print("Sort with len :", sorted(L, key=len))
+Output:
+
+Normal sort : ['aaa', 'b', 'cccc', 'dd']
+Sort with len : ['b', 'dd', 'aaa', 'cccc']
+Key can also take user-defined functions as its value for the basis of sorting.
+
+
+# Sort a list of integers based on
+# their remainder on dividing from 7
+def func(x):
+    return x % 7
+ 
+L = [15, 3, 11, 7]
+ 
+print("Normal sort :", sorted(L))
+print("Sorted with key:", sorted(L, key=func))
+Output:
+
+Normal sort : [3, 7, 11, 15]
+Sorted with key: [7, 15, 3, 11]
+Sorting a list in ascending order:
+Approach:In this example,1 we have a list called my_list that contains some integer values. We then use the sorted function to sort the list in ascending order, and assign the result to a new variable called sorted_list. The sorted function takes the iterable to be sorted as its first argument, and returns a new list that contains the sorted elements.
+
+In this example 2, we have a string called my_string. We then use the sorted function to sort the characters in the string in ascending order, and assign the result to a new variable called sorted_string. The sorted function treats the string as an iterable of characters, and returns a new list that contains the sorted characters.
+
+In this example3, we have a list of tuples called my_tuples, where each tuple contains an integer and a string. We then use the sorted function to sort the list based on the second element of each tuple (i.e., the string), and assign the result to a new variable called sorted_tuples. To achieve this, we pass a lambda function as the key argument to sorted, which extracts the second element of each tuple and uses it as the sorting key. The sorted function returns a new list that contains the sorted tuples.
+
+
+# Sorting a list in ascending order
+my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5]
+sorted_list = sorted(my_list)
+print(sorted_list)  # Output: [1, 1, 2, 3, 4, 5, 5, 6, 9]
+ 
+# Sorting a string in ascending order
+my_string = "hello, world!"
+sorted_string = sorted(my_string)
+print(sorted_string)  # Output: [' ', '!', ',', 'd', 'e', 'h', 'l', 'l', 'o', 'o', 'r', 'w']
+ 
+# Sorting a list of tuples based on a key function
+my_tuples = [(1, "one"), (3, "three"), (2, "two"), (4, "four")]
+sorted_tuples = sorted(my_tuples, key=lambda x: x[1])
+print(sorted_tuples)
+
+
+
+
+
+
+
+
+
+#reversing a string using---- ''.join() function 
+
+
+str='aloke is powerful and dangerous'
+str=''.join(reversed(str))
+print(str)
+
+
+
+#output
+#PS C:\Users\rekha\OneDrive\Desktop\lambda problems> & C:/Users/rekha/AppData/Local/Microsoft/WindowsApps/python3.10.exe "c:/Users/rekha/OneDrive/Desktop/lambda problems/random.py"
+#suoregnad dna lufrewop si ekola
+#PS C:\Users\rekha\OneDrive\Desktop\lambda problems> 
+The filter() function in Python takes in a function and a list as arguments. This offers an elegant(
+elegant
+ˈeləɡənt
+মার্জিত) way to filter out all the elements of a sequence “sequence”, for which the function returns True.

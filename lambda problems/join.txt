@@ -1,0 +1,1024 @@
+Null in Python: Understanding Python's NoneType Object
+Null in Python: Understanding Python's NoneType Object
+by Wolf ​ Feb 19, 2020 6 Comments  basics python
+Tweet Share Email
+Table of Contents
+
+Understanding Null in Python
+Using Python’s Null Object None
+Declaring Null Variables in Python
+Using None as a Default Parameter
+Using None as a Null Value in Python
+Deciphering None in Tracebacks
+Checking for Null in Python
+Taking a Look Under the Hood
+Conclusion
+Remove ads
+ Watch Now This tutorial has a related video course created by the Real Python team. Watch it together with the written tutorial to deepen your understanding: Python's None: Null in Python
+
+If you have experience with other programming languages, like C or Java, then you’ve probably heard of the concept of null. Many languages use this to represent a pointer that doesn’t point to anything, to denote when a variable is empty, or to mark default parameters that you haven’t yet supplied. null is often defined to be 0 in those languages, but null in Python is different.
+
+Python uses the keyword None to define null objects and variables. While None does serve some of the same purposes as null in other languages, it’s another beast entirely. As the null in Python, None is not defined to be 0 or any other value. In Python, None is an object and a first-class citizen!
+
+In this tutorial, you’ll learn:
+
+What None is and how to test for it
+When and why to use None as a default parameter
+What None and NoneType mean in your traceback
+How to use None in type checking
+How null in Python works under the hood
+Free Bonus: Click here to get a Python Cheat Sheet and learn the basics of Python 3, like working with data types, dictionaries, lists, and Python functions.
+
+Understanding Null in Python
+None is the value a function returns when there is no return statement in the function:
+
+>>> def has_no_return():
+...     pass
+>>> has_no_return()
+>>> print(has_no_return())
+None
+When you call has_no_return(), there’s no output for you to see. When you print a call to it, however, you’ll see the hidden None it returns.
+
+In fact, None so frequently appears as a return value that the Python REPL won’t print None unless you explicitly tell it to:
+
+>>> None
+>>> print(None)
+None
+None by itself has no output, but printing it displays None to the console.
+
+Interestingly, print() itself has no return value. If you try to print a call to print(), then you’ll get None:
+
+>>> print(print("Hello, World!"))
+Hello, World!
+None
+It may look strange, but print(print("...")) shows you the None that the inner print() returns.
+
+None also often used as a signal for missing or default parameters. For instance, None appears twice in the docs for list.sort:
+
+>>> help(list.sort)
+Help on method_descriptor:
+
+sort(...)
+    L.sort(key=None, reverse=False) -> None -- stable sort *IN PLACE*
+Here, None is the default value for the key parameter as well as the type hint for the return value. The exact output of help can vary from platform to platform. You may get different output when you run this command in your interpreter, but it will be similar.
+
+
+Remove ads
+Using Python’s Null Object None
+Often, you’ll use None as part of a comparison. One example is when you need to check and see if some result or parameter is None. Take the result you get from re.match. Did your regular expression match a given string? You’ll see one of two results:
+
+Return a Match object: Your regular expression found a match.
+Return a None object: Your regular expression did not find a match.
+In the code block below, you’re testing if the pattern "Goodbye" matches a string:
+
+>>> import re
+>>> match = re.match(r"Goodbye", "Hello, World!")
+>>> if match is None:
+...     print("It doesn't match.")
+It doesn't match.
+Here, you use is None to test if the pattern matches the string "Hello, World!". This code block demonstrates an important rule to keep in mind when you’re checking for None:
+
+Do use the identity operators is and is not.
+Do not use the equality operators == and !=.
+The equality operators can be fooled when you’re comparing user-defined objects that override them:
+
+>>> class BrokenComparison:
+...     def __eq__(self, other):
+...         return True
+>>> b = BrokenComparison()
+>>> b == None  # Equality operator
+True
+>>> b is None  # Identity operator
+False
+Here, the equality operator == returns the wrong answer. The identity operator is, on the other hand, can’t be fooled because you can’t override it.
+
+Note: For more info on how to compare with None, check out Do’s and Dont’s: Python Programming Recommendations.
+
+None is falsy, which means not None is True. If all you want to know is whether a result is falsy, then a test like the following is sufficient:
+
+>>> some_result = None
+>>> if some_result:
+...     print("Got a result!")
+... else:
+...     print("No result.")
+...
+No result.
+The output doesn’t show you that some_result is exactly None, only that it’s falsy. If you must know whether or not you have a None object, then use is and is not.
+
+The following objects are all falsy as well:
+
+Empty lists
+Empty dictionaries
+Empty sets
+Empty strings
+0
+False
+For more on comparisons, truthy values, and falsy values, you can read about how to use the Python or operator, how to use the Python and operator, and how to use the Python not operator.
+
+Declaring Null Variables in Python
+In some languages, variables come to life from a declaration. They don’t have to have an initial value assigned to them. In those languages, the initial default value for some types of variables might be null. In Python, however, variables come to life from assignment statements. Take a look at the following code block:
+
+>>> print(bar)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'bar' is not defined
+>>> bar = None
+>>> print(bar)
+None
+Here, you can see that a variable with the value None is different from an undefined variable. All variables in Python come into existence by assignment. A variable will only start life as null in Python if you assign None to it.
+
+
+Remove ads
+Using None as a Default Parameter
+Very often, you’ll use None as the default value for an optional parameter. There’s a very good reason for using None here rather than a mutable type such as a list. Imagine a function like this:
+
+def bad_function(new_elem, starter_list=[]):
+    starter_list.append(new_elem)
+    return starter_list
+bad_function() contains a nasty surprise. It works fine when you call it with an existing list:
+
+>>> my_list = ['a', 'b', 'c']
+>>> bad_function('d', my_list)
+['a', 'b', 'c', 'd']
+Here, you add 'd' to the end of the list with no problems.
+
+But if you call this function a couple times with no starter_list parameter, then you start to see incorrect behavior:
+
+>>> bad_function('a')
+['a']
+>>> bad_function('b')
+['a', 'b']
+>>> bad_function('c')
+['a', 'b', 'c']
+The default value for starter_list evaluates only once at the time the function is defined, so the code reuses it every time you don’t pass an existing list.
+
+The right way to build this function is to use None as the default value, then test for it and instantiate a new list as needed:
+
+>>> def good_function(new_elem, starter_list=None):
+...     if starter_list is None:
+...         starter_list = []
+...     starter_list.append(new_elem)
+...     return starter_list
+...
+>>> good_function('e', my_list)
+['a', 'b', 'c', 'd', 'e']
+>>> good_function('a')
+['a']
+>>> good_function('b')
+['b']
+>>> good_function('c')
+['c']
+good_function() behaves as you want by making a new list with each call where you don’t pass an existing list. It works because your code will execute lines 2 and 3 every time it calls the function with the default parameter.
+
+Using None as a Null Value in Python
+What do you do when None is a valid input object? For instance, what if good_function() could either add an element to the list or not, and None was a valid element to add? In this case, you can define a class specifically for use as a default, while being distinct from None:
+
+>>> class DontAppend: pass
+...
+>>> def good_function(new_elem=DontAppend, starter_list=None):
+...     if starter_list is None:
+...         starter_list = []
+...     if new_elem is not DontAppend:
+...         starter_list.append(new_elem)
+...     return starter_list
+...
+>>> good_function(starter_list=my_list)
+['a', 'b', 'c', 'd', 'e']
+>>> good_function(None, my_list)
+['a', 'b', 'c', 'd', 'e', None]
+Here, the class DontAppend serves as the signal not to append, so you don’t need None for that. That frees you to add None when you want.
+
+You can use this technique when None is a possibility for return values, too. For instance, dict.get returns None by default if a key is not found in the dictionary. If None was a valid value in your dictionary, then you could call dict.get like this:
+
+>>> class KeyNotFound: pass
+...
+>>> my_dict = {'a':3, 'b':None}
+>>> for key in ['a', 'b', 'c']:
+...     value = my_dict.get(key, KeyNotFound)
+...     if value is not KeyNotFound:
+...         print(f"{key}->{value}")
+...
+a->3
+b->None
+Here you’ve defined a custom class KeyNotFound. Now, instead of returning None when a key isn’t in the dictionary, you can return KeyNotFound. That frees you to return None when that’s the actual value in the dictionary.
+
+Deciphering None in Tracebacks
+When NoneType appears in your traceback, it means that something you didn’t expect to be None actually was None, and you tried to use it in a way that you can’t use None. Almost always, it’s because you’re trying to call a method on it.
+
+For instance, you called append() on my_list many times above, but if my_list somehow became anything other than a list, then append() would fail:
+
+>>> my_list.append('f')
+>>> my_list
+['a', 'b', 'c', 'd', 'e', None, 'f']
+>>> my_list = None
+>>> my_list.append('g')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'NoneType' object has no attribute 'append'
+Here, your code raises the very common AttributeError because the underlying object, my_list, is not a list anymore. You’ve set it to None, which doesn’t know how to append(), and so the code throws an exception.
+
+When you see a traceback like this in your code, look for the attribute that raised the error first. Here, it’s append(). From there, you’ll see the object you tried to call it on. In this case, it’s my_list, as you can tell from the code just above the traceback. Finally, figure out how that object got to be None and take the necessary steps to fix your code.
+
+
+Remove ads
+Checking for Null in Python
+There are two type checking cases where you’ll care about null in Python. The first case is when you’re returning None:
+
+>>> def returns_None() -> None:
+...     pass
+This case is similar to when you have no return statement at all, which returns None by default.
+
+The second case is a bit more challenging. It’s where you’re taking or returning a value that might be None, but also might be some other (single) type. This case is like what you did with re.match above, which returned either a Match object or None.
+
+The process is similar for parameters:
+
+from typing import Any, List, Optional
+def good_function(new_elem:Any, starter_list:Optional[List]=None) -> List:
+    pass
+You modify good_function() from above and import Optional from typing to return an Optional[Match].
+
+Taking a Look Under the Hood
+In many other languages, null is just a synonym for 0, but null in Python is a full-blown object:
+
+>>> type(None)
+<class 'NoneType'>
+This line shows that None is an object, and its type is NoneType.
+
+None itself is built into the language as the null in Python:
+
+>>> dir(__builtins__)
+['ArithmeticError', ..., 'None', ..., 'zip']
+Here, you can see None in the list of __builtins__ which is the dictionary the interpreter keeps for the builtins module.
+
+None is a keyword, just like True and False. But because of this, you can’t reach None directly from __builtins__ as you could, for instance, ArithmeticError. However, you can get it with a getattr() trick:
+
+>>> __builtins__.ArithmeticError
+<class 'ArithmeticError'>
+>>> __builtins__.None
+  File "<stdin>", line 1
+    __builtins__.None
+                    ^
+SyntaxError: invalid syntax
+>>> print(getattr(__builtins__, 'None'))
+None
+When you use getattr(), you can fetch the actual None from __builtins__, which you can’t do by simply asking for it with __builtins__.None.
+
+Even though Python prints the word NoneType in many error messages, NoneType is not an identifier in Python. It’s not in builtins. You can only reach it with type(None).
+
+None is a singleton. That is, the NoneType class only ever gives you the same single instance of None. There’s only one None in your Python program:
+
+>>> my_None = type(None)()  # Create a new instance
+>>> print(my_None)
+None
+>>> my_None is None
+True
+Even though you try to create a new instance, you still get the existing None.
+
+You can prove that None and my_None are the same object by using id():
+
+>>> id(None)
+4465912088
+>>> id(my_None)
+4465912088
+Here, the fact that id outputs the same integer value for both None and my_None means they are, in fact, the same object.
+
+Note: The actual value produced by id will vary across systems, and even between program executions. Under CPython, the most popular Python runtime, id() does its job by reporting the memory address of an object. Two objects that live at the same memory address are the same object.
+
+If you try to assign to None, then you’ll get a SyntaxError:
+
+>>> None = 5
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+SyntaxError: can't assign to keyword
+>>> None.age = 5
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'NoneType' object has no attribute 'age'
+>>> setattr(None, 'age', 5)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'NoneType' object has no attribute 'age'
+>>> setattr(type(None), 'age', 5)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: can't set attributes of built-in/extension type 'NoneType'
+All the examples above show that you can’t modify None or NoneType. They are true constants.
+
+You can’t subclass NoneType, either:
+
+>>> class MyNoneType(type(None)):
+...     pass
+...
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: type 'NoneType' is not an acceptable base type
+This traceback shows that the interpreter won’t let you make a new class that inherits from type(None).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+The pass Statement: How to Do Nothing in Python
+by Moshe Zadka 6 Comments  basics python
+Tweet Share Email
+Table of Contents
+
+Python pass Statement: Syntax and Semantics
+Temporary Uses of pass
+Future Code
+Commented Out Code
+Markers for Debuggers
+Empty Functions
+Empty Classes
+Marker Methods
+Alternatives to pass
+Docstrings
+Ellipsis
+Raise an Error
+Permanent Uses of pass
+Using pass in Exception Catching
+Using pass in if … elif Chains
+Conclusion
+Remove ads
+In Python, the pass keyword is an entire statement in itself. This statement doesn’t do anything: it’s discarded during the byte-compile phase. But for a statement that does nothing, the Python pass statement is surprisingly useful.
+
+Sometimes pass is useful in the final code that runs in production. More often, pass is useful as scaffolding while developing code. In specific cases, there are better alternatives to doing nothing.
+
+In this tutorial, you’ll learn:
+
+What the Python pass statement is and why it’s useful
+How to use the Python pass statement in production code
+How to use the Python pass statement as an aid while developing code
+What the alternatives to pass are and when you should use them
+Free Bonus: Click here to get a Python Cheat Sheet and learn the basics of Python 3, like working with data types, dictionaries, lists, and Python functions.
+
+Python pass Statement: Syntax and Semantics
+In Python syntax, new indented blocks follow a colon character (:). There are several places where a new indented block will appear. When you start to write Python code, the most common places are after the if keyword and after the for keyword:
+
+>>> for x in [1, 2, 3]:
+...     y = x + 1
+...     print(x, y)
+...
+1 2
+2 3
+3 4
+After the for statement is the body of the for loop, which consists of the two indented lines immediately following the colon.
+
+In this case, there are two statements in the body that are repeated for each value:
+
+y = x + 1
+print(x, y)
+The statements inside this type of block are technically called a suite in the Python grammar. A suite must include one or more statements. It can’t be empty.
+
+To do nothing inside a suite, you can use Python’s special pass statement. This statement consists of only the single keyword pass. While you can use pass in many places in Python, it’s not always useful:
+
+>>> if 1 + 1 == 2:
+...     print("math is ok")
+...     pass
+...     print("but this is to be expected")
+...
+math is ok
+but this is to be expected
+In this if statement, removing the pass statement would keep the functionality the same and make your code shorter. You might be wondering why the Python syntax includes a statement that tells the interpreter to do nothing. Couldn’t you achieve the same result by not writing a statement at all?
+
+In some cases, explicitly telling Python to do nothing serves an important purpose. For example, because the pass statement doesn’t do anything, you can use it to fulfill the requirement that a suite include at least one statement:
+
+>>> if 1 + 1 == 3:
+...
+  File "<stdin>", line 2
+
+    ^
+IndentationError: expected an indented block
+Even if you don’t want to add any code inside the if block, an if block with no statement creates an empty suite, which is invalid Python syntax.
+
+To fix this, you can use pass:
+
+>>> if 1 + 1 == 3:
+...     pass
+...
+Now, thanks to pass, your if statement is valid Python syntax.
+
+
+Remove ads
+Temporary Uses of pass
+There are many situations in which pass can be useful to you while you’re developing, even if it won’t appear in the final version of your code. Much like scaffolding, pass can be handy for holding up the main structure of your program before you fill in the details.
+
+It might sound strange to write code that will be deleted later, but doing things this way can accelerate your initial development.
+
+Future Code
+There are many cases where the structure of the code requires, or could use, a block. While you may eventually have to write code there, it’s sometimes hard to get out of the flow of working on something specific and start working on a dependency. In these cases, a pass statement is a useful way to do the minimal amount of work for the dependency so you can go back to what you were working on.
+
+As a concrete example, imagine writing a function that processes a string and then both writes the result to a file and returns it:
+
+def get_and_save_middle(data, fname):
+    middle = data[len(data)//3:2*len(data)//3]
+    save_to_file(middle, fname)
+    return middle
+This function saves and returns the middle third of a string. You don’t need to finish implementing save_to_file() before you can test the output for an off-by-one error. However, if save_to_file() doesn’t exist in some form, then you’ll get an error.
+
+It’s possible to comment out the call to save_to_file(), but then you’d have to remember to uncomment the call after confirming get_and_save_middle() works well. Instead, you can quickly implement save_to_file() with a pass statement:
+
+def save_to_file(data, fname):
+    pass # TODO: fill this later
+This function doesn’t do anything, but it allows you to test get_and_save_middle() without errors.
+
+Another use case for pass is when you’re writing a complicated flow control structure, and you want a placeholder for future code. When implementing the fizz-buzz challenge with the modulo operator, for example, it’s useful to first understand the structure of the code:
+
+if idx % 15 == 0:
+    pass # Fizz-Buzz
+elif idx % 3 == 0:
+    pass # Fizz
+elif idx % 5 == 0:
+    pass # Buzz
+else:
+    pass # Idx
+This structure identifies what should be printed in each case, which gives you the skeleton of the solution. Such structural skeletons are useful when trying to figure out the branching logic of which if statements are needed and in which order.
+
+For example, in this case, a critical insight is that the first if statement needs to check divisibility by 15 because any number that is divisible by 15 would also be divisible by 5 and 3. This structural insight is useful regardless of the details of the specific output.
+
+After you figure out the core logic of the problem, you can decide whether you’ll print() directly in the code:
+
+def fizz_buzz(idx):
+    if idx % 15 == 0:
+        print("fizz-buzz")
+    elif idx % 3 == 0:
+        print("fizz")
+    elif idx % 5 == 0:
+        print("buzz")
+    else:
+        print(idx)
+This function is straightforward to use since it directly prints the strings. However, it’s not a pleasant function to test. This can be a useful trade-off. However, in coding interviews, the interviewer will sometimes ask you to write tests. Writing the structure first allows you to make sure you understand the logical flow before checking what the other requirements are.
+
+An alternative would be to write a function that returns the string and then do the looping elsewhere:
+
+def fizz_buzz(idx):
+    if idx % 15 == 0:
+        return "fizz-buzz"
+    elif idx % 3 == 0:
+        return "fizz"
+    elif idx % 5 == 0:
+        return "buzz"
+    else:
+        return str(idx)
+This function pushes the printing functionality up the stack and is easier to test.
+
+Figuring out the core conditionals and structure of the problem using pass makes it easier to decide exactly how the implementation should work later on.
+
+This approach is also useful when writing classes. If you need to write a class to implement something, but you don’t fully understand the problem domain, then you can use pass to first understand the best layout for your code architecture.
+
+For example, imagine you’re implementing a Candy class, but the properties you need aren’t obvious. Eventually you’ll need to conduct some careful requirement analysis, but while implementing the basic algorithms, you can make it obvious that the class isn’t ready yet:
+
+class Candy:
+    pass
+This allows you to instantiate members of the class and pass them around without having to decide what properties are relevant to the class.
+
+
+Remove ads
+Commented Out Code
+When you comment out code, it’s possible to invalidate the syntax by removing all code in a block. If you have an if … else condition, then it might be useful to comment out one of the branches:
+
+def process(context, input_value):
+    if input_value is not None:
+        expensive_computation(context, input_value)
+    else:
+        logging.info("skipping expensive: %s", input_value)
+In this example, expensive_computation() runs code that takes a long time, such as multiplying big arrays of numbers. While you’re debugging, you might need to temporarily comment out the expensive_computation() call.
+
+For example, maybe you want to run this code against some problematic data and see why there are so many values that aren’t None by checking the logs for the description. Skipping the expensive computation for the valid values would speed up testing quite a bit.
+
+However, this isn’t valid code:
+
+def process(context, input_value):
+    if input_value is not None:
+        # Temporarily commented out the expensive computation
+        # expensive_computation(context, input_value)
+    else:
+        logging.info("skipping expensive: %s", input_value)
+In this example, the if branch doesn’t have any statements in it. Comments are stripped early in the parsing process, before the indentation is inspected to see where blocks begin and end.
+
+In this case, adding a pass statement makes the code valid:
+
+def process(context, input_value):
+    if input_value is not None:
+        # Temporarily commented out the expensive computation
+        # expensive_computation(context, input_value)
+        # Added pass to make code valid
+        pass
+    else:
+        logging.info("skipping expensive: %s", input_value)
+Now it’s possible to run the code, skip the expensive computation, and generate the logs with the useful information.
+
+Partially commenting out code while troubleshooting behavior is useful in many cases. In a case like the example above, you might comment out code that takes a long time to process and isn’t the source of the problem.
+
+Another situation in which you might want to comment out code while troubleshooting is when the commented-out code has an undesirable side effect, like sending an email or updating a counter.
+
+Similarly, sometimes it’s useful to comment out a whole function while keeping the call. If you’re using a library that needs a callback, then you might write code like this:
+
+def write_to_file(fname, data):
+    with open(fname, "w") as fpout:
+        fpout.write(data)
+
+get_data(source).add_callback(write_to_file, "results.dat")
+This code calls get_data() and attaches a callback to the result.
+
+It might be useful to have a test run that discards the data in order to make sure that the source is given correctly. However, this isn’t valid Python code:
+
+def write_to_file(fname, data):
+    # Discard data for now
+    # with open(fname, "w") as fpout:
+    #     fpout.write(data)
+
+get_data(source).add_callback(write_to_file, "results.dat")
+Since the function has no statements in its block, Python can’t parse this code.
+
+Once again, pass can help you:
+
+def write_to_file(fname, data):
+    # Discard data for now
+    # with open(fname, "w") as fpout:
+    #     fpout.write(data)
+    pass
+
+get_data(source).add_callback(write_to_file, "results.dat")
+This is valid Python code that will discard the data and help you confirm that the arguments are correct.
+
+
+Remove ads
+Markers for Debuggers
+When you run code in a debugger, it’s possible to set a breakpoint in the code where the debugger will stop and allow you to inspect the program state before continuing.
+
+When a test run triggers a breakpoint often, such as in a loop, there might be many instances where the program state isn’t interesting. To address this problem, many debuggers also allow a conditional breakpoint, a breakpoint that will trigger only when a condition is true. For example, you might set a breakpoint in a for loop that’s triggered only if a variable is None to see why this case isn’t handled correctly.
+
+However, many debuggers allow you to set only a few basic conditions on your breakpoints, such as equality or maybe a size comparison. You might need a more complicated condition, such as checking that a string is a palindrome before breaking.
+
+While the debugger might not be capable of checking for palindromes, Python can do so with minimal effort. You can take advantage of that functionality by having a do-nothing if statement and setting a breakpoint on the pass line:
+
+for line in filep:
+    if line == line[::-1]:
+        pass # Set breakpoint here
+    process(line)
+By checking for palindromes with line == line[::-1], you now have a line that executes only if the condition is true.
+
+Although the pass line doesn’t do anything, it makes it possible for you to set a breakpoint there. Now you can run this code in a debugger and break only on strings that are palindromes.
+
+Empty Functions
+In some cases, it may even be useful for you to include an empty function in the deployed version of your code. For example, a function in a library might expect a callback function to be passed in.
+
+An even more common case is when your code defines a class that inherits from a class that expects a method to be overridden. However, in your specific case, you don’t need to do anything. Or perhaps the reason you’re overriding the code is to prevent an overridable method from doing anything.
+
+In all those cases, you’ll need to write an empty function or method. Once again, the problem is that having no lines after the def line isn’t valid Python syntax:
+
+>>> def ignore_arguments(record, status):
+...
+  File "<stdin>", line 2
+
+    ^
+IndentationError: expected an indented block
+This fails because a function, like other blocks, has to include at least one statement. To fix this problem, you can use pass:
+
+>>> def ignore_arguments(record, status):
+...     pass
+...
+Now that the function has a statement, even one that does nothing, it’s valid Python syntax.
+
+As another example, imagine you have a function that expects a file-like object to write to. However, you want to call the function for another reason and would like to discard the output. You can use pass to write a class that discards all data:
+
+class DiscardingIO:
+    def write(self, data):
+        pass
+Instances of this class support the .write() method but discard all data immediately.
+
+In both of these examples, it’s important that a method or function exists, but it doesn’t need to do anything. Because Python blocks must have statements, you can make empty functions or methods valid by using pass.
+
+
+Remove ads
+Empty Classes
+In Python, exception inheritance is important because it marks which exceptions are caught. For example, the built-in exception LookupError is a parent of KeyError. A KeyError exception is raised when a nonexistent key is looked up in a dictionary. This means you can use LookupError to catch a KeyError:
+
+>>> empty={}
+>>> try:
+...     empty["some key"]
+... except LookupError as exc:
+...     print("got exception", repr(exc))
+...
+got exception KeyError('some key')
+>>> issubclass(KeyError, LookupError)
+True
+The exception KeyError is caught even though the except statement specifies LookupError. This is because KeyError is a subclass of LookupError.
+
+Sometimes you want to raise specific exceptions in your code because they have a specific recovery path. However, you want to make sure that those exceptions inherit from a general exception in case someone is catching the general exception. These exception classes have no behavior or data. They’re just markers.
+
+In order to see the usefulness of a rich exception hierarchy, you can consider password rule checking. Before trying to change the password on a website, you want to test it locally for the rules it enforces:
+
+At least eight characters
+At least one number
+At least one special character, such as a question mark (?), an exclamation point (!), or a period (.).
+Note: This example is purely to illustrate Python semantics and techniques. Research has shown that password complexity rules don’t increase security.
+
+For more information, see the National Institute of Standards and Technology (NIST) guidelines and the research they’re based on.
+
+Each of those errors should have its own exception. The following code implements those rules:
+
+# password_checker.py
+class InvalidPasswordError(ValueError):
+    pass
+
+class ShortPasswordError(InvalidPasswordError):
+    pass
+
+class NoNumbersInPasswordError(InvalidPasswordError):
+    pass
+
+class NoSpecialInPasswordError(InvalidPasswordError):
+    pass
+
+def check_password(password):
+    if len(password) < 8:
+        raise ShortPasswordError(password)
+    for n in "0123456789":
+        if n in password:
+            break
+    else:
+        raise NoNumbersInPasswordError(password)
+    for s in "?!.":
+        if s in password:
+            break
+    else:
+        raise NoSpecialInPasswordError(password)
+This function will raise an exception if the password doesn’t follow the specified rules. A more realistic example would note all the rules that haven’t been followed, but that’s beyond the scope of this tutorial.
+
+You can use this function in a wrapper to print the exception in a nice way:
+
+>>> from password_checker import check_password
+>>> def friendly_check(password):
+...     try:
+...         check_password(password)
+...     except InvalidPasswordError as exc:
+...         print("Invalid password", repr(exc))
+...
+>>> friendly_check("hello")
+Invalid password ShortPasswordError('hello')
+>>> friendly_check("helloworld")
+Invalid password NoNumbersInPasswordError('helloworld')
+>>> friendly_check("helloworld1")
+Invalid password NoSpecialInPasswordError('helloworld1')
+In this case, friendly_check() catches only InvalidPasswordError since other ValueError exceptions are probably bugs in the checker itself. It prints out the exception’s name and value, which shows the rule that wasn’t followed.
+
+In some situations, your users might not care exactly which problems exist in the input. In that case, you would just want to catch ValueError:
+
+def get_username_and_password(credentials):
+    try:
+        name, password = credentials.split(":", 1)
+        check_password(password)
+    except ValueError:
+        return get_default_credentials()
+    else:
+        return name, value
+In this code, all invalid input is treated the same since you don’t care what problems the credentials have.
+
+Because of these differing use cases, check_password() needs all four exceptions:
+
+InvalidPasswordError
+ShortPasswordError
+NoNumbersPasswordError
+NoSpecialPasswordError
+Each of these exceptions describes a different rule being violated. In code that matches a string against more sophisticated rules, there might be many more of these, arranged in a complex structure.
+
+Despite the need for four different classes, none of the classes has any behavior. The pass statement allows you to define all four classes quickly.
+
+
+Remove ads
+Marker Methods
+Some methods in classes exist not to be called but to mark the class as somehow being associated with this method.
+
+The Python standard library has the abc module. The name of the module stands for abstract base class. This module helps define classes that aren’t meant to be instantiated but rather serve as a common base for some other classes.
+
+If you’re writing code to analyze usage patterns of a web server, then you might want to differentiate between requests coming from logged-in users and those coming from unauthenticated connections. You could model this by having an Origin superclass that has two subclasses: LoggedIn and NotLoggedIn.
+
+Nothing should ever instantiate the Origin class directly. Each request should come from either a LoggedIn origin or a NotLoggedIn origin. Here’s a minimalist implementation:
+
+import abc
+
+class Origin(abc.ABC):
+    @abc.abstractmethod
+    def description(self):
+        # This method will never be called
+        pass
+
+class NotLoggedIn(Origin):
+    def description(self):
+        return "unauthenticated connection"
+
+class LoggedIn(Origin):
+    def description(self):
+        return "authenticated connection"
+While a real Origin class would be more complicated, this example shows some of the basics. Origin.description() will never be called since all the subclasses must override it.
+
+Because Origin has an abstractmethod, it can’t be instantiated:
+
+>>> Origin()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Can't instantiate abstract class Origin with abstract...
+>>> logged_in.description()
+'authenticated connection'
+>>> not_logged_in.description()
+'unauthenticated connection'
+Classes with abstractmethod methods can’t be instantiated. This means that any object that has Origin as a superclass will be an instance of a class that overrides description(). Because of this, the body in Origin.description() doesn’t matter, but the method needs to exist to indicate that all subclasses must instantiate it.
+
+Because method bodies can’t be empty, you have to put something in Origin.description(). Once again, the do-nothing statement pass is a good option to make it obvious that you’ve included the line just for syntactic reasons.
+
+A more modern way to indicate methods are needed is to use a Protocol, which is available in the standard library in Python 3.8 and above. In older Python versions, it’s available with the typing_extensions backports.
+
+A Protocol is different from an abstract base class in that it’s not explicitly associated with a concrete class. Instead, it relies on type matching to associate it at type-check time with mypy.
+
+The methods in a Protocol are never called. They serve only to mark the types of needed methods:
+
+>>> from typing_extensions import Protocol
+>>> class StringReader(Protocol):
+...     def read(self, int) -> str:
+...         pass
+Demonstrating how to use a Protocol like this in mypy isn’t relevant to the pass statement. But it is important to see that the body of the method has only the pass statement.
+
+There are more examples of such markers being used outside the Python language and standard libraries. For example, they’re used in the zope.interface package to indicate interface methods and in automat to indicate inputs to a finite-state automaton.
+
+In all these cases, classes need to have methods but never call them. Because of this, the body doesn’t matter. But since the body can’t be empty, you can use the pass statement to add a body.
+
+Alternatives to pass
+The pass statement isn’t the only way to do nothing in your code. It’s not even the shortest, as you’ll see later. It’s not even always the best or most Pythonic approach.
+
+Any expression in Python is a valid statement, and every constant is a valid expression. So the following expressions all do nothing:
+
+None
+True
+0
+"hello I do nothing"
+You can use any one of these expressions as the only statement in a suite, and it will accomplish the same task as pass. The main reason to avoid using them as do-nothing statements is that they’re unidiomatic. When you use them, it’s not obvious to people who read your code why they’re there.
+
+In general, the pass statement, while taking more characters to write than, say, 0, is the best way to communicate to future maintainers that the code block was intentionally left blank.
+
+
+Remove ads
+Docstrings
+There’s one important exception to the idiom of using pass as a do-nothing statement. In classes, functions, and methods, using a constant string expression will cause the expression to be used as the object’s .__doc__ attribute.
+
+The .__doc__ attribute is used by help() in the interactive interpreter and by various documentation generators, many IDEs, and other developers reading the code. Some code styles insist on having it in every class, function, or method.
+
+Even when a docstring isn’t mandatory, it’s often a good substitute for the pass statement in an empty block. You can modify some examples from earlier in this this tutorial to use a docstring instead of pass:
+
+class StringReader(Protocol):
+      def read(self, length: int) -> str:
+          """
+          Read a string
+          """
+
+class Origin(abc.ABC):
+    @abc.abstractmethod
+    def description(self):
+        """
+        Human-readable description of origin
+        """
+
+class TooManyOpenParens(ParseError):
+    """
+    Not all open parentheses were closed
+    """
+
+class DiscardingIO:
+    def write(self, data):
+        """
+        Ignore data
+        """
+In all these cases, the docstring makes the code clearer. The docstring will also be visible when you use this code in the interactive interpreter and in IDEs, making it even more valuable.
+
+Note: The docstrings above are brief because there are several classes and functions. A docstring meant for production would usually be more thorough.
+
+One technical advantage of docstrings, especially for those functions or methods that never execute, is that they’re not marked as “uncovered” by test coverage checkers.
+
+Ellipsis
+In mypy stub files, the recommended way to fill a block is to use an ellipsis (...) as a constant expression. This is an obscure constant that evaluates to Ellipsis:
+
+>>> ...
+Ellipsis
+>>> x = ...
+>>> type(x), x
+(<class 'ellipsis'>, Ellipsis)
+The Ellipsis singleton object, of the built-in ellipsis class, is a real object that’s produced by the ... expression.
+
+The original use for Ellipsis was in creating multidimensional slices. However, it’s now also the recommended syntax to fill in a suite in a stub file:
+
+# In a `.pyi` file:
+def add(a: int, b: int)-> int:
+    ...
+This function not only does nothing, but it’s also in a file that the Python interpreter never evaluates.
+
+Raise an Error
+In cases where the functions or methods are empty because they never execute, sometimes the best body for them is raise NotImplementedError("this should never happen"). While this does technically do something, it’s still a valid alternative to a pass statement.
+
+Permanent Uses of pass
+Sometimes the use of the pass statement isn’t temporary—it’ll remain in the final version of the running code. In those cases, there’s no better alternative or more common idiom to fill an otherwise empty block than using pass.
+
+Using pass in Exception Catching
+When using try ... except to catch an exception, you sometimes don’t need to do anything about the exception. In that situation, you can use the pass statement to silence the error.
+
+If you want to make sure a file doesn’t exist, then you can use os.remove(). This function will raise an error if the file isn’t there. However, the file not being there is exactly what you want in this case, so the error is unnecessary.
+
+Here’s a function that removes a file and doesn’t fail if the file doesn’t exist:
+
+import os
+
+def ensure_nonexistence(fname):
+    try:
+        os.remove(fname)
+    except FileNotFoundError:
+        pass
+Because nothing needs to be done if a FileNotFoundError is raised, you can use pass to have a block with no other statements.
+
+Note: It’s important to use caution when ignoring exceptions. An exception usually means that something unexpected has happened, and some recovery is needed. Before ignoring exceptions, think carefully about what could cause them.
+
+Note that the pass statement will often be replaced by a logging statement. However, there’s no requirement to do this if the error is expected and well understood.
+
+In this case, you could also use the context manager contextlib.suppress() to suppress the error. However, if you need to handle some errors while ignoring others, then it’s more straightforward to have an empty except class with nothing except the pass statement.
+
+For example, if you wanted to have ensure_nonexistence() deal with directories as well as files, then you could use this approach:
+
+import os
+import shutil
+
+def ensure_nonexistence(fname):
+    try:
+       os.remove(fname)
+    except FileNotFoundError:
+       pass
+    except IsADirectoryError:
+       shutil.rmtree(fname)
+Here, you ignore the FileNotFoundError while retrying the IsADirectoryError.
+
+In this example, the order of the except statements doesn’t matter because FileNotFoundError and IsADirectoryError are siblings, and both inherit from OSError. If there were a case that handled the general OSError, perhaps by logging and ignoring it, then the order would matter. In that scenario, FileNotFoundError and its pass statement would have to come before OSError.
+
+
+Remove ads
+Using pass in if … elif Chains
+When you use long if … elif chains, sometimes you don’t need to do anything in one case. However, you can’t skip that elif because execution would continue through to the other condition.
+
+Imagine that a recruiter gets tired of using the fizz-buzz challenge as an interview question and decides to ask it with a twist. This time, the rules are a bit different:
+
+If the number is divisible by 20, then print "twist".
+Otherwise, if the number is divisible by 15, then print nothing.
+Otherwise, if the number is divisible by 5, then print "fizz".
+Otherwise, if the number is divisible by 3, then print "buzz".
+Otherwise, print the number.
+The interviewer believes that this new twist will make answers more interesting.
+
+As with all coding interview questions, there are many ways to solve this challenge. But one way is to use a for loop with a chain that mimics the description above:
+
+for x in range(100):
+    if x % 20 == 0:
+       print("twist")
+    elif x % 15 == 0:
+       pass
+    elif x % 5 == 0:
+       print("fizz")
+    elif x % 3 == 0:
+       print("buzz")
+    else:
+       print(x)
+The if … elif chain mirrors the logic of moving to the next option only if the previous one did not take.
+
+In this example, if you removed the if x % 15 clause completely, then you would change the behavior. Instead of printing nothing for numbers divisible by 15, you would print "fizz". The clause is essential even if there’s nothing to do in that case.
+
+This use case for the pass statement allows you to avoid refactoring the logic and to keep the code arranged in a way that matches the description of the behavior.
+
+Conclusion
+You now understand what the Python pass statement does. You’re ready to use it to improve your development and debugging speed as well as to deploy it tactfully in your production code.
+
+In this tutorial, you’ve learned:
+
+What the Python pass statement is and why it’s useful
+How to use the Python pass statement in production code
+How to use the Python pass statement as an aid while developing code
+What the alternatives to pass are and when you should use them
+Now you’ll be able to write better and more efficient code by knowing how to tell Python to do nothing.
+
+ 
+🐍 Python Tricks 💌
+
+
+
+
+
+Python String join() Method
+
+
+join() is an inbuilt string function in Python used to join elements of the sequence separated by a string separator. This function joins elements of a sequence and makes it a string. 
+
+Syntax: string_name.join(iterable) 
+
+Parameters: 
+
+Iterable – objects capable of returning their members one at a time. Some examples are List, Tuple, String, Dictionary, and Set
+Return Value: The join() method returns a string concatenated with the elements of iterable. 
+
+
+Type Error: If the iterable contains any non-string values, it raises a TypeError exception. 
+
+Example 1: Joining with an empty string
+Here, we join the list of elements using the join method.
+
+# Joining with empty separator
+list1 = ['g', 'e', 'e', 'k', 's']
+print("".join(list1))
+ 
+# Joining with string
+list1 = " geeks "
+print("$".join(list1))
+Output: 
+
+geeks
+$g$e$e$k$s$ 
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Example 2: Joining String with lists using join()
+Here, we join the tuples of elements using the join() method in which we can put any character to join with a string.
+
+# elements in tuples
+list1 = ('1', '2', '3', '4')
+ 
+# put any character to join
+s = "-"
+ 
+# joins elements of list1 by '-'
+# and stores in string s
+s = s.join(list1)
+ 
+# join use to join a list of
+# strings to a separator s
+print(s)
+Output: 
+
+1-2-3-4
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+
+Example 3: Joining String with sets using join()
+In this example, we are using a Python set to join the string.
+
+Note: Set contains only unique value therefore out of two 4 one 4 is printed.
+
+list1 = {'1', '2', '3', '4', '4'}
+ 
+# put any character to join
+s = "-#-"
+ 
+# joins elements of list1 by '-#-'
+# and stores in string s
+s = s.join(list1)
+ 
+# join use to join a list of
+# strings to a separator s
+print(s)
+Output: 
+
+1-#-3-#-2-#-4
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Example 4: Joining String with a dictionary using join()
+When joining a string with a dictionary, it will join with the keys of a Python dictionary, not with values.
+
+dic = {'Geek': 1, 'For': 2, 'Geeks': 3}
+ 
+# Joining special character with dictionary
+string = '_'.join(dic)
+ 
+print(string)
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+Output:
+
+'Geek_For_Geeks'
