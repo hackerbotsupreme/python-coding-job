@@ -1,0 +1,320 @@
+#Find the middle of a given linked list
+
+#Difficulty Level : Easy
+#---------------------------------------------------------------------------
+
+#Auxiliary Given a singly linked list, find the middle of the linked list. For example, if the given linked list is 1->2->3->4->5 then the output should be 3. 
+#If there are even nodes, then there would be two middle nodes, we need to print the second middle element. 
+#For example, if the given linked list is 1->2->3->4->5->6 then the output should be 4. 
+
+
+
+#Easy And Brute Force Way:
+
+#     The Approach:
+
+#       Here in this approach we use O(n) extra space for vector to store the linked list values and we simply return middle value of vector.
+
+
+#include <iostream>
+#include<bits/stdc++.h>
+#using namespace std;
+  
+class Node{
+    public:
+        int data;
+        Node *next;
+};
+  
+class NodeOperation{
+  public:
+    
+    // Function to add a new node
+    void pushNode(class Node** head_ref,int data_val){
+        
+        // Allocate node
+        class Node *new_node = new Node();
+          
+         // Put in the data
+        new_node->data = data_val;
+          
+        // Link the old list of the new node
+        new_node->next = *head_ref;
+          
+        // move the head to point to the new node
+        *head_ref = new_node;
+    }
+};
+ 
+int main() {
+class Node *head = NULL;
+    class NodeOperation *temp = new NodeOperation();
+    for(int i=5; i>0; i--){
+        temp->pushNode(&head, i);
+    }
+    vector<int>v;
+    while(head!=NULL){
+     v.push_back(head->data);
+     head=head->next;
+    }
+    cout<<"Middle Value Of Linked List is :";
+    cout<<v[v.size()/2]<<endl;
+    return 0;
+}
+#Output
+#Middle Value Of Linked List is :3
+#Complexity Analysis:
+
+#Time Complexity: O(n), for traversing.
+#Auxiliary Space: O(n), for Vector.
+#----------------------------------------------------------------
+#Method 1: Traverse the whole linked list and count the no. of nodes. Now traverse the list again till count/2 and return the node at count/2. 
+#Below is the implementation of the above approach:
+
+
+# Python program for the above approach
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class NodeOperation:
+    # Function to add a new node
+    def pushNode(self, head_ref, data_val):
+ 
+        # Allocate node and put in the data
+        new_node = Node(data_val)
+ 
+        # Link the old list of the new node
+        new_node.next = head_ref
+ 
+        # move the head to point to the new node
+        head_ref = new_node
+        return head_ref
+ 
+    # A utility function to print a given linked list
+    def printNode(self, head):
+        while (head != None):
+            print('%d->' % head.data, end="")
+            head = head.next
+        print("NULL")
+ 
+    ''' Utility Function to find length of linked list '''
+ 
+    def getLen(self, head):
+        temp = head
+        len = 0
+ 
+        while (temp != None):
+            len += 1
+            temp = temp.next
+ 
+        return len
+ 
+    def printMiddle(self, head):
+        if head != None:
+            # find length
+            len = self.getLen(head)
+            temp = head
+ 
+            # traverse till we reached half of length
+            midIdx = len // 2
+            while midIdx != 0:
+                temp = temp.next
+                midIdx -= 1
+ 
+            # temp will be storing middle element
+            print('The middle element is [%d]' % temp.data)
+ 
+ 
+# Driver Code
+head = None
+temp = NodeOperation()
+for i in range(5, 0, -1):
+    head = temp.pushNode(head, i)
+    temp.printNode(head)
+    temp.printMiddle(head)
+ 
+# This code is contributed by Tapesh(tapeshdua420)
+#Output
+#5->NULL
+#The middle element is [5]
+#4->5->NULL
+#The middle element is [5]
+#3->4->5->NULL
+#The middle element is [4]
+#2->3->4->5->NULL
+#The middle element is [4]
+#1->2->3->4->5->NULL
+#The middle element is [3]
+#Time Complexity: O(n) where n is no of nodes in linked list
+#Auxiliary Space: O(1)
+
+#--------------------------------------------------------------
+
+#Method 2: Traverse linked list using two-pointers. Move one pointer by one and the other pointers by two. When the fast pointer reaches the end, the slow pointer will reach the middle of the linked list.
+
+#Below image shows how printMiddle function works in the code :
+
+#middle-of-a-given-linked-list-in-C-and-Java1
+
+
+# Python3 program to find middle of linked list
+# Node class
+class Node:
+   
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+   
+   
+# Linked List class contains a Node object
+class LinkedList:
+   
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+ 
+    # Function to insert a new node at the beginning 
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node
+ 
+    # Print the linked list
+    def printList(self):
+        node = self.head
+        while node:
+            print(str(node.data) + "->", end="")
+            node = node.next
+        print("NULL")
+ 
+    # Function that returns middle.
+    def printMiddle(self):
+        # Initialize two pointers, one will go one step a time (slow), another two at a time (fast)
+        slow = self.head
+        fast = self.head
+ 
+        # Iterate till fast's next is null (fast reaches end)
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+         
+        # return the slow's data, which would be the middle element.
+        print("The middle element is ", slow.data)
+ 
+# Code execution starts here
+if __name__=='__main__':
+   
+    # Start with the empty list
+    llist = LinkedList()
+   
+    for i in range(5, 0, -1):
+        llist.push(i)
+        llist.printList()
+        llist.printMiddle()
+ 
+ # Code is contributed by Kumar Shivam (kshivi99)
+#Output
+#5->NULL
+#The middle element is [5]
+#4->5->NULL
+#The middle element is [5]
+#3->4->5->NULL
+#The middle element is [4]
+#2->3->4->5->NULL
+#The middle element is [4]
+#1->2->3->4->5->NULL
+#The middle element is [3]
+#Time Complexity: O(N), As we are traversing the list only once.
+#Auxiliary Space: O(1), As constant extra space is used.
+#---------------------------------------------------------------
+
+#Method 3: Initialize the mid element as head and initialize a counter as 0. Traverse the list from the head, while traversing increment the counter and change mid to mid->next whenever the counter is odd. So the mid will move only half of the total length of the list. 
+#Thanks to Narendra Kangralkar for suggesting this method.  
+
+
+# Node class
+class Node:
+    
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+    
+# Linked List class contains a Node object
+class LinkedList:
+    
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # Function to insert a new node at the beginning 
+    def push(self, new_data): 
+        new_node = Node(new_data) 
+        new_node.next = self.head 
+        self.head = new_node
+  
+    # Print the linked list
+    def printList(self):
+        node = self.head
+        while node:
+            print(str(node.data) + "->", end = "")
+            node = node.next
+        print("NULL")
+  
+    # Function to get the middle of
+    #  the linked list
+    def printMiddle(self):
+        count = 0
+        mid = self.head
+        heads = self.head
+   
+        while(heads != None):
+       
+        # Update mid, when 'count'
+        # is odd number
+            if count&1:
+                mid = mid.next
+            count += 1
+            heads = heads.next
+             
+        # If empty list is provided
+        if mid!=None:
+            print("The middle element is ", mid.data)
+  
+# Code execution starts here
+if __name__=='__main__':
+    
+    # Start with the empty list
+    llist = LinkedList()
+    
+    for i in range(5, 0, -1):
+        llist.push(i)
+        llist.printList()
+        llist.printMiddle()
+  
+ # This Code is contributed by Manisha_Ediga
+#Output
+#5->NULL
+#The middle element is [5]
+
+#4->5->NULL
+#The middle element is [5]
+
+#3->4->5->NULL
+#The middle element is [4]
+
+#2->3->4->5->NULL
+#The middle element is [4]
+
+#1->2->3->4->5->NULL
+#The middle element is [3]
+
+#Time Complexity: O(N), As we are traversing the list once.
+#Auxiliary Space: O(1), As constant extra space is used.
+#--------------------------------------------------------------------------
+
+
