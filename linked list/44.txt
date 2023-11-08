@@ -1,0 +1,211 @@
+Given only a pointer/reference to a node to be deleted in a singly linked list, how do you delete it?
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(290+)
+Courses
+Practice
+Video
+Given a pointer to a node to be deleted, delete the node. Note that we don’t have a pointer to the head node.
+
+Recommended Problem
+Delete nodes having greater value on right
+Linked List
+Data Structures
+Amazon
+Solve Problem
+Submission count: 75.8K
+A simple solution is to traverse the linked list until you find the node you want to delete. But this solution requires a pointer to the head node, which contradicts the problem statement.
+The fast solution is to copy the data from the next node to the node to be deleted and delete the next node. Something like the following.
+
+// Find next node using next pointer
+struct Node *temp  = node_ptr->next;
+
+// Copy data of next node to this node
+node_ptr->data  = temp->data;
+
+// Unlink next node
+node_ptr->next  = temp->next;
+
+// Delete next node
+free(temp);
+Program: 
+
+C++
+C
+Java
+Python
+# a class to define a node with 
+# data and next pointer
+class Node():
+  
+    # constructor to initialize a new node
+    def __init__(self, val = None):
+        self.data = val
+        self.next = None
+  
+# push a node to the front of the list
+def push(head, val):
+  
+    # allocate new node
+    newnode = Node(val)
+  
+    # link the first node of the old list to the new node
+    newnode.next = head.next
+  
+    # make the new node as head of the linked list 
+    head.next = newnode
+  
+# function to print the list
+def print_list(head):
+  
+    temp = head.next
+    while(temp != None):
+        print(temp.data, end = ' ')
+        temp = temp.next
+    print()
+  
+# function to delete the node
+# the main logic is in this
+def delete_node(node):
+  
+    prev = Node()
+  
+    if(node == None):
+        return
+    else:
+        while(node.next != None):
+            node.data = node.next.data
+            prev = node
+            node = node.next
+  
+        prev.next = None
+  
+  
+if __name__ == '__main__':
+  
+    # allocate an empty header node
+    # this is a node that simply points to the
+    # first node in the list
+    head = Node()
+  
+    # construct the below linked list
+    # 1->12->1->4->1
+    push(head, 1)
+    push(head, 4)
+    push(head, 1)
+    push(head, 12)
+    push(head, 1)
+  
+    print('list before deleting:')
+    print_list(head)
+  
+    # deleting the first node in the list
+    delete_node(head.next)
+  
+    print('list after deleting: ')
+    print_list(head)
+  
+# This code is contributed by Adith Bharadwaj
+C#
+Javascript
+Output: 
+
+
+Before deleting 
+1 12 1 4 1 
+After deleting 
+12 1 4 1
+Time Complexity: 
+
+For printing linked list: O(N)
+For inserting node: O(1)
+For deleting node: O(N)
+Auxiliary Space: O(1)
+This solution doesn’t work if the node to be deleted is the last node of the list. To make this solution work, we can mark the end node as a dummy node. But the programs/functions that are using this function should also be modified.
+Exercise: Try this problem with the doubly linked list.
+
+One line in the function deletenode():
+
+
+
+C++
+Java
+Python3
+def deleteNode(Node Node):
+   Node = (Node.next);
+  
+# This code is contributed by gauravrajput1 
+C#
+Javascript
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+68
+Next
+Function to check if a singly linked list is palindrome
+Related Articles
+1.
+Given only a pointer to a node to be deleted in a singly linked list, how do you delete it?
+2.
+Minimize first node of Linked List by deleting first or adding one deleted node at start
+3.
+Delete all Prime Nodes from a Singly Linked List
+4.
+Delete all Prime Nodes from a Circular Singly Linked List
+5.
+Delete all Non-Prime Nodes from a Singly Linked List
+6.
+Program to delete all even nodes from a Singly Linked List
+7.
+Convert Singly Linked List to XOR Linked List
+8.
+Difference between Singly linked list and Doubly linked list
+9.
+Convert singly linked list into circular linked list
+10.
+How to insert a Node in a Singly Linked List at a given Position using Recursion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+harshitSingh_11
+rathbhupendra
+Adith Bharadwaj
+29AjayKumar
+nidhi_biet
+chalti
+SHUBHAMSINGH10
+rohitsingh07052
+stargaurav317
+todaysgaurav
+simranarora5sos
+umadevi9616
+GauravRajput1
+hardikkoriintern
+Article Tags :
+Amazon
+Goldman Sachs
+Kritikal Solutions
+Linked Lists
+loop
+Microsoft
+Samsung
+Visa
+Linked List
+Practice Tags :
+Amazon
+Goldman Sachs
+Kritikal So

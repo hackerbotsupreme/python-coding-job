@@ -1,0 +1,490 @@
+Types of Linked List
+
+Difficulty Level : Easy
+Last Updated : 25 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+A linked list is a linear data structure, in which the elements are not stored at contiguous memory locations. The elements in a linked list are linked using pointers. In simple words, a linked list consists of nodes where each node contains a data field and a reference(link) to the next node in the list. 
+
+Types Of Linked List:
+1. Singly Linked List
+It is the simplest type of linked list in which every node contains some data and a pointer to the next node of the same data type. 
+
+The node contains a pointer to the next node means that the node stores the address of the next node in the sequence. A single linked list allows the traversal of data only in one way. Below is the image for the same:
+
+
+
+
+Below is the structure of the singly linked list
+
+C++
+Java
+Python3
+# Node of a singly linked list
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+C#
+Javascript
+Creation and Traversal of Singly Linked List:
+C++
+Java
+C#
+Python3
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.last_node = None
+ 
+    # function to add elements to linked list
+    def append(self, data):
+        # if linked list is empty then last_node will be none so in if condition head will be created
+        if self.last_node is None:
+            self.head = Node(data)
+            self.last_node = self.head
+        # adding node to the tail of linked list
+        else:
+            self.last_node.next = Node(data)
+            self.last_node = self.last_node.next
+ 
+# function to print the content of linked list
+    def display(self):
+        current = self.head
+      # traversing the linked list
+        while current is not None:
+          # at each node printing its data
+            print(current.data, end=' ')
+           # giving current next node
+            current = current.next
+        print()
+ 
+# Driver code
+if __name__ == '__main__':
+    L = LinkedList()
+    # adding elements to the linked list
+    L.append(1)
+    L.append(2)
+    L.append(3)
+    # displaying elements of linked list
+    L.display()
+Javascript
+Output
+
+
+1 2 3 
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+2. Doubly Linked List
+A doubly linked list or a two-way linked list is a more complex type of linked list that contains a pointer to the next as well as the previous node in sequence. 
+
+Therefore, it contains three parts of data, a pointer to the next node, and a pointer to the previous node. This would enable us to traverse the list in the backward direction as well. Below is the image for the same:
+
+
+
+Structure of Doubly Linked List:
+C++
+Java
+Python3
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.previous = None
+        self.data = data
+        self.next = None
+C#
+Javascript
+Creation and Traversal of Doubly Linked List:
+C++
+Java
+Python3
+# Python3 program to illustrate
+# creation and traversal of
+# Doubly Linked List
+ 
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.previous = None
+        self.data = data
+        self.next = None
+ 
+ 
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.start_node = None
+        self.last_node = None
+ 
+    # function to add elements to doubly linked list
+    def append(self, data):
+        # is doubly linked list is empty then last_node will be none so in if condition head will be created
+        if self.last_node is None:
+            self.head = Node(data)
+            self.last_node = self.head
+        # adding node to the tail of doubly linked list
+        else:
+            new_node = Node(data)
+            self.last_node.next = new_node
+            new_node.previous = self.last_node
+            new_node.next = None
+            self.last_node = new_node
+ 
+    # function to printing and traversing the content of doubly linked list from left to right and right to left
+    def display(self, Type):
+        if Type == 'Left_To_Right':
+            current = self.head
+            while current is not None:
+                print(current.data, end=' ')
+                current = current.next
+            print()
+        else:
+            current = self.last_node
+            while current is not None:
+                print(current.data, end=' ')
+                current = current.previous
+            print()
+ 
+# Driver code
+if __name__ == '__main__':
+    L = DoublyLinkedList()
+    L.append(1)
+    L.append(2)
+    L.append(3)
+    L.append(4)
+    L.display('Left_To_Right')
+    L.display('Right_To_Left')
+C#
+Javascript
+Output
+Created DLL is: 
+Traversal in forward direction 
+ 1  7  6 
+Traversal in reverse direction 
+ 6  7  1
+3. Circular Linked List
+A circular linked list is that in which the last node contains the pointer to the first node of the list. 
+
+While traversing a circular linked list, we can begin at any node and traverse the list in any direction forward and backward until we reach the same node we started. Thus, a circular linked list has no beginning and no end. Below is the image for the same:
+
+
+
+Below is the structure of the Circular Linked List:
+
+C++
+Java
+Python3
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+C#
+Javascript
+Creation and Traversal of Circular Linked List:
+C++
+Java
+Python3
+# Python3 program to illustrate
+# creation and traversal of
+# Circular LL
+ 
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+        self.last_node = None
+ 
+    # function to add elements to circular linked list
+    def append(self, data):
+        # is circular linked list is empty then last_node will be none so in if condition head will be created
+        if self.last_node is None:
+            self.head = Node(data)
+            self.last_node = self.head
+        # adding node to the tail of circular linked list
+        else:
+            self.last_node.next = Node(data)
+            self.last_node = self.last_node.next
+            self.last_node.next = self.head
+ 
+    # function to print the content of circular linked list
+    def display(self):
+        current = self.head
+        while current is not None:
+            print(current.data, end=' ')
+            current = current.next
+            if current == self.head:
+                break
+        print()
+ 
+# Driver code
+if __name__ == '__main__':
+    L = CircularLinkedList()
+    L.append(12)
+    L.append(56)
+    L.append(2)
+    L.append(11)
+         
+    # Function call
+    L.display()
+C#
+Javascript
+Output
+Contents of Circular Linked List
+ 11 2 56 12
+4. Doubly Circular linked list
+A Doubly Circular linked list or a circular two-way linked list is a more complex type of linked list that contains a pointer to the next as well as the previous node in the sequence. The difference between the doubly linked and circular doubly list is the same as that between a singly linked list and a circular linked list. The circular doubly linked list does not contain null in the previous field of the first node. Below is the image for the same:
+
+
+
+Below is the structure of the Doubly Circular Linked List:
+
+C++
+Java
+Python3
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.previous = None
+        self.data = data
+        self.next = None
+C#
+Javascript
+Creation and Traversal of Doubly Circular Linked List:
+C++
+Java
+Python3
+# Python3 program to illustrate creation
+# & traversal of Doubly Circular LL
+ 
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.previous = None
+        self.data = data
+        self.next = None
+ 
+ 
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.start_node = None
+        self.last_node = None
+ 
+    # function to add elements to doubly linked list
+    def append(self, data):
+        # is doubly linked list is empty then last_node will be none so in if condition head will be created
+        if self.last_node is None:
+            self.head = Node(data)
+            self.last_node = self.head
+        # adding node to the tail of doubly linked list
+        else:
+            new_node = Node(data)
+            self.last_node.next = new_node
+            new_node.previous = self.last_node
+            new_node.next = self.head
+            self.head.previous = new_node
+            self.last_node = new_node
+ 
+    # function to print the content of doubly linked list
+    def display(self, Type='Left_To_Right'):
+        if Type == 'Left_To_Right':
+            current = self.head
+            while current.next is not None:
+                print(current.data, end=' ')
+                current = current.next
+                if current == self.head:
+                    break
+            print()
+        else:
+            current = self.last_node
+            while current.previous is not None:
+                print(current.data, end=' ')
+                current = current.previous
+                if current == self.last_node.next:
+                    print(self.last_node.next.data, end=' ')
+                    break
+            print()
+ 
+ 
+if __name__ == '__main__':
+    L = DoublyLinkedList()
+    L.append(1)
+    L.append(2)
+    L.append(3)
+    L.append(4)
+    L.display('Left_To_Right')
+    L.display('Right_To_Left')
+C#
+Javascript
+Output
+Created circular doubly linked list is: 
+Traversal in forward direction 
+7 4 5 
+Traversal in reverse direction 
+5 4 7
+5. Header Linked List: 
+A header linked list is a special type of linked list that contains a header node at the beginning of the list. 
+
+So, in a header linked list START will not point to the first node of the list but START will contain the address of the header node. Below is the image for Grounded Header Linked List:
+
+
+
+Below is the Structure of the Grounded Header Linked List:
+
+C++
+Python3
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+Java
+C#
+Javascript
+Creation and Traversal of Header Linked List:
+C++
+Java
+Python3
+# Python3 program to illustrate creation
+# and traversal of Header Linked List
+ 
+# structure of Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = Node(0)
+        self.last_node = self.head
+ 
+    # function to add elements to header linked list
+    def append(self, data):
+        self.last_node.next = Node(data)
+        self.last_node = self.last_node.next
+ 
+    # function to print the content of header linked list
+    def display(self):
+        current = self.head.next
+        # traversing the header linked list
+        while current is not None:
+            # at each node printing its data
+            print(current.data, end=' ')
+            # giving current next node
+            current = current.next
+        # print(self.head.data)
+        print()
+ 
+# Driver code
+if __name__ == '__main__':
+    L = LinkedList()
+    # adding elements to the header linked list
+    L.append(1)
+    L.append(2)
+    L.append(3)
+    L.append(4)
+    # displaying elements of header linked list
+    L.display()
+C#
+Javascript
+Output
+List After inserting 3 elements:
+11 12 13 
+List After inserting 2 more elements:
+11 12 13 14 15
+Additional Types:
+Multiply Linked List: Multiply Linked List is a data structure in which each node of the list contains multiple pointers. It is a type of linked list which has multiple linked lists in one list. Each node has multiple pointers which can point to different nodes in the list and can also point to nodes outside the list. The data stored in a Multiply Linked List can be easily accessed and modified, making it a very efficient data structure. The nodes in a Multiply Linked List can be accessed in any order, making it suitable for applications such as graphs, trees, and cyclic lists.
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+50
+Previous
+Applications, Advantages and Disadvantages of Linked List
+Next
+Linked List vs Array
+Related Articles
+1.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+2.
+Convert Singly Linked List to XOR Linked List
+3.
+Create new linked list from two given linked list with greater element at each node
+4.
+Generate Linked List consisting of maximum difference of squares of pairs of nodes from given Linked List
+5.
+XOR Linked List: Remove last node of the Linked List
+6.
+XOR Linked List - Reverse a Linked List in groups of given size
+7.
+XOR linked list: Reverse last K nodes of a Linked List
+8.
+C++ Program To Merge A Linked List Into Another Linked List At Alternate Positions
+9.
+C Program To Merge A Linked List Into Another Linked List At Alternate Positions
+10.
+Java Program To Merge A Linked List Into Another Linked List At Alternate Positions
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+anuragtarang60
+@anuragtarang60
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princi singh
+amit143katiyar
+GauravRajput1
+shikhasingrajput
+29AjayKumar
+tuhinchess
+premansh2001
+unknown2108
+shivanisinghss2110
+SHUBHAMSINGH10
+sumitgumber28
+oreosocial695
+davidso2bw0
+janardansthox
+susobhanakhuli
+Article Tags :
+circular linked list
+doubly linked list
+Linked Lists
+Data Structures
+Linked List
+Practice Tags :
+circular linked list
+Data Structures
+Linked List
+Improve Article
+Report Issue

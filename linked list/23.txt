@@ -1,0 +1,329 @@
+Exchange first and last nodes in Circular Linked List
+
+Difficulty Level : Easy
+Last Updated : 20 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given Circular linked list exchange the first and the last node. The task should be done with only one extra node, you can not declare more than one extra node, and also you are not allowed to declare any other temporary variable. 
+
+Note: Extra node means the need of a node to traverse a list.  
+
+https://media.geeksforgeeks.org/wp-content/uploads/Capturehgh.png
+
+Examples: 
+
+Input : 5 4 3 2 1
+Output : 1 4 3 2 5
+
+Input  : 6 1 2 3 4 5 6 7 8 9
+Output : 9 1 2 3 4 5 6 7 8 6
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1: (By Changing Links of First and Last Nodes)
+
+We first find a pointer to the previous to the last node. Let this node be p. Now we change the next links so that the last and first nodes are swapped.  
+
+
+
+C++
+Java
+Python3
+# Python3 program to exchange first and
+# last node in circular linked list
+import math
+ 
+ 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+def addToEmpty(head, data):
+ 
+    # This function is only for empty list
+    if (head != None):
+        return head
+ 
+    # Creating a node dynamically.
+    temp = Node(data)
+ 
+    # Assigning the data.
+    temp.data = data
+    head = temp
+ 
+    # Creating the link.
+    head.next = head
+    return head
+ 
+ 
+def addBegin(head, data):
+ 
+    if (head == None):
+        return addToEmpty(head, data)
+ 
+    temp = Node(data)
+    temp.data = data
+    temp.next = head.next
+    head.next = temp
+ 
+    return head
+ 
+# function for traversing the list
+ 
+ 
+def traverse(head):
+ 
+    # If list is empty, return.
+    if (head == None):
+ 
+        print("List is empty.")
+        return
+ 
+    # Pointing to first Node of the list.
+    p = head
+    print(p.data, end=" ")
+    p = p.next
+ 
+    # Traversing the list.
+    while(p != head):
+ 
+        print(p.data, end=" ")
+        p = p.next
+ 
+ 
+def exchangeNodes(head):
+ 
+    # Cases Handled: Linked List either empty or containing single node.
+    if head == None or head.next == head:
+        return head
+    # Cases Handled: Linked List containing only two nodes
+    elif head.next.next == head:
+        head = head.next
+        return head
+    # Cases Handled: Linked List containing multiple nodes
+    else:
+        prev = None
+        curr = head
+        temp = head
+        # finding last and second last nodes in linkedlist list
+        while curr.next != head:
+            prev = curr
+            curr = curr.next
+ 
+        # point the last node to second node of the list
+        curr.next = temp.next
+        # point the second last node to first node
+        prev.next = temp
+        # point the end of node to start ( make linked list circular )
+        temp.next = curr
+        # mark the starting of linked list
+        head = curr
+ 
+        return head
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    head = None
+    head = addToEmpty(head, 6)
+    for x in range(5, 0, -1):
+        head = addBegin(head, x)
+    print("List Before: ", end="")
+    traverse(head)
+    print()
+ 
+    print("List After: ", end="")
+    head = exchangeNodes(head)
+    traverse(head)
+ 
+# This code is contributed by Srathore
+# Improved by Vinay Kumar (vinaykumar71)
+C#
+Javascript
+Output
+List Before: 6 1 2 3 4 5 
+List After: 5 1 2 3 4 6 
+Time Complexity: O(n), as we are using a loop to traverse n times. Where n is the number of nodes in the linked list.
+Auxiliary Space: O(1), as we are not using any extra space.
+
+Method 2: (By Swapping Values of First and Last nodes)
+
+Algorithm: 
+
+Traverse the list and find the last node(tail).
+Swap data of head and tail.
+Below is the implementation of the algorithm:
+
+C++
+Java
+Python3
+# Python program to exchange first and
+# last node in circular linked list     class Node {
+class Node:
+    def __init__(self):
+        self.data = 0
+        self.next = None
+ 
+def addToEmpty(head, data):
+ 
+    # This function is only for empty list
+    if (head != None):
+        return head
+ 
+    # Creating a node dynamically.
+    temp = Node()
+ 
+    # Assigning the data.
+    temp.data = data
+    head = temp
+ 
+    # Creating the link.
+    head.next = head
+ 
+    return head
+ 
+def addBegin(head, data):
+    if (head == None):
+        return addToEmpty(head, data)
+ 
+    temp = Node()
+ 
+    temp.data = data
+    temp.next = head.next
+    head.next = temp
+ 
+    return head
+ 
+# function for traversing the list
+def traverse(head):
+ 
+    # If list is empty, return.
+    if (head == None):
+        print("List is empty.")
+        return
+ 
+    # Pointing to first Node of the list.
+    p = head
+ 
+    # Traversing the list.
+    while (True):
+        print(p.data, end=" ")
+        p = p.next
+        if(p == head):
+            break
+ 
+# Function to exchange first and last node
+def exchangeNodes(head):
+ 
+    # If list is of length less than 2
+    if (head == None or head.next == None):
+        return head
+ 
+    tail = head
+ 
+    # Find pointer to the last node
+    while (tail.next != head):
+        tail = tail.next
+ 
+    # Exchange first and last nodes using head and p
+ 
+    # temporary variable to store
+    # head data
+    temp = tail.data
+    tail.data = head.data
+    head.data = temp
+    return head
+ 
+# Driven Program
+head = None
+head = addToEmpty(head, 6)
+ 
+for i in range(5, 0, -1):
+    head = addBegin(head, i)
+ 
+print("List Before: ")
+traverse(head)
+print("")
+ 
+print("List After: ")
+head = exchangeNodes(head)
+traverse(head)
+ 
+# This code is contributed by Saurabh Jaiswal
+C#
+Javascript
+Output
+List Before: 6 1 2 3 4 5 
+List After: 5 1 2 3 4 6 
+Time Complexity: O(n), as we are using a loop to traverse n times. Where n is the number of nodes in the linked list.
+Auxiliary Space: O(1), as we are not using any extra space.
+
+This article is contributed by R_Raj. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+27
+Previous
+Recursive function to delete k-th node from linked list
+Next
+Recursive insertion and traversal linked list
+Related Articles
+1.
+Splitting starting N nodes into new Circular Linked List while preserving the old nodes
+2.
+XOR linked list: Reverse last K nodes of a Linked List
+3.
+Circular Linked List Implementation of Circular Queue
+4.
+Convert singly linked list into circular linked list
+5.
+Check if a linked list is Circular Linked List
+6.
+Sum and Product of the nodes of a Circular Singly Linked List which are divisible by K
+7.
+Sum and Product of nodes with value as even digit sum in Circular Linked List
+8.
+Remove all even parity nodes from a Doubly and Circular Singly Linked List
+9.
+Sum of the nodes of a Circular Linked List
+10.
+Delete all the even nodes of a Circular Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+princiraj1992
+sapnasingh4991
+vinaykumar71
+ritwikneema651
+prathamjha5683
+umadevi9616
+_saurabh_jaiswal
+rohan07
+hardikkoriintern
+vforviksvy5
+surajrasr7277
+Article Tags :
+circular linked list
+Linked List
+Practice Tags :
+circular linked list
+Linked List
+Improve Article
+Report Issue

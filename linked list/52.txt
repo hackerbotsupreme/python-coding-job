@@ -1,0 +1,396 @@
+Reverse a doubly linked list in groups of given size
+
+Difficulty Level : Medium
+Last Updated : 20 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a doubly linked list containing n nodes. The problem is to reverse every group of k nodes in the list.
+
+Examples: 
+ 
+
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Prerequisite: Reverse a doubly linked list | Set-2.
+
+Approach: Create a recursive function say reverse(head, k). This function receives the head or the first node of each group of k nodes. It reverses those groups of k nodes by applying the approach discussed in Reverse a doubly linked list | Set-2. After reversing the group of k nodes the function checks whether next group of nodes exists in the list or not. If a group exists then it makes a recursive call to itself with the first node of the next group and makes the necessary adjustments with the next and previous links of that group. Finally, it returns the new head node of the reversed group. 
+
+C++
+Java
+Python3
+# Python implementation to reverse a doubly linked list
+# in groups of given size
+ 
+# Link list node
+class Node:
+     
+    def __init__(self, data):
+        self.data = data
+        self.next = next
+         
+# function to get a new node
+def getNode(data):
+ 
+    # allocate space
+    new_node = Node(0)
+ 
+    # put in the data
+    new_node.data = data
+    new_node.next = new_node.prev = None
+    return new_node
+ 
+# function to insert a node at the beginning
+# of the Doubly Linked List
+def push(head_ref, new_node):
+ 
+    # since we are adding at the beginning,
+    # prev is always None
+    new_node.prev = None
+ 
+    # link the old list of the new node
+    new_node.next = (head_ref)
+ 
+    # change prev of head node to new node
+    if ((head_ref) != None):
+        (head_ref).prev = new_node
+ 
+    # move the head to point to the new node
+    (head_ref) = new_node
+    return head_ref
+ 
+# function to reverse a doubly linked list
+# in groups of given size
+def revListInGroupOfGivenSize( head, k):
+ 
+    current = head
+    next = None
+    newHead = None
+    count = 0
+     
+    # reversing the current group of k
+    # or less than k nodes by adding
+    # them at the beginning of list
+    # 'newHead'
+    while (current != None and count < k):
+     
+        next = current.next
+        newHead = push(newHead, current)
+        current = next
+        count = count + 1
+     
+    # if next group exists then making the desired
+    # adjustments in the link
+    if (next != None):
+     
+        head.next = revListInGroupOfGivenSize(next, k)
+        head.next.prev = head
+     
+    # pointer to the new head of the
+    # reversed group
+    return newHead
+ 
+# Function to print nodes in a
+# given doubly linked list
+def printList(head):
+ 
+    while (head != None):
+        print( head.data , end=" ")
+        head = head.next
+     
+# Driver program to test above
+ 
+# Start with the empty list
+head = None
+ 
+# Create doubly linked: 10<.8<.4<.2
+head = push(head, getNode(2))
+head = push(head, getNode(4))
+head = push(head, getNode(8))
+head = push(head, getNode(10))
+     
+k = 2
+ 
+print("Original list: ")
+printList(head)
+ 
+# Reverse doubly linked list in groups of
+# size 'k'
+head = revListInGroupOfGivenSize(head, k)
+ 
+print("\nModified list: ")
+printList(head)
+ 
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output
+Original list: 10 8 4 2 
+Modified list: 8 10 2 4 
+Time complexity: O(n), because we are looping through the entire list of n nodes to reverse the list in groups of given size.
+Auxiliary Space: O(1), because we are not using any extra space. We are just using the existing nodes and the variables to reverse the list.
+
+
+
+We can further simplify the implementation of this algorithm using the same idea with recursion in just one function.
+
+C++
+Java
+Python3
+class Node:
+    def __init__(self):
+        self.data = 0;
+        self.next = None;
+        self.next = None;
+ 
+# Function to add Node at the end of a
+# Doubly LinkedList
+def insertAtEnd(head, data):
+    new_Node = Node();
+    new_Node.data = data;
+    new_Node.next = None;
+    temp = head;
+ 
+    if (head == None):
+        new_Node.prev = None;
+        head = new_Node;
+        return head;
+     
+ 
+    while (temp.next != None):
+        temp = temp.next;
+     
+    temp.next = new_Node;
+    new_Node.prev = temp;
+    return head;
+ 
+ 
+# Function to print Doubly LinkedList
+def printDLL(head):
+    while (head != None):
+        print(head.data, end=" ");
+        head = head.next;
+     
+    print();
+ 
+ 
+# Function to Reverse a doubly linked list
+# in groups of given size
+def reverseByN(head, k):
+    if (head == None):
+        return None;
+ 
+    head.prev = None;
+    temp=None;
+    curr = head;
+    newHead = None;
+    count = 0;
+ 
+    while (curr != None and count < k):
+        newHead = curr;
+        temp = curr.prev;
+        curr.prev = curr.next;
+        curr.next = temp;
+        curr = curr.prev;
+        count += 1;
+     
+    # Checking if the reversed LinkedList size is
+    # equal to K or not. If it is not equal to k
+    # that means we have reversed the last set of
+    # size K and we don't need to call the
+    # recursive function
+    if (count >= k):
+        rest = reverseByN(curr, k);
+        head.next = rest;
+        if (rest != None):
+           
+            # it is required for prev link otherwise u
+            # wont be backtrack list due to broken
+            # links
+            rest.prev = head;
+     
+    return newHead;
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+    head = None;
+    for i in range(1,11):
+        head = insertAtEnd(head, i);
+     
+    printDLL(head);
+    n = 4;
+ 
+    head = reverseByN(head, n);
+    printDLL(head);
+ 
+# This code contributed by umadevi9616
+C#
+Javascript
+Output
+1 2 3 4 5 6 7 8 9 10 
+4 3 2 1 8 7 6 5 10 9 
+Time complexity: O(n), because we are looping through the entire list of n nodes to reverse the list in groups of given size.
+Auxiliary Space: O(1), if we consider recursive call stack then it will be O(K)
+
+Another approach (Iterative Method) :  Here we will be using the iterative method in which we will begin from head node and reverse k nodes in the group. After reversing the k nodes we will continue this process with the next node after the k node until it becomes null. We will the achieving the desired result in only a single pass of the linked list with the time complexity of O(n) and space complexity of O(1). 
+
+C++
+Java
+Python3
+# Python implementation to reverse a doubly
+# linked list in groups of given size without recursion
+# Iterative method.
+ 
+# Represents a node of doubly linked list.
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+# Function to get a new Node.
+def getNode(data):
+    # allocating node
+    new_node = Node(0)
+    new_node.data = data
+    new_node.next = new_node.prev = None
+    return new_node
+ 
+# Function to insert a node at the beginning of the doubly linked list.
+ 
+ 
+def push(head, new_node):
+    # since we are adding at the beginning, prev is always null.
+    new_node.prev = None
+    # link the old list of the new node.
+    new_node.next = head
+    # change prev of head node to new node.
+    if ((head) != None):
+        head.prev = new_node
+    # move the head to point to the new node.
+    head = new_node
+    return head
+ 
+# Function to print nodes in given doubly linked list.
+ 
+ 
+def printList(head):
+    while (head):
+        print(head.data, end=" ")
+        head = head.next
+ 
+# Function to reverse a doubly linked list in groups of given size.
+ 
+ 
+def revListInGroupOfGivenSize(head, k):
+    if head is None:
+        return head
+    st = head
+    globprev, ans = None, None
+    while (st != None):
+        # Count the number of nodes.
+        count = 1
+        curr = st
+        prev, next_node = None, None
+        while (curr != None and count <= k):
+            # Reversing k nodes.
+            next_node = curr.next
+            curr.prev = next_node
+            curr.next = prev
+            prev = curr
+            curr = next_node
+            count += 1
+ 
+        if ans is None:
+            ans = prev
+            ans.prev = None
+ 
+        if globprev is None:
+            globprev = st
+ 
+        else:
+            globprev.next = prev
+            prev.prev = globprev
+            globprev = st
+ 
+        st = curr
+ 
+    return ans
+ 
+ 
+# Start with the empty list.
+head = None
+ 
+# Create a doubly linked list: 10<->8<->4<->2
+head = push(head, getNode(2))
+head = push(head, getNode(4))
+head = push(head, getNode(8))
+head = push(head, getNode(10))
+ 
+print("Original list:", end=" ")
+printList(head)
+ 
+k = 2
+ 
+# Reverse doubly linked list in groups of size 'k'
+head = revListInGroupOfGivenSize(head, k)
+ 
+print("\nModified list:", end=" ")
+printList(head)
+ 
+# This code is contributed by lokesh (lokeshmvs21).
+C#
+Javascript
+Output
+Original list: 10 8 4 2 
+Modified list: 8 10 2 4 
+Time Complexity: O(n), where n is the number of nodes in the original list
+Auxiliary Space: O(1)
+
+
+
+
+
+Like
+68
+Next
+Reverse a Doubly Linked List without swapping nodes
+Related Articles
+1.
+Reverse a doubly linked list in groups of given size | Set 2
+2.
+XOR Linked List - Reverse a Linked List in groups of given size
+3.
+Reverse a Linked List in groups of given size (Iterative Approach)
+4.
+Reverse a singly Linked List in groups of given size | Set 4 (Space efficient approach)
+5.
+Reverse a Linked List in groups of given size
+6.
+Reverse a Linked List in groups of given size using Stack
+7.
+Reverse a singly Linked List in groups of given size | Set 3
+8.
+Reverse given Linked List in groups of specific given sizes
+9.
+Reverse a Doubly Linked List by swapping data
+10.
+Reverse a doubly circular linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ayushjauhari14
+@ayushjauhari14
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+andrew123

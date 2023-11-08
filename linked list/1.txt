@@ -1,0 +1,221 @@
+What is Linked List
+
+Difficulty Level : Easy
+Last Updated : 13 Dec, 2022
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Like arrays, a Linked List is a linear data structure. Unlike arrays, linked list elements are not stored at a contiguous location; the elements are linked using pointers. They include a series of connected nodes. Here, each node stores the data and the address of the next node.
+
+
+Linked-List
+
+Why Linked List? 
+Arrays can be used to store linear data of similar types, but arrays have the following limitations:
+
+The size of the arrays is fixed: So we must know the upper limit on the number of elements in advance. Also, generally, the allocated memory is equal to the upper limit irrespective of the usage. 
+Insertion of a new element / Deletion of a existing element in an array of elements is expensive: The room has to be created for the new elements and to create room existing elements have to be shifted but in Linked list if we have the head node then we can traverse to any node through it and insert new node at the required position.
+Example: 
+In a system, if we maintain a sorted list of IDs in an array id[] = [1000, 1010, 1050, 2000, 2040]. 
+If we want to insert a new ID 1005, then to maintain the sorted order, we have to move all the elements after 1000 (excluding 1000). 
+
+Deletion is also expensive with arrays until unless some special techniques are used. For example, to delete 1010 in id[], everything after 1010 has to be moved due to this so much work is being done which affects the efficiency of the code.
+
+
+ 
+
+Advantages of Linked Lists over arrays:
+Dynamic Array.
+Ease of Insertion/Deletion.
+Drawbacks of Linked Lists: 
+Random access is not allowed. We have to access elements sequentially starting from the first node(head node). So we cannot do a binary search with linked lists efficiently with its default implementation. 
+Extra memory space for a pointer is required with each element of the list. 
+Not cache-friendly. Since array elements are contiguous locations, there is the locality of reference which is not there in the case of linked lists.
+It takes a lot of time in traversing and changing the pointers.
+Reverse traversing is not possible in singly linked lists.
+It will be confusing when we work with pointers.
+Direct access to an element is not possible in a linked list as in an array by index.
+Searching for an element is costly and requires O(n) time complexity.
+Sorting of linked lists is very complex and costly.
+Types of Linked Lists:
+Simple Linked List – In this type of linked list, one can move or traverse the linked list in only one direction. where the next pointer of each node points to other nodes but the next pointer of the last node points to NULL. It is also called “Singly Linked List”.
+Doubly Linked List – In this type of linked list, one can move or traverse the linked list in both directions (Forward and Backward)
+Circular Linked List – In this type of linked list, the last node of the linked list contains the link of the first/head node of the linked list in its next pointer.
+Doubly Circular Linked List – A Doubly Circular linked list or a circular two-way linked list is a more complex type of linked list that contains a pointer to the next as well as the previous node in the sequence. The difference between the doubly linked and circular doubly list is the same as that between a singly linked list and a circular linked list. The circular doubly linked list does not contain null in the previous field of the first node.
+Header Linked List – A header linked list is a special type of linked list that contains a header node at the beginning of the list. 
+Basic operations on Linked Lists:
+Deletion
+Insertion
+Search
+Display
+Representation of Singly Linked Lists: 
+A linked list is represented by a pointer to the first node of the linked list. The first node is called the head of the linked list. If the linked list is empty, then the value of the head points to NULL. 
+
+Each node in a list consists of at least two parts: 
+
+A Data Item (we can store integers, strings, or any type of data).
+Pointer (Or Reference) to the next node (connects one node to another) or An address of another node
+In C, we can represent a node using structures. Below is an example of a linked list node with integer data. 
+In Java or C#, LinkedList can be represented as a class and a Node as a separate class. The LinkedList class contains a reference of Node class type. 
+
+
+
+C
+C++
+Java
+Python
+# Node class
+class Node:
+ 
+    # Function to initialize the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize
+        # next as null
+ 
+# Linked List class
+ 
+ 
+class LinkedList:
+ 
+    # Function to initialize the Linked
+    # List object
+    def __init__(self):
+        self.head = None
+C#
+Javascript
+Construction of a simple linked list with 3 nodes:
+Traversal of a Linked List
+In the previous program, we created a simple linked list with three nodes. Let us traverse the created list and print the data of each node. For traversal, let us write a general-purpose function printList() that prints any given list.
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+C
+C++
+Java
+Python3
+# Python program for traversal of a linked list
+# Node class
+ 
+ 
+class Node:
+ 
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+ 
+ 
+# Linked List class contains a Node object
+class LinkedList:
+ 
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+ 
+    # This function prints contents of linked list
+    # starting from head
+    def printList(self):
+        temp = self.head
+        while (temp):
+            print(temp.data)
+            temp = temp.next
+ 
+ 
+# Code execution starts here
+if __name__ == '__main__':
+ 
+    # Start with the empty list
+    llist = LinkedList()
+ 
+    llist.head = Node(1)
+    second = Node(2)
+    third = Node(3)
+ 
+    llist.head.next = second  # Link first node with second
+    second.next = third  # Link second node with the third node
+ 
+    llist.printList()
+C#
+Javascript
+Output
+ 1  2  3 
+Time Complexity:
+
+Time Complexity	Worst Case	Average Case
+Search	O(n)	O(n)
+Insertion	O(1)	O(1)
+Deletion	O(1)	O(1)
+Search is O(n) because as data is not stored in contiguous memory locations so we have to traverse one by one.
+Insertion and Deletion are O(1) because we have to just link new nodes for Insertion with the previous and next node and dislink exist nodes for deletion from the previous and next nodes without any traversal.
+Auxiliary Space: O(N) [To store dynamic memory]
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+3.08k
+Next
+Insertion in Linked List
+Related Articles
+1.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+2.
+Convert Singly Linked List to XOR Linked List
+3.
+Create new linked list from two given linked list with greater element at each node
+4.
+Generate Linked List consisting of maximum difference of squares of pairs of nodes from given Linked List
+5.
+XOR Linked List: Remove last node of the Linked List
+6.
+XOR Linked List - Reverse a Linked List in groups of given size
+7.
+XOR linked list: Reverse last K nodes of a Linked List
+8.
+C++ Program To Merge A Linked List Into Another Linked List At Alternate Positions
+9.
+C Program To Merge A Linked List Into Another Linked List At Alternate Positions
+10.
+Java Program To Merge A Linked List Into Another Linked List At Alternate Positions
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ashwani khemani
+tobamaestro
+princiraj1992
+rathbhupendra
+29AjayKumar
+NikhilKoyikkamannil
+Royalcoder
+rakshitparashar1
+prakashprakhar2021
+sahilkansal09
+GauravRajput1
+adityarajawasthi1602
+umadevi9616
+nooberboy
+janardansthox
+susobhanakhuli
+anantkumawat10110
+Article Tags :
+Python-Data-Structures
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

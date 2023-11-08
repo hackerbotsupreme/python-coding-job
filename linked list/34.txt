@@ -1,0 +1,229 @@
+QuickSort on Singly Linked List
+
+Difficulty Level : Hard
+Last Updated : 10 Jan, 2023
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Given a linked list, apply the Quick sort algorithm to sort the linked list. The important things about implementation are, that it changes pointers rather than swapping data.
+
+Example:
+
+sorting image
+
+Recommended Problem
+Quick Sort on Linked List
+Linked List
+Data Structures
+Paytm
+Solve Problem
+Submission count: 14.4K
+ 
+Follow the given steps to solve the problem:
+
+
+Call partition function to get a pivot node placed at its correct position
+In the partition function, the last element is considered a pivot
+Then traverse the current list and if a node has a value greater than the pivot, then move it after the tail. If the node has a smaller value, then keep it at its current position. 
+Return pivot node
+Find the tail node of the list which is on the left side of the pivot and recur for the left list
+Similarly, after the left side, recur for the list on the right side of the pivot
+Now return the head of the linked list after joining the left and the right list, as the whole linked list is now sorted
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+'''
+  
+sort a linked list using quick sort
+  
+'''
+  
+  
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.next = None
+  
+  
+class QuickSortLinkedList:
+  
+    def __init__(self):
+        self.head = None
+  
+    def addNode(self, data):
+        if (self.head == None):
+            self.head = Node(data)
+            return
+  
+        curr = self.head
+        while (curr.next != None):
+            curr = curr.next
+  
+        newNode = Node(data)
+        curr.next = newNode
+  
+    def printList(self, n):
+        while (n != None):
+            print(n.data, end=" ")
+            n = n.next
+  
+    ''' takes first and last node,but do not
+    break any links in    the whole linked list'''
+  
+    def partitionLast(self, start, end):
+        if (start == end or start == None or end == None):
+            return start
+  
+        pivot_prev = start
+        curr = start
+        pivot = end.data
+  
+        '''iterate till one before the end, 
+        no need to iterate till the end because end is pivot'''
+  
+        while (start != end):
+            if (start.data < pivot):
+  
+                # keep tracks of last modified item
+                pivot_prev = curr
+                temp = curr.data
+                curr.data = start.data
+                start.data = temp
+                curr = curr.next
+            start = start.next
+  
+        '''swap the position of curr i.e. 
+        next suitable index and pivot'''
+  
+        temp = curr.data
+        curr.data = pivot
+        end.data = temp
+  
+        ''' return one previous to current because 
+        current is now pointing to pivot '''
+        return pivot_prev
+  
+    def sort(self, start, end):
+        if(start == None or start == end or start == end.next):
+            return
+  
+        # split list and partition recurse
+        pivot_prev = self.partitionLast(start, end)
+        self.sort(start, pivot_prev)
+  
+        '''
+        if pivot is picked and moved to the start,
+        that means start and pivot is same 
+        so pick from next of pivot
+        '''
+        if(pivot_prev != None and pivot_prev == start):
+            self.sort(pivot_prev.next, end)
+  
+        # if pivot is in between of the list,start from next of pivot,
+        # since we have pivot_prev, so we move two nodes
+        elif (pivot_prev != None and pivot_prev.next != None):
+            self.sort(pivot_prev.next.next, end)
+  
+  
+if __name__ == "__main__":
+    ll = QuickSortLinkedList()
+    ll.addNode(30)
+    ll.addNode(3)
+    ll.addNode(4)
+    ll.addNode(20)
+    ll.addNode(5)
+  
+    N = ll.head
+    while (N.next != None):
+        N = N.next
+  
+    print("\nLinked List before sorting")
+    ll.printList(ll.head)
+  
+    # Function call
+    ll.sort(ll.head, N)
+  
+    print("\nLinked List after sorting")
+    ll.printList(ll.head)
+  
+    # This code is contributed by humpheykibet.
+C#
+Javascript
+Output
+Linked List before sorting 
+30 3 4 20 5 
+Linked List after sorting 
+3 4 5 20 30 
+Time Complexity: O(N * log N), It takes O(N2) time in the worst case and O(N log N) in the average or best case.
+Auxiliary Space: O(N), As extra space is used in the recursion call stack.
+
+
+
+
+
+
+
+Like
+165
+Next
+Segregate even and odd nodes in a Linked List
+Related Articles
+1.
+Python Program For QuickSort On Singly Linked List
+2.
+C++ Program For QuickSort On Singly Linked List
+3.
+Java Program For QuickSort On Singly Linked List
+4.
+Javascript Program For QuickSort On Singly Linked List
+5.
+Convert Singly Linked List to XOR Linked List
+6.
+Difference between Singly linked list and Doubly linked list
+7.
+Convert singly linked list into circular linked list
+8.
+Python Program For QuickSort On Doubly Linked List
+9.
+C++ Program For QuickSort On Doubly Linked List
+10.
+Java Program For QuickSort On Doubly Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+TrinaD
+29AjayKumar
+sudoaccessdenied
+umadevi9616
+humphreykibet
+anikaseth98
+kashishsoda
+simranarora5sos
+sayanc170
+abhijeet19403
+hardikkoriintern
+sagartomar9927
+janardansthox
+sagar0719kumar
+sumitgumber28
+Article Tags :
+Linked-List-Sorting
+Quick Sort
+Linked List
+Sorting
+Practice Tags :
+Linked List
+Sorting

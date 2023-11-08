@@ -1,0 +1,168 @@
+Convert given Binary Tree to Doubly Linked List in Linear time
+
+Difficulty Level : Hard
+Last Updated : 10 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given a Binary Tree (BT), convert it to a Doubly Linked List(DLL) In-Place. The left and right pointers in nodes are to be used as previous and next pointers respectively in converted DLL. The order of nodes in DLL must be same as Inorder of the given Binary Tree. The first node of Inorder traversal (left most node in BT) must be head node of the DLL.
+
+TreeToList
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Below three different solutions have been discussed for this problem. 
+Convert a given Binary Tree to Doubly Linked List | Set 1 
+Convert a given Binary Tree to Doubly Linked List | Set 2 
+Convert a given Binary Tree to Doubly Linked List | Set 3
+
+In the following implementation, we traverse the tree in inorder fashion. We add nodes at the beginning of current linked list and update head of the list using pointer to head pointer. Since we insert at the beginning, we need to process leaves in reverse order. For reverse order, we first traverse the right subtree before the left subtree. i.e. do a reverse inorder traversal. 
+
+C++
+Java
+Python3
+# Python3 program to convert a given Binary Tree to Doubly Linked List 
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = self.right = None
+  
+class BinaryTree:
+    # A simple recursive function to convert a given 
+    # Binary tree to Doubly Linked List 
+    # root    --> Root of Binary Tree 
+    # head --> Pointer to head node of created doubly linked list 
+    root, head = None, None
+      
+    def BToDll(self, root: Node):
+        if root is None:
+            return
+  
+        # Recursively convert right subtree
+        self.BToDll(root.right)
+  
+        # Insert root into doubly linked list
+        root.right = self.head
+  
+        # Change left pointer of previous head
+        if self.head is not None:
+            self.head.left = root
+  
+        # Change head of doubly linked list
+        self.head = root
+  
+        # Recursively convert left subtree
+        self.BToDll(root.left)
+  
+    @staticmethod
+    def print_list(head: Node):
+        print('Extracted Double Linked list is:')
+        while head is not None:
+            print(head.data, end = ' ')
+            head = head.right
+  
+# Driver program to test above function 
+if __name__ == '__main__':
+      
+    """
+    Constructing below tree
+            5
+        // \\
+        3 6
+        // \\ \\
+        1 4 8
+    // \\ // \\
+    0 2 7 9
+    """
+    tree = BinaryTree()
+    tree.root = Node(5)
+    tree.root.left = Node(3)
+    tree.root.right = Node(6)
+    tree.root.left.left = Node(1)
+    tree.root.left.right = Node(4)
+    tree.root.right.right = Node(8)
+    tree.root.left.left.left = Node(0)
+    tree.root.left.left.right = Node(2)
+    tree.root.right.right.left = Node(7)
+    tree.root.right.right.right = Node(9)
+  
+    tree.BToDll(tree.root)
+    tree.print_list(tree.head)
+  
+# This code is contributed by Rajat Srivastava
+C#
+Javascript
+Output
+Extracted Double Linked list is:
+0 1 2 3 4 5 6 7 8 9 
+Time Complexity: O(n), as the solution does a single traversal of given Binary Tree.
+Auxiliary Space: O(n)
+
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+
+
+Like
+42
+Previous
+Sort a k sorted doubly linked list
+Next
+Convert Binary Tree to Doubly Linked List using inorder traversal
+Related Articles
+1.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+2.
+Convert a Binary Tree into Doubly Linked List in spiral fashion
+3.
+Convert Binary Tree to Doubly Linked List using Morris Traversal
+4.
+Convert Binary Tree to Doubly Linked List by fixing left and right pointers
+5.
+Convert Binary Tree to Doubly Linked List using inorder traversal
+6.
+Convert Binary Tree to Doubly Linked List by keeping track of visited node
+7.
+Convert a Binary Tree to a Circular Doubly Link List
+8.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+9.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+10.
+Difference between Singly linked list and Doubly linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+rajatsri94
+mesajidiqbal
+umadevi9616
+polymatir3j
+hardikkoriintern
+Article Tags :
+Amazon
+doubly linked list
+Goldman Sachs
+Microsoft
+Linked List
+Tree
+Practice Tags :
+Amazon
+Goldman Sachs
+Microsoft
+Linked List
+Tree
+Improve Article
+Report Issue

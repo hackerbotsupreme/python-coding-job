@@ -1,0 +1,229 @@
+Check if a linked list is Circular Linked List
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a singly linked list, find if the linked list is circular or not. 
+
+A linked list is called circular if it is not NULL-terminated and all nodes are connected in the form of a cycle. Below is an example of a circular linked list.
+
+
+
+Note: 
+
+
+An empty linked list is considered circular.
+This problem is different from cycle detection problem, here all nodes have to be part of cycle.
+Recommended Problem
+Check If Circular Linked List
+circular-linked-list
+Linked List
++1 more
+Microsoft
+MAQ Software
++1 more
+Solve Problem
+Submission count: 1.1L
+The idea is to store head of the linked list and traverse it. If iterator reaches NULL, linked list is not circular. else If it reaches head again, then linked list is circular. 
+
+Follow the given steps to solve the problem:
+
+Declare a Node pointer node and initialize it to the head’s next
+Move node pointer to the next node, while the node is not equal to nullptr and node is not equal to the head
+After coming out of the loop, check if the node is equal to head then return true, else return false
+Below is the Implementation of the above approach:
+
+
+
+C
+C++
+Java
+Python3
+# Python3 program to check if a linked list is circular
+ 
+# Node class
+ 
+ 
+class Node:
+ 
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+ 
+ 
+# Linked List class contains a Node object
+class LinkedList:
+ 
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+ 
+ 
+def Circular(head):
+    if head == None:
+        return True
+ 
+    # Next of head
+    node = head.next
+    i = 0
+ 
+    # This loop would stop in both cases (1) If
+    # Circular (2) Not circular
+    while((node is not None) and (node is not head)):
+        i = i + 1
+        node = node.next
+ 
+    return(node == head)
+ 
+ 
+# Driver's code
+if __name__ == '__main__':
+    llist = LinkedList()
+    llist.head = Node(1)
+    second = Node(2)
+    third = Node(3)
+    fourth = Node(4)
+ 
+    llist.head.next = second
+    second.next = third
+    third.next = fourth
+ 
+    if (Circular(llist.head)):
+        print('Yes')
+    else:
+        print('No')
+ 
+    fourth.next = llist.head
+ 
+    if (Circular(llist.head)):
+        print('Yes')
+    else:
+        print('No')
+ 
+# This code is contributed by Sanket Badhe
+C#
+Javascript
+Output
+No
+Yes
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Another Approach:
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python3
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def add_to_front(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+ 
+    def is_circular(self):
+        if self.head is None:
+            return False
+        slow = self.head
+        fast = self.head.next
+        while fast is not None and fast.next is not None:
+            if slow == fast:
+                return True
+            slow = slow.next
+            fast = fast.next.next
+        return False
+ 
+list = LinkedList()
+list.add_to_front(1)
+list.add_to_front(2)
+list.add_to_front(3)
+list.add_to_front(4)
+print(list.is_circular()) # Output: False
+Output
+false
+Complete Interview Preparation - GFG
+
+This article is contributed by Shivam Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+72
+Previous
+Deletion from a Circular Linked List
+Next
+Count nodes in Circular linked list
+Related Articles
+1.
+Circular Linked List Implementation of Circular Queue
+2.
+Convert singly linked list into circular linked list
+3.
+Check if two Circular Linked Lists are identical
+4.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+5.
+Exchange first and last nodes in Circular Linked List
+6.
+Reverse a circular linked list
+7.
+Insertion at Specific Position in a Circular Doubly Linked List
+8.
+Convert an Array to a Circular Doubly Linked List
+9.
+Reverse a doubly circular linked list
+10.
+Search an Element in Doubly Circular Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+29AjayKumar
+Sanket Badhe
+Mk raghav
+nidhi_biet
+ayushbhardwaj5588
+GauravRajput1
+abhijeet19403
+aayushi2402
+hardikkoriintern
+janardansthox
+vinayedula
+rathodavinash1181
+Article Tags :
+circular linked list
+MAQ Software
+Microsoft
+SAP Labs
+Linked List
+Practice Tags :
+MAQ Software
+Microsoft
+SAP Labs
+circular linked list
+Linked List
+Improve Article
+Report Issue

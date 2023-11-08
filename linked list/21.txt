@@ -1,0 +1,144 @@
+Count nodes in Circular linked list
+
+Difficulty Level : Basic
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a circular linked list, count the number of nodes in it. For example, the output is 5 for the below list. 
+
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: We use the concept used in Circular Linked List | Set 2 (Traversal). While traversing, we keep track of the count of nodes. 
+
+C++
+C
+Java
+Python3
+# Python3 program to count number of nodes in
+# a circular linked list.
+  
+# structure for a node
+class Node: 
+    def __init__(self, data): 
+        self.data = data 
+        self.next = None
+  
+# Function to insert a node at the beginning
+# of a Circular linked list */
+def push(head_ref,data):
+  
+    ptr1 = Node(0)
+    temp = head_ref
+    ptr1.data = data
+    ptr1.next = head_ref
+  
+    # If the linked list is not None then set
+    # the next of last node 
+    if (head_ref != None) :
+        while (temp.next != head_ref):
+            temp = temp.next
+        temp.next = ptr1
+    else:
+        ptr1.next = ptr1 #For the first node */
+  
+    head_ref = ptr1
+    return head_ref
+  
+# Function to print nodes 
+# in a given Circular linked list 
+def countNodes(head):
+  
+    temp = head
+    result = 0
+    if (head != None) :
+        while True :
+            temp = temp.next
+            result = result + 1
+            if (temp == head):
+                break
+      
+    return result
+  
+# Driver Code 
+if __name__=='__main__': 
+  
+    # Initialize lists as empty */
+    head = None
+    head = push(head, 12)
+    head = push(head, 56)
+    head = push(head, 2)
+    head = push(head, 11)
+  
+    print( countNodes(head))
+      
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output
+4
+Time Complexity: O(n), As we are visiting every node just once.
+Auxiliary Space: O(1), As constant extra space is used
+
+This article is contributed by Rishabh jain. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+23
+Previous
+Check if a linked list is Circular Linked List
+Next
+Convert singly linked list into circular linked list
+Related Articles
+1.
+Splitting starting N nodes into new Circular Linked List while preserving the old nodes
+2.
+Circular Linked List Implementation of Circular Queue
+3.
+Convert singly linked list into circular linked list
+4.
+Check if a linked list is Circular Linked List
+5.
+Exchange first and last nodes in Circular Linked List
+6.
+Sum of the nodes of a Circular Linked List
+7.
+Delete all the even nodes of a Circular Linked List
+8.
+Delete all Prime Nodes from a Circular Singly Linked List
+9.
+Delete all odd or even positioned nodes from Circular Linked List
+10.
+Sum and Product of the nodes of a Circular Singly Linked List which are divisible by K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+Akanksha_Rai
+umadevi9616
+anushikasethh
+ankita_saini
+abhijeet19403
+hardikkoriintern
+adityakumar129
+vforviksvy5
+Article Tags :
+circular linked list
+Linked List
+Practice Tags :
+circular linked list
+Linked List

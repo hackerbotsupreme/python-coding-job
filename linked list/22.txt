@@ -1,0 +1,188 @@
+Convert singly linked list into circular linked list
+
+Difficulty Level : Basic
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a singly linked list, we have to convert it into circular linked list. For example, we have been given a singly linked list with four nodes and we want to convert this singly linked list into circular linked list.
+ 
+
+Singly-Linked-List
+
+The above singly linked list is converted into circular linked list. 
+ 
+
+Circular-Linked-List
+
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: The idea is to traverse the singly linked list and check if the node is the last node or not. If the node is the last node i.e pointing to NULL then make it point to the starting node i.e head node. Below is the implementation of this approach.
+
+Implementation:
+
+C++
+C
+Java
+Python3
+# Python3 program for converting
+# singly linked list into
+# circular linked list.
+import sys
+ 
+# Linked list node
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+ 
+def push(head, data):
+    if not head:
+        return Node(data)
+ 
+    # Allocate dynamic memory
+    # for newNode.
+    # Assign the data into newNode.
+    newNode = Node(data)
+ 
+    # newNode.next assign the
+    # address of head node.
+    newNode.next = head
+ 
+    # newNode become the headNode.
+    head = newNode
+    return head
+ 
+# Function that convert
+# singly linked list into
+# circular linked list.
+def circular(head):
+ 
+    # declare a node variable
+    # start and assign head
+    # node into start node.
+    start = head
+ 
+    # check that while head.next
+    # not equal to null then head
+    # points to next node.
+    while(head.next is not None):
+        head = head.next
+ 
+    # if head.next points to null
+    # then start assign to the
+    # head.next node.    
+    head.next = start
+    return start
+ 
+# Function that display the elements
+# of circular linked list.
+def displayList(node):
+    start = node
+    while(node.next is not start):
+        print("{} ".format(node.data),end="")
+        node=node.next
+ 
+    # Display the last node of
+    # circular linked list.
+    print("{} ".format(node.data),end="")
+ 
+# Driver Code
+if __name__=='__main__':
+     
+    # Start with empty list
+    head=None
+ 
+    # Using push() function to
+    # convert singly linked list
+    # 17.22.13.14.15
+    head=push(head,15)
+    head=push(head,14)
+    head=push(head,13)
+    head=push(head,22)
+    head=push(head,17)
+ 
+    # Call the circular_list function
+    # that convert singly linked
+    # list to circular linked list.
+    circular(head)
+    print("Display List:")
+    displayList(head)
+ 
+# This Code is Contributed By Vikash Kumar 37
+C#
+Javascript
+Output
+
+
+Display list: 
+17 22 13 14 15 
+Complete Interview Preparation - GFG
+
+Time Complexity: O(n), As we need to move through the whole list to get hold of the last node.
+Auxiliary Space: O(1), As constant extra space is used.
+
+This article is contributed by Dharmendra kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+26
+Previous
+Count nodes in Circular linked list
+Next
+Josephus Circle implementation using STL list
+Related Articles
+1.
+Convert Singly Linked List to XOR Linked List
+2.
+Delete all Prime Nodes from a Circular Singly Linked List
+3.
+Find minimum and maximum elements in singly Circular Linked List
+4.
+Sum and Product of the nodes of a Circular Singly Linked List which are divisible by K
+5.
+Remove all Fibonacci Nodes from a Circular Singly Linked List
+6.
+Remove all the Even Digit Sum Nodes from a Circular Singly Linked List
+7.
+Remove all even parity nodes from a Doubly and Circular Singly Linked List
+8.
+Circular Singly Linked List | Insertion
+9.
+Circular Linked List Implementation of Circular Queue
+10.
+Convert a Singly Linked List to an array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+29AjayKumar
+Vikash Kumar 37
+nidhi_biet
+GauravRajput1
+simmytarika5
+abhijeet19403
+hardikkoriintern
+vforviksvy5
+shivammiglani09
+Article Tags :
+circular linked list
+Linked List
+Practice Tags :
+circular linked list
+Linked List
+Improve Article
+Report Issue

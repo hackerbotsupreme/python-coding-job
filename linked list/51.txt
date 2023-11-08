@@ -1,0 +1,218 @@
+Priority Queue using Doubly Linked List
+
+Difficulty Level : Easy
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given Nodes with their priority, implement a priority queue using doubly linked list. 
+
+Prerequisite : Priority Queue
+
+push(): This function is used to insert a new data into the queue.
+pop(): This function removes the element with the lowest priority value from the queue.
+peek() / top(): This function is used to get the lowest priority element in the queue without removing it from the queue.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach : 
+
+1. Create a doubly linked list having fields info(hold the information of the Node), priority(hold the priority of the Node), prev(point to previous Node), next(point to next Node). 
+2. Insert the element and priority in the Node. 
+3. Arrange the Nodes in the increasing order of priority. 
+
+Below is the implementation of above steps :  
+
+C++
+C
+Java
+Python3
+# Python3 code to implement priority
+# queue using doubly linked list
+  
+# Linked List Node
+class Node:
+      
+    def __init__(self):
+          
+        self.info = 0
+        self.priority = 0
+        self.next = None
+        self.prev = None
+  
+front = None
+rear = None
+  
+# Function to insert a new Node
+def push(fr, rr, n, p):
+      
+    global front, rear
+      
+    news = Node()
+    news.info = n
+    news.priority = p
+      
+    # If linked list is empty
+    if (fr == None):
+        fr = news
+        rr = news
+        news.next = None
+      
+    else:
+          
+        # If p is less than or equal fr
+        # node's priority, then insert at
+        # the fr.
+        if (p <= (fr).priority):
+            news.next = fr
+            (fr).prev = news.next
+            fr = news
+  
+        # If p is more rr node's priority,
+        # then insert after the rr.
+        elif (p > (rr).priority):
+            news.next = None
+            (rr).next = news
+            news.prev = (rr).next
+            rr = news
+          
+        # Handle other cases
+        else:
+  
+            # Find position where we need to
+            # insert.
+            start = (fr).next
+              
+            while (start.priority > p):
+                start = start.next
+                  
+            (start.prev).next = news
+            news.next = start.prev
+            news.prev = (start.prev).next
+            start.prev = news.next
+              
+    front = fr
+    rear = rr
+      
+# Return the value at rr
+def peek(fr):
+      
+    return fr.info
+              
+def isEmpty(fr):
+      
+    return fr == None
+  
+# Removes the element with the
+# least priority value from the list
+def pop(fr, rr):
+      
+    global front , rear
+    temp = fr
+    res = temp.info
+    (fr) = (fr).next
+      
+    if (fr == None):
+        rr = None
+          
+    front = fr
+    rear = rr
+    return res
+  
+# Driver code
+if __name__=='__main__':
+      
+    push( front, rear, 2, 3)
+    push( front, rear, 3, 4)
+    push( front, rear, 4, 5)
+    push( front, rear, 5, 6)
+    push( front, rear, 6, 7)
+    push( front, rear, 1, 2)
+      
+    print(pop(front, rear))
+    print(peek(front))
+  
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output: 
+1
+2
+ 
+
+Related Article : 
+Priority Queue using Singly Linked List
+
+
+
+Time Complexities and Comparison with Binary Heap:  
+
+               peek()    push()    pop()
+-----------------------------------------
+Linked List |   O(1)      O(n)      O(1)
+            |
+Binary Heap |   O(1)    O(Log n)   O(Log n)
+ 
+
+
+
+
+
+Like
+7
+Previous
+Print Binary Tree levels in sorted order | Set 2 (Using set)
+Next
+Move all zeros to the front of the linked list
+Related Articles
+1.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+2.
+What is Priority Queue | Introduction to Priority Queue
+3.
+Priority Queue using Queue and Heapdict module in Python
+4.
+Difference between Circular Queue and Priority Queue
+5.
+Why can't a Priority Queue wrap around like an ordinary Queue?
+6.
+Can we use Simple Queue instead of Priority queue to implement Dijkstra's Algorithm?
+7.
+Turn a Queue into a Priority Queue
+8.
+Priority Queue using Linked List
+9.
+Python | Queue using Doubly Linked List
+10.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rishabh_jain
+@rishabh_jain
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+shrikanth13
+nidhi_biet
+debojyoti7
+rutvik_56
+aashish1995
+simmytarika5
+surinderdawra388
+Article Tags :
+doubly linked list
+priority-queue
+Linked List
+Queue
+Practice Tags :
+Linked List
+priority-queue
+Queue
+Improve Article
+Report Issue

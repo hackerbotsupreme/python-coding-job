@@ -1,0 +1,375 @@
+Circular Singly Linked List | Insertion
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+We have discussed Singly and Circular Linked List in the following post: 
+Singly Linked List 
+Circular Linked List
+
+Why Circular linked list? 
+In a singly linked list, for accessing any node of the linked list, we start traversing from the first node. If we are at any node in the middle of the list, then it is not possible to access nodes that precede the given node. This problem can be solved by slightly altering the structure of a singly linked list. In a singly linked list, the next part (pointer to the next node) of the last node is NULL. If we utilize this link to point to the first node, then we can reach the preceding nodes. Refer to this for more advantages of circular linked lists.
+
+
+
+In this post, the implementation and insertion of a node in a Circular Linked List using a singly linked list are explained.
+
+Implementation of circular linked list:
+To implement a circular singly linked list, we take an external pointer that points to the last node of the list. If we have a pointer last pointing to the last node, then last -> next will point to the first node. 
+
+
+
+The pointer last points to node Z and last -> next points to node P.
+
+
+
+Why have we taken a pointer that points to the last node instead of the first node? 
+For the insertion of a node at the beginning, we need to traverse the whole list. Also, for insertion at the end, the whole list has to be traversed. If instead of the start pointer, we take a pointer to the last node, then in both cases there won’t be any need to traverse the whole list. So insertion at the beginning or at the end takes constant time, irrespective of the length of the list.
+
+Insertion in a circular linked list:
+A node can be added in three ways: 
+
+Insertion in an empty list
+Insertion at the beginning of the list
+Insertion at the end of the list
+Insertion in between the nodes
+Insertion in an empty List:
+Initially, when the list is empty, the last pointer will be NULL. 
+ 
+
+
+
+After inserting node T, 
+ 
+
+
+
+
+After insertion, T is the last node, so the pointer last points to node T. And Node T is the first and the last node, so T points to itself. 
+
+Below is the implementation of the above operation:
+
+C++
+Java
+Python3
+# Python3 program for the above operation
+def addToEmpty(self, data):
+  
+        if (self.last != None):
+            return self.last
+  
+        # Creating the newnode temp
+        temp = Node(data)
+        self.last = temp
+  
+        # Creating the link
+        self.last.next = self.last
+        return self.last
+  # this code is contributed by shivanisinghss2110
+C#
+Javascript
+Time Complexity: O(1), As we have to perform constant number of operations.
+Auxiliary Space: O(1), As constant extra space is used.
+
+Insertion at the beginning of the list
+To insert a node at the beginning of the list, follow these steps: 
+
+Create a node, say T
+Make T -> next = last -> next
+last -> next = T
+
+
+After insertion, 
+
+
+
+Below is the implementation of the above operation:
+
+C++
+Java
+Python3
+# Python3 program for the above operation
+  
+def addBegin(self, data):
+  
+    if (self.last == None):
+        return self.addToEmpty(data)
+  
+    temp = Node(data)
+    temp.next = self.last.next
+    self.last.next = temp
+  
+    return self.last
+  # this code is contributed by shivanisinghss2110
+C#
+Javascript
+Time complexity: O(1) 
+Auxiliary Space: O(1)
+
+Insertion at the end of the list 
+To insert a node at the end of the list, follow these steps: 
+
+Create a node, say T
+Make T -> next = last -> next
+last -> next = T
+last = T
+
+
+After insertion
+
+
+
+Below is the implementation of the above operation:
+
+C++
+Java
+Python3
+# Python3 program for the above operation
+  
+def addEnd(self, data):
+  
+    if (self.last == None):
+        return self.addToEmpty(data)
+ # Assigning the data.
+    temp = Node(data)
+  
+  # Adjusting the links.
+    temp.next = self.last.next
+    self.last.next = temp
+    self.last = temp
+  
+    return self.last
+  
+   # This code is contributed by shivanisinghss2110
+C#
+Javascript
+Time Complexity: O(1) 
+Auxiliary Space: O(1)
+
+Insertion in between the nodes 
+To insert a node in between the two nodes, follow these steps: 
+
+Create a node, say T. 
+Search for the node after which T needs to be inserted, say that node is P. 
+Make T -> next = P -> next; 
+P -> next = T.
+Suppose 12 needs to be inserted after the node that has the value 8,
+
+
+
+After searching and insertion, 
+
+
+
+Below is the implementation of the above operation:
+
+C++
+Java
+Python3
+# Python3 program for the above operation
+  
+def addAfter(self, data, item):
+  
+    if (self.last == None):
+        return None
+  
+    temp = Node(data)
+    p = self.last.next
+    while p:
+        if (p.data == item):
+            temp.next = p.next
+            p.next = temp
+  
+            if (p == self.last):
+                self.last = temp
+                return self.last
+            else:
+                return self.last
+        p = p.next
+        if (p == self.last.next):
+            print(item, "not present in the list")
+            break
+  
+# This code is contributed by shivanisinghss2110
+C#
+Javascript
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Below is a complete program that uses all of the above methods to create a circular singly linked list.  
+
+C++
+Java
+Python3
+# Python3 program for the above methods
+  
+  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = 0
+  
+  
+class CircularLinkedList:
+    def __init__(self):
+        self.last = None
+  
+    # This function is only for empty list
+    def addToEmpty(self, data):
+        if (self.last != None):
+            return self.last
+        # Creating the newnode temp
+        temp = Node(data)
+        self.last = temp
+        # Creating the link
+        self.last.next = self.last
+        return self.last
+  
+    def addBegin(self, data):
+        if (self.last == None):
+            return self.addToEmpty(data)
+        temp = Node(data)
+        temp.next = self.last.next
+        self.last.next = temp
+        return self.last
+  
+    def addEnd(self, data):
+        if (self.last == None):
+            return self.addToEmpty(data)
+        temp = Node(data)
+        temp.next = self.last.next
+        self.last.next = temp
+        self.last = temp
+        return self.last
+  
+    def addAfter(self, data, item):
+  
+        if (self.last == None):
+            return None
+  
+        temp = Node(data)
+        p = self.last.next
+        while p:
+            if (p.data == item):
+                temp.next = p.next
+                p.next = temp
+  
+                if (p == self.last):
+                    self.last = temp
+                    return self.last
+                else:
+                    return self.last
+            p = p.next
+            if (p == self.last.next):
+                print(item, "not present in the list")
+                break
+  
+    def traverse(self):
+        if (self.last == None):
+            print("List is empty")
+            return
+        temp = self.last.next
+        while temp:
+            print(temp.data, end=" ")
+            temp = temp.next
+            if temp == self.last.next:
+                break
+  
+  
+# Driver Code
+if __name__ == '__main__':
+    llist = CircularLinkedList()
+    last = llist.addToEmpty(6)
+    last = llist.addBegin(4)
+    last = llist.addBegin(2)
+    last = llist.addEnd(8)
+    last = llist.addEnd(12)
+    last = llist.addAfter(10, 8)
+    llist.traverse()
+# This code is contributed by
+# Aditya Singh
+C#
+Javascript
+Output
+2 4 6 8 10 12 
+Time Complexity: O(N)
+Auxiliary Space: O(1), as we are not using any extra space.
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+156
+Previous
+Introduction to Circular Linked List
+Next
+Traversal of Circular Linked List
+Related Articles
+1.
+Convert singly linked list into circular linked list
+2.
+C++ Program For Insertion Sort In A Singly Linked List
+3.
+Java Program For Insertion Sort In A Singly Linked List
+4.
+Python Program For Insertion Sort In A Singly Linked List
+5.
+Javascript Program For Insertion Sort In A Singly Linked List
+6.
+Insertion Sort for Singly Linked List
+7.
+Insertion at Specific Position in a Circular Doubly Linked List
+8.
+Insertion in a sorted circular linked list when a random pointer is given
+9.
+Insertion in Doubly Circular Linked List
+10.
+Delete all Prime Nodes from a Circular Singly Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+Rajput-Ji
+aditya_singh
+chauhandeepakdc9
+gurukiranx
+rutvik_56
+pratham76
+GauravRajput1
+umadevi9616
+shivanisinghss2110
+rdtank
+shobhitsinha
+devendrasalunke
+prakharpratyush
+abhijeet19403
+janardansthox
+saidhanunjayreddy963
+harendrakumar123
+susobhanakhuli
+Article Tags :
+circular linked list
+Linked List
+Practice Tags :
+circular linked list
+Linked List

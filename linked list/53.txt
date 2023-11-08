@@ -1,0 +1,184 @@
+Reverse a stack without using extra space in O(n)
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Reverse a Stack without using recursion and extra space. Even the functional Stack is not allowed.
+
+Examples:  
+
+Input : 1->2->3->4
+Output : 4->3->2->1
+
+Input :  6->5->4
+Output : 4->5->6
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have discussed a way of reversing a stack in the below post.
+Reverse a Stack using Recursion
+
+The above solution requires O(n) extra space. We can reverse a stack in O(1) time if we internally represent the stack as a linked list. Reverse a stack would require a reversing of a linked list which can be done with O(n) time and O(1) extra space.
+Note that push() and pop() operations still take O(1) time.  
+
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to implement Stack 
+# using linked list so that reverse
+# can be done with O(1) extra space.
+class StackNode:
+      
+    def __init__(self, data):
+          
+        self.data = data
+        self.next = None
+  
+class Stack:
+      
+    def __init__(self):
+           
+        self.top = None
+       
+    # Push and pop operations
+    def push(self, data):
+      
+        if (self.top == None):
+            self.top = StackNode(data)
+            return
+          
+        s = StackNode(data)
+        s.next = self.top
+        self.top = s
+       
+    def pop(self):
+      
+        s = self.top
+        self.top = self.top.next
+        return s
+   
+    # Prints contents of stack
+    def display(self):
+      
+        s = self.top
+          
+        while (s != None):
+            print(s.data, end = ' ')
+            s = s.next
+          
+    # Reverses the stack using simple
+    # linked list reversal logic.
+    def reverse(self):
+  
+        prev = self.top
+        cur = self.top
+        cur = cur.next
+        succ = None
+        prev.next = None
+          
+        while (cur != None):
+            succ = cur.next
+            cur.next = prev
+            prev = cur
+            cur = succ
+          
+        self.top = prev
+      
+# Driver code
+if __name__=='__main__':
+      
+    s = Stack()
+    s.push(1)
+    s.push(2)
+    s.push(3)
+    s.push(4)
+      
+    print("Original Stack")
+    s.display()
+    print()
+       
+    # Reverse
+    s.reverse()
+   
+    print("Reversed Stack")
+    s.display()
+       
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output
+Original Stack
+4 3 2 1 
+
+Reversed Stack
+1 2 3 4 
+Time Complexity: O(n), as we are using a loop to traverse n times. Where n is the number of nodes in the linked list.
+Auxiliary Space: O(1), as we are not using any extra space.
+
+
+
+This article is contributed by Niharika Sahai. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+68
+Previous
+Sort a stack using a temporary stack
+Next
+Delete middle element of a stack
+Related Articles
+1.
+Clone a stack without using extra space | Set 2
+2.
+Clone a stack without extra space
+3.
+Print reverse of a Linked List without extra space and modifications
+4.
+Design a dynamic stack using arrays that supports getMin() in O(1) time and O(1) extra space
+5.
+Design a stack that supports getMin() in O(1) time and O(1) extra space
+6.
+Find maximum in a stack in O(1) time and O(1) extra space
+7.
+Find pair for given sum in a sorted singly linked without extra space
+8.
+Add two numbers represented by Linked List without any extra space
+9.
+Find maximum in stack in O(1) without using additional stack
+10.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lakshaygupta2807
+andrew1234
+rutvik_56
+rdtank
+riddhijain1826
+rohan07
+hardikkoriintern
+surinderdawra388
+Article Tags :
+Linked List
+Stack
+Practice Tags :
+Linked List
+Stack
+Improve Article
+Report Issue

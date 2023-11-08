@@ -1,0 +1,298 @@
+Reverse a Doubly Linked List
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+Given a Doubly Linked List, the task is to reverse the given Doubly Linked List.
+
+Example:
+
+Input:
+
+
+
+Output:
+
+
+
+Recommended Problem
+Reverse a Doubly Linked List
+doubly-linked-list
+Linked List
++1 more
+D-E-Shaw
+Adobe
+Solve Problem
+Submission count: 59.5K
+Follow the given steps to solve the problem using the above approach:
+
+
+
+Traverse the linked list using a pointer
+Swap the prev and next pointers for all nodes
+At last, change the head pointer of the doubly linked list
+Below is the implementation of the above approach:
+
+C
+C++
+Java
+Python3
+# Python3 Program to reverse a doubly linked list
+  
+# A node of the doubly linked list
+  
+class Node:
+  
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+  
+  
+class DoublyLinkedList:
+     # Constructor for empty Doubly Linked List
+    def __init__(self):
+        self.head = None
+  
+    # Function reverse a Doubly Linked List
+    def reverse(self):
+        temp = None
+        current = self.head
+  
+        # Swap next and prev for all nodes of
+        # doubly linked list
+        while current is not None:
+            temp = current.prev
+            current.prev = current.next
+            current.next = temp
+            current = current.prev
+  
+        # Before changing head, check for the cases like
+        # empty list and list with only one node
+        if temp is not None:
+            self.head = temp.prev
+  
+    # Given a reference to the head of a list and an
+    # integer,inserts a new node on the front of list
+    def push(self, new_data):
+  
+        # 1. Allocates node
+        # 2. Put the data in it
+        new_node = Node(new_data)
+  
+        # 3. Make next of new node as head and
+        # previous as None (already None)
+        new_node.next = self.head
+  
+        # 4. change prev of head node to new_node
+        if self.head is not None:
+            self.head.prev = new_node
+  
+        # 5. move the head to point to the new node
+        self.head = new_node
+  
+    def printList(self, node):
+        while(node is not None):
+            print(node.data, end=' ')
+            node = node.next
+  
+  
+# Driver's code
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+    dll.push(2)
+    dll.push(4)
+    dll.push(8)
+    dll.push(10)
+  
+    print("\nOriginal Linked List")
+    dll.printList(dll.head)
+  
+    # Function call
+    dll.reverse()
+  
+    print("\nReversed Linked List")
+    dll.printList(dll.head)
+  
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Original Linked list
+10 8 4 2 
+Reversed Linked list
+2 4 8 10 
+Time Complexity: O(N), where N denotes the number of nodes in the doubly linked list.
+Auxiliary Space: O(1)
+
+We can also swap data instead of pointers to reverse the Doubly Linked List. Method used for reversing array can be used to swap data. Swapping data can be costly compared to pointers if the size of the data item(s) is more.
+
+Reverse a Doubly Linked List using Stack:
+Push the node’s data into the stack while traversing the doubly linked list, then pop out the elements from the stack and copy the value to the nodes of the linked list by again traversing it
+
+Follow the given steps to solve the problem using the above approach:
+
+Traverse the whole Linked List and  Keep pushing the node’s data into the stack
+Then keep popping the elements out of the stack and updating the Doubly Linked List
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code for the above approach
+  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+  
+  
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+  
+    """
+    method to reverse a Doubly-Linked List using Stacks
+    """
+  
+    def reverseUsingStacks(self):
+  
+        stack = []
+        temp = self.head
+        while temp is not None:
+            stack.append(temp.data)
+            temp = temp.next
+  
+        # Add all the elements in the stack
+        # in a sequence to the stack
+        temp = self.head
+        while temp is not None:
+            temp.data = stack.pop()
+            temp = temp.next
+  
+        # Popped all the elements and the
+        # added in the linked list,
+        # in a reversed order.
+  
+    """
+    method to push a new item before the head
+    """
+  
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+  
+        if self.head is not None:
+            self.head.prev = new_node
+  
+        self.head = new_node
+  
+    """
+    method to traverse the doubly-linked 
+    list and print every node in the list
+    """
+  
+    def printList(self, node):
+        while(node is not None):
+            print(node.data)
+            node = node. next
+  
+  
+# driver's code
+if __name__ == "__main__":
+    dll = DoublyLinkedList()
+    dll.push(2)
+    dll.push(4)
+    dll.push(8)
+    dll.push(10)
+  
+    print("original doubly-linked list")
+    dll.printList(dll.head)
+  
+    # Function call
+    dll.reverseUsingStacks()
+  
+    print(" reversed doubly-linked list")
+    dll.printList(dll.head)
+C#
+Javascript
+Output
+Original linked list 
+10 8 4 2 
+The reversed Linked List is 
+2 4 8 10
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+
+
+
+
+Like
+113
+Next
+The Great Tree-List Recursion Problem.
+Related Articles
+1.
+Reverse a Doubly Linked List by swapping data
+2.
+Reverse a doubly circular linked list
+3.
+Print Doubly Linked list in Reverse Order
+4.
+Reverse a Doubly linked list using recursion
+5.
+Reverse a doubly linked list in groups of given size
+6.
+Reverse a Doubly Linked List without swapping nodes
+7.
+Reverse a doubly linked list in groups of given size | Set 2
+8.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+9.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+10.
+Difference between Singly linked list and Doubly linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+gurunath10
+29AjayKumar
+rathbhupendra
+shubham_singh
+Akanksha_Rai
+nidhi_biet
+mehtarashita18
+rutvik_56
+pratham76
+humphreykibet
+GauravRajput1
+rag2127
+simranarora5sos
+simmytarika5
+khushboogoyal499
+amartyaghoshgfg
+hardikkoriintern
+janardansthox
+sagar0719kumar
+Article Tags :
+doubly linked list
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

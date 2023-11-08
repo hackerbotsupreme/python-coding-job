@@ -1,0 +1,169 @@
+Partitioning a linked list around a given value and If we don’t care about making the elements of the list “stable”
+
+Difficulty Level : Medium
+Last Updated : 12 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a linked list and a value x, partition a linked list around a value x, such that all nodes less than x come before all nodes greater than or equal to x. If x is contained within the list the values of x only need to be after the elements less than x (see below). The partition element x can appear anywhere in the “right partition”; it does not need to appear between the left and right partitions. 
+
+Similar problem: Partitioning a linked list around a given value and keeping the original order
+
+Examples: 
+
+Input :  3 -> 5 -> 10 -> 2 -> 8 -> 2 -> 1 
+         x = 5
+Output : 1-> 2-> 2-> 3-> 5-> 10-> 8
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+If we don’t care about making the elements of the list “stable” then we can instead rearrange the elements by growing the list at the head and tail. 
+In this approach, we start a “new” list (using the existing nodes). Elements bigger than the pivot element are put at the tail and elements smaller are put at the head. Each time we insert an element, we update either the head or tail. 
+
+
+Below is the implementation of above idea.
+
+C++
+Java
+Python3
+# Python3 program to partition a
+# linked list around a given value.
+import math
+ 
+# Link list Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+# A utility function to create a new node
+def newNode(data):
+    new_node = Node(data)
+    new_node.data = data
+    new_node.next = None
+    return new_node
+ 
+# Function to make a new list
+# (using the existing nodes)
+# and return head of new list.
+def partition(head, x):
+     
+    # Let us initialize start and
+    # tail nodes of new list
+    tail = head
+ 
+    # Now iterate original list
+    # and connect nodes
+    curr = head
+    while (curr != None):
+        next = curr.next
+        if (curr.data < x):
+             
+            # Insert node at head.
+            curr.next = head
+            head = curr
+         
+        else:
+             
+            # Append to the list of greater values
+            # Insert node at tail.
+            tail.next = curr
+            tail = curr
+         
+        curr = next
+     
+    tail.next = None
+ 
+    # The head has changed, so we need
+    # to return it to the user.
+    return head
+ 
+# Function to print linked list
+def printList(head):
+    temp = head
+    while (temp != None):
+        print(temp.data, end = " ")
+        temp = temp.next
+     
+# Driver Code
+if __name__=='__main__':
+     
+    # Start with the empty list
+    head = newNode(3)
+    head.next = newNode(5)
+    head.next.next = newNode(8)
+    head.next.next.next = newNode(2)
+    head.next.next.next.next = newNode(10)
+    head.next.next.next.next.next = newNode(2)
+    head.next.next.next.next.next.next = newNode(1)
+ 
+    x = 5
+    head = partition(head, x)
+    printList(head)
+     
+# This code is contributed by AbhiThakur
+C#
+Javascript
+Output
+1  2  2  3  5  8  10  
+Complexity Analysis:
+
+
+
+Time Complexity: O(n).
+Space Complexity: O(1), as we are not using more than 4 pointers.
+This article is contributed by Mr. Somesh Awasthi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+6
+Previous
+Partitioning a linked list around a given value and keeping the original order
+Next
+Modify contents of Linked List
+Related Articles
+1.
+C++ Program For Partitioning A Linked List Around A Given Value And Keeping The Original Order
+2.
+Java Program For Partitioning A Linked List Around A Given Value And Keeping The Original Order
+3.
+Python Program For Partitioning A Linked List Around A Given Value And Keeping The Original Order
+4.
+Javascript Program For Partitioning A Linked List Around A Given Value And Keeping The Original Order
+5.
+Partitioning a linked list around a given value and keeping the original order
+6.
+C++ Program For Making Middle Node Head In A Linked List
+7.
+C Program For Making Middle Node Head In A Linked List
+8.
+Java Program For Making Middle Node Head In A Linked List
+9.
+Python Program For Making Middle Node Head In A Linked List
+10.
+Javascript Program For Making Middle Node Head In A Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+Rajput-Ji
+abhaysingh290895
+sainitushar438
+hardikkoriintern
+Article Tags :
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

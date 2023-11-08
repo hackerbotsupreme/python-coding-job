@@ -1,0 +1,361 @@
+Introduction to Linked List – Data Structure and Algorithm Tutorials
+
+Difficulty Level : Easy
+Last Updated : 09 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is a Linked List?
+A Linked List is a linear data structure which looks like a chain of nodes, where each node is a different element. Unlike Arrays, Linked List elements are not stored at a contiguous location. 
+
+It is basically chains of nodes, each node contains information such as data and a pointer to the next node in the chain. In the linked list there is a head pointer, which points to the first element of the linked list, and if the list is empty then it simply points to null or nothing.
+
+Linked List Tutorial
+Linked List Tutorial
+
+Why linked list data structure needed?
+Here are a few advantages of a linked list that is listed below, it will help you understand why it is necessary to know.
+
+Dynamic Data structure: The size of memory can be allocated or de-allocated at run time based on the operation insertion or deletion.
+Ease of Insertion/Deletion: The insertion and deletion of elements are simpler than arrays since no elements need to be shifted after insertion and deletion, Just the address needed to be updated.
+Efficient Memory Utilization: As we know Linked List is a dynamic data structure the size increases or decreases as per the requirement so this avoids the wastage of memory. 
+Implementation: Various advanced data structures can be implemented using a linked list like a stack, queue, graph, hash maps, etc.
+Types of linked lists: 
+There are mainly three types of linked lists:
+
+Single-linked list
+Double linked list
+Circular linked list
+1. Singly-linked list
+Traversal of items can be done in the forward direction only due to the linking of every node to its next node.
+
+Singly Linked List
+Singly Linked List
+
+Representation of Single linked list:
+A Node Creation:
+C++
+C
+Java
+Python3
+# Node class
+class Node:
+  
+    # Function to initialize the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+  
+# Linked List class
+  
+  
+class LinkedList:
+  
+    # Function to initialize the Linked List object
+    def __init__(self):
+        self.head = None
+C#
+Javascript
+Commonly used operations on Singly Linked List:
+The following operations are performed on a Single Linked List
+
+
+
+Insertion: The insertion operation can be performed in three ways. They are as follows…
+Inserting At the Beginning of the list
+Inserting At End of the list
+Inserting At Specific location in the list
+Deletion: The deletion operation can be performed in three ways. They are as follows…
+Deleting from the Beginning of the list
+Deleting from the End of the list
+Deleting a Specific Node
+Search: It is a process of determining and retrieving a specific node either from the front, the end or anywhere in the list.
+Display: This process displays the elements of a Single-linked list.
+Practice problems on Singly linked list:
+S.no	Question	Article
+1	Introduction to Linked List	View
+2	Detect loop in a linked list	View
+3	Find length of loop in linked list	View
+4	Function to check if a singly linked list is palindrome	View
+5	Remove duplicates from a sorted linked list	View
+6	Remove duplicates from an unsorted linked list	View
+7	Remove loop in Linked List	View
+8	Swap nodes in a linked list without swapping data	View
+9	Move last element to front of a given Linked List	View
+10	Intersection of two Sorted Linked Lists	View
+2. Doubly linked list
+Traversal of items can be done in both forward and backward directions as every node contains an additional prev pointer that points to the previous node.
+
+Doubly linked list
+Doubly linked list
+
+Representation of Doubly linked list:
+A Node Creation:
+
+C++
+C
+Java
+Python3
+# Node of a doubly linked list
+class Node:
+    def __init__(self, next=None, prev=None, data=None):
+        self.next = next  # reference to next node in DLL
+        self.prev = prev  # reference to previous node in DLL
+        self.data = data
+C#
+Javascript
+Commonly used operations on Double-Linked List:
+In a double-linked list, we perform the following operations…
+
+Insertion: The insertion operation can be performed in three ways as follows:
+Inserting At the Beginning of the list
+Inserting after a given node.
+Inserting at the end.
+Inserting before a given node
+Deletion: The deletion operation can be performed in three ways as follows…
+Deleting from the Beginning of the list
+Deleting from the End of the list
+Deleting a Specific Node
+Display: This process displays the elements of a double-linked list.
+Practice problems on Doubly linked list:
+S.no	Question	Article
+1	Reverse a Doubly Linked List	View
+2	Copy a linked list with next and arbit pointer	View
+3	Swap Kth node from beginning with Kth node from end in a Linked List	View
+4	Merge Sort for Doubly Linked List	View
+5	Sort a k sorted doubly linked list	View
+6	Remove duplicates from an unsorted linked list	View
+7	Rotate Doubly linked list by N nodes	View
+8	Merge Two Balanced Binary Search Trees	View
+9	Convert a Binary Tree into Doubly Linked List in spiral fashion	View
+10	Convert a given Binary Tree to Doubly Linked List	View
+3. Circular linked lists
+A circular linked list is a type of linked list in which the first and the last nodes are also connected to each other to form a circle, there is no NULL at the end. 
+
+Circular Linked List
+Circular Linked List
+
+Commonly used operations on Circular Linked List:
+The following operations are performed on a Circular Linked List
+
+Insertion: The insertion operation can be performed in three ways:
+Insertion in an empty list
+Insertion at the beginning of the list 
+Insertion at the end of the list 
+Insertion in between the nodes 
+Deletion: The deletion operation can be performed in three ways:
+Deleting from the Beginning of the list
+Deleting from the End of the list
+Deleting a Specific Node
+Display: This process displays the elements of a Circular linked list.
+Practice problems on Circular linked list:
+S.no	Question	Article
+1	Circular Linked List Traversal	View
+2	Split a Circular Linked List into two halves	View
+3	Sorted insert for circular linked list	View
+4	Check if a linked list is Circular Linked List	View
+5	Deletion from a Circular Linked List	View
+6	Josephus Circle using circular linked list	View
+7	Convert singly linked list into circular linked list	View
+8	Implementation of Deque using circular array	View
+9	Exchange first and last nodes in Circular Linked List	View
+10	Count nodes in Circular linked list	View
+Linked List vs. Array
+Linked List vs. Array
+Linked List vs. Array
+
+Linked List vs. Array in Time Complexity
+Operation	Linked list	Array
+Random Access	O(N)	O(1)
+Insertion and deletion at beginning	O(1)	(N)
+Insertion and deletion at end	O(N)	O(1)
+Insertion and deletion at a random position	O(N)	O(N)
+Advantages of Linked Lists:
+Dynamic nature: Linked lists are used for dynamic memory allocation.
+Memory efficient: Memory consumption of a linked list is efficient as its size can grow or shrink dynamically according to our requirements, which means effective memory utilization hence, no memory wastage.
+Ease of Insertion and Deletion: Insertion and deletion of nodes are easily implemented in a linked list at any position.
+Implementation: For the implementation of stacks and queues and for the representation of trees and graphs.
+The linked list can be expanded in constant time.
+Disadvantages of Linked Lists:
+Memory usage: The use of pointers is more in linked lists hence, complex and requires more memory.
+Accessing a node: Random access is not possible due to dynamic memory allocation.
+Search operation costly: Searching for an element is costly and requires O(n) time complexity.
+Traversing in reverse order: Traversing is more time-consuming and reverse traversing is not possible in singly linked lists. 
+Applications of Linked List: 
+Here are some of the applications of a linked list:
+
+Linear data structures such as stack, queue, and non-linear data structures such as hash maps, and graphs can be implemented using linked lists.
+Dynamic memory allocation: We use a linked list of free blocks.
+Implementation of graphs: Adjacency list representation of graphs is the most popular in that it uses linked lists to store adjacent vertices.
+In web browsers and editors, doubly linked lists can be used to build a forwards and backward navigation button.
+A circular doubly linked list can also be used for implementing data structures like Fibonacci heaps.
+Applications of Linked Lists in real world:
+The list of songs in the music player is linked to the previous and next songs. 
+In a web browser, previous and next web page URLs are linked through the previous and next buttons.
+In the image viewer, the previous and next images are linked with the help of the previous and next buttons.
+Switching between two applications is carried out by using “alt+tab” in windows and “cmd+tab” in mac book. It requires the functionality of a circular linked list.
+In mobile phones, we save the contacts of people. The newly entered contact details will be placed at the correct alphabetical order.
+This can be achieved by a linked list to set contact at the correct alphabetical position.
+The modifications that we made in the documents are actually created as nodes in doubly linked list. We can simply use the undo option by pressing Ctrl+Z to modify the contents. It is done by the functionality of a linked list.
+Most Commonly asked interview questions on the linked list:
+S.no	Question	Article	Practice
+1	Finding the middle element in a Linked list	View	Solve
+2	Reverse a Linked list	View	Solve
+3	Rotate a Linked List	View	Solve
+4	Reverse a Linked List in groups of given size	View	Solve
+5	Intersection point in Y shaped Linked lists	View	Solve
+6	Detect Loop in Linked list	View	Solve
+7	Remove loop in Linked List	View	Solve
+8	n’th node from end of Linked list	View	Solve
+9	Flattening a Linked List	View	Solve
+10	Merge two sorted Linked lists	View	Solve
+11	Pairwise swap of a Linked list	View	Solve
+12	Add two numbers represented by Linked lists	View	Solve
+13	Check if Linked List is Palindrome	View	Solve
+14	Implement Queue using Linked List	View	Solve
+15	Implement Stack using Linked List	View	Solve
+16	Given a Linked list of 0s, 1s and 2s, sort it	View	Solve
+17	Delete without head pointer	View	Solve
+Frequently asked questions (FAQs) about Linked list:
+1. What is linked list data structure?
+Linked list are most commonly used to handle dynamic data elements. Linked list consists of nodes and a node consists of two fields one for storing data and other for keeping the reference of next node.
+
+2. What is linked list example?
+A linked list can be assumed as a garland that is made up of flowers. Similarly, a linked list is made up of nodes. Every flower in this particular garland is referred to as a node. In addition, each node points to the next node in this list, and it contains data (in this case, the type of flower).
+
+3. Why do we need linked list data structure??
+There are some important advantages to using linked lists over other linear data structures. This is unlike arrays, as they are resizable at runtime. Additionally, they can be easily inserted and deleted.
+
+4. What are linked lists used for?
+The linked list is a linear data structure that stores data in nodes. these nodes hold both the data and a reference to the next node in the list. Linked are very efficient at adding and removing nodes because of their simple structure.
+
+5. What is the difference between array and linked list?
+There are some following differences between them:
+
+Arrays are data structures containing similar data elements, whereas linked lists are non-primitive data structures containing unordered linked elements.
+In an array, elements are indexed, but in a linked list nodes are not indexed.
+Accessing an element array is fast if we know the position of an element in the array, while in the Linked list it takes linear time so, the Linked list is quite bit slower.
+Operations like insertion and deletion in arrays take a lot of time. Whereas, the performance of these operations is faster in Linked lists.
+Arrays are of fixed size and their size is static but Linked lists are dynamic and flexible and can expand and shrink their size. 
+6. Why is a linked list preferred over an array?
+Following are the reason that linked lists are preferred over array
+
+Nodes in a linked array, insertions, and deletions can be done at any point in the list at a constant time.
+Arrays are of fixed size and their size is static but Linked lists are dynamic and flexible and can expand and shrink their size.
+Linked lists provide an efficient way of storing related data and performing basic operations such as insertion, deletion, and updating of information at the cost of extra space required for storing the address.
+Insertion and deletion operations in the linked list are faster as compared to the array. 
+7. What is the difference between a singly and doubly linked list?
+Following are some difference between single and double linked list.
+
+Singly-linked list (SLL)	Doubly linked list (DLL)
+SLL nodes contains 2 field data field and next link field.	DLL nodes contains 3 fields data field, a previous link field and a next link field.
+In SLL, the traversal can be done using the next node link only. Thus traversal is possible in one direction only.	In DLL, the traversal can be done using the previous node link or the next node link. Thus traversal is possible in both directions (forward and backward).
+The SLL occupies less memory than DLL as it has only 2 fields.	The DLL occupies more memory than SLL as it has 3 fields.
+The Complexity of insertion and deletion at a given position is O(n). 	The Complexity of insertion and deletion at a given position is O(n / 2) = O(n) because traversal can be made from start or from the end.
+Complexity of deletion with a given node is O(n), because the previous node needs to be known, and traversal takes O(n)	Complexity of deletion with a given node is O(1) because the previous node can be accessed easily 
+A singly linked list consumes less memory as compared to the doubly linked list.	The doubly linked list consumes more memory as compared to the singly linked list.
+8. Which is the best array or linked list?
+There are some advantages and disadvantages to both arrays and linked lists when it comes to storing linear data of similar types.
+
+Advantages of linked list over arrays:
+Dynamic size:  Linked lists are dynamic and flexible and can expand and shrink their size
+Ease of Insertion/Deletion: Insertion and deletion operations in linked list are faster as compared to the array
+Disadvantages of linked list over arrays:
+If the array is sorted we can apply binary search to search any element which takes O(log(n)) time. But even if the linked list is sorted we cannot apply binary search and the complexity of searching elements in the linked list is O(n).
+A linked list takes more memory as compared to the array because extra memory space is required for the pointer with each element in the linked list.
+ 
+9. What are the limitations of linked list?
+Following are some limitations of the linked list:
+
+The use of pointers is more in linked lists hence, complex and requires more memory.
+Random access is not possible due to dynamic memory allocation.
+Traversing is more time-consuming and reverse traversing is not possible in singly linked lists.
+Searching for an element is costly and requires O(n) time complexity.
+ 
+10. Why insertion/deletion are faster in a linked list?
+If any element is inserted/ deleted from the array, all the other elements after it will be shifted in memory this takes a lot of time whereas manipulation in Linked List is faster because we just need to manipulate the addresses of nodes, so no bit shifting is required in memory, and it will not take that much of time.
+
+Conclusion
+There are many advantages of the linked list compared to array, despite the fact that they solve the similar problem to arrays, we have also discussed the advantage, disadvantages, and its application, and we concluded the fact that we can use a linked list if we need the dynamic size of storage and list are good for adding and removing items quickly or for tasks that require sequence but are not suitable for querying or search elements in a large collection of data.
+
+So, it becomes important that we should always keep in mind the positive and negative aspects of a data structure and how they relate to the problem you are trying to solve.
+
+Related articles:
+
+Complete Guide on Arrays Interview Preparation
+Top Data structure that every programmer must know 
+How to start data learning DSA?
+What is hashing | A Complete Tutorial 
+How can one become good at Data Structures and Algorithms easily?
+Why Data Structures and Algorithms Are Important to Learn?
+Top 15 Websites for Coding Challenges and competitions
+SDE SHEET – A Complete Guide for SDE Preparation
+Amazon SDE Sheet – A Guide for Amazon SDE Interview Preparation
+Google Interview Preparation For Software Engineer – A Complete Guide
+100 Days of Code – A Complete Guide For Beginners and Experienced
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+16
+Previous
+Top 7 Python Developer Tools
+Next
+Facebook(Meta) SDE Sheet: Interview Questions and Answers
+Related Articles
+1.
+Introduction to Stack - Data Structure and Algorithm Tutorials
+2.
+Introduction to Arrays - Data Structure and Algorithm Tutorials
+3.
+Introduction to Strings - Data Structure and Algorithm Tutorials
+4.
+Introduction to Hashing - Data Structure and Algorithm Tutorials
+5.
+Introduction to Trie - Data Structure and Algorithm Tutorials
+6.
+Introduction to Greedy Algorithm - Data Structures and Algorithm Tutorials
+7.
+Introduction to Dynamic Programming - Data Structures and Algorithm Tutorials
+8.
+Introduction to Pattern Searching - Data Structure and Algorithm Tutorial
+9.
+Applications of linked list data structure
+10.
+Introduction to Matrix or Grid - Data Structure and Algorithms Tutorial
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+circular linked list
+CSharp-LinkedList
+CSharp-LinkedList-Methods
+Data Structures-Linked List
+Delete a Linked List
+doubly linked list
+java-LinkedList
+Linked Lists
+PHP- SplDoublyLinkedList
+Data Structures
+GBlog
+Linked List
+Practice Tags :
+circular linked list
+Data Structures
+Linked List
+Improve Article
+Report Issue

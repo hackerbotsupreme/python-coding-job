@@ -1,0 +1,268 @@
+Clone a Linked List with next and Random Pointer
+
+Difficulty Level : Hard
+Last Updated : 23 Jan, 2023
+Read
+Discuss(210+)
+Courses
+Practice
+Video
+An example of linked list with a random pointerGiven a linked list of size N where each node has two links: one pointer points to the next node and the second pointer points to any node in the list. The task is to create a clone of this linked list in O(N) time. 
+
+Note: The pointer pointing to the next node is ‘next‘ pointer and the one pointing to an arbitrary node is called ‘arbit’ pointer as it can point to any arbitrary node in the linked list. 
+
+An example of the linked list is shown in the below image:
+
+An example of linked list with a random pointerAn example of linked list with a random pointer
+An example of linked list with a random pointerAn example of linked list with a random pointer
+
+Recommended Problem
+Clone a linked list with next and random pointer
+Linked List
+Data Structures
+Flipkart
+Morgan Stanley
++10 more
+Solve Problem
+Submission count: 50.5K
+Complete Interview Preparation - GFG
+
+Approach 1 (Using Extra Space): The idea to solve this problem is: 
+
+First create a single linked list with only the ‘next’ pointer and use a mapping to map the new nodes to their corresponding nodes in the given linked list. Now use this mapping to point the arbitrary node from any node in the newly created list. 
+
+Follow the steps mentioned beloved to implement the above idea:
+
+
+
+Create a duplicate (say Y) for each node (say X) and map them with corresponding old nodes (say mp, So mp[X] = Y).
+Create the single linked list of the duplicate nodes where each node only has the ‘next’ pointer.
+Now iterate over the old linked list and do the following:
+Find the duplicate node mapped with the current one. (i.e., if the current node is X then duplicate is mp[x])
+Make the arbit pointer of the duplicate node pointing to the duplicate of the current->arbit node (i.e., mp[x]->arbit will point to mp[X->arbit]).
+The linked list created in this way is the required linked list. 
+Follow the illustration below for a better understanding:
+
+Illustration:
+
+Consider the linked list shown below:
+
+Original linked list 
+Original linked list 
+
+The green links are the arbit pointers
+
+Creating copy of Nodes and next pointer:
+
+Initially create single linked list of duplicate nodes with only the next pointers and map them with the old ones. 
+Here the blue coloured links are used to show the mapping.
+
+
+New linked list mapped with old nodes
+
+Linking the arbit pointers:
+
+Now iterating the old array and update the arbit pointers as mentioned in the approach. The green coloured links are the arbit pointers.
+
+At first node:
+
+Linking arbit pointer of duplicate of 1st node
+Linking arbit pointer of duplicate of 1st node
+
+At sconde node:
+
+Linking arbit pointer of duplicate of 2nd node
+Linking arbit pointer of duplicate of 2nd node
+
+At third node:
+
+Linking arbit pointer of duplicate of 3rd node
+Linking arbit pointer of duplicate of 3rd node
+
+At fourth node:
+
+Linking arbit pointer of duplicate of 4th node
+Linking arbit pointer of duplicate of 4th node
+
+At fifth node:
+
+Linking arbit pointer of duplicate of 5th node
+Linking arbit pointer of duplicate of 5th node
+
+The final linked list is as shown below:
+
+The original and the clone
+The original and the clone
+
+Below is the implementation of the above approach:
+
+C++14
+Java
+Python3
+# Structure of a node of linked list
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.next = None
+        self.arbit = None
+ 
+# Function to clone the linked list
+def cloneLinkedList(head):
+    # Map to store the mapping of
+    # old nodes with new ones
+    mp = {}
+    temp = head
+    nhead = Node(temp.val)
+    mp[temp] = nhead
+ 
+    # Loop to create duplicates of nodes
+    # with only next pointer
+    while temp.next:
+        nhead.next = Node(temp.next.val)
+        temp = temp.next
+        nhead = nhead.next
+        mp[temp] = nhead
+ 
+    temp = head
+ 
+    # Loop to clone the arbit pointers
+    while temp:
+        mp[temp].arbit = mp[temp.arbit]
+        temp = temp.next
+ 
+    # Return the head of the clone
+    return mp[head]
+ 
+# Function to print the linked list
+def printList(head):
+    result = []
+    while head:
+        result.append(f"{head.val}({head.arbit.val})")
+        head = head.next
+    print(" -> ".join(result))
+ 
+# Creating a linked list with random pointer
+head = Node(1)
+head.next = Node(2)
+head.next.next = Node(3)
+head.next.next.next = Node(4)
+head.next.next.next.next = Node(5)
+head.arbit = head.next.next
+head.next.arbit = head
+head.next.next.arbit = head.next.next.next.next
+head.next.next.next.arbit = head.next.next
+head.next.next.next.next.arbit = head.next
+ 
+# Print the original list
+print("The original linked list:")
+printList(head)
+ 
+# Function call
+sol = cloneLinkedList(head)
+ 
+print("The cloned linked list:")
+printList(sol)
+C#
+Output
+The original linked list:
+1(3) -> 2(1) -> 3(5) -> 4(3) -> 5(2)
+The cloned linked list:
+1(3) -> 2(1) -> 3(5) -> 4(3) -> 5(2)
+Time Complexity: O(N) 
+Auxiliary Space: O(N) 
+
+Approach 2 (Using Constant Extra Space):  The idea to solve is using constant extra space is:
+
+Create duplicate of a node and insert it in between that node and the node just next to it. 
+
+Now for a node X its duplicate will be X->next and the arbitrary pointer of the duplicate will point to X->arbit->next [as that is the duplicate of X->arbit]
+
+Follow the steps mentioned below to implement the idea:
+
+Create the copy of node 1 and insert it between node 1 and node 2 in the original Linked List, create the copy of node 2 and insert it between 2nd and 3rd node and so on. Add the copy of N after the Nth node 
+Now copy the arbitrary link in this fashion:
+original->next->arbitrary = original->arbitrary->next 
+
+Now restore the original and copy linked lists in this fashion in a single loop. 
+original->next = original->next->next;
+copy->next = copy->next->next;
+
+Make sure that the last element of original->next is NULL. 
+Refer the below post for implementation of this method. 
+Clone a linked list with next and random pointer in O(1) space 
+Time Complexity: O(N) 
+Auxiliary Space: O(1) 
+
+Thanks to Saravanan Mani for providing this solution. This solution works using constant space.
+
+Related article: 
+Clone a linked list with next and random pointer | Set 2 
+
+
+
+
+
+Like
+150
+Previous
+Adding two polynomials using Linked List
+Next
+Generic Linked List in C
+Related Articles
+1.
+Clone a linked list with next and random pointer | Set 2
+2.
+Clone a linked list with next and random pointer in O(1) space
+3.
+C++ Program For Cloning A Linked List With Next And Random Pointer- Set 2
+4.
+Java Program For Cloning A Linked List With Next And Random Pointer- Set 2
+5.
+Python Program For Cloning A Linked List With Next And Random Pointer- Set 2
+6.
+Javascript Program For Cloning A Linked List With Next And Random Pointer- Set 2
+7.
+Java Program For Cloning A Linked List With Next And Random Pointer In O(1) Space
+8.
+Python Program For Cloning A Linked List With Next And Random Pointer In O(1) Space
+9.
+Javascript Program For Cloning A Linked List With Next And Random Pointer In O(1) Space
+10.
+How to create a pointer to another pointer in a linked list?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+RohithReddyVajrala
+nikhatkhan11
+hardikkoriintern
+animeshdey
+vikramshirsath177
+user_7gr9iodclfx
+Article Tags :
+Amazon
+BankBazaar
+MakeMyTrip
+Microsoft
+Morgan Stanley
+Ola Cabs
+Snapdeal
+Linked List
+Practice Tags :
+Amazon
+BankBazaar
+MakeMyTrip
+Microsoft
+Morgan Stanley
+Ola Cabs
+Snapdeal
+Linked List
+Improve Article
+Report Issue

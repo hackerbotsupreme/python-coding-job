@@ -1,0 +1,150 @@
+Josephus Circle implementation using STL list
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+There are n people standing in a circle waiting to be executed. The counting out begins at some point in the circle and proceeds around the circle in a fixed direction. In each step, a certain number of people are skipped and the next person is executed. The elimination proceeds around the circle (which is becoming smaller and smaller as the executed people are removed), until only the last person remains, who is given freedom. Given the total number of person n and a number k which indicates that k-1 persons are skipped and the kth person is killed in the circle. The task is to choose the place in the initial circle so that you are the last one remaining and so survive. (0-based indexing) .
+
+Examples : 
+
+Input : Length of circle : n = 4
+        Count to choose next : k = 2
+Output : 0
+
+Input : n = 5
+        k = 3
+Output : 3
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We have already discussed different solutions to this problem (here, here, and here). In this post, a  C++ STL-based solution using a list container is discussed which uses the idea of a circular list.
+
+Implementation:
+
+
+C++
+Java
+Python3
+# Python3 program to find last man standing
+  
+# /* structure for a node in circular
+#    linked list */
+class Node:
+    def __init__(self, x):
+        self.data = x
+        self.next = None
+  
+# /* Function to find the only person left
+#    after one in every m-th node is killed
+#    in a circle of n nodes */
+def getJosephusPosition(m, n):
+    
+    # Create a circular linked list of
+    # size N.
+    head = Node(1)
+    prev = head
+    for i in range(2, n + 1):
+        prev.next = Node(i)
+        prev = prev.next
+    prev.next = head # Connect last
+                       #node to first
+  
+    #/* while only one node is left in the
+    #linked list*/
+    ptr1 = head
+    ptr2 = head
+    while (ptr1.next != ptr1):
+        # Find m-th node
+        count = 1
+        while (count != m):
+            ptr2 = ptr1
+            ptr1 = ptr1.next
+            count += 1
+  
+        # /* Remove the m-th node */
+        ptr2.next = ptr1.next
+        # free(ptr1)
+        ptr1 = ptr2.next
+  
+    print("Last person left standing (Josephus Position) is ", ptr1.data)
+  
+# /* Driver program to test above functions */
+if __name__ == '__main__':
+    n = 14
+    m = 2
+    getJosephusPosition(m, n)
+  
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+12
+Time complexity: O(k * n), as we are using nested loops to traverse k*n time. 
+Auxiliary Space: O(n), as we are using extra space for the linked list.
+
+This article is Improved by Mechanizer. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+37
+Previous
+Convert singly linked list into circular linked list
+Next
+Check if two Circular Linked Lists are identical
+Related Articles
+1.
+Implementation of Deque using doubly linked list
+2.
+Implementation of stack using Doubly Linked List
+3.
+Circular Linked List Implementation of Circular Queue
+4.
+Queue - Linked List Implementation
+5.
+Recursively Reversing a linked list (A simple implementation)
+6.
+Linked List Implementation in C#
+7.
+Implementation of Deque using circular array
+8.
+LRU Cache implementation using Double Linked Lists
+9.
+List of Stacks in C++ STL
+10.
+Lucky alive person in a circle | Code Solution to sword puzzle
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sargam Modak
+Devansh Upadhyay
+andrew1234
+rharshareddy
+mohit kumar 29
+mechanizer
+umadevi9616
+sumitgumber28
+rohan07
+hardikkoriintern
+Article Tags :
+circular linked list
+Linked List
+Practice Tags :
+circular linked list
+Linked List
+Improve Article
+Report Issue

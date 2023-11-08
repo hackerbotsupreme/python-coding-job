@@ -1,0 +1,182 @@
+Construct a linked list from 2D matrix
+
+Difficulty Level : Medium
+Last Updated : 20 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a matrix. Convert it into a linked list matrix such that each node is connected to its next right and down node.
+
+Input : 2D matrix 
+1 2 3
+4 5 6
+7 8 9
+Output :
+1 -> 2 -> 3 -> NULL
+|        |     |
+v       v    v
+4 -> 5 -> 6 -> NULL
+|        |     |
+v      v     v
+7 -> 8 -> 9 -> NULL
+|       |       |
+v     v       v
+NULL NULL NULL
+
+Question Source: Factset Interview Experience | Set 9
+
+Recommended Problem
+Linked List Matrix
+Linked List
+Data Structures
+FactSet
+Solve Problem
+Submission count: 12.4K
+Approach: The problem can be solved based on the following idea:
+
+Connect every cell to its right cell of the same row and to its bottom cell in the same column and also for each cell and keep track of those created node. 
+
+Follow the steps mentioned below to solve this problem:
+
+First create a variable of Node type, which will store address of its right and bottom Node corresponding to cell in the matrix.
+Recursively do the following steps for any cell in the matrix:
+If Node is not created for any corresponding cell in the matrix, then create a new Node and store it.
+Else we reach at some cell which has already been created for its corresponding cell in the matrix then return that stored Node.
+Attach Node to its right and bottom cell which is created and return the current Node.
+Finally return the root Node.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to construct a linked list
+# from given 2D matrix
+ 
+# Node class to represent a node in the linked list
+class Node:
+    def __init__(self, data=None, right=None, down=None):
+        self.data = data
+        self.right = right
+        self.down = down
+ 
+# Function to construct the linked list from the given 2D matrix
+def construct(arr, i, j, m, n, visited):
+    # Return if i or j is out of bounds
+    if i > m - 1 or j > n - 1:
+        return None
+ 
+    # Check if node is previously created, then don't create new
+    if visited[i][j]:
+        return visited[i][j]
+ 
+    # Create a new node for current i and j and
+    # recursively allocate its down and right pointers
+    node = Node(arr[i][j])
+    visited[i][j] = node
+    node.right = construct(arr, i, j + 1, m, n, visited)
+    node.down = construct(arr, i + 1, j, m, n, visited)
+ 
+    return node
+ 
+# Utility function for displaying linked list data
+def display(head):
+    # Pointer to move right
+    Rp = head
+    # Pointer to move down
+    Dp = head
+ 
+    # Loop till node.down is not None
+    while Dp:
+        Rp = Dp
+        # Loop till node.right is not None
+        while Rp:
+            print(Rp.data, end=" ")
+            Rp = Rp.right
+        print()
+        Dp = Dp.down
+ 
+# Driver program
+if __name__ == "__main__":
+    # 2D matrix
+    arr = [[1, 2, 3, 0],
+           [4, 5, 6, 1],
+           [7, 8, 9, 2],
+           [7, 8, 9, 2]]
+    m = 4
+    n = 4
+    visited = [[None] * n for _ in range(m)]
+    head = construct(arr, 0, 0, m, n, visited)
+    display(head)
+C#
+Javascript
+Output
+1 2 3 0 
+4 5 6 1 
+7 8 9 2 
+7 8 9 2 
+ 
+Complete Interview Preparation - GFG
+
+Time complexity: O(N*M), where N is the number of row and M is the number of column.
+Auxiliary space: O(N*M)
+
+This article is contributed by Mandeep Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Find modular node in a linked list
+Next
+Construct a linked list from 2D matrix (Iterative Approach)
+Related Articles
+1.
+Construct a Doubly linked linked list from 2D Matrix
+2.
+Construct a Maximum Sum Linked List out of two Sorted Linked Lists having some Common nodes
+3.
+Construct a linked list from 2D matrix (Iterative Approach)
+4.
+Construct Linked List from 3D Matrix
+5.
+Generate matrix from given Sparse Matrix using Linked List and reconstruct the Sparse Matrix
+6.
+Circular Matrix (Construct a matrix with numbers 1 to m*n in spiral way)
+7.
+Construct a square Matrix whose parity of diagonal sum is same as size of matrix
+8.
+Construct a Matrix such that each cell consists of sum of adjacent elements of respective cells in given Matrix
+9.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+10.
+Convert Singly Linked List to XOR Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+princiraj1992
+abhaysingh290895
+Rajput-Ji
+harendrakumar123
+hardikkoriintern
+phasing17
+vikramshirsath177
+satwiksuman
+Article Tags :
+FactSet
+Linked List
+Matrix
+Practice Tags :
+FactSet
+Linked List
+Matrix
+Report Issue

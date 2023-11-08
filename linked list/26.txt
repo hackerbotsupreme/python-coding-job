@@ -1,0 +1,196 @@
+An interesting method to print reverse of a linked list
+
+Difficulty Level : Easy
+Last Updated : 19 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given a linked list, we need to print the linked list in reverse order.
+Examples: 
+ 
+
+Input : list : 5-> 15-> 20-> 25 
+Output : Reversed Linked list : 25-> 20-> 15-> 5
+
+Input : list : 85-> 15-> 4-> 20 
+Output : Reversed Linked list : 20-> 4-> 15-> 85
+
+Input : list : 85
+Output : Reversed Linked list : 85
+For printing a list in reverse order, we have already discussed Iterative and Recursive Methods to Reverse.
+In this post, an interesting method is discussed, that doesn’t require recursion and does no modifications to list. The function also visits every node of linked list only once.
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Trick : Idea behind printing a list in reverse order without any recursive function or loop is to use Carriage return (“r”). For this, we should have knowledge of length of list. Now, we should print n-1 blank space and then print 1st element then “r”, further again n-2 blank space and 2nd node then “r” and so on.. 
+Carriage return (“r”) : It commands a printer (cursor or the display of a system console), to move the position of the cursor to the first position on the same line.
+ 
+
+C/C++
+
+
+ 
+Java
+C#
+Python3
+# Python3 program to print reverse of list
+  
+# Link list node
+class Node:
+    def __init__(self):
+        self.data=  0
+        self.next=None
+  
+# Function to reverse the linked list
+def printReverse( head_ref, n):
+  
+    j = 0
+    current = head_ref
+    while (current != None):
+        i = 0
+         
+        # For each node, print proper number
+        # of spaces before printing it
+        while ( i < 2 * (n - j) ):
+            print(end=" ")
+            i = i + 1
+   
+        # use of carriage return to move back
+        # and print.
+        print( current.data, end = "\r")
+   
+        current = current.next
+        j = j + 1
+      
+ # Function to push a node
+def push( head_ref, new_data):
+  
+    new_node = Node()
+   
+    new_node.data = new_data
+    new_node.next = (head_ref)
+    (head_ref) = new_node
+    return head_ref;
+   
+# Function to print linked list and find its
+#  length
+def printList( head):
+  
+    # i for finding length of list
+    i = 0
+    temp = head
+    while (temp != None):
+        print( temp.data,end = " ")
+        temp = temp.next
+        i = i + 1
+      
+    return i
+  
+# Driver program to test above function
+  
+# Start with the empty list
+head = None
+ 
+# list nodes are as 6 5 4 3 2 1
+head = push(head, 1)
+head = push(head, 2)
+head = push(head, 3)
+head = push(head, 4)
+head = push(head, 5)
+head = push(head, 6)
+   
+print("Given linked list:")
+ 
+# printlist print the list and
+# return the size of list
+n = printList(head)
+   
+# print reverse list with help
+# of carriage return function
+print("\nReversed Linked list:")
+printReverse(head, n)
+print()
+  
+# This code is contributed by Arnab Kundu
+Output: 
+ 
+
+Given linked list:
+6 5 4 3 2 1
+Reversed Linked List:
+1 2 3 4 5 6
+Time Complexity: O(N).
+Auxiliary Space: O(N), where, N is the total number of nodes.
+
+Input and Output Illustration : 
+Input: 6 5 4 3 2 1 
+1st Iteration _ _ _ _ _ 6 
+2nd Iteration _ _ _ _ 5 6 
+3rd Iteration _ _ _ 4 5 6 
+4th Iteration _ _ 3 4 5 6 
+5th Iteration _ 2 3 4 5 6 
+Final Output 1 2 3 4 5 6
+NOTE: Above program may not work on online compilers because they do not support anything like carriage return on their console.
+Reference : 
+StackOverflow/Carriage return
+This article is contributed by Shivam Pradhan (anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+
+
+Like
+7
+Previous
+Queue based approach for first non-repeating character in a stream
+Next
+Qualcomm Interview Experience | Set 10 (On-Campus)
+Related Articles
+1.
+Iteratively Reverse a linked list using only 2 pointers (An Interesting Method)
+2.
+XOR Linked List - Reverse a Linked List in groups of given size
+3.
+XOR linked list: Reverse last K nodes of a Linked List
+4.
+Print reverse of a Linked List without extra space and modifications
+5.
+Print the last k nodes of the linked list in reverse order | Recursive approach
+6.
+Print the last k nodes of the linked list in reverse order | Iterative Approaches
+7.
+Print Reverse a linked list using Stack
+8.
+Print Doubly Linked list in Reverse Order
+9.
+Print reverse of a Linked List without actually reversing
+10.
+Reverse a Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+andrew1234
+rajeev0719singh
+kashishsoda
+surajrasr7277
+Article Tags :
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

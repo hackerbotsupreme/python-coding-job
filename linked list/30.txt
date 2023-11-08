@@ -1,0 +1,677 @@
+Detect loop in a linked list
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given a linked list, check if the linked list has a loop or not. The below diagram shows a linked list with a loop. 
+
+
+Linked List with Loop
+
+Recommended Problem
+Detect Loop in linked list
+Linked List
+two-pointer-algorithm
++2 more
+Paytm
+VMWare
++16 more
+Solve Problem
+Submission count: 3.2L
+Detect loop in a linked list using Hashing:
+The idea is to insert the nodes in the hashmap and whenever a node is encountered that is already present in the hashmap then return true.
+
+Follow the steps below to solve the problem:
+
+Traverse the list individually and keep putting the node addresses in a Hash Table. 
+At any point, if NULL is reached then return false 
+If the next of the current nodes points to any of the previously stored nodes in  Hash then return true.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to detect loop
+# in the linked list
+  
+# Node class
+class Node:
+  
+    # Constructor to initialize
+    # the node object
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+  
+  
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # Function to insert a new
+    # node at the beginning
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+        self.head = new_node
+  
+    # Utility function to print it
+    # the linked LinkedList
+    def printList(self):
+        temp = self.head
+        while(temp):
+            print(temp.data, end=" ")
+            temp = temp.next
+  
+    def detectLoop(self):
+        s = set()
+        temp = self.head
+        while (temp):
+  
+            # If we already have
+            # this node in hashmap it
+            # means there is a cycle
+            # (Because we are encountering
+            # the node second time).
+            if (temp in s):
+                return True
+  
+            # If we are seeing the node for
+            # the first time, insert it in hash
+            s.add(temp)
+  
+            temp = temp.next
+  
+        return False
+  
+  
+# Driver program for testing
+llist = LinkedList()
+llist.push(20)
+llist.push(4)
+llist.push(15)
+llist.push(10)
+  
+# Create a loop for testing
+llist.head.next.next.next.next = llist.head
+  
+if(llist.detectLoop()):
+    print("Loop Found")
+else:
+    print("No Loop ")
+  
+# This code is contributed by Gitanjali.
+C#
+Javascript
+Output
+Loop Found
+Time complexity: O(N), Only one traversal of the loop is needed.
+Auxiliary Space: O(N), N is the space required to store the value in the hashmap.
+
+Detect loop in a linked list by Modification In Node Structure:
+The idea is to modify the node structure by adding flag in it and mark the flag whenever visit the node.
+
+
+
+Follow the steps below to solve the problem:
+
+Have a visited flag with each node.
+Traverse the linked list and keep marking visited nodes.
+If you see a visited node again then there is a loop.
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Python3 program to detect loop in a linked list
+  
+''' Link list node '''
+  
+  
+class Node:
+  
+    def __init__(self):
+        self.data = 0
+        self.next = None
+        self.flag = 0
+  
+  
+def push(head_ref, new_data):
+    ''' allocate node '''
+    new_node = Node()
+  
+    ''' put in the data '''
+    new_node.data = new_data
+  
+    new_node.flag = 0
+  
+    ''' link the old list of the new node '''
+    new_node.next = (head_ref)
+  
+    ''' move the head to point to the new node '''
+    (head_ref) = new_node
+    return head_ref
+  
+# Returns true if there is a loop in linked list
+# else returns false.
+  
+  
+def detectLoop(h):
+  
+    while (h != None):
+        # If this node is already traverse
+        # it means there is a cycle
+        # (Because you we encountering the
+        # node for the second time).
+        if (h.flag == 1):
+            return True
+  
+        # If we are seeing the node for
+        # the first time, mark its flag as 1
+        h.flag = 1
+        h = h.next
+    return False
+  
+  
+''' Driver program to test above function'''
+if __name__ == '__main__':
+  
+    ''' Start with the empty list '''
+    head = None
+  
+    head = push(head, 20)
+    head = push(head, 4)
+    head = push(head, 15)
+    head = push(head, 10)
+  
+    ''' Create a loop for testing '''
+    head.next.next.next.next = head
+  
+    if (detectLoop(head)):
+        print("Loop Found")
+    else:
+        print("No Loop")
+  
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output
+Loop Found
+Time complexity: O(N), Only one traversal of the loop is needed.
+Auxiliary Space: O(1)
+
+Detect loop in a linked list using Floyd’s Cycle-Finding Algorithm:
+This algorithm is used to find a loop in a linked list. It uses two pointers one moving twice as fast as the other one. The faster one is called the faster pointer and the other one is called the slow pointer.
+
+Follow the steps below to solve the problem:
+
+Traverse linked list using two pointers.
+Move one pointer(slow_p) by one and another pointer(fast_p) by two.
+If these pointers meet at the same node then there is a loop. If pointers do not meet then the linked list doesn’t have a loop.
+Illustration:
+
+The below image shows how the detect loop function works in the code:
+
+
+
+Implementation of Floyd’s Cycle-Finding Algorithm:  
+
+C++
+C
+Java
+Python
+# Python program to detect loop in the linked list
+  
+# Node class
+  
+  
+class Node:
+  
+    # Constructor to initialize the node object
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+  
+  
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # Function to insert a new node at the beginning
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+        self.head = new_node
+  
+    # Utility function to print it the linked LinkedList
+    def printList(self):
+        temp = self.head
+        while(temp):
+            print temp.data,
+            temp = temp.next
+  
+    def detectLoop(self):
+        slow_p = self.head
+        fast_p = self.head
+        while(slow_p and fast_p and fast_p.next):
+            slow_p = slow_p.next
+            fast_p = fast_p.next.next
+            if slow_p == fast_p:
+                return 1
+        return 0
+  
+  
+# Driver program for testing
+llist = LinkedList()
+llist.push(20)
+llist.push(4)
+llist.push(15)
+llist.push(10)
+  
+# Create a loop for testing
+llist.head.next.next.next.next = llist.head
+if(llist.detectLoop()):
+    print "Loop Found"
+else:
+    print "No Loop"
+  
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+Loop Found
+Time complexity: O(N), Only one traversal of the loop is needed.
+Auxiliary Space: O(1). 
+
+Detect loop in a linked list by Marking visited nodes without modifying Node structure:
+The idea is to point the current node of the linked list to a node which is created. Whenever a node’s next is pointing to that node it means loop is there.
+
+Follow the steps below to solve the problem:
+
+A temporary node is created. 
+The next pointer of each node that is traversed is made to point to this temporary node. 
+This way we are using the next pointer of a node as a flag to indicate whether the node has been traversed or not. 
+Every node is checked to see if the next is pointing to a temporary node or not.
+In the case of the first node of the loop, the second time we traverse it this condition will be true, hence we find that loop exists. 
+If we come across a node that points to null then the loop doesn’t exist.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program to return first node of loop
+  
+# A binary tree node has data, pointer to
+# left child and a pointer to right child
+# Helper function that allocates a new node
+# with the given data and None left and
+# right pointers
+  
+  
+class newNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+  
+# A utility function to print a linked list
+  
+  
+def printList(head):
+    while (head != None):
+        print(head.key, end=" ")
+        head = head.next
+  
+    print()
+  
+# Function to detect first node of loop
+# in a linked list that may contain loop
+  
+  
+def detectLoop(head):
+  
+    # Create a temporary node
+    temp = ""
+    while (head != None):
+  
+        # This condition is for the case
+        # when there is no loop
+        if (head.next == None):
+            return False
+  
+        # Check if next is already
+        # pointing to temp
+        if (head.next == temp):
+            return True
+  
+        # Store the pointer to the next node
+        # in order to get to it in the next step
+        next = head.next
+  
+        # Make next point to temp
+        head.next = temp
+  
+        # Get to the next node in the list
+        head = next
+  
+    return False
+  
+  
+# Driver Code
+head = newNode(1)
+head.next = newNode(2)
+head.next.next = newNode(3)
+head.next.next.next = newNode(4)
+head.next.next.next.next = newNode(5)
+  
+# Create a loop for testing(5 is pointing to 3)
+head.next.next.next.next.next = head.next.next
+  
+found = detectLoop(head)
+if (found):
+    print("Loop Found")
+else:
+    print("No Loop")
+  
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+Loop Found
+Time complexity: O(N). Only one traversal of the loop is needed.
+Auxiliary Space: O(1) 
+
+Detect loop in a linked list by Storing length:
+The idea is to store the length of the list from first node and last node, increment last node till reaches NULL or number of nodes in last is greater the current between first and last nodes.
+
+Follow the steps below to solve the problem:
+
+In this method, two pointers are created, first (always points to head) and last. 
+Each time the last pointer moves calculate no of nodes between the first and last. 
+check whether the current no of nodes > previous no of nodes 
+If yes we proceed by moving the last pointer 
+Else it means we’ve reached the end of the loop, so return output accordingly.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python program to return first node of loop
+class newNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+          
+  
+# A utility function to print a linked list
+def printList(head):
+  
+    while (head != None) :
+        print(head.key, end=" ")
+        head = head.next;
+      
+    print()
+  
+  
+# returns distance between first and last node every time
+# last node moves forwards
+def distance(first, last):
+  
+    # counts no of nodes between first and last
+    counter = 0
+  
+    curr = first
+  
+    while (curr != last):
+        counter = counter + 1
+        curr = curr.next
+      
+  
+    return counter + 1
+  
+    
+# Function to detect first node of loop
+# in a linked list that may contain loop
+def detectLoop(head):
+  
+    # Create a temporary node
+    temp = ""
+  
+    # first always points to head
+    first = head;
+    # last pointer initially points to head
+    last = head;
+  
+    # current_length stores no of nodes between current
+    # position of first and last
+    current_length = 0
+  
+    #current_length stores no of nodes between previous
+    # position of first and last*/
+    prev_length = -1
+  
+    while (current_length > prev_length and last != None) :
+        # set prev_length to current length then update the
+        # current length
+        prev_length = current_length
+        # distance is calculated
+        current_length = distance(first, last)
+        # last node points the next node
+        last = last.next;
+      
+      
+    if (last == None) :
+        return False
+      
+    else : 
+        return True
+   
+  
+# Driver program to test above function
+  
+head = newNode(1);
+head.next = newNode(2);
+head.next.next = newNode(3);
+head.next.next.next = newNode(4);
+head.next.next.next.next = newNode(5);
+  
+# Create a loop for testing(5 is pointing to 3) 
+head.next.next.next.next.next = head.next.next;
+  
+found = detectLoop(head)
+if (found) :
+    print("Loop Found")
+else :
+    print("No Loop Found")
+  
+# This code is contributed by ihritik
+C#
+Javascript
+Output
+Loop Found
+Time complexity: O(N2), For every node calculate the length of that node from the head by traversing.
+Auxiliary Space: O(1)
+
+Detect loop in a linked list by Modifying Value:
+The idea is to modify the value of the visited node and check if current nodes value is equal to that value or not.
+
+Follow the steps below to solve the problem:
+
+Traverse the linked list and change the value(data) of that node to -1.
+Now, before modifying the value check whether the value of the node is already -1
+If it is -1 then return TRUE
+Otherwise, change the value of the node.
+Traverse the linked list till it reaches NULL.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python program to return first node of loop
+class Node:
+    def __init__(self, d):
+        self.data = d
+        self.next = None
+  
+  
+head = None
+  
+  
+def push(new_data):
+    global head
+    new_node = Node(new_data)
+    new_node.next = head
+    head = new_node
+  
+  
+def detectLoop(h):
+    global head
+  
+    if (head == None):
+        return False
+    else:
+  
+        while (head != None):
+            if (head.data == -1):
+                return True
+            else:
+                head.data = -1
+                head = head.next
+  
+        return False
+  
+  
+push(1)
+push(2)
+push(3)
+push(4)
+push(5)
+  
+head.next.next.next.next.next = head.next.next
+  
+if (detectLoop(head)):
+    print("Loop Found")
+else:
+    print("Not Found")
+  
+    # This code is contributed by patel2127.
+C#
+Javascript
+Output
+Loop Found
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+443
+Previous
+Find Length of a Linked List (Iterative and Recursive)
+Next
+Find length of loop/cycle in given Linked List
+Related Articles
+1.
+Detect and Remove Loop in a Linked List
+2.
+Detect Cycle in a Linked List using Map
+3.
+Check linked list with a loop is palindrome or not
+4.
+Find length of loop/cycle in given Linked List
+5.
+C++ Program For Detecting Loop In A Linked List
+6.
+Find length of loop in a Linked List using Map
+7.
+C++ Program For Finding The Length Of Loop In Linked List
+8.
+C Program For Finding The Length Of Loop In Linked List
+9.
+Java Program For Finding The Length Of Loop In Linked List
+10.
+Python Program For Finding The Length Of Loop In Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+PrasadPawar
+ashwinvivek
+purnasrivatsa96
+29AjayKumar
+rathbhupendra
+andrew1234
+Akanksha_Rai
+princi singh
+SHUBHAMSINGH10
+nidhi_biet
+prakhar7
+rgndunes
+nesher123
+rutvik_56
+Rajput-Ji
+pratham76
+GauravRajput1
+us19018
+RohitOberoi
+todaysgaurav
+rag2127
+avanitrachhadiya2155
+ab2127
+divyeshrabadiya07
+unknown2108
+patel2127
+simranarora5sos
+ihritik
+arn0dian
+parthc2002
+surinderdawra388
+sumitgumber28
+adityakumar129
+sreenivasulureddyk19
+hardikkoriintern
+garinesrija
+ajrocks321
+adityawnysu
+harendrakumar123
+ishank0106
+Article Tags :
+Accolite
+Amazon
+Linked Lists
+loop
+MAQ Software
+Samsung
+Tortoise-Hare-Approach
+Linked List
+Practice Tags :
+Accolite
+Amazon
+MAQ Software
+Samsung
+Linked List
+Improve Article
+Report Issue

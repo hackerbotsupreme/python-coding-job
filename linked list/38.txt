@@ -1,0 +1,74 @@
+The Great Tree-List Recursion Problem.
+
+Difficulty Level : Hard
+Last Updated : 10 Jan, 2023
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Asked by Varun Bhatia.
+
+Question:
+Write a recursive function treeToList(Node root) that takes an ordered binary tree and rearranges the internal pointers to make a circular doubly linked list out of the tree nodes. The”previous” pointers should be stored in the “small” field and the “next” pointers should be stored in the “large” field. The list should be arranged so that the nodes are in increasing order. Return the head pointer to the new list.
+
+This is very well explained and implemented at: Convert a Binary Tree to a Circular Doubly Link List
+
+References:
+http://cslibrary.stanford.edu/109/TreeListRecursion.html
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+Like
+26
+Previous
+Convert a Binary Tree to a Circular Doubly Link List
+Next
+Clone a Linked List with next and Random Pointer
+Related Articles
+1.
+Write a program to Calculate Size of a tree | Recursion
+2.
+Inorder Tree Traversal without Recursion
+3.
+Inorder Tree Traversal without recursion and without stack!
+4.
+Inorder Non-threaded Binary Tree Traversal without Recursion or Stack
+5.
+DFS traversal of a tree using recursion
+6.
+Print alternate nodes of a linked list using recursion
+7.
+Leaf nodes from Preorder of a Binary Search Tree (Using Recursion)
+8.
+Preorder Traversal of N-ary Tree Without Recursion
+9.
+Delete nodes which have a greater value on right side using recursion
+10.
+Zig-Zag traversal of a Binary Tree using Recursion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+circular linked list
+doubly linked list
+Linked List
+Tree
+Practice Tags :
+circular linked list
+Linked List
+Tree
+Improve Article
+Report Issue

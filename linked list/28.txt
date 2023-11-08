@@ -1,0 +1,259 @@
+Traversal of Circular Linked List
+
+Difficulty Level : Easy
+Last Updated : 16 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+We have discussed Circular Linked List Introduction and Applications, in the previous post on Circular Linked List. In this post, traversal operation is discussed. 
+
+
+
+Recommended Problem
+Circular Linked List Traversal
+circular-linked-list
+Cisco
+Solve Problem
+Submission count: 18.3K
+In a conventional linked list, we traverse the list from the head node and stop the traversal when we reach NULL. In a circular linked list, we stop traversal when we reach the first node again. Following is the C code for the linked list traversal.  
+
+C++
+C
+Java
+Python3
+# Function to print nodes in a given Circular linked list
+def printList(self):
+ 
+    temp = self.head
+ 
+    # If linked list is not empty
+    if self.head is not None:
+        while(True):
+ 
+            # Print nodes till we reach first node again
+            print(temp.data, end=" ")
+            temp = temp.next
+            if (temp == self.head):
+                break
+C#
+Javascript
+ 
+Complete Interview Preparation - GFG
+
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Following are complete programs to demonstrate the traversal of a circular linked list.  
+
+
+
+C++
+C
+Java
+Python3
+# Python program to demonstrate
+# circular linked list traversal
+ 
+# Structure for a Node
+class Node:
+     
+    # Constructor to create  a new node
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+class CircularLinkedList:
+     
+    # Constructor to create a empty circular linked list
+    def __init__(self):
+        self.head = None
+ 
+    # Function to insert a node at the beginning of a
+    # circular linked list
+    def push(self, data):
+        ptr1 = Node(data)
+        temp = self.head
+         
+        ptr1.next = self.head
+ 
+        # If linked list is not None then set the next of
+        # last node
+        if self.head is not None:
+            while(temp.next != self.head):
+                temp = temp.next
+            temp.next = ptr1
+ 
+        else:
+            ptr1.next = ptr1 # For the first node
+ 
+        self.head = ptr1
+ 
+    # Function to print nodes in a given circular linked list
+    def printList(self):
+        temp = self.head
+        if self.head is not None:
+            while(True):
+                print (temp.data, end=" ")
+                temp = temp.next
+                if (temp == self.head):
+                    break
+ 
+ 
+# Driver program to test above function
+ 
+# Initialize list as empty
+cllist = CircularLinkedList()
+ 
+# Created linked list will be 11->2->56->12
+cllist.push(12)
+cllist.push(56)
+cllist.push(2)
+cllist.push(11)
+ 
+print ("Contents of circular Linked List")
+cllist.printList()
+          
+C#
+Javascript
+Output
+Contents of Circular Linked List
+ 11 2 56 12 
+Time Complexity: O(n) As we need to move through the whole list
+Auxiliary Space: O(1) As no extra space is used
+
+Program to traverse a linked list using recursion is as follows:
+
+Java
+Python3
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class CircularLinkedList:
+    def __init__(self):
+        self.head = None
+ 
+    def push(self, data, temp=None):
+        if self.head == None:
+            node = Node(data)
+            self.head = node
+            node.next = self.head
+            return
+ 
+        if temp == None:
+            temp = self.head
+ 
+        if temp.next == self.head:
+            node = Node(data)
+            node.next = self.head
+            temp.next = node
+            return
+ 
+        self.push(data, temp.next)
+ 
+    def traverse(self, temp=None):
+        if temp == None:
+            temp = self.head
+ 
+        if temp.next == self.head:
+            print(temp.data, end="\n")
+            return
+        print(temp.data, end="-->")
+        self.traverse(temp.next)
+ 
+ 
+if __name__ == "__main__":
+    clist = CircularLinkedList()
+    clist.push(2)
+    clist.push(3)
+    clist.push(7)
+    clist.push(5)
+    print("Traversed Circular Linked List: ", end="\n")
+    clist.traverse()
+Output
+Traversed Circular Linked List: 
+2-->3-->7-->5
+Time Complexity: O(n)
+Auxiliary Space: O(1) 
+
+You may like to see the following posts on Circular Linked List 
+
+Split a Circular Linked List into two halves 
+Sorted insert for circular linked list
+
+We will soon be discussing the implementation of insert-delete operations for circular linked lists.
+Please write comments if you find any bug in the above code/algorithm, or find other ways to solve the same problem.
+
+
+
+
+
+Like
+167
+Previous
+Circular Singly Linked List | Insertion
+Next
+Deletion from a Circular Linked List
+Related Articles
+1.
+Circular Linked List Implementation of Circular Queue
+2.
+Convert singly linked list into circular linked list
+3.
+Check if a linked list is Circular Linked List
+4.
+Construct Full Binary Tree using its Preorder traversal and Preorder traversal of its mirror tree
+5.
+Python program to find middle of a linked list using one traversal
+6.
+Convert Binary Tree to Doubly Linked List using Morris Traversal
+7.
+Find the second last node of a linked list in single traversal
+8.
+Convert Binary Tree to Doubly Linked List using inorder traversal
+9.
+Recursive insertion and traversal linked list
+10.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+rathbhupendra
+shubham_singh
+rutvik_56
+pratham76
+umadevi9616
+rajsanghavi9
+avanitrachhadiya2155
+shivanisinghss2110
+darsu2000sharma
+simranarora5sos
+abhijeet19403
+mayanku7h8r
+harendrakumar123
+user_7gr9iodclfx
+Article Tags :
+circular linked list
+Functions
+Traversal
+Linked List
+Practice Tags :
+circular linked list
+Functions
+Linked List
+Traversal
+Improve Article
+Report Issue

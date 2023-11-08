@@ -1,0 +1,319 @@
+Find Length of a Linked List (Iterative and Recursive)
+
+Difficulty Level : Basic
+Last Updated : 10 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Write a function to count the number of nodes in a given singly linked list
+
+Examples: 
+
+Input:
+
+linkedlist_find_length
+
+
+Input: 2->4->1->9->5->3->6
+Output: 7 
+
+Recommended Practice
+Count nodes of linked list
+Try It!
+An iterative approach for finding the length of the linked list:
+Follow the given steps to solve the problem:
+
+Initialize count as 0 
+Initialize a node pointer, current = head.
+Do following while current is not NULL
+current = current -> next
+Increment count by 1.
+Return count 
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# A complete working Python program to find length of a
+# Linked List iteratively
+  
+# Node class
+  
+  
+class Node:
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+  
+  
+# Linked List class contains a Node object
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # This function is in LinkedList class. It inserts
+    # a new node at the beginning of Linked List.
+  
+    def push(self, new_data):
+  
+        # 1 & 2: Allocate the Node &
+        #     Put in the data
+        new_node = Node(new_data)
+  
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+  
+        # 4. Move the head to point to new Node
+        self.head = new_node
+  
+    # This function counts number of nodes in Linked List
+    # iteratively, given 'node' as starting node.
+  
+    def getCount(self):
+        temp = self.head  # Initialise temp
+        count = 0  # Initialise count
+  
+        # Loop while end of linked list is not reached
+        while (temp):
+            count += 1
+            temp = temp.next
+        return count
+  
+  
+# Driver code
+if __name__ == '__main__':
+    llist = LinkedList()
+    llist.push(1)
+    llist.push(3)
+    llist.push(1)
+    llist.push(2)
+    llist.push(1)
+      
+    # Function call
+    print("Count of nodes is :", llist.getCount())
+C#
+Javascript
+Output
+count of nodes is 5
+Time complexity: O(N), Where N is the size of the linked list
+Auxiliary Space: O(1), As constant extra space is used.
+
+A recursive approach for finding the length of the linked list:
+Follow the given steps to solve the problem:
+
+If the head is NULL, return 0.
+Otherwise, return 1 + getCount(head->next) 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A complete working Python program to find length of a
+# Linked List recursively
+  
+# Node class
+  
+  
+class Node:
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+  
+  
+# Linked List class contains a Node object
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # This function is in LinkedList class. It inserts
+    # a new node at the beginning of Linked List.
+  
+    def push(self, new_data):
+  
+        # 1 & 2: Allocate the Node &
+        #        Put in the data
+        new_node = Node(new_data)
+  
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+  
+        # 4. Move the head to point to new Node
+        self.head = new_node
+  
+    # This function counts number of nodes in Linked List
+    # recursively, given 'node' as starting node.
+    def getCountRec(self, node):
+        if (not node):  # Base case
+            return 0
+        else:
+            return 1 + self.getCountRec(node.next)
+  
+    # A wrapper over getCountRec()
+    def getCount(self):
+        return self.getCountRec(self.head)
+  
+  
+# Code execution starts here
+if __name__ == '__main__':
+    llist = LinkedList()
+    llist.push(1)
+    llist.push(3)
+    llist.push(1)
+    llist.push(2)
+    llist.push(1)
+    print('Count of nodes is :', llist.getCount())
+C#
+Javascript
+Output
+Count of nodes is 5
+Time Complexity: O(N), As we are traversing the linked list only once.
+Auxiliary Space: O(N), Extra space is used in the recursion call stack.
+
+Recursive approach for finding the length of the linked list using constant space:
+To solve the problem follow the below idea:
+
+The above recursive approach can be modified to make it a tail recursive function and thus our auxiliary space will become O(1)
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A complete working Python3 program to find length of a
+# Linked List using Tail recursion.
+  
+# Node class
+  
+  
+class Node:
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+  
+  
+# Linked List class contains a Node object
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # This function is in LinkedList class. It inserts
+    # a new node at the beginning of Linked List.
+  
+    def push(self, new_data):
+  
+        # 1 & 2: Allocate the Node &
+        #     Put in the data
+        new_node = Node(new_data)
+  
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+  
+        # 4. Move the head to point to new Node
+        self.head = new_node
+  
+    # This function counts number of nodes in Linked List
+    # recursively, given 'node' as starting node using Tail Recursion.
+    def getCountRec(self, node, count=0):
+        if (not node):  # Base case
+            return count
+        else:
+            return self.getCountRec(node.next, count+1)
+  
+    # A wrapper over getCountRec()
+    def getCount(self):
+        return self.getCountRec(self.head)
+  
+  
+# Driver code
+if __name__ == '__main__':
+    llist = LinkedList()
+    llist.push(1)
+    llist.push(3)
+    llist.push(1)
+    llist.push(2)
+    llist.push(1)
+      
+    # Function call
+    print('Count of nodes is :', llist.getCount())
+  
+    # This code is contributed by garinesrija.
+C#
+Javascript
+Output
+Count of nodes is 5
+Time Complexity: O(N), As we are traversing the list only once.
+Auxiliary Space: O(1), As we are using the tail recursive function, no extra space is used in the function call stack.
+
+This article is contributed by Ravi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Linked List vs Array
+Next
+Detect loop in a linked list
+Related Articles
+1.
+Check if linked list is sorted (Iterative and Recursive)
+2.
+Search an element in a Linked List (Iterative and Recursive)
+3.
+Recursive Approach to find nth node from the end in the linked list
+4.
+Recursive insertion and traversal linked list
+5.
+Construct a linked list from 2D matrix (Iterative Approach)
+6.
+Iterative Merge Sort for Linked List
+7.
+Print the last k nodes of the linked list in reverse order | Iterative Approaches
+8.
+Reverse a Linked List in groups of given size (Iterative Approach)
+9.
+Reverse alternate K nodes in a Singly Linked List - Iterative Solution
+10.
+Iterative selection sort for linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+princiraj1992
+rathbhupendra
+Akanksha_Rai
+Rajput-Ji
+GauravRajput1
+rajsanghavi9
+simranarora5sos
+amartyaghoshgfg
+technophpfij
+abhijeet19403
+garinesrija
+janardansthox
+simmytarika5
+surinderdawra388
+Article Tags :
+Linked List
+Practice Tags :
+Linked List
+Report Issue

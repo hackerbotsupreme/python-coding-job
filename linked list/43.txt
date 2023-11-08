@@ -1,0 +1,320 @@
+Rotate Doubly linked list by N nodes
+
+Difficulty Level : Easy
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a doubly-linked list, rotate the linked list counter-clockwise by N nodes. Here N is a given positive integer and is smaller than the count of nodes in linked list. 
+
+
+
+N = 2
+Rotated List: 
+
+
+
+Examples:  
+
+Input : a  b  c  d  e   N = 2
+Output : c  d  e  a  b 
+
+Input : a  b  c  d  e  f  g  h   N = 4
+Output : e  f  g  h  a  b  c  d 
+Asked in Amazon 
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+Solution 1:
+
+
+
+C++
+Java
+Python3
+# Node of a doubly linked list 
+class Node: 
+    def __init__(self, next = None, 
+                       prev = None, data = None): 
+        self.next = next # reference to next node in DLL 
+        self.prev = prev # reference to previous node in DLL 
+        self.data = data 
+  
+def push(head, new_data): 
+  
+    new_node = Node(data = new_data) 
+  
+    new_node.next = head 
+    new_node.prev = None
+  
+    if head is not None: 
+        head.prev = new_node 
+  
+    head = new_node
+    return head
+  
+def printList(head):
+  
+    node = head
+  
+    print("Given linked list")
+    while(node is not None): 
+        print(node.data, end = " "), 
+        last = node 
+        node = node.next
+      
+def rotate(start, N):
+    if N == 0 :
+        return
+  
+    # Let us understand the below code 
+    # for example N = 2 and 
+    # list = a <-> b <-> c <-> d <-> e. 
+    current = start 
+  
+    # current will either point to Nth 
+    # or None after this loop. Current 
+    # will point to node 'b' in the 
+    # above example 
+    count = 1
+    while count < N and current != None :
+        current = current.next
+        count += 1
+  
+    # If current is None, N is greater 
+    # than or equal to count of nodes 
+    # in linked list. Don't change the 
+    # list in this case 
+    if current == None :
+        return
+  
+    # current points to Nth node. Store 
+    # it in a variable. NthNode points to 
+    # node 'b' in the above example 
+    NthNode = current 
+  
+    # current will point to last node 
+    # after this loop current will point 
+    # to node 'e' in the above example 
+    while current.next != None :
+        current = current.next
+  
+    # Change next of last node to previous 
+    # head. Next of 'e' is now changed to 
+    # node 'a' 
+    current.next = start 
+  
+    # Change prev of Head node to current 
+    # Prev of 'a' is now changed to node 'e' 
+    start.prev = current 
+  
+    # Change head to (N+1)th node 
+    # head is now changed to node 'c' 
+    start = NthNode.next
+  
+    # Change prev of New Head node to None 
+    # Because Prev of Head Node in Doubly 
+    # linked list is None 
+    start.prev = None
+  
+    # change next of Nth node to None 
+    # next of 'b' is now None 
+    NthNode.next = None
+  
+    return start
+  
+# Driver Code
+if __name__ == "__main__":
+    head = None
+  
+    head = push(head, 'e')
+    head = push(head, 'd')
+    head = push(head, 'c')
+    head = push(head, 'b')
+    head = push(head, 'a')
+  
+    printList(head)
+    print("\n")
+      
+    N = 2
+    head = rotate(head, N)
+  
+    printList(head)
+  
+# This code is contributed by vinayak sharma
+C#
+Javascript
+Output
+Before Rotation : 
+a-->b-->c-->d-->e-->NULL
+
+After Rotation : 
+c-->d-->e-->a-->b-->NULL
+Time Complexity: O(N)
+Space Complexity: O(1)
+
+Solution 2: 
+
+C++
+Java
+Python3
+# Python code to rotate doubly linked list by N nodes.
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.pre = None
+        self.next = None
+  
+class GFG:
+    def __init__(self):
+        self.head = None
+  
+    # Function to insert nodes at the start of the linked list.
+    def insertAtHead(self, data):
+        n = Node(data)
+        if self.head == None:
+            self.head = n
+            return
+  
+        n.next = self.head
+        self.head.pre = n
+        self.head = n
+        return
+  
+    # Function to insert nodes at the tail of the linked list.
+    def insertAtTail(self, data):
+        if self.head == None:
+            self.insertAtHead(data)
+            return
+        temp = self.head
+        while temp.next != None:
+            temp = temp.next
+        n = Node(data)
+        temp.next = n
+        n.pre = temp
+        return
+        
+    # Function to print the list.
+    def display(self):
+        temp = self.head
+        while temp != None:
+            print(temp.data, "-->", sep="", end="")
+            temp = temp.next
+        print("NULL")
+  
+    # Function to rotate doubly linked list by N nodes.
+    def rotateByN(self, pos):
+        if pos == 0:
+            return
+        curr = self.head
+        while pos:
+            curr = curr.next
+            pos -= 1
+        tail = curr.pre
+        NewHead = curr
+        tail.next = None
+        curr.pre = None
+  
+        while curr.next != None:
+            curr = curr.next
+  
+        curr.next = self.head
+        self.head.pre = curr
+        self.head = NewHead
+  
+  
+# Driver Code
+if __name__ == "__main__":
+    list = GFG()
+    list.insertAtTail('a')
+    list.insertAtTail('b')
+    list.insertAtTail('c')
+    list.insertAtTail('d')
+    list.insertAtTail('e')
+  
+    n = 2
+    print("Before Rotation : ")
+    list.display()
+    list.rotateByN(n)
+    print("\nAfter Rotation : ")
+    list.display()
+    print()
+  
+# This code is contributed by Tapesh(tapeshdua420)
+C#
+Javascript
+Output
+Before Rotation : 
+a-->b-->c-->d-->e-->NULL
+
+After Rotation : 
+c-->d-->e-->a-->b-->NULL
+Time Complexity: O(N)
+Space Complexity: O(1)
+
+
+
+
+
+Like
+59
+Next
+Reverse a doubly linked list in groups of given size
+Related Articles
+1.
+Javascript Program for Rotate Doubly linked list by N nodes
+2.
+C++ Program to Rotate Doubly linked list by N nodes
+3.
+Java Program to Rotate Doubly linked list by N nodes
+4.
+Python3 Program to Rotate Doubly linked list by N nodes
+5.
+Left rotate Linked List by X in groups of Y nodes
+6.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+7.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+8.
+Difference between Singly linked list and Doubly linked list
+9.
+Delete all the nodes from the doubly linked list that are greater than a given value
+10.
+Delete all the even nodes from a Doubly Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Mr.Gera
+@Mr.Gera
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+prerna saini
+andrew1234
+itsvinayak
+aashish1995
+rohitpatil0086
+simmytarika5
+surinderdawra388
+anikakapoor
+kaushikroy1001
+_saurabh_jaiswal
+lokeshmvs21
+tapeshdua420
+hardikkoriintern
+vforviksvy5
+Article Tags :
+Amazon
+doubly linked list
+rotation
+Linked List
+Practice Tags :
+Amazon
+Linked List

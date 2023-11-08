@@ -1,0 +1,213 @@
+Insert value in sorted way in a sorted doubly linked list
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a sorted doubly linked list and a value to insert, write a function to insert the value in sorted way.
+Initial doubly linked list
+ 
+
+
+
+Doubly Linked List after insertion of 9
+ 
+
+
+
+
+Recommended Problem
+Insert in Sorted way in a Sorted DLL
+doubly-linked-list
+Linked List
++1 more
+Solve Problem
+Submission count: 19.5K
+Algorithm: 
+
+Let input doubly linked list is sorted in increasing order.  New node passed to the function contains data in the data part and previous and next link are set to NULL.
+
+sortedInsert(head_ref, newNode)
+      if (head_ref == NULL)
+      head_ref = newNode
+        
+      else if head_ref->data >= newNode->data
+          newNode->next = head_ref
+      newNode->next->prev = newNode
+      head_ref = newNode    
+        
+      else
+      Initialize current = head_ref
+      while (current->next != NULL and
+               current->next->data < newNode->data)
+        current = current->next
+        
+      newNode->next = current->next
+      if current->next != NULL
+        newNode->next->prev = newNode
+            
+          current->next = newNode
+      newNode->prev = current
+Implementation:
+
+
+
+C++
+Java
+Python3
+# Python3 implementation to insert
+# value in sorted way in a sorted
+# doubly linked list
+  
+# Node of a doubly linked list
+class Node:
+  
+    # Constructor to initialize 
+    # the node object
+    def __init__(self, data):
+          
+        self.data = data
+        self.next = None
+        self.prev = None
+  
+class DoublyLinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+          
+        self.head = None
+  
+    # Function to create and return a 
+    # new node of a doubly linked list
+    def getNode(self, data):
+          
+        return Node(data)
+  
+    # Function to insert a new node in 
+    # sorted way in a sorted doubly linked list
+    def sortedInsert(self, data):
+          
+        new_node = self.getNode(data)
+  
+        # If the list is empty
+        if self.head is None:
+            self.head = new_node
+          
+        # If the node is to be inserted at  
+        # the beginning of the doubly linked list 
+        elif self.head.data >= new_node.data:
+            new_node.next = self.head
+            new_node.next.prev = new_node
+            self.head = new_node
+        else: 
+            current = self.head
+  
+            # Locate the node after which 
+            # the new node  is to be inserted
+            while ((current.next is not None) and 
+                   (current.next.data < new_node.data)):
+                current = current.next
+      
+            # Make the appropriate links
+            new_node.next = current.next
+  
+            # If the new node is not inserted 
+            # at the end of the list
+            if current.next is not None:
+                new_node.next.prev = new_node
+  
+            current.next = new_node
+            new_node.prev = current
+      
+    # Function to print the doubly linked list
+    def printList(self):
+  
+        node = self.head
+        while node:
+            print(str(node.data), end = " ")
+            node = node.next
+  
+# Driver code
+if __name__ == '__main__':
+  
+    # Insert the following nodes
+    # in sorted way 
+    llist = DoublyLinkedList()
+    llist.sortedInsert(8)
+    llist.sortedInsert(5)
+    llist.sortedInsert(3)
+    llist.sortedInsert(10)
+    llist.sortedInsert(12)
+    llist.sortedInsert(9)
+      
+    print("Created Doubly Linked List")
+    llist.printList()
+  
+# This code is contributed by Siddhartha Pramanik
+C#
+Javascript
+Output
+Created Doubly Linked Listn3 5 8 9 10 12 
+Time Complexity: O(n)
+Auxiliary Space: O(n) 
+
+This article is contributed by Ayush Jauhari. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+23
+Next
+Delete a Doubly Linked List node at a given position
+Related Articles
+1.
+Given a linked list which is sorted, how will you insert in sorted way
+2.
+Sorted insert in a doubly linked list with head and tail pointers
+3.
+Merge K sorted Doubly Linked List in Sorted Order
+4.
+Count triplets in a sorted doubly linked list whose product is equal to a given value x
+5.
+Count triplets in a sorted doubly linked list whose sum is equal to a given value x
+6.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+7.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+8.
+Difference between Singly linked list and Doubly linked list
+9.
+Insert a linked list into another linked list
+10.
+Sorted merge of two sorted doubly circular linked lists
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+andrew1234
+Astha_Singh
+SiddharthaPramanik1028
+umadevi9616
+ankita_saini
+polymatir3j
+hardikkoriintern
+Article Tags :
+doubly linked list
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

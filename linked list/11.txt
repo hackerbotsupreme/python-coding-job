@@ -1,0 +1,343 @@
+Search an element in a Linked List (Iterative and Recursive)
+
+Difficulty Level : Basic
+Last Updated : 24 Jan, 2023
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+Given a linked list and a key ‘X‘ in, the task is to check if X is present in the linked list or not. 
+
+Examples:
+
+Input: 14->21->11->30->10, X = 14
+Output: Yes
+Explanation: 14 is present in the linked list.
+
+Input: 6->21->17->30->10->8, X = 13
+Output: No
+
+Recommended Practice
+Please try your approach on IDE first, before moving on to the solution.
+Try It!
+ 
+Using O(N) Extra Space.
+   The Approach:
+
+      In this approach we use vector where we store all the nodes value in the vector and then check weather there is key present in vector then it will return 1.
+
+C++
+#include <bits/stdc++.h>
+using namespace std;
+   
+/* Link list node */
+class Node {
+public:
+    int key;
+    Node* next;
+};
+   
+/* Given a reference (pointer to pointer) to the head
+of a list and an int, push a new node on the front
+of the list. */
+void push(Node** head_ref, int new_key)
+{
+    /* allocate node */
+    Node* new_node = new Node();
+   
+    /* put in the key */
+    new_node->key = new_key;
+   
+    /* link the old list of the new node */
+    new_node->next = (*head_ref);
+   
+    /* move the head to point to the new node */
+    (*head_ref) = new_node;
+}
+ 
+int main() {
+     /* Start with the empty list */
+    Node* head = NULL;
+    int x = 21;
+   
+    /* Use push() to construct below list
+    14->21->11->30->10 */
+    push(&head, 10);
+    push(&head, 30);
+    push(&head, 11);
+    push(&head, 21);
+    push(&head, 14);
+    vector<int>v;
+    //we donot use given data
+    Node* temp=head;
+    while(temp!=NULL){
+     v.push_back(temp->key);
+     temp=temp->next;
+    }
+    // we use iterator to find.
+    vector<int>::iterator it;
+    find(v.begin(),v.end(),x);
+    if(it==v.end()){
+      cout<<"NO"<<endl;
+    }else{
+     cout<<"YES"<<endl;
+    }
+    return 0;
+}
+Output
+
+
+YES
+Time Complexity: O(N), to traverse linked list.
+Auxiliary Space: O(N),to store the values.
+
+Search an element in a Linked List (Iterative Approach): 
+Follow the below steps to solve the problem:
+
+Initialize a node pointer, current = head.
+Do following while current is not NULL
+ If the current value (i.e., current->key) is equal to the key being searched return true.
+Otherwise, move to the next node (current = current->next).
+If the key is not found, return false 
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Iterative Python3 program to search an element
+# in linked list
+ 
+# Node class
+ 
+ 
+class Node:
+ 
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+ 
+# Linked List class
+ 
+ 
+class LinkedList:
+    def __init__(self):
+        self.head = None  # Initialize head as None
+ 
+    # This function insert a new node at the
+    # beginning of the linked list
+    def push(self, new_data):
+ 
+        # Create a new Node
+        new_node = Node(new_data)
+ 
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+ 
+        # 4. Move the head to point to new Node
+        self.head = new_node
+ 
+    # This Function checks whether the value
+    # x present in the linked list
+    def search(self, x):
+ 
+        # Initialize current to head
+        current = self.head
+ 
+        # loop till current not equal to None
+        while current != None:
+            if current.data == x:
+                return True  # data found
+ 
+            current = current.next
+ 
+        return False  # Data Not found
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    # Start with the empty list
+    llist = LinkedList()
+ 
+    ''' Use push() to construct below list
+        14->21->11->30->10 '''
+    llist.push(10)
+    llist.push(30)
+    llist.push(11)
+    llist.push(21)
+    llist.push(14)
+ 
+       # Function call
+    if llist.search(21):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed by Ravi Shankar
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N), Where N is the number of nodes in the LinkedList
+Auxiliary Space: O(1)
+
+Search an element in a Linked List (Recursive Approach): 
+Follow the below steps to solve the problem:
+
+If the head is NULL, return false.
+If the head’s key is the same as X, return true;
+Else recursively search in the next node. 
+Below is the recursive implementation of the above algorithm.
+
+C++
+C
+Java
+Python3
+# Recursive Python program to
+# search an element in linked list
+ 
+# Node class
+ 
+ 
+class Node:
+ 
+    # Function to initialise
+    # the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+ 
+ 
+class LinkedList:
+ 
+    def __init__(self):
+        self.head = None  # Initialize head as None
+ 
+    # This function insert a new node at
+    # the beginning of the linked list
+    def push(self, new_data):
+ 
+        # Create a new Node
+        new_node = Node(new_data)
+ 
+        # Make next of new Node as head
+        new_node.next = self.head
+ 
+        # Move the head to
+        # point to new Node
+        self.head = new_node
+ 
+    # Checks whether the value key
+    # is present in linked list
+ 
+    def search(self, li, key):
+ 
+        # Base case
+        if(not li):
+            return False
+ 
+        # If key is present in
+        # current node, return true
+        if(li.data == key):
+            return True
+ 
+        # Recur for remaining list
+        return self.search(li.next, key)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    li = LinkedList()
+ 
+    li.push(1)
+    li.push(2)
+    li.push(3)
+    li.push(4)
+ 
+    key = 4
+ 
+    # Function call
+    if li.search(li.head, key):
+        print("Yes")
+    else:
+        print("No")
+ 
+# This code is contributed
+# by Manoj Sharma
+C#
+Javascript
+Output
+Yes
+Time Complexity: O(N)
+Auxiliary Space: O(N), Stack space used by recursive calls
+
+This article is contributed by Ravi. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+233
+Previous
+Find the middle of a given linked list
+Next
+Reverse a Linked List
+Related Articles
+1.
+Check if linked list is sorted (Iterative and Recursive)
+2.
+Find Length of a Linked List (Iterative and Recursive)
+3.
+Sublist Search (Search a linked list in another list)
+4.
+Recursive insertion and traversal linked list
+5.
+Construct a linked list from 2D matrix (Iterative Approach)
+6.
+Iterative Merge Sort for Linked List
+7.
+Print the last k nodes of the linked list in reverse order | Iterative Approaches
+8.
+Reverse a Linked List in groups of given size (Iterative Approach)
+9.
+Reverse alternate K nodes in a Singly Linked List - Iterative Solution
+10.
+Iterative selection sort for linked list
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+manojshr
+princiraj1992
+Rajput-Ji
+formula21
+rathbhupendra
+SHUBHAMSINGH10
+aashish1995
+GauravRajput1
+simranarora5sos
+amartyaghoshgfg
+technophpfij
+hardikkoriintern
+janardansthox
+surinderdawra388
+sanketgode0
+Article Tags :
+Python-Data-Structures
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

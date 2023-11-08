@@ -1,0 +1,177 @@
+Delete a Linked List node at a given position
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a singly linked list and a position, delete a linked list node at the given position.
+
+Example:  
+
+Input: position = 1, Linked List = 8->2->3->1->7
+Output: Linked List =  8->3->1->7
+
+Input: position = 0, Linked List = 8->2->3->1->7
+Output: Linked List = 2->3->1->7
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+If the node to be deleted is the root, simply delete it. To delete a middle node, we must have a pointer to the node previous to the node to be deleted. So if positions are not zero, we run a loop position-1 times and get a pointer to the previous node.
+
+Below is the implementation of the above idea.
+
+C++14
+C
+Java
+Python3
+# Python program to delete a node in a linked list
+# at a given position
+  
+# Node class
+  
+  
+class Node:
+  
+    # Constructor to initialize the node object
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+  
+  
+class LinkedList:
+  
+    # Constructor to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # Function to insert a new node at the beginning
+    def push(self, new_data):
+        new_node = Node(new_data)
+        new_node.next = self.head
+        self.head = new_node
+  
+    # Given a reference to the head of a list
+    # and a position, delete the node at a given position
+    # This delete function code is contributed by Arabin Islam
+    def deleteNodeAtGivenPosition(self, position):
+        if self.head is None:
+            return
+        index = 0
+        current = self.head
+        while current.next and index < position:
+            previous = current
+            current = current.next
+            index += 1
+        if index < position:
+            print("\nIndex is out of range.")
+        elif index == 0:
+            self.head = self.head.next
+        else:
+            previous.next = current.next
+            # current = None #Optional statement
+  
+    # Utility function to print the LinkedList
+  
+    def printList(self):
+        temp = self.head
+        while(temp):
+            print(" %d " % (temp.data), end=" ")
+            temp = temp.next
+  
+  
+# Driver program to test above function
+llist = LinkedList()
+llist.push(7)
+llist.push(1)
+llist.push(3)
+llist.push(2)
+llist.push(8)
+  
+print("Created Linked List: ")
+llist.printList()
+llist.deleteNodeAtGivenPosition(4)
+print("\nLinked List after Deletion at position 4: ")
+llist.printList()
+  
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+
+
+Created Linked List: 8 2 3 1 7 
+Linked List after Deletion at position 4: 8 2 3 7 
+Complexity Analysis : 
+
+Best Case : O(1) if given position is 1 
+Average  & Worst Case : O(N)  if position given is size-1 then need to traverse till position not found.
+Space Complexity : O(1) no extra any space is required
+
+
+
+
+Like
+331
+Previous
+Insert a node after the n-th node from the end
+Next
+Write a function to delete a Linked List
+Related Articles
+1.
+Delete a Doubly Linked List node at a given position
+2.
+Delete a given node in Linked List under given constraints
+3.
+Given only a pointer/reference to a node to be deleted in a singly linked list, how do you delete it?
+4.
+Given only a pointer to a node to be deleted in a singly linked list, how do you delete it?
+5.
+Delete Nth node from the end of the given linked list
+6.
+Python Program For Deleting A Linked List Node At A Given Position
+7.
+C++ Program For Deleting A Linked List Node At A Given Position
+8.
+C Program For Deleting A Linked List Node At A Given Position
+9.
+Java Program For Deleting A Linked List Node At A Given Position
+10.
+Javascript Program For Deleting A Linked List Node At A Given Position
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+kanishk_bharadwaj
+Akanksha_Rai
+Rajput-Ji
+premsai2030
+todaysgaurav
+simranarora5sos
+arabintappware
+amartyaghoshgfg
+sanjeeban5644
+simmytarika5
+devendrasalunke
+hardikkoriintern
+plusminuschirag
+adityakhandelwalaims
+dhruva3223
+lingareddysurendrareddy999
+vforviksvy5
+Article Tags :
+Samsung
+Linked List
+Practice Tags :
+Samsung
+Linked List
+Improve Article
+Report Issue

@@ -1,0 +1,410 @@
+Insertion in Doubly Circular Linked List
+
+Difficulty Level : Easy
+Last Updated : 17 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Circular Doubly Linked List has properties of both doubly linked list and circular linked list in which two consecutive elements are linked or connected by the previous and next pointer and the last node points to the first node by the next pointer and also the first node points to the last node by the previous pointer.
+
+Following is the representation of a Circular doubly linked list node in C/C++: 
+
+C++
+static class node {
+  int data;
+ 
+  // pointer to next node
+  node next;
+ 
+  // pointer to prev node
+  node prev;
+}
+  
+// This code is contributed by Yash Agarwal(yashagarwal2852002)
+C
+ 
+
+Circular Doubly Linked LIst
+Circular Doubly Linked LIst
+
+Insertion in Circular Doubly Linked List:
+1. Insertion at the end of the list or in an empty list:
+A node(Say N) is inserted with data = 5. So, the previous pointer of N points to N and the next pointer of N also points to N. But now start pointer points to the first node of the list.
+
+Insertion in an empty list
+Insertion in an empty list
+
+2. List initially contains some nodes, start points to the first node of the List: 
+A node(Say M) is inserted with data = 7, so the previous pointer of M points to the last node, the next pointer of M points to the first node and the last node’s next pointer points to this M node, and first node’s previous pointer points to this M node.
+
+Insertion at the end of list
+Insertion at the end of list
+
+Below is the implementation of the above operations:
+
+
+
+C++
+Java
+Python3
+# Function to insert at the end
+def insertEnd(value):
+    global start
+ 
+    # If the list is empty, create a
+    # single node circular and doubly list
+    if (start == None):
+ 
+        new_node = Node(0)
+        new_node.data = value
+        new_node.next = new_node.prev = new_node
+        start = new_node
+        return
+ 
+    # If list is not empty
+ 
+    # Find last node */
+    last = (start).prev
+ 
+    # Create Node dynamically
+    new_node = Node(0)
+    new_node.data = value
+ 
+    # Start is going to be next of new_node
+    new_node.next = start
+ 
+    # Make new node previous of start
+    (start).prev = new_node
+ 
+    # Make last previous of new node
+    new_node.prev = last
+ 
+    # Make new node next of old last
+    last.next = new_node
+ 
+    # This code is contributed by shivanisinghss2110
+C#
+Javascript
+3. Insertion at the beginning of the list: 
+To insert a node at the beginning of the list, create a node(Say T) with data = 5, T next pointer points to the first node of the list, T previous pointer points to the last node of the list, last node’s next pointer points to this T node, first node’s previous pointer also points this T node and at last don’t forget to shift ‘Start’ pointer to this T node.
+
+Insertion at the beginning of the list
+Insertion at the beginning of the list
+
+Below is the implementation of the above operation:
+
+C++
+Java
+Python3
+# Function to insert Node at the beginning
+# of the List,
+ 
+ 
+def insertBegin(value):
+    global start
+ 
+    # Pointer points to last Node
+    last = (start).prev
+ 
+    new_node = Node(0)
+    new_node.data = value  # Inserting the data
+ 
+    # setting up previous and
+    # next of new node
+    new_node.next = start
+    new_node.prev = last
+ 
+    # Update next and previous pointers
+    # of start and last.
+    last.next = (start).prev = new_node
+ 
+    # Update start pointer
+    start = new_node
+ 
+    # This code is contributed by shivanisinghss2110
+C#
+Javascript
+4. Insertion in between the nodes of the list: 
+To insert a node in between the list, two data values are required one after which new node will be inserted and another is the data of the new node.
+
+Insertion in between other nodes
+Insertion in between other nodes
+
+Below is the implementation of the above operation:
+
+
+C++
+Java
+Python3
+# Function to insert node with value as value1.
+# The new node is inserted after the node with
+# with value2
+ 
+ 
+def insertAfter(value1, value2):
+    global start
+    new_node = Node(0)
+    new_node.data = value1  # Inserting the data
+ 
+    # Find node having value2 and
+    # next node of it
+    temp = start
+    while (temp.data != value2):
+        temp = temp.next
+    next = temp.next
+ 
+    # insert new_node between temp and next.
+    temp.next = new_node
+    new_node.prev = temp
+    new_node.next = next
+    next.prev = new_node
+ 
+# this code is contributed by shivanisinghss2110
+C#
+Javascript
+Following is a complete program that uses all of the above methods to create a circular doubly linked list.  
+
+C++
+Java
+Python3
+# Python3 program to illustrate inserting
+# a Node in a Circular Doubly Linked list
+# in begging, end and middle
+ 
+# Structure of a Node
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+ 
+# Function to insert at the end
+ 
+ 
+def insertEnd(value):
+    global start
+ 
+    # If the list is empty, create a
+    # single node circular and doubly list
+    if (start == None):
+ 
+        new_node = Node(0)
+        new_node.data = value
+        new_node.next = new_node.prev = new_node
+        start = new_node
+        return
+ 
+    # If list is not empty
+ 
+    # Find last node */
+    last = (start).prev
+ 
+    # Create Node dynamically
+    new_node = Node(0)
+    new_node.data = value
+ 
+    # Start is going to be next of new_node
+    new_node.next = start
+ 
+    # Make new node previous of start
+    (start).prev = new_node
+ 
+    # Make last previous of new node
+    new_node.prev = last
+ 
+    # Make new node next of old last
+    last.next = new_node
+ 
+# Function to insert Node at the beginning
+# of the List,
+ 
+ 
+def insertBegin(value):
+    global start
+ 
+    # Pointer points to last Node
+    last = (start).prev
+ 
+    new_node = Node(0)
+    new_node.data = value  # Inserting the data
+ 
+    # setting up previous and
+    # next of new node
+    new_node.next = start
+    new_node.prev = last
+ 
+    # Update next and previous pointers
+    # of start and last.
+    last.next = (start).prev = new_node
+ 
+    # Update start pointer
+    start = new_node
+ 
+# Function to insert node with value as value1.
+# The new node is inserted after the node with
+# with value2
+ 
+ 
+def insertAfter(value1, value2):
+    global start
+    new_node = Node(0)
+    new_node.data = value1  # Inserting the data
+ 
+    # Find node having value2 and
+    # next node of it
+    temp = start
+    while (temp.data != value2):
+        temp = temp.next
+    next = temp.next
+ 
+    # insert new_node between temp and next.
+    temp.next = new_node
+    new_node.prev = temp
+    new_node.next = next
+    next.prev = new_node
+ 
+ 
+def display():
+    global start
+    temp = start
+ 
+    print("Traversal in forward direction:")
+    while (temp.next != start):
+ 
+        print(temp.data, end=" ")
+        temp = temp.next
+ 
+    print(temp.data)
+ 
+    print("Traversal in reverse direction:")
+    last = start.prev
+    temp = last
+    while (temp.prev != last):
+ 
+        print(temp.data, end=" ")
+        temp = temp.prev
+ 
+    print(temp.data)
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    global start
+ 
+    # Start with the empty list
+    start = None
+ 
+    # Insert 5. So linked list becomes 5.None
+    insertEnd(5)
+ 
+    # Insert 4 at the beginning. So linked
+    # list becomes 4.5
+    insertBegin(4)
+ 
+    # Insert 7 at the end. So linked list
+    # becomes 4.5.7
+    insertEnd(7)
+ 
+    # Insert 8 at the end. So linked list
+    # becomes 4.5.7.8
+    insertEnd(8)
+ 
+    # Insert 6, after 5. So linked list
+    # becomes 4.5.6.7.8
+    insertAfter(6, 5)
+ 
+    print("Created circular doubly linked list is: ")
+    display()
+ 
+# This code is contributed by Arnab kundu
+C#
+Javascript
+Output
+Created circular doubly linked list is: 
+Traversal in forward direction 
+4 5 6 7 8 
+Traversal in reverse direction 
+8 7 6 5 4 
+Time Complexity: O(N)
+Auxiliary Space: O(1), As constant extra space is used.
+
+Advantages of circular doubly linked list: 
+The list can be traversed from both directions i.e. from head to tail or from tail to head.
+Jumping from head to tail or from tail to head is done in constant time O(1).
+Circular Doubly Linked Lists are used for the implementation of advanced data structures like the Fibonacci Heap.
+Disadvantages of circular doubly linked list: 
+It takes slightly extra memory in each node to accommodate the previous pointer.
+Lots of pointers are involved while implementing or doing operations on a list. So, pointers should be handled carefully otherwise data of the list may get lost.
+Applications of Circular doubly linked list:
+Managing song playlists in media player applications.
+Managing shopping carts in online shopping.
+This article is contributed by Akash Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+31
+Previous
+Skip List | Set 3 (Searching and Deletion)
+Next
+Deletion in Doubly Circular Linked List
+Related Articles
+1.
+Insertion at Specific Position in a Circular Doubly Linked List
+2.
+Insertion Sort for Doubly Linked List
+3.
+Introduction and Insertion in a Doubly Linked List
+4.
+Insertion in a sorted circular linked list when a random pointer is given
+5.
+Circular Singly Linked List | Insertion
+6.
+Convert Binary Tree to Circular Doubly Linked List using Linear extra space
+7.
+Convert an Array to a Circular Doubly Linked List
+8.
+Reverse a doubly circular linked list
+9.
+Search an Element in Doubly Circular Linked List
+10.
+Remove all even parity nodes from a Doubly and Circular Singly Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+andrew1234
+rutvik_56
+pratham76
+simmytarika5
+aashish1995
+rdtank
+simranarora5sos
+shivanisinghss2110
+abhijeet19403
+hardikkoriintern
+janardansthox
+yashagarwal2852002
+Article Tags :
+doubly linked list
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

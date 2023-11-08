@@ -1,0 +1,266 @@
+Write a function to get Nth node in a Linked List
+
+Difficulty Level : Basic
+Last Updated : 10 Jan, 2023
+Read
+Discuss(170+)
+Courses
+Practice
+Video
+Write a GetNth() function that takes a linked list and an integer index and returns the data value stored in the node at that index position. 
+
+Example: 
+
+Input:  1->10->30->14,  index = 2
+Output: 30  
+The node at index 2 is 30
+Recommended Practice
+Node at a given index in linked list
+Try It!
+Algorithm: 
+
+1. Initialize count = 0
+2. Loop through the link list
+     a. if the count is equal to the passed index then return the current
+         node
+     b. Increment count
+     c. change current to point to next of the current.
+Implementation: 
+
+
+C++
+C
+Java
+Python3
+# A complete working Python program to find n'th node
+# in a linked list
+  
+# Node class
+  
+  
+class Node:
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+  
+  
+# Linked List class contains a Node object
+class LinkedList:
+  
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+  
+    # This function is in LinkedList class. It inserts
+    # a new node at the beginning of Linked List.
+  
+    def push(self, new_data):
+  
+        # 1 & 2: Allocate the Node &
+        #     Put in the data
+        new_node = Node(new_data)
+  
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+  
+        # 4. Move the head to point to new Node
+        self.head = new_node
+  
+    # Returns data at given index in linked list
+    def getNth(self, index):
+        current = self.head  # Initialise temp
+        count = 0  # Index of current node
+  
+        # Loop while end of linked list is not reached
+        while (current):
+            if (count == index):
+                return current.data
+            count += 1
+            current = current.next
+  
+        # if we get to this line, the caller was asking
+        # for a non-existent element so we assert fail
+        assert(false)
+        return 0
+  
+  
+# Driver Code
+if __name__ == '__main__':
+  
+    llist = LinkedList()
+  
+    # Use push() to construct below list
+    # 1->12->1->4->1
+    llist.push(1)
+    llist.push(4)
+    llist.push(1)
+    llist.push(12)
+    llist.push(1)
+  
+    n = 3
+    print("Element at index 3 is :", llist.getNth(n))
+C#
+Javascript
+Output
+Element at index 3 is 4
+Time Complexity: O(n)
+Auxiliary Space: O(1) space created for variables
+
+Method 2- With Recursion 
+This method is contributed by MY_DOOM. 
+
+
+
+Algorithm:  
+
+Algorithm
+getnth(node,n)
+1. Initialize count = 0
+2. if count==n
+     return node->data
+3. else
+    return getnth(node->next,n-1)
+Implementation: 
+
+C++
+C
+Java
+Python3
+# Python3 program to find n'th node in
+# linked list using recursion
+  
+  
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+  
+  
+class LinkedList:
+    def __init__(self):
+        self.head = None
+  
+    ''' Given a reference (pointer to pointer) to the
+        head of a list and an int, push a new node on
+        the front of the list. '''
+  
+    def push(self, new_data):  # make new node and add
+                              # into LinkedList
+        new_node = Node(new_data)
+        new_node.next = self.head
+        self.head = new_node
+  
+    def getNth(self, llist, position):
+  
+        # call recursive method
+        llist.getNthNode(self.head, position, llist)
+  
+    # recursive method to find Nth Node
+    def getNthNode(self, head, position, llist):
+        count = 0  # initialize count
+        if(head):
+            if count == position:  # if count is equal to position,
+                                  # it means we have found the position
+                print(head.data)
+            else:
+                llist.getNthNode(head.next, position - 1, llist)
+        else:  # if head doesn't exist we have
+              # traversed the LinkedList
+            print('Index Doesn\'t exist')
+  
+  
+# Driver Code
+if __name__ == "__main__":
+    llist = LinkedList()
+    llist.push(1)
+    llist.push(4)
+    llist.push(1)
+    llist.push(12)
+    llist.push(1)
+    # llist.getNth(llist,int(input()))
+    # Enter the node position here
+    # first argument is instance of LinkedList
+  
+    print("Element at Index 3 is", end=" ")
+    llist.getNth(llist, 3)
+  
+# This code is contributed by Yogesh Joshi
+C#
+Javascript
+Output
+Element at index 3 is 4
+Time Complexity : O(n) 
+Auxiliary Space: O(n) due to recursive calls.
+
+ 
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above. 
+
+
+
+
+
+Like
+190
+Previous
+Multilevel Linked List
+Next
+Program for Nth node from the end of a Linked List
+Related Articles
+1.
+C++ Program For Writing A Function To Get Nth Node In A Linked List
+2.
+C Program For Writing A Function To Get Nth Node In A Linked List
+3.
+Java Program For Writing A Function To Get Nth Node In A Linked List
+4.
+Python Program For Writing A Function To Get Nth Node In A Linked List
+5.
+C# Program For Writing A Function To Get Nth Node In A Linked List
+6.
+Javascript Program For Writing A Function To Get Nth Node In A Linked List
+7.
+Write a function to get the intersection point of two Linked Lists
+8.
+Recursive Approach to find nth node from the end in the linked list
+9.
+Remove Nth node from end of the Linked List
+10.
+XOR Linked List - Find Nth Node from the end
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+joshiyogesh
+princiraj1992
+rathbhupendra
+AISHWARYA MITTAL
+Akanksha_Rai
+saradrana12
+vamsibalusu
+tmeid
+todaysgaurav
+Rajput-Ji
+GauravRajput1
+simranarora5sos
+amartyaghoshgfg
+simmytarika5
+kartikthakur2653
+polymatir3j
+adityakumar129
+vforviksvy5
+Article Tags :
+GetNth
+Linked Lists
+Python-Data-Structures
+Linked List
+Practice Tags :
+Linked List

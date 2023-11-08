@@ -1,0 +1,144 @@
+Program to find size of Doubly Linked List
+
+Difficulty Level : Basic
+Last Updated : 11 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a doubly linked list, the task is to find the size of that doubly linked list. For example, the size of the below linked list is 4.
+
+dll
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A doubly linked list is a linked data structure that consists of a set of sequentially linked records called nodes. Each node contains two fields, called links, that are references to the previous and to the next node in the sequence of nodes.
+
+Traversal of a doubly linked list can be in either direction. In fact, the direction of traversal can change many times, if desired.
+
+For example, the function should return 3 for the above doubly linked list. 
+
+Algorithm :
+Initialize size to 0. 
+Initialize a node pointer, temp = head. 
+Do following while temp is not NULL 
+temp = temp -> next 
+size++; 
+Return size.
+Implementation:
+
+C++
+C
+Java
+Python3
+# A complete working Python3 program to
+# find size of doubly linked list.
+  
+# A linked list node
+class Node:
+    def __init__(self):
+        self.data = None
+        self.next = None
+        self.prev = None
+  
+# Function to add a node to front of doubly
+# linked list 
+def push( head_ref, new_data):
+  
+    new_node = Node()
+    new_node.data = new_data
+    new_node.next = (head_ref)
+    new_node.prev = None
+    if ((head_ref) != None):
+        (head_ref).prev = new_node 
+    (head_ref) = new_node
+    return head_ref
+  
+# This function returns size of linked list
+def findSize(node):
+  
+    res = 0
+    while (node != None):
+        res = res + 1
+        node = node.next
+      
+    return res
+  
+# Driver code
+head = None
+head = push(head, 4)
+head = push(head, 3)
+head = push(head, 2)
+head = push(head, 1)
+print(findSize(head))
+  
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output: 
+
+
+4
+ 
+
+Complexity Analysis:
+
+Time Complexity: O(n), as we are using a loop to traverse n times. Where n is the number of nodes in the linked list.
+Auxiliary Space: O(1), as we are not using any extra space.
+
+
+
+
+Like
+19
+Previous
+Remove duplicates from a sorted linked list using recursion
+Next
+Merge Sort for Linked Lists in JavaScript
+Related Articles
+1.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+2.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+3.
+Difference between Singly linked list and Doubly linked list
+4.
+Reverse a doubly linked list in groups of given size
+5.
+Reverse a doubly linked list in groups of given size | Set 2
+6.
+Construct a Doubly linked linked list from 2D Matrix
+7.
+XOR Linked List - Reverse a Linked List in groups of given size
+8.
+Python Program For Reversing A Doubly Linked List
+9.
+Javascript Program For Reversing A Doubly Linked List
+10.
+Javascript Program for Rotate Doubly linked list by N nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Kanishk_Verma
+@Kanishk_Verma
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rachana soma
+andrew1234
+nidhi_biet
+aashish1995
+rohan07
+lokeshmvs21
+hardikkoriintern
+Article Tags :
+doubly linked list
+Linked List
+Practice Tags :
+Linked List
+Improve Article
+Report Issue

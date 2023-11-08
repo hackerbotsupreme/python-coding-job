@@ -1,0 +1,418 @@
+Modify contents of Linked List
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a singly linked list containing n nodes. Modify the value of first half nodes such that 1st node’s new value is equal to the last node’s value minus first node’s current value, 2nd node’s new value is equal to the second last node’s value minus 2nd node’s current value, likewise for first half nodes. If n is odd then the value of the middle node remains unchanged. 
+(No extra memory to be used).
+
+Examples:  
+
+Input : 10 -> 4 -> 5 -> 3 -> 6
+Output : 4 -> 1 -> 5 -> 3 -> 6
+
+Input : 2 -> 9 -> 8 -> 12 -> 7 -> 10
+Output : -8 -> 2 -> -4 -> 12 -> 7 -> 10
+Asked in Amazon Interview
+
+Recommended Problem
+Modify Linked List-1
+Linked List
+Data Structures
+Amazon
+Solve Problem
+Submission count: 6.7K
+Approach: The following steps are:
+
+Split the list from the middle. Perform front and back split. If the number of elements is odd, the extra element should go in the 1st(front) list.
+Reverse the 2nd(back) list.
+Perform the required subtraction while traversing both list simultaneously.
+Again reverse the 2nd list.
+Concatenate the 2nd list back to the end of the 1st list.
+Implementation:
+
+C++
+Java
+Python3
+# Python3 implementation to modify the contents 
+# of the linked list
+  
+# Linked list node 
+class Node: 
+      
+    def __init__(self, data): 
+        self.data = data 
+        self.next = None
+  
+# Function to insert a node at the beginning 
+# of the linked list 
+def push(head_ref, new_data):
+  
+    # allocate node 
+    new_node =Node(0)
+      
+    # put in the data 
+    new_node.data = new_data
+          
+    # link the old list at the end 
+    #of the new node 
+    new_node.next = head_ref 
+          
+    # move the head to point to the new node 
+    head_ref = new_node
+      
+    return head_ref
+  
+front = None
+back = None
+  
+# Split the nodes of the given list 
+# into front and back halves,
+# and return the two lists 
+# using the reference parameters.
+# Uses the fast/slow pointer strategy. 
+def frontAndBackSplit( head):
+  
+    global front
+    global back
+    slow = None
+    fast = None
+      
+    slow = head
+    fast = head.next
+      
+    # Advance 'fast' two nodes, and 
+    # advance 'slow' one node 
+    while (fast != None):
+      
+        fast = fast.next
+        if (fast != None):
+            slow = slow.next
+            fast = fast.next
+  
+    # 'slow' is before the midpoint in the list, 
+    # so split it in two at that point. 
+    front = head
+    back = slow.next
+    slow.next = None
+    return head
+  
+# Function to reverse the linked list 
+def reverseList( head_ref):
+  
+    current = None
+    prev = None
+    next = None
+    current = head_ref
+    prev = None
+    while (current != None):
+      
+        next = current.next
+        current.next = prev
+        prev = current
+        current = next
+      
+    head_ref = prev
+    return head_ref
+  
+# perform the required subtraction operation 
+# on the 1st half of the linked list
+def modifyTheContentsOf1stHalf():
+  
+    global front
+    global back
+    front1 = front
+    back1 = back
+      
+    # traversing both the lists simultaneously
+    while (back1 != None):
+      
+        # subtraction operation and node data
+        # modification
+        front1.data = front1.data - back1.data
+          
+        front1 = front1.next
+        back1 = back1.next
+      
+# function to concatenate the 2nd(back) list 
+# at the end of the 1st(front) list and 
+# returns the head of the new list
+def concatFrontAndBackList( front, back):
+      
+    head = front
+      
+    if(front == None):
+        return back
+      
+    while (front.next != None):
+        front = front.next
+          
+    front.next = back
+    return head
+  
+# function to modify the contents of the linked list
+def modifyTheList( head):
+  
+    global front
+    global back
+  
+    # if list is empty or contains only single node
+    if (head == None or head.next == None):
+        return head
+    front = None
+    back = None
+      
+    # split the list into two halves
+    # front and back lists
+    frontAndBackSplit(head)
+          
+    # reverse the 2nd(back) list
+    back = reverseList(back)
+      
+    # modify the contents of 1st half 
+    modifyTheContentsOf1stHalf()
+      
+    # agains reverse the 2nd(back) list
+    back = reverseList(back)
+      
+    # concatenating the 2nd list back to the 
+    # end of the 1st list
+    head = concatFrontAndBackList(front, back)
+  
+    # pointer to the modified list
+    return head
+  
+# function to print the linked list
+def printList( head):
+  
+    if (head == None):
+        return
+      
+    while (head.next != None):
+      
+        print(head.data , " -> ",end="")
+        head = head.next
+      
+    print(head.data )
+  
+# Driver Code
+  
+head = None
+      
+# creating the linked list
+head = push(head, 10)
+head = push(head, 7)
+head = push(head, 12)
+head = push(head, 8)
+head = push(head, 9)
+head = push(head, 2)
+      
+# modify the linked list
+head = modifyTheList(head)
+      
+# print the modified linked list
+print( "Modified List:" )
+printList(head)
+  
+# This code is contributed by Arnab Kundu
+C#
+Javascript
+Output
+Modified List:
+-8 -> 2 -> -4 -> 12 -> 7 -> 10
+Time Complexity: O(n), where n in the number of nodes.
+Space complexity: O(1) since using constant space to modify pointers
+
+
+
+Another approach (Using Stack) : 
+
+Find the starting point of second half Linked List. 
+Push all elements of second half list into stack s. 
+Traverse list starting from head using temp until stack is not empty and do Modify temp->data by subtracting the top element of stack for every node.
+Below is the implementation using stack. 
+
+C++
+Java
+Python3
+# Python3 implementation to modify the
+# contents of the linked list
+   
+# Linked list node
+class Node:
+      
+    def __init__(self):
+          
+        self.data = 0
+        self.next = None
+   
+# Function to insert a node at the
+# beginning of the linked list
+def append(head_ref, new_data):
+  
+    # Allocate node
+    new_node = Node()
+      
+    # Put in the data
+    new_node.data = new_data
+      
+    # Link the old list at the end
+    # of the new node
+    new_node.next = head_ref 
+      
+    # Move the head to point to the new node
+    head_ref = new_node
+      
+    return head_ref
+      
+# Function to print the linked list
+def printList(head):
+  
+    if (not head):
+        return;
+       
+    while (head.next != None):
+        print(head.data, end = ' -> ')
+        head = head.next
+      
+    print(head.data)
+      
+# Function to middle node of list.
+def find_mid(head):
+  
+    temp = head
+    slow = head
+    fast = head 
+       
+    while (fast and fast.next):
+          
+        # Advance 'fast' two nodes, and 
+        # advance 'slow' one node
+        slow = slow.next 
+        fast = fast.next.next 
+          
+    # If number of nodes are odd then 
+    # update slow by slow.next;
+    if (fast):
+        slow = slow.next 
+   
+    return slow 
+  
+# Function to modify the contents of 
+# the linked list.
+def modifyTheList(head, slow):
+  
+    # Create Stack. 
+    s = []
+    temp = head 
+      
+    while (slow):
+        s.append(slow.data) 
+        slow = slow.next 
+  
+    # Traverse the list by using 
+    # temp until stack is empty.
+    while (len(s) != 0):
+        temp.data = temp.data - s[-1]
+        temp = temp.next 
+        s.pop() 
+      
+# Driver code
+if __name__=='__main__':
+      
+    head = None
+       
+    # creating the linked list
+    head = append(head, 10)
+    head = append(head, 7)
+    head = append(head, 12)
+    head = append(head, 8)
+    head = append(head, 9)
+    head = append(head, 2)
+       
+    # Call Function to Find the 
+    # starting point of second half of list. 
+    mid = find_mid(head) 
+       
+    # Call function to modify the 
+    # contents of the linked list.
+    modifyTheList( head, mid)
+       
+    # Print the modified linked list
+    print("Modified List:")
+    printList(head)
+  
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output
+Modified List:
+-8 -> 2 -> -4 -> 12 -> 7 -> 10
+Time Complexity : O(n) 
+Space Complexity : O(n/2)
+
+
+
+
+
+Like
+14
+Previous
+Partitioning a linked list around a given value and If we don't care about making the elements of the list "stable"
+Next
+Dangling, Void , Null and Wild Pointers
+Related Articles
+1.
+Modify contents of Linked List - Recursive approach
+2.
+Modify Linked List by replacing each node by nearest multiple of K
+3.
+Modify a Circular Doubly Linked List such that each node stores the sum of all nodes except itself
+4.
+Modify a Linked List to contain last occurrences of every duplicate element
+5.
+How to write C functions that modify head pointer of a Linked List?
+6.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+7.
+Convert Singly Linked List to XOR Linked List
+8.
+Create new linked list from two given linked list with greater element at each node
+9.
+Generate Linked List consisting of maximum difference of squares of pairs of nodes from given Linked List
+10.
+XOR Linked List: Remove last node of the Linked List
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+andrew1234
+princiraj1992
+Rajput-Ji
+rutvik_56
+khushboogoyal499
+rdtank
+surinderdawra388
+arorakashish0911
+polymatir3j
+hardikkoriintern
+vinayedula
+Article Tags :
+Amazon
+Linked List
+Practice Tags :
+Amazon
+Linked List
+Improve Article
+Report Issue

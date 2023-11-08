@@ -1,0 +1,510 @@
+Insertion in Linked List
+
+Difficulty Level : Easy
+Last Updated : 12 Jan, 2023
+Read
+Discuss(160+)
+Courses
+Practice
+Video
+ 
+We have introduced Linked Lists in the previous post. We also created a simple linked list with 3 nodes and discussed linked list traversal.
+All programs discussed in this post consider the following representations of the linked list. 
+
+C++
+C
+Java
+Python3
+# Node class
+class Node:
+
+    # Function to initialize the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+
+# Linked List class
+class LinkedList:
+  
+    # Function to initialize the Linked List object
+    def __init__(self): 
+        self.head = None
+C#
+Javascript
+ 
+
+DSA Self-paced course
+
+In this post, methods to insert a new node in the linked list are discussed. A node can be added in three ways 
+
+At the front of the linked list  
+After a given node. 
+At the end of the linked list.
+Recommended Problem
+Linked List Insertion
+Linked List
+Data Structures
+Hike
+Wipro
++1 more
+Solve Problem
+Submission count: 1.3L
+Add a node at the front: (4 steps process) 
+Approach: The new node is always added before the head of the given Linked List. And newly added node becomes the new head of the Linked List. For example, if the given Linked List is 10->15->20->25 and we add an item 5 at the front, then the Linked List becomes 5->10->15->20->25. Let us call the function that adds at the front of the list is push(). The push() must receive a pointer to the head pointer because the push must change the head pointer to point to the new node (See this) 
+ 
+
+linkedlist_insert_at_start
+
+Following are the 4 steps to add a node at the front.
+
+C++
+C
+Java
+Python3
+# This function is in LinkedList class
+# Function to insert a new node at the beginning
+def push(self, new_data):
+
+    # 1 & 2: Allocate the Node &
+    #        Put in the data
+    new_node = Node(new_data)
+        
+    # 3. Make next of new Node as head
+    new_node.next = self.head
+        
+    # 4. Move the head to point to new Node 
+    self.head = new_node
+C#
+Javascript
+Complexity Analysis:
+
+Time Complexity: O(1), We have a pointer to the head and we can directly attach a node and change the pointer. So the Time complexity of inserting a node at the head position is O(1) as it does a constant amount of work.
+Auxiliary Space: O(1)
+Add a node after a given node: (5 steps process) 
+Approach: We are given a pointer to a node, and the new node is inserted after the given node.
+
+
+
+Follow the steps to add a node after a given node:
+
+Firstly, check if the given previous node is NULL or not.
+Then, allocate a new node and
+Assign the data to the new node
+And then make the next of new node as the next of previous node. 
+Finally, move the next of the previous node as a new node.
+ 
+
+linkedlist_insert_middle
+
+C++
+C
+Java
+Python3
+# This function is in LinkedList class.
+# Inserts a new node after the given prev_node. This method is
+# defined inside LinkedList class shown above */
+
+
+def insertAfter(self, prev_node, new_data):
+
+    # 1. check if the given prev_node exists
+    if prev_node is None:
+        print("The given previous node must inLinkedList.")
+        return
+
+    # 2. Create new node &
+    # 3. Put in the data
+    new_node = Node(new_data)
+
+    # 4. Make next of new Node as next of prev_node
+    new_node.next = prev_node.next
+
+    # 5. make next of prev_node as new_node
+    prev_node.next = new_node
+C#
+Javascript
+Complexity Analysis: 
+
+Time complexity: O(1), since prev_node is already given as argument in a method, no need to iterate over list to find prev_node
+Auxiliary Space: O(1) since using constant space to modify pointers
+
+Add a node at the end: (6 steps process) 
+The new node is always added after the last node of the given Linked List. For example if the given Linked List is 5->10->15->20->25 and we add an item 30 at the end, then the Linked List becomes 5->10->15->20->25->30. 
+Since a Linked List is typically represented by the head of it, we have to traverse the list till the end and then change the next to last node to a new node.
+ 
+linkedlist_insert_last
+
+Following are the 6 steps to add a node at the end.
+
+C++
+C
+Java
+Python3
+# This function is defined in Linked List class
+# Appends a new node at the end.  This method is
+# defined inside LinkedList class shown above
+
+
+def append(self, new_data):
+
+        # 1. Create a new node
+        # 2. Put in the data
+        # 3. Set next as None
+        new_node = Node(new_data)
+
+        # 4. If the Linked List is empty, then make the
+        #    new node as head
+        if self.head is None:
+            self.head = new_node
+            return
+
+        # 5. Else traverse till the last node
+        last = self.head
+        while (last.next):
+            last = last.next
+
+        # 6. Change the next of last node
+        last.next = new_node
+C#
+Javascript
+Complexity Analysis:
+
+Time complexity: O(N), where N is the number of nodes in the linked list. Since there is a loop from head to end, the function does O(n) work. 
+This method can also be optimized to work in O(1) by keeping an extra pointer to the tail of the linked list/
+Auxiliary Space: O(1)
+Following is a complete program that uses all of the above methods to create a linked list.
+C++
+C
+Java
+Python3
+# A complete working Python program to demonstrate all
+# insertion methods of linked list
+
+# Node class
+class Node:
+
+    # Function to initialise the node object
+    def __init__(self, data):
+        self.data = data  # Assign data
+        self.next = None  # Initialize next as null
+
+
+# Linked List class contains a Node object
+class LinkedList:
+
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+
+
+    # Function to insert a new node at the beginning
+    def push(self, new_data):
+
+        # 1 & 2: Allocate the Node &
+        #        Put in the data
+        new_node = Node(new_data)
+
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+
+        # 4. Move the head to point to new Node
+        self.head = new_node
+
+
+    # This function is in LinkedList class. Inserts a
+    # new node after the given prev_node. This method is
+    # defined inside LinkedList class shown above */
+    def insertAfter(self, prev_node, new_data):
+
+        # 1. check if the given prev_node exists
+        if prev_node is None:
+            print("The given previous node must inLinkedList.")
+            return
+
+        #  2. create new node &
+        #      Put in the data
+        new_node = Node(new_data)
+
+        # 4. Make next of new Node as next of prev_node
+        new_node.next = prev_node.next
+
+        # 5. make next of prev_node as new_node
+        prev_node.next = new_node
+
+
+    # This function is defined in Linked List class
+    # Appends a new node at the end.  This method is
+    # defined inside LinkedList class shown above */
+    def append(self, new_data):
+
+        # 1. Create a new node
+        # 2. Put in the data
+        # 3. Set next as None
+        new_node = Node(new_data)
+
+        # 4. If the Linked List is empty, then make the
+        #    new node as head
+        if self.head is None:
+            self.head = new_node
+            return
+
+        # 5. Else traverse till the last node
+        last = self.head
+        while (last.next):
+            last = last.next
+
+        # 6. Change the next of last node
+        last.next =  new_node
+
+
+    # Utility function to print the linked list
+    def printList(self):
+        temp = self.head
+        while (temp):
+            print(temp.data,end=" ")
+            temp = temp.next
+
+
+
+# Code execution starts here
+if __name__=='__main__':
+
+    # Start with the empty list
+    llist = LinkedList()
+
+    # Insert 6.  So linked list becomes 6->None
+    llist.append(6)
+
+    # Insert 7 at the beginning. So linked list becomes 7->6->None
+    llist.push(7);
+
+    # Insert 1 at the beginning. So linked list becomes 1->7->6->None
+    llist.push(1);
+
+    # Insert 4 at the end. So linked list becomes 1->7->6->4->None
+    llist.append(4)
+
+    # Insert 8, after 7. So linked list becomes 1 -> 7-> 8-> 6-> 4-> None
+    llist.insertAfter(llist.head.next, 8)
+
+    print('Created linked list is: ')
+    llist.printList()
+
+# This code is contributed by Manikantan Narasimhan
+C#
+Javascript
+Output
+Created Linked list is:  1 7 8 6 4
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+An alternate method by using a constructor call:
+However, another method uses a constructor call inside the node class to minimize the memory allocation work.
+It also reduces the number of lines of code.
+Below is the implementation of the above method:
+
+C++
+Java
+Python3
+'''Alternate method to declare the class
+in order to minimize the memory allocation work'''
+
+# Node class
+class Node:
+
+    # A constructor is called here
+    def __init__(self, data):
+        self.data = data  # Automatically assign data
+        self.next = None  # Initialize next pointer as null
+
+
+# Linked List class contains a Node object
+class LinkedList:
+
+    # Function to initialize head
+    def __init__(self):
+        self.head = None
+
+    '''This function is in LinkedList class.
+    It inserts a new node at the beginning'''
+    def insertAtHead(self, new_data):
+
+        # 1 & 2: Allocate the Node &
+        #        Put in the data
+        new_node = Node(new_data)
+
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+
+        # 4. Move the head to point to new Node
+        self.head = new_node
+
+    '''This function is in LinkedList class. It inserts a
+    new node after the given prev_data. This method is
+    defined inside LinkedList class shown above'''
+    def insertAfter(self, prev_data, new_data):
+
+        # 1. check if the Linked List is empty or not
+        if self.head is None:
+            return
+
+        # 2. Create new node & Put in the data
+        new_node = Node(new_data)
+
+        # 3. If prev_data is at the first position
+        if (prev_data == self.head.data):
+            new_node.next = self.head.next
+            self.head.next = new_node
+            return
+
+        # 4. check if the given prev_data exists
+        head = self.head
+        while (head.data != prev_data):
+            head = head.next
+            if head == None:
+                return
+        new_node.next = head.next
+        head.next = new_node
+
+    '''This function is defined in Linked List class
+    Appends a new node at the end. This method is
+    defined inside LinkedList class shown above'''
+    def insertattail(self, new_data):
+
+        # 1. Create a new node
+        # 2. Put in the data
+        # 3. Set next as None
+        new_node = Node(new_data)
+
+        # 4. If the Linked List is empty, then make the
+        #    new node as head
+        if self.head is None:
+            self.head = new_node
+            return
+
+        # 5. Else traverse till the last node
+        last = self.head
+        while (last.next):
+            last = last.next
+
+        # 6. Change the next of last node
+        last.next = new_node
+
+    # Utility function to print the linked list
+    def printList(self):
+        temp = self.head
+        while (temp):
+            print(temp.data, end=" -> ")
+            temp = temp.next
+        print("NULL")
+
+
+# Code execution starts here
+if __name__ == '__main__':
+
+    # Start with the empty list
+    llist = LinkedList()
+
+    llist.insertAtHead(1)
+    llist.insertAtHead(2)
+    print("After insertion at head:", end=" ")
+    llist.printList()
+    print()
+
+    llist.insertattail(4)
+    llist.insertattail(5)
+    print("After insertion at tail:", end=" ")
+    llist.printList()
+    print()
+
+    llist.insertAfter(1, 2)
+    llist.insertAfter(5, 6)
+    print("After insertion at a given position:", end=" ")
+    llist.printList()
+
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+Output
+After insertion at head: 2 -> 1 -> NULL
+
+After insertion at tail: 2 -> 1 -> 4 -> 5 -> NULL
+
+After insertion at a given position: 2 -> 1 -> 2 -> 4 -> 5 -> 6 -> NULL
+Time Complexity: O(N) 
+Auxiliary Space: O(1)
+
+You may like to try Practice MCQ Questions on Linked List
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+1.30k
+Previous
+What is Linked List
+Next
+Deletion in Linked List
+Related Articles
+1.
+Insertion in Unrolled Linked List
+2.
+Insertion at Specific Position in a Circular Doubly Linked List
+3.
+Insertion in a sorted circular linked list when a random pointer is given
+4.
+C++ Program For Insertion Sort In A Singly Linked List
+5.
+Java Program For Insertion Sort In A Singly Linked List
+6.
+Python Program For Insertion Sort In A Singly Linked List
+7.
+Javascript Program For Insertion Sort In A Singly Linked List
+8.
+Introduction and Insertion in a Doubly Linked List
+9.
+Insertion Sort for Singly Linked List
+10.
+Circular Singly Linked List | Insertion
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rathbhupendra
+Rajput-Ji
+anmolgautam818
+todaysgaurav
+aashish1995
+GauravRajput1
+simranarora5sos
+arkajbasak121
+simmytarika5
+whoibrar
+divyanshmishra101010
+polymatir3j
+kashishkumar2
+SAGAR MAKVANA
+raj2002
+lokeshmvs21
+akashish__
+agfro1cac
+susobhanakhuli
+Article Tags :
+TCS
+Wipro
+Linked List
+Practice Tags :
+TCS
+Wipro
+Linked List
+Improve Article
+Report Issue
