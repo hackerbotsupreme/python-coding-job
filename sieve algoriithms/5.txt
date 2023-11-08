@@ -1,0 +1,203 @@
+Sieve of Eratosthenes in 0(n) time complexity
+
+Difficulty Level : Hard
+Last Updated : 14 Jul, 2022
+Read
+Discuss(30+)
+Courses
+Practice
+Video
+The classical Sieve of Eratosthenes algorithm takes O(N log (log N)) time to find all prime numbers less than N. In this article, a modified Sieve is discussed that works in O(N) time.
+Example : 
+
+Given a number N, print all prime 
+numbers smaller than N
+
+Input :  int N = 15
+Output : 2 3 5 7 11 13
+
+Input : int N = 20
+Output : 2 3 5 7 11 13 17 19
+Manipulated Sieve of Eratosthenes algorithm works as follows: 
+ 
+
+For every number i where i varies from 2 to N-1:
+    Check if the number is prime. If the number
+    is prime, store it in prime array.
+
+For every prime numbers j less than or equal to the smallest  
+prime factor p of i:
+    Mark all numbers i*p as non_prime.
+    Mark smallest prime factor of i*p as j
+Below is the implementation of the above idea. 
+ 
+
+C++
+Java
+Python3
+# Python3 program to generate all
+# prime numbers less than N in O(N)
+ 
+MAX_SIZE = 1000001
+ 
+# isPrime[] : isPrime[i] is true if
+#             number is prime
+# prime[] : stores all prime number
+#           less than N
+# SPF[] that store smallest prime
+# factor of number [for ex : smallest
+# prime factor of '8' and '16'
+# is '2' so we put SPF[8] = 2 ,
+# SPF[16] = 2 ]
+isprime = [True] * MAX_SIZE
+prime = []
+SPF = [None] * (MAX_SIZE)
+ 
+# function generate all prime number
+# less than N in O(n)
+def manipulated_seive(N):
+ 
+    # 0 and 1 are not prime
+    isprime[0] = isprime[1] = False
+ 
+    # Fill rest of the entries
+    for i in range(2, N):
+     
+        # If isPrime[i] == True then i is
+        # prime number
+        if isprime[i] == True:
+         
+            # put i into prime[] vector
+            prime.append(i)
+ 
+            # A prime number is its own smallest
+            # prime factor
+            SPF[i] = i
+         
+        # Remove all multiples of i*prime[j]
+        # which are not prime by making is
+        # Prime[i * prime[j]] = false and put
+        # smallest prime factor of i*Prime[j]
+        # as prime[j] [ for exp :let i = 5 , j = 0 ,
+        # prime[j] = 2 [ i*prime[j] = 10 ]
+        # so smallest prime factor of '10' is '2'
+        # that is prime[j] ] this loop run only one
+        # time for number which are not prime
+        j = 0
+        while (j < len(prime) and
+               i * prime[j] < N and
+                   prime[j] <= SPF[i]):
+         
+            isprime[i * prime[j]] = False
+ 
+            # put smallest prime factor of i*prime[j]
+            SPF[i * prime[j]] = prime[j]
+             
+            j += 1
+         
+# Driver Code
+if __name__ == "__main__":
+ 
+    N = 13 # Must be less than MAX_SIZE
+ 
+    manipulated_seive(N)
+ 
+    # print all prime number less than N
+    i = 0
+    while i < len(prime) and prime[i] <= N:
+        print(prime[i], end = " ")
+        i += 1
+         
+# This code is contributed by Rituraj Jain
+C#
+PHP
+Javascript
+Output :
+
+2 3 5 7 11
+Auxiliary Space: O(1)
+Illustration:
+
+isPrime[0] = isPrime[1] = 0
+
+After i = 2 iteration :
+isPrime[]   [F, F, T, T, F, T, T, T] 
+SPF[]       [0, 0, 2, 0, 2, 0, 0, 0]
+     index   0  1  2  3  4  5  6  7
+
+After i = 3 iteration :
+isPrime[]  [F, F, T, T, F, T, F, T, T, F ]
+SPF[]      [0, 0, 2, 3, 2, 0, 2, 0, 0, 3 ]
+  index     0  1  2  3  4  5  6  7  8  9
+
+After i = 4 iteration :
+isPrime[]  [F, F, T, T, F, T, F, T, F, F]
+SPF[]      [0, 0, 2, 3, 2, 0, 2, 0, 2, 3]
+  index     0  1  2  3  4  5  6  7  8  9
+This article is contributed by Divyanshu Srivastava and Nishant Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+87
+Previous
+Sieve of Sundaram to print all primes smaller than n
+Next
+Check if a large number is divisible by 3 or not
+Related Articles
+1.
+How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?
+2.
+Sum of all Primes in a given range using Sieve of Eratosthenes
+3.
+Sieve of Eratosthenes
+4.
+Check for balanced parentheses in an expression | O(1) space | O(N^2) time complexity
+5.
+Time Complexity of Euclidean Algorithm
+6.
+Sieve of Atkin
+7.
+Bitwise Sieve
+8.
+Number of unmarked integers in a special sieve
+9.
+Prime Factorization using Sieve O(log n) for multiple queries
+10.
+Sieve of Sundaram to print all primes smaller than n
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Prashuk156
+rituraj_jain
+Mithun Kumar
+arupjyoti_dutta
+athultr15
+arijitchowdhurycre
+sumitgumber28
+surinderdawra388
+rishavnitro
+phasing17
+Article Tags :
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+sieve
+Sieve

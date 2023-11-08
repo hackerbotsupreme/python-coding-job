@@ -1,0 +1,165 @@
+Prime Factorization using Sieve O(log n) for multiple queries
+
+Difficulty Level : Medium
+Last Updated : 29 Dec, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+We can calculate the prime factorization of a number “n” in O(sqrt(n)) as discussed here. But O(sqrt n) method times out when we need to answer multiple queries regarding prime factorization.
+In this article, we study an efficient method to calculate the prime factorization using O(n) space and O(log n) time complexity with pre-computation allowed.
+
+Prerequisites : Sieve of Eratosthenes, Least prime factor of numbers till n.
+
+Recommended Problem
+Prime Factors
+Mathematical
+Prime Number
++2 more
+Solve Problem
+Submission count: 14.1K
+Key Concept: Our idea is to store the Smallest Prime Factor(SPF) for every number. Then to calculate the prime factorization of the given number by dividing the given number repeatedly with its smallest prime factor till it becomes 1. 
+ 
+
+To calculate to smallest prime factor for every number we will use the sieve of eratosthenes. In original Sieve, every time we mark a number as not-prime, we store the corresponding smallest prime factor for that number (Refer this article for better understanding).
+
+Now, after we are done with precalculating the smallest prime factor for every number we will divide our number n (whose prime factorization is to be calculated) by its corresponding smallest prime factor till n becomes 1. 
+
+Pseudo Code for prime factorization assuming
+SPFs are computed :
+
+PrimeFactors[] // To store result
+
+i = 0  // Index in PrimeFactors
+
+while n != 1 :
+
+    // SPF : smallest prime factor
+    PrimeFactors[i] = SPF[n]    
+    i++ 
+    n = n / SPF[n]
+The implementation for the above method is given below : 
+
+C++
+Java
+Python3
+# Python3 program to find prime factorization
+# of a number n in O(Log n) time with
+# precomputation allowed.
+import math as mt
+ 
+MAXN = 100001
+ 
+# stores smallest prime factor for
+# every number
+spf = [0 for i in range(MAXN)]
+ 
+# Calculating SPF (Smallest Prime Factor)
+# for every number till MAXN.
+# Time Complexity : O(nloglogn)
+def sieve():
+    spf[1] = 1
+    for i in range(2, MAXN):
+         
+        # marking smallest prime factor
+        # for every number to be itself.
+        spf[i] = i
+ 
+    # separately marking spf for
+    # every even number as 2
+    for i in range(4, MAXN, 2):
+        spf[i] = 2
+ 
+    for i in range(3, mt.ceil(mt.sqrt(MAXN))):
+         
+        # checking if i is prime
+        if (spf[i] == i):
+             
+            # marking SPF for all numbers
+            # divisible by i
+            for j in range(i * i, MAXN, i):
+                 
+                # marking spf[j] if it is
+                # not previously marked
+                if (spf[j] == j):
+                    spf[j] = i
+ 
+# A O(log n) function returning prime
+# factorization by dividing by smallest
+# prime factor at every step
+def getFactorization(x):
+    ret = list()
+    while (x != 1):
+        ret.append(spf[x])
+        x = x // spf[x]
+ 
+    return ret
+ 
+# Driver code
+ 
+# precalculating Smallest Prime Factor
+sieve()
+x = 12246
+print("prime factorization for", x, ": ",
+                                end = "")
+ 
+# calling getFactorization function
+p = getFactorization(x)
+ 
+for i in range(len(p)):
+    print(p[i], end = " ")
+ 
+# This code is contributed
+# by Mohit kumar 29
+C#
+PHP
+Javascript
+Output: 
+
+
+
+prime factorization for 12246 : 2 3 13 157
+ 
+Time Complexity: O(log n), for each query (Time complexity for precomputation is not included)
+Auxiliary Space: O(1)
+
+Note : The above code works well for n upto the order of 10^7. Beyond this we will face memory issues.
+
+Time Complexity: The precomputation for smallest prime factor is done in O(n log log n) using sieve. Whereas in the calculation step we are dividing the number every time by the smallest prime number till it becomes 1. So, let’s consider a worst case in which every time the SPF is 2 . Therefore will have log n division steps. Hence, We can say that our Time Complexity will be O(log n) in worst case.
+
+This article is contributed by Nitish Kumar. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+112
+Previous
+k-th prime factor of a given number
+Next
+Find sum of even factors of a number
+Related Articles
+1.
+Count occurrences of a prime number in the prime factorization of every element from the given range
+2.
+Sum of Factors of a Number using Prime Factorization
+3.
+Generating all divisors of a number using its prime factorization
+4.
+Longest sub-array of Prime Numbers using Segmented Sieve
+5.
+Pollard's Rho Algorithm for Prime Factorization
+6.
+Trial division Algorithm for Prime Factorization
+7.
+Count numbers in a given range having prime and non-prime digits at prime and non-prime positions respectively
+8.
+Sum of all Primes in a given range using Sieve of Eratosthenes
+9.
+Fermat's Factorization method for large numbers
+10.
+Fermat's Factorization Method

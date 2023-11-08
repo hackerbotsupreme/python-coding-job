@@ -1,0 +1,249 @@
+Sieve of Atkin
+
+Difficulty Level : Hard
+Last Updated : 16 Oct, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a limit, print all prime numbers smaller than or equal to the given limit.
+
+Examples: 
+
+Input:  limit = 10
+Output: 2, 3, 5, 7
+
+Input:  limit = 20
+Output: 2, 3, 5, 7, 11, 13, 17, 19 
+
+Other Approaches: The prime numbers till a limit can be generated using other algorithms, such as: 
+
+Sieve of Eratosthenes: O(N*log(log(N)))
+Sieve of Sundaram: O(N*log N)
+Sieve of Atkin Approach: The sieve of Atkin is a modern algorithm for finding all prime numbers up to a specified integer. 
+
+Sieve of Atkin vs Sieve of Eratosthenes: 
+
+
+
+Compared with the ancient Sieve of Eratosthenes, which marks off multiples of primes, it does some preliminary work and then marks off multiples of squares of primes, that’s why it has a better theoretical asymptotic complexity with Complexity of (N / (log (log N)))
+
+How Sieve of Atkin algorithm works: 
+
+The Sieve of Atkin algorithm works similarly to Sieve of Eratosthenes to filter out the composite numbers from a list of numbers, but this algorithm works in terms of modulo-60 remainders. 
+
+So we first assume all the numbers within limit to be composite, and then apply filter or sieve on them. If while any filter, the number appears to be prime, we mark it as prime and move on to the next number.
+
+The filter or sieve in this algorithms works mainly 4 cases or layers:
+
+Case 1: If limit is greater than 2 or 3:
+The algorithm treats 2, and 3 as special cases and just adds them to the set of primes to start with.
+Case 2: if 4x2+y2=n is odd and modulo-12 remainder is 1 or 5
+Since all numbers with modulo-60 remainders 1, 13, 17, 29, 37, 41, 49, or 53 have a modulo-12 remainder of 1 or 5. Therefore, for this filter as well, we have to check if the number is 1 or 5 when taken modulo with 12.
+Also, These numbers are prime if and only if the number of solutions to 4x2+y2=n is odd and the number is square-free. 
+A square-free integer is one that is not divisible by any perfect square other than 1.
+Case 3: if 3x2+y2=n is odd and modulo-6 remainder is 1
+All numbers with modulo-60 remainder 7, 19, 31, or 43 have a modulo-6 remainder of 1. 
+These numbers are prime if and only if the number of solutions to 3x2 + y2 = n is odd and the number is square-free.
+Case 4: if 3x2-y2=n is odd and modulo-12 remainder is 11
+All numbers with modulo-60 remainder 11, 23, 47, or 59 have a modulo-12 remainder of 11. 
+These numbers are prime if and only if the number of solutions to 3x2 – y2 = n is odd and the number is square-free.
+Case 5: Filtering out all the residual primes which have not yet been found
+Due to the filtering of the Sieve of Atkin algorithm, there might be some prime numbers who have been discarded or not found in the above cases.
+So to find out those, select all non-primes within limit, and mark all their squares as non-primes.
+At the end of all of the filters above, the positions in the Sieve with a true value will be the list of primes within limit.
+
+
+Illustration of Sieve of Atkin algorithm:
+
+Consider limit as 20 and lets see how Sieve of Atkin algorithm generates primes up to 20:
+
+Step 0: The status for all the numbers at the start is false. The special numbers are 2, 3, and 5, which are known to be prime.
+
+Step 1: Generate values for the conditions.  
+
+atkins
+
+Step 2: Flipping the status according to condition.
+The above values of n in the table generated in the x, y loop will be tested for modulo conditions.
+
+Column 1: if (colum1 value) % 12 == 1 or 5, then flip the sieve status for that number.
+Column 2: if (colum2 value) % 12 == 7, then flip the sieve status for that number.
+Column 3: if (colum3 value) % 12 == 11, then flip the sieve status for that number.
+Note: Notice that we are taking mod with 12 in place of 60. This is because if we take mod 60 then we have to consider as many r as 1, 13, 17, 29, 37, 41, 49, or 53 and for all these r, mod 12 is 1 or 5. (done only to reduce the expression size)
+
+Step 3: Checking for Square free Condition: 
+If any number in our list is the square of any number, then remove it.
+
+Step 4: Creating an array of prime numbers for which status is true. 
+i.e. 2 3 5 7 11 13 17 19
+
+Step 5: Print the output on the screen.
+
+Sieve of Atkin algorithm step-by-step:
+
+Create a results list, filled with 2, 3, and 5.
+Create a sieve list with an entry for each positive integer; all entries in this list should initially be marked non-prime.
+For each entry number n in the sieve list, with modulo-sixty remainder r: 
+If r is 1, 13, 17, 29, 37, 41, 49, or 53, flip the entry for each possible solution to 4x2 + y2 = n.
+If r is 7, 19, 31, or 43, flip the entry for each possible solution to 3x2 + y2 = n.
+If r is 11, 23, 47, or 59, flip the entry for each possible solution to 3x2 – y2 = n when x > y.
+If r is something else, ignore it completely…
+Start with the lowest number in the sieve list.
+Take the next number in the sieve list, still marked prime.
+Include the number in the results list.
+Square the number and mark all multiples of that square as non-prime. Note that the multiples that can be factored by 2, 3, or 5 need not be marked, as these will be ignored in the final enumeration of primes.
+Repeat steps four through seven.
+Below is the implementation of the above algorithm. 
+
+C++
+Java
+Python 3
+# Python 3 program for
+# implementation of
+# Sieve of Atkin
+ 
+def SieveOfAtkin(limit):
+    # 2 and 3 are known
+    # to be prime
+    if limit > 2:
+        print(2, end=" ")
+    if limit > 3:
+        print(3, end=" ")
+ 
+    # Initialise the sieve
+    # array with False values
+    sieve = [False] * (limit + 1)
+    for i in range(0, limit + 1):
+        sieve[i] = False
+ 
+    '''Mark sieve[n] is True if
+    one of the following is True:
+    a) n = (4*x*x)+(y*y) has odd
+    number of solutions, i.e.,
+    there exist odd number of
+    distinct pairs (x, y) that
+    satisfy the equation and
+    n % 12 = 1 or n % 12 = 5.
+    b) n = (3*x*x)+(y*y) has
+    odd number of solutions
+    and n % 12 = 7
+    c) n = (3*x*x)-(y*y) has
+    odd number of solutions,
+    x > y and n % 12 = 11 '''
+    x = 1
+    while x * x <= limit:
+        y = 1
+        while y * y <= limit:
+ 
+            # Main part of
+            # Sieve of Atkin
+            n = (4 * x * x) + (y * y)
+            if (n <= limit and (n % 12 == 1 or
+                                n % 12 == 5)):
+                sieve[n] ^= True
+ 
+            n = (3 * x * x) + (y * y)
+            if n <= limit and n % 12 == 7:
+                sieve[n] ^= True
+ 
+            n = (3 * x * x) - (y * y)
+            if (x > y and n <= limit and
+                    n % 12 == 11):
+                sieve[n] ^= True
+            y += 1
+        x += 1
+ 
+    # Mark all multiples of
+    # squares as non-prime
+    r = 5
+    while r * r <= limit:
+        if sieve[r]:
+            for i in range(r * r, limit+1, r * r):
+                sieve[i] = False
+ 
+        r += 1
+ 
+        # Print primes
+    # using sieve[]
+    for a in range(5, limit+1):
+        if sieve[a]:
+            print(a, end=" ")
+             
+# Driver Code
+limit = 20
+SieveOfAtkin(limit)
+ 
+# This code is contributed
+# by Smitha
+C#
+PHP
+Javascript
+Output
+2 3 5 7 11 13 17 19 
+Time complexity: O(limit)
+Auxiliary space: O(limit)
+
+ 
+This article is contributed by Anuj Rathore. Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+9
+Previous
+Segmented Sieve
+Next
+Sieve of Sundaram to print all primes smaller than n
+Related Articles
+1.
+Sieve of Eratosthenes in 0(n) time complexity
+2.
+Bitwise Sieve
+3.
+Number of unmarked integers in a special sieve
+4.
+Sum of all Primes in a given range using Sieve of Eratosthenes
+5.
+Prime Factorization using Sieve O(log n) for multiple queries
+6.
+Sieve of Sundaram to print all primes smaller than n
+7.
+Longest sub-array of Prime Numbers using Segmented Sieve
+8.
+Segmented Sieve
+9.
+Sieve of Eratosthenes
+10.
+How is the time complexity of Sieve of Eratosthenes is n*log(log(n))?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Smitha Dinesh Semwal
+gfgking
+saurabh1990aror
+adtimokhin
+RishabhPrabhu
+harendrakumar123
+polymatir3j
+Article Tags :
+Prime Number
+sieve
+Mathematical
+Practice Tags :
+Mathematical
+Prime Number
+sieve
+Sieve
