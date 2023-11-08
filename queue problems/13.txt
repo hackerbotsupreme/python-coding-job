@@ -1,0 +1,192 @@
+Queue in Scala
+
+Last Updated : 15 Oct, 2019
+Read
+Discuss
+Courses
+Practice
+Video
+A queue is a first-in, first-out (FIFO) data structure. Scala offers both an immutable queue and a mutable queue. A mutable queue can be updated or extended in place. It means one can change, add, or remove elements of a queue as a side effect. Immutable queue, by contrast, never change.
+
+In Scala, Queue is implemented as a pair of lists. One is used to insert the elements and second to contain deleted elements. Elements are added to the first list and removed from the second list. The two most basic operations of Queue are Enqueue and Dequeue.
+
+Enqueue – Adding an element at the end of the queue.
+Dequeue – Deleting an element from the beginning of the queue.
+Methods in Queue:
+
++=: This method is used to add a single element in the end of the queue.
+++=: This method is used to Insert more than one the element in the end of the queue.
+clear: Remove all elements from the queue.
+dequeue: Returns the first element in the queue
+enqueue: Adds all the elements to the queue.
+equals: Checks if two queues are structurally identical.
+front: Returns the first element in the queue.
+isEmpty: Check if the queue is empty or not.
+Below are simple Scala programs to demonstrate these operations:
+
+Example 1:
+
+// Scala program for illustrating Queue
+  
+// Import Queue 
+import scala.collection.mutable._
+  
+// Creating object
+object GfG
+{ 
+    // Main method
+    def main(args:Array[String])
+    {
+        // Initialize a queue
+        var q1 = Queue(1, 2, 3, 4, 5)
+          
+        // Print the elements of queue
+        print("Queue Elements: ")
+        q1.foreach((element:Int) => print(element+" ")) 
+          
+        // Print the first element of the queue
+        var firstElement = q1.front 
+        println("\nFirst element in the queue: "+ firstElement) 
+          
+        // Enqueue 10 in the queue
+        q1.enqueue(10) 
+          
+        // Print the elements of queue
+        print("Queue Elements after enqueue: ") 
+        q1.foreach((element:Int) => print(element+" "))
+          
+        // Dequeue first element from the queue
+        var deq = q1.dequeue
+          
+        // Print the elements of queue
+        print("\nQueue Elements after dequeue: ") 
+        q1.foreach((element:Int) => print(element+" "))
+          
+        // Print the Dequeued element
+        print("\nDequeued element: " + deq)
+          
+        // using isEmpty method
+        println("\nQueue is empty: "+ q1.isEmpty)
+    }
+}
+Output:
+Queue Elements: 1 2 3 4 5 
+First element in the queue: 1
+Queue Elements after enqueue: 1 2 3 4 5 10 
+Queue Elements after dequeue: 2 3 4 5 10 
+Dequeued element: 1
+Queue is empty: false
+Example 2:
+
+
+
+// Scala program for illustrating Queue
+  
+// Import Queue 
+import scala.collection.mutable._
+  
+// Creating object
+object GfG
+{ 
+    // Main method
+    def main(args:Array[String])
+    {
+        // Initialize a queue
+        var fruits = Queue[String]()
+          
+        // Adding elements to the queue
+        fruits.enqueue("apple")
+        fruits.enqueue("banana")
+        fruits.enqueue("mango")
+        fruits.enqueue("guava")
+          
+        // Print the elements of queue
+        print("Queue Elements: ")
+        fruits.foreach((element:String) => print(element+" ")) 
+          
+        // Print the first element of the queue
+        var firstElement = fruits.front 
+        println("\nFirst element in the queue: "+ firstElement) 
+          
+        // Enqueue pineapple in the queue
+        fruits.enqueue("pineapple") 
+          
+        // Print the elements of queue
+        print("Queue Elements after enqueue: ") 
+        fruits.foreach((element:String) => print(element+" "))
+          
+        // Dequeue first element from the queue
+        var deq = fruits.dequeue
+          
+        // Print the elements of queue
+        print("\nQueue Elements after dequeue: ") 
+        fruits.foreach((element:String) => print(element+" "))
+          
+        // Print the Dequeued element
+        print("\nDequeued element: " + deq)
+  
+        // Using clear method
+        println("\nclear the queue: "+ fruits.clear)
+          
+        // Using isEmpty method
+        println("\nqueue is empty: "+ fruits.isEmpty)
+          
+    }
+}
+Output:
+Queue Elements: apple banana mango guava 
+First element in the queue: apple
+Queue Elements after enqueue: apple banana mango guava pineapple 
+Queue Elements after dequeue: banana mango guava pineapple 
+Dequeued element: apple
+clear the queue: ()
+
+queue is empty:true
+
+
+
+
+Like
+0
+Previous
+Stack in Scala
+Next
+Scala Queue take() method with example
+Related Articles
+1.
+Scala Queue take() method with example
+2.
+Scala Queue count() method with example
+3.
+Scala Queue copyToArray() method with example
+4.
+Scala Queue contains() method with example
+5.
+Scala Queue clone() method with example
+6.
+Scala Queue clear() method with example
+7.
+Scala Queue apply() method with example
+8.
+Scala Queue :+() method with example
+9.
+Scala Queue ++=() method with example
+10.
+Scala Queue +=:() method with example
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rupesh_rao
+@rupesh_rao
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+Picked
+Scala
+scala-collection
+Scala
+Improve Article
+Report Issue

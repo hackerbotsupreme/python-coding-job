@@ -1,0 +1,494 @@
+Find the first circular tour that visits all petrol pumps
+
+Difficulty Level : Hard
+Last Updated : 27 Jan, 2023
+Read
+Discuss(430+)
+Courses
+Practice
+Video
+Given information about N petrol pumps (say arr[]) that are present in a circular path. The information consists of the distance of the next petrol pump from the current one (in arr[i][1]) and the amount of petrol stored in that petrol pump (in arr[i][0]). Consider a truck with infinite capacity that consumes 1 unit of petrol to travel 1 unit distance. The task is to find the index of the first starting point such that the truck can visit all the petrol pumps and come back to that starting point.
+
+Note: Return -1 if no such tour exists.
+
+Examples:
+
+Input: arr[] = {{4, 6}, {6, 5}, {7, 3}, {4, 5}}. 
+Output: 1
+Explanation: If started from 1st index then a circular tour can be covered.
+
+
+Input: arr[] {{6, 4}, {3, 6}, {7, 3}}
+Output: 2
+
+Recommended Problem
+Circular tour
+sliding-window
+two-pointer-algorithm
++3 more
+Zoho
+Flipkart
++5 more
+Solve Problem
+Submission count: 1.2L
+Naive Approach:
+
+As the capacity of the truck is infinite it is feasible to fill the truck with all the amount of petrol available at each petrol pump.
+
+
+
+A Simple Solution is to consider every petrol pumps as a starting point and see if there is a possible tour. If we find a starting point with a feasible solution, we return that starting point. 
+
+Time Complexity: O(N2)
+Auxiliary Space: O(1)
+
+First Circular Tour Using Queue:
+Instead of checking the whole array for each starting point, we can store the current tour inside a queue. 
+
+At the moment, the current amount of petrol becomes inefficient (i.e., negative) to reach the next petrol pump, remove the current starting point from the queue and consider the next point as the new starting point.
+
+Instead of building a separate queue, we can use the array itself as a queue with the help of start and end pointers.
+
+Note: Each petrol pump will be added in the queue at most twice and will be removed at most once.
+
+Illustration:
+
+Below image is a dry run of the above approach:
+
+
+
+Follow the below steps to implement the idea:
+
+Set two pointers, start = 0 and end = 1 to use the array as a queue.
+If the amount of petrol is efficient to reach the next petrol pump then increment the end pointer (circularly).
+Otherwise, remove the starting point of the current tour, i.e., increment the start pointer.
+If the start pointer reaches N then such a tour is not possible. Otherwise, return the starting point of the tour.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python
+# Python program to find circular tour for a truck
+# In this approach we will start the tour from the first petrol pump
+# then while moving to the next pumps in the loop we will store the cumulative
+# information that whether we have a deficit of petrol at the current pump or not
+# If there is a deficit then we will add it to the deficit value calculated
+# till the previous petrol pump and then update the starting point to the next pump
+# and reset the petrol available in the truck as 0
+ 
+# This function return starting point if there is a possible
+# solution otherwise returns -1
+def printTour(arr,n):
+     
+    # Consider first petrol pump as starting point
+    start = 0
+    # These two variable will keep tracking if there is
+    # surplus(s) or deficit(d) of petrol in the truck
+    s = 0          # petrol available the truck till now
+    d = 0        # deficit of petrol till visiting this petrol pump
+     
+    # Start from the first petrol pump and complete one loop
+    # of visiting all the petrol pumps and keep updating s and d at each pump
+    for i in range(n):
+      s += arr[i][0] - arr[i][1]
+      if s < 0:            # the truck has a deficit of petrol
+        start = i+1        # change the starting point
+        d += s            # storing the deficit of petrol till current petrol pump
+        s = 0            # starting again from new station
+     
+    # when we reach first petrol pump again and sum of the petrol available at the truck
+    # and the petrol deficit till now is 0 or more petrol then return the starting point
+    # else return -1
+    return start if (s+d)>=0 else -1
+   
+   
+# Driver program to test above function
+arr = [[6,4], [3,6], [7,3]]
+start = printTour(arr,3)
+if start == -1:
+  print("No Solution Possible !!!")
+else:
+  print("start = {}".format(start))
+ 
+# This code is contributed by Antara Das(anny)
+C#
+Javascript
+Output
+Start = 2
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+First Circular Tour by checking only possible valid Starting Positions:
+Another efficient solution can be to find out the first petrol pump where the amount of petrol is greater than or equal to the distance to be covered to reach the next petrol pump. 
+
+Mark that petrol pump as start and check whether we can finish the journey towards the end point. 
+
+If in the middle, at any petrol pump, the amount of petrol is less than the distance to be covered to reach the next petrol pump, then we can say we cannot complete the circular tour from start. 
+Find the next start petrol pump where the amount of petrol is greater than or equal to the distance to be covered and we mark it as start. Continue this process till all points are visited or a starting point is found.
+Let us discuss why we need not look at any petrol pump in between the initial petrol pump marked as start and the new start.
+
+Let us consider there was a petrol pump at kth position between the old start and new start. This petrol pump will break the range into two parts. The case is that 
+
+both the parts can have negative sum, 
+the starting partition can have a negative sum or 
+the later half has a negative sum. 
+In the first and the last case we will not be able to reach the new start point. 
+
+And for the second case though we will be able to reach the new start but will not be able to complete the tour because we will not be able to cover some part in between 0 to the kth position. [As we already found that we could not reach to start from 0 and also we are not able to reach k from start. So the tour cannot be completed] 
+
+Follow the steps mentioned below to implement the idea:
+
+Find the first possible petrol pump where the amount of petrol is greater than the distance to the next petrol pump.
+Traverse from i = start to N:
+If the amount of petrol becomes inefficient (i.e., negative) we need to update the new start point.
+Traverse from i+1 to N and find the point where petrol is greater than the distance to the next petrol pump.
+Start from the new start point and continue the above procedure.
+Start from 0 to the found start point. If the sum of the petrol is non-negative then the start point is feasible otherwise not.
+Below is the implementation of the above approach:  
+
+C++
+C
+Java
+Python3
+# Python program to find circular tour for a truck
+ 
+# A petrol pump has petrol and distance to next petrol pump
+class petrolPump:
+    def __init__(self, petrol, distance):
+        self.petrol = petrol
+        self.distance = distance
+ 
+# The function returns starting point if there is a
+# possible solution, otherwise returns -1
+def printTour(arr, n):
+    start = 0
+ 
+    for i in range(n):
+       
+        # Identify the first petrol pump from where we
+        # might get a full circular tour
+        if arr[i].petrol >= arr[i].distance:
+            start = i
+            break
+             
+    # To store the excess petrol
+    curr_petrol = 0
+    for i in range(start, n):
+        curr_petrol += (arr[i].petrol - arr[i].distance)
+ 
+        # If at any point remaining petrol is less than 0,
+        # it means that we cannot start our journey from
+        # current start
+        if(curr_petrol < 0):
+ 
+            # We move to the next petrol pump
+            i += 1
+ 
+            # We try to identify the next petrol pump from
+            # where we might get a full circular tour
+            while(i < n):
+                if(arr[i].petrol >= arr[i].distance):
+                    start = i
+ 
+                    # Reset rem_petrol
+                    curr_petrol = 0
+                    break
+                i += 1
+ 
+        else:
+            # Move to the next petrolpump if curr_petrol is
+            # >= 0
+            i += 1
+ 
+    ''' If remaining petrol is less than 0 while we reach the
+     first petrol pump, it means no circular tour is
+     possible '''
+    if(curr_petrol < 0):
+        return -1
+ 
+    for i in range(start):
+        curr_petrol += (arr[i].petrol - arr[i].distance)
+ 
+        ''' If remaining petrol is less than 0 at any point
+         before we reach initial start, it means no
+         circular tour is possible '''
+        if(curr_petrol < 0):
+            return -1
+ 
+    ''' If we have successfully reached intial_start, it
+     means can get a circular tour from final_start, hence
+     return it '''
+    return start
+ 
+# Driver code
+arr = [petrolPump(6, 4), petrolPump(3, 6), petrolPump(7, 3)]
+start = printTour(arr, len(arr))
+if start == -1:
+    print("No solution")
+else:
+    print("Start = {}".format(start))
+ 
+# This code is contributed by jainlovely450
+C#
+Javascript
+Output
+Start = 2
+Time Complexity: O(N)
+Auxiliary Space: O(1)
+
+First Circular Tour by using Single Loop:
+The idea is similar to the above approach. 
+
+Here we will use another variable to substitute the extra loop from start till the latest found start point. The variable will store the sum of utilized petrol from 0 till the latest start petrol pump.
+
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+# Python program to find circular tour for a truck
+ 
+# A petrol pump has petrol and distance to next petrol pump
+class petrolPump:
+    def __init__(self,a, b):
+        self.petrol = a;
+        self.distance = b;
+     
+# The function returns starting point if there is a
+# possible solution, otherwise returns -1
+def printTour( p, n):
+ 
+    # deficit is used to store the value of the capacity as
+    # soon as the value of capacity becomes negative so as
+    # not to traverse the array twice in order to get the
+    # solution
+    start = 0;
+    deficit = 0;
+    capacity = 0;
+    for i in range(n):
+        capacity += p[i].petrol - p[i].distance;
+        if (capacity < 0):
+            # If this particular step is not done then the
+            # between steps would be redundant
+            start = i + 1;
+            deficit += capacity;
+            capacity = 0;
+         
+    if(capacity + deficit >= 0):
+        return start;
+    else:
+        return -1;
+ 
+# Driver code
+if __name__ == '__main__':
+    arr = [petrolPump(6, 4),petrolPump(3, 6),petrolPump(7, 3)] ;
+ 
+    n = len(arr);
+    start = printTour(arr, n);
+ 
+    if (start == -1):
+        print("No solution");
+    else:
+        print("Start = " , start);
+ 
+ 
+# This code is contributed by Rajput-Ji
+C#
+Javascript
+Output
+Start = 2
+Time Complexity: O(N)
+Auxiliary Space: O(1) 
+
+First Circular Tour using dynamic programming
+In this approach first, we will storing the difference between petrol and distance then prefix array will store the difference of petrol and distance till the i’th position and suffix array will do the same from end. The idea behind this approach is we are checking if the i’th position is suitable candidate for a starting point or not. For checking this we are storing the capacity from front and from end.
+
+Below is the implementation of above approach:
+
+C++
+// C++ program to find circular tour for a truck
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// A petrol pump has petrol and distance to next petrol pump
+class petrolPump {
+public:
+    int petrol;
+    int distance;
+};
+ 
+// The function returns starting point if there is a
+// possible solution, otherwise returns -1
+int printTour(petrolPump p[], int n)
+{
+    // storing the difference between petrol and distance
+       vector<int> v;
+       for(int i=0;i<n;i++)
+       {
+           v.push_back(p[i].petrol-p[i].distance);
+       }
+        
+       // pref array will store the difference of petrol and distance
+       // till the i'th position
+        
+       vector<int> pref(n);
+       pref[0]=v[0];
+       for(int i=0;i<n;i++)
+       {
+           pref[i]=pref[i-1]+v[i];
+       }
+        
+       // suff array will store the difference of petrol and distance
+       // till the i'th position from the end
+        
+       vector<int> suff(n);
+       suff[n-1]=v[n-1];
+       for(int i=n-2;i>=0;i--)
+       {
+           suff[i]=suff[i+1]+v[i];
+       }
+        
+      int flag=0;
+      int ans=-1;
+        
+       for(int i=0;i<n;i++)
+       {
+           // when the pref array will become 0 first time then we will
+           // store the next index of it
+           // if the pref of i'th pos minus pref of last index where pref
+           // array became negative is less than 0
+           // then we will update the ans
+            
+           if((ans==-1 && pref[i]<0) || (ans!=-1 && pref[i]-pref[ans-1]<0))
+           {
+                ans=i+1;
+           }
+       }
+        
+       // no index in pref array is less than 0
+       if(ans==-1)
+       {
+           return 0;
+       }
+       // if at i'th position pref array become 0
+       else if(ans<n)
+       {
+           if(pref[ans-1]+suff[ans]>=0)
+           {
+               return ans;
+           }
+       }
+       // if at n'th position pref array become 0
+       else if(ans==n)
+       {
+           if(suff[ans-1]+pref[ans-2]>=0)
+           {
+               return n-1;
+           }
+       }
+        
+       // if no index is picked as starting point
+       return -1;
+}
+ 
+int main()
+{
+    petrolPump arr[] = { { 6, 4 }, { 3, 6 }, { 7, 3 } };
+  
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int start = printTour(arr, n);
+  
+    (start == -1) ? cout << "No solution"
+                  : cout << "Start = " << start;
+  
+    return 0;
+}
+ 
+// this code is contributed by Nishant Raj
+Javascript
+Output
+Start = 2
+Time Complexity: O(N)
+Auxiliary Space: O(1) 
+
+
+
+
+
+Like
+137
+Previous
+Sliding Window Maximum (Maximum of all subarrays of size K)
+Next
+Iterative Method to find Height of Binary Tree
+Related Articles
+1.
+The Knight's tour problem
+2.
+Circular Linked List Implementation of Circular Queue
+3.
+C++ Program to Find Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+4.
+Java Program to Find Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+5.
+FIFO (First-In-First-Out) approach in Programming
+6.
+Check if a given sequence of moves for a robot is circular or not
+7.
+Implementation of Deque using circular array
+8.
+Implement dynamic deque using templates class and a circular array
+9.
+Applications, Advantages and Disadvantages of Circular Queue
+10.
+Minimum circular rotations to obtain a given numeric string by avoiding a set of given strings
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+sid2207
+rathbhupendra
+Akanksha_Rai
+anny
+supratik_mitra
+kk9826225
+akshaysingh98088
+krishna_97
+adnanirshad158
+rakeshsahni
+jainlovely450
+varshagumber28
+adityakumar129
+umadevi9616
+Rajput-Ji
+bhartiomee25
+arorakashish0911
+balasrinivas
+sumitgumber28
+animeshdey
+beginner_18
+Article Tags :
+Amazon
+FactSet
+Microsoft
+Morgan Stanley
+Zoho
+Queue
+Practice Tags :
+Amazon
+FactSet
+Microsoft
+Morgan Stanley
+Zoho
+Queue
+Improve Article
+Report Issue

@@ -1,0 +1,282 @@
+Implementation of Queue in Javascript
+
+Difficulty Level : Easy
+Last Updated : 02 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+In This article, we would be implementing Queue data structure in javascript. A Queue works on the FIFO(First in First Out) principle. Hence, it performs two basic operations which are the addition of elements at the end of the queue and the removal of elements from the front of the queue. Like Stack, Queue is also a linear data structure. 
+
+Note: Assuming a queue can grow dynamically we are not considering the overflow condition Now let’s see an example of a queue class using an array:- 
+
+To implement a queue data structure we need the following methods:
+
+enqueue : To add elements at end of the queue.
+dequeue: To remove an element from the front of the queue.
+peek: To get the front element without removing it.
+isEmpty: To check whether an element is present in the queue or not.
+printQueue: To print the elements present in queue.
+First, we will be implementing the data structure by creating a queue object and defining the methods for it. We will use additional variables and time complexity will be O(1) which will make the execution of functions faster irrespective of the size of the queue. The additional variables keep track of the index of the first and last element so we do not have to iterate the queue at each insertion and deletion.
+
+Implementation:
+
+Javascript
+    class Queue {
+        constructor() {
+            this.items = {}
+            this.frontIndex = 0
+            this.backIndex = 0
+        }
+        enqueue(item) {
+            this.items[this.backIndex] = item
+            this.backIndex++
+            return item + ' inserted'
+        }
+        dequeue() {
+            const item = this.items[this.frontIndex]
+            delete this.items[this.frontIndex]
+            this.frontIndex++
+            return item
+        }
+        peek() {
+            return this.items[this.frontIndex]
+        }
+        get printQueue() {
+            return this.items;
+        }
+    }
+    const queue = new Queue()
+    console.log(queue.enqueue(7))
+    console.log(queue.enqueue(2))
+    console.log(queue.enqueue(6))
+    console.log(queue.enqueue(4))
+    console.log(queue.dequeue())
+    console.log(queue.peek()) 
+    var str = queue.printQueue;
+    console.log(str) 
+Output:
+
+
+ 
+
+Explanation: The insertion and deletion of items are performed in O(1) because of variables frontIndex and backIndex.
+
+We can also create a queue using array and use the inbuilt array methods to implement the queue functions. The only drawback of inbuilt array methods is that they perform operations in O(n) time complexity.
+
+Example: 
+
+Javascript
+// Queue class
+class Queue{
+    // Array is used to implement a Queue
+    constructor() {
+        this.items = [];
+    }
+                  
+    // Functions to be implemented
+    // enqueue(item)
+    // dequeue()
+    // peek()
+    // isEmpty()
+    // printQueue()
+}
+As in the above definition we have created a skeleton of a queue class which contains a constructor in which we declare an array to implement queue. Hence, with the creation of an object of a queue class this constructor would be called automatically and the array will be declared Let’s implement each of these functions:
+
+Example: JavaScript enqueue() adds an element to the queue 
+
+Javascript
+// enqueue function
+enqueue(element){    
+    // adding element to the queue
+    this.items.push(element);
+}
+This function adds an element at the rear of a queue. We have used push() method of array to add an element at the end of the queue.
+
+Example: JavaScript dequeue() removes an element from the queue 
+
+Javascript
+// dequeue function
+dequeue()
+{
+    // removing element from the queue
+    // returns underflow when called
+    // on empty queue
+    if(this.isEmpty())
+        return "Underflow";
+    return this.items.shift();
+}
+This function removes an element from the front of a queue . We have used shift method of an array to remove an element from the queue.
+
+Example: JavaScript peek() returns the front/top element of the queue 
+
+Javascript
+// peek function
+peek()
+{
+    // returns the Front element of
+    // the queue without removing it.
+    if(this.isEmpty())
+        return "No elements in Queue";
+    return this.items[0];
+}
+This function returns the front element of the queue. We simply return the 0th element of an array to get the front of a queue.
+
+In this function we have used the length property of an array and if the array length is 0 then the queue is empty.
+
+Helper Methods
+
+Let’s declare some helper method which is quite useful while working with the queue.
+
+Example: JavaScript isEmpty() returns true if the queue is empty 
+
+Javascript
+// isEmpty function
+isEmpty() {
+    // return true if the queue is empty.
+    return this.items.length == 0;
+}
+Example: JavaScript printQueue() returns all the elements of a queue. 
+
+Javascript
+// printQueue function
+printQueue()
+{
+    var str = "";
+    for(var i = 0; i < this.items.length; i++)
+        str += this.items[i] +" ";
+    return str;
+}
+In this method, we concatenate all the elements of the queue in a string and return the string
+
+Note: Different helper methods can be declared in the Queue class as per the requirement.
+
+Implementation
+
+Now let’s use the queue class and its different method described above 
+
+Javascript
+// creating object for queue class
+var queue = new Queue();
+           
+// Testing dequeue and pop on an empty queue
+// returns Underflow
+console.log(queue.dequeue());
+  
+// returns true
+console.log(queue.isEmpty());
+  
+// Adding elements to the queue
+// queue contains [10, 20, 30, 40, 50]
+queue.enqueue(10);
+queue.enqueue(20);
+queue.enqueue(30);
+queue.enqueue(40);
+queue.enqueue(50);
+queue.enqueue(60);
+  
+// returns 10
+console.log(queue.peek());
+  
+// removes 10 from the queue
+// queue contains [20, 30, 40, 50, 60]
+console.log(queue.dequeue());
+  
+// returns 20
+console.log(queue.peek());
+  
+// removes 20
+// queue contains [30, 40, 50, 60]
+console.log(queue.dequeue());
+  
+// printing the elements of the queue
+// prints [30, 40, 50, 60]
+console.log(queue.printQueue());
+Now once we are done with the implementation of the Queue class we can use it in different applications.
+
+Application: An Interesting Method to Generate Binary Numbers from 1 to n
+
+In this problem, we generate different binary numbers from 1 to n. 
+
+Javascript
+// function to generate binary numbers
+function generatePrintBinary(n)
+{
+    // Create an empty queue of strings
+    var q = new Queue();
+          
+    // Enqueue the first binary number
+    q.enqueue("1");
+          
+    // This loops is like BFS of a tree with 1 as root
+    // 0 as left child and 1 as right child and so on
+    while(n-- > 0)
+    {
+        // print the front of queue
+        var s1 = q.front();
+        q.dequeue();
+        console.log(s1);
+              
+        // Store s1 before changing it
+        var s2 = s1;
+              
+        // Append "0" to s1 and enqueue it
+        q.enqueue(s1 + "0");
+              
+        // Append "1" to s2 and enqueue it. Note that s2 contains
+        // the previous front
+        q.enqueue(s2 + "1");
+    }
+}
+  
+// calling the above function    
+// prints [1 10 11 100 101]
+generatePrintBinary(5);
+
+
+
+
+Like
+13
+Next
+Implementation of Stack in JavaScript
+Related Articles
+1.
+Implementation of Priority Queue in Javascript
+2.
+What is the difference between Microtask Queue and Callback Queue in asynchronous JavaScript ?
+3.
+Implementation of LinkedList in Javascript
+4.
+Implementation of Binary Search Tree in Javascript
+5.
+Implementation of Graph in JavaScript
+6.
+Implementation of Array class in JavaScript
+7.
+Web Search Bar Implementation Using Javascript Conditional Flow
+8.
+Bulma Modal JavaScript implementation Example
+9.
+Implementation of Stack in JavaScript
+10.
+How to store JavaScript functions in a queue and execute in that order?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shobhit_sharma
+Article Tags :
+JavaScript-DS
+JavaScript
+Web Technologies
+Improve Article
+Report Issue

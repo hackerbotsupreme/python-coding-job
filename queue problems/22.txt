@@ -1,0 +1,346 @@
+Breadth First Search or BFS for a Graph
+
+Difficulty Level : Easy
+Last Updated : 19 Jan, 2023
+Read
+Discuss(160+)
+Courses
+Practice
+Video
+The breadth-first search (BFS) algorithm is used to search a tree or graph data structure for a node that meets a set of criteria. It starts at the tree’s root or graph and searches/visits all nodes at the current depth level before moving on to the nodes at the next depth level. Breadth-first search can be used to solve many problems in graph theory.
+
+Breadth-First Traversal (or Search) for a graph is similar to the Breadth-First Traversal of a tree (See method 2 of this post). 
+
+The only catch here is, that, unlike trees, graphs may contain cycles, so we may come to the same node again. To avoid processing a node more than once, we divide the vertices into two categories:
+
+Visited and
+Not visited.
+A boolean visited array is used to mark the visited vertices. For simplicity, it is assumed that all vertices are reachable from the starting vertex. BFS uses a queue data structure for traversal.
+
+Example: 
+
+In the following graph, we start traversal from vertex 2.
+
+
+
+When we come to vertex 0, we look for all adjacent vertices of it. 
+
+2 is also an adjacent vertex of 0. 
+If we don’t mark visited vertices, then 2 will be processed again and it will become a non-terminating process.
+There can be multiple BFS traversals for a graph. Different BFS traversals for the above graph :
+2, 3, 0, 1
+2, 0, 3, 1
+
+Recommended Problem
+BFS of graph
+Graph
+BFS
++2 more
+Flipkart
+Amazon
++5 more
+Solve Problem
+Submission count: 2.2L
+Implementation of BFS traversal on Graph:
+Pseudocode:
+Breadth_First_Serach( Graph, X ) // Here, Graph is the graph that we already have and X is the source node
+
+Let Q be the queue
+Q.enqueue( X ) // Inserting source node X into the queue
+Mark X node as visited.
+
+While ( Q is not empty )
+Y = Q.dequeue( ) // Removing the front node from the queue
+
+Process all the neighbors of Y, For all the neighbors Z of Y
+If Z is not visited, Q. enqueue( Z ) // Stores Z in Q
+Mark Z as visited
+
+Follow the below method to implement BFS traversal.
+
+Declare a queue and insert the starting vertex.
+Initialize a visited array and mark the starting vertex as visited.
+Follow the below process till the queue becomes empty:
+Remove the first vertex of the queue.
+Mark that vertex as visited.
+Insert all the unvisited neighbors of the vertex into the queue.
+Illustration:
+
+Step1: Initially queue and visited arrays are empty.
+
+
+Queue and visited arrays are empty initially.
+
+Step2: Push node 0 into queue and mark it visited.
+
+Push node 0 into queue and mark it visited.
+Push node 0 into queue and mark it visited.
+
+Step 3: Remove node 0 from the front of queue and visit the unvisited neighbours and push them into queue.
+
+Remove node 0 from the front of queue and visited the unvisited neighbours and push into queue.
+Remove node 0 from the front of queue and visited the unvisited neighbours and push into queue.
+
+Step 4: Remove node 1 from the front of queue and visit the unvisited neighbours and push them into queue.
+
+Remove node 1 from the front of queue and visited the unvisited neighbours and push
+Remove node 1 from the front of queue and visited the unvisited neighbours and push
+
+Step 5: Remove node 2 from the front of queue and visit the unvisited neighbours and push them into queue.
+
+Remove node 2 from the front of queue and visit the unvisited neighbours and push them into queue.
+Remove node 2 from the front of queue and visit the unvisited neighbours and push them into queue.
+
+Step 6: Remove node 3 from the front of queue and visit the unvisited neighbours and push them into queue. 
+As we can see that every neighbours of node 3 is visited, so move to the next node that are in the front of the queue.
+
+Remove node 3 from the front of queue and visit the unvisited neighbours and push them into queue. 
+Remove node 3 from the front of queue and visit the unvisited neighbours and push them into queue. 
+
+Steps 7: Remove node 4 from the front of queue and visit the unvisited neighbours and push them into queue. 
+As we can see that every neighbours of node 4 are visited, so move to the next node that is in the front of the queue.
+
+Remove node 4 from the front of queue and and visit the unvisited neighbours and push ithem into queue. 
+Remove node 4 from the front of queue and visit the unvisited neighbours and push them into queue.
+
+Now, Queue becomes empty, So, terminate these process of iteration.
+
+The implementation uses an adjacency list representation of graphs. STL‘s list container stores lists of adjacent nodes and the queue of nodes needed for BFS traversal.
+
+C
+C++
+Java
+Python3
+# Python3 Program to print BFS traversal
+# from a given source vertex. BFS(int s)
+# traverses vertices reachable from s.
+from collections import defaultdict
+ 
+# This class represents a directed graph
+# using adjacency list representation
+ 
+ 
+class Graph:
+ 
+    # Constructor
+    def __init__(self):
+ 
+        # default dictionary to store graph
+        self.graph = defaultdict(list)
+ 
+    # function to add an edge to graph
+    def addEdge(self, u, v):
+        self.graph[u].append(v)
+ 
+    # Function to print a BFS of graph
+    def BFS(self, s):
+ 
+        # Mark all the vertices as not visited
+        visited = [False] * (max(self.graph) + 1)
+ 
+        # Create a queue for BFS
+        queue = []
+ 
+        # Mark the source node as
+        # visited and enqueue it
+        queue.append(s)
+        visited[s] = True
+ 
+        while queue:
+ 
+            # Dequeue a vertex from
+            # queue and print it
+            s = queue.pop(0)
+            print(s, end=" ")
+ 
+            # Get all adjacent vertices of the
+            # dequeued vertex s. If a adjacent
+            # has not been visited, then mark it
+            # visited and enqueue it
+            for i in self.graph[s]:
+                if visited[i] == False:
+                    queue.append(i)
+                    visited[i] = True
+ 
+# Driver code
+ 
+ 
+# Create a graph given in
+# the above diagram
+g = Graph()
+g.addEdge(0, 1)
+g.addEdge(0, 2)
+g.addEdge(1, 2)
+g.addEdge(2, 0)
+g.addEdge(2, 3)
+g.addEdge(3, 3)
+ 
+print("Following is Breadth First Traversal"
+      " (starting from vertex 2)")
+g.BFS(2)
+ 
+# This code is contributed by Neelam Yadav
+C#
+Javascript
+Output
+Following is Breadth First Traversal (starting from vertex 2) 
+2 0 3 1 
+Time Complexity: O(V+E), where V is the number of nodes and E is the number of edges.
+Auxiliary Space: O(V)
+
+BFS for Disconnected Graph:
+Note that the above code traverses only the vertices reachable from a given source vertex. In every situation, all the vertices may not be reachable from a given vertex (i.e. for a disconnected graph). 
+
+To print all the vertices, we can modify the BFS function to do traversal starting from all nodes one by one (Like the DFS modified version). 
+
+Below is the implementation for BFS traversal for the entire graph (valid for directed as well as undirected graphs) with possible multiple disconnected components:
+
+C
+C++
+Java
+Python3
+'''
+Generic Function for BFS traversal of a Graph
+ (valid for directed as well as undirected graphs
+ which can have multiple disconnected components)
+-- Inputs --
+-> V - represents number of vertices in the Graph
+-> adj[] - represents adjacency list for the Graph
+-- Output --
+-> bfs_traversal - a vector containing bfs traversal
+for entire graph
+'''
+ 
+ 
+def bfsOfGraph(V, adj):
+ 
+    bfs_traversal = []
+    vis = [False]*V
+    for i in range(V):
+ 
+        # To check if already visited
+        if (vis[i] == False):
+            q = []
+            vis[i] = True
+            q.append(i)
+ 
+            # BFS starting from ith node
+            while (len(q) > 0):
+                g_node = q.pop(0)
+ 
+                bfs_traversal.append(g_node)
+                for it in adj[g_node]:
+                    if (vis[it] == False):
+                        vis[it] = True
+                        q.append(it)
+ 
+    return bfs_traversal
+ 
+  # This code is contributed by Abhijeet Kumar(abhijeet19403)
+C#
+Javascript
+Problems related to BFS:
+S.no	
+Problems
+
+Practice
+1.	Find the level of a given node in an Undirected Graph	Link
+2.	Minimize maximum adjacent difference in a path from top-left to bottom-right	Link
+3.	Minimum jump to the same value or adjacent to reach the end of an Array	Link
+4.	Maximum coin in minimum time by skipping K obstacles along the path in Matrix	Link
+5.	Check if all nodes of the Undirected Graph can be visited from the given Node	Link
+6.	Minimum time to visit all nodes of a given Graph at least once	Link
+7.	Minimize moves to the next greater element to reach the end of the Array	Link
+8.	Shortest path by removing K walls	Link
+9.	Minimum time required to infect all the nodes of the Binary tree	Link
+10.	Check if destination of given Matrix is reachable with required values of cells	Link
+Applications of BFS:
+Shortest Path and Minimum Spanning Tree for unweighted graph: In an unweighted graph, the shortest path is the path with the least number of edges. With Breadth First, we always reach a vertex from a given source using the minimum number of edges. Also, in the case of unweighted graphs, any spanning tree is Minimum Spanning Tree and we can use either Depth or Breadth first traversal for finding a spanning tree. 
+Peer-to-Peer Networks: In Peer-to-Peer Networks like BitTorrent, Breadth First Search is used to find all neighbor nodes. 
+Crawlers in Search Engines: Crawlers build an index using Breadth First. The idea is to start from the source page and follow all links from the source and keep doing the same. Depth First Traversal can also be used for crawlers, but the advantage of Breadth First Traversal is, the depth or levels of the built tree can be limited. 
+Social Networking Websites: In social networks, we can find people within a given distance ‘k’ from a person using Breadth First Search till ‘k’ levels. 
+GPS Navigation systems: Breadth First Search is used to find all neighboring locations. 
+Broadcasting in Network: In networks, a broadcasted packet follows Breadth First Search to reach all nodes. 
+In Garbage Collection: Breadth First Search is used in copying garbage collection using Cheney’s algorithm. Refer this and for details. Breadth First Search is preferred over Depth First Search because of the better locality of reference: 
+Cycle detection in the undirected graph: In undirected graphs, either Breadth First Search or Depth First Search can be used to detect cycle. We can use BFS to detect cycle in a directed graph also,
+ Ford–Fulkerson algorithm: In the Ford-Fulkerson algorithm, we can either use Breadth First or Depth First Traversal to find the maximum flow. Breadth First Traversal is preferred as it reduces worst-case time complexity to O(VE2). 
+To test if a graph is Bipartite: We can either use Breadth First or Depth First Traversal. 
+Path Finding: We can either use Breadth First or Depth First Traversal to find if there is a path between two vertices. 
+Finding all nodes within one connected component: We can either use Breadth First or Depth First Traversal to find all nodes reachable from a given node. 
+You may like to see below also : 
+
+Recent Articles on BFS
+Depth First Traversal
+Applications of Breadth First Traversal
+Applications of Depth First Search
+Self Paced Course
+Self Paced Course
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Applications, Advantages and Disadvantages of Directed Graph
+Next
+Depth First Search or DFS for a Graph
+Related Articles
+1.
+Breadth First Traversal ( BFS ) on a 2D array
+2.
+Implementing Water Supply Problem using Breadth First Search
+3.
+Breadth First Search without using Queue
+4.
+Applications of Breadth First Traversal
+5.
+Check if a given directed graph is strongly connected | Set 2 (Kosaraju using BFS)
+6.
+0-1 BFS (Shortest Path in a Binary Weight Graph)
+7.
+Detect cycle in an undirected graph using BFS
+8.
+Detect Cycle in a Directed Graph using BFS
+9.
+Print the lexicographically smallest BFS of the graph starting from 1
+10.
+Islands in a graph using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+anvudemy1
+atharvacp20
+surinderdawra388
+punamsingh628700
+vladozaric
+akjlucky4all
+devendrasalunke
+aayushi2402
+animeshdey
+simranarora5sos
+abhijeet19403
+ajaymakvana
+amankr0211
+akashish__
+janardansthox
+manishmandal9734
+mitalibhola94
+Article Tags :
+BFS
+graph-basics
+Graph
+Queue
+Practice Tags :
+BFS
+Graph
+Queue
+Report Issue

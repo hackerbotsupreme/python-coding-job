@@ -1,0 +1,339 @@
+Implementation of Deque using doubly linked list
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Deque or Double Ended Queue is a generalized version of Queue data structure that allows insert and delete at both ends. In previous post Implementation of Deque using circular array has been discussed. Now in this post we see how we implement Deque using Doubly Linked List.
+
+Operations on Deque :
+Mainly the following four basic operations are performed on queue : 
+
+insertFront() : Adds an item at the front of Deque.
+insertRear()  : Adds an item at the rear of Deque.
+deleteFront() : Deletes an item from front of Deque.
+deleteRear()  : Deletes an item from rear of Deque.
+In addition to above operations, following operations are also supported : 
+
+getFront() : Gets the front item from queue.
+getRear()  : Gets the last item from queue.
+isEmpty()  : Checks whether Deque is empty or not.
+size()     : Gets number of elements in Deque.
+erase()    : Deletes all the elements from Deque.
+
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Doubly Linked List Representation of Deque : 
+For implementing deque, we need to keep track of two pointers, front and rear. We enqueue (push) an item at the rear or the front end of deque and dequeue(pop) an item from both rear and front end.
+
+Working : 
+Declare two pointers front and rear of type Node, where Node represents the structure of a node of a doubly linked list. Initialize both of them with value NULL.
+
+Insertion at Front end : 
+
+
+
+1. Allocate space for a newNode of doubly linked list.
+2. IF newNode == NULL, then
+3.     print "Overflow"
+4. ELSE
+5.     IF front == NULL, then
+6.         rear = front = newNode
+7.     ELSE
+8.         newNode->next = front
+9.       front->prev = newNode
+10.        front = newNode 
+Insertion at Rear end : 
+
+1. Allocate space for a newNode of doubly linked list.
+2. IF newNode == NULL, then
+3.     print "Overflow"
+4. ELSE
+5.     IF rear == NULL, then
+6.         front = rear = newNode
+7.     ELSE
+8.         newNode->prev = rear
+9.       rear->next = newNode
+10.        rear = newNode 
+Deletion from Front end : 
+
+1. IF front == NULL
+2.     print "Underflow"
+3. ELSE
+4.     Initialize temp = front
+5.     front = front->next
+6.     IF front == NULL
+7.         rear = NULL
+8.     ELSE
+9.         front->prev = NULL
+10     Deallocate space for temp
+Deletion from Rear end : 
+
+1. IF front == NULL
+2.     print "Underflow"
+3. ELSE
+4.     Initialize temp = rear
+5.     rear = rear->prev
+6.     IF rear == NULL
+7.         front = NULL
+8.     ELSE
+9.         rear->next = NULL
+10     Deallocate space for temp
+Implementation:
+
+CPP
+Java
+Python3
+class GFG:
+    # Node of a doubly linked list
+    class Node:
+        data = 0
+        prev = None
+        next = None
+  
+        # Function to get a new node
+        @staticmethod
+        def getnode(data):
+            newNode = GFG.Node()
+            newNode.data = data
+            newNode.prev = None
+            newNode.next = None
+            return newNode
+  
+    # A structure to represent a deque
+    class Deque:
+        front = None
+        rear = None
+        Size = 0
+  
+        def __init__(self):
+            self.front = None
+            self.rear = None
+            self.Size = 0
+  
+        # Function to check whether deque
+        # is empty or not
+        def isEmpty(self):
+            return (self.front == None)
+  
+        # Function to return the number of
+        # elements in the deque
+        def size(self):
+            return self.Size
+  
+        # Function to insert an element
+        # at the front end
+        def insertFront(self, data):
+            newNode = GFG.Node.getnode(data)
+  
+            # If true then new element cannot be added
+            # and it is an 'Overflow' condition
+            if (newNode == None):
+                print("OverFlow\n", end="")
+            else:
+  
+                # If deque is empty
+                if (self.front == None):
+                    self.rear = newNode
+                    self.front = newNode
+                else:
+                    newNode.next = self.front
+                    self.front.prev = newNode
+                    self.front = newNode
+  
+                # Increments count of elements by 1
+                self.Size += 1
+  
+        # Function to insert an element
+        # at the rear end
+        def insertRear(self, data):
+            newNode = GFG.Node.getnode(data)
+  
+            # If true then new element cannot be added
+            # and it is an 'Overflow' condition
+            if (newNode == None):
+                print("OverFlow\n", end="")
+            else:
+  
+                # If deque is empty
+                if (self.rear == None):
+                    self.front = newNode
+                    self.rear = newNode
+                else:
+                    newNode.prev = self.rear
+                    self.rear.next = newNode
+                    self.rear = newNode
+                self.Size += 1
+  
+        # Function to delete the element
+        # from the front end
+        def deleteFront(self):
+  
+            # If deque is empty then
+            # 'Underflow' condition
+            if (self.isEmpty()):
+                print("UnderFlow\n", end="")
+            else:
+                temp = self.front
+                self.front = self.front.next
+  
+                # If only one element was present
+                if (self.front == None):
+                    self.rear = None
+                else:
+                    self.front.prev = None
+  
+                # Decrements count of elements by 1
+                self.Size -= 1
+  
+        # Function to delete the element
+        # from the rear end
+        def deleteRear(self):
+  
+            # If deque is empty then
+            # 'Underflow' condition
+            if (self.isEmpty()):
+                print("UnderFlow\n", end="")
+            else:
+                temp = self.rear
+                self.rear = self.rear.prev
+  
+                # If only one element was present
+                if (self.rear == None):
+                    self.front = None
+                else:
+                    self.rear.next = None
+  
+                # Decrements count of elements by 1
+                self.Size -= 1
+  
+        # Function to return the element
+        # at the front end
+        def getFront(self):
+  
+            # If deque is empty, then returns
+            # garbage value
+            if (self.isEmpty()):
+                return -1
+            return self.front.data
+  
+        # Function to return the element
+        # at the rear end
+        def getRear(self):
+  
+            # If deque is empty, then returns
+            # garbage value
+            if (self.isEmpty()):
+                return -1
+            return self.rear.data
+  
+        # Function to delete all the elements
+        # from Deque
+        def erase(self):
+            self.rear = None
+            while (self.front != None):
+                temp = self.front
+                self.front = self.front.next
+            self.Size = 0
+  
+    # Driver program to test above
+    @staticmethod
+    def main(args):
+        dq = GFG.Deque()
+        print("Insert element \'5\' at rear end\n", end="")
+        dq.insertRear(5)
+        print("Insert element \'10\' at rear end\n", end="")
+        dq.insertRear(10)
+        print("Rear end element: " + str(dq.getRear()) + "\n", end="")
+        dq.deleteRear()
+        print("After deleting rear element new rear" +
+              " is: " + str(dq.getRear()) + "\n", end="")
+        print("Inserting element \'15\' at front end \n", end="")
+        dq.insertFront(15)
+        print("Front end element: " + str(dq.getFront()) + "\n", end="")
+        print("Number of elements in Deque: " + str(dq.size()) + "\n", end="")
+        dq.deleteFront()
+        print("After deleting front element new " +
+              "front is: " + str(dq.getFront()) + "\n", end="")
+  
+  
+if __name__ == "__main__":
+    GFG.main([])
+  
+    # This code is contributed by aadityaburujwale.
+Javascript
+Output
+Insert element '5' at rear end
+Insert element '10' at rear end
+Rear end element: 10
+After deleting rear element new rear is: 5
+Inserting element '15' at front end 
+Front end element: 15
+Number of elements in Deque: 2
+After deleting front element new front is: 5
+Complexity Analysis:
+
+Time Complexity : Time complexity of operations like insertFront(), insertRear(), deleteFront(), deleteRear() is O(1). The Time Complexity of erase() is O(n).
+Auxiliary space: O(1)
+
+
+
+
+Like
+18
+Previous
+Implementation of Deque using circular array
+Next
+Applications, Advantages and Disadvantages of Deque
+Related Articles
+1.
+deque::at() and deque::swap() in C++ STL
+2.
+Deque::front() and deque::back() in C++ STL
+3.
+deque::clear() and deque::erase() in C++ STL
+4.
+deque::operator= and deque::operator[] in C++ STL
+5.
+Difference between Queue and Deque (Queue vs. Deque)
+6.
+Implementation of stack using Doubly Linked List
+7.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+8.
+XOR Linked List – A Memory Efficient Doubly Linked List | Set 2
+9.
+Difference between Singly linked list and Doubly linked list
+10.
+Implementation of Deque using circular array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+ayushjauhari14
+@ayushjauhari14
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Akanksha_Rai
+GauravRajput1
+sainitushar438
+hardikkoriintern
+aadityapburujwale
+manishmandal9734
+Article Tags :
+deque
+Linked List
+Queue
+Practice Tags :
+Linked List
+Queue
+Improve Article
+Report Issue

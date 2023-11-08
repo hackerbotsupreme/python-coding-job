@@ -1,0 +1,308 @@
+Find next right node of a given key
+
+Difficulty Level : Easy
+Last Updated : 19 Jan, 2023
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Given a Binary tree and a key in the binary tree, find the node right to the given key. If there is no node on right side, then return NULL. Expected time complexity is O(n) where n is the number of nodes in the given binary tree.
+
+For example, consider the following Binary Tree. Output for 2 is 6, output for 4 is 5. Output for 10, 6 and 5 is NULL. 
+
+                  10
+                /    \
+              2        6
+            /   \        \ 
+           8     4         5
+Recommended Problem
+Next Right Node
+Traversal
+Queue
++3 more
+Solve Problem
+Submission count: 18.2K
+Solution: The idea is to do level order traversal of given Binary Tree. When we find the given key, we just check if the next node in level order traversal is of same level, if yes, we return the next node, otherwise return NULL. 
+
+C++
+Java
+Python3
+# Python program to find next right node of given key
+ 
+# A Binary Tree Node
+class Node:
+     
+    # Constructor to create a new node
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+     
+# Method to find next right of a given key k, it returns
+# None if k is not present in tree or k is the rightmost
+# node of its level
+def nextRight(root, k):
+ 
+    # Base Case
+    if root is None:
+        return 0
+ 
+    # Create an empty queue for level order traversal
+    qn =  [] # A queue to store node addresses
+    q1 = [] # Another queue to store node levels
+ 
+    level = 0
+ 
+    # Enqueue root and its level
+    qn.append(root)
+    q1.append(level)
+ 
+    # Standard BFS loop
+    while(len(qn) > 0):
+ 
+        # Dequeue an node from qn and its level from q1
+        node = qn.pop(0)
+        level = q1.pop(0)
+ 
+        # If the dequeued node has the given key k
+        if node.key == k :
+ 
+            # If there are no more items in queue or given
+            # node is the rightmost node of its level,
+            # then return None
+            if (len(q1) == 0 or q1[0] != level):
+                return None
+ 
+            # Otherwise return next node from queue of nodes
+            return qn[0]
+ 
+        # Standard BFS steps: enqueue children of this node
+        if node.left is not None:
+            qn.append(node.left)
+            q1.append(level+1)
+ 
+        if node.right is not None:
+            qn.append(node.right)
+            q1.append(level+1)
+ 
+    # We reach here if given key x doesn't exist in tree
+    return None
+ 
+def test(root, k):
+    nr = nextRight(root, k)
+    if nr is not None:
+        print ("Next Right of " + str(k) + " is " + str(nr.key))
+    else:
+        print ("No next right node found for " + str(k))
+ 
+# Driver program to test above function
+root = Node(10)
+root.left = Node(2)
+root.right = Node(6)
+root.right.right = Node(5)
+root.left.left = Node(8)
+root.left.right = Node(4)
+ 
+test(root, 10)
+test(root, 2)
+test(root, 6)
+test(root, 5)
+test(root, 8)
+test(root, 4)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+No next right node found for 10
+Next Right of 2 is 6
+No next right node found for 6
+No next right node found for 5
+Next Right of 8 is 4
+Next Right of 4 is 5
+Time Complexity: The above code is a simple BFS traversal code which visits every enqueue and dequeues a node at most once. Therefore, the time complexity is O(n) where n is the number of nodes in the given binary tree.
+Auxiliary Space: O(n)
+
+Efficient Approach :
+
+The idea is to use the level order traversal of a binary tree discussed in the 2nd approach of this post.
+
+
+
+If we do the level order traversal in the above fashion then while processing the nodes of a level we can check if it is the last element of that level or not. If it is not the last element of it’s level then there will definitely be an element next to it. See the below C++ code to understand the approach clearly.
+
+Implementation:
+
+C++
+Java
+C#
+Javascript
+Python3
+# Python program to find next right of a given key
+ 
+class Node:
+    def __init__(self, item):
+        self.data = item
+        self.left = None
+        self.right = None
+ 
+root = None
+ 
+# Method to find next right of given key k, it returns
+# None if k is not present in tree or k is the
+# rightmost node of its level
+def nextRight(first, k):
+ 
+    # Base Case
+    if first is None:
+        return None
+ 
+    # Create an empty queue for level order traversal
+    # A queue to store node addresses
+    res = None
+    q = []
+ 
+    # Enqueue Root and its level
+    q.append(first)
+ 
+    # A standard BFS loop
+    while len(q) != 0:
+        # Get the count of the elements in the queue,
+        # this
+        # is also the count of elements present at the
+        # current level
+        n = len(q)
+ 
+        # loop through the elements of the current
+        # level
+        for i in range(n):
+            temp = q[0]
+            q.pop(0)
+ 
+            # if the key is found we check if there is
+            # any
+            # element next to it and return the answer
+            # accordingally
+            if temp.data == k:
+                if i != n - 1:
+                    return q[0]
+                else:
+                    return None
+ 
+            # while the current level elements are
+            # processed we push their children into the
+            # queue
+            if temp.left is not None:
+                q.append(temp.left)
+            if temp.right is not None:
+                q.append(temp.right)
+ 
+    # We reach here if given key
+    # x doesn't exist in tree
+    return None
+ 
+# A utility function to test above functions
+def test(node, k):
+    nr = nextRight(root, k)
+    if nr is not None:
+        print("Next Right of " + str(k) +
+              " is " + str(nr.data))
+    else:
+        print("No next right node found for " +
+              str(k))
+ 
+root = Node(10)
+root.left = Node(2)
+root.right = Node(6)
+root.right.right = Node(5)
+root.left.left = Node(8)
+root.left.right = Node(4)
+ 
+test(root, 10)
+test(root, 2)
+test(root, 6)
+test(root, 5)
+test(root, 8)
+test(root, 4)
+# contributed by akashish__
+Output
+No next right node found for 10
+Next Right of 2 is 6
+No next right node found for 6
+No next right node found for 5
+Next Right of 8 is 4
+Next Right of 4 is 5
+Time Complexity: O(N), Although we are using nested loops but if you observe we are just traversing every element of the tree just once. 
+Auxiliary Space: O(B), Here B is the breadth of the tree and the extra space is used by the elements stored in the queue.
+The extra space used in this approach is less than the previous approach as we are using only a single queue.
+
+This approach was contributed by Abhijeet Kumar.
+
+Exercise: Write a function to find left node of a given node. If there is no node on the left side, then return NULL. 
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+9
+Next
+Deepest left leaf node in a binary tree
+Related Articles
+1.
+Find next right node of a given key | Set 2
+2.
+Replace every node of a Linked list with the next greater element on right side
+3.
+Convert left-right representation of a binary tree to down-right
+4.
+Check whether the sum of element of a node is equal to the given key value
+5.
+Right sibling of each node in a tree given as array of edges
+6.
+Sum of nodes in a linked list which are greater than next node
+7.
+Deepest right leaf node in a binary tree | Iterative approach
+8.
+Convert a Binary Tree such that every node stores the sum of all nodes in its right subtree
+9.
+Queries to find sum of distance of a given node to every leaf node in a Weighted Tree
+10.
+Find sum of all right leaves in a given Binary Tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+anikakapoor
+rag2127
+amartyaghoshgfg
+sweetyty
+hardikkoriintern
+abhijeet19403
+raj2002
+vivekedula
+garg28harsh
+karandeep1234
+lokeshmvs21
+akashish__
+Article Tags :
+Traversal
+Queue
+Tree
+Practice Tags :
+Queue
+Traversal
+Tree
+Improve Article
+Report Issue

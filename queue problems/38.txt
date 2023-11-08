@@ -1,0 +1,296 @@
+Find the first non-repeating character from a stream of characters
+
+Difficulty Level : Hard
+Last Updated : 25 Jan, 2023
+Read
+Discuss(280+)
+Courses
+Practice
+Video
+Given a stream of characters, find the first non-repeating character from the stream. You need to tell the first non-repeating character in O(1) time at any moment.
+
+If we follow the first approach discussed here, then we need to store the stream so that we can traverse it one more time to find the first non-repeating character at any moment. If we use the extended approach discussed in the same post, we need to go through the count array every time the first non-repeating element is queried. We can find the first non-repeating character from the stream at any moment without traversing any array. 
+
+Recommended Practice
+First non-repeating character in a stream
+Try It!
+The following problem can be solved using two methods: 
+Method 1: Using Hashmap to keep Track of the character already encountered:
+
+The idea is to maintain a hashmap that uses constant space of at max 26 entries. This will keep the track of characters already encountered in the string and do so in constant query time. Secondly, an ArrayList or Vector can be used to keep track of the current unique characters from the beginning which should be added to the resultant string. Whenever any unique character is encountered again, it’s removed from the vector, but kept in HashMap to mark it as encountered. If the list is empty at any point, this means there is no non-repeating character present in the string, hence ‘#’ can be added.
+
+Below is the implementation of the above code:
+
+Java
+// Java implementation for the above approach
+import java.io.*;
+import java.util.*;
+ 
+class GFG {
+ 
+    static String FirstNonRepeating(String A)
+    {
+          // Arraylist to keep track of current unique characters
+          // Hashmap to keep track of character encountered at least once
+          ArrayList<Character> list = new ArrayList<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+ 
+        for (char ch : A.toCharArray()) {
+            if (!map.containsKey(ch)) { // any new character encountered first time
+                list.add(ch);
+                map.put(ch, 1);
+            }
+            else {
+                  //any repeated character encountered
+                int index = list.indexOf(ch);
+               
+                // for any repeated character encountered more than twice the
+                  // index will be -1
+                if (index != -1)
+                      list.remove(index);
+            }
+            sb.append(list.isEmpty() ? '#' : list.get(0));
+        }
+        return sb.toString();
+    }
+ 
+    public static void main(String[] args)
+    {
+        String A = "geeksforgeeksandgeeksquizfor";
+        String ans = FirstNonRepeating(A);
+        System.out.print(ans);
+    }
+}
+ 
+// This code is contributed by godcoder28.
+Output
+ggggggggkkksfffffffffffffora
+Time Complexity: O(26 * n)
+Auxiliary Space: O(n)
+
+Method 2: Using Double Ended Linklist
+
+The idea is to use a DLL (Doubly Linked List) to efficiently get the first non-repeating character from a stream. The DLL contains all non-repeating characters in order, i.e., the head of DLL contains first non-repeating character, the second node contains the second non-repeating, and so on. 
+
+We also maintain two arrays: one array is to maintain characters that are already visited two or more times, we call it repeated[], the other array is an array of pointers to linked list nodes, we call it inDLL[]. The size of both arrays is equal to alphabet size which is typically 256.
+
+Create an empty DLL. Also, create two arrays inDLL[] and repeated[] of size 256. In DLL is an array of pointers to DLL nodes. repeated[] is a boolean array, repeated[x] is true if x is repeated two or more times, otherwise false. inDLL[x] contains a pointer to a DLL node if character x is present in DLL, otherwise NULL.
+Initialize all entries of inDLL[] as NULL and repeated[] as false.
+To get the first non-repeating character, return character at the head of DLL.
+Following are steps to process a new character ‘x’ in a stream. 
+If repeated[x] is true, ignore this character (x is already repeated two or more times in the stream)
+If repeated[x] is false and inDLL[x] is NULL (x is seen the first time). Append x to DLL and store address of new DLL node in inDLL[x].
+If repeated[x] is false and inDLL[x] is not NULL (x is seen a second time). Get DLL node of x using inDLL[x] and remove the node. Also, mark inDLL[x] as NULL and repeated[x] as true.
+Note that appending a new node to DLL is O(1) operation if we maintain a tail pointer. Removing a node from DLL is also O(1). So both operations, addition of new character and finding first non-repeating character take O(1) time.
+
+Below image is a dry run of the above approach: 
+
+
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# A Python program to find first non-repeating character from
+# a stream of characters
+MAX_CHAR = 256
+ 
+def findFirstNonRepeating():
+ 
+    # inDLL[x] contains pointer to a DLL node if x is present
+    # in DLL. If x is not present, then inDLL[x] is NULL
+    inDLL = [] * MAX_CHAR
+ 
+    # repeated[x] is true if x is repeated two or more times.
+    # If x is not seen so far or x is seen only once. then
+    # repeated[x] is false
+    repeated = [False] * MAX_CHAR
+ 
+    # Let us consider following stream and see the process
+    stream = "geekforgeekandgeeksandquizfor"
+    for i in range(len(stream)):
+        x = stream[i]
+        print ("Reading " + x + " from stream")
+ 
+        # We process this character only if it has not occurred
+        # or occurred only once. repeated[x] is true if x is
+        # repeated twice or more.s
+        if not repeated[ord(x)]:
+ 
+            # If the character is not in DLL, then add this
+            # at the end of DLL
+            if not x in inDLL:
+                inDLL.append(x)
+            else:
+                inDLL.remove(x)
+                repeated[ord(x)] = True
+ 
+        if len(inDLL) != 0:
+            print ("First non-repeating character so far is ")
+            print (str(inDLL[0]))
+ 
+# Driver program
+findFirstNonRepeating()
+ 
+# This code is contributed by BHAVYA JAIN
+C#
+Javascript
+Output
+...ng character so far is f
+Reading a from stream 
+First non-repeating character so far is f
+Reading n from stream 
+First non-repeating character so far is f
+Reading d from stream 
+First non-repeating character so far is f
+Reading g from stream 
+First non-repeating character so far is f
+Reading e from stream 
+First non-repeating character so far is f
+Reading e from stream 
+First non-repeating character so far is f
+Reading k from stream 
+First non-repeating character so far is f
+Reading s from stream 
+First non-repeating character so far is f
+Reading q from stream 
+First non-repeating character so far is f
+Reading u from stream 
+First non-repeating character so far is f
+Reading i from stream 
+First non-repeating character so far is f
+Reading z from stream 
+First non-repeating character so far is f
+Reading f from stream 
+First non-repeating character so far is o
+Reading o from stream 
+First non-repeating character so far is r
+Reading r from stream 
+First non-repeating character so far is a
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+Another approach :  
+
+This problem can be solved using queue, push into the queue every time when unique character is found and pop it out when you get front character of queue repeated in the stream , this is how first non-repeated character in managed.
+
+Follow the below steps to solve the given problem:
+
+Take map to check the uniqueness of an element.
+Take queue to find first non-repeating element.
+Traverse through the string and increase the count of elements in map and push in to queue is count is 1.
+If count of front element of the queue > 1 anytime then pop it from the queue until we get unique element at the front.
+If queue is empty anytime append answer string with ‘#’ else append it with front element of queue.
+return answer string.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python
+from collections import deque
+ 
+def FirstNonRepeating(A):
+    ans = ""
+    mp = {}
+    q = deque()
+    for i in range(len(A)):
+        if A[i] not in mp:
+            q.append(A[i])
+        mp[A[i]] = mp.get(A[i], 0) + 1
+        while len(q) > 0 and mp[q[0]] > 1:
+            q.popleft()
+        if len(q) > 0:
+            ans += q[0]
+        else:
+            ans += "#"
+    return ans
+ 
+A = "geeksforgeeksandgeeksquizfor"
+ans = FirstNonRepeating(A)
+print(ans)
+C#
+Javascript
+Output
+ggggggggkkksfffffffffffffora
+Time Complexity: O(26 * n)
+Auxiliary Space: O(n)
+
+This article is contributed by Amit Jain. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Find first non-repeating character of given String
+Next
+Print all permutations with repetition of characters
+Related Articles
+1.
+Last remaining character after repeated removal of the first character and flipping of characters of a Binary String
+2.
+Queue based approach for first non-repeating character in a stream
+3.
+Python - Create a Dictionary with Key as First Character and Value as Words Starting with that Character
+4.
+Count of substrings having the most frequent character in the string as first character
+5.
+Count occurrence of a given character in a string using Stream API in Java
+6.
+Lexicographically smallest string formed by appending a character from the first K characters of a given string
+7.
+Lexicographically smallest string formed by appending a character from first K characters of a string | Set 2
+8.
+Find a string such that every character is lexicographically greater than its immediate next character
+9.
+Find the character made by adding all the characters of the given string
+10.
+Find the first repeated character in a string
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+RaviParkash
+officialshivsagar
+rag2127
+kumaripunam984122
+akashish__
+jaskeerat
+lokeshmvs21
+hkdass001
+surajrasr7277
+Article Tags :
+Amazon
+array-stream
+FactSet
+Flipkart
+Microsoft
+Payu
+Yahoo
+Hash
+Linked List
+Python
+Queue
+Strings
+Practice Tags :
+Amazon
+FactSet
+Flipkart
+Microsoft
+Payu
+Yahoo
+Hash
+Linked List
+python
+Queue
+Strings
+Report Issue

@@ -1,0 +1,229 @@
+Minimum Cost Path in a directed graph via given set of intermediate nodes
+
+Last Updated : 15 Dec, 2021
+Read
+Discuss
+Courses
+Practice
+Video
+Given a weighted, directed graph G, an array V[] consisting of vertices, the task is to find the Minimum Cost Path passing through all the vertices of the set V, from a given source S to a destination D.
+
+Examples: 
+
+Input: V = {7}, S = 0, D = 6 
+ 
+
+
+
+Output: 11 
+Explanation: 
+Minimum path 0->7->5->6. 
+Therefore, the cost of the path = 3 + 6 + 2 = 11
+
+Input: V = {7, 4}, S = 0, D = 6 
+ 
+
+
+
+
+
+Output: 12 
+Explanation: 
+Minimum path 0->7->4->6. 
+Therefore the cost of the path = 3 + 5 + 4 = 12 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach: 
+To solve the problem, the idea is to use Breadth-First-Search traversal. BFS is generally used to find the Shortest Paths in the graph and the minimum distance of all nodes from Source, intermediate nodes, and Destination can be calculated by the BFS from these nodes.
+
+Follow the steps below to solve the problem:  
+
+Initialize minSum to INT_MAX.
+Traverse the graph from the source node S using BFS.
+Mark each neighbouring node of the source as the new source and perform BFS from that node.
+Once the destination node D is encountered, then check if all the intermediate nodes are visited or not.
+If all the intermediate nodes are visited, then update the minSum and return the minimum value.
+If all the intermediate nodes are not visited, then return minSum.
+Mark the source as unvisited.
+Print the final value of minSum obtained.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 Program to implement
+# the above approach
+  
+# Stores minimum-cost of path from source
+minSum = 1000000000
+  
+# Function to Perform BFS on graph g
+# starting from vertex v
+def getMinPathSum(graph, visited, necessary,
+                  source, dest, currSum):
+     
+    global minSum
+     
+    # If destination is reached
+    if (src == dest):
+       
+        # Set flag to true
+        flag = True;
+  
+        # Visit all the intermediate nodes
+        for i in necessary:
+  
+            # If any intermediate node
+            # is not visited
+            if (not visited[i]):
+                flag = False;
+                break;
+     
+        # If all intermediate
+        # nodes are visited
+        if (flag):
+  
+            # Update the minSum
+            minSum = min(minSum, currSum);
+        return;
+     
+    else:
+  
+        # Mark the current node
+        # visited
+        visited[src] = True;
+  
+        # Traverse adjacent nodes
+        for node in graph[src]:
+             
+            if not visited[node[0]]:
+             
+                # Mark the neighbour visited
+                visited[node[0]] = True;
+ 
+                # Find minimum cost path
+                # considering the neighbour
+                # as the source
+                getMinPathSum(graph, visited,
+                              necessary, node[0],
+                              dest, currSum + node[1]);
+ 
+                # Mark the neighbour unvisited
+                visited[node[0]] = False;
+         
+        # Mark the source unvisited
+        visited[src] = False;
+ 
+# Driver Code
+if __name__=='__main__':
+     
+    # Stores the graph
+    graph=dict()
+         
+    graph[0] = [ [ 1, 2 ], [ 2, 3 ], [ 3, 2 ] ];
+    graph[1] = [ [ 4, 4 ], [ 0, 1 ] ];
+    graph[2] = [ [ 4, 5 ], [ 5, 6 ] ];
+    graph[3] = [ [ 5, 7 ], [ 0, 1 ] ];
+    graph[4] = [ [ 6, 4 ] ];
+    graph[5] = [ [ 6, 2 ] ];
+    graph[6] = [ [ 7, 11 ] ];
+     
+    # Number of nodes
+    n = 7;
+  
+    # Source
+    source = 0;
+  
+    # Destination
+    dest = 6;
+  
+    # Keeps a check on visited
+    # and unvisited nodes
+    visited=[ False for i in range(n + 1)]
+  
+    # Stores intermediate nodes
+    necessary = [ 2, 4 ];
+  
+    getMinPathSum(graph, visited, necessary,
+                  source, dest, 0);
+  
+    # If no path is found
+    if (minSum == 1000000000):
+        print(-1)
+    else:
+        print(minSum)
+ 
+        # This code is contributed by pratham76
+C#
+Javascript
+Output: 
+12
+ 
+
+Time Complexity: O(N+M) 
+Auxiliary Space: O(N+M)
+ 
+
+ 
+
+
+
+
+
+Like
+2
+Previous
+Find cells in Matrix that are not visited by Robot for given movements
+Next
+Maximize count of set bits in a root to leaf path in a binary tree
+Related Articles
+1.
+Minimum cost path from source node to destination node via K intermediate nodes
+2.
+Maximum cost path from source node to destination node via at most K intermediate nodes
+3.
+Minimum cost path from source node to destination node via an intermediate node
+4.
+Minimum cost of path between given nodes containing at most K nodes in a directed and weighted graph
+5.
+Minimum Cost of Simple Path between two nodes in a Directed and Weighted Graph
+6.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+7.
+Path with minimum XOR sum of edges in a directed graph
+8.
+Longest Path in a Directed Acyclic Graph | Set 2
+9.
+Find if there is a path between two vertices in a directed graph | Set 2
+10.
+Shortest path with exactly k edges in a directed and weighted graph | Set 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+AnshulVerma1
+@AnshulVerma1
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ahmednadeem1
+offbeat
+rutvik_56
+pratham76
+noob2000
+simmytarika5
+Article Tags :
+BFS
+Graph Traversals
+Shortest Path
+Backtracking
+Graph
+Recursion
+Practice Tags :
+Backtracking
+BFS
+Graph
+Recursion
+Shortest Path

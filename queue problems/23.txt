@@ -1,0 +1,109 @@
+Traversing directory in Java using BFS
+
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a directory, print all files and folders present in directory tree rooted with given directory. We can iteratively traverse directory in BFS using below steps. We create an empty queue and we first enqueue given directory path. We run a loop while queue is not empty. We dequeue an item from queue. If the popped item is a directory, get list of all files and directories present in it, add each directory to the queue. If the popped item is a file, we print its name. 
+
+Java
+// Java program to print all files/directories
+// present in a directory.
+import java.io.File;
+import java.util.LinkedList;
+import java.util.Queue;
+ 
+class FileUtils {
+ 
+    public static void printDirsFiles(String inputDir)
+    {
+        /* make a queue to store files and directories */
+        Queue<File> queue = new LinkedList<>();
+ 
+        queue.add(new File(inputDir));
+ 
+        /* loop until queue is empty -*/
+        while (!queue.isEmpty()) {
+ 
+            /* get next file/directory from the queue */
+            File current = queue.poll();
+ 
+            File[] fileDirList = current.listFiles();
+ 
+            if (fileDirList != null) {
+ 
+                /* Enqueue all directories and print
+                all files. */
+                for (File fd : fileDirList) {
+                    if (fd.isDirectory())
+                        queue.add(fd);
+                    else
+                        System.out.println(fd);
+                }
+            }
+        }
+    }
+ 
+    /* Iterative function to traverse given
+    directory in Java using BFS*/
+    public static void main(String[] args)
+    {
+        String inputDir = "C:\\Programs";
+        printDirsFiles(inputDir);
+    }
+}
+Time Complexity: O(n), where n is the number of files and folders present in directory tree rooted with given directory
+Auxiliary Space: O(n)
+ 
+
+This article is contributed by Pranav. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Overloading of Thread class run() method
+Next
+Literals in Java
+Related Articles
+1.
+Print all paths from a given source to a destination using BFS
+2.
+Water Jug problem using BFS
+3.
+Diameter of n-ary tree using BFS
+4.
+Level of Each node in a Tree from source node (using BFS)
+5.
+Count the number of nodes at given level in a tree using BFS.
+6.
+Detect cycle in an undirected graph using BFS
+7.
+Detect Cycle in a Directed Graph using BFS
+8.
+Finding the path from one vertex to rest using BFS
+9.
+Islands in a graph using BFS
+10.
+Count number of ways to reach destination in a Maze using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+hkdass001
+Article Tags :
+BFS
+java-file-handling
+java-LinkedList
+Java
+Practice Tags :
+BFS
+Java

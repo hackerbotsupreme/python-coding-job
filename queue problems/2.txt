@@ -1,0 +1,419 @@
+Introduction to Queue – Data Structure and Algorithm Tutorials
+
+Difficulty Level : Medium
+Last Updated : 09 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is Queue?
+A queue is a linear data structure that is open at both ends and the operations are performed in First In First Out (FIFO) order.
+
+We define a queue to be a list in which all additions to the list are made at one end, and all deletions from the list are made at the other end.  The element which is first pushed into the order, the operation is first performed on that.
+
+FIFO Principle of Queue:
+A Queue is like a line waiting to purchase tickets, where the first person in line is the first person served. (i.e. First come first serve).
+Position of the entry in a queue ready to be served, that is, the first entry that will be removed from the queue, is called the front of the queue(sometimes, head of the queue), similarly, the position of the last entry in the queue, that is, the one most recently added, is called the rear (or the tail) of the queue. See the below figure.
+FIFO property of queue
+FIFO property of queue
+
+Characteristics of Queue:
+Queue can handle multiple data.
+We can access both ends.
+They are fast and flexible. 
+Queue Representation:
+1. Array Representation of Queue:
+Like stacks, Queues can also be represented in an array: In this representation, the Queue is implemented using the array. Variables used in this case are
+
+Queue: the name of the array storing queue elements.
+Front: the index where the first element is stored in the array representing the queue.
+Rear: the index where the last element is stored in an array representing the queue.
+Array representation of queue:
+
+
+C
+C++
+Java
+Python3
+# Creating an empty queue
+ 
+# A structure to represent a queue
+ 
+ 
+class Queue:
+        # constructor
+    def __init__(self, cap):
+        self.cap = cap
+        self.front = 0
+        self.size = 0
+        self.rear = cap - 1
+        self.arr = [0] * cap
+ 
+    # Function to create a queue of given capacity
+    # It initializes size of queue as 0
+    def createQueue(self):
+        return Queue(self.cap)
+ 
+# This code is contributed by Tapesh (tapeshdua420)
+C#
+Javascript
+2. Linked List Representation of Queue:
+A queue can also be represented using following entities:
+
+Linked-lists, 
+Pointers, and 
+Structures.
+C
+C++
+Java
+Python3
+class QNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+ 
+class Queue:
+    def __init__(self):
+        self.front = None
+        self.rear = None
+ 
+ # This code is contributed by Tapesh (tapeshdua420)
+C#
+Javascript
+Types of Queue:
+There are different types of queues:
+
+Input Restricted Queue: This is a simple queue. In this type of queue, the input can be taken from only one end but deletion can be done from any of the ends.
+Output Restricted Queue: This is also a simple queue. In this type of queue, the input can be taken from both ends but deletion can be done from only one end.
+Circular Queue: This is a special type of queue where the last position is connected back to the first position. Here also the operations are performed in FIFO order. To know more refer this.
+Double-Ended Queue (Dequeue): In a double-ended queue the insertion and deletion operations, both can be performed from both ends. To know more refer this.
+Priority Queue: A priority queue is a special queue where the elements are accessed based on the priority assigned to them. To know more refer this.
+To learn more about different types of queues, read the article on “Types of Queues“.
+
+Basic Operations for Queue in Data Structure:
+Some of the basic operations for Queue in Data Structure are:
+
+Enqueue() – Adds (or stores) an element to the end of the queue..
+Dequeue() – Removal of elements from the queue.
+Peek() or front()- Acquires the data element available at the front node of the queue without deleting it.
+rear() – This operation returns the element at the rear end without removing it.
+isFull() – Validates if the queue is full.
+isNull() – Checks if the queue is empty.
+There are a few supporting operations (auxiliary operations):
+
+1. Enqueue(): 
+Enqueue() operation in Queue adds (or stores) an element to the end of the queue.
+The following steps should be taken to enqueue (insert) data into a queue:
+
+Step 1: Check if the queue is full.
+Step 2: If the queue is full, return overflow error and exit.
+Step 3: If the queue is not full, increment the rear pointer to point to the next empty space.
+Step 4: Add the data element to the queue location, where the rear is pointing.
+Step 5: return success.
+Enqueue representation
+Enqueue representation
+
+Implementation of Enqueue:
+
+
+C
+C++
+Java
+Python3
+# Function to add an item to the queue.
+# It changes rear and size
+ 
+ 
+def EnQueue(self, item):
+    if self.isFull():
+        print("Full")
+        return
+    self.rear = (self.rear + 1) % (self.capacity)
+    self.Q[self.rear] = item
+    self.size = self.size + 1
+    print("% s enqueued to queue" % str(item))
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+2. Dequeue(): 
+Removes (or access) the first element from the queue.
+The following steps are taken to perform the dequeue operation:
+
+Step 1: Check if the queue is empty.
+Step 2: If the queue is empty, return the underflow error and exit.
+Step 3: If the queue is not empty, access the data where the front is pointing.
+Step 4: Increment the front pointer to point to the next available data element.
+Step 5: The Return success.
+ 
+Dequeue operation
+Dequeue operation
+
+Implementation of dequeue:
+
+C
+C++
+Java
+Python3
+# Function to remove an item from queue.
+# It changes front and size
+ 
+ 
+def DeQueue(self):
+    if self.isEmpty():
+        print("Queue is empty")
+        return
+ 
+    print("% s dequeued from queue" % str(self.Q[self.front]))
+    self.front = (self.front + 1) % (self.capacity)
+    self.size = self.size - 1
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+3. front(): 
+This operation returns the element at the front end without removing it.
+
+C
+C++
+Java
+Python3
+# Function to get front of queue
+def que_front(self):
+        if self.isempty():
+            return "Queue is empty"
+        return self.Q[self.front]
+ 
+# This code is contributed By Susobhan Akhuli
+C#
+Javascript
+4. rear(): 
+This operation returns the element at the rear end without removing it.
+
+C
+C++
+Java
+Python3
+# Function to get rear of queue
+def que_rear(self):
+        if self.isEmpty():
+            return "Queue is empty"
+        return self.Q[self.rear]
+ 
+# This code is contributed By Susobhan Akhuli
+C#
+Javascript
+5. isEmpty(): 
+This operation returns a boolean value that indicates whether the queue is empty or not.
+
+C
+C++
+Java
+Python3
+# Queue is empty when size is 0
+def isEmpty(self):
+    return self.size == 0
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+6. isFull(): 
+This operation returns a boolean value that indicates whether the queue is full or not.
+
+C
+C++
+Java
+Python3
+# Queue is full when size becomes
+# equal to the capacity
+ 
+ 
+def isFull(self):
+    return self.size == self.capacity
+ 
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+Implementation of Queue:
+Queue can be implemented using following data structures:
+
+Implementation of Queue using Structure in C/C++
+Implementation of Queue using Arrays
+Implementation of Queue using Linked List
+We have discussed the Structure implementation of Queue below:
+
+C
+C++
+Java
+Python3
+# Python3 program for array implementation of queue
+ 
+# Class Queue to represent a queue
+ 
+ 
+class Queue:
+ 
+    # __init__ function
+    def __init__(self, capacity):
+        self.front = self.size = 0
+        self.rear = capacity - 1
+        self.Q = [None]*capacity
+        self.capacity = capacity
+ 
+    # Queue is full when size becomes
+    # equal to the capacity
+    def isFull(self):
+        return self.size == self.capacity
+ 
+    # Queue is empty when size is 0
+    def isEmpty(self):
+        return self.size == 0
+ 
+    # Function to add an item to the queue.
+    # It changes rear and size
+    def EnQueue(self, item):
+        if self.isFull():
+            print("Full")
+            return
+        self.rear = (self.rear + 1) % (self.capacity)
+        self.Q[self.rear] = item
+        self.size = self.size + 1
+        print("% s enqueued to queue" % str(item))
+ 
+    # Function to remove an item from queue.
+    # It changes front and size
+    def DeQueue(self):
+        if self.isEmpty():
+            print("Empty")
+            return
+ 
+        print("% s dequeued from queue" % str(self.Q[self.front]))
+        self.front = (self.front + 1) % (self.capacity)
+        self.size = self.size - 1
+ 
+    # Function to get front of queue
+    def que_front(self):
+        if self.isEmpty():
+            print("Queue is empty")
+ 
+        print("Front item is", self.Q[self.front])
+ 
+    # Function to get rear of queue
+    def que_rear(self):
+        if self.isEmpty():
+            print("Queue is empty")
+        print("Rear item is",  self.Q[self.rear])
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+ 
+    queue = Queue(30)
+    queue.EnQueue(10)
+    queue.EnQueue(20)
+    queue.EnQueue(30)
+    queue.EnQueue(40)
+    queue.DeQueue()
+    queue.que_front()
+    queue.que_rear()
+# This code is contributed by Susobhan Akhuli
+C#
+Javascript
+Output
+10 enqueued to queue
+20 enqueued to queue
+30 enqueued to queue
+40 enqueued to queue
+10 dequeued from queue
+Front item is 20
+Rear item is 40
+Time complexity: All the operations have O(1) time complexity.
+Auxiliary Space: O(N) 
+
+Applications of Queue:
+Application of queue is common. In a computer system, there may be queues of tasks waiting for the printer, for access to disk storage, or even in a time-sharing system, for use of the CPU. Within a single program, there may be multiple requests to be kept in a queue, or one task may create other tasks, which must be done in turn by keeping them in a queue.
+
+It has a single resource and multiple consumers.
+It synchronizes between slow and fast devices.
+In a network, a queue is used in devices such as a router/switch and mail queue.
+Variations: dequeue, priority queue and double-ended priority queue.
+FAQs (Frequently asked questions) on Queue:
+1. What data structure can be used to implement a priority queue?
+Priority queues can be implemented using a variety of data structures, including linked lists, arrays, binary search trees, and heaps. Priority queues are best implemented using the heap data structure.
+
+2. Queues are used for what purpose?
+In addition to making your data persistent, queues reduce errors that occur when different parts of your system are down.
+
+3. In data structures, what is a double-ended queue?
+In a double-ended queue, elements can be inserted and removed at both ends.
+
+4. What is better, a stack or a queue?
+If you want things to come out in the order you put them in, use a queue. Stacks are useful when you want to reorder things after putting them in. 
+
+Related articles:
+
+Queue Operations 
+Applications, Advantages and Disadvantages of Queue
+Maximum of all subarrays of size k
+Generate Binary Numbers
+Queue using two Stacks
+Reverse First K elements of Queue
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+22
+Previous
+Queue in Go Language
+Next
+Difference between Queue and Deque (Queue vs. Deque)
+Related Articles
+1.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+2.
+Can we use Simple Queue instead of Priority queue to implement Dijkstra's Algorithm?
+3.
+What is Priority Queue | Introduction to Priority Queue
+4.
+Design a Queue data structure to get minimum or maximum in O(1) time
+5.
+Basic Operations for Queue in Data Structure
+6.
+Applications of Queue Data Structure
+7.
+Stack and Queue in Python using queue Module
+8.
+Difference between Circular Queue and Priority Queue
+9.
+Difference Between Linear Queue and Circular Queue
+10.
+Difference between Queue and Deque (Queue vs. Deque)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+aadityapburujwale
+lokeshmvs21
+tapeshdua420
+rkbhola5
+simmytarika5
+sagar0719kumar
+susobhanakhuli
+RishabhPrabhu
+ishankhandelwals
+Article Tags :
+Picked
+Queue
+Practice Tags :
+Queue

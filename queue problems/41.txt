@@ -1,0 +1,445 @@
+Minimum time required to rot all oranges
+
+Difficulty Level : Hard
+Last Updated : 14 Jan, 2023
+Read
+Discuss(110+)
+Courses
+Practice
+Video
+Given a matrix of dimension M * N where each cell in the matrix can have values 0, 1 or 2 which has the following meaning:  
+
+0: Empty cell
+1: Cells have fresh oranges
+2: Cells have rotten oranges
+Determine what is the minimum time required so that all the oranges become rotten. A rotten orange at index (i,j ) can rot other fresh oranges which are its neighbours (up, down, left and right). If it is impossible to rot every orange then simply return -1.
+
+Examples: 
+
+Input:  arr[][C] = { {2, 1, 0, 2, 1}, {1, 0, 1, 2, 1}, {1, 0, 0, 2, 1}};
+Output: 2
+Explanation: At 0th time frame:
+{2, 1, 0, 2, 1}
+{1, 0, 1, 2, 1}
+{1, 0, 0, 2, 1}
+At 1st time frame:
+{2, 2, 0, 2, 2}
+{2, 0, 2, 2, 2}
+{1, 0, 0, 2, 2}
+At 2nd time frame:
+{2, 2, 0, 2, 2}
+{2, 0, 2, 2, 2}
+{2, 0, 0, 2, 2}
+
+Input:  arr[][C] = { {2, 1, 0, 2, 1}, {0, 0, 1, 2, 1}, {1, 0, 0, 2, 1}}
+Output: -1
+Explanation: At 0th time frame:
+{2, 1, 0, 2, 1}
+{0, 0, 1, 2, 1}
+{1, 0, 0, 2, 1}
+At 1st time frame:
+{2, 2, 0, 2, 2}
+{0, 0, 2, 2, 2}
+{1, 0, 0, 2, 2}
+At 2nd time frame:
+{2, 2, 0, 2, 2}
+{0, 0, 2, 2, 2}
+{1, 0, 0, 2, 2}
+The 1 at the bottom left corner of the matrix is never rotten.
+
+Recommended Problem
+Rotten Oranges
+Matrix
+Graph
++2 more
+Flipkart
+Accolite
++5 more
+Solve Problem
+Submission count: 85.9K
+Naive Approach:  
+
+The idea is very basic. Traverse through all oranges in multiple rounds. In every round, rot the oranges to the adjacent position of oranges that were rotten in the last round.
+
+
+
+Follow the steps below to solve the problem:
+
+Create a variable no = 2 and changed = false.
+Run a loop until there is no cell of the matrix which is changed in an iteration.
+Run a nested loop and traverse the matrix: 
+If the element of the matrix is equal to no then assign the adjacent elements to no + 1 if the adjacent element’s value is equal to 1, i.e. not rotten, and update changed to true.
+Traverse the matrix and check if there is any cell that is 1. 
+If 1 is present return -1
+Else return no – 2.
+Below is the implementation of the above approach.
+
+C++14
+Java
+Python3
+# Python3 program to rot all
+# oranges when you can move
+# in all the four direction
+# from a rotten orange
+R = 3
+C = 5
+ 
+# Check if i, j is under the
+# array limits of row and
+# column
+ 
+ 
+def issafe(i, j):
+ 
+    if (i >= 0 and i < R and
+            j >= 0 and j < C):
+        return True
+    return False
+ 
+ 
+def rotOranges(v):
+ 
+    changed = False
+    no = 2
+    while (True):
+        for i in range(R):
+            for j in range(C):
+ 
+                # Rot all other oranges
+                # present at (i+1, j),
+                # (i, j-1), (i, j+1),
+                # (i-1, j)
+                if (v[i][j] == no):
+                    if (issafe(i + 1, j) and
+                            v[i + 1][j] == 1):
+                        v[i + 1][j] = v[i][j] + 1
+                        changed = True
+ 
+                    if (issafe(i, j + 1) and
+                            v[i][j + 1] == 1):
+                        v[i][j + 1] = v[i][j] + 1
+                        changed = True
+ 
+                    if (issafe(i - 1, j) and
+                            v[i - 1][j] == 1):
+                        v[i - 1][j] = v[i][j] + 1
+                        changed = True
+ 
+                    if (issafe(i, j - 1) and
+                            v[i][j - 1] == 1):
+                        v[i][j - 1] = v[i][j] + 1
+                        changed = True
+ 
+        # if no rotten orange found
+        # it means all oranges rottened
+        # now
+        if (not changed):
+            break
+        changed = False
+        no += 1
+ 
+    for i in range(R):
+        for j in range(C):
+ 
+            # if any orange is found
+            # to be not rotten then
+            # ans is not possible
+            if (v[i][j] == 1):
+                return -1
+ 
+    # Because initial value
+    # for a rotten orange was 2
+    return no - 2
+ 
+ 
+# Driver function
+if __name__ == "__main__":
+ 
+    v = [[2, 1, 0, 2, 1],
+         [1, 0, 1, 2, 1],
+         [1, 0, 0, 2, 1]]
+ 
+    print("Max time incurred: ",
+          rotOranges(v))
+ 
+# This code is contributed by Chitranayal
+C#
+Javascript
+Output
+Max time incurred: 2
+Time Complexity: O((R*C) * (R *C)), 
+
+The matrix needs to be traversed again and again until there is no change in the matrix, that can happen max(R *C)/2 times. 
+So time complexity is O((R * C) * (R *C)).
+Auxiliary Space: O(1), No extra space is required.
+
+Minimum time required to rot all oranges using Breadth First Search:
+The idea is to use Breadth First Search. The condition of oranges getting rotten is when they come in contact with other rotten oranges. This is similar to a breadth-first search where the graph is divided into layers or circles and the search is done from lower or closer layers to deeper or higher layers. 
+
+
+In the previous approach, the idea was based on BFS but the implementation was poor and inefficient. To find the elements whose values are no the whole matrix had to be traversed. So time can be reduced by using this efficient approach of BFS.  
+
+Follow the steps below to solve the problem:
+
+Create an empty queue Q. 
+Find all rotten oranges and enqueue them to Q. Also, enqueue a delimiter to indicate the beginning of the next time frame.
+Run a loop While Q is not empty and do the following while the delimiter in Q is not reached
+Dequeue an orange from the queue, and rot all adjacent oranges. 
+While rotting the adjacent, make sure that the time frame is incremented only once. And the time frame is not incremented if there are no adjacent oranges.
+Dequeue the old delimiter and enqueue a new delimiter. The oranges rotten in the previous time frame lie between the two delimiters.
+Return the last time frame.
+Illustration:
+
+
+
+Below is the implementation of the above approach.
+
+C++
+Java
+Python3
+# Python3 program to find minimum time required to make all
+# oranges rotten
+from collections import deque
+ 
+# function to check whether a cell is valid / invalid
+ 
+ 
+def isvalid(i, j):
+    return (i >= 0 and j >= 0 and i < 3 and j < 5)
+ 
+# Function to check whether the cell is delimiter
+# which is (-1, -1)
+ 
+ 
+def isdelim(temp):
+    return (temp[0] == -1 and temp[1] == -1)
+ 
+# Function to check whether there is still a fresh
+# orange remaining
+ 
+ 
+def checkall(arr):
+    for i in range(3):
+        for j in range(5):
+            if (arr[i][j] == 1):
+                return True
+    return False
+ 
+# This function finds if it is
+# possible to rot all oranges or not.
+# If possible, then it returns
+# minimum time required to rot all,
+# otherwise returns -1
+ 
+ 
+def rotOranges(arr):
+ 
+    # Create a queue of cells
+    Q = deque()
+    temp = [0, 0]
+    ans = 1
+ 
+    # Store all the cells having
+    # rotten orange in first time frame
+    for i in range(3):
+        for j in range(5):
+            if (arr[i][j] == 2):
+                temp[0] = i
+                temp[1] = j
+                Q.append([i, j])
+ 
+    # Separate these rotten oranges
+    # from the oranges which will rotten
+    # due the oranges in first time
+    # frame using delimiter which is (-1, -1)
+    temp[0] = -1
+    temp[1] = -1
+    Q.append([-1, -1])
+    # print(Q)
+ 
+    # Process the grid while there are
+    # rotten oranges in the Queue
+    while False:
+ 
+        # This flag is used to determine
+        # whether even a single fresh
+        # orange gets rotten due to rotten
+        # oranges in current time
+        # frame so we can increase
+        # the count of the required time.
+        flag = False
+        print(len(Q))
+ 
+        # Process all the rotten
+        # oranges in current time frame.
+        while not isdelim(Q[0]):
+            temp = Q[0]
+            print(len(Q))
+ 
+            # Check right adjacent cell that if it can be rotten
+            if (isvalid(temp[0] + 1, temp[1]) and arr[temp[0] + 1][temp[1]] == 1):
+ 
+                # if this is the first orange to get rotten, increase
+                # count and set the flag.
+                if (not flag):
+                    ans, flag = ans + 1, True
+ 
+                # Make the orange rotten
+                arr[temp[0] + 1][temp[1]] = 2
+ 
+                # append the adjacent orange to Queue
+                temp[0] += 1
+                Q.append(temp)
+ 
+                temp[0] -= 1  # Move back to current cell
+ 
+            # Check left adjacent cell that if it can be rotten
+            if (isvalid(temp[0] - 1, temp[1]) and arr[temp[0] - 1][temp[1]] == 1):
+                if (not flag):
+                    ans, flag = ans + 1, True
+                arr[temp[0] - 1][temp[1]] = 2
+                temp[0] -= 1
+                Q.append(temp)  # append this cell to Queue
+                temp[0] += 1
+ 
+            # Check top adjacent cell that if it can be rotten
+            if (isvalid(temp[0], temp[1] + 1) and arr[temp[0]][temp[1] + 1] == 1):
+                if (not flag):
+                    ans, flag = ans + 1, True
+                arr[temp[0]][temp[1] + 1] = 2
+                temp[1] += 1
+                Q.append(temp)  # Push this cell to Queue
+                temp[1] -= 1
+ 
+            # Check bottom adjacent cell if it can be rotten
+            if (isvalid(temp[0], temp[1] - 1) and arr[temp[0]][temp[1] - 1] == 1):
+                if (not flag):
+                    ans, flag = ans + 1, True
+                arr[temp[0]][temp[1] - 1] = 2
+                temp[1] -= 1
+                Q.append(temp)  # append this cell to Queue
+            Q.popleft()
+ 
+        # Pop the delimiter
+        Q.popleft()
+ 
+        # If oranges were rotten in
+        # current frame than separate the
+        # rotten oranges using delimiter
+        # for the next frame for processing.
+        if (len(Q) == 0):
+            temp[0] = -1
+            temp[1] = -1
+            Q.append(temp)
+ 
+        # If Queue was empty than no rotten oranges left to process so exit
+ 
+    # Return -1 if all arranges could not rot, otherwise return ans.
+    return ans + 1 if(checkall(arr)) else -1
+ 
+ 
+# Driver program
+if __name__ == '__main__':
+    arr = [[2, 1, 0, 2, 1],
+           [1, 0, 1, 2, 1],
+           [1, 0, 0, 2, 1]]
+    ans = rotOranges(arr)
+    if (ans == -1):
+        print("All oranges cannot rotn")
+    else:
+        print("Time required for all oranges to rot => ", ans)
+ 
+        # This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+Time required for all oranges to rot => 2
+Time Complexity: O( R *C), Each element of the matrix can be inserted into the queue only once so the upper bound of iteration is O(R*C)
+Auxiliary Space: O(R*C), To store the elements in a queue.
+
+Thanks to Gaurav Ahirwar for suggesting the above solution.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+173
+Previous
+Snake and Ladder Problem
+Next
+Construct a graph from given degrees of all vertices
+Related Articles
+1.
+Minimum time required to rot all oranges | Dynamic Programming
+2.
+Minimum time required to infect all the nodes of Binary tree
+3.
+Minimum time required to fill the entire matrix with 1's
+4.
+Minimum time required to complete exactly K tasks based on given order of task execution
+5.
+Minimum time required to fill given N slots
+6.
+Minimum time required to schedule K processes
+7.
+Maximum time required for all patients to get infected
+8.
+Minimum operations required to set all elements of binary matrix
+9.
+Minimum cost required to connect all houses in a city
+10.
+Minimum queens required to cover all the squares of a chess board
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+arpitn30
+gp6
+md1844
+andrew1234
+Akanksha_Rai
+ukasp
+harshverma31
+divyeshrabadiya07
+divyesh072019
+mohit kumar 29
+mukesh07
+bicky jaiswal
+surinderdawra388
+ishank0106
+raj2002
+phasing17
+codearcade
+akshaysingh98088
+Article Tags :
+Accolite
+Amazon
+BFS
+MakeMyTrip
+Microsoft
+Samsung
+Graph
+Matrix
+Queue
+Practice Tags :
+Accolite
+Amazon
+MakeMyTrip
+Microsoft
+Samsung
+BFS
+Graph
+Matrix
+Queue
+Improve Article
+Report Issue

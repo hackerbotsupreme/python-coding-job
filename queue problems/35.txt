@@ -1,0 +1,196 @@
+Minimum steps to reach target by a Knight | Set 1
+
+Difficulty Level : Hard
+Last Updated : 21 Dec, 2022
+Read
+Discuss(60+)
+Courses
+Practice
+Video
+Given a square chessboard of N x N size, the position of the Knight and the position of a target are given. We need to find out the minimum steps a Knight will take to reach the target position.
+
+Examples: 
+
+Input: 
+ 
+
+
+ 
+
+Output: 3
+Explanation: In above diagram Knight takes 3 step to reach 
+                      from (4, 5) to (1, 1) 
+                     (4, 5) -> (5, 3) -> (3, 2) -> (1, 1)  
+
+Recommended Practice
+Steps by Knight
+Try It!
+Minimum steps to reach the target by a Knight using BFS:
+To solve the problem follow the below idea:
+
+This problem can be seen as the shortest path in an unweighted graph. Therefore we use BFS to solve this problem. 
+
+We try all 8 possible positions where a Knight can reach from its position. If the reachable position is not already visited and is inside the board, we push this state into the queue with a distance 1 more than its parent state. Finally, we return the distance of the target position, when it gets pop out from the queue
+
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 code to find minimum steps to reach
+# to specific cell in minimum moves by Knight
+ 
+ 
+class cell:
+ 
+    def __init__(self, x=0, y=0, dist=0):
+        self.x = x
+        self.y = y
+        self.dist = dist
+ 
+# checks whether given position is
+# inside the board
+ 
+ 
+def isInside(x, y, N):
+    if (x >= 1 and x <= N and
+            y >= 1 and y <= N):
+        return True
+    return False
+ 
+# Method returns minimum step to reach
+# target position
+ 
+ 
+def minStepToReachTarget(knightpos,
+                         targetpos, N):
+ 
+    # all possible movements for the knight
+    dx = [2, 2, -2, -2, 1, 1, -1, -1]
+    dy = [1, -1, 1, -1, 2, -2, 2, -2]
+ 
+    queue = []
+ 
+    # push starting position of knight
+    # with 0 distance
+    queue.append(cell(knightpos[0], knightpos[1], 0))
+ 
+    # make all cell unvisited
+    visited = [[False for i in range(N + 1)]
+               for j in range(N + 1)]
+ 
+    # visit starting state
+    visited[knightpos[0]][knightpos[1]] = True
+ 
+    # loop until we have one element in queue
+    while(len(queue) > 0):
+ 
+        t = queue[0]
+        queue.pop(0)
+ 
+        # if current cell is equal to target
+        # cell, return its distance
+        if(t.x == targetpos[0] and
+           t.y == targetpos[1]):
+            return t.dist
+ 
+        # iterate for all reachable states
+        for i in range(8):
+ 
+            x = t.x + dx[i]
+            y = t.y + dy[i]
+ 
+            if(isInside(x, y, N) and not visited[x][y]):
+                visited[x][y] = True
+                queue.append(cell(x, y, t.dist + 1))
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    N = 30
+    knightpos = [1, 1]
+    targetpos = [30, 30]
+ 
+    # Function call
+    print(minStepToReachTarget(knightpos,
+                               targetpos, N))
+ 
+# This code is contributed by
+# Kaustav kumar Chanda
+C#
+Javascript
+Output
+20
+Time complexity: O(N2). In the worst case, all the cells will be visited
+Auxiliary Space: O(N2). The nodes are stored in a queue. 
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+Like
+Previous
+Possible moves of knight
+Next
+Minimum steps to reach target by a Knight | Set 2
+Related Articles
+1.
+Minimum steps to reach target by a Knight | Set 2
+2.
+Count of all possible ways to reach a target by a Knight
+3.
+Puzzle | Can a Knight reach bottom from top by visiting all squares
+4.
+Minimum steps to reach any of the boundary edges of a matrix | Set-2
+5.
+Minimum steps to reach any of the boundary edges of a matrix | Set 1
+6.
+Minimum steps required to reach the end of a matrix | Set 2
+7.
+Print all possible shortest chains to reach a target word
+8.
+Word Ladder (Length of shortest chain to reach a target word)
+9.
+Minimum steps to reach a destination
+10.
+Minimum steps to reach end of array under constraints
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Kaustav kumar Chanda
+Rajput-Ji
+_MonikaA_
+29AjayKumar
+andrew1234
+rag2127
+gabaa406
+simmytarika5
+cr7_bullet
+sagartomar9927
+janardansthox
+hkdass001
+Article Tags :
+Amazon
+BFS
+chessboard-problems
+Linkedin
+MakeMyTrip
+Graph
+Queue
+Practice Tags :
+Amazon
+Linkedin
+MakeMyTrip
+BFS
+Graph
+Queue
+Report Issue

@@ -1,0 +1,164 @@
+An Interesting Method to Generate Binary Numbers from 1 to n
+
+Difficulty Level : Medium
+Last Updated : 15 Sep, 2022
+Read
+Discuss(50+)
+Courses
+Practice
+Video
+Given a number N, write a function that generates and prints all binary numbers with decimal values from 1 to N. 
+
+Examples: 
+
+Input: n = 2
+Output: 1, 10
+
+Input: n = 5
+Output: 1, 10, 11, 100, 101
+
+Recommended Problem
+Generate Binary Numbers
+Queue
+Data Structures
+Amazon
+OYO Rooms
+Solve Problem
+Submission count: 36.9K
+Naive Method: To solve the problem follow the below idea:
+
+A simple method is to run a loop from 1 to n, and call decimal to binary inside the loop. 
+
+Generate Binary Numbers from 1 to n using the queue:
+Follow the given steps to solve the problem:
+
+
+
+Create an empty queue of strings 
+Enqueue the first binary number “1” to the queue. 
+Now run a loop for generating and printing n binary numbers. 
+Dequeue and Print the front of queue. 
+Append “0” at the end of front item and enqueue it. 
+Append “1” at the end of front item and enqueue it.
+Thanks to Vivek for suggesting this approach. 
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to generate binary numbers from
+# 1 to n
+ 
+# This function uses queue data structure to print binary numbers
+ 
+ 
+def generatePrintBinary(n):
+ 
+    # Create an empty queue
+    from queue import Queue
+    q = Queue()
+ 
+    # Enqueue the first binary number
+    q.put("1")
+ 
+    # This loop is like BFS of a tree with 1 as root
+    # 0 as left child and 1 as right child and so on
+    while(n > 0):
+        n -= 1
+        # Print the front of queue
+        s1 = q.get()
+        print(s1)
+ 
+        s2 = s1  # Store s1 before changing it
+ 
+        # Append "0" to s1 and enqueue it
+        q.put(s1+"0")
+ 
+        # Append "1" to s2 and enqueue it. Note that s2
+        # contains the previous front
+        q.put(s2+"1")
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+    n = 10
+ 
+    # Function call
+    generatePrintBinary(n)
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+1
+10
+11
+100
+101
+110
+111
+1000
+1001
+1010
+Time Complexity: O(N) 
+Auxiliary Space: O(N) as extra space is required in this method
+
+This article is contributed by Abhishek. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+143
+Next
+How to efficiently implement k Queues in a single array?
+Related Articles
+1.
+Generate all binary strings from given pattern
+2.
+Generate all palindromic numbers less than n
+3.
+Generate n-bit Gray Codes
+4.
+Generate Linked List consisting of maximum difference of squares of pairs of nodes from given Linked List
+5.
+Generate Bitonic Sequence of length N from integers in a given range
+6.
+Check if a Binary Tree is subtree of another binary tree | Set 1
+7.
+Binary Tree to Binary Search Tree Conversion
+8.
+Check if a binary tree is subtree of another binary tree | Set 2
+9.
+Sum of decimal equivalents of binary node values in each level of a Binary Tree
+10.
+Total number of possible Binary Search Trees and Binary Trees with n keys
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+gp6
+kumarmenish8
+rrrtnx
+amartyaghoshgfg
+surinderdawra388
+technophpfij
+hardikkoriintern
+janardansthox
+Article Tags :
+Amazon
+Queue
+Practice Tags :
+Amazon
+Queue
+Improve Article
+Report Issue

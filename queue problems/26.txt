@@ -1,0 +1,265 @@
+Find Minimum Depth of a Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 21 Dec, 2022
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node. 
+
+For example, minimum height of below Binary Tree is 2. 
+ 
+
+Example Tree
+
+Note that the path must end on a leaf node. For example, the minimum height of below Binary Tree is also 2. 
+
+          10
+        /    
+      5  
+Recommended Problem
+Minimum Depth of a Binary Tree
+Tree
+Data Structures
+Amazon
+Microsoft
++1 more
+Solve Problem
+Submission count: 52.7K
+Method 1: The idea is to traverse the given Binary Tree. For every node, check if it is a leaf node. If yes, then return 1. If not leaf node then if the left subtree is NULL, then recur for the right subtree. And if the right subtree is NULL, then recur for the left subtree. If both left and right subtrees are not NULL, then take the minimum of two heights.
+
+Below is implementation of the above idea.  
+
+C++
+C
+Java
+Python3
+# Python program to find minimum depth of a given Binary Tree
+ 
+# Tree node
+class Node:
+    def __init__(self , key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+def minDepth(root):
+    # Corner Case.Should never be hit unless the code is
+    # called on root = NULL
+    if root is None:
+        return 0
+     
+    # Base Case : Leaf node.This accounts for height = 1
+    if root.left is None and root.right is None:
+        return 1
+     
+    # If left subtree is Null, recur for right subtree
+    if root.left is None:
+        return minDepth(root.right)+1
+     
+    # If right subtree is Null , recur for left subtree
+    if root.right is None:
+        return minDepth(root.left) +1
+     
+    return min(minDepth(root.left), minDepth(root.right))+1
+ 
+# Driver Program
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+print (minDepth(root))
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)       
+C#
+Javascript
+Output
+
+
+The minimum depth of binary tree is : 2
+Time Complexity: O(n), as it traverses the tree only once. 
+Auxiliary Space: O(h), where h is the height of the tree, this space is due to the recursive call stack.
+
+Method 2: The above method may end up with complete traversal of Binary Tree even when the topmost leaf is close to root. A Better Solution is to do Level Order Traversal. While doing traversal, returns depth of the first encountered leaf node.
+
+Below is the implementation of this solution.  
+
+C++
+Java
+Python3
+# Python program to find minimum depth of a given Binary Tree
+ 
+# A Binary Tree node
+class Node:
+    # Utility to create new node
+    def __init__(self , data):
+        self.data = data
+        self.left = None
+        self.right = None
+ 
+def minDepth(root):
+    # Corner Case
+    if root is None:
+         return 0
+ 
+    # Create an empty queue for level order traversal
+    q = []
+     
+    # Enqueue root and initialize depth as 1
+    q.append({'node': root , 'depth' : 1})
+ 
+    # Do level order traversal
+    while(len(q)>0):
+        # Remove the front queue item
+        queueItem = q.pop(0)
+     
+        # Get details of the removed item
+        node = queueItem['node']
+        depth = queueItem['depth']
+        # If this is the first leaf node seen so far
+        # then return its depth as answer
+        if node.left is None and node.right is None:   
+            return depth
+         
+        # If left subtree is not None, add it to queue
+        if node.left is not None:
+            q.append({'node' : node.left , 'depth' : depth+1})
+ 
+        # if right subtree is not None, add it to queue
+        if node.right is not None: 
+            q.append({'node': node.right , 'depth' : depth+1})
+ 
+# Driver program to test above function
+# Lets construct a binary tree shown in above diagram
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+print (minDepth(root))
+ 
+# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
+C#
+Javascript
+Output
+2
+Time Complexity: O(n), where n is the number of nodes in the given binary tree. This is due to the fact that we are visiting each node once.
+Auxiliary Space: O(n), as we need to store the elements in a queue for level order traversal.
+
+Method 3: 
+
+C++
+Java
+Python3
+# Python implementation to find minimum depth
+# of a given Binary tree
+  
+# Class containing left and right child of current
+# Node and key value
+class Node:
+   
+    # Constructor to create a new node
+    def __init__(self, d):
+        self.data = d
+        self.left = None
+        self.right = None
+ 
+# Function to calculate the minimum depth of the tree
+def minimumDepth(root, level):
+    if (root == None):
+        return level;
+ 
+    level += 1;
+     
+    return min(minimumDepth(root.left, level),
+                        minimumDepth(root.right, level))
+ 
+# Driver program to test above functions
+root = Node(1)
+root.left = Node(2)
+root.right = Node(3)
+root.left.left = Node(4)
+root.left.right = Node(5)
+ 
+print("The minimum depth of ","binary tree is : ", minimumDepth(root, 0))
+ 
+# This code is contributed by ab2127
+C#
+Javascript
+Output
+2
+Time Complexity: O(n), where n is the number of nodes
+Auxiliary Space: O(h), where h is the height of the tree, this space is due to the recursive call stack.
+
+
+
+
+
+Like
+37
+Previous
+Accolite Interview Experience | Set 7 (On-Campus)
+Next
+Symmetric Tree (Mirror Image of itself)
+Related Articles
+1.
+Find the Maximum Depth or Height of given Binary Tree
+2.
+Calculate depth of a full Binary tree from Preorder
+3.
+Depth of the deepest odd level node in Binary Tree
+4.
+Sum of nodes at maximum depth of a Binary Tree
+5.
+Sum of nodes at maximum depth of a Binary Tree | Iterative Approach
+6.
+Sum of nodes at maximum depth of a Binary Tree | Set 2
+7.
+Height and Depth of a node in a Binary Tree
+8.
+Replace node with depth in a binary tree
+9.
+Minimum valued node having maximum depth in an N-ary Tree
+10.
+Depth of an N-Ary tree
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mrunalupadhyay
+shrikanth13
+Prince Midha
+29AjayKumar
+Akanksha_Rai
+princiraj1992
+aafreen1804
+gitanshu kumar
+aashish1995
+anikakapoor
+rag2127
+avanitrachhadiya2155
+ab2127
+simmytarika5
+amartyaghoshgfg
+adityakumar129
+hardikkoriintern
+surajrasr7277
+hkdass001
+Article Tags :
+Amazon
+Facebook
+Tree
+Practice Tags :
+Amazon
+Facebook
+Tree

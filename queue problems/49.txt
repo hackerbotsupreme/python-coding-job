@@ -1,0 +1,198 @@
+Minimum Cost of Simple Path between two nodes in a Directed and Weighted Graph
+
+Difficulty Level : Hard
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a directed graph, which may contain cycles, where every edge has weight, the task is to find the minimum cost of any simple path from a given source vertex ‘s’ to a given destination vertex ‘t’. Simple Path is the path from one vertex to another such that no vertex is visited more than once. If there is no simple path possible then return INF(infinite).
+
+The graph is given as adjacency matrix representation where value of graph[i][j] indicates the weight of an edge from vertex i to vertex j and a value INF(infinite) indicates no edge from i to j.
+
+Examples:
+
+Input : V = 5, E = 6
+        s = 0, t = 2
+    graph[][] =      0   1   2   3   4  
+                 0  INF -1  INF  1  INF
+                 1  INF INF -2  INF INF
+                 2  -3  INF INF INF INF
+                 3  INF INF -1  INF INF
+                 4  INF INF INF  2  INF
+ 
+Output : -3 
+Explanation : 
+The minimum cost simple path between 0 and 2 is given by:
+0 -----> 1 ------> 2 whose cost is (-1) + (-2) = (-3). 
+
+Input : V = 5, E = 6
+        s = 0, t = 4
+    graph[][] =      0   1   2   3   4  
+                 0  INF -7  INF -2  INF
+                 1  INF INF -11 INF INF
+                 2  INF INF INF INF INF
+                 3  INF INF INF  3  -4
+                 4  INF INF INF INF INF
+ 
+Output : -6
+Explanation : 
+The minimum cost simple path between 0 and 2 is given by:
+0 -----> 3 ------> 4 whose cost is (-2) + (-4) = (-6). 
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Approach :
+The main idea to solve the above problem is to traverse through all simple paths from s to t using a modified version of Depth First Search and find the minimum cost path amongst them. One important observation about DFS is that it traverses one path at a time, hence we can traverse separate paths independently using DFS by marking the nodes as unvisited before leaving them.
+A simple solution is to start from s, go to all adjacent vertices, and follow recursion for further adjacent vertices until we reach the destination. This algorithm will work even when negative weight cycles or self-edges are present in the graph.
+
+Below is the implementation of the above-mentioned approach: 
+
+C++
+Java
+Python3
+# Python3 code for printing Minimum Cost
+# Simple Path between two given nodes
+# in a directed and weighted graph
+import sys
+ 
+V = 5
+INF = sys.maxsize
+  
+# Function to do DFS through the nodes
+def minimumCostSimplePath(u, destination,
+                          visited, graph):
+ 
+    # Check if we find the destination
+    # then further cost will be 0
+    if (u == destination):
+        return 0
+  
+    # Marking the current node as visited
+    visited[u] = 1
+  
+    ans = INF
+  
+    # Traverse through all
+    # the adjacent nodes
+    for i in range(V):
+        if (graph[u][i] != INF and not visited[i]):
+  
+            # Cost of the further path
+            curr = minimumCostSimplePath(i, destination,
+                                         visited, graph)
+  
+            # Check if we have reached the destination
+            if (curr < INF):
+  
+                # Taking the minimum cost path
+                ans = min(ans, graph[u][i] + curr)
+             
+    # Unmarking the current node
+    # to make it available for other
+    # simple paths
+    visited[u] = 0
+  
+    # Returning the minimum cost
+    return ans
+     
+# Driver code
+if __name__=="__main__":
+     
+    # Initialising the graph
+    graph = [[INF for j in range(V)]
+                  for i in range(V)]
+  
+    # Marking all nodes as unvisited
+    visited = [0 for i in range(V)]
+  
+    # Initialising the edges
+    graph[0][1] = -1
+    graph[0][3] = 1
+    graph[1][2] = -2
+    graph[2][0] = -3
+    graph[3][2] = -1
+    graph[4][3] = 2
+     
+    # Source and destination
+    s = 0
+    t = 2
+  
+    # Marking the source as visited
+    visited[s] = 1
+     
+    print(minimumCostSimplePath(s, t, visited, graph))
+  
+# This code is contributed by rutvik_56
+C#
+Javascript
+Output: 
+-3
+ 
+
+Time Complexity: O(V^2)
+Auxiliary Space: O(V), since we are using an array of size V to store the visited nodes.
+
+
+
+
+
+
+
+Like
+2
+Previous
+CD-ROM Full Form
+Next
+Count of subarrays whose product is equal to difference of two different numbers
+Related Articles
+1.
+Minimum cost of path between given nodes containing at most K nodes in a directed and weighted graph
+2.
+Minimum Cost Path in a directed graph via given set of intermediate nodes
+3.
+Shortest path with exactly k edges in a directed and weighted graph
+4.
+Shortest path with exactly k edges in a directed and weighted graph | Set 2
+5.
+Monotonic shortest path from source to destination in Directed Weighted Graph
+6.
+Number of distinct Shortest Paths from Node 1 to N in a Weighted and Directed Graph
+7.
+Convert the undirected graph into directed graph such that there is no path of length greater than 1
+8.
+Maximum weighted edge in path between two nodes in an N-ary tree using binary lifting
+9.
+Find if there is a path between two vertices in a directed graph | Set 2
+10.
+Find if there is a path between two vertices in a directed graph
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+muskan_garg
+@muskan_garg
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rutvik_56
+offbeat
+sanjeev2552
+_saurabh_jaiswal
+factworx4i2
+Article Tags :
+DFS
+Arrays
+Competitive Programming
+Graph
+Recursion
+Write From Home
+Practice Tags :
+Arrays
+DFS
+Graph
+Recursion
+Improve Article
+Report Issue

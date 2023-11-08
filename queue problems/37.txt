@@ -1,0 +1,172 @@
+Level order traversal line by line | Set 3 (Using One Queue)
+
+Difficulty Level : Easy
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a Binary Tree, print the nodes level-wise, each level on a new line. 
+
+Example
+
+Output:
+1
+2 3
+4 5
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+We have discussed two solutions in the articles below. 
+Print level order traversal line by line | Set 1 
+Level order traversal line by line | Set 2 (Using Two Queues)
+In this post, a different approach using one queue is discussed. First insert the root and a null element into the queue. This null element acts as a delimiter. Next, pop from the top of the queue and add its left and right nodes to the end of the queue and then print at the top of the queue. Continue this process till the queues become empty.
+
+C++
+Java
+Python3
+# Python3 program to print levels
+# line by line
+from collections import deque as queue
+ 
+# A Binary Tree Node
+ 
+ 
+class Node:
+ 
+    def __init__(self, key):
+ 
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# Function to do level order
+# traversal line by line
+ 
+ 
+def levelOrder(root):
+ 
+    if (root == None):
+        return
+ 
+    # Create an empty queue for
+    # level order traversal
+    q = queue()
+ 
+    # To store front element of
+    # queue.
+    #node *curr
+ 
+    # Enqueue Root and None node.
+    q.append(root)
+    q.append(None)
+ 
+    while (len(q) > 1):
+        curr = q.popleft()
+        # q.pop()
+ 
+        # Condition to check
+        # occurrence of next
+        # level.
+        if (curr == None):
+            q.append(None)
+            print()
+ 
+        else:
+ 
+            # Pushing left child of
+            # current node.
+            if (curr.left):
+                q.append(curr.left)
+ 
+            # Pushing right child of
+            # current node.
+            if (curr.right):
+                q.append(curr.right)
+ 
+            print(curr.data, end=" ")
+ 
+ 
+# Driver code
+if __name__ == '__main__':
+ 
+    # Let us create binary tree
+    # shown above
+    root = Node(1)
+    root.left = Node(2)
+    root.right = Node(3)
+    root.left.left = Node(4)
+    root.left.right = Node(5)
+    root.right.right = Node(6)
+ 
+    levelOrder(root)
+ 
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+1 
+2 3 
+4 5 6 
+Time Complexity: O(n)
+Auxiliary Space: O(n) for queue, where n is no of nodes of binary tree
+
+
+
+
+
+Like
+41
+Next
+Level order traversal with direction change after every two levels
+Related Articles
+1.
+Level order traversal in spiral form | Using one stack and one queue
+2.
+Pre Order, Post Order and In Order traversal of a Binary Tree in one traversal | (Using recursion)
+3.
+Level order traversal line by line | Set 2 (Using Two Queues)
+4.
+Print level order traversal line by line | Set 1
+5.
+Level order traversal of Binary Tree using Morris Traversal
+6.
+Print a Binary Tree in Vertical Order | Set 3 (Using Level Order Traversal)
+7.
+Connect Nodes at same Level (Level Order Traversal)
+8.
+Flatten Binary Tree in order of Level Order Traversal
+9.
+Insertion in n-ary tree in given order and Level order traversal
+10.
+Print nodes of a Binary Search Tree in Top Level Order and Reversed Bottom Level Order alternately
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+rishabh jindal 1
+@rishabh jindal 1
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nik1996
+andrew1234
+Akanksha_Rai
+mohit kumar 29
+anikakapoor
+patel2127
+simmytarika5
+polymatir3j
+technophpfij
+kumargaurav97520
+hkdass001
+Article Tags :
+java-LinkedList
+tree-level-order
+Tree
+Practice Tags :
+Tree
+Improve Article
+Report Issue

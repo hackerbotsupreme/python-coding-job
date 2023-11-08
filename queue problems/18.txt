@@ -1,0 +1,187 @@
+Queue – Linked List Implementation
+
+Difficulty Level : Easy
+Last Updated : 12 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+In this article, the Linked List implementation of the queue data structure is discussed and implemented. Print ‘-1’ if the queue is empty.
+
+Recommended Practice
+Implement Queue using Linked List
+Try It!
+Approach: To solve the problem follow the below idea:
+
+we maintain two pointers, front, and rear. The front points to the first item of the queue and rear points to the last item.
+
+enQueue(): This operation adds a new node after the rear and moves the rear to the next node.
+deQueue(): This operation removes the front node and moves the front to the next node.
+Follow the below steps to solve the problem:
+
+
+Create a class QNode with data members integer data and QNode* next
+A parameterized constructor that takes an integer x value as a parameter and sets data equal to x and next as NULL
+Create a class Queue with data members QNode front and rear
+Enqueue Operation with parameter x:
+Initialize QNode* temp with data = x
+If the rear is set to NULL then set the front and rear to temp and return(Base Case)
+Else set rear next to temp and then move rear to temp
+Dequeue Operation:
+If the front is set to NULL return(Base Case)
+Initialize QNode temp with front and set front to its next
+If the front is equal to NULL then set the rear to NULL
+Delete temp from the memory
+Below is the Implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program to demonstrate linked list
+# based implementation of queue
+ 
+# A linked list (LL) node
+# to store a queue entry
+ 
+ 
+class Node:
+ 
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+ 
+# A class to represent a queue
+ 
+# The queue, front stores the front node
+# of LL and rear stores the last node of LL
+ 
+ 
+class Queue:
+ 
+    def __init__(self):
+        self.front = self.rear = None
+ 
+    def isEmpty(self):
+        return self.front == None
+ 
+    # Method to add an item to the queue
+    def EnQueue(self, item):
+        temp = Node(item)
+ 
+        if self.rear == None:
+            self.front = self.rear = temp
+            return
+        self.rear.next = temp
+        self.rear = temp
+ 
+    # Method to remove an item from queue
+    def DeQueue(self):
+ 
+        if self.isEmpty():
+            return
+        temp = self.front
+        self.front = temp.next
+ 
+        if(self.front == None):
+            self.rear = None
+ 
+ 
+# Driver Code
+if __name__ == '__main__':
+    q = Queue()
+    q.EnQueue(10)
+    q.EnQueue(20)
+    q.DeQueue()
+    q.DeQueue()
+    q.EnQueue(30)
+    q.EnQueue(40)
+    q.EnQueue(50)
+    q.DeQueue()
+    print("Queue Front : " + str(q.front.data if q.front != None else -1))
+    print("Queue Rear : " + str(q.rear.data if q.rear != None else -1))
+C#
+Javascript
+Output
+Queue Front : 40
+Queue Rear : 50
+Time Complexity: O(1), The time complexity of both operations enqueue() and dequeue() is O(1) as it only changes a few pointers in both operations
+Auxiliary Space: O(1), The auxiliary Space of both operations enqueue() and dequeue() is O(1) as constant extra space is required
+
+
+
+Related Article:
+Introduction and Array Implementation of Queue
+
+
+
+
+
+Like
+183
+Previous
+Array implementation of queue (Simple)
+Next
+Applications, Advantages and Disadvantages of Queue
+Related Articles
+1.
+Should we declare as Queue or Priority Queue while using Priority Queue in Java?
+2.
+Circular Linked List Implementation of Circular Queue
+3.
+Introduction and Array Implementation of Queue
+4.
+Difference between PriorityQueue and Queue Implementation in Java
+5.
+Array implementation of queue (Simple)
+6.
+Introduction and Array Implementation of Circular Queue
+7.
+Stack and Queue in Python using queue Module
+8.
+Check if a queue can be sorted into another queue using a stack
+9.
+Reversing a Queue using another Queue
+10.
+Difference between Circular Queue and Priority Queue
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+rathbhupendra
+ManasChhabra2
+md1844
+ckb2001
+cosine1509
+avanitrachhadiya2155
+vikrantkuntal13
+technophpfij
+hardikkoriintern
+aashutoshparoha
+janardansthox
+harendrakumar123
+Article Tags :
+Amazon
+Oracle
+Qualcomm
+Samsung
+Linked List
+Queue
+Practice Tags :
+Amazon
+Oracle
+Qualcomm
+Samsung
+Linked List
+Queue
+Improve Article
+Report Issue

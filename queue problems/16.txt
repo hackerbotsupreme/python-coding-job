@@ -1,0 +1,190 @@
+
+How to efficiently implement k Queues in a single array?
+
+Difficulty Level : Hard
+Last Updated : 16 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+We have discussed efficient implementation of k stack in an array. In this post, same for queue is discussed. Following is the detailed problem statement.
+
+Create a data structure kQueues that represents k queues. Implementation of kQueues should use only one array, i.e., k queues should use the same array for storing elements. Following functions must be supported by kQueues.
+
+enqueue(int x, int qn) –> adds x to queue number ‘qn’ where qn is from 0 to k-1 
+dequeue(int qn) –> deletes an element from queue number ‘qn’ where qn is from 0 to k-1 
+Method 1 (Divide the array in slots of size n/k):
+
+A simple way to implement k queues is to divide the array in k slots of size n/k each, and fix the slots for different queues, i.e., use arr[0] to arr[n/k-1] for the first queue, and arr[n/k] to arr[2n/k-1] for queue2 where arr[] is the array to be used to implement two queues and size of array be n.
+
+The problem with this method is an inefficient use of array space. An enqueue operation may result in overflow even if there is space available in arr[]. For example, consider k as 2 and array size n as 6. Let we enqueue 3 elements to first and do not enqueue anything to the second queue. When we enqueue the 4th element to the first queue, there will be overflow even if we have space for 3 more elements in the array.
+
+
+Method 2 (A space efficient implementation):
+
+The idea is similar to the stack post, here we need to use three extra arrays. In stack post, we needed two extra arrays, one more array is required because in queues, enqueue() and dequeue() operations are done at different ends.
+
+Following are the three extra arrays are used: 
+
+
+
+front[]: This is of size k and stores indexes of front elements in all queues. 
+rear[]: This is of size k and stores indexes of rear elements in all queues. 
+next[]: This is of size n and stores indexes of next item for all items in array arr[]. 
+Here arr[] is the actual array that stores k stacks.
+
+Together with k queues, a stack of free slots in arr[] is also maintained. The top of this stack is stored in a variable ‘free’.
+
+All entries in front[] are initialized as -1 to indicate that all queues are empty. All entries next[i] are initialized as i+1 because all slots are free initially and pointing to the next slot. Top of the free stack, ‘free’ is initialized as 0.
+
+Following is implementation of the above idea. 
+
+C++
+Java
+Python3
+# A Python program to demonstrate implementation of k queues in a single
+# array in time and space efficient way
+ 
+class KQueues:
+    def __init__(self, number_of_queues, array_length):
+        self.number_of_queues = number_of_queues
+        self.array_length = array_length
+        self.array = [-1] * array_length
+        self.front = [-1] * number_of_queues
+        self.rear = [-1] * number_of_queues
+        self.next_array = list(range(1, array_length))
+        self.next_array.append(-1)
+        self.free = 0
+ 
+    # To check whether the current queue_number is empty or not
+    def is_empty(self, queue_number):
+        return True if self.front[queue_number] == -1 else False
+ 
+    # To check whether the current queue_number is full or not
+    def is_full(self, queue_number):
+        return True if self.free == -1 else False
+ 
+    # To enqueue the given item in the given queue_number where
+    # queue_number is from 0 to number_of_queues-1
+    def enqueue(self, item, queue_number):
+        if self.is_full(queue_number):
+            print("Queue FULL")
+            return
+        next_free = self.next_array[self.free]
+        if self.is_empty(queue_number):
+            self.front[queue_number] = self.rear[queue_number] = self.free
+        else:
+            self.next_array[self.rear[queue_number]] = self.free
+            self.rear[queue_number] = self.free
+        self.next_array[self.free] = -1
+        self.array[self.free] = item
+        self.free = next_free
+ 
+    # To dequeue an item from the given queue_number where
+    # queue_number is from 0 to number_of_queues-1
+    def dequeue(self, queue_number):
+        if self.is_empty(queue_number):
+             print("Queue EMPTY")
+             return
+ 
+        front_index = self.front[queue_number]
+        self.front[queue_number] = self.next_array[front_index]
+        self.next_array[front_index] = self.free
+        self.free = front_index
+        return self.array[front_index]
+         
+if __name__ == "__main__":
+    # Let us create 3 queue in an array of size 10 
+    ks =  KQueues(3, 10)
+           
+    # Let us put some items in queue number 2 
+    ks.enqueue(15, 2)
+    ks.enqueue(45, 2)
+  
+    # Let us put some items in queue number 1 
+    ks.enqueue(17, 1); 
+    ks.enqueue(49, 1); 
+    ks.enqueue(39, 1); 
+         
+    # Let us put some items in queue number 0 
+    ks.enqueue(11, 0); 
+    ks.enqueue(9, 0); 
+    ks.enqueue(7, 0); 
+           
+    print("Dequeued element from queue 2 is {}".format(ks.dequeue(2)))
+    print("Dequeued element from queue 1 is {}".format(ks.dequeue(1)))
+    print("Dequeued element from queue 0 is {}".format(ks.dequeue(0)))
+C#
+Javascript
+Output
+Dequeued element from queue 2 is 15
+Dequeued element from queue 1 is 17
+Dequeued element from queue 0 is 11
+Time complexities of enqueue() and dequeue() is O(1).
+
+The best part of the above implementation is, if there is a slot available in the queue, then an item can be enqueued in any of the queues, i.e., no wastage of space. This method requires some extra space. Space may not be an issue because queue items are typically large, for example, queues of employees, students, etc where every item is of hundreds of bytes. For such large queues, the extra space used is comparatively very less as we use three integer arrays as extra space.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+92
+Previous
+Design Front Middle Back Queue using STL
+Next
+Design a data structure that supports insert, delete, search and getRandom in constant time
+Related Articles
+1.
+Array-Based Queues vs List-Based Queues
+2.
+Implement Stack using Queues
+3.
+Level order traversal line by line | Set 2 (Using Two Queues)
+4.
+Different Types of Queues and its Applications
+5.
+Introduction to Monotonic Queues
+6.
+Implement a stack using single queue
+7.
+Implement two Stacks in an Array
+8.
+How to Implement Queue in Java using Array and Generics?
+9.
+Implement dynamic deque using templates class and a circular array
+10.
+Implement dynamic queue using templates class and a circular array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sidsm009
+bejuzb
+viping74
+raju pitta
+aashish1995
+avanitrachhadiya2155
+amartyaghoshgfg
+hardikkoriintern
+akashmaurya563
+Article Tags :
+Accolite
+Queue
+Practice Tags :
+Accolite
+Queue
+Improve Article
+Report Issue

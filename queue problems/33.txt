@@ -1,0 +1,292 @@
+Print all nodes between two given levels in Binary Tree
+
+Difficulty Level : Easy
+Last Updated : 29 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given a binary tree, print all nodes between two given levels in a binary tree. Print the nodes level-wise, i.e., the nodes for any level should be printed from left to right. 
+
+
+
+In the above tree, if the starting level is 2 and the ending level is 3 then the solution should print: 
+
+2 3 
+4 5 6 7 
+Note: Level number starts with 1. That is, the root node is at level 1.
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Prerequisite: Level order Traversal.
+The idea is to do level order traversal of the tree using a queue and keep track of the current level. If the current level lies between the starting and ending level then print the nodes at that level.
+
+Algorithm: 
+
+levelordertraverse (root, startLevel, endLevel)
+q -> empty queue
+q.enqueue (root)
+level -> 0
+while (not q.isEmpty())
+     size -> q.size()
+     level = level + 1
+     while (size)
+          node -> q.dequeue()
+          if (level between startLevel and endevel)
+               print (node)
+           if(node.leftnull)
+                q.enqueue (node. left)
+           if(node.leftnull)
+                q.enqueue(node.right)
+           size =size -1
+Below is the implementation of the above algorithm: 
+
+
+
+C++
+Java
+Python3
+# Python3 program for Print all nodes
+# between two given levels in
+# a binary tree
+ 
+# Helper function that allocates a new
+# node with the given data and None
+# left and right pointers.                                
+class newNode:
+ 
+    # Construct to create a new node
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+ 
+# Iterative function to print all
+# nodes between two given
+# levels in a binary tree
+def printNodes(root, start, end):
+     
+    if (root == None):
+        return
+ 
+    # create an empty queue and
+    # enqueue root node
+    q = []
+    q.append(root)
+ 
+    # pointer to store current node
+    curr = None
+ 
+    # maintains level of current node
+    level = 0
+ 
+    # run till queue is not empty
+    while (len(q)):
+         
+        # increment level by 1
+        level += 1
+ 
+        # calculate number of nodes in
+        # current level
+        size = len(q)
+ 
+        # process every node of current level
+        # and enqueue their non-empty left
+        # and right child to queue
+        while (size != 0) :
+            curr = q[0]
+            q.pop(0)
+ 
+            # print the node if its level is
+            # between given levels
+            if (level >= start and level <= end) :
+                print(curr.data, end = " ")
+             
+            if (curr.left != None) :
+                q.append(curr.left)
+             
+            if (curr.right != None) :
+                q.append(curr.right)
+             
+            size -= 1
+         
+        if (level >= start and level <= end) :
+            print("")
+             
+# Driver Code
+if __name__ == '__main__':
+     
+    """
+    Let us create Binary Tree shown
+    in above example """
+    root = newNode(1)
+    root.left = newNode(2)
+ 
+    root.left.left = newNode(4)
+    root.left.right = newNode(5)
+    root.right = newNode(3)
+    root.right.right = newNode(7)
+    root.right.left = newNode(6)
+    start = 2
+    end = 3
+    printNodes(root, start, end)
+     
+# This code is contributed by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+2 3 
+4 5 6 7 
+Time Complexity: O(n)
+
+As we traverse the tree just once.
+
+Auxiliary space: O(b)
+
+Here b is the breadth of the tree. The extra space is used to store the elements of the current level in the queue.
+
+Recursive Approach(Method-2):
+Follow the below steps to solve this problem:
+1) Create an vector of vector to store the ans in level order fashion.
+2) Recursively traverse the whole tree in inorder fashion and keep track the level along with each node.
+3) If the level of node lie between the given levels then store them in ans vector respectively to its level number.
+4) After traversing the whole tree print the ans vector.
+
+Below is the implementation of above approach:
+
+C++
+// C++ program to print all nodes between
+// two given levels
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// A binary tree node
+struct Node{
+    int data;
+    struct Node* left;
+    struct Node* right;
+};
+ 
+// utility funciton to initialize the new node
+Node* newNode(int data){
+    Node *new_node = new Node();
+    new_node->data = data;
+    new_node->left = NULL;
+    new_node->right = NULL;
+    return new_node;
+}
+ 
+// Recursive function to print all nodes between two given
+// levels in a binary tree
+void printNodes(Node* root, int start, int end, vector<vector<int>> &ans, int level){
+    if(root == NULL) return;
+    printNodes(root->left, start, end, ans, level+1);
+    if(level >= start && level <= end){
+        ans[level-start].push_back(root->data);
+    }
+    printNodes(root->right, start, end, ans, level+1);
+}
+ 
+ 
+// driver code to test above function
+int main(){
+    Node *root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    root->right->left = newNode(6);
+    root->right->right = newNode(7);
+ 
+    int start = 2;
+    int end = 3;
+    // function call
+    vector<vector<int>> ans(end-start+1);
+    printNodes(root, start, end, ans, 1);
+    for(auto i : ans){
+        for(int j : i){
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+ 
+// THIS CODE IS CONTRIBUTED BY KIRIT AGARWAL(KIRTIAGARWAL23121999)
+Output
+2 3 
+4 5 6 7 
+Time Complexity: O(N) where N is the number of nodes in given binary tree.
+Auxiliary Space : O(N) where N is the number of nodes.
+
+
+
+
+
+Like
+3
+Previous
+Convert a List of String to a comma separated String in Java
+Next
+Interesting Facts about C++
+Related Articles
+1.
+Print alternate nodes from all levels of a Binary Tree
+2.
+Print Levels of all nodes in a Binary Tree
+3.
+Print even positioned nodes of even levels in level order of the given binary tree
+4.
+Print even positioned nodes of odd levels in level order of the given binary tree
+5.
+Print odd positioned nodes of even levels in level order of the given binary tree
+6.
+Print odd positioned nodes of odd levels in level order of the given binary tree
+7.
+Maximum sum of leaf nodes among all levels of the given binary tree
+8.
+Maximum sum of non-leaf nodes among all levels of the given binary tree
+9.
+Print Binary Tree levels in sorted order | Set 3 (Tree given as array)
+10.
+Print levels with odd number of nodes and even number of nodes
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+Rajput-Ji
+@Rajput-Ji
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+SHUBHAMSINGH10
+29AjayKumar
+Akanksha_Rai
+Rajput-Ji
+rahulcse03
+decode2207
+sweetyty
+simmytarika5
+surinderdawra388
+sumitgumber28
+abhijeet19403
+hkdass001
+Article Tags :
+Java-Queue-Programs
+Technical Scripter 2018
+Data Structures
+Java
+Queue
+Technical Scripter
+Tree
+Practice Tags :
+Data Structures
+Java
+Queue
+Tree
+Improve Article
+Report Issue

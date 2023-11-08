@@ -1,0 +1,309 @@
+Snake and Ladder Problem
+
+Difficulty Level : Hard
+Last Updated : 20 Jan, 2023
+Read
+Discuss(150+)
+Courses
+Practice
+Video
+Given a snake and ladder board, find the minimum number of dice throws required to reach the destination or last cell from the source or 1st cell. Basically, the player has total control over the outcome of the dice throw and wants to find out the minimum number of throws required to reach the last cell.
+If the player reaches a cell which is the base of a ladder, the player has to climb up that ladder and if reaches a cell is the mouth of the snake, and has to go down to the tail of the snake without a dice throw.
+ 
+
+snakesandladders
+
+For example, consider the board shown, the minimum number of dice throws required to reach cell 30 from cell 1 is 3. 
+Following are the steps:
+a) First throw two dice to reach cell number 3 and then ladder to reach 22 
+b) Then throw 6 to reach 28. 
+c) Finally through 2 to reach 30.
+There can be other solutions as well like (2, 2, 6), (2, 4, 4), (2, 3, 5).. etc.
+
+Recommended Problem
+Snake and Ladder Problem
+Dynamic Programming
+DFS
++4 more
+Zoho
+Flipkart
++7 more
+Solve Problem
+Submission count: 43.5K
+The idea is to consider the given snake and ladder board as a directed graph with a number of vertices equal to the number of cells in the board. The problem reduces to finding the shortest path in a graph. Every vertex of the graph has an edge to next six vertices if the next 6 vertices do not have a snake or ladder. If any of the next six vertices has a snake or ladder, then the edge from the current vertex goes to the top of the ladder or tail of the snake. Since all edges are of equal weight, we can efficiently find the shortest path using Breadth-First Search of the graph. 
+Following is the implementation of the above idea. The input is represented by two things, the first is ‘N’ which is a number of cells in the given board, second is an array ‘move[0…N-1]’ of size N. An entry move[i] is -1 if there is no snake and no ladder from i, otherwise move[i] contains index of destination cell for the snake or the ladder at i.
+
+C++
+Java
+Python3
+# Python3 program to find minimum number
+# of dice throws required to reach last
+# cell from first cell of a given
+# snake and ladder board
+ 
+# An entry in queue used in BFS
+ 
+ 
+class QueueEntry(object):
+    def __init__(self, v=0, dist=0):
+        self.v = v
+        self.dist = dist
+ 
+ 
+'''This function returns minimum number of
+dice throws required to. Reach last cell
+from 0'th cell in a snake and ladder game.
+move[] is an array of size N where N is
+no. of cells on board. If there is no
+snake or ladder from cell i, then move[i]
+is -1. Otherwise move[i] contains cell to
+which snake or ladder at i takes to.'''
+ 
+ 
+def getMinDiceThrows(move, N):
+ 
+    # The graph has N vertices. Mark all
+    # the vertices as not visited
+    visited = [False] * N
+ 
+    # Create a queue for BFS
+    queue = []
+ 
+    # Mark the node 0 as visited and enqueue it
+    visited[0] = True
+ 
+    # Distance of 0't vertex is also 0
+    # Enqueue 0'th vertex
+    queue.append(QueueEntry(0, 0))
+ 
+    # Do a BFS starting from vertex at index 0
+    qe = QueueEntry()  # A queue entry (qe)
+    while queue:
+        qe = queue.pop(0)
+        v = qe.v  # Vertex no. of queue entry
+ 
+        # If front vertex is the destination
+        # vertex, we are done
+        if v == N - 1:
+            break
+ 
+        # Otherwise dequeue the front vertex
+        # and enqueue its adjacent vertices
+        # (or cell numbers reachable through
+        # a dice throw)
+        j = v + 1
+        while j <= v + 6 and j < N:
+ 
+            # If this cell is already visited,
+            # then ignore
+            if visited[j] is False:
+ 
+                # Otherwise calculate its
+                # distance and mark it
+                # as visited
+                a = QueueEntry()
+                a.dist = qe.dist + 1
+                visited[j] = True
+ 
+                # Check if there a snake or ladder
+                # at 'j' then tail of snake or top
+                # of ladder become the adjacent of 'i'
+                a.v = move[j] if move[j] != -1 else j
+ 
+                queue.append(a)
+ 
+            j += 1
+ 
+    # We reach here when 'qe' has last vertex
+    # return the distance of vertex in 'qe
+    return qe.dist
+ 
+ 
+# driver code
+N = 30
+moves = [-1] * N
+ 
+# Ladders
+moves[2] = 21
+moves[4] = 7
+moves[10] = 25
+moves[19] = 28
+ 
+# Snakes
+moves[26] = 0
+moves[20] = 8
+moves[16] = 3
+moves[18] = 6
+ 
+print("Min Dice throws required is {0}".
+      format(getMinDiceThrows(moves, N)))
+ 
+# This code is contributed by Ajitesh Pathak
+C#
+Javascript
+Output
+Min Dice throws required is 3
+The time complexity of the above solution is O(N) as every cell is added and removed only once from the queue. And a typical enqueue or dequeue operation takes O(1) time. 
+
+Another approach we can think of is recursion in which we will be going to each block, in this case, which is from 1 to 30, and keeping a count of a minimum number of throws of dice at block i and storing it in an array t.
+
+So, basically, we will:
+
+Create an array, let’s say ‘t’, and initialize it with -1.
+Now we will call a recursive function from block 1, with variable let’s say ‘i’, and we will be incrementing this.
+In this we will define the base condition as whenever block number reaches 30 or beyond we will return 0 and we will also check if this block has been visited before, this we will do by checking the value of t[i], if this is -1 then it means its not visited and we move forward with the function else its visited and we will return value of t[i].
+ After checking base cases we will initialize a variable ‘min’ with a max integer value.
+Now we will initiate a loop from 1 to 6, i.e the values of a dice, now for each iteration we will increase the value of i by the value of dice(eg: i+1,i+2….i+6) and we will check if any increased value has a ladder on it if there is then we will update the value of i to the end of the ladder and then pass the value to the recursive function, if there is no ladder then also we will pass the incremented value of i based on dice value to a recursive function, but if there is a snake then we won’t pass this value to recursive function as we want to reach the end as soon as possible, and the best of doing this would be not to be bitten by a snake. And we would be keep on updating the minimum value for variable ‘min’.
+Finally we will update t[i] with min and return t[i].
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+from typing import List, Dict
+ 
+ 
+def min_throw(n: int, arr: List[int]) -> int:
+    # Initialise an array t of length 31, we will use from
+    # index to 1 to 30
+    t = [-1] * 31
+ 
+    # create a dictionary to store snakes and ladders start
+    # and end for better efficiency
+    h = {}
+    for i in range(0, 2 * n, 2):
+        # store start as key and end as value
+        h[arr[i]] = arr[i + 1]
+ 
+    # final ans
+    return sol(1, h, t)
+ 
+# recursive function
+ 
+ 
+def sol(i: int, h: Dict[int, int], t: List[int]) -> int:
+    # base condition
+    if i >= 30:
+        return 0
+ 
+    # checking if block is already visited or
+    # not(memoization).
+    elif t[i] != -1:
+        return t[i]
+ 
+    # initialising min as max int value
+    min_value = float("inf")
+ 
+    # for loop for every dice value from 1 to 6
+    for j in range(1, 7):
+        # incrementing value of i with dice value i.e j
+        # taking new variable k
+        # ->taking new variable so that we dont change i
+        # as we will need it again in another iteration
+        k = i + j
+        if k in h:
+            # checking if this is a snake or ladder
+            # if a snake then we continue as we dont
+            # need a snake
+            if h[k] < k:
+                continue
+            # updating if it's a ladder to ladder end value
+            k = h[k]
+        # updating min in every iteration for getting
+        # minimum throws from this particular block
+        min_value = min(min_value, sol(k, h, t) + 1)
+ 
+    # updating value of t[i] to min
+    # memoization
+    t[i] = min_value
+    return t[i]
+ 
+ 
+# Given a 5x6 snakes and ladders board
+# You are given an integer N denoting the total
+# number of snakes and ladders and a list arr[]
+# of 2*N size where 2*i and (2*i + 1)th values
+# denote the starting and ending point respectively
+# of ith snake or ladder
+N = 8
+arr = [3, 22, 5, 8, 11, 26, 20, 29, 17, 4, 19, 7, 27, 1, 29, 9]
+ 
+print("Min Dice throws required is", min_throw(N, arr))
+# This code is contributed by sanjanasikarwar24
+C#
+Javascript
+Output
+Min Dice throws required is 3
+Time complexity: O(N).
+Auxiliary Space O(N)
+
+
+
+This article is contributed by Siddharth and Sahil Srivastava. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Number of Triangles in an Undirected Graph
+Next
+Minimum time required to rot all oranges
+Related Articles
+1.
+Word Ladder - Set 2 ( Bi-directional BFS )
+2.
+Ladder Graph Using Networkx Module in Python
+3.
+Word Ladder (Length of shortest chain to reach a target word)
+4.
+Nuts & Bolts Problem (Lock & Key problem) using Quick Sort
+5.
+Nuts & Bolts Problem (Lock & Key problem) using Hashmap
+6.
+Sort an array of 0s, 1s and 2s | Dutch National Flag problem
+7.
+Introduction and Approximate Solution for Vertex Cover Problem
+8.
+Prove that a problem consisting of Clique and Independent Set is NP Complete
+9.
+Activity Selection Problem | Greedy Algo-1
+10.
+The Celebrity Problem
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+avanitrachhadiya2155
+sahilb190590ee
+sagartomar9927
+sanjanasikarwar24
+ratiagrawal
+poojaagrawal2
+Article Tags :
+Amazon
+Belzabar
+BFS
+DFS
+Flipkart
+MAQ Software
+Shortest Path
+Graph
+Practice Tags :
+Amazon
+Belzabar
+Flipkart
+MAQ Software
+BFS
+DFS
+Graph
+Shortest Path
+Report Issue

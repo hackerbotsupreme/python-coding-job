@@ -1,0 +1,364 @@
+Shortest path in a Binary Maze
+
+Difficulty Level : Hard
+Last Updated : 18 Nov, 2022
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Given an MxN matrix where each element can either be 0 or 1. We need to find the shortest path between a given source cell to a destination cell. The path can only be created out of a cell if its value is 1.
+
+Example:
+
+Input:
+mat[ROW][COL]  = {{1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
+                  {1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
+                  {1, 1, 1, 0, 1, 1, 0, 1, 0, 1 },
+                  {0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
+                  {1, 1, 1, 0, 1, 1, 1, 0, 1, 0 },
+                  {1, 0, 1, 1, 1, 1, 0, 1, 0, 0 },
+                  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+                  {1, 0, 1, 1, 1, 1, 0, 1, 1, 1 },
+                  {1, 1, 0, 0, 0, 0, 1, 0, 0, 1 }};
+Source = {0, 0};
+Destination = {3, 4};
+
+Output:
+Shortest Path is 11 
+Recommended Problem
+Shortest Source to Destination Path
+DFS
+Matrix
++4 more
+Samsung
+Solve Problem
+Submission count: 57.1K
+Method 1: Using Backtracking
+
+The idea is to use Recursion: 
+
+Start from the given source cell in the matrix and explore all four possible paths.
+Check if the destination is reached or not.
+Explore all the paths and backtrack if the destination is not reached.
+And also keep track of visited cells using an array.
+ Valid Moves are:
+ left: (i, j) ——> (i, j – 1)
+ right: (i, j) ——> (i, j + 1)
+ top: (i, j) ——> (i - 1, j)
+ bottom: (i, j) ——> (i + 1, j )
+Implementation:
+
+C++
+Java
+Python3
+# Python3 code to implement the approach
+import sys
+ 
+# User defined Pair class
+class Pair:
+    def __init__(self, x, y):
+        self.first = x
+        self.second = y
+ 
+# Check if it is possible to go to (x, y) from the current
+# position. The function returns false if the cell has
+# value 0 or already visited
+def isSafe(mat, visited, x, y):
+    return (x >= 0 and x < len(mat) and y >= 0 and y < len(mat[0]) and mat[x][y] == 1 and (not visited[x][y]))
+ 
+def findShortestPath(mat, visited, i, j, x, y, min_dist, dist):
+    if (i == x and j == y):
+        min_dist = min(dist, min_dist)
+        return min_dist
+ 
+    # set (i, j) cell as visited
+    visited[i][j] = True
+     
+    # go to the bottom cell
+    if (isSafe(mat, visited, i + 1, j)):
+        min_dist = findShortestPath(
+            mat, visited, i + 1, j, x, y, min_dist, dist + 1)
+ 
+    # go to the right cell
+    if (isSafe(mat, visited, i, j + 1)):
+        min_dist = findShortestPath(
+            mat, visited, i, j + 1, x, y, min_dist, dist + 1)
+ 
+    # go to the top cell
+    if (isSafe(mat, visited, i - 1, j)):
+        min_dist = findShortestPath(
+            mat, visited, i - 1, j, x, y, min_dist, dist + 1)
+ 
+    # go to the left cell
+    if (isSafe(mat, visited, i, j - 1)):
+        min_dist = findShortestPath(
+            mat, visited, i, j - 1, x, y, min_dist, dist + 1)
+ 
+    # backtrack: remove (i, j) from the visited matrix
+    visited[i][j] = False
+    return min_dist
+ 
+# Wrapper over findShortestPath() function
+def findShortestPathLength(mat, src, dest):
+    if (len(mat) == 0 or mat[src.first][src.second] == 0
+            or mat[dest.first][dest.second] == 0):
+        return -1
+ 
+    row = len(mat)
+    col = len(mat[0])
+ 
+    # construct an `M × N` matrix to keep track of visited
+    # cells
+    visited = []
+    for i in range(row):
+        visited.append([None for _ in range(col)])
+ 
+    dist = sys.maxsize
+    dist = findShortestPath(mat, visited, src.first,
+                            src.second, dest.first, dest.second, dist, 0)
+ 
+    if (dist != sys.maxsize):
+        return dist
+    return -1
+ 
+# Driver code
+mat = [[1, 0, 1, 1, 1, 1, 0, 1, 1, 1],
+       [1, 0, 1, 0, 1, 1, 1, 0, 1, 1],
+       [1, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+       [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+       [1, 1, 1, 0, 1, 1, 1, 0, 1, 0],
+       [1, 0, 1, 1, 1, 1, 0, 1, 0, 0],
+       [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+       [1, 0, 1, 1, 1, 1, 0, 1, 1, 1],
+       [1, 1, 0, 0, 0, 0, 1, 0, 0, 1]
+       ]
+ 
+src = Pair(0, 0)
+dest = Pair(3, 4)
+dist = findShortestPathLength(mat, src, dest)
+if (dist != -1):
+    print("Shortest Path is", dist)
+ 
+else:
+    print("Shortest Path doesn't exist")
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+Shortest Path is 11
+Time complexity: O(4^MN)
+Auxiliary Space:  O(M*N)
+
+
+
+Method 2: Using BFS
+
+The idea is inspired from Lee algorithm and uses BFS.  
+
+We start from the source cell and call the BFS procedure.
+We maintain a queue to store the coordinates of the matrix and initialize it with the source cell.
+We also maintain a Boolean array visited of the same size as our input matrix and initialize all its elements to false.
+We LOOP till queue is not empty
+Dequeue front cell from the queue
+Return if the destination coordinates have been reached.
+For each of its four adjacent cells, if the value is 1 and they are not visited yet, we enqueue it in the queue and also mark them as visited.
+Note that BFS works here because it doesn’t consider a single path at once. It considers all the paths starting from the source and moves ahead one unit in all those paths at the same time which makes sure that the first time when the destination is visited, it is the shortest path.
+Below is the implementation of the idea –  
+
+Implementation:
+
+C++
+Java
+Python
+# Python program to find the shortest
+# path between a given source cell
+# to a destination cell.
+ 
+from collections import deque
+ROW = 9
+COL = 10
+ 
+# To store matrix cell coordinates
+class Point:
+    def __init__(self,x: int, y: int):
+        self.x = x
+        self.y = y
+ 
+# A data structure for queue used in BFS
+class queueNode:
+    def __init__(self,pt: Point, dist: int):
+        self.pt = pt  # The coordinates of the cell
+        self.dist = dist  # Cell's distance from the source
+ 
+# Check whether given cell(row,col)
+# is a valid cell or not
+def isValid(row: int, col: int):
+    return (row >= 0) and (row < ROW) and
+                   (col >= 0) and (col < COL)
+ 
+# These arrays are used to get row and column
+# numbers of 4 neighbours of a given cell
+rowNum = [-1, 0, 0, 1]
+colNum = [0, -1, 1, 0]
+ 
+# Function to find the shortest path between
+# a given source cell to a destination cell.
+def BFS(mat, src: Point, dest: Point):
+     
+    # check source and destination cell
+    # of the matrix have value 1
+    if mat[src.x][src.y]!=1 or mat[dest.x][dest.y]!=1:
+        return -1
+     
+    visited = [[False for i in range(COL)]
+                       for j in range(ROW)]
+     
+    # Mark the source cell as visited
+    visited[src.x][src.y] = True
+     
+    # Create a queue for BFS
+    q = deque()
+     
+    # Distance of source cell is 0
+    s = queueNode(src,0)
+    q.append(s) #  Enqueue source cell
+     
+    # Do a BFS starting from source cell
+    while q:
+ 
+        curr = q.popleft() # Dequeue the front cell
+         
+        # If we have reached the destination cell,
+        # we are done
+        pt = curr.pt
+        if pt.x == dest.x and pt.y == dest.y:
+            return curr.dist
+         
+        # Otherwise enqueue its adjacent cells
+        for i in range(4):
+            row = pt.x + rowNum[i]
+            col = pt.y + colNum[i]
+             
+            # if adjacent cell is valid, has path 
+            # and not visited yet, enqueue it.
+            if (isValid(row,col) and
+               mat[row][col] == 1 and
+                not visited[row][col]):
+                visited[row][col] = True
+                Adjcell = queueNode(Point(row,col),
+                                    curr.dist+1)
+                q.append(Adjcell)
+     
+    # Return -1 if destination cannot be reached
+    return -1
+ 
+# Driver code
+def main():
+    mat = [[ 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 ],
+           [ 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 ],
+           [ 1, 1, 1, 0, 1, 1, 0, 1, 0, 1 ],
+           [ 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 ],
+           [ 1, 1, 1, 0, 1, 1, 1, 0, 1, 0 ],
+           [ 1, 0, 1, 1, 1, 1, 0, 1, 0, 0 ],
+           [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
+           [ 1, 0, 1, 1, 1, 1, 0, 1, 1, 1 ],
+           [ 1, 1, 0, 0, 0, 0, 1, 0, 0, 1 ]]
+    source = Point(0,0)
+    dest = Point(3,4)
+     
+    dist = BFS(mat,source,dest)
+     
+    if dist!=-1:
+        print("Shortest Path is",dist)
+    else:
+        print("Shortest Path doesn't exist")
+main()
+ 
+# This code is contributed by stutipathak31jan
+C#
+Javascript
+Output
+Shortest Path is 11
+Time complexity: O(M*N)
+Auxiliary Space: O(M*N)
+
+This article is contributed by Aditya Goel. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+
+
+
+
+Like
+66
+Previous
+Maximum path sum in matrix
+Next
+Find length of the longest consecutive path from a given starting character
+Related Articles
+1.
+Difference between the shortest and second shortest path in an Unweighted Bidirectional Graph
+2.
+Shortest path from source to destination such that edge weights along path are alternatively increasing and decreasing
+3.
+0-1 BFS (Shortest Path in a Binary Weight Graph)
+4.
+Shortest path from a source cell to a destination cell of a Binary Matrix through cells consisting only of 1s
+5.
+Count number of ways to reach destination in a Maze
+6.
+Rat in a Maze Problem when movement in all possible directions is allowed
+7.
+Rat in a Maze with multiple steps or jump allowed
+8.
+A variation of Rat in a Maze : multiple steps or jumps allowed
+9.
+Count number of ways to reach destination in a maze
+10.
+Count number of ways to reach destination in a Maze using BFS
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Chinmay Singh
+dgr8akki
+princiraj1992
+stutipathak31jan
+ishitaaggarwal8
+varshagumber28
+shinjanpatra
+isha307
+hardikkoriintern
+phasing17
+Article Tags :
+Amazon
+BFS
+DFS
+Google
+Samsung
+Shortest Path
+Zoho
+Graph
+Mathematical
+Matrix
+Practice Tags :
+Amazon
+Google
+Samsung
+Zoho
+BFS
+DFS
+Graph
+Mathematical
+Matrix
+Shortest Path
+Improve Article
+Report Issue
