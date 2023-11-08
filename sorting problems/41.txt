@@ -1,0 +1,112 @@
+Sorting Big Integers
+
+Difficulty Level : Medium
+Last Updated : 21 Apr, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a array of n positive integers where each integer can have digits upto 106, print the array elements in ascending order. 
+ 
+
+Input: arr[] = {54, 724523015759812365462, 870112101220845, 8723} 
+Output: 54 8723 870112101220845 724523015759812365462
+Explanation:
+All elements of array are sorted in non-descending(i.e., ascending)
+order of their integer value
+
+Input: arr[] = {3643641264874311, 451234654453211101231,
+                4510122010112121012121}
+Output: 3641264874311 451234654453211101231 4510122010112121012121
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+A naive approach is to use arbitrary precision data type such as int in python or Biginteger class in Java. But that approach will not be fruitful because internal conversion of string to int and then perform sorting will leads to slow down the calculations of addition and multiplications in binary number system.
+Efficient Solution : As size of integer is very large even it can’t be fit in long long data type of C/C++, so we just need to input all numbers as strings and sort them using a comparison function. Following are the key points compare function:- 
+ 
+
+If lengths of two strings are different, then we need to compare lengths to decide sorting order.
+If Lengths are same then we just need to compare both the strings in lexicographically order.
+Assumption : There are no leading zeros.
+ 
+
+C++
+Python
+# Below is Python code to sort the Big integers
+# in ascending order
+def SortingBigIntegers(arr, n):
+   
+  # Direct sorting using lambda operator
+  # and length comparison
+  arr.sort(key = lambda x: (len(x), x))
+ 
+# Driver code of above implementation
+arr = ["54", "724523015759812365462",
+        "870112101220845", "8723"]
+n = len(arr)
+ 
+SortingBigIntegers(arr, n)
+ 
+# Print the final sorted list using
+# join method
+print " ".join(arr)
+Javascript
+Output: 54 8723 870112101220845 724523015759812365462
+Time complexity: O(sum * log(n)) where sum is the total sum of all string length and n is size of array 
+Auxiliary space: O(n)
+Similar Post : 
+Sort an array of large numbers
+This article is contributed by Shubham Bansal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+6
+Previous
+K-th smallest element after removing some integers from natural numbers
+Next
+Know Your Sorting Algorithm | Set 1 (Sorting Weapons used by Programming Languages)
+Related Articles
+1.
+Know Your Sorting Algorithm | Set 1 (Sorting Weapons used by Programming Languages)
+2.
+Sorting objects using In-Place sorting algorithm
+3.
+How to efficiently sort a big list dates in 20's
+4.
+How to compute mod of a big number?
+5.
+Program for quotient and remainder of big number
+6.
+Divide a big number into two parts that differ by k
+7.
+How to sort a big array with many repetitions?
+8.
+Minimum product of k integers in an array of positive Integers
+9.
+Which sorting algorithm makes minimum number of memory writes?
+10.
+Sorting 2D Vector in C++ | Set 2 (In descending order by row and column)
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+gfgking
+surinderdawra388
+Article Tags :
+large-numbers
+Sorting
+Practice Tags :
+Sorting

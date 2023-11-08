@@ -1,0 +1,135 @@
+Count minimum number of subsets (or subsequences) with consecutive numbers
+
+Difficulty Level : Easy
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of distinct positive numbers, the task is to calculate the number of subsets (or subsequences) from the array such that each subset contains consecutive numbers.
+
+Examples: 
+
+Input :  arr[] = {100, 56, 5, 6, 102, 58, 
+                            101, 57, 7, 103, 59}
+Output : 3
+{5, 6, 7}, { 56, 57, 58, 59}, {100, 101, 102, 103}
+are 3 subset in which numbers are consecutive.
+
+Input :  arr[] = {10, 100, 105}
+Output : 3
+{10}, {100} and {105} are 3 subset in which 
+numbers are consecutive. 
+Recommended Problem
+Min Subsets with Consecutive Numbers
+Arrays
+Sorting
++2 more
+Solve Problem
+Submission count: 8.8K
+The idea is to sort the array and traverse the sorted array to count the number of such subsets. To count the number of such subsets, we need to count the consecutive numbers such that the difference between them is not equal to one.
+
+Following is the algorithm for the finding number of subset containing consecutive numbers: 
+
+1. Sort the array arr[ ] and count = 1.
+2. Traverse the sorted array and for each element arr[i].
+   If arr[i] + 1 != arr[i+1], 
+       then increment the count by one.
+3. Return the count. 
+Below is the implementation of this approach :  
+
+C++
+Java
+Python3
+# Python program to find number of subset containing
+# consecutive numbers
+def numofsubset(arr, n):
+ 
+  # Sort the array so that elements which are consecutive
+  # in nature became consecutive in the array.
+  x = sorted(arr)
+  
+  count = 1
+  
+  for i in range(0, n-1):
+ 
+    # Check if there is beginning of another subset of
+    # consecutive number
+    if (x[i] + 1 != x[i + 1]):
+      count = count + 1
+  
+  return count
+ 
+# Driven Program
+arr = [ 100, 56, 5, 6, 102, 58, 101, 57, 7, 103, 59 ]
+n = len(arr)
+print (numofsubset(arr, n))
+ 
+# This code is contributed by Afzal Ansari.
+C#
+PHP
+Javascript
+Output
+3
+Time Complexity : O(nlogn)
+
+
+
+
+
+This article is contributed by Anuj Chauhan(anuj0503). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+2
+Next
+Count sub-sets that satisfy the given condition
+Related Articles
+1.
+Split array into minimum number of subsets such that elements of all pairs are present in different subsets at least once
+2.
+Maximum number of subsets an array can be split into such that product of their minimums with size of subsets is at least K
+3.
+Minimum removal of subsequences of distinct consecutive characters required to empty a given string
+4.
+Maximize count of Decreasing Consecutive Subsequences from an Array
+5.
+Partition an array of non-negative integers into two subsets such that average of both the subsets is equal
+6.
+Sum of subsets of all the subsets of an array | O(3^N)
+7.
+Sum of subsets of all the subsets of an array | O(N)
+8.
+Divide array in two Subsets such that sum of square of sum of both subsets is maximum
+9.
+Sum of subsets of all the subsets of an array | O(2^N)
+10.
+Check if given Array can be divided into subsequences of K increasing consecutive integers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+Rajput-Ji
+amartyaghoshgfg
+hardikkoriintern
+Article Tags :
+subsequence
+subset
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting
+subset

@@ -1,0 +1,258 @@
+Sort Vector of Pairs in ascending order in C++
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+What is Vector of Pairs? 
+A pair is a container which stores two values mapped to each other, and a vector containing multiple number of such pairs is called a vector of pairs. 
+
+CPP
+// C++ program to demonstrate vector of pairs
+#include<bits/stdc++.h>
+using namespace std;
+ 
+int main()
+{
+    //declaring vector of pairs
+    vector< pair <int,int> > vect;
+ 
+    // initialising 1st and 2nd element of
+    // pairs with array values
+    int arr[] = {10, 20, 5, 40 };
+    int arr1[] = {30, 60, 20, 50};
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    // Entering values in vector of pairs
+    for (int i=0; i<n; i++)
+        vect.push_back( make_pair(arr[i],arr1[i]) );
+ 
+    // Printing the vector
+    for (int i=0; i<n; i++)
+    {
+        // "first" and "second" are used to access
+        // 1st and 2nd element of pair respectively
+        cout << vect[i].first << " "
+             << vect[i].second << endl;
+    }
+ 
+    return 0;
+}
+Output:
+
+10 30
+20 60
+5 20
+40 50
+Time Complexity: O(n), where N is the size of the Vector.
+Auxiliary Space: O(1)
+
+Case 1 : Sorting the vector elements on the basis of first element of pairs in ascending order. 
+This type of sorting can be achieved using simple “ sort() ” function. By default the sort function sorts the vector elements on basis of first element of pairs. 
+
+CPP
+// C++ program to demonstrate sorting in
+// vector of pair according to 1st element
+// of pair
+#include<bits/stdc++.h>
+using namespace std;
+ 
+int main()
+{
+    // Declaring vector of pairs
+    vector< pair <int,int> > vect;
+ 
+    // Initializing 1st and 2nd element of
+    // pairs with array values
+    int arr[] = {10, 20, 5, 40 };
+    int arr1[] = {30, 60, 20, 50};
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    // Entering values in vector of pairs
+    for (int i=0; i<n; i++)
+        vect.push_back( make_pair(arr[i],arr1[i]) );
+ 
+    // Printing the original vector(before sort())
+    cout << "The vector before sort operation is:\n" ;
+    for (int i=0; i<n; i++)
+    {
+        // "first" and "second" are used to access
+        // 1st and 2nd element of pair respectively
+        cout << vect[i].first << " "
+             << vect[i].second << endl;
+ 
+    }
+ 
+    // Using simple sort() function to sort
+    sort(vect.begin(), vect.end());
+ 
+     // Printing the sorted vector(after using sort())
+    cout << "The vector after sort operation is:\n" ;
+    for (int i=0; i<n; i++)
+    {
+        // "first" and "second" are used to access
+        // 1st and 2nd element of pair respectively
+        cout << vect[i].first << " "
+             << vect[i].second << endl;
+    }
+ 
+    return 0;
+}
+Output:
+
+The vector before applying sort operation is:
+10 30
+20 60
+5 20
+40 50
+The vector after applying sort operation is:
+5 20
+10 30
+20 60
+40 50
+Time Complexity: O(N*logN), where N is the size of the sorted vector.
+Auxiliary Space: O(1)
+
+Case 2 : Sorting the vector elements on the basis of second element of pairs in ascending order. 
+There are instances when we require to sort the elements of vector on the basis of second elements of pair. For that, we modify the sort() function and we pass a third argument, a call to an user defined explicit function in the sort() function. 
+
+
+
+CPP
+// C++ program to demonstrate sorting in vector
+// of pair according to 2nd element of pair
+#include<bits/stdc++.h>
+using namespace std;
+ 
+// Driver function to sort the vector elements
+// by second element of pairs
+bool sortbysec(const pair<int,int> &a,
+              const pair<int,int> &b)
+{
+    return (a.second < b.second);
+}
+ 
+int main()
+{
+    // declaring vector of pairs
+    vector< pair <int, int> > vect;
+ 
+    // Initialising 1st and 2nd element of pairs
+    // with array values
+    int arr[] = {10, 20, 5, 40 };
+    int arr1[] = {30, 60, 20, 50};
+    int n = sizeof(arr)/sizeof(arr[0]);
+ 
+    // Entering values in vector of pairs
+    for (int i=0; i<n; i++)
+        vect.push_back( make_pair(arr[i],arr1[i]) );
+ 
+    // Printing the original vector(before sort())
+    cout << "The vector before sort operation is:\n" ;
+    for (int i=0; i<n; i++)
+    {
+        // "first" and "second" are used to access
+        // 1st and 2nd element of pair respectively
+        cout << vect[i].first << " "
+             << vect[i].second << endl;
+ 
+    }
+ 
+    // Using sort() function to sort by 2nd element
+    // of pair
+    sort(vect.begin(), vect.end(), sortbysec);
+ 
+    // Printing the sorted vector(after using sort())
+    cout << "The vector after sort operation is:\n" ;
+    for (int i=0; i<n; i++)
+    {
+        // "first" and "second" are used to access
+        // 1st and 2nd element of pair respectively
+        cout << vect[i].first << " "
+             << vect[i].second << endl;
+    }
+    return 0;
+}
+Output:
+
+ 
+The vector before applying sort operation is:
+10 30
+20 60
+5 20
+40 50
+The vector after applying sort operation is:
+5 20
+10 30
+40 50
+20 60
+Time Complexity: O(N*logN), where N is the size of the sorted vector.
+Auxiliary Space: O(1)
+
+Sorting Vector of Pairs in C++ | Set 2 (Sort in descending order by first and second)   
+
+This article is contributed by Manjeet Singh .If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+215
+Previous
+Find a permutation that causes worst case of Merge Sort
+Next
+Sorting 2D Vector in C++ | Set 2 (In descending order by row and column)
+Related Articles
+1.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+2.
+Sort vector of Numeric Strings in ascending order
+3.
+Sort first k values in ascending order and remaining n-k values in descending order
+4.
+Sort an array of strings in ascending order with each string sorted in descending order
+5.
+Sorting of Vector of Tuple in C++ (Ascending Order)
+6.
+Sorting Vector of Pairs by 1st element in ascending and 2nd element in descending
+7.
+Sorting rows of matrix in ascending order followed by columns in descending order
+8.
+Sorting rows of matrix in descending order followed by columns in ascending order
+9.
+Sort first half in ascending and second half in descending order | 1
+10.
+Python | Sort words of sentence in ascending order
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Article Tags :
+CPP-Library
+cpp-vector
+STL
+C Language
+C++
+Sorting
+Practice Tags :
+CPP
+Sorting
+STL
+Improve Article
+Report Issue

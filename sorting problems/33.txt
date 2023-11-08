@@ -1,0 +1,250 @@
+Collections.sort() in Java with Examples
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+ 
+java.util.Collections.sort() method is present in java.util.Collections class. It is used to sort the elements present in the specified list of Collection in ascending order. It works similar to java.util.Arrays.sort() method but it is better than as it can sort the elements of Array as well as linked list, queue and many more present in it.
+
+public static void sort(List myList)
+
+myList : A List type object we want to sort.
+
+This method doesn't return anything
+Example:
+
+Let us suppose that our list contains
+{"Geeks For Geeks", "Friends", "Dear", "Is", "Superb"}
+
+After using Collection.sort(), we obtain a sorted list as
+{"Dear", "Friends", "Geeks For Geeks", "Is", "Superb"}
+Sorting an ArrayList in ascending order
+
+JAVA
+// Java program to demonstrate working of Collections.sort() 
+import java.util.*; 
+  
+public class Collectionsorting 
+{ 
+    public static void main(String[] args) 
+    { 
+        // Create a list of strings 
+        ArrayList<String> al = new ArrayList<String>(); 
+        al.add("Geeks For Geeks"); 
+        al.add("Friends"); 
+        al.add("Dear"); 
+        al.add("Is"); 
+        al.add("Superb"); 
+  
+        /* Collections.sort method is sorting the 
+        elements of ArrayList in ascending order. */
+        Collections.sort(al); 
+  
+        // Let us print the sorted list 
+        System.out.println("List after the use of" + 
+                        " Collection.sort() :\n" + al); 
+    } 
+} 
+Output
+List after the use of Collection.sort() :
+[Dear, Friends, Geeks For Geeks, Is, Superb]
+Time Complexity: O(N log N) as time complexity of Collections.sort() is O(nlog(n)).
+Auxiliary Space: O(1)  
+
+Sorting an ArrayList in descending order 
+
+JAVA
+// Java program to demonstrate working of Collections.sort() 
+// to descending order. 
+import java.util.*; 
+  
+public class Collectionsorting 
+{ 
+    public static void main(String[] args) 
+    { 
+        // Create a list of strings 
+        ArrayList<String> al = new ArrayList<String>(); 
+        al.add("Geeks For Geeks"); 
+        al.add("Friends"); 
+        al.add("Dear"); 
+        al.add("Is"); 
+        al.add("Superb"); 
+  
+        /* Collections.sort method is sorting the 
+        elements of ArrayList in ascending order. */
+        Collections.sort(al, Collections.reverseOrder()); 
+  
+        // Let us print the sorted list 
+        System.out.println("List after the use of" + 
+                        " Collection.sort() :\n" + al); 
+    } 
+} 
+Output
+List after the use of Collection.sort() :
+[Superb, Is, Geeks For Geeks, Friends, Dear]
+Time Complexity: O(N log N) as time complexity of Collections.sort() is O(nlog(n)).
+Auxiliary Space: O(1)  
+
+Sorting an ArrayList according to user defined criteria. We can use Comparator Interface for this purpose. 
+
+Java
+// Java program to demonstrate working of Comparator 
+// interface and Collections.sort() to sort according 
+// to user defined criteria. 
+import java.util.*; 
+import java.lang.*; 
+import java.io.*; 
+  
+// A class to represent a student. 
+class Student 
+{ 
+    int rollno; 
+    String name, address; 
+  
+    // Constructor 
+    public Student(int rollno, String name, 
+                            String address) 
+    { 
+        this.rollno = rollno; 
+        this.name = name; 
+        this.address = address; 
+    } 
+  
+    // Used to print student details in main() 
+    public String toString() 
+    { 
+        return this.rollno + " " + this.name + 
+                        " " + this.address; 
+    } 
+} 
+  
+class Sortbyroll implements Comparator<Student> 
+{ 
+    // Used for sorting in ascending order of 
+    // roll number 
+    public int compare(Student a, Student b) 
+    { 
+        return a.rollno - b.rollno; 
+    } 
+} 
+  
+// Driver class 
+class Main 
+{ 
+    public static void main (String[] args) 
+    { 
+        ArrayList<Student> ar = new ArrayList<Student>(); 
+        ar.add(new Student(111, "bbbb", "london")); 
+        ar.add(new Student(131, "aaaa", "nyc")); 
+        ar.add(new Student(121, "cccc", "jaipur")); 
+  
+        System.out.println("Unsorted"); 
+        for (int i=0; i<ar.size(); i++) 
+            System.out.println(ar.get(i)); 
+  
+        Collections.sort(ar, new Sortbyroll()); 
+  
+        System.out.println("\nSorted by rollno"); 
+        for (int i=0; i<ar.size(); i++) 
+            System.out.println(ar.get(i)); 
+    } 
+} 
+Output
+Unsorted
+111 bbbb london
+131 aaaa nyc
+121 cccc jaipur
+
+Sorted by rollno
+111 bbbb london
+121 cccc jaipur
+131 aaaa nyc
+Arrays.sort() vs Collections.sort() Arrays.sort works for arrays which can be of primitive data type also. Collections.sort() works for objects Collections like ArrayList, LinkedList, etc. We can use Collections.sort() to sort an array after creating an ArrayList of given array items.
+
+JAVA
+// Using Collections.sort() to sort an array 
+import java.util.*; 
+public class Collectionsort 
+{ 
+    public static void main(String[] args) 
+    { 
+        // create an array of string objs 
+        String domains[] = {"Practice", "Geeks", 
+                            "Code", "Quiz"}; 
+  
+        // Here we are making a list named as Collist 
+        List colList = 
+            new ArrayList(Arrays.asList(domains)); 
+  
+        // Collection.sort() method is used here 
+        // to sort the list elements. 
+        Collections.sort(colList); 
+  
+        // Let us print the sorted list 
+        System.out.println("List after the use of" + 
+                        " Collection.sort() :\n" + 
+                        colList); 
+    } 
+} 
+Output
+List after the use of Collection.sort() :
+[Code, Geeks, Practice, Quiz]
+This article is contributed by Mohit Gupta. Article is wished to be useful to the esteemed Geeks. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. .
+
+
+
+
+
+Like
+68
+Previous
+Arrays.sort() in Java with examples
+Next
+Asymptotic Analysis and comparison of sorting algorithms
+Related Articles
+1.
+Difference Between java.sql.Time, java.sql.Timestamp and java.sql.Date in Java
+2.
+Java.util.BitSet class methods in Java with Examples | Set 2
+3.
+Java.util.BitSet class in Java with Examples | Set 1
+4.
+Java.util.Collections.rotate() Method in Java with Examples
+5.
+Java.util.Collections.frequency() in Java with Examples
+6.
+Java.util.Arrays.equals() in Java with Examples
+7.
+Java.util.Collections.disjoint() Method in java with Examples
+8.
+Java 8 | Consumer Interface in Java with Examples
+9.
+Java.util.LinkedList.poll(), pollFirst(), pollLast() with examples in Java
+10.
+Java 8 | ArrayDeque removeIf() method in Java with Examples
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+mitalibhola94
+akshaytripathi19410
+Article Tags :
+Java - util package
+Java-Collections
+Java-Collections-Class
+Java-Functions
+Java
+Practice Tags :
+Java
+Java-Collections

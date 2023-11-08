@@ -1,0 +1,171 @@
+How to sort an array of dates in C/C++?
+
+Difficulty Level : Easy
+Last Updated : 10 May, 2019
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of dates, how to sort them.
+
+Example:
+
+Input:
+       Date arr[] = {{20,  1, 2014},
+                    {25,  3, 2010},
+                    { 3, 12, 1676},
+                    {18, 11, 1982},
+                    {19,  4, 2015},
+                    { 9,  7, 2015}}
+
+Output:
+      Date arr[] = {{ 3, 12, 1676},
+                    {18, 11, 1982},
+                    {25,  3, 2010},
+                    {20,  1, 2014},
+                    {19,  4, 2015},
+                    { 9,  7, 2015}}
+We strongly recommend you to minimize your browser and try this yourself first
+The idea is to use in-built function to sort function in C++. We can write our own compare function that first compares years, then months, then days.
+
+Below is a complete C++ program.
+
+// C++ program to sort an array of dates
+#include<bits/stdc++.h>
+using namespace std;
+  
+// Structure for date
+struct Date
+{
+    int day, month, year;
+};
+  
+// This is the compare function used by the in-built sort
+// function to sort the array of dates.
+// It takes two Dates as parameters (const is
+// given to tell the compiler that the value won't be
+// changed during the compare - this is for optimization..)
+  
+// Returns true if dates have to be swapped and returns
+// false if not. Since we want ascending order, we return
+// true if the first Date is less than the second date
+bool compare(const Date &d1, const Date &d2)
+{
+    // All cases when true should be returned
+    if (d1.year < d2.year)
+        return true;
+    if (d1.year == d2.year && d1.month < d2.month)
+        return true;
+    if (d1.year == d2.year && d1.month == d2.month &&
+                              d1.day < d2.day)
+        return true;
+  
+    // If none of the above cases satisfy, return false
+    return false;
+}
+  
+// Function to sort array arr[0..n-1] of dates
+void sortDates(Date arr[], int n)
+{
+    // Calling in-built sort function.
+    // First parameter array beginning,
+    // Second parameter - array ending,
+    // Third is the custom compare function
+    sort(arr, arr+n, compare);
+}
+  
+// Driver Program
+int main()
+{
+    Date arr[] = {{20,  1, 2014},
+                  {25,  3, 2010},
+                  { 3, 12, 1676},
+                  {18, 11, 1982},
+                  {19,  4, 2015},
+                  { 9,  7, 2015}};
+    int n = sizeof(arr)/sizeof(arr[0]);
+  
+    sortDates(arr, n);
+  
+    cout << "Sorted dates are\n";
+    for (int i=0; i<n; i++)
+    {
+        cout << arr[i].day << " " << arr[i].month
+             << " " << arr[i].year;
+        cout << endl;
+    }
+}
+Output:
+
+Sorted dates are
+3 12 1676
+18 11 1982
+25 3 2010
+20 1 2014
+19 4 2015
+9 7 2015
+Similarly in C, we can use qsort() function.
+
+Related Problem:
+How to efficiently sort a big list dates in 20’s
+
+
+
+This article is contributed by Dinesh T.P.D. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+5
+Previous
+Sort an array of string of dates in ascending order
+Next
+C++ program for Sorting Dates using Selection Sort
+Related Articles
+1.
+Sort an array of dates in PHP
+2.
+Sort an array of string of dates in ascending order
+3.
+Sort an Array of dates in ascending order using Custom Comparator
+4.
+How to efficiently sort a big list dates in 20's
+5.
+C++ program for Sorting Dates using Selection Sort
+6.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+7.
+Find number of days between two given dates
+8.
+Comparing dates in Python
+9.
+PHP | Number of week days between two dates
+10.
+Python program to find number of days between two given dates
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Akanksha_Rai
+Article Tags :
+date-time-program
+C Language
+C++
+Sorting
+Practice Tags :
+CPP
+Sorting

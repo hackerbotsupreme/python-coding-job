@@ -1,0 +1,250 @@
+3-way Merge Sort
+
+Difficulty Level : Hard
+Last Updated : 03 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Merge sort involves recursively splitting the array into 2 parts, sorting and finally merging them. A variant of merge sort is called 3-way merge sort where instead of splitting the array into 2 parts we split it into 3 parts. 
+
+Merge sort recursively breaks down the arrays to subarrays of size half. Similarly, 3-way Merge sort breaks down the arrays to subarrays of size one third. 
+ 
+
+Examples:  
+
+Input: arr = [45, -2, -45, 78, 30, -42, 10, 19, 73, 93] 
+Output: [-45, -42, -2, 10, 19, 30, 45, 73, 78, 93]
+
+
+Input: arr = [23, -19]
+Output: [-19, 23]
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+ 
+
+C++
+Java
+C#
+Javascript
+Python3
+# Python Program to perform 3 way Merge Sort
+ 
+""" Merge the sorted ranges [low, mid1), [mid1,mid2)
+and [mid2, high) mid1 is first midpoint
+index in overall range to merge mid2 is second
+midpoint index in overall range to merge"""
+ 
+ 
+def merge(gArray, low, mid1, mid2, high, destArray):
+    i = low
+    j = mid1
+    k = mid2
+    l = low
+ 
+    # Choose smaller of the smallest in the three ranges
+    while ((i < mid1) and (j < mid2) and (k < high)):
+        if(gArray[i] < gArray[j]):
+            if(gArray[i] < gArray[k]):
+                destArray[l] = gArray[i]
+                l += 1
+                i += 1
+            else:
+                destArray[l] = gArray[k]
+                l += 1
+                k += 1
+        else:
+            if(gArray[j] < gArray[k]):
+                destArray[l] = gArray[j]
+                l += 1
+                j += 1
+            else:
+                destArray[l] = gArray[k]
+                l += 1
+                k += 1
+ 
+    # Case where first and second ranges
+    # have remaining values
+    while ((i < mid1) and (j < mid2)):
+        if(gArray[i] < gArray[j]):
+            destArray[l] = gArray[i]
+            l += 1
+            i += 1
+        else:
+            destArray[l] = gArray[j]
+            l += 1
+            j += 1
+ 
+    # case where second and third ranges
+    # have remaining values
+    while ((j < mid2) and (k < high)):
+        if(gArray[j] < gArray[k]):
+            destArray[l] = gArray[j]
+            l += 1
+            j += 1
+        else:
+            destArray[l] = gArray[k]
+            l += 1
+            k += 1
+ 
+    # Case where first and third ranges have
+    # remaining values
+    while ((i < mid1) and (k < high)):
+        if(gArray[i] < gArray[k]):
+            destArray[l] = gArray[i]
+            l += 1
+            i += 1
+        else:
+            destArray[l] = gArray[k]
+            l += 1
+            k += 1
+ 
+    # Copy remaining values from the first range
+    while (i < mid1):
+        destArray[l] = gArray[i]
+        l += 1
+        i += 1
+ 
+    # Copy remaining values from the second range
+    while (j < mid2):
+        destArray[l] = gArray[j]
+        l += 1
+        j += 1
+ 
+    # Copy remaining values from the third range
+    while (k < high):
+        destArray[l] = gArray[k]
+        l += 1
+        k += 1
+ 
+ 
+""" Performing the merge sort algorithm on the
+given array of values in the rangeof indices
+[low, high). low is minimum index, high is
+maximum index (exclusive) """
+ 
+ 
+def mergeSort3WayRec(gArray, low, high, destArray):
+    # If array size is 1 then do nothing
+    if (high - low < 2):
+        return
+ 
+    # Splitting array into 3 parts
+    mid1 = low + ((high - low) // 3)
+    mid2 = low + 2 * ((high - low) // 3) + 1
+ 
+    # Sorting 3 arrays recursively
+    mergeSort3WayRec(destArray, low, mid1, gArray)
+    mergeSort3WayRec(destArray, mid1, mid2, gArray)
+    mergeSort3WayRec(destArray, mid2, high, gArray)
+ 
+    # Merging the sorted arrays
+    merge(destArray, low, mid1, mid2, high, gArray)
+ 
+ 
+def mergeSort3Way(gArray, n):
+    # if array size is zero return null
+    if (n == 0):
+        return
+ 
+    # creating duplicate of given array
+    fArray = []
+ 
+    # copying elements of given array into
+    # duplicate array
+    fArray = gArray.copy()
+ 
+    # sort function
+    mergeSort3WayRec(fArray, 0, n, gArray)
+ 
+    # copy back elements of duplicate array
+    # to given array
+    gArray = fArray.copy()
+ 
+    # return the sorted array
+    return gArray
+ 
+ 
+data = [45, -2, -45, 78, 30, -42, 10, 19, 73, 93]
+data = mergeSort3Way(data, 10)
+print("After 3 way merge sort: ", end="")
+for i in range(10):
+    print(f"{data[i]} ", end="")
+ 
+# This code is contributed by Susobhan Akhuli
+C
+Output
+
+
+After 3 way merge sort: -45 -42 -2 10 19 30 45 73 78 93 
+How the above code works?
+
+Here, we first copy the contents of data array to another array called fArray. Then, sort the array by finding midpoints that divide the array into 3 parts and called sort function on each array respectively. The base case of recursion is when size of array is 1 and it returns from the function. Then merging of arrays starts and finally the sorted array will be in fArray which is copied back to gArray. 
+
+Time Complexity: In case of 2-way Merge sort we get the equation: T(n) = 2T(n/2) + O(n) 
+Similarly, in case of 3-way Merge sort we get the equation: T(n) = 3T(n/3) + O(n) 
+By solving it using Master method, we get its complexity as O(n log 3n). 
+
+Although time complexity looks less compared to 2 way merge sort, the time taken actually may become higher because number of comparisons in merge function go higher. Please refer Why is Binary Search preferred over Ternary Search? for details.
+
+Auxiliary Space Complexity: The space complexity of 3-way merge sort is same as 2-way merge sort: O(n)
+
+Similar article: 3 way Quick Sort
+
+This article is contributed by Pavan Gopal Rayapati. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org.  
+
+
+
+
+
+Like
+19
+Previous
+Serial Sort v/s Parallel Sort in Java
+Next
+Noble integers in an array (count of greater elements is equal to value)
+Related Articles
+1.
+Merge Sort with O(1) extra space merge and O(n lg n) time [Unsigned Integers Only]
+2.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+3.
+Merge Sort vs. Insertion Sort
+4.
+Sorting by combining Insertion Sort and Merge Sort algorithms
+5.
+Quick Sort vs Merge Sort
+6.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+7.
+Find a permutation that causes worst case of Merge Sort
+8.
+C Program for Iterative Merge Sort
+9.
+Java Program for Iterative Merge Sort
+10.
+Python Program for Iterative Merge Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+CodeSeeker
+simmytarika5
+shinjanpatra
+_saurabh_jaiswal
+janardansthox
+susobhanakhuli
+Article Tags :
+Sorting
+Practice Tags :
+Sorting
+Improve Article
+Report Issue

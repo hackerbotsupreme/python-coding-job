@@ -1,0 +1,375 @@
+Sort an array according to the order defined by another array
+
+Difficulty Level : Medium
+Last Updated : 23 Jan, 2023
+Read
+Discuss(120+)
+Courses
+Practice
+Video
+Given two arrays A1[] and A2[], sort A1 in such a way that the relative order among the elements will be same as those are in A2. For the elements not present in A2, append them at last in sorted order. 
+
+Example: 
+
+Input: A1[] = {2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8}
+           A2[] = {2, 1, 8, 3}
+Output: A1[] = {2, 2, 1, 1, 8, 8, 3, 5, 6, 7, 9}
+
+Input: A1[] = {4, 5, 1, 1, 3, 2}
+           A2[] = {3, 1}
+Output: A1[] = {3, 1, 1, 2, 4, 5}
+
+
+We strongly recommend that you click here and practice it, before moving on to the solution.
+Sort an array according to the order defined by another array using Sorting and Binary Search:
+The idea is to sort the A1[] array and then according to A2[] store the elements.
+
+Let the size of A1[] be m and the size of A2[] be n. 
+
+Create a temporary array temp of size m and copy the contents of A1[] to it.
+Create another array visited[] and initialize all entries in it as false. visited[] is used to mark those elements in temp[] which are copied to A1[].
+Sort temp[]
+Initialize the output index ind as 0.
+Do following for every element of A2[i] in A2[] 
+Binary search for all occurrences of A2[i] in temp[], if present then copy all occurrences to A1[ind] and increment ind. Also mark the copied elements visited[]
+Copy all unvisited elements from temp[] to A1[]
+Below image is a dry run of the above approach:
+
+Below is the implementation of the above approach: 
+
+C++
+Java
+Python3
+"""A Python 3  program to sort an array
+according to the order defined by
+another array"""
+ 
+"""A Binary Search based function to find
+index of FIRST occurrence of x in arr[].
+If x is not present, then it returns -1 """
+ 
+ 
+def first(arr, low, high, x, n):
+    if (high >= low):
+        mid = low + (high - low) // 2  # (low + high)/2
+        if ((mid == 0 or x > arr[mid-1]) and arr[mid] == x):
+            return mid
+        if (x > arr[mid]):
+            return first(arr, (mid + 1), high, x, n)
+        return first(arr, low, (mid - 1), x, n)
+ 
+    return -1
+ 
+# Sort A1[0..m-1] according to the order
+# defined by A2[0..n-1].
+ 
+ 
+def sortAccording(A1, A2, m, n):
+    """The temp array is used to store a copy
+    of A1[] and visited[] is used mark the
+    visited elements in temp[]."""
+    temp = [0] * m
+    visited = [0] * m
+ 
+    for i in range(0, m):
+        temp[i] = A1[i]
+        visited[i] = 0
+ 
+    # Sort elements in temp
+    temp.sort()
+ 
+    # for index of output which is sorted A1[]
+    ind = 0
+ 
+    """Consider all elements of A2[], find
+    them in temp[] and copy to A1[] in order."""
+    for i in range(0, n):
+ 
+        # Find index of the first occurrence
+        # of A2[i] in temp
+        f = first(temp, 0, m-1, A2[i], m)
+ 
+        # If not present, no need to proceed
+        if (f == -1):
+            continue
+ 
+        # Copy all occurrences of A2[i] to A1[]
+        j = f
+        while (j < m and temp[j] == A2[i]):
+            A1[ind] = temp[j]
+            ind = ind + 1
+            visited[j] = 1
+            j = j + 1
+ 
+    # Now copy all items of temp[] which are
+    # not present in A2[]
+    for i in range(0, m):
+        if (visited[i] == 0):
+            A1[ind] = temp[i]
+            ind = ind + 1
+ 
+# Utility function to print an array
+ 
+ 
+def printArray(arr, n):
+    for i in range(0, n):
+        print(arr[i], end=" ")
+    print("")
+ 
+ 
+# Driver program to test above function.
+A1 = [2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8]
+A2 = [2, 1, 8, 3]
+m = len(A1)
+n = len(A2)
+print("Sorted array is ")
+sortAccording(A1, A2, m, n)
+printArray(A1, m)
+ 
+ 
+# This code is contributed by Nikita Tiwari.
+C#
+PHP
+Javascript
+Output
+Sorted array is 
+2 2 1 1 8 8 3 5 6 7 9 
+Time complexity: O(M Log M + N Log M), Sorting Arr1[] of size M i.e M log M and searching of Arr2[] elements of size N in Arr1[] i.e N log M
+Auxiliary Space: O(M), visited and temp array of size M for storing Arr1[].
+
+Sort an array according to the order defined by another array using  Self-Balancing Binary Search Tree:
+We can also use a self-balancing BST like AVL Tree, Red Black Tree, etc. Following are detailed steps. 
+
+Create a self-balancing BST of all elements in A1[]. In every node of BST, also keep track of the count of occurrences of the key and a bool field visited which is initialized as false for all nodes.
+Initialize the output index ind as 0.
+Do the following for every element of A2[i] in A2[] 
+Search for A2[i] in the BST, if present then copy all occurrences to A1[ind] and increment ind. Also, mark the copied elements visited in the BST node.
+Do an in-order traversal of BST and copy all unvisited keys to A1[].
+Time complexity: O(M Log M + N Log M), M Log M for making self balancing bst of arr1[] of size M.
+Auxiliary Space: O(M), space for making self balancing bst for Arr1[] of size M.
+
+Sort an array according to the order defined by another array using Hashing:
+The idea is to use hashing. Store the frequency of A1[] and decrement the frequency in the A2[] order.
+
+
+Follow the steps to solve the problem:
+
+Loop through A1[], store the count of every number in a HashMap (key: number, value: count of number)
+Loop through A2[], check if it is present in HashMap, if so, put in output array that many times and remove the number from HashMap.
+Sort the rest of the numbers present in HashMap and put in the output array.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+from collections import Counter
+ 
+# Function to sort arr1
+# according to arr2
+ 
+ 
+def solve(arr1, arr2):
+    # Our output array
+    res = []
+ 
+    # Counting Frequency of each
+    # number in arr1
+    f = Counter(arr1)
+ 
+    # Iterate over arr2 and append all
+    # occurrences of element of
+    # arr2 from arr1
+    for e in arr2:
+ 
+        # Appending element 'e',
+        # f[e] number of times
+        res.extend([e]*f[e])
+ 
+        # Count of 'e' after appending is zero
+        f[e] = 0
+ 
+    # Remaining numbers in arr1 in sorted
+    # order (Numbers with non-zero frequency)
+    rem = list(sorted(filter(
+        lambda x: f[x] != 0, f.keys())))
+ 
+    # Append them also
+    for e in rem:
+        res.extend([e]*f[e])
+ 
+    return res
+ 
+ 
+# Driver Code
+if __name__ == "__main__":
+    arr1 = [2, 1, 2, 5, 7, 1, 9, 3, 6, 8, 8]
+    arr2 = [2, 1, 8, 3]
+    print(*solve(arr1, arr2))
+C#
+Javascript
+Output
+2 2 1 1 8 8 3 5 6 7 9
+Time Complexity: O(M + N), Traversing over both the array
+Auxiliary Space: O(M), Space for storing frequency of arr1[] of size M.
+
+Sort an array according to the order defined by another array By Writing a Customized Comparator Method:
+The idea is to make a customized caparator.
+
+Follow the steps below to solve the problem:
+
+If num1 and num2 both are in A2 then the number with a lower index in A2 will be treated smaller than others.
+If only one of num1 or num2 present in A2, then that number will be treated smaller than the other which doesn’t present in A2.
+If both are not in A2, then the natural ordering will be taken.
+The time complexity of this method is O(mnLogm) if we use a O(nLogn) time complexity sorting algorithm. We can improve time complexity to O(mLogm) by using a Hashing instead of doing linear search.
+
+Below is the implementation of the above approach: 
+
+C++
+// A C++ program to sort an array according to the order
+// defined by another array
+ 
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// function that sorts the first array based on order of
+// them in second array
+void sortA1ByA2(vector<int>& arr1, vector<int>& arr2)
+{
+ 
+    // map to store the indices of second array
+    // so that we can easily judge the position of two
+    // elements in first array
+    unordered_map<int, int> index;
+ 
+    for (int i = 0; i < arr2.size(); i++) {
+        // assigning i+1
+        // because by default value of map is zero
+        // Consider only first occurrence of element
+        if (index[arr2[i]] == 0) {
+            index[arr2[i]] = i + 1;
+        }
+    }
+ 
+    // comparator function that sorts arr1 based on order
+    // defined in arr2
+    auto comp = [&](int a, int b) {
+        // if indices of two elements are equal
+        // we need to sort them in increasing order
+        if (index[a] == 0 && index[b] == 0)
+            return a < b;
+ 
+        // if a not present in arr2 then b should come
+        // before it
+        if (index[a] == 0)
+            return false;
+ 
+        // if b not present in arr2 then no swap
+        if (index[b] == 0)
+            return true;
+ 
+        // sorting in increasing order
+        return index[a] < index[b];
+    };
+ 
+    sort(arr1.begin(), arr1.end(), comp);
+}
+ 
+int main()
+{
+ 
+    vector<int> arr1{ 2, 1, 2, 5, 7, 1, 9, 3, 6,
+                      8, 8, 7, 5, 6, 9, 7, 5 };
+    vector<int> arr2{ 2, 1, 8, 3, 4, 1 };
+ 
+    sortA1ByA2(arr1, arr2);
+ 
+    // printing the array
+    cout << "Sorted array is  \n";
+    for (auto i : arr1) {
+        cout << i << " ";
+    }
+ 
+    return 0;
+}
+C
+Java
+Javascript
+Output
+Sorted Array is 2 2 1 1 8 8 3 5 5 5 6 6 7 7 7 9 9 
+Time complexity: O(MLogM + N), MLogM for sorting Arr1[] of size M and N for iterating over Arr2[] of size N.
+Auxiliary Space: O(N),  Storing first occurrence of every element of arr2[] of size N.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Sort n numbers in range from 0 to n^2 - 1 in linear time
+Next
+Check if any two intervals intersects among a given set of intervals
+Related Articles
+1.
+Sort the array of strings according to alphabetical order defined by another string
+2.
+Print elements of an array according to the order defined by another array | set 2
+3.
+Sort given Array in descending order according to highest power of prime factors
+4.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+5.
+Sorting an array according to another array using pair in STL
+6.
+Sort an array according to the increasing frequency of the digit K in the array elements
+7.
+Sort an array of strings in ascending order with each string sorted in descending order
+8.
+Check if words are sorted according to new order of alphabets
+9.
+Sort an array according to count of set bits
+10.
+Sort an array of strings according to string lengths
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Suryaveer Singh
+ukasp
+lohityakumarambashta
+avanitrachhadiya2155
+deepaksati
+sumitgumber28
+anonymouscegian
+shinjanpatra
+rkbhola5
+sweetyty
+pushpeshrajdx01
+hardikkoriintern
+ishank0106
+evina9ue4
+garg28harsh
+shivamtiwari00021
+Article Tags :
+Amazon
+Insertion Sort
+Microsoft
+Arrays
+Searching
+Sorting
+Practice Tags :
+Amazon
+Microsoft
+Arrays
+Searching
+Sorting
+Report Issue

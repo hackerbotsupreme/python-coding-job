@@ -1,0 +1,378 @@
+Radix Sort
+
+Difficulty Level : Medium
+Last Updated : 24 Jan, 2023
+Read
+Discuss(130+)
+Courses
+Practice
+Video
+The lower bound for the Comparison based sorting algorithm (Merge Sort, Heap Sort, Quick-Sort .. etc) is Ω(nLogn), i.e., they cannot do better than nLogn. Counting sort is a linear time sorting algorithm that sort in O(n+k) time when elements are in the range from 1 to k.
+
+What if the elements are in the range from 1 to n2? 
+
+We can’t use counting sort because counting sort will take O(n2) which is worse than comparison-based sorting algorithms. Can we sort such an array in linear time? 
+
+Radix Sort is the answer. The idea of Radix Sort is to do digit by digit sort starting from least significant digit to most significant digit. Radix sort uses counting sort as a subroutine to sort.
+
+The Radix Sort Algorithm 
+
+Do the following for each digit I where I varies from the least significant digit to the most significant digit. Here we will be sorting the input array using counting sort (or any stable sort) according to the i’th digit.
+
+Example:
+
+
+
+Original, unsorted list: 170, 45, 75, 90, 802, 24, 2, 66 Sorting by least significant digit (1s place) gives: [*Notice that we keep 802 before 2, because 802 occurred before 2 in the original list, and similarly for pairs 170 & 90 and 45 & 75.] 170, 90, 802, 2, 24, 45, 75, 66 Sorting by next digit (10s place) gives: [*Notice that 802 again comes before 2 as 802 comes before 2 in the previous list.] 802, 2, 24, 45, 66, 170, 75, 90 Sorting by the most significant digit (100s place) gives: 2, 24, 45, 66, 75, 90, 170, 802
+
+What is the running time of Radix Sort? 
+
+Let there be d digits in input integers. Radix Sort takes O(d*(n+b)) time where b is the base for representing numbers, for example, for the decimal system, b is 10. What is the value of d? If k is the maximum possible value, then d would be O(logb(k)). So overall time complexity is O((n+b) * logb(k)). Which looks more than the time complexity of comparison-based sorting algorithms for a large k. Let us first limit k. Let k <= nc where c is a constant. In that case, the complexity becomes O(nLogb(n)). But it still doesn’t beat comparison-based sorting algorithms. 
+What if we make the value of b larger? What should be the value of b to make the time complexity linear? If we set b as n, we get the time complexity as O(n). In other words, we can sort an array of integers with a range from 1 to nc if the numbers are represented in base n (or every digit takes log2(n) bits). 
+
+Applications of Radix Sort: 
+
+In a typical computer, which is a sequential random-access machine, where the records are keyed by multiple fields radix sort is used. For eg., you want to sort on three keys month, day and year. You could compare two records on year, then on a tie on month and finally on the date. Alternatively, sorting the data three times using Radix sort first on the date, then on month, and finally on year could be used.
+It was used in card sorting machines with 80 columns, and in each column, the machine could punch a hole only in 12 places. The sorter was then programmed to sort the cards, depending upon which place the card had been punched. This was then used by the operator to collect the cards which had the 1st row punched, followed by the 2nd row, and so on.
+Is Radix Sort preferable to Comparison based sorting algorithms like Quick-Sort? 
+
+If we have log2n bits for every digit, the running time of Radix appears to be better than Quick Sort for a wide range of input numbers. The constant factors hidden in asymptotic notation are higher for Radix Sort and Quick-Sort uses hardware caches more effectively. Also, Radix sort uses counting sort as a subroutine and counting sort takes extra space to sort numbers.
+
+Key points about Radix Sort:
+
+Some key points about radix sort are given here
+
+It makes assumptions about the data like the data must be between a range of elements.
+Input array must have the elements with the same radix and width.
+Radix sort works on sorting based on an individual digit or letter position.
+We must start sorting from the rightmost position and use a stable algorithm at each position.
+Radix sort is not an in-place algorithm as it uses a temporary count array.
+ 
+FLowcharts
+
+
+Flowchart radix sort, getmax
+
+
+Flowchart countsort
+
+Implementation: Radix Sort 
+
+Recommended Problem
+Radix Sort
+Sorting
+Algorithms
+Solve Problem
+Submission count: 1.9K
+Following is a simple implementation of Radix Sort. For simplicity, the value of d is assumed to be 10. We recommend you to see Counting Sort for details of countSort() function in the below code.
+
+C++
+Java
+Python3
+# Python program for implementation of Radix Sort
+# A function to do counting sort of arr[] according to
+# the digit represented by exp.
+ 
+def countingSort(arr, exp1):
+ 
+    n = len(arr)
+ 
+    # The output array elements that will have sorted arr
+    output = [0] * (n)
+ 
+    # initialize count array as 0
+    count = [0] * (10)
+ 
+    # Store count of occurrences in count[]
+    for i in range(0, n):
+        index = arr[i] // exp1
+        count[index % 10] += 1
+ 
+    # Change count[i] so that count[i] now contains actual
+    # position of this digit in output array
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+ 
+    # Build the output array
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp1
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+ 
+    # Copying the output array to arr[],
+    # so that arr now contains sorted numbers
+    i = 0
+    for i in range(0, len(arr)):
+        arr[i] = output[i]
+ 
+# Method to do Radix Sort
+def radixSort(arr):
+ 
+    # Find the maximum number to know number of digits
+    max1 = max(arr)
+ 
+    # Do counting sort for every digit. Note that instead
+    # of passing digit number, exp is passed. exp is 10^i
+    # where i is current digit number
+    exp = 1
+    while max1 / exp >= 1:
+        countingSort(arr, exp)
+        exp *= 10
+ 
+ 
+# Driver code
+arr = [170, 45, 75, 90, 802, 24, 2, 66]
+ 
+# Function Call
+radixSort(arr)
+ 
+for i in range(len(arr)):
+    print(arr[i],end=" ")
+ 
+# This code is contributed by Mohit Kumra
+# Edited by Patrick Gallagher
+C#
+PHP
+Javascript
+Output
+2 24 45 66 75 90 170 802 
+Following is another way of the implementation of the radix sort while using the bucket sort technique, it might not look simple while having a look at the code but if you give it a shot it’s quite easy, one must know Bucket Sort to deeper depth.
+
+C++
+// implementation of radix sort using bin/bucket sort
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// structure for a single linked list to help further in the
+// sorting
+struct node {
+    int data;
+    node* next;
+};
+ 
+// function for creating a new node in the linked list
+struct node* create(int x)
+{
+    node* temp = new node();
+    temp->data = x;
+    temp->next = NULL;
+ 
+    return temp;
+}
+ 
+// utility function to append node in the linked list
+// here head is passed by reference, to know more about this
+// search pass by reference
+void insert(node*& head, int n)
+{
+    if (head == NULL) {
+        head = create(n);
+        return;
+    }
+ 
+    node* t = head;
+    while (t->next != NULL)
+        t = t->next;
+    t->next = create(n);
+}
+ 
+// utility function to pop an element from front in the list
+// for the sake of stability in sorting
+int del(node*& head)
+{
+    if (head == NULL)
+        return 0;
+    node* temp = head;
+    // storing the value of head before updating
+    int val = head->data;
+ 
+    // updation of head to next node
+    head = head->next;
+ 
+    delete temp;
+    return val;
+}
+ 
+// utility function to get the number of digits in the
+// max_element
+int digits(int n)
+{
+    int i = 1;
+    if (n < 10)
+        return 1;
+ 
+    while (n > (int)pow(10, i))
+        i++;
+    return i;
+}
+ 
+void radix_sort(vector<int>& arr)
+{
+    // size of the array to be sorted
+    int sz = arr.size();
+ 
+    // getting the maximum element in the array
+    int max_val = *max_element(arr.begin(), arr.end());
+ 
+    // getting digits in the maximum element
+    int d = digits(max_val);
+ 
+    // creating buckets to store the pointers
+    node** bins;
+ 
+    // array of pointers to linked list of size 10 as
+    // integers are decimal numbers so they can hold numbers
+    // from 0-9 only, that's why size of 10
+ 
+    bins = new node*[10];
+ 
+    // initializing the hash array with null to all
+    for (int i = 0; i < 10; i++)
+        bins[i] = NULL;
+ 
+    // first loop working for a constant time only and inner
+    // loop is iterating through the array to store elements
+    // of array in the linked list by their digits value
+    for (int i = 0; i < d; i++) {
+        for (int j = 0; j < sz; j++) // bins updation
+            insert(bins[(arr[j] / (int)pow(10, i)) % 10],
+                   arr[j]);
+ 
+        int x = 0, y = 0;
+        // write back to the array after each pass
+ 
+        while (x < 10) {
+            while (bins[x] != NULL)
+                arr[y++] = del(bins[x]);
+            x++;
+        }
+    }
+}
+ 
+// a utility function to print the sorted array
+void print(vector<int> arr)
+{
+    for (int i = 0; i < arr.size(); i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+ 
+int main()
+{
+    vector<int> arr = { 573, 25, 415, 12, 161, 6 };
+ 
+    // function call
+    radix_sort(arr);
+    print(arr);
+ 
+    return 0;
+}
+Output
+6 12 25 161 415 573 
+Time complexities remain the same as in the first method, it’s just the implementation through another method.
+
+Radix Sort on Strings: Radix sort is mostly used to sort the numerical values or the real values, but it can be modified to sort the string values in lexicographical order. It follows the same procedure as used for numerical values.
+
+Please refer this IDE link for the implementation of the same.
+
+Output
+Input:[BCDEF, dbaqc, abcde, bbbbb]
+Output:[abcde, bbbbb, BCDEF, dbaqc]
+
+
+Snapshots: 
+
+scene00577scene00649scene00793scene01009scene01225
+
+Advantages:
+Radix sort has a linear time complexity, which makes it faster than comparison-based sorting algorithms such as quicksort and merge sort for large data sets.
+It is a stable sorting algorithm, meaning that elements with the same key value maintain their relative order in the sorted output.
+Radix sort is efficient for sorting large numbers of integers or strings.
+It can be easily parallelized.
+Disadvantages:
+Radix sort is not efficient for sorting floating-point numbers or other types of data that cannot be easily mapped to a small number of digits.
+It requires a significant amount of memory to hold the count of the number of times each digit value appears.
+It is not efficient for small data sets or data sets with a small number of unique keys.
+It requires that the data being sorted can be represented in a fixed number of digits, which may not be the case for some types of data.
+Quiz on Radix Sort
+
+Check out DSA Self Paced Course
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz:  
+
+Selection Sort
+Bubble Sort
+Insertion Sort
+Merge Sort
+Heap Sort
+QuickSort
+Counting Sort
+Bucket Sort
+ShellSort
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+150
+Previous
+Counting Sort
+Next
+Bucket Sort
+Related Articles
+1.
+Radix Sort vs Bucket Sort
+2.
+MSD( Most Significant Digit ) Radix Sort
+3.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+4.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+5.
+Bucket Sort To Sort an Array with Negative Numbers
+6.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+7.
+Program to sort an array of strings using Selection Sort
+8.
+C/C++ Program for Odd-Even Sort / Brick Sort
+9.
+Java Program for Odd-Even Sort / Brick Sort
+10.
+Insertion sort to sort even and odd positioned elements in different orders
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+DrRoot_
+rathbhupendra
+m212076
+becharaerizk
+vishwajeet0524
+sweetyty
+simranarora5sos
+KOMAL Y
+unknown2108
+sagar0719kumar
+karthikns16
+DishankJindal
+amartyaghoshgfg
+abhijitjadhav1998
+guptavivek0503
+urvishajain50761
+Article Tags :
+Sorting
+Practice Tags :
+Sorting
+Improve Article
+Report Issue

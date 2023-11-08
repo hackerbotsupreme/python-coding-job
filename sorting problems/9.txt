@@ -1,0 +1,262 @@
+Bucket Sort
+
+Difficulty Level : Easy
+Last Updated : 24 Jan, 2023
+Read
+Discuss(80+)
+Courses
+Practice
+Video
+Bucket sort is mainly useful when input is uniformly distributed over a range. For example, consider the following problem. 
+Sort a large set of floating point numbers which are in range from 0.0 to 1.0 and are uniformly distributed across the range. How do we sort the numbers efficiently?
+A simple way is to apply a comparison based sorting algorithm. The lower bound for Comparison based sorting algorithm (Merge Sort, Heap Sort, Quick-Sort .. etc) is Ω(n Log n), i.e., they cannot do better than nLogn. 
+Can we sort the array in linear time? Counting sort can not be applied here as we use keys as index in counting sort. Here keys are floating point numbers.  
+The idea is to use bucket sort. Following is bucket algorithm.
+
+bucketSort(arr[], n)
+1) Create n empty buckets (Or lists).
+2) Do following for every array element arr[i].
+.......a) Insert arr[i] into bucket[n*array[i]]
+3) Sort individual buckets using insertion sort.
+4) Concatenate all sorted buckets.
+BucketSort
+
+Time Complexity: If we assume that insertion in a bucket takes O(1) time then steps 1 and 2 of the above algorithm clearly take O(n) time. The O(1) is easily possible if we use a linked list to represent a bucket (In the following code, C++ vector is used for simplicity). Step 4 also takes O(n) time as there will be n items in all buckets. 
+The main step to analyze is step 3. This step also takes O(n) time on average if all numbers are uniformly distributed (please refer CLRS book for more details)
+Following is the implementation of the above algorithm.
+ 
+
+C++
+Java
+Python3
+# Python3 program to sort an array 
+# using bucket sort 
+def insertionSort(b):
+    for i in range(1, len(b)):
+        up = b[i]
+        j = i - 1
+        while j >= 0 and b[j] > up: 
+            b[j + 1] = b[j]
+            j -= 1
+        b[j + 1] = up     
+    return b     
+              
+def bucketSort(x):
+    arr = []
+    slot_num = 10 # 10 means 10 slots, each
+                  # slot's size is 0.1
+    for i in range(slot_num):
+        arr.append([])
+          
+    # Put array elements in different buckets 
+    for j in x:
+        index_b = int(slot_num * j) 
+        arr[index_b].append(j)
+      
+    # Sort individual buckets 
+    for i in range(slot_num):
+        arr[i] = insertionSort(arr[i])
+          
+    # concatenate the result
+    k = 0
+    for i in range(slot_num):
+        for j in range(len(arr[i])):
+            x[k] = arr[i][j]
+            k += 1
+    return x
+  
+# Driver Code
+x = [0.897, 0.565, 0.656,
+     0.1234, 0.665, 0.3434] 
+print("Sorted Array is")
+print(bucketSort(x))
+  
+# This code is contributed by
+# Oneil Hsiao
+C#
+Javascript
+Output
+
+Sorted array is 
+0.1234 0.3434 0.565 0.656 0.665 0.897 
+Bucket Sort for numbers having integer part:
+Algorithm : 
+
+Find maximum element and minimum of the array
+Calculate the range of each bucket
+          range = (max - min) / n
+          n is the number of buckets
+        3. Create n buckets of calculated range
+
+        4. Scatter the array elements to these buckets
+
+
+
+          BucketIndex = ( arr[i] - min ) / range
+        5. Now sort each bucket individually
+
+        6. Gather the sorted elements from buckets to original array
+
+Input :    
+Unsorted array:  [ 9.8 , 0.6 , 10.1 , 1.9 , 3.07 , 3.04 , 5.0 , 8.0 , 4.8 , 7.68 ]
+No of buckets :  5
+
+Output :  
+Sorted array:   [ 0.6 , 1.9 , 3.04 , 3.07 , 4.8 , 5.0 , 7.68 , 8.0 , 9.8 , 10.1 ]
+
+
+Input :    
+Unsorted array:  [0.49 , 5.9 , 3.4 , 1.11 , 4.5 , 6.6 , 2.0]
+No of buckets: 3
+
+Output :  
+Sorted array:   [0.49 , 1.11 , 2.0 , 3.4 , 4.5 , 5.9 , 6.6]
+Code :
+
+C++
+Python3
+# Python program for the above approach
+  
+# Bucket sort for numbers 
+# having integer part
+def bucketSort(arr, noOfBuckets):
+    max_ele = max(arr)
+    min_ele = min(arr)
+  
+    # range(for buckets)
+    rnge = (max_ele - min_ele) / noOfBuckets
+  
+    temp = []
+  
+    # create empty buckets
+    for i in range(noOfBuckets):
+        temp.append([])
+  
+    # scatter the array elements
+    # into the correct bucket
+    for i in range(len(arr)):
+        diff = (arr[i] - min_ele) / rnge -  int((arr[i] - min_ele) / rnge)
+  
+        # append the boundary elements to the lower array
+        if(diff == 0 and arr[i] != min_ele):
+            temp[int((arr[i] - min_ele) / rnge) - 1].append(arr[i])
+  
+        else:
+            temp[int((arr[i] - min_ele) / rnge)].append(arr[i])
+  
+    # Sort each bucket individually
+    for i in range(len(temp)):
+        if len(temp[i]) != 0:
+            temp[i].sort()
+  
+    # Gather sorted elements 
+    # to the original array
+    k = 0
+    for lst in temp:
+        if lst:
+            for i in lst:
+                arr[k] = i
+                k = k+1
+  
+  
+# Driver Code
+arr = [9.8, 0.6, 10.1, 1.9, 3.07, 3.04, 5.0, 8.0, 4.8, 7.68]
+noOfBuckets = 5
+bucketSort(arr, noOfBuckets)
+print("Sorted array: ", arr)
+  
+# This code is contributed by
+# Vinita Yadav
+Output
+Sorted array:  [0.6, 1.9, 3.04, 3.07, 4.8, 5.0, 7.68, 8.0, 9.8, 10.1]
+Time Complexity:
+The time complexity of bucket sort is O(n + k), where n is the number of elements and k is the number of buckets. 
+
+Auxiliary Space :
+The Auxiliary Space of bucket sort is O(n + k). This is because we need to create a new array of size k to store the buckets and another array of size n to store the sorted elements.
+
+Bucket Sort To Sort an Array with Negative Numbers
+References: 
+Introduction to Algorithms 3rd Edition by Clifford Stein, Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest 
+http://en.wikipedia.org/wiki/Bucket_sort 
+  
+https://youtu.be/VuXbEb5ywrU
+Snapshots: 
+
+scene00505scene01009scene01513scene01729scene01801scene01945scene02017scene02521
+
+Quiz on Bucket Sort
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz: 
+
+Selection Sort
+Bubble Sort
+Insertion Sort
+Merge Sort
+Heap Sort
+QuickSort
+Radix Sort
+Counting Sort
+ShellSort
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+93
+Previous
+Radix Sort
+Next
+Sort elements by frequency using Binary Search Tree
+Related Articles
+1.
+Bucket Sort To Sort an Array with Negative Numbers
+2.
+Radix Sort vs Bucket Sort
+3.
+Bucket Sort Visualization Using Javascript
+4.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+5.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+6.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+7.
+Program to sort an array of strings using Selection Sort
+8.
+C/C++ Program for Odd-Even Sort / Brick Sort
+9.
+Java Program for Odd-Even Sort / Brick Sort
+10.
+Insertion sort to sort even and odd positioned elements in different orders
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+OneilHsiao
+himangshushekharjha
+Akanksha_Rai
+architbubber
+vinita07
+rutvik_56
+arorakashish0911
+unknown2108
+asmitwrites
+factworx4i2
+divyansh2212
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

@@ -1,0 +1,140 @@
+Sort a Matrix in all way increasing order
+
+Difficulty Level : Basic
+Last Updated : 19 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a square matrix of order N*N having distinct elements, the task is to sort given matrix in such a way that its rows, columns and both diagonals (diagonal and anti-diagonal) are in increasing order.
+
+Examples: 
+
+Input : arr[3][3] = {1, 4, 2,
+                     3, 5, 6,
+                     9, 7, 8}
+Output :{1, 2, 3,
+         4, 5, 6,
+         7, 8, 9}
+
+Input : arr[2][2] = {0, 4,
+                     5, 2}                    
+Output :{0, 2,
+         4, 5}
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Sorting any matrix in a way that its rows, columns and main diagonal are in increasing order is easy. If we consider matrix elements in sequence according to row-major order and sort the sequence, we get the desired result.
+
+Example: arr[2][2] : {1, 2
+                      3, 4}
+Rows in increasing order:  {1,2} and {3,4}
+Columns in increasing order:  {1,3} and {2,4}
+Diagonal in increasing order:  {1,4}
+Anti-diagonal in increasing order:  {2,3}
+Implementation:
+
+CPP
+Java
+Python3
+# Python program to sort matrix in all-way
+N = 3;
+ 
+# Sorts a matrix in increasing order
+def sortAllWay(arr):
+ 
+    # Consider matrix elements (in row major
+    # order) and sort the sequence.
+    ar = [0 for i in range(len(arr) * len(arr))];
+    k = 0;
+    for i in range(len(arr)):
+        for j in range(len(arr)):
+            ar[k] = arr[i][j];
+            k += 1;
+     
+    ar.sort();
+    k = 0;
+    for i in range(len(arr)):
+        for j in range(len(arr)):
+            arr[i][j] = ar[k];
+            k += 1;
+     
+    return arr;
+ 
+# Driver program
+if __name__ == '__main__':
+    arr = [[ 1, 0, 3 ],[ 2, 5, 6 ],[ 9, 4, 8 ]] ;
+    arr = sortAllWay(arr);
+ 
+    # print resultant matrix
+    for i in range(N):
+        for j in range(N):
+            print(arr[i][j], end=" ");
+        print();
+     
+# This code IS contributed by umadevi9616
+C#
+Javascript
+Output
+0 1 2 
+3 4 5 
+6 8 9 
+Time Complexity : O(N*N log N) 
+Auxiliary Space : (N*N), since N*N extra space has been taken.
+
+This article is contributed by Shivam Pradhan (anuj_charm). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+
+
+Like
+1
+Previous
+Row wise sorting in 2D array
+Next
+Print all elements in sorted order from row and column wise sorted matrix
+Related Articles
+1.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+2.
+Circular Matrix (Construct a matrix with numbers 1 to m*n in spiral way)
+3.
+Sort even-placed elements in increasing and odd-placed in decreasing order
+4.
+Sort only non-prime numbers of an array in increasing order
+5.
+Sort even and odd placed elements in increasing order
+6.
+Sort elements of an array in increasing order of absolute difference of adjacent elements
+7.
+Minimize Cost to sort a String in Increasing Order of Frequencies of Characters
+8.
+Sort a string in increasing order of given priorities
+9.
+Count rotations required to sort given array in non-increasing order
+10.
+Sort an array of strings having characters at odd and even indices sorted in decreasing and increasing order respectively
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+rutvik_56
+umadevi9616
+simmytarika5
+hardikkoriintern
+rishavk61ns
+Article Tags :
+Matrix
+Sorting
+Practice Tags :
+Matrix
+Sorting

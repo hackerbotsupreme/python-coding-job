@@ -1,0 +1,129 @@
+Find whether it is possible to make array elements same using one external number
+
+Difficulty Level : Medium
+Last Updated : 11 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an Array, three operations can be performed using any external number x.
+
+Add x to an element once
+Subtract x from an element once
+Perform no operation on the element
+Count of unique elements is 1. Answer is YES with x = 0
+Count of unique elements is 2. Answer is YES with x = Difference of two unique elements.
+Count of unique elements is 3.
+If difference between mid and max is same as difference between mid and min, answer is YES with x = difference between mid and max or mid and min.
+Otherwise answer is NO.
+In Python, we can quickly find unique elements using set in Python.
+
+C++
+Java
+Python
+# Program in python 2.x to find an element X
+# that can be used to operate on an array and
+# get equal elements
+   
+# Prints "YES" and an element x if we can
+# equalize array using x. Else prints "NO"
+def canEqualise(array):
+   
+    # We all the unique elements (using set
+    # function). Then we sort unique elements.
+    uniques = sorted(set(array))
+   
+    # if there are only 1 or 2 unique elements,
+    # then we can add or subtract x from one of them
+    # to get the other element
+    if len(uniques) == 1:
+        print("YES " + "0")
+    elif len(uniques) == 2:
+        print("YES " + str(uniques[1] - uniques[0]))
+   
+    # If count of unique elements is three, then
+    # difference between the middle and minimum
+    # should be same as difference between maximum
+    # and middle
+    elif len(uniques) == 3:
+        if uniques[2] - uniques[1] == uniques[1] - uniques[0]:
+            X = uniques[2] - uniques[1]
+            print("YES " + str(X))
+        else:
+            print("NO")
+   
+    # if there are more than three unique elements, then
+    # we cannot add or subtract the same value from all
+    # the elements.
+    else:
+        print("NO")
+   
+# Driver code
+array = [55, 52, 52, 49, 52]
+canEqualise(array)
+C#
+OUTPUT
+
+YES 3
+Time Complexity: O(nlogn)
+Auxiliary space: O(n). 
+
+This article is contributed by Aarti Rathi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+2
+Previous
+Remove minimum elements from array such that no three consecutive element are either increasing or decreasing
+Next
+Clustering/Partitioning an array such that sum of square differences is minimum
+Related Articles
+1.
+Find whether it is possible to make array elements same using one external number | Set 2
+2.
+Bitwise XOR of same indexed array elements after rearranging an array to make XOR of same indexed elements of two arrays equal
+3.
+Minimum increments to make all array elements equal with sum same as the given array after exactly one removal
+4.
+Check if end of a sorted Array can be reached by repeated jumps of one more, one less or same number of indices as previous jump
+5.
+Check if possible to make Array sum equal to Array product by replacing exactly one element
+6.
+Length of array pair formed where one contains all distinct elements and other all same elements
+7.
+Check whether it is possible to make both arrays equal by modifying a single element
+8.
+Maximum possible sum of a window in an array such that elements of same window in other array are unique
+9.
+Find smallest possible Number from a given large Number with same count of digits
+10.
+External Sorting
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+_shinchancode
+sachinvinod1904
+adi1212
+hardikkoriintern
+Article Tags :
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting

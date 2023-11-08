@@ -1,0 +1,109 @@
+Sorting Strings using Bubble Sort
+
+Difficulty Level : Medium
+Last Updated : 27 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of strings arr[]. Sort given strings using Bubble Sort and display the sorted array.
+
+In Bubble Sort, the two successive strings arr[i] and arr[i+1] are exchanged whenever arr[i]> arr[i+1]. The larger values sink to the bottom and hence called sinking sort. At the end of each pass, smaller values gradually “bubble” their way upward to the top and hence called bubble sort.
+
+ After all the passes, we get all the strings in sorted order. The complexity of the above algorithm will be O(N2).
+
+Let us look at the code snippet
+
+C++
+Java
+C#
+Python3
+# Python Implementation
+ 
+ 
+def compare(a, b):
+    return ((a < b) - (a > b))
+ 
+ 
+def sort_string(arr, n):
+    temp = ""
+ 
+    # Sort string using the bubble sort
+    for i in range(n-1):
+        for j in range(i+1, n):
+            if compare(arr[j], arr[i]) > 0:
+                temp = arr[j]
+                arr[j] = arr[i]
+                arr[i] = temp
+    print("String in sorted order are: ")
+    for i in range(n):
+        print(f'Strings {i + 1} is {arr[i]}')
+ 
+ 
+# Driver code
+arr = ["GeeksforGeeks", "Quiz", "Practice", "Gblogs", "Coding"]
+n = len(arr)
+sort_string(arr, n)
+ 
+ 
+# This code is contributed by Prince Kumar
+Output
+Strings in sorted order are : 
+ String 1 is Coding
+ String 2 is Gblogs
+ String 3 is GeeksforGeeks
+ String 4 is Practice
+ String 5 is Quiz
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Next
+Bubble Sort Algorithm
+Related Articles
+1.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+2.
+Sorting Algorithms Visualization : Bubble Sort
+3.
+Sort an array using Bubble Sort without using loops
+4.
+Selection Sort VS Bubble Sort
+5.
+Bubble sort using two Stacks
+6.
+C program for Time Complexity plot of Bubble, Insertion and Selection Sort using Gnuplot
+7.
+Bubble Sort Visualization using JavaScript
+8.
+C Program for Bubble Sort
+9.
+C++ Program For Bubble Sort
+10.
+Java Program for Bubble Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+sanjeev2552
+princi singh
+defaultacc
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

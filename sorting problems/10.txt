@@ -1,0 +1,363 @@
+Bingo Sort Algorithm
+
+Difficulty Level : Expert
+Last Updated : 21 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+What is Bingo Sort?
+This Sorting Technique is similar to the Selection Sort in which we first find the smallest element called Bingo Element, and then we repeatedly iterate the elements of the array to get the correct positions of all the elements. Similarly, find the next bingo element for the next pass, and so on. Every distinct element is considered a Bingo Element and called out in increasing order.
+
+Relation between Selection Sort and Bingo Sort
+Selection sort does one pass through the remaining items for each item moved. Bingo sort does one pass for each distinct value (not item) and moves every item with that value to its final location
+
+How does Bingo Sort work?
+In this sorting technique, each distinct element is considered a Bingo value.  And Bingo Values are called out in increasing order. During each pass, if the array element is equal to Bingo element then it is shifted to its correct position.
+
+Follow the below illustration for a better understanding.
+
+Illustration:
+
+Let’s consider the following array as an example: arr[]   = [5, 4, 8, 5, 4, 8, 5, 4, 4, 4]
+
+
+
+5
+
+4
+
+8
+
+5
+
+4
+
+8
+
+5
+
+4
+
+4
+
+4
+
+Step 1: Find the smallest value which is called a Bingo Element. Smallest element = 4
+
+Step 2:  Shift all the elements of the array to their correct position which is equal to the Smallest element by swapping the position of Elements.
+
+First Pass:
+4
+
+5
+
+8
+
+5
+
+4
+
+8
+
+5
+
+4
+
+4
+
+4
+
+Second Pass
+4
+
+4
+
+8
+
+5
+
+5
+
+8
+
+5
+
+4
+
+4
+
+4
+
+Third Pass:
+4
+
+4
+
+4
+
+5
+
+5
+
+8
+
+5
+
+8
+
+4
+
+4
+
+Fourth Pass:
+4
+
+4
+
+4
+
+4
+
+5
+
+8
+
+5
+
+8
+
+5
+
+4
+
+Fifth Pass:
+4
+
+4
+
+4
+
+4
+
+4
+
+8
+
+5
+
+8
+
+5
+
+5
+
+Step 3:  Similarly find the next Bingo Element (or smallest element) and shift the elements to their correct position that are equal to Bingo Element.  Next Bingo Element = 5
+
+Sixth pass:
+4
+
+4
+
+4
+
+4
+
+4
+
+5
+
+8
+
+8
+
+5
+
+5
+
+Seventh Pass:
+4
+
+4
+
+4
+
+4
+
+4
+
+5
+
+5
+
+8
+
+8
+
+5
+
+Eighth Pass:
+4
+
+4
+
+4
+
+4
+
+4
+
+5
+
+5
+
+5
+
+8
+
+8
+
+Finally, Our array has been arranged in the increasing order as you can see above
+
+Note: You can see that the number of steps that are required to sort the element of Array = number of distinct element -1. 
+
+Follow the below steps to solve the problem:
+
+Find the smallest and the largest element from the array. And smallest element is known as Bingo Element.
+Create a global variable named start position that will keep the track of the element position to be shifted to their correct position.
+Run a while loop until the number of distinct Elements – 1.
+Run a loop inside the while loop that will shift elements of the array to their correct position by checking the equality with bingo Element and find the next Bingo Element.
+Finally Print your Array that has been sorted.
+Below is the Implementation of the above approach:
+
+C++
+Java
+Python3
+# Function to print the Array
+def printArray(arr):
+    print("Sorted Array: ",end="")
+    for ele in arr:
+        print(ele, end=" ")
+    print()
+ 
+# function for Sorting the Array
+def bingoSort(arr, size):
+   
+    # Finding the smallest element From the Array
+    bingo = min(arr)
+     
+    # Finding the largest element from the Array
+    largest = max(arr)
+    nextBingo = largest
+    nextPos = 0
+    while bingo < nextBingo:
+       
+        # Will keep the track of the element position to
+        # shifted to their correct position
+        startPos = nextPos
+        for i in range(startPos, size):
+            if arr[i] == bingo:
+                arr[i], arr[nextPos] = arr[nextPos], arr[i]
+                nextPos += 1
+                 
+            #  Here we are finding the next Bingo Element
+            #  for the next pass
+            elif arr[i] < nextBingo:
+                nextBingo = arr[i]
+        bingo = nextBingo
+        nextBingo = largest
+     
+    # Printing the ELements of the Sorted Array
+    printArray(arr)
+         
+arr = [ 5, 4, 8, 5, 4, 8, 5, 4, 4, 4 ]
+bingoSort(arr, size = len(arr))
+ 
+arr2 = [ 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 ]
+bingoSort(arr2, size = len(arr2))   
+ 
+arr3 = [ 0, 1, 0, 1, 0, 1 ]
+bingoSort(arr3, size = len(arr3))
+ 
+# This code is contributed by sdeadityasharma.
+C#
+Javascript
+Output
+Sorted Array: 4 4 4 4 4 5 5 5 8 8 
+Sorted Array: 1 2 3 4 5 6 7 8 9 10 
+Sorted Array: 0 0 0 1 1 1 
+Time Complexity:
+
+Average and Worst Case: O(M * N) where M = number of distinct elements and N = size of the array
+Best Case:  O(N + M2 )
+Auxiliary Space: O(1)
+
+When to use the Bingo Sort among all Sorting Technique?
+You should use the bingo sort if you know that the repetition of every element is large in the array. In that case, you can use this for better time complexity.
+
+Note: It performs better than the quick sort, merge sort and heap sort if the m < log n and performs worst if the distinct element is equal to the number of elements in the Array.
+
+Related Articles:
+
+Selection Sort Algorithm
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+20
+Previous
+How to Learn Selenium - A Complete Roadmap
+Next
+How to Sort a Multi-dimensional Array by Value
+Related Articles
+1.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+2.
+Difference between Greedy Algorithm and Divide and Conquer Algorithm
+3.
+A sorting algorithm that slightly improves on selection sort
+4.
+Sorting Algorithm Visualization : Merge Sort
+5.
+Sorting Algorithm Visualization : Quick Sort
+6.
+Sorting algorithm visualization : Insertion Sort
+7.
+Sorting algorithm visualization : Heap Sort
+8.
+Improvement on the Quick Sort Algorithm
+9.
+Hash Sort Algorithm
+10.
+Merge Sort Algorithm
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+princekumaras
+@princekumaras
+Vote for difficulty
+Current difficulty : Expert
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+lokeshmvs21
+ishankhandelwals
+user_7gr9iodclfx
+sdeadityasharma
+Article Tags :
+Technical Scripter 2022
+Algorithms
+DSA
+Sorting
+Technical Scripter
+Practice Tags :
+Algorithms
+Sorting

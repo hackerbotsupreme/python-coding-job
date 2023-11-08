@@ -1,0 +1,145 @@
+Stooge Sort
+
+Difficulty Level : Hard
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Stooge Sort is a recursive sorting algorithm. It is not much efficient but interesting sorting algorithm. It generally divides the array into two overlapping parts (2/3 each). After that it performs sorting in first 2/3 part and then it performs sorting in last 2/3 part. And then, sorting is done on first 2/3 part to ensure that the array is sorted.
+
+The key idea is that sorting the overlapping part twice exchanges the elements between the other two sections accordingly.
+
+Approach:
+
+Step 1: If value at index 0 is greater than value at last index, swap them.
+Step 2: Recursively, 
+
+Stooge sort the initial 2/3rd of the array.
+Stooge sort the last 2/3rd of the array.
+Stooge sort the initial 2/3rd again to confirm.
+NOTE: Always take the ceil of ((2/3)*N) for selecting elements.  
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Illustration:  
+
+Lets consider an example: arr[] = {2, 4, 5, 3, 1}
+
+Step1: Initially, First and last elements are compared and if last is greater than first then they are swapped.
+   1   	   4   	   5   	   3   	   2   
+Step2: Now, recursively sort initial 2/3rd of the elements as shown below:
+   1   	   4   	   5   	   3   	   2   
+   1   	   3   	   4   	   5   	   2   
+Step3: Then, recursively sort last 2/3rd of the elements, as shown below:
+   1   	   3   	   4   	   5   	   2   
+   1   	   2   	   3   	   4   	   5   
+Step4: Again, sort the initial 2/3rd of the elements to confirm final data is sorted.
+Resulted array:
+   1   	   2   	   3   	   4   	   5   
+stooge_sort
+
+Below is the implementation for the above approach:
+
+C++
+Java
+Python3
+# Python program to implement stooge sort
+  
+def stoogesort(arr, l, h):
+    if l >= h:
+        return
+   
+    # If first element is smaller
+    # than last, swap them
+    if arr[l]>arr[h]:
+        t = arr[l]
+        arr[l] = arr[h]
+        arr[h] = t
+   
+    # If there are more than 2 elements in
+    # the array
+    if h-l + 1 > 2:
+        t = (int)((h-l + 1)/3)
+   
+        # Recursively sort first 2 / 3 elements
+        stoogesort(arr, l, (h-t))
+   
+        # Recursively sort last 2 / 3 elements
+        stoogesort(arr, l + t, (h))
+   
+        # Recursively sort first 2 / 3 elements
+        # again to confirm
+        stoogesort(arr, l, (h-t))
+   
+  
+# deriver 
+arr = [2, 4, 5, 3, 1]
+n = len(arr)
+  
+stoogesort(arr, 0, n-1)
+   
+for i in range(0, n):
+    print(arr[i], end = ' ')
+  
+# Code Contributed by Mohit Gupta_OMG <(0_o)>
+C#
+Javascript
+Output
+1 2 3 4 5 
+The running time complexity of stooge sort can be written as,
+
+T(n) = 3T(2n/3) + ?(1)
+Solution of above recurrence is O(n(log3/log1.5)) = O(n2.709), hence it is slower than even bubble sort(n^2).
+
+ 
+
+This article is contributed by DANISH KALEEM. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Previous
+Ternary Search
+Next
+Python Program for Stooge Sort
+Related Articles
+1.
+C++ Program for Stooge Sort
+2.
+Java Program for Stooge Sort
+3.
+Python Program for Stooge Sort
+4.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+5.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+6.
+Bucket Sort To Sort an Array with Negative Numbers
+7.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+8.
+Program to sort an array of strings using Selection Sort
+9.
+C/C++ Program for Odd-Even Sort / Brick Sort
+10.
+Java Program for Odd-Even Sort / Brick Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+divyesh072019
+kashishkumar2
+satyamtripathi7125
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

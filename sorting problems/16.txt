@@ -1,0 +1,198 @@
+Cocktail Sort
+
+Difficulty Level : Easy
+Last Updated : 19 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Cocktail Sort is a variation of Bubble sort. The Bubble sort algorithm always traverses elements from left and moves the largest element to its correct position in the first iteration and second-largest in the second iteration and so on. Cocktail Sort traverses through a given array in both directions alternatively. Cocktail sort does not go through the unnecessary iteration making it efficient for large arrays.
+
+Cocktail sorts break down barriers that limit bubble sorts from being efficient enough on large arrays by not allowing them to go through unnecessary iterations on one specific region (or cluster) before moving onto another section of an array.
+Algorithm: 
+Each iteration of the algorithm is broken up into 2 stages: 
+
+The first stage loops through the array from left to right, just like the Bubble Sort. During the loop, adjacent items are compared and if the value on the left is greater than the value on the right, then values are swapped. At the end of the first iteration, the largest number will reside at the end of the array.
+The second stage loops through the array in opposite direction- starting from the item just before the most recently sorted item, and moving back to the start of the array. Here also, adjacent items are compared and are swapped if required.
+Example : 
+
+Let us consider an example array (5 1 4 2 8 0 2)
+
+First Forward Pass: 
+(5 1 4 2 8 0 2) ? (1 5 4 2 8 0 2), Swap since 5 > 1 
+(1 5 4 2 8 0 2) ? (1 4 5 2 8 0 2), Swap since 5 > 4 
+(1 4 5 2 8 0 2) ? (1 4 2 5 8 0 2), Swap since 5 > 2 
+(1 4 2 5 8 0 2) ? (1 4 2 5 8 0 2) 
+(1 4 2 5 8 0 2) ? (1 4 2 5 0 8 2), Swap since 8 > 0 
+(1 4 2 5 0 8 2) ? (1 4 2 5 0 2 8), Swap since 8 > 2
+After the first forward pass, the greatest element of the array will be present at the last index of the array.
+First Backward Pass: 
+(1 4 2 5 0 2 8) ? (1 4 2 5 0 2 8) 
+(1 4 2 5 0 2 8) ? (1 4 2 0 5 2 8), Swap since 5 > 0 
+(1 4 2 0 5 2 8) ? (1 4 0 2 5 2 8), Swap since 2 > 0 
+(1 4 0 2 5 2 8) ? (1 0 4 2 5 2 8), Swap since 4 > 0 
+(1 0 4 2 5 2 8) ? (0 1 4 2 5 2 8), Swap since 1 > 0
+After the first backward pass, the smallest element of the array will be present at the first index of the array.
+Second Forward Pass: 
+(0 1 4 2 5 2 8) ? (0 1 4 2 5 2 8) 
+(0 1 4 2 5 2 8) ? (0 1 2 4 5 2 8), Swap since 4 > 2 
+(0 1 2 4 5 2 8) ? (0 1 2 4 5 2 8) 
+(0 1 2 4 5 2 8) ? (0 1 2 4 2 5 8), Swap since 5 > 2
+Second Backward Pass: 
+(0 1 2 4 2 5 8) ? (0 1 2 2 4 5 8), Swap since 4 > 2
+Now, the array is already sorted, but our algorithm doesn’t know if it is completed. The algorithm needs to complete this whole pass without any swap to know it is sorted. 
+(0 1 2 2 4 5 8) ? (0 1 2 2 4 5 8) 
+(0 1 2 2 4 5 8) ? (0 1 2 2 4 5 8)
+Below is the implementation of the above algorithm :
+
+C++
+Java
+Python
+# Python program for implementation of Cocktail Sort
+ 
+ 
+def cocktailSort(a):
+    n = len(a)
+    swapped = True
+    start = 0
+    end = n-1
+    while (swapped == True):
+ 
+        # reset the swapped flag on entering the loop,
+        # because it might be true from a previous
+        # iteration.
+        swapped = False
+ 
+        # loop from left to right same as the bubble
+        # sort
+        for i in range(start, end):
+            if (a[i] > a[i + 1]):
+                a[i], a[i + 1] = a[i + 1], a[i]
+                swapped = True
+ 
+        # if nothing moved, then array is sorted.
+        if (swapped == False):
+            break
+ 
+        # otherwise, reset the swapped flag so that it
+        # can be used in the next stage
+        swapped = False
+ 
+        # move the end point back by one, because
+        # item at the end is in its rightful spot
+        end = end-1
+ 
+        # from right to left, doing the same
+        # comparison as in the previous stage
+        for i in range(end-1, start-1, -1):
+            if (a[i] > a[i + 1]):
+                a[i], a[i + 1] = a[i + 1], a[i]
+                swapped = True
+ 
+        # increase the starting point, because
+        # the last stage would have moved the next
+        # smallest number to its rightful spot.
+        start = start + 1
+ 
+ 
+# Driver code
+a = [5, 1, 4, 2, 8, 0, 2]
+cocktailSort(a)
+print("Sorted array is:")
+for i in range(len(a)):
+    print("% d" % a[i])
+C#
+Javascript
+Output
+Sorted array :
+0 1 2 2 4 5 8 
+People have given many different names to cocktail sort:
+
+
+
+Shaker Sort. 
+Bi-Directional Sort.
+Cocktail Shaker Sort.
+Shuttle Sort.
+Happy Hour Sort.
+Ripple Sort.
+Case	Complexity
+Best Case	O(n)
+Average Case	O(n2)
+Worst Case	O(n2)
+Space	O(1) Auxiliary Space
+Maximum number of Comparison	O(n2)
+Sorting In Place: Yes
+Stable: Yes
+Comparison with Bubble Sort: 
+Time complexities are the same, but Cocktail performs better than Bubble Sort. Typically cocktail sort is less than two times faster than bubble sort. Consider the example (2, 3, 4, 5, 1). Bubble sort requires four traversals of an array for this example, while Cocktail sort requires only two traversals. (Source Wiki)
+
+Number of Elements	Unoptimized Bubble Sort	Optimized Bubble sort	Cocktail sort
+100	2ms	1ms	1ms
+1000	8ms	6ms	1ms
+10000	402ms	383ms	1ms
+References: 
+
+https://en.wikipedia.org/wiki/Cocktail_shaker_sort
+http://will.thimbleby.net/algorithms/doku.php?id=cocktail_sort
+http://www.programming-algorithms.net/article/40270/Shaker-sort
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above. 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+12
+Previous
+Cycle Sort
+Next
+Program to check if a given number is Lucky (all digits are different)
+Related Articles
+1.
+C++ Program for Cocktail Sort
+2.
+Java Program for Cocktail Sort
+3.
+Cocktail Sort Visualizer using JavaScript
+4.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+5.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+6.
+Bucket Sort To Sort an Array with Negative Numbers
+7.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+8.
+Program to sort an array of strings using Selection Sort
+9.
+C/C++ Program for Odd-Even Sort / Brick Sort
+10.
+Java Program for Odd-Even Sort / Brick Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+decode2207
+simmytarika5
+guptavivek0503
+sweetyty
+simranarora5sos
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

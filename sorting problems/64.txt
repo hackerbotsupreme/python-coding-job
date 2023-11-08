@@ -1,0 +1,189 @@
+Sort an array after applying the given equation
+
+Difficulty Level : Hard
+Last Updated : 11 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We have an integer array that is sorted in ascending order. We also have 3 integers A, B and C. We need to apply A*x*x + B*x + C for each element x in the array and sort the modified array. 
+
+Example: 
+
+Input : arr[] = {-1, 0, 1, 2, 3, 4} 
+       A = -1, B = 2, C = -1
+Output : {-9, -4, -4, -1, -1, 0}
+Input array is {-1, 0, 1, 2, 3, 4}. After
+applying the equation A*x*x + B*x + C on
+every element x we get, {-4,-1, 0, -1, -4, -9}
+After sorting, we get {-9, -4, -4, -1, -1, 0}
+Recommended Problem
+Sort the given array after applying the given equation
+Mathematical
+Sorting
++1 more
+Adobe
+Solve Problem
+Submission count: 10.6K
+Method 1 (Simple) : 
+
+Apply the given equation to all the elements. O(n) 
+Sort the modified array. O(n log n)
+The time complexity of O(n log n) 
+
+
+Method 2(Efficient): Parabolic Property:
+
+The equation given is parabolic. So the result of applying it to a sorted array will result in an array that will have a maximum/minimum with the sub-arrays to its left and right sorted.
+In the above example, maximum is 0 and the subarray to its left {-4, -1} is sorted in ascending order and the sub-array to its right {-1, -4, -9} is sorted in descending order. 
+All we need to do is merge these sorted arrays which are linear in time.
+
+So the algorithm is: 
+
+
+
+Apply equation on each element.
+Find maximum/minimum.
+Merge sub-arrays.
+Note: The below code assumes that the modified array is first increasing then decreasing. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to sort an
+# array after applying equation
+# A*x*x + B*x + C
+import sys
+ 
+# Function to sort an array
+# after applying given equation.
+def sortArray(arr, n, A, B, C):
+ 
+    # Apply equation on all elements
+    for i in range(n):
+        arr[i] = (A * arr[i] * arr[i] +
+                  B * arr[i] + C)
+    index = -(sys.maxsize - 1)
+    maximum = -(sys.maxsize - 1)
+     
+    # Find maximum element in
+    # resultant array
+    for i in range(n):
+        if maximum < arr[i]:
+            index = i
+            maximum = arr[i]
+     
+    # Use maximum element as a break point
+    # and merge both subarrays using simple
+    # merge function of merge sort
+    i = 0; j = n - 1;
+    new_arr = [0] * n
+    k = 0
+    while i < index and j > index:
+        if arr[i] < arr[j]:
+            new_arr[k] = arr[i]
+            k += 1
+            i += 1
+        else:
+            new_arr[k] = arr[j]
+            k += 1
+            j -= 1
+ 
+    # Merge remaining elements
+    while i < index:
+        new_arr[k] = arr[i]
+        k += 1
+        i += 1
+ 
+    # Modify original array
+    while j > index:
+        new_arr[k] = arr[j]
+        k += 1
+        j -= 1
+        new_arr[n - 1] = maximum
+ 
+    for i in range(n):
+        arr[i] = new_arr[i]
+ 
+# Driver code
+arr = [-21, -15, 12, 13, 14]
+n = len(arr)
+A = -6
+B= -7
+C = 2
+sortArray(arr, n, A, B, C)
+print("Array after sorting is:")
+for i in range(n):
+    print(arr[i], end = " ")
+ 
+# This code is contributed
+# by Shrikant13
+C#
+PHP
+Javascript
+Output
+Array after sorting is : n-2497 -1272 -1243 -1103 -946 
+Time Complexity: O(n) 
+Auxiliary Space: O(n)
+
+
+
+
+
+Like
+11
+Next
+Sum of minimum absolute difference of each array element
+Related Articles
+1.
+Find resultant Array after applying Convolution on given array using given mask
+2.
+Find the number of different numbers in the array after applying the given operation q times
+3.
+Print matrix after applying increment operations in M ranges
+4.
+Quadratic equation whose roots are reciprocal to the roots of given equation
+5.
+Quadratic equation whose roots are K times the roots of given equation
+6.
+Minimizing array sum by applying XOR operation on all elements of the array
+7.
+Draw circle using polar equation and Bresenham's equation
+8.
+Minimize the value of N by applying the given operations
+9.
+Minimum number that can be obtained by applying '+' and '*' operations on array elements
+10.
+Sort array of strings after sorting each string after removing characters whose frequencies are not a powers of 2
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+shrikanth13
+Mithun Kumar
+avanitrachhadiya2155
+anikakapoor
+hardikkoriintern
+Article Tags :
+Adobe
+Arrays
+Mathematical
+Sorting
+Practice Tags :
+Adobe
+Arrays
+Mathematical
+Sorting
+Improve Article
+Report Issue

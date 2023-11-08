@@ -1,0 +1,197 @@
+Maximum difference between frequency of two elements such that element having greater frequency is also greater
+
+Difficulty Level : Medium
+Last Updated : 07 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n positive integers with many repeating elements. The task is to find the maximum difference between the frequency of any two different elements, such that the element with greater frequency is also greater in value than the second integer.
+
+Examples:  
+
+Input :  arr[] = { 3, 1, 3, 2, 3, 2 }.
+Output : 2
+Frequency of 3 = 3.
+Frequency of 2 = 2.
+Frequency of 1 = 1.
+Here difference of frequency of element 3 and 1 is = 3 - 1 = 2.
+Also 3 > 1.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Method 1 (Use Hashing): The naive approach can be, find the frequency of each element and for each element find the element having lesser value and lesser frequency than the current element.
+
+Below is the implementation of this approach:  
+
+C++
+Java
+Python3
+# Python program to find maximum difference
+# between frequency of any two element
+# such that element with greater frequency
+# is also greater in value.
+ 
+from collections import defaultdict
+ 
+# Return the maximum difference between
+# frequencies of any two elements such that
+# element with greater frequency is also
+# greater in value.
+def maxdiff(arr, n):
+    freq = defaultdict(lambda: 0)
+ 
+    # Finding the frequency of each element.
+    for i in range(n):
+        freq[arr[i]] += 1
+    ans = 0
+    for i in range(n):
+        for j in range(n):
+ 
+            # finding difference such that element
+            # having greater frequency is also
+            # greater in value.
+            if freq[arr[i]] > freq[arr[j]] and arr[i] > arr[j]:
+                ans = max(ans, freq[arr[i]] - freq[arr[j]])
+            elif freq[arr[i]] < freq[arr[j]] and arr[i] < arr[j]:
+                ans = max(ans, freq[arr[j]] - freq[arr[i]])
+    return ans
+ 
+ 
+arr = [3,1,3,2,3,2]
+n = len(arr)
+print(maxdiff(arr,n))
+ 
+# This code is contributed by Shrikant13
+C#
+Javascript
+Output
+2
+Time Complexity: O(n2).
+Auxiliary Space: O(n)
+  
+Method 2 (Use Hashing and Sorting): The idea is to find all the distinct elements and store them in an array, say dist[ ]. Sort the distinct element array dist[] in increasing order. Now for any distinct element at index i, for all index j such that i > j > 0, find the element between index 0 to i-1 having a minimum frequency. We can find the frequency of an element in the same way as method 1, i.e., storing frequencies in a hash table. 
+So do this for all i and find the maximum difference. To find the minimum frequency for all i maintain a prefix minimum.
+
+Below is the representation of this approach: 
+
+
+
+C++
+Java
+Python3
+# Efficient Python3 program to find maximum
+# difference between frequency of any two
+# elements such that element with greater
+# frequency is also greater in value.
+ 
+# Return the maximum difference between
+# frequencies of any two elements such that
+# element with greater frequency is also
+# greater in value.
+def maxdiff(arr, n):
+    freq = {}
+    dist = [0] * n
+     
+    # Finding the frequency of each element.
+    j = 0
+    for i in range(n):
+        if (arr[i] not in freq):
+            dist[j] = arr[i]
+            j += 1
+            freq[arr[i]] = 0
+        if (arr[i] in freq):
+            freq[arr[i]] += 1
+    dist = dist[:j]
+     
+    # Sorting the distinct element
+    dist.sort()
+    min_freq = n + 1
+     
+    # Iterate through all sorted distinct elements.
+    # For each distinct element, maintaining the
+    # element with minimum frequency than that
+    # element and also finding the maximum
+    # frequency difference
+    ans = 0
+    for i in range(j):
+        cur_freq = freq[dist[i]]
+        ans = max(ans, cur_freq - min_freq)
+        min_freq = min(min_freq, cur_freq)
+         
+    return ans
+ 
+# Driven Program
+arr = [3, 1, 3, 2, 3, 2]
+n = len(arr)
+ 
+print(maxdiff(arr, n))
+ 
+# This code is contributed by SHUBHAMSINGH10
+C#
+Javascript
+Output
+2
+Time Complexity: O(n log n).
+Auxiliary Space: O(n)
+
+This article is contributed by Anuj Chauhan(anuj0503). If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+
+
+Like
+4
+Previous
+Maximum length subsequence with difference between adjacent elements as either 0 or 1 | Set 2
+Next
+Difference between highest and least frequencies in an array
+Related Articles
+1.
+Count of elements such that its sum/difference with X also exists in the Array
+2.
+Find the number of elements X such that X + K also exists in the array
+3.
+Maximum length prefix such that frequency of each character is atmost number of characters with minimum frequency
+4.
+Maximum sum of a subsequence having difference between their indices equal to the difference between their values
+5.
+Minimum count of array elements that must be changed such that difference between maximum and minimum array element is N - 1
+6.
+Find the element having different frequency than other array elements
+7.
+Count of strings to be concatenated with a character having frequency greater than sum of others
+8.
+Count elements in Array having strictly smaller and strictly greater element present
+9.
+Longest subsequence having difference between the maximum and minimum element equal to K
+10.
+Split array into minimum number of subsets having difference between maximum and minimum element at most K
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+shrikanth13
+29AjayKumar
+sanjeev2552
+Akanksha_Rai
+SHUBHAMSINGH10
+Stream_Cipher
+Rajput-Ji
+avijitmondal1998
+famously
+rohitsingh07052
+hardikkoriintern
+Article Tags :
+Hash
+Sorting
+Practice Tags :
+Hash
+Sorting

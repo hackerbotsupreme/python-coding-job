@@ -1,0 +1,236 @@
+Find the Minimum length Unsorted Subarray, sorting which makes the complete array sorted
+
+Difficulty Level : Medium
+Last Updated : 25 Jan, 2023
+Read
+Discuss(190+)
+Courses
+Practice
+Video
+Given an unsorted array arr[0..n-1] of size n, find the minimum length subarray arr[s..e] such that sorting this subarray makes the whole array sorted. 
+Examples: 
+
+If the input array is [10, 12, 20, 30, 25, 40, 32, 31, 35, 50, 60], your program should be able to find that the subarray lies between indexes 3 and 8.
+If the input array is [0, 1, 15, 25, 6, 7, 30, 40, 50], your program should be able to find that the subarray lies between indexes 2 and 5.
+Recommended Problem
+Length Unsorted Subarray
+Arrays
+Data Structures
+Flipkart
+Microsoft
++2 more
+Solve Problem
+Submission count: 20.3K
+Approach 1:
+
+Idea/Intuition :
+
+Make a temporary array same as the given array ,sort the temporary array . Now check 
+from starting at which index the element of the given array and temporary array are 
+unequal and store it in temporary variable s . Repeat the above From the end and store
+the index at another temporary variable e . The length e-s+1 is the length of smallest
+unequal subarray .
+Algorithm :
+
+Declare a temporary array temp same as given array arr.
+Sort the temporary array .
+Initialize variable s with 0 and e with 0.
+Checking the unequal element from start and storing it in s variable .
+Checking the equal element from end and storing it in e variable.
+Returning (e-s+1) .
+Printing the result .
+Below is the implementation of above approach .
+
+Code :
+
+C++
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// function performing calculation
+int minLength(vector<int>& arr)
+{
+    // temporary array equal to given array
+    vector<int> temp = arr;
+    // sorting the temporary array
+    sort(temp.begin(), temp.end());
+    // initializing indices
+    int s = 0, e = 0;
+    // checking the unequal element from start and storing
+    // it in s variable
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] != temp[i]) {
+            s = i;
+            break;
+        }
+    }
+    // checking the unequal element from end and storing it
+    // in e variable
+    for (int i = arr.size() - 1; i >= 0; i--) {
+        if (arr[i] != temp[i]) {
+            e = i;
+            break;
+        }
+    }
+    // returning minimum length
+    return (e - s + 1);
+}
+ 
+// driver function
+int main()
+{
+    // given array arr
+    vector<int> arr
+        = { 10, 12, 20, 30, 25, 40, 32, 31, 35, 50, 60 };
+    // calling the function performing calculation and
+    // printing the result
+    cout << "Minimum length of subarray is : "
+         << minLength(arr);
+    return 0;
+}
+Output
+
+
+Minimum length of subarray is : 6
+Time Complexity : O(NLog(N)) , where N is the size of given array 
+
+Space Complexity : O(N) , Space for temporary array temp .
+
+Approach 2:
+
+Find the candidate unsorted subarray 
+Scan from left to right and find the first element which is greater than the next element. Let s be the index of such an element. In the above example 1, s is 3 (index of 30). 
+Scan from right to left and find the first element (first in right to left order) which is smaller than the next element (next in right to left order). Let e be the index of such an element. In the above example 1, e is 7 (index of 31).
+Check whether sorting the candidate unsorted subarray makes the complete array sorted or not. If not, then include more elements in the subarray. 
+Find the minimum and maximum values in arr[s..e]. Let minimum and maximum values be min and max. min and max for [30, 25, 40, 32, 31] are 25 and 40 respectively. 
+Find the first element (if there is any) in arr[0..s-1] which is greater than min, change s to index of this element. There is no such element in above example 1. 
+Find the last element (if there is any) in arr[e+1..n-1] which is smaller than max, change e to index of this element. In the above example 1, e is changed to 8 (index of 35)
+Print s and e.
+Below is the implementation of the above approach:
+
+C++
+C
+Java
+Python3
+# Python3 program to find the Minimum length Unsorted Subarray,
+# sorting which makes the complete array sorted
+def printUnsorted(arr, n):
+    e = n-1
+    # step 1(a) of above algo
+    for s in range(0,n-1):
+        if arr[s] > arr[s+1]:
+            break
+         
+    if s == n-1:
+        print ("The complete array is sorted")
+        exit()
+ 
+    # step 1(b) of above algo
+    e= n-1
+    while e > 0:
+        if arr[e] < arr[e-1]:
+            break
+        e -= 1
+ 
+    # step 2(a) of above algo
+    max = arr[s]
+    min = arr[s]
+    for i in range(s+1,e+1):
+        if arr[i] > max:
+            max = arr[i]
+        if arr[i] < min:
+            min = arr[i]
+             
+    # step 2(b) of above algo
+    for i in range(s):
+        if arr[i] > min:
+            s = i
+            break
+ 
+    # step 2(c) of above algo
+    i = n-1
+    while i >= e+1:
+        if arr[i] < max:
+            e = i
+            break
+        i -= 1
+     
+    # step 3 of above algo
+    print ("The unsorted subarray which makes the given array")
+    print ("sorted lies between the indexes %d and %d"%( s, e))
+ 
+arr = [10, 12, 20, 30, 25, 40, 32, 31, 35, 50, 60]
+arr_size = len(arr)
+printUnsorted(arr, arr_size)
+ 
+# This code is contributed by Shreyanshi Arun
+C#
+PHP
+Javascript
+Output
+The unsorted subarray which makes the given array
+sorted lies between the indices 3 and 8
+Time Complexity : O(n) 
+Auxiliary Space : O(1)
+ 
+
+Please write comments if you find the above code/algorithm incorrect, or find better ways to solve the same problem.
+
+
+
+
+
+Like
+101
+Previous
+Sort elements by frequency using Binary Search Tree
+Next
+Sort numbers stored on different machines
+Related Articles
+1.
+Which sorting algorithm makes minimum number of memory writes?
+2.
+Maximize partitions that if sorted individually makes the whole Array sorted
+3.
+Check if array can be divided into two subsequences merging whom makes Array sorted
+4.
+Check if removal of a subsequence of non-adjacent elements makes the array sorted
+5.
+Maximize M such that swapping arr[i] with arr[i+M] makes Array sorted
+6.
+Find a pair of elements swapping which makes sum of two arrays same
+7.
+Minimize cost to sort given array by sorting unsorted subarrays
+8.
+Find index of first occurrence when an unsorted array is sorted
+9.
+Merging and Sorting Two Unsorted Stacks
+10.
+Why is it faster to process sorted array than an unsorted array ?
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+Akanksha_Rai
+avanitrachhadiya2155
+singhalrishabh0904
+codewithshinchan
+kothavvsaakash
+hardikkoriintern
+hianmoyo3s
+Article Tags :
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting
+Improve Article
+Report Issue

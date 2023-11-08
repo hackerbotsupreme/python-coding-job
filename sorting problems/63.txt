@@ -1,0 +1,208 @@
+Minimum swaps to reach permuted array with at most 2 positions left swaps allowed
+
+Difficulty Level : Hard
+Last Updated : 15 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given a permuted array of length N of first N natural numbers, we need to tell the minimum number of swaps required in the sorted array of first N natural number to reach given permuted array where a number can be swapped with at most 2 positions left to it. If it is not possible to reach permuted array by above swap condition then print not possible. 
+
+Examples: 
+
+Input : arr = [1, 2, 5, 3, 4]
+Output : 2
+We can reach to above-permuted array 
+in total 2 swaps as shown below,
+[1, 2, 3, 4, 5] -> [1, 2, 3, 5, 4] -> 
+[1, 2, 5, 3, 4]
+
+Input : arr[] = [5, 1, 2, 3, 4]
+Output : Not Possible
+It is not possible to reach above array 
+just by swapping numbers 2 positions left
+to it.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+We can solve this problem using inversions. As we can see that if a number is at a position which is more than 2 places away from its actual position then it is not possible to reach there just by swapping with elements at 2 left positions and if all element satisfy this property (there are <=2 elements smaller than it on the right) then answer will simply be a total number of inversions in the array because that many swaps will be needed to transform the array into permuted array. 
+
+We can find the number of inversions in N log N time using merge sort technique explained here so total time complexity of solution will be O(N log N) only. 
+
+Implementation:
+
+C++
+Java
+Python3
+# Python3 program to find minimum number of
+# swaps to reach a permutation with at most
+# 2 left swaps allowed for every element
+ 
+# This function merges two sorted arrays and
+# returns inversion count in the arrays.
+def merge(arr, temp, left, mid, right):
+ 
+    inv_count = 0
+ 
+    i = left # i is index for left subarray
+    j = mid # j is index for right subarray
+    k = left # k is index for resultant merged subarray
+    while (i <= mid - 1) and (j <= right):
+     
+        if arr[i] <= arr[j]:
+            temp[k] = arr[i]
+            k, i = k + 1, i + 1
+         
+        else:
+            temp[k] = arr[j]
+            k, j = k + 1, j + 1
+            inv_count = inv_count + (mid - i)
+ 
+    # Copy the remaining elements of left
+    # subarray (if there are any) to temp
+    while i <= mid - 1:
+        temp[k] = arr[i]
+        k, i = k + 1, i + 1
+ 
+    # Copy the remaining elements of right
+    # subarray (if there are any) to temp
+    while j <= right:
+        temp[k] = arr[j]
+        k, j = k + 1, j + 1
+ 
+    # Copy back the merged elements to original array
+    for i in range(left, right + 1):
+        arr[i] = temp[i]
+ 
+    return inv_count
+ 
+# An auxiliary recursive function that
+# sorts the input array and returns the
+# number of inversions in the array.
+def _mergeSort(arr, temp, left, right):
+ 
+    inv_count = 0
+    if right > left:
+     
+        # Divide the array into two parts
+        # and call _mergeSortAndCountInv()
+        # for each of the parts
+        mid = (right + left) // 2
+ 
+        # Inversion count will be sum of
+        # inversions in left-part, right-part
+        # and number of inversions in merging
+        inv_count = _mergeSort(arr, temp, left, mid)
+        inv_count += _mergeSort(arr, temp, mid + 1, right)
+ 
+        # Merge the two parts
+        inv_count += merge(arr, temp, left, mid + 1, right)
+     
+    return inv_count
+ 
+# This function sorts the input array and
+# returns the number of inversions in the array
+def mergeSort(arr, array_size):
+ 
+    temp = [None] * array_size
+    return _mergeSort(arr, temp, 0, array_size - 1)
+ 
+# method returns minimum number of
+# swaps to reach permuted array 'arr'
+def minSwapToReachArr(arr, N):
+ 
+    # loop over all elements to check
+    # Invalid permutation condition
+    for i in range(0, N):
+     
+        # if an element is at distance more than 2
+        # from its actual position then it is not
+        # possible to reach permuted array just
+        # by swapping with 2 positions left elements
+        # so returning -1
+        if (arr[i] - 1) - i > 2:
+            return -1
+     
+    # If permuted array is not Invalid, then number
+    # of Inversion in array will be our final answer
+    numOfInversion = mergeSort(arr, N)
+    return numOfInversion
+ 
+# Driver code to test above methods
+if __name__ == "__main__":
+ 
+    # change below example
+    arr = [1, 2, 5, 3, 4]
+    N = len(arr)
+    res = minSwapToReachArr(arr, N)
+    if res == -1:
+        print("Not Possible")
+    else:
+        print(res)
+ 
+# This code is contributed by Rituraj Jain
+C#
+Javascript
+Output
+2
+Time Complexity: O(N*logN)
+Auxiliary Space: O(logN)
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Minimum difference between max and min of all K-size subsets
+Next
+Convert an Array to reduced form using Vector of pairs
+Related Articles
+1.
+Minimum cost to reach end of array when a maximum jump of K index is allowed
+2.
+Maximum number formed from array with K number of adjacent swaps allowed
+3.
+Construct Array of given size with elements at even positions divisible by their adjacent left
+4.
+Program for array left rotation by d positions.
+5.
+Minimum swaps such that at least K points reach target within T time
+6.
+Number of swaps to sort when only adjacent swapping allowed
+7.
+Find the most frequent element K positions apart from X in given Array
+8.
+Queries to replace subarrays by equal length arrays with at most P replacements allowed for any array element
+9.
+Find maximum path sum in a 2D matrix when exactly two left moves are allowed
+10.
+Minimum possible value T such that at most D Partitions of the Array having at most sum T is possible
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+rituraj_jain
+Mithun Kumar
+sanjoy_62
+surinderdawra388
+khushboogoyal499
+rohitsingh07052
+hardikkoriintern
+agfro1cac
+Article Tags :
+inversion
+Merge Sort
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Merge Sort
+Sorting

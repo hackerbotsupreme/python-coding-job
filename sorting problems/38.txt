@@ -1,0 +1,376 @@
+Sort an array according to count of set bits
+
+Difficulty Level : Medium
+Last Updated : 07 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of positive integers, sort the array in decreasing order of count of set bits in binary representations of array elements. For integers having the same number of set bits in their binary representation, sort according to their position in the original array i.e., a stable sort. For example, if the input array is {3, 5}, then the output array should also be {3, 5}. Note that both 3 and 5 have the same number set bits.
+
+Examples:
+
+Input: arr[] = {5, 2, 3, 9, 4, 6, 7, 15, 32};
+Output: 15 7 5 3 9 6 2 4 32
+Explanation:
+The integers in their binary representation are:
+    15 -1111
+    7  -0111
+    5  -0101
+    3  -0011
+    9  -1001
+    6  -0110
+    2  -0010
+    4- -0100
+    32 -10000
+hence the non-increasing sorted order is:
+{15}, {7}, {5, 3, 9, 6}, {2, 4, 32}
+
+Input: arr[] = {1, 2, 3, 4, 5, 6};
+Output: 3 5 6 1 2 4
+Explanation:
+    3  - 0011
+    5  - 0101
+    6  - 0110
+    1  - 0001
+    2  - 0010
+    4  - 0100
+hence the non-increasing sorted order is
+{3, 5, 6}, {1, 2, 4}
+Recommended Problem
+Sort by Set Bit Count
+Arrays
+Sorting
++2 more
+Solve Problem
+Submission count: 38.8K
+Method 1: Simple
+
+Create an auxiliary array and store the set-bit counts of all integers in the aux array
+Simultaneously sort both arrays according to the non-increasing order of auxiliary array. (Note that we need to use a stable sort algorithm)
+Before sort:
+int arr[] = {1, 2, 3, 4, 5, 6};
+int aux[] = {1, 1, 2, 1, 2, 2}
+After sort:
+arr = {3, 5, 6, 1, 2, 4}
+aux = {2, 2, 2, 1, 1, 1}
+Implementation:
+
+
+C++
+C
+Java
+Python3
+# Python 3 program to implement simple approach to sort
+# an array according to count of set bits.
+  
+# a utility function that returns total set bits
+# count in an integer
+def countBits(a):
+    count = 0
+    while (a):
+        if (a & 1):
+            count+= 1
+        a = a>>1
+  
+    return count
+  
+# Function to simultaneously sort both arrays
+# using insertion sort 
+# ( https://www.geeksforgeeks.org/insertion-sort/ )
+def insertionSort(arr,aux, n):
+    for i in range(1,n,1):
+        # use 2 keys because we need to sort both
+        # arrays simultaneously
+        key1 = aux[i]
+        key2 = arr[i]
+        j = i-1
+  
+        # Move elements of arr[0..i-1] and aux[0..i-1],
+        #  such that elements of aux[0..i-1] are
+        # greater than key1, to one position ahead
+        #  of their current position */
+        while (j >= 0 and aux[j] < key1):
+            aux[j+1] = aux[j]
+            arr[j+1] = arr[j]
+            j = j-1
+  
+        aux[j+1] = key1
+        arr[j+1] = key2
+  
+# Function to sort according to bit count using
+# an auxiliary array
+def sortBySetBitCount(arr, n):
+    # Create an array and store count of
+    # set bits in it.
+    aux = [0 for i in range(n)]
+    for i in range(0,n,1):
+        aux[i] = countBits(arr[i])
+  
+    # Sort arr[] according to values in aux[]
+    insertionSort(arr, aux, n)
+  
+# Utility function to print an array
+def printArr(arr, n):
+    for i in range(0,n,1):
+        print(arr[i],end = " ")
+  
+# Driver Code
+if __name__ =='__main__':
+    arr = [1, 2, 3, 4, 5, 6]
+    n = len(arr)
+    sortBySetBitCount(arr, n)
+    printArr(arr, n)
+  
+# This code is contributed by
+# Surendra_Gangwar
+C#
+Javascript
+Output
+3 5 6 1 2 4 
+Auxiliary Space: O(n)
+Time complexity: O(n2)
+
+Note: Time complexity can be improved to O(nLogn) by using a stable O(nlogn) sorting algorithm.
+
+
+
+Method 2: Using std::sort()
+
+Using custom comparator of std::sort to sort the array according to set-bit count
+
+C++
+C
+Java
+Python3
+# Using custom comparator lambda function
+arr = [1, 2, 3, 4, 5, 6]
+  
+  
+# form a tuple with val, index
+n = len(arr)
+arr = [(arr[i], i) for i in range(n)]
+  
+  
+def countSetBits(val):
+    cnt = 0
+    while val:
+        cnt += val % 2
+        val = val//2
+    return cnt
+  
+  
+# first criteria to sort is number of set bits,
+# then the index
+sorted_arr = sorted(arr, key=lambda val: (
+    countSetBits(val[0]), n-val[1]), reverse=True)
+sorted_arr = [val[0] for val in sorted_arr]
+print(sorted_arr)
+Javascript
+Output
+3 5 6 1 2 4 
+Auxiliary Space: O(1)
+Time complexity: O(n log n)
+
+Method 3: Counting Sort based
+
+This problem can be solved in O(n) time. The idea is similar to counting sort.
+
+
+Note: There can be a minimum 1 set-bit and only a maximum of 31set-bits in an integer.
+
+Steps (assuming that an integer takes 32 bits):
+
+Create a vector “count” of size 32. Each cell of count i.e., count[i] is another vector that stores all the elements whose set-bit-count is i
+Traverse the array and do the following for each element:
+Count the number set-bits of this element. Let it be ‘setbitcount’
+count[setbitcount].push_back(element)
+Traverse ‘count’ in reverse fashion(as we need to sort in non-increasing order) and modify the array.
+Capture
+
+C++
+Java
+Python3
+# Python3 program to sort an array according to
+# count of set bits using std::sort()
+  
+# a utility function that returns total set bits
+# count in an integer
+def countBits(a):
+    count = 0
+    while (a):
+        if (a & 1 ):
+            count += 1
+        a = a>>1
+    return count
+  
+# Function to sort according to bit count
+# This function assumes that there are 32
+# bits in an integer.
+def sortBySetBitCount(arr,n):
+    count = [[] for i in range(32)]
+    setbitcount = 0
+    for i in range(n):
+        setbitcount = countBits(arr[i])
+        count[setbitcount].append(arr[i])
+  
+    j = 0 # Used as an index in final sorted array
+  
+    # Traverse through all bit counts (Note that we
+    # sort array in decreasing order)
+    for i in range(31, -1, -1):
+        v1 = count[i]
+        for i in range(len(v1)):
+            arr[j] = v1[i]
+            j += 1
+  
+# Utility function to print an array
+def printArr(arr, n):
+    print(*arr)
+  
+# Driver Code
+arr = [1, 2, 3, 4, 5, 6]
+n = len(arr)
+sortBySetBitCount(arr, n)
+printArr(arr, n)
+  
+# This code is contributed by mohit kumar 29
+C#
+Javascript
+Output
+3 5 6 1 2 4 
+Method 4: Using MultiMap
+
+Steps:
+
+Create a MultiMap whose key values will be the negative of the number of set-bits of the element.
+Traverse the array and do following for each element:
+Count the number set-bits of this element. Let it be ‘setBitCount’
+count.insert({(-1) * setBitCount, element})
+Traverse ‘count’ and print the second elements.
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+# Python3 program to implement 
+# simple approach to sort 
+# an array according to 
+# count of set bits.
+  
+# Function to count setbits
+def setBitCount(num):
+      
+    count = 0
+      
+    while (num):
+        if (num & 1):
+            count += 1
+              
+        num = num >> 1
+          
+    return count
+  
+# Function to sort By SetBitCount
+def sortBySetBitCount(arr, n):
+      
+    count = []
+      
+    # Iterate over all values and 
+    # insert into multimap
+    for i in range(n):
+        count.append([(-1) * 
+        setBitCount(arr[i]), arr[i]])
+          
+    count.sort(key = lambda x:x[0])
+      
+    for i in range(len(count)):
+        print(count[i][1], end = " ")
+  
+# Driver Code
+arr = [ 1, 2, 3, 4, 5, 6 ]
+n = len(arr)
+  
+sortBySetBitCount(arr, n)
+  
+# This code is contributed by rag2127
+C#
+Javascript
+Output
+3 5 6 1 2 4 
+Time complexity: O(n log n)
+Auxiliary Space: O(n)
+
+This article is contributed by Nikhil Chakravartula and modified by Ashok Karwa. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+38
+Previous
+Sort an array according to count of set bits | Set 2
+Next
+Sort a binary array using one traversal and no extra space
+Related Articles
+1.
+Sort an array according to count of set bits | Set 2
+2.
+Count of pairs {X, Y} from an array such that sum of count of set bits in X ⊕ Y and twice the count of set bits in X & Y is M
+3.
+Rank the array according to rightmost set bit and least set bits
+4.
+Sort an array according to the increasing count of distinct Prime Factors
+5.
+Sort an array according to the increasing frequency of the digit K in the array elements
+6.
+Sort an array according to the order defined by another array
+7.
+Sort an array of strings according to string lengths
+8.
+Sort an array according to absolute difference with a given value "using constant extra space"
+9.
+Python | Sort an array according to absolute difference
+10.
+Sort the array of strings according to alphabetical order defined by another string
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+prasad gujar
+Sach_Code
+SURENDRA_GANGWAR
+Rohan_Kansara
+mohit kumar 29
+ashokkarwa087
+29AjayKumar
+amit143katiyar
+muditmalpani1997
+rag2127
+subhammahato348
+avanitrachhadiya2155
+divyeshrabadiya07
+unknown2108
+patel2127
+ab2127
+surinderdawra388
+adityakumar129
+gfgking
+hardikkoriintern
+Article Tags :
+Deutsche Bank
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting

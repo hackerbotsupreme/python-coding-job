@@ -1,0 +1,139 @@
+Choose k array elements such that difference of maximum and minimum is minimized
+
+Difficulty Level : Easy
+Last Updated : 06 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of n integers and a positive number k. We are allowed to take any k integers from the given array. The task is to find the minimum possible value of the difference between maximum and minimum of K numbers.
+
+Examples: 
+
+Input : arr[] = {10, 100, 300, 200, 1000, 20, 30}
+        k = 3
+Output : 20
+20 is the minimum possible difference between any
+maximum and minimum of any k numbers.
+Given k = 3, we get the result 20 by selecting 
+integers {10, 20, 30}.
+max(10, 20, 30) - min(10, 20, 30) = 30 - 10 = 20.
+
+Input : arr[] = {1, 2, 3, 4, 10, 20, 30, 40, 
+                                   100, 200}.
+        k = 4      
+Output : 3
+Recommended Problem
+Minimum Difference among K
+Arrays
+Sorting
++2 more
+Amazon
+Solve Problem
+Submission count: 8.5K
+The idea is to sort the array and choose k continuous integers. Why continuous? Let the chosen k integers be arr[0], arr[1], …arr[r], arr[r+x]…, arr[k-1], all in increasing order but not continuous in the sorted array. This means there exists an integer p which lies between arr[r] and arr[r+x],. So if p is included and arr[0] is removed, then the new difference will be arr[r] – arr[1] whereas old difference was arr[r] – arr[0]. And we know arr[0] ≤ arr[1] ≤ … ≤ arr[k-1] so minimum difference reduces or remains the same. If we perform the same procedure for other p like numbers, we get the minimum difference.
+
+Algorithm to solve the problem: 
+
+Sort the Array.
+Calculate the maximum(k numbers) – minimum(k numbers) for each group of k consecutive integers.
+Return minimum of all values obtained in step 2.
+Below is the implementation of above idea : 
+
+C++
+Java
+Python3
+# Python program to find minimum
+# difference of maximum
+# and minimum of K number.
+ 
+# Return minimum difference
+# of maximum and minimum
+# of k elements of arr[0..n-1].
+def minDiff(arr,n,k):
+    result = +2147483647
+  
+    # Sorting the array.
+    arr.sort()
+  
+    # Find minimum value among
+    # all K size subarray.
+    for i in range(n-k+1):
+        result = int(min(result, arr[i+k-1] - arr[i]))
+  
+    return result
+ 
+# Driver code
+ 
+arr= [10, 100, 300, 200, 1000, 20, 30]
+n =len(arr)
+k = 3
+  
+print(minDiff(arr, n, k))
+ 
+# This code is contributed
+# by Anant Agarwal.
+C#
+PHP
+Javascript
+Output
+20
+Time Complexity: O(nlogn).
+Auxiliary Space: O(1)
+
+This article is contributed by Anuj Chauhan. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. 
+
+
+
+Like
+Previous
+Permute two arrays such that sum of every pair is greater or equal to K
+Next
+Sort an array when two halves are sorted
+Related Articles
+1.
+Choose an integer K such that maximum of the xor values of K with all Array elements is minimized
+2.
+Generate an N-length array having maximum element minimized and sum of array elements divisible by K
+3.
+Split the Array in two parts such that maximum product is minimized
+4.
+Delete odd and even numbers at alternate step such that sum of remaining elements is minimized
+5.
+Pair formation such that maximum pair sum is minimized
+6.
+Partition a set into two subsets such that difference between max of one and min of other is minimized
+7.
+Select K elements from an array whose maximum value is minimized
+8.
+Construct an Array of size N with sum divisible by K and array maximum is minimized
+9.
+Generate Array such that max is minimized and arr[i] != arr[j] when j is a multiple of i
+10.
+Choose n elements such that their mean is maximum
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+nitin mittal
+GauravRajput1
+sionc140720
+shivamanandrj9
+hardikkoriintern
+Article Tags :
+Amazon
+Arrays
+Sorting
+Practice Tags :
+Amazon
+Arrays
+Sorting

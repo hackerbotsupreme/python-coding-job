@@ -1,0 +1,160 @@
+Tree Sort
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Tree sort is a sorting algorithm that is based on Binary Search Tree data structure. It first creates a binary search tree from the elements of the input list or array and then performs an in-order traversal on the created binary search tree to get the elements in sorted order. 
+
+Algorithm: 
+Step 1: Take the elements input in an array.
+Step 2: Create a Binary search tree by inserting data items from the array into the binary search tree.
+Step 3: Perform in-order traversal on the tree to get the elements in sorted order.
+Applications of Tree sort:
+Its most common use is to edit the elements online: after each installation, a set of objects seen so far is available in a structured program.
+If you use a splay tree as a binary search tree, the resulting algorithm (called splaysort) has an additional property that it is an adaptive sort, which means its working time is faster than O (n log n) for virtual inputs.
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Below is the implementation for the above approach:
+
+C++
+Java
+Python3
+# Python3 program to 
+# implement Tree Sort
+  
+# Class containing left and
+# right child of current 
+# node and key value
+class Node:
+  
+  def __init__(self,item = 0):
+    self.key = item
+    self.left,self.right = None,None
+  
+  
+# Root of BST
+root = Node()
+  
+root = None
+  
+# This method mainly
+# calls insertRec()
+def insert(key):
+  global root
+  root = insertRec(root, key)
+  
+# A recursive function to 
+# insert a new key in BST
+def insertRec(root, key):
+  
+  # If the tree is empty,
+  # return a new node
+  
+  if (root == None):
+    root = Node(key)
+    return root
+  
+  # Otherwise, recur
+  # down the tree 
+  if (key < root.key):
+    root.left = insertRec(root.left, key)
+  elif (key > root.key):
+    root.right = insertRec(root.right, key)
+  
+  # return the root
+  return root
+  
+# A function to do 
+# inorder traversal of BST
+def inorderRec(root):
+  if (root != None):
+    inorderRec(root.left)
+    print(root.key ,end = " ")
+    inorderRec(root.right)
+    
+def treeins(arr):
+  for i in range(len(arr)):
+    insert(arr[i])
+  
+# Driver Code
+arr = [5, 4, 7, 2, 11]
+treeins(arr)
+inorderRec(root)
+  
+# This code is contributed by shinjanpatra
+C#
+Javascript
+Output
+2 4 5 7 11 
+Complexity Analysis:
+Average Case Time Complexity: O(n log n) Adding one item to a Binary Search tree on average takes O(log n) time. Therefore, adding n items will take O(n log n) time
+
+Worst Case Time Complexity: O(n2). The worst case time complexity of Tree Sort can be improved by using a self-balancing binary search tree like Red Black Tree, AVL Tree. Using self-balancing binary tree Tree Sort will take O(n log n) time to sort the array in worst case. 
+
+Auxiliary Space: O(n)
+ 
+
+ 
+
+
+
+This article is contributed by Harsh Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+15
+Next
+Heap Sort
+Related Articles
+1.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+2.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+3.
+Bucket Sort To Sort an Array with Negative Numbers
+4.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+5.
+Program to sort an array of strings using Selection Sort
+6.
+C/C++ Program for Odd-Even Sort / Brick Sort
+7.
+Java Program for Odd-Even Sort / Brick Sort
+8.
+Insertion sort to sort even and odd positioned elements in different orders
+9.
+Odd Even Transposition Sort / Brick Sort using pthreads
+10.
+Sort an Array which contain 1 to N values in O(N) using Cycle Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vibi
+vsushko
+jerryraj06
+Rajput-Ji
+gabaa406
+kashishkumar2
+_saurabh_jaiswal
+shinjanpatra
+Article Tags :
+Self-Balancing-BST
+Sorting
+Practice Tags :
+Sorting

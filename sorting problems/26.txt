@@ -1,0 +1,126 @@
+Odd-Even Sort / Brick Sort
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+This is basically a variation of bubble-sort. This algorithm is divided into two phases- Odd and Even Phase. The algorithm runs until the array elements are sorted and in each iteration two phases occurs- Odd and Even Phases.
+In the odd phase, we perform a bubble sort on odd indexed elements and in the even phase, we perform a bubble sort on even indexed elements.
+ 
+
+C++
+Java
+Python3
+# Python Program to implement 
+# Odd-Even / Brick Sort
+  
+def oddEvenSort(arr, n):
+    # Initially array is unsorted
+    isSorted = 0
+    while isSorted == 0:
+        isSorted = 1
+        temp = 0
+        for i in range(1, n-1, 2):
+            if arr[i] > arr[i+1]:
+                arr[i], arr[i+1] = arr[i+1], arr[i]
+                isSorted = 0
+                  
+        for i in range(0, n-1, 2):
+            if arr[i] > arr[i+1]:
+                arr[i], arr[i+1] = arr[i+1], arr[i]
+                isSorted = 0
+      
+    return
+  
+  
+arr = [34, 2, 10, -9]
+n = len(arr)
+  
+oddEvenSort(arr, n);
+for i in range(0, n):
+    print(arr[i], end = ' ')
+      
+# Code Contributed by Mohit Gupta_OMG <(0_o)>
+C#
+Javascript
+Output : 
+
+-9 2 10 34 
+We demonstrate the above algorithm using the below illustration on the array = {3, 2, 3, 8, 5, 6, 4, 1}
+ 
+
+
+
+Please refer wiki for proof of correctness.
+Time Complexity : O(N2) where, N = Number of elements in the input array.
+Auxiliary Space : O(1). Just like bubble sort this is also an in-place algorithm.
+Exercise 
+In our program in each iteration we first do bubble sort on odd indexed elements and then a bubble sort on the even indexed elements.
+Will we get a sorted result if we first perform a bubble sort on even indexed element first and then on the odd indexed element ?
+References 
+https://en.wikipedia.org/wiki/Odd%E2%80%93even_sort 
+
+ 
+
+This article is contributed by Rachit Belwariar. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+ 
+
+
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+6
+Previous
+Odd Even Transposition Sort / Brick Sort using pthreads
+Next
+QuickSort on Singly Linked List
+Related Articles
+1.
+C/C++ Program for Odd-Even Sort / Brick Sort
+2.
+Java Program for Odd-Even Sort / Brick Sort
+3.
+Odd Even Transposition Sort / Brick Sort using pthreads
+4.
+Brick Sort Visualization using JavaScript
+5.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+6.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+7.
+Bucket Sort To Sort an Array with Negative Numbers
+8.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+9.
+Program to sort an array of strings using Selection Sort
+10.
+Insertion sort to sort even and odd positioned elements in different orders
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+splevel62
+surinderdawra388
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

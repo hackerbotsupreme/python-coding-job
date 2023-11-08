@@ -1,0 +1,133 @@
+Convert an Array to reduced form using Vector of pairs
+
+Difficulty Level : Medium
+Last Updated : 28 Nov, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array with n distinct elements, convert the given array to a form where all elements are in range from 0 to n-1. The order of elements is same, i.e., 0 is placed in place of smallest element, 1 is placed for second smallest element, … n-1 is placed for largest element.
+
+Input:  arr[] = {10, 40, 20}
+Output: arr[] = {0, 2, 1}
+
+Input:  arr[] = {5, 10, 40, 30, 20}
+Output: arr[] = {0, 1, 4, 3, 2}
+We have discussed simple and hashing based solutions.
+
+In this post, a new solution is discussed. The idea is to create a vector of pairs. Every element of pair contains element and index. We sort vector by array values. After sorting, we copy indexes to original array.
+
+// C++ program to convert an array in reduced
+// form
+#include <bits/stdc++.h>
+using namespace std;
+  
+// Converts arr[0..n-1] to reduced form.
+void convert(int arr[], int n)
+{
+    // A vector of pairs. Every element of
+    // pair contains array element and its
+    // index
+    vector <pair<int, int> > v;
+  
+    // Put all elements and their index in
+    // the vector
+    for (int i = 0; i < n; i++)
+        v.push_back(make_pair(arr[i], i));
+  
+    // Sort the vector by array values
+    sort(v.begin(), v.end());
+  
+    // Put indexes of modified vector in arr[]
+    for (int i=0; i<n; i++)
+        arr[v[i].second] = i;
+}
+  
+// Utility function to print an array.
+void printArr(int arr[], int n)
+{
+    for (int i=0; i<n; i++)
+        cout << arr[i] << " ";
+}
+  
+// Driver program to test above method
+int main()
+{
+    int arr[] = {10, 20, 15, 12, 11, 50};
+    int n = sizeof(arr)/sizeof(arr[0]);
+  
+    cout << "Given Array is \n";
+    printArr(arr, n);
+  
+    convert(arr , n);
+  
+    cout << "\n\nConverted Array is \n";
+    printArr(arr, n);
+  
+    return 0;
+}
+Output :
+
+Given Array is 
+10 20 15 12 11 50 
+
+Converted Array is 
+0 4 3 2 1 5 
+Time Complexity : O(n Log n)
+Auxiliary Space : O(n)
+
+This article is contributed by Arpit Gupta. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Next
+Convert an Array to reduced form using Hashing
+Related Articles
+1.
+Convert an Array to reduced form using Hashing
+2.
+Convert an Array to reduced for using Binary Search
+3.
+Check if all array elements can be reduced to 0 by repeatedly reducing pairs of consecutive elements by their minimum
+4.
+Check if sum of array can be reduced to zero by repetitively reducing array element by their index value
+5.
+Check if sum of the given array can be reduced to 0 by reducing array elements by K
+6.
+Minimum decrements to make an Array at most 0 such that all array elements are cyclically decremented after a number is reduced to 0
+7.
+Minimize Array elements to be reduced to make subsequences sum 1 to Array max possible
+8.
+Minimize deletions in Array by deleting all occurrences of any number such that array size is reduced to at least half
+9.
+Minimum length of the reduced Array formed using given operations
+10.
+Initializing Vector using an Existing Vector in C++ STL
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+aganjali10
+Article Tags :
+STL
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting
+STL

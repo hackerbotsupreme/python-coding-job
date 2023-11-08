@@ -1,0 +1,200 @@
+Minimum swaps to make two arrays consisting unique elements identical
+
+Difficulty Level : Hard
+Last Updated : 08 Aug, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given two arrays that have the same values but in a different order and having no duplicate elements in it, we need to make a second array the same as a first array using the minimum number of swaps. 
+
+Examples:  
+
+Input  : arrA[] = {3, 6, 4, 8}, 
+         arrB[] = {4, 6, 8, 3}
+Output : 2
+Explanation: we can make arrB to same as arrA in 2 swaps which are shown below, swap 4 with 8,
+arrB = {8, 6, 4, 3} swap 8 with 3,   arrB = {3, 6, 4, 8}
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+This problem can be solved by modifying the array B. We save the index of array A elements in array B i.e. if ith element of array A is at jth position in array B, then we will make arrB[i] = j 
+For above given example, modified array B will be, arrB = {3, 1, 0, 2}. This modified array represents the distribution of array A element in array B and our goal is to sort this modified array in a minimum number of swaps because after sorting only array B element will be aligned with array A elements. 
+Now count of minimum swaps for sorting an array can be found by visualizing the problem as a graph, this problem is already explained in previous article. 
+So we count these swaps in a modified array and that will be our final answer. 
+
+Please see the below code for a better understanding. 
+
+C++
+Java
+Python3
+# Python3 program to make
+# an array same to another
+# using minimum number of swap
+ 
+# Function returns the minimum
+# number of swaps required to
+# sort the array
+# This method is taken from below post
+# https: // www.geeksforgeeks.org/
+# minimum-number-swaps-required-sort-array/
+def minSwapsToSort(arr, n):
+ 
+    # Create an array of pairs
+    # where first element is
+    # array element and second
+    # element is position of
+    # first element
+    arrPos = [[0 for x in range(2)]
+                 for y in range(n)]
+     
+    for i in range(n):   
+        arrPos[i][0] = arr[i]
+        arrPos[i][1] = i
+ 
+    # Sort the array by array
+    # element values to get right
+    # position of every element
+    # as second element of pair.
+    arrPos.sort()
+ 
+    # To keep track of visited
+    # elements. Initialize all
+    # elements as not visited
+    # or false.
+    vis = [False] * (n)
+ 
+    # Initialize result
+    ans = 0
+ 
+    # Traverse array elements
+    for i in range(n):
+     
+        # Already swapped and corrected or
+        # already present at correct pos
+        if (vis[i] or arrPos[i][1] == i):
+            continue
+ 
+        # Find out the number of  node in
+        # this cycle and add in ans
+        cycle_size = 0
+        j = i
+         
+        while (not vis[j]):       
+            vis[j] = 1
+ 
+            # Move to next node
+            j = arrPos[j][1]
+            cycle_size+= 1
+        
+        # Update answer by
+        # adding current cycle.
+        ans += (cycle_size - 1) 
+ 
+    # Return result
+    return ans
+ 
+# Method returns minimum
+# number of swap to make
+# array B same as array A
+def minSwapToMakeArraySame(a, b, n):
+         
+    # map to store position
+    # of elements in array B
+    # we basically store
+    # element to index mapping.
+    mp = {}
+    for i in range(n):
+        mp[b[i]] = i
+ 
+    # now we're storing position
+    # of array A elements
+    # in array B.
+    for i in range(n):
+        b[i] = mp[a[i]]
+ 
+    # Returning minimum swap
+    # for sorting in modified
+    # array B as final answer
+    return minSwapsToSort(b, n)
+ 
+# Driver code
+if __name__ == "__main__":
+ 
+    a = [3, 6, 4, 8]
+    b = [4, 6, 8, 3]
+    n = len(a)
+    print(minSwapToMakeArraySame(a, b, n))
+ 
+# This code is contributed by Chitranayal
+C#
+Javascript
+Output:  
+
+2
+Time Complexity: O(n log n)
+Auxiliary Space: O(n)
+
+
+
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+
+
+Like
+16
+Previous
+Largest permutation after at most k swaps
+Next
+Minimum number of swaps required to sort an array
+Related Articles
+1.
+Minimum swaps of similar indexed elements required to make all elements of one of the two given arrays equal
+2.
+Minimum changes required to make two arrays identical
+3.
+Minimum swaps of same-indexed elements required to make sum of two given arrays even
+4.
+Minimum swaps to reach permuted array with at most 2 positions left swaps allowed
+5.
+Make all array elements equal to 0 by replacing minimum subsequences consisting of equal elements
+6.
+Check whether array has all identical elements using Arrays.asList() and HashSet in Java
+7.
+Longest Subarray consisting of unique elements from an Array
+8.
+Minimum swaps of same indexed elements required to obtain a Majority Element in one of the arrays
+9.
+Minimum swaps required between two strings to make one string strictly greater than the other
+10.
+Minimum number of swaps required to make parity of array elements same as their indices
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+avanitrachhadiya2155
+rag2127
+ab2127
+prachisoda1234
+sumitgumber28
+simmytarika5
+hossainnahdi8051
+_shinchancode
+hardikkoriintern
+avtarkumar719
+Article Tags :
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting

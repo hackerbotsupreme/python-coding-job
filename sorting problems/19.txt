@@ -1,0 +1,184 @@
+Pancake sorting
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss(40+)
+Courses
+Practice
+Video
+Given an unsorted array, the task is to sort the given array. You are allowed to do only following operation on array. 
+
+flip(arr, i): Reverse array from 0 to i 
+Examples:
+
+Input: arr[] = { 23, 10, 20, 11, 12, 6, 7 }
+Output: { 6, 7, 10, 11, 12, 20, 23}
+
+Input: arr[] = { 0, 1, 1, 0, 0 }
+Output: { 0, 0, 0, 1, 1 }
+
+ 
+Approach: Unlike a traditional sorting algorithm, which attempts to sort with the fewest comparisons possible, the goal is to sort the sequence in as few reversals as possible. 
+
+The idea is to do something similar to Selection Sort. We one by one place maximum element at the end and reduce the size of current array by one. 
+
+Following are the detailed steps. Let given array be arr[] and size of array be n. 
+
+
+
+Start from current size equal to n and reduce current size by one while it’s greater than 1. Let the current size be curr_size. 
+Do following for every curr_size
+Find index of the maximum element in arr[0 to curr_szie-1]. Let the index be ‘mi’
+Call flip(arr, mi)
+Call flip(arr, curr_size – 1)
+See following video for visualization of the above algorithm.
+http://www.youtube.com/embed/kk-_DDgoXfk
+
+Below is the implementation:
+
+C
+CPP
+Java
+Python3
+# Python3 program to
+# sort array using
+# pancake sort
+  
+# Reverses arr[0..i] */
+def flip(arr, i):
+    start = 0
+    while start < i:
+        temp = arr[start]
+        arr[start] = arr[i]
+        arr[i] = temp
+        start += 1
+        i -= 1
+  
+# Returns index of the maximum
+# element in arr[0..n-1] */
+def findMax(arr, n):
+    mi = 0
+    for i in range(0,n):
+        if arr[i] > arr[mi]:
+            mi = i
+    return mi
+  
+# The main function that 
+# sorts given array 
+# using flip operations
+def pancakeSort(arr, n):
+      
+    # Start from the complete
+    # array and one by one
+    # reduce current size
+    # by one
+    curr_size = n
+    while curr_size > 1:
+        # Find index of the maximum
+        # element in 
+        # arr[0..curr_size-1]
+        mi = findMax(arr, curr_size)
+  
+        # Move the maximum element
+        # to end of current array
+        # if it's not already at 
+        # the end
+        if mi != curr_size-1:
+            # To move at the end, 
+            # first move maximum 
+            # number to beginning 
+            flip(arr, mi)
+  
+            # Now move the maximum 
+            # number to end by
+            # reversing current array
+            flip(arr, curr_size-1)
+        curr_size -= 1
+  
+# A utility function to 
+# print an array of size n 
+def printArray(arr, n):
+    for i in range(0,n):
+        print ("%d"%( arr[i]),end=" ")
+  
+# Driver program 
+arr = [23, 10, 20, 11, 12, 6, 7]
+n = len(arr)
+pancakeSort(arr, n);
+print ("Sorted Array ")
+printArray(arr,n)
+  
+# This code is contributed by shreyanshi_arun.
+C#
+PHP
+Javascript
+Output
+Sorted Array 
+6 7 10 11 12 20 23 
+Time Complexity: O(n2), Total O(n) flip operations are performed in above code
+Auxiliary Space: O(1)
+
+References: 
+http://en.wikipedia.org/wiki/Pancake_sorting
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+17
+Previous
+A Pancake Sorting Problem
+Next
+Binary Insertion Sort
+Related Articles
+1.
+C Program for Pancake sorting
+2.
+A Pancake Sorting Problem
+3.
+Know Your Sorting Algorithm | Set 1 (Sorting Weapons used by Programming Languages)
+4.
+Sorting objects using In-Place sorting algorithm
+5.
+Which sorting algorithm makes minimum number of memory writes?
+6.
+Sorting 2D Vector in C++ | Set 2 (In descending order by row and column)
+7.
+Introsort - C++’s Sorting Weapon
+8.
+Sorting 2D Vector in C++ | Set 3 (By number of columns)
+9.
+Asymptotic Analysis and comparison of sorting algorithms
+10.
+Sorting Big Integers
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+rathbhupendra
+Chandan_Kumar
+Akanksha_Rai
+toshniwalyash05
+divyeshrabadiya07
+kashishkumar2
+Article Tags :
+Sorting
+Practice Tags :
+Sorting
+Improve Article
+Report Issue

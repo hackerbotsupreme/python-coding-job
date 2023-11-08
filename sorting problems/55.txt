@@ -1,0 +1,127 @@
+Check if it is possible to sort an array with conditional swapping of adjacent allowed
+
+Difficulty Level : Medium
+Last Updated : 11 Jul, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We are given an unsorted array of integers in the range from 0 to n-1. We are allowed to swap adjacent elements in array many number of times but only if the absolute difference between these element is 1. Check if it is possible to sort the array.If yes then print “yes” else “no”. 
+
+Examples: 
+
+Input : arr[] = {1, 0, 3, 2}
+Output : yes
+Explanation:- We can swap arr[0] and arr[1].
+Again we swap arr[2] and arr[3]. 
+Final arr[] = {0, 1, 2, 3}.
+
+Input : arr[] = {2, 1, 0}
+Output : no
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Although the problems looks complex at first look, there is a simple solution to it. If we traverse array from left to right and we make sure elements before an index i are sorted before we reach i, we must have maximum of arr[0..i-1] just before i. And this maximum must be either smaller than arr[i] or just one greater than arr[i]. In first case, we simply move ahead. In second case, we swap and move ahead.
+
+Compare the current element with the next element in array.If current element is greater than next element then do following:- 
+
+ Check if difference between two numbers is 1 then swap it. 
+else Return false. 
+If we reach end of array, we return true.
+
+C++
+Java
+Python3
+# Python 3 program to
+# check if we can sort
+# an array with adjacent
+# swaps allowed
+ 
+# Returns true if it
+# is possible to sort
+# else false/
+def checkForSorting(arr, n):
+ 
+    for i in range(0,n-1):
+     
+        # We need to do something only if
+        # previousl element is greater
+        if (arr[i] > arr[i+1]):
+         
+            if (arr[i] - arr[i+1] == 1):
+                arr[i], arr[i+1] = arr[i+1], arr[i]
+ 
+            # If difference is more than
+            # one, then not possible
+            else:
+                return False
+ 
+    return True
+ 
+# Driver code
+arr = [1,0,3,2]
+n = len(arr)
+if (checkForSorting(arr, n)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by
+# Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+Yes
+Time Complexity=O(n)
+Auxiliary Space=O(1)
+
+This article is contributed by Roshni Agarwal. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Next
+Number of swaps to sort when only adjacent swapping allowed
+Related Articles
+1.
+Check if it is possible to sort an array with conditional swapping of elements at distance K
+2.
+Number of swaps to sort when only adjacent swapping allowed
+3.
+Sort an array with swapping only with a special element is allowed
+4.
+Sorting array with conditional swapping
+5.
+Sort an array by swapping adjacent elements from indices that contains '1' in a given string
+6.
+Sort 1 to N by swapping adjacent elements
+7.
+Find the largest rectangle of 1's with swapping of columns allowed
+8.
+Check if an array can be sorted by swapping adjacent elements such that each element is swapped even number of times
+9.
+Check if array can be sorted by swapping adjacent elements of opposite parity
+10.
+Maximum number formed from array with K number of adjacent swaps allowed
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+Akanksha_Rai
+gfgking
+rohitsingh07052
+hardikkoriintern
+Article Tags :
+Arrays
+Sorting
+Practice Tags :
+Arrays
+Sorting

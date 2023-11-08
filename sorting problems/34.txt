@@ -1,0 +1,392 @@
+Sort elements by frequency
+
+Difficulty Level : Medium
+Last Updated : 29 Jan, 2023
+Read
+Discuss(180+)
+Courses
+Practice
+Video
+Print the elements of an array in the decreasing frequency if 2 numbers have the same frequency then print the one which came first
+
+Examples:  
+
+Input:  arr[] = {2, 5, 2, 8, 5, 6, 8, 8}
+Output: arr[] = {8, 8, 8, 2, 2, 5, 5, 6}
+
+Input: arr[] = {2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8}
+Output: arr[] = {8, 8, 8, 2, 2, 5, 5, 6, -1, 9999999}
+
+
+Recommended: Please solve it on “PRACTICE ” first, before moving on to the solution. 
+ 
+ 
+Sort elements by frequency using sorting:
+Follow the given steps to solve the problem:
+
+Use a sorting algorithm to sort the elements
+Iterate the sorted array and construct a 2D array of elements and count
+Sort the 2D array according to the count 
+Below is the illustration of the above approach:
+
+Input: arr[] = {2 5 2 8 5 6 8 8}
+
+Step1: Sort the array, 
+After sorting we get: 2 2 5 5 6 8 8 8
+
+Step 2: Now construct the 2D array to maintain the count of every element as
+{{2, 2}, {5, 2}, { 6, 1}, {8, 3}}
+
+Step 3: Sort the array by count
+{{8, 3}, {2, 2}, {5, 2}, {6, 1}}
+
+How to maintain the order of elements if the frequency is the same?
+The above approach doesn’t make sure the order of elements remains the same if the frequency is the same. To handle this, we should use indexes in step 3, if two counts are the same then we should first process(or print) the element with a lower index. In step 1, we should store the indexes instead of elements. 
+
+Input: arr[] = {2 5 2 8 5 6 8 8}
+
+Step1: Sort the array, 
+After sorting we get: 2 2 5 5 6 8 8 8
+indexes:                    0 2 1 4 5 3 6 7
+ 
+
+Step 2: Now construct the 2D array to maintain the count of every element as
+Index, Count
+0,      2
+1,      2
+5,      1
+3,      3
+
+Step 3: Sort the array by count (consider indexes in case of tie)
+{{3, 3}, {0, 2}, {1, 2}, {5, 1}}
+Print the elements using indexes in the above 2D array
+
+ 
+Complete Interview Preparation - GFG
+
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python3
+# Python3 program that performs the following
+# operations: Sort elements by frequency. If two elements
+# have same count, then put the elements that appears first
+ 
+# Used for sorting
+ 
+ 
+class ele:
+    def __init__(self):
+ 
+        self.count = 0
+        self.index = 0
+        self.val = 0
+ 
+ 
+def mycomp(a):
+    return a.val
+ 
+# Used for sorting by frequency. And if frequency is same,
+# then by appearance
+ 
+ 
+def mycomp2(a):
+    # using negative value for a.index
+    # since the sorting should be in
+    # descending order
+    return (a.count, -a.index)
+ 
+ 
+def sortByFrequency(arr, n):
+    element = [None for _ in range(n)]
+    for i in range(n):
+ 
+        element[i] = ele()
+ 
+        # Fill Indexes
+        element[i].index = i
+ 
+        # Initialize counts as 0
+        element[i].count = 0
+ 
+        # Fill values in structure
+        # elements
+        element[i].val = arr[i]
+ 
+    # Sort the structure elements according to value,
+    # we used stable sort so relative order is maintained.
+    #
+    element.sort(key=mycomp)
+ 
+    # initialize count of first element as 1
+    element[0].count = 1
+ 
+    # Count occurrences of remaining elements
+    for i in range(1, n):
+ 
+        if (element[i].val == element[i - 1].val):
+            element[i].count += element[i - 1].count + 1
+ 
+            # Set count of previous element as -1, we are
+            #  doing this because we'll again sort on the
+            #  basis of counts (if counts are equal than on
+            # the basis of index)*/
+            element[i - 1].count = -1
+ 
+            # Retain the first index (Remember first index
+            #  is always present in the first duplicate we
+            #  used stable sort. */
+            element[i].index = element[i - 1].index
+ 
+        # Else If previous element is not equal to current
+        #  so set the count to 1
+        else:
+            element[i].count = 1
+ 
+    # Now we have counts and first index for each element
+    # so now sort on the basis of count and in case of tie
+    # use index to sort.*/
+    element.sort(key=mycomp2)
+ 
+    index = 0
+    for i in range(n - 1, -1, -1):
+        if (element[i].count != -1):
+            for j in range(element[i].count):
+                arr[index] = element[i].val
+                index += 1
+ 
+ 
+# Driver code
+arr = [2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8]
+n = len(arr)
+ 
+# Function call
+sortByFrequency(arr, n)
+ 
+print(*arr)
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+Output
+8 8 8 2 2 5 5 6 -1 9999999 
+Time Complexity: O(N log N), where the N is the size of the array
+Auxiliary Space: O(N)
+
+Thanks to Gaurav Ahirwar for providing the above implementation
+
+Sort elements by frequency using hashing and sorting:
+To solve the problem follow the below idea:
+
+Using a hashing mechanism, we can store the elements (also the first index) and their counts in a hash. Finally, sort the hash elements according to their counts
+
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python3
+# Python3 program for above approach
+ 
+from collections import defaultdict
+ 
+# Sort by Frequency
+ 
+ 
+def sortByFreq(arr, n):
+    # arr -> Array to be sorted
+    # n   -> Length of Array
+ 
+    # d is a hashmap(referred as dictionary in python)
+    d = defaultdict(lambda: 0)
+    for i in range(n):
+        d[arr[i]] += 1
+ 
+    # Sorting the array 'arr' where key
+    # is the function based on which
+    # the array is sorted
+    # While sorting we want to give
+    # first priority to Frequency
+    # Then to value of item
+    arr.sort(key=lambda x: (-d[x], x), reverse = True)
+    #require Updation:- reverse = True, to sort an array in descending order (Jayesh Verma)
+    return (arr)
+ 
+ 
+# Driver code
+if __name__ == "__main__":
+    arr = [2, 5, 2, 6, -1, 9999999, 5, 8, 8, 8]
+    n = len(arr)
+ 
+    # Function call
+    solution = sortByFreq(arr, n)
+    print(*solution)
+C#
+Javascript
+Output
+8 8 8 2 2 5 5 6 -1 9999999 
+Time Complexity: O(N log N), where the N is the size of the array
+Auxiliary Space: O(N)
+
+Note: This can also be solved by Using two maps, one for array element as an index and after this second map whose keys are frequency and value are array elements.
+
+Sort elements by frequency using BST:
+Follow the given steps to solve the problem:
+
+Insert elements in BST one by one and if an element is already present then increment the count of the node. The node of the Binary Search Tree (used in this approach) will be as follows.
+C
+Java
+Python3
+# Python code to implement the approach
+class Tree:
+    element = None
+ 
+    # to handle ties
+    first_index = None
+    count = None
+ 
+ 
+BST = Tree()
+ 
+# This code is contributed by phasing17
+C#
+Javascript
+C++
+Store the first indexes and corresponding counts of BST in a 2D array.
+Sort the 2D array according to counts (and use indexes in case of a tie).
+Implementation of the this approach: Set 2
+
+Time Complexity: O(N log N) if a Self Balancing Binary Search Tree is used.
+Auxiliary Space: O(N)
+
+Sort elements by frequency using Heap:
+Follow the given steps to solve the problem:
+
+Take the arr and use unordered_map to have VALUE : FREQUENCY Table
+Then make a HEAP such that high frequency remains at TOP and when frequency is same, just keep in ascending order (Smaller at TOP)
+Then After full insertion into Heap
+Pop one by one and copy it into the Array
+Below is the implementation of the above approach:
+
+C++
+Java
+Python3
+from collections import defaultdict
+from queue import PriorityQueue
+ 
+class Compare:
+    def __init__(self, freq, val):
+        self.freq = freq
+        self.val = val
+ 
+    def __lt__(self, other):
+        if self.freq == other.freq:
+            return self.val < other.val
+        return self.freq > other.freq
+ 
+def solve(arr):
+    n = len(arr)
+    mpp = defaultdict(int)
+    for a in arr:
+        mpp[a] += 1
+    max_heap = PriorityQueue()
+    for key, value in mpp.items():
+        max_heap.put(Compare(value, key))
+ 
+    i = 0
+    while not max_heap.empty():
+        item = max_heap.get()
+        freq = item.freq
+        val = item.val
+        for _ in range(freq):
+            arr[i] = val
+            i += 1
+    return arr
+ 
+vec = [2, 5, 2, 8, 5, 6, 8, 8]
+print(solve(vec))
+Output
+8 8 8 2 2 5 5 6 
+The code and approach is done by Balakrishnan R.
+
+Time Complexity: O(d * log(d)) (Dominating factor O(n + 2 * d * log (d))). O(n) (unordered map insertion- as 1 insertion takes O(1)) + O(d*log(d)) (Heap insertion – as one insertion is log N complexity) + O(d*log(d)) (Heap Deletion – as one pop takes Log N complexity) 
+Here d = No. of Distinct Elements, n = Total no. of elements (size of input array). (Always d<=n  depends on the array)
+
+Auxiliary Space: O(d), As heap and map is used
+
+Related Article: Sort elements by frequency | Set 2
+
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above 
+
+
+
+Like
+Previous
+Sort 1 to N by swapping adjacent elements
+Next
+Inversion count in Array using Merge Sort
+Related Articles
+1.
+Maximum difference between frequency of two elements such that element having greater frequency is also greater
+2.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+3.
+Sort elements by frequency using Binary Search Tree
+4.
+Sort elements by frequency using STL
+5.
+Sort elements by frequency | Set 5 (using Java Map)
+6.
+Sort an array according to the increasing frequency of the digit K in the array elements
+7.
+Sort elements by frequency | Set 4 (Efficient approach using hash)
+8.
+Sort an array of strings based on the frequency of good words in them
+9.
+Sort an array of Strings according frequency
+10.
+Sort a string according to the frequency of characters
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+praveenjain6407
+anumoluhemanth
+ahmadzaidju
+Koushik222
+ayushagrawal99
+shivagarg
+prithicogni89
+patel2127
+nisanth2590
+GauravRajput1
+phasing17
+tarakki100
+prasanna1995
+rbkraj000
+janardansthox
+abhijeet19403
+sourabhdalal0001
+divyansh2212
+jayeshverma73
+Article Tags :
+Amazon
+Oracle
+Zoho
+Zycus
+Arrays
+Sorting
+Practice Tags :
+Amazon
+Oracle
+Zoho
+Zycus
+Arrays
+Sorting

@@ -1,0 +1,253 @@
+nsertion Sort
+
+Difficulty Level : Easy
+Last Updated : 13 Jan, 2023
+Read
+Discuss(90+)
+Courses
+Practice
+Video
+ 
+Insertion sort is a simple sorting algorithm that works similar to the way you sort playing cards in your hands. The array is virtually split into a sorted and an unsorted part. Values from the unsorted part are picked and placed at the correct position in the sorted part.
+
+Characteristics of Insertion Sort:
+This algorithm is one of the simplest algorithm with simple implementation
+Basically, Insertion sort is efficient for small data values
+Insertion sort is adaptive in nature, i.e. it is appropriate for data sets which are already partially sorted.
+Working of Insertion Sort algorithm:
+Consider an example: arr[]: {12, 11, 13, 5, 6}
+
+   12   	   11   	   13   	   5   	   6   
+First Pass:
+
+Initially, the first two elements of the array are compared in insertion sort.
+   12   	   11   	   13   	   5   	   6   
+Here, 12 is greater than 11 hence they are not in the ascending order and 12 is not at its correct position. Thus, swap 11 and 12.
+So, for now 11 is stored in a sorted sub-array.
+   11   	   12   	   13   	   5   	   6   
+Second Pass:
+
+ Now, move to the next two elements and compare them
+   11   	   12   	   13   	   5   	   6   
+Here, 13 is greater than 12, thus both elements seems to be in ascending order, hence, no swapping will occur. 12 also stored in a sorted sub-array along with 11
+Third Pass:
+
+Now, two elements are present in the sorted sub-array which are 11 and 12
+Moving forward to the next two elements which are 13 and 5
+   11   	   12   	   13   	   5   	   6   
+Both 5 and 13 are not present at their correct place so swap them
+   11   	   12   	   5   	   13   	   6   
+After swapping, elements 12 and 5 are not sorted, thus swap again
+   11   	   5   	   12   	   13   	   6   
+Here, again 11 and 5 are not sorted, hence swap again
+   5   	   11   	   12   	   13   	   6   
+here, it is at its correct position
+Fourth Pass:
+
+Now, the elements which are present in the sorted sub-array are 5, 11 and 12
+Moving to the next two elements 13 and 6
+   5   	   11   	   12   	   13   	   6   
+Clearly, they are not sorted, thus perform swap between both
+   5   	   11   	   12   	   6   	   13   
+Now, 6 is smaller than 12, hence, swap again
+   5   	   11   	   6   	   12   	   13   
+Here, also swapping makes 11 and 6 unsorted hence, swap again
+   5   	   6   	   11   	   12   	   13   
+Finally, the array is completely sorted.
+Illustrations:
+
+
+
+insertion-sort
+ 
+
+Pseudo Code
+procedure insertionSort(A: list of sortable items)
+   n = length(A)
+   for i = 1 to n - 1 do
+       j = i
+       while j > 0 and A[j-1] > A[j] do
+           swap(A[j], A[j-1])
+           j = j - 1
+       end while
+   end for
+end procedure
+This algorithm sorts an array of items by repeatedly taking an element from the unsorted portion of the array and inserting it into its correct position in the sorted portion of the array.
+
+The procedure takes a single argument, ‘A’, which is a list of sortable items.
+The variable ‘n’ is assigned the length of the array A.
+The outer for loop starts at index ‘1’ and runs for ‘n-1’ iterations, where ‘n’ is the length of the array.
+The inner while loop starts at the current index i of the outer for loop and compares each element to its left neighbor. If an element is smaller than its left neighbor, the elements are swapped.
+The inner while loop continues to move an element to the left as long as it is smaller than the element to its left.
+Once the inner while loop is finished, the element at the current index is in its correct position in the sorted portion of the array.
+The outer for loop continues iterating through the array until all elements are in their correct positions and the array is fully sorted.
+Insertion Sort Algorithm 
+To sort an array of size N in ascending order: 
+
+Iterate from arr[1] to arr[N] over the array. 
+Compare the current element (key) to its predecessor. 
+If the key element is smaller than its predecessor, compare it to the elements before. Move the greater elements one position up to make space for the swapped element.
+
+Recommended Problem
+Insertion Sort
+Sorting
+Algorithms
+Microsoft
+MAQ Software
++6 more
+Solve Problem
+Submission count: 82.9K
+Below is the implementation:
+
+C++
+C
+Java
+Python
+# Python program for implementation of Insertion Sort
+ 
+# Function to do insertion sort
+def insertionSort(arr):
+ 
+    # Traverse through 1 to len(arr)
+    for i in range(1, len(arr)):
+ 
+        key = arr[i]
+ 
+        # Move elements of arr[0..i-1], that are
+        # greater than key, to one position ahead
+        # of their current position
+        j = i-1
+        while j >= 0 and key < arr[j] :
+                arr[j + 1] = arr[j]
+                j -= 1
+        arr[j + 1] = key
+ 
+ 
+# Driver code to test above
+arr = [12, 11, 13, 5, 6]
+insertionSort(arr)
+for i in range(len(arr)):
+    print ("% d" % arr[i])
+ 
+# This code is contributed by Mohit Kumra
+C#
+PHP
+Javascript
+Output
+5 6 11 12 13 
+Time Complexity: O(N^2) 
+Auxiliary Space: O(1)
+
+What are the Boundary Cases of the Insertion Sort algorithm?
+Insertion sort takes maximum time to sort if elements are sorted in reverse order. And it takes minimum time (Order of n) when elements are already sorted. 
+
+What are the Algorithmic Paradigm of Insertion Sort algorithm?
+Insertion Sort algorithm follows incremental approach.
+
+Is Insertion Sort an in-place sorting algorithm?
+Yes, insertion sort is an in-place sorting algorithm.
+
+Is Insertion Sort a stable algorithm?
+Yes, insertion sort is a stable sorting algorithm.
+
+When is the Insertion Sort algorithm used?
+Insertion sort is used when number of elements is small. It can also be useful when input array is almost sorted, only few elements are misplaced in complete big array.
+
+What is Binary Insertion Sort? 
+We can use binary search to reduce the number of comparisons in normal insertion sort. Binary Insertion Sort uses binary search to find the proper location to insert the selected item at each iteration. In normal insertion, sorting takes O(i) (at ith iteration) in worst case. We can reduce it to O(logi) by using binary search. The algorithm, as a whole, still has a running worst case running time of O(n^2) because of the series of swaps required for each insertion. Refer this for implementation.
+
+How to implement Insertion Sort for Linked List? 
+Below is simple insertion sort algorithm for linked list. 
+
+Create an empty sorted (or result) list
+Traverse the given list, do following for every node.
+Insert current node in sorted way in sorted or result list.
+Change head of given linked list to head of sorted (or result) list. 
+Refer this for implementation.
+  
+ 
+
+
+
+Snapshots: Quiz on Insertion Sort
+
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz 
+Selection Sort, Bubble Sort, Insertion Sort, Merge Sort, Heap Sort, QuickSort, Radix Sort, Counting Sort, Bucket Sort, ShellSort, Comb Sort
+ 
+Coding practice for sorting.
+ 
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Like
+621
+Previous
+Bubble Sort Algorithm
+Next
+Merge Sort Algorithm
+Related Articles
+1.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+2.
+Insertion sort to sort even and odd positioned elements in different orders
+3.
+Merge Sort vs. Insertion Sort
+4.
+Count swaps required to sort an array using Insertion Sort
+5.
+Difference between Insertion sort and Selection sort
+6.
+Sorting by combining Insertion Sort and Merge Sort algorithms
+7.
+Time complexity of insertion sort when there are O(n) inversions?
+8.
+An Insertion Sort time complexity question
+9.
+Insertion Sort for Doubly Linked List
+10.
+C Program For Insertion Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+ukasp
+PIYUSHKUMAR19
+PuneetChaurasia
+rathbhupendra
+theohollweg
+mayanktyagi1709
+parth_07
+debugagrawal
+kashishkumar2
+harendrakumar123
+kushalpareek
+Article Tags :
+Accenture
+Cisco
+Dell
+Grofers
+Juniper Networks
+MAQ Software
+Veritas
+Sorting
+Practice Tags :
+Accenture
+Cisco
+Dell
+Grofers
+Juniper Networks
+MAQ Software
+Veritas
+Sorting
+Improve Article
+Report Issue

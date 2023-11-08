@@ -1,0 +1,234 @@
+Check if any two intervals intersects among a given set of intervals
+
+Difficulty Level : Easy
+Last Updated : 03 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+An interval is represented as a combination of start time and end time. Given a set of intervals, check if any two intervals intersect. 
+
+Examples: 
+
+Input:  arr[] = {{1, 3}, {5, 7}, {2, 4}, {6, 8}}
+Output: true
+The intervals {1, 3} and {2, 4} overlap
+
+
+Input:  arr[] = {{1, 3}, {7, 9}, {4, 6}, {10, 13}}
+Output: false
+No pair of intervals overlap. 
+Expected time complexity is O(nLogn) where n is number of intervals.
+We strongly recommend to minimize your browser and try this yourself first.
+A Simple Solution is to consider every pair of intervals and check if the pair intersects or not. The time complexity of this solution is O(n2)
+
+Method 1 
+A better solution is to Use Sorting. Following is complete algorithm. 
+1) Sort all intervals in increasing order of start time. This step takes O(nLogn) time. 
+2) In the sorted array, if start time of an interval is less than end of previous interval, then there is an overlap. This step takes O(n) time.
+So overall time complexity of the algorithm is O(nLogn) + O(n) which is O(nLogn).
+
+
+Below is the implementation of above idea.
+
+C++
+Java
+Python3
+# A Python program to check if any two intervals overlap
+ 
+# An interval has start time and end time
+class Interval:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+ 
+# Function to check if any two intervals overlap
+def isIntersect(arr, n):
+   
+    # Sort intervals in increasing order of start time
+    arr.sort(key=lambda x: x.start)
+ 
+    # In the sorted array, if start time of an interval
+    # is less than end of previous interval, then there
+    # is an overlap
+    for i in range(1, n):
+        if (arr[i - 1].end > arr[i].start):
+            return True
+ 
+    # If we reach here, then no overlap
+    return False
+ 
+# Driver code
+arr1 = [Interval(1, 3), Interval(7, 9), Interval(4, 6), Interval(10, 13)]
+n1 = len(arr1)
+if (isIntersect(arr1, n1)):
+    print("Yes")
+else:
+    print("No")
+ 
+arr2 = [Interval(6, 8), Interval(1, 3), Interval(2, 4), Interval(4, 7)]
+n2 = len(arr2)
+ 
+if (isIntersect(arr2, n2)):
+    print("Yes")
+else:
+    print("No")
+ 
+# This code is contributed by Saurabh Jaiswal
+C#
+Javascript
+Output: 
+
+No
+Yes
+Time Complexity:  O(nlogn)
+
+Auxiliary Space: O(1)
+
+Method 2: This approach is suggested by Anjali Agarwal. Following are the steps:  
+
+1. Find the overall maximum element. Let it be max_ele 
+2. Initialize an array of size max_ele with 0. 
+3. For every interval [start, end], increment the value at index start, i.e. arr[start]++ and decrement the value at index (end + 1), i.e. arr[end + 1]- -. 
+4. Compute the prefix sum of this array (arr[]). 
+5. Every index, i of this prefix sum array will tell how many times i has occurred in all the intervals taken together. If this value is greater than 1, then it occurs in 2 or more intervals. 
+6. So, simply initialize the result variable as false and while traversing the prefix sum array, change the result variable to true whenever the value at that index is greater than 1.  
+
+Below is the implementation of this (Method 2) approach. 
+
+C++
+Java
+Python3
+# A Python program to check if any two intervals overlap
+ 
+# An interval has start time and end time
+class Interval:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+ 
+# Function to check if any two intervals overlap
+def is_intersect(arr, n):
+    max_ele = 0
+ 
+    # Find the overall maximum element
+    for i in range(n):
+        if max_ele < arr[i].end:
+            max_ele = arr[i].end
+ 
+    # Initialize an array of size max_ele
+    aux = [0] * (max_ele + 1)
+    for i in range(max_ele + 1):
+        aux[i] = 0
+    for i in range(n):
+       
+        # starting point of the interval
+        x = arr[i].start
+         
+        # end point of the interval
+        y = arr[i].end
+        aux[x] += 1
+        aux[y] -= 1
+    for i in range(1, max_ele + 1):
+       
+        # Calculating the prefix Sum
+        aux[i] += aux[i - 1]
+         
+        # Overlap
+        if aux[i] > 1:
+            return True
+           
+    # If we reach here, then no Overlap
+    return False
+ 
+# Driver program
+arr1 = [Interval(1, 3), Interval(7, 9), Interval(4, 6), Interval(10, 13)]
+n1 = len(arr1)
+if is_intersect(arr1, n1):
+    print("Yes")
+else:
+    print("No")
+ 
+arr2 = [Interval(6, 8), Interval(1, 3), Interval(2, 4), Interval(4, 7)]
+n2 = len(arr2)
+if is_intersect(arr2, n2):
+    print("Yes")
+else:
+    print("No")
+ 
+     
+# this code is contributed by phasing17
+C#
+Javascript
+Output: 
+
+No
+Yes
+Time Complexity : O(max_ele + n) 
+
+Auxiliary Space: O(max_ele)
+
+Note: This method is more efficient than Method 1 if there are more number of intervals and at the same time maximum value among all intervals should be low, since time complexity is directly proportional to O(max_ele). 
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above 
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Previous
+Sort an array according to the order defined by another array
+Next
+Find the point where maximum intervals overlap
+Related Articles
+1.
+Find Non-overlapping intervals among a given set of intervals
+2.
+Maximum sum of at most two non-overlapping intervals in a list of Intervals | Interval Scheduling Problem
+3.
+Minimize segments required to be removed such that at least one segment intersects with all remaining segments
+4.
+Find least non-overlapping number from a given set of intervals
+5.
+Count points covered by given intervals
+6.
+Kth largest node among all directly connected nodes to the given node in an undirected graph
+7.
+Find index of pair among given pairs with just greater average
+8.
+Find the point where maximum intervals overlap
+9.
+Maximal Disjoint Intervals
+10.
+Maximum number of overlapping Intervals
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+smitm1
+Akanksha_Rai
+29AjayKumar
+Rajput-Ji
+deepak_2431
+Kingash
+rag2127
+avanitrachhadiya2155
+rs1686740
+_saurabh_jaiswal
+chandramauliguptach
+phasing17
+Article Tags :
+Sorting
+Practice Tags :
+Sorting
+Report Issue

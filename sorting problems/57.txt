@@ -1,0 +1,292 @@
+Count distinct occurrences as a subsequence
+
+Difficulty Level : Hard
+Last Updated : 24 Jan, 2023
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+Given a two strings S and T, find the count of distinct occurrences of T in S as a subsequence.
+Examples: 
+
+Input: S = banana, T = ban
+Output: 3
+Explanation: T appears in S as below three subsequences.
+[ban], [ba  n], [b   an]
+
+Input: S = geeksforgeeks, T = ge
+Output: 6
+Explanation: T appears in S as below three subsequences.
+[ge], [     ge], [g e], [g    e] [g     e]
+and [     g e]      
+Recommended Problem
+Distinct occurrences
+Dynamic Programming
+Algorithms
+Amazon
+Google
+Solve Problem
+Submission count: 29.2K
+Approach: Create a recursive function such that it returns count of subsequences of S that match T. Here m is the length of T and n is length of S. This problem can be recursively defined as below. 
+
+Given the string T is an empty string, returning 1 as an empty string can be the subsequence of all.
+Given the string S is an empty string, returning 0 as no string can be the subsequence of an empty string.
+If the last character of S and T do not match, then remove the last character of S and call the recursive function again. Because the last character of S cannot be a part of the subsequence or remove it and check for other characters.
+If the last character of S match then there can be two possibilities, first there can be a subsequence where the last character of S is a part of it and second where it is not a part of the subsequence. So the required value will be the sum of both. Call the recursive function once with last character of both the strings removed and again with only last character of S removed.
+ 
+
+
+
+Blue round rectangles represent accepted states or there are a subsequence and red round rectangles represent No subsequence can be formed. 
+ 
+
+Implementation  of Recursive Approach:
+
+C++
+Java
+Python3
+# Python program to count number of times S appears
+# as a subsequence in T
+def f(i, j, s, t):
+   
+  # base case
+       # if second string completed then we found the
+        # matching pattern
+    if(j >= len(t)):
+        return 1
+       
+      # if first string is completed we can not find any
+      #  matching pattern.
+    if(i >= len(s)):
+        return 0
+       
+      # if character at i'th place is equal to character
+      # at j'th place then
+      # we can either take it or not take it.
+    if(s[i] == t[j]):
+        return f(i + 1, j + 1, s, t) + f(i + 1, j, s, t)
+       
+      # if characters are not equal then we will increase
+      # only first string
+    return f(i + 1, j, s, t)
+ 
+def findSubsequenceCount(s, t):
+    return f(0, 0, s, t)
+ 
+# Driver code to check above method
+T = "ge"
+S = "geeksforgeeks"
+print(findSubsequenceCount(S,T))
+ 
+# This code is contributed by Aman Kumar.
+C#
+Javascript
+Output
+6
+Since there are overlapping subproblems in the above recurrence result, Dynamic Programming approach can be applied to solve the above problem. Store the subproblems in a Hashmap or an array and return the value when the function is called again.
+
+Algorithm: 
+ 
+
+Create a 2D array mat[m+1][n+1] where m is length of string T and n is length of string S. mat[i][j] denotes the number of distinct subsequence of substring S(1..i) and substring T(1..j) so mat[m][n] contains our solution. 
+ 
+Initialize the first column with all 0s. An empty string can’t have another string as subsequence
+Initialize the first row with all 1s. An empty string is a subsequence of all.
+Fill the matrix in bottom-up manner, i.e. all the sub problems of the current string is calculated first.
+Traverse the string T from start to end. (counter is i)
+For every iteration of the outer loop, Traverse the string S from start to end. (counter is j)
+If the character at ith index of string T matches with jth character of string S, the value is obtained considering two cases. First, is all the substrings without last character in S and second is the substrings without last characters in both, i.e mat[i+1][j] + mat[i][j] .
+Else the value will be same even if jth character of S is removed, i.e. mat[i+1][j]
+Print the value of mat[m-1][n-1] as the answer.
+ 
+C++
+Java
+Python3
+# Python3 program to count number of times
+# S appears as a subsequence in T
+def findSubsequenceCount(S, T):
+ 
+    m = len(T)
+    n = len(S)
+ 
+    # T can't appear as a subsequence in S
+    if m > n:
+        return 0
+ 
+    # mat[i][j] stores the count of
+    # occurrences of T(1..i) in S(1..j).
+    mat = [[0 for _ in range(n + 1)]
+              for __ in range(m + 1)]
+ 
+    # Initializing first column with all 0s. x
+    # An empty string can't have another
+    # string as subsequence
+    for i in range(1, m + 1):
+        mat[i][0] = 0
+ 
+    # Initializing first row with all 1s.
+    # An empty string is subsequence of all.
+    for j in range(n + 1):
+        mat[0][j] = 1
+ 
+    # Fill mat[][] in bottom up manner
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+ 
+            # If last characters don't match,
+            # then value is same as the value
+            # without last character in S.
+            if T[i - 1] != S[j - 1]:
+                mat[i][j] = mat[i][j - 1]
+                 
+            # Else value is obtained considering two cases.
+            # a) All substrings without last character in S
+            # b) All substrings without last characters in
+            # both.
+            else:
+                mat[i][j] = (mat[i][j - 1] +
+                             mat[i - 1][j - 1])
+ 
+    return mat[m][n]
+ 
+# Driver Code
+if __name__ == "__main__":
+    T = "ge"
+    S = "geeksforgeeks"
+    print(findSubsequenceCount(S, T))
+ 
+# This code is contributed
+# by vibhu4agarwal
+C#
+PHP
+Javascript
+Output
+6
+Complexity Analysis: 
+ 
+
+Time Complexity: O(m*n). 
+Only one traversal of the matrix is needed, so the time Complexity is O(m*n)
+Auxiliary Space: O(m*n). 
+A matrix of size m*n is needed so the space complexity is O(m*n). 
+Note:Since mat[i][j] accesses elements of the current row and previous row only, we can optimize auxiliary space just by using two rows only reducing space from m*n to 2*n.
+Another way to solve dynamic programming is by Top-Down approach is by memoization
+
+Below is the code:
+
+C++
+/* C/C++ program to count number of times S appears
+   as a subsequence in T */
+#include <bits/stdc++.h>
+using namespace std;
+ 
+int f(int i, int j, string s, string t,
+      vector<vector<int> >& dp)
+{
+    if (t.size() - j > s.size() - i)
+        return 0;
+   
+    if (j == t.size()) {
+        return 1;
+    }
+ 
+    if (i == s.size()) {
+        return 0;
+    }
+ 
+    if (dp[i][j] != -1) {
+        return dp[i][j];
+    }
+ 
+    if (s[i] == t[j]) {
+        return dp[i][j] = f(i + 1, j + 1, s, t, dp)
+                          + f(i + 1, j, s, t, dp);
+    }
+ 
+    return dp[i][j] = f(i + 1, j, s, t, dp);
+}
+ 
+int findSubsequenceCount(string s, string t)
+{
+    vector<vector<int> > dp(s.size(),
+                            vector<int>(t.size(), -1));
+    return f(0, 0, s, t, dp);
+}
+ 
+// Driver code to check above method
+int main()
+{
+    string T = "ge";
+    string S = "geeksforgeeks";
+    cout << findSubsequenceCount(S, T) << endl;
+    return 0;
+}
+Java
+Output
+6
+Complexity Analysis:  
+
+Time Complexity: O(m*n). Only one traversal of the matrix is needed, so the time Complexity is O(m*n) 
+Auxiliary Space: O(m*n) ignoring recursion stack space
+This article is contributed by Utkarsh Trivedi. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Number of subsequences of the form a^i b^j c^k
+Next
+Longest common subsequence with permutations allowed
+Related Articles
+1.
+Maximize count of occurrences of S2 in S1 as a subsequence by concatenating N1 and N2 times respectively
+2.
+Count maximum occurrence of subsequence in string such that indices in subsequence is in A.P.
+3.
+Maximize count of distinct elements in a subsequence of size K in given array
+4.
+Maximum length subsequence such that adjacent elements in the subsequence have a common factor
+5.
+Longest subsequence such that every element in the subsequence is formed by multiplying previous element with a prime
+6.
+Longest Increasing Subsequence using Longest Common Subsequence Algorithm
+7.
+Find the equal pairs of subsequence of S and subsequence of T
+8.
+Longest Subsequence with absolute difference of pairs as at least Subsequence's maximum
+9.
+Longest Palindromic Subsequence of two distinct characters
+10.
+Maximum score assigned to a subsequence of numerically consecutive and distinct array elements
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+vibhu4agarwal
+Akanksha_Rai
+andrew1234
+rameshtravel07
+simmytarika5
+prasanna1995
+_saurabh_jaiswal
+sanskar84
+pushpeshrajdx01
+amankr0211
+Article Tags :
+subsequence
+Dynamic Programming
+Sorting
+Practice Tags :
+Dynamic Programming
+Sorting

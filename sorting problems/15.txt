@@ -1,0 +1,362 @@
+
+Cycle Sort
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Cycle sort is an in-place sorting Algorithm, unstable sorting algorithm, and a comparison sort that is theoretically optimal in terms of the total number of writes to the original array. 
+ 
+
+It is optimal in terms of the number of memory writes. It minimizes the number of memory writes to sort (Each value is either written zero times if it’s already in its correct position or written one time to its correct position.)
+It is based on the idea that the array to be sorted can be divided into cycles. Cycles can be visualized as a graph. We have n nodes and an edge directed from node i to node j if the element at i-th index must be present at j-th index in the sorted array. 
+Cycle in arr[] = {2, 4, 5, 1, 3} 
+ 
+
+Cycle in arr[] = {2, 4, 5, 1, 3}
+
+Cycle in arr[] = {4, 3, 2, 1} 
+ 
+
+Cycle in arr[] = {4, 3, 2, 1} 
+
+We one by one consider all cycles. We first consider the cycle that includes the first element. We find the correct position of the first element, and place it at its correct position, say j. We consider the old value of arr[j] and find its correct position, we keep doing this till all elements of the current cycle are placed at the correct position, i.e., we don’t come back to the cycle starting point.
+
+Pseudocode :
+
+Begin
+for
+start:= 0 to n - 2 do
+key := array[start]
+location := start
+for i:= start + 1 to n-1 do
+  if array[i] < key then
+     location: =location +1
+done
+if location = start then
+    ignore lower part, go for next iteration
+while key = array[location] do
+   location = location
+done
+if location != start then
+    swap array[location] with key
+while location != start do
+    location start
+
+
+for i:= start + 1 to n-1 do
+     if array[i] < key then
+          location: =location +1
+done
+while key= array[location]
+      location := location +1
+ if key != array[location]
+      Swap array[location] and key
+   done
+ done
+End
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Explanation : 
+
+ arr[] = {10, 5, 2, 3}
+ index =  0   1   2   3
+cycle_start = 0 
+item = 10 = arr[0]
+
+Find position where we put the item  
+pos = cycle_start
+i=pos+1
+while(i<n)
+if (arr[i] < item)  
+    pos++;
+
+We put 10 at arr[3] and change item to 
+old value of arr[3].
+arr[] = {10, 5, 2, 10} 
+item = 3 
+
+Again rotate rest cycle that start with index '0' 
+Find position where we put the item = 3 
+we swap item with element at arr[1] now 
+arr[] = {10, 3, 2, 10} 
+item = 5
+
+Again rotate rest cycle that start with index '0' and item = 5 
+we swap item with element at arr[2].
+arr[] = {10, 3, 5, 10 } 
+item = 2
+
+Again rotate rest cycle that start with index '0' and item = 2
+arr[] = {2, 3,  5, 10}  
+
+Above is one iteration for cycle_stat = 0.
+Repeat above steps for cycle_start = 1, 2, ..n-2
+Below is the implementation of the above approach:
+
+CPP
+Java
+Python3
+# Python program to implement cycle sort
+  
+def cycleSort(array):
+  writes = 0
+    
+  # Loop through the array to find cycles to rotate.
+  for cycleStart in range(0, len(array) - 1):
+    item = array[cycleStart]
+      
+    # Find where to put the item.
+    pos = cycleStart
+    for i in range(cycleStart + 1, len(array)):
+      if array[i] < item:
+        pos += 1
+      
+    # If the item is already there, this is not a cycle.
+    if pos == cycleStart:
+      continue
+      
+    # Otherwise, put the item there or right after any duplicates.
+    while item == array[pos]:
+      pos += 1
+    array[pos], item = item, array[pos]
+    writes += 1
+      
+    # Rotate the rest of the cycle.
+    while pos != cycleStart:
+        
+      # Find where to put the item.
+      pos = cycleStart
+      for i in range(cycleStart + 1, len(array)):
+        if array[i] < item:
+          pos += 1
+        
+      # Put the item there or right after any duplicates.
+      while item == array[pos]:
+        pos += 1
+      array[pos], item = item, array[pos]
+      writes += 1
+    
+  return writes
+    
+# driver code 
+arr = [1, 8, 3, 9, 10, 10, 2, 4 ]
+n = len(arr) 
+cycleSort(arr)
+  
+print("After sort : ")
+for i in range(0, n) : 
+    print(arr[i], end = ' ')
+  
+# Code Contributed by Mohit Gupta_OMG <(0_o)>
+C#
+Javascript
+Time Complexity Analysis: 
+
+Worst Case: O(n2) 
+Average Case: O(n2) 
+Best Case: O(n2)
+Auxiliary Space: O(1)
+
+The space complexity is constant cause this algorithm is in place so it does not use any extra memory to sort.
+Method 2: This method is only applicable when given array values or elements are in the range of 1 to N or  0 to N. In this method, we do not need to rotate an array
+
+Approach : All the given array values should be in the range of 1 to N or 0 to N. If the range is 1 to N  then every array element’s correct position will be the index == value-1 i.e. means at the 0th index value will be 1 similarly at the 1st index position value will be 2 and so on till nth value.
+
+similarly for 0 to N values correct index position of each array element or value will be the same as its value i.e. at 0th index 0 will be there 1st position 1 will be there.
+
+Explanation : 
+
+arr[] = {5, 3, 1, 4, 2}
+index =  0  1  2  3  4
+
+i  = 0;
+while( i < arr.length)
+     correctposition = arr[i]-1; 
+     
+     find ith item correct position
+     for the first time i = 0 arr[0] = 5 correct index of 5 is 4 so arr[i] - 1 = 5-1 = 4
+     
+     
+     if( arr[i] <= arr.length && arr[i] != arr[correctposition])
+     
+     
+         arr[i] = 5 and arr[correctposition] = 4 
+         so 5 <= 5 && 5 != 4 if condition true 
+         now swap the 5 with 4 
+     
+  
+         int temp = arr[i];
+         arr[i] = arr[correctposition];
+         arr[correctposition] = temp;
+         
+         now resultant arr at this after 1st swap 
+         arr[] = {2, 3, 1, 4, 5} now 5 is shifted at its correct position 
+         
+         now loop will run again check for i = 0 now arr[i] is = 2 
+         after swapping 2 at its correct position 
+         arr[] = {3, 2, 1, 4, 5}
+         
+         now loop will run again check for i = 0 now arr[i] is = 3 
+         after swapping 3 at its correct position 
+         arr[] = {1, 2, 3, 4, 5}
+         
+         now loop will run again check for i = 0 now arr[i] is = 1
+         this time  1 is at its correct position so else block will execute and i will increment i = 1;
+         once i exceeds the size of array will get array sorted.
+         arr[] = {1, 2, 3, 4, 5}
+         
+          
+      else
+        
+         i++;
+loop end;
+
+once while loop end we get sorted array just print it 
+for( index = 0 ; index < arr.length; index++)
+    print(arr[index] + " ")
+sorted arr[] = {1, 2, 3, 4, 5}
+Below is the implementation of the above approach:
+
+C++
+#include <iostream>
+using namespace std;
+  
+void cyclicSort(int arr[], int n){
+  int i = 0; 
+  while(i < n)
+  {
+    // as array is of 1 based indexing so the
+    // correct position or index number of each
+    // element is element-1 i.e. 1 will be at 0th
+    // index similarly 2 correct index will 1 so
+    // on...
+    int correct = arr[i] - 1 ;
+    if(arr[i] != arr[correct]){
+  
+      // if array element should be lesser than
+      // size and array element should not be at
+      // its correct position then only swap with
+      // its correct position or index value
+      swap(arr[i], arr[correct]) ;
+    }else{
+  
+      // if element is at its correct position
+      // just increment i and check for remaining
+      // array elements
+      i++ ;
+    }
+  }
+  
+}
+  
+void printArray(int arr[], int size)
+{
+  int i;
+  for (i = 0; i < size; i++)
+    cout << arr[i] << " ";
+  cout << endl;
+}
+  
+int main() {
+  
+  int arr[] = { 3, 2, 4, 5, 1};
+  int n = sizeof(arr) / sizeof(arr[0]);
+  cout << "Before sorting array: \n";
+  printArray(arr, n);
+  cyclicSort(arr, n);
+  cout << "Sorted array: \n";
+  printArray(arr, n);
+  return 0;
+  
+}
+Java
+C#
+Time Complexity Analysis:
+
+Worst Case : O(n) 
+Average Case: O(n) 
+Best Case : O(n)
+Auxiliary Space: O(1)
+
+Advantage of Cycle sort:
+No additional storage is required.
+ in-place sorting algorithm.
+ A minimum number of writes to the memory
+ Cycle sort is useful when the array is stored in EEPROM or FLASH. 
+Disadvantage  of Cycle sort:
+ It is not mostly used.
+ It has more time complexity o(n^2)
+ Unstable sorting algorithm.
+Application  of Cycle sort:
+This sorting algorithm is best suited for situations where memory write or swap operations are costly.
+Useful for complex problems. 
+ 
+
+
+ 
+
+Reference: 
+https://en.wikipedia.org/wiki/Cycle_sort
+This article is contributed by Nishant Singh. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+Like
+Previous
+Pigeonhole Sort
+Next
+Cocktail Sort
+Related Articles
+1.
+Sort an Array which contain 1 to N values in O(N) using Cycle Sort
+2.
+C++ Program for Cycle Sort
+3.
+Java Program for Cycle Sort
+4.
+Python Program for Cycle Sort
+5.
+Detect cycle in Directed Graph using Topological Sort
+6.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+7.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+8.
+Bucket Sort To Sort an Array with Negative Numbers
+9.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+10.
+Program to sort an array of strings using Selection Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+rahul sholapurkar
+pedastrian
+susmitakundugoaldanga
+reshmapatil2772
+devendrasalunke
+sweetyty
+prasanna1995
+sagartomar9927
+harendrakumar123
+vinayedula
+vinayedula2
+vivekedula
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

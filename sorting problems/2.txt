@@ -1,0 +1,218 @@
+Selection Sort Algorithm
+
+Difficulty Level : Easy
+Last Updated : 27 Jan, 2023
+Read
+Discuss(100+)
+Courses
+Practice
+Video
+Selection sort is a simple and efficient sorting algorithm that works by repeatedly selecting the smallest (or largest) element from the unsorted portion of the list and moving it to the sorted portion of the list. The algorithm repeatedly selects the smallest (or largest) element from the unsorted portion of the list and swaps it with the first element of the unsorted portion. This process is repeated for the remaining unsorted portion of the list until the entire list is sorted. One variation of selection sort is called “Bidirectional selection sort” that goes through the list of elements by alternating between the smallest and largest element, this way the algorithm can be faster in some cases.
+
+The algorithm maintains two subarrays in a given array.
+
+The subarray which already sorted. 
+The remaining subarray was unsorted.
+In every iteration of the selection sort, the minimum element (considering ascending order) from the unsorted subarray is picked and moved to the beginning of unsorted subarray. 
+
+After every iteration sorted subarray size increase by one and unsorted subarray size decrease by one.
+
+
+After N (size of array) iteration we will get sorted array.
+
+Flowchart of the Selection Sort: 
+Selection-Sort-Flowhchart
+How selection sort works?
+
+Lets consider the following array as an example: arr[] = {64, 25, 12, 22, 11}
+
+First pass:
+
+
+
+For the first position in the sorted array, the whole array is traversed from index 0 to 4 sequentially. The first position where 64 is stored presently, after traversing whole array it is clear that 11 is the lowest value.
+   64   	   25   	   12   	   22   	   11   
+Thus, replace 64 with 11. After one iteration 11, which happens to be the least value in the array, tends to appear in the first position of the sorted list.
+   11   	   25   	   12   	   22   	   64   
+Second Pass:
+
+For the second position, where 25 is present, again traverse the rest of the array in a sequential manner.
+   11   	   25   	   12   	   22   	   64   
+After traversing, we found that 12 is the second lowest value in the array and it should appear at the second place in the array, thus swap these values.
+   11   	   12   	   25   	   22   	   64   
+Third Pass:
+
+Now, for third place, where 25 is present again traverse the rest of the array and find the third least value present in the array.
+   11   	   12   	   25   	   22   	   64   
+While traversing, 22 came out to be the third least value and it should appear at the third place in the array, thus swap 22 with element present at third position.
+   11   	   12   	   22   	   25   	   64   
+Fourth pass:
+
+Similarly, for fourth position traverse the rest of the array and find the fourth least element in the array 
+As 25 is the 4th lowest value hence, it will place at the fourth position.
+   11   	   12   	   22   	   25   	   64   
+Fifth Pass:
+
+At last the largest value present in the array automatically get placed at the last position in the array
+The resulted array is the sorted array.
+   11   	   12   	   22   	   25   	   64   
+Recommended Problem
+Selection Sort
+Sorting
+Algorithms
+Microsoft
+Medlife
+Solve Problem
+Submission count: 58.2K
+Follow the below steps to solve the problem:
+
+Initialize minimum value(min_idx) to location 0.
+Traverse the array to find the minimum element in the array.
+While traversing if any element smaller than min_idx is found then swap both the values.
+Then, increment min_idx to point to the next element.
+Repeat until the array is sorted.
+ 
+Complete Interview Preparation - GFG
+
+Below is the implementation of the above approach:
+
+C++
+C
+Python3
+# Python program for implementation of Selection
+# Sort
+import sys
+A = [64, 25, 12, 22, 11]
+ 
+# Traverse through all array elements
+for i in range(len(A)):
+     
+    # Find the minimum element in remaining
+    # unsorted array
+    min_idx = i
+    for j in range(i+1, len(A)):
+        if A[min_idx] > A[j]:
+            min_idx = j
+             
+    # Swap the found minimum element with
+    # the first element       
+    A[i], A[min_idx] = A[min_idx], A[i]
+ 
+# Driver code to test above
+print ("Sorted array")
+for i in range(len(A)):
+    print("%d" %A[i],end=" ")
+Java
+C#
+PHP
+Javascript
+Output
+Sorted array: 
+11 12 22 25 64 
+Complexity Analysis of Selection Sort:
+Time Complexity: The time complexity of Selection Sort is O(N2) as there are two nested loops:
+
+One loop to select an element of Array one by one = O(N)
+Another loop to compare that element with every other Array element = O(N)
+Therefore overall complexity = O(N) * O(N) = O(N*N) = O(N2)
+
+Auxiliary Space: O(1) as the only extra memory used is for temporary variables while swapping two values in Array. The selection sort never makes more than O(N) swaps and can be useful when memory write is a costly operation. 
+
+Sort an array of strings using Selection Sort
+Is Selection Sort Algorithm stable?
+Stability: The default implementation is not stable. However, it can be made stable. Please see stable selection sort for details.
+
+Is Selection Sort Algorithm in place?
+Yes, it does not require extra space.
+
+Snapshots: Quiz on Selection Sort
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz: Coding practice for sorting
+
+Advantages of Selection Sort Algorithm:
+Simple and easy to understand.
+Preserves the relative order of items with equal keys which means it is stable.
+Works well with small datasets.
+It is adaptable to various types of data types.
+Selection sort is an in-place sorting algorithm, which means it does not require any additional memory to sort the list.
+Disadvantages of Selection Sort Algorithm:
+Selection sort has a time complexity of O(n^2) in the worst and average case.
+Does not works well on large datasets.
+Selection sort algorithm needs to iterate over the list multiple times, thus it can lead to an unbalanced branch.
+Selection sort has poor cache performance and hence it is not cache friendly. 
+Not adaptive, meaning it doesn’t take advantage of the fact that the list may already be sorted or partially sorted
+Not a good choice for large data sets with slow random access memory (RAM)
+It’s not a comparison sort and doesn’t have any performance guarantees like merge sort or quick sort.
+It has poor cache performance
+It can cause poor branch prediction due to its high branch misprediction rate
+It has a high number of write operations, leading to poor performance on systems with slow storage.
+It is not a parallelizable algorithm, meaning that it cannot be easily split up to be run on multiple processors or cores.
+It does not handle data with many duplicates well, as it makes many unnecessary swaps.
+It can be outperformed by other algorithms such as quicksort and heapsort in most cases. 
+Summary:
+Selection sort is a simple and easy-to-understand sorting algorithm that works by repeatedly selecting the smallest (or largest) element from the unsorted portion of the list and moving it to the sorted portion of the list. 
+This process is repeated for the remaining unsorted portion of the list until the entire list is sorted.
+It has a time complexity of O(n^2) in the worst and average case which makes it less efficient for large data sets.
+Selection sort is a stable sorting algorithm.
+It can be used to sort different types of data.
+It has specific applications where it is useful such as small data sets and memory-constrained systems.
+Please write comments if you find anything incorrect, or if you want to share more information about the topic discussed above 
+
+
+
+
+
+Like
+813
+Next
+Bubble Sort Algorithm
+Related Articles
+1.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+2.
+A sorting algorithm that slightly improves on selection sort
+3.
+Program to sort an array of strings using Selection Sort
+4.
+Difference between Insertion sort and Selection sort
+5.
+Selection Sort VS Bubble Sort
+6.
+C++ program for Sorting Dates using Selection Sort
+7.
+Recursive Selection Sort
+8.
+Recursive selection sort for singly linked list | Swapping node links
+9.
+8086 program for selection sort
+10.
+Sorting Algorithms Visualization | Selection Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+DeepikaPathak
+RishiAdvani
+rathbhupendra
+navyab4u247
+akshitsaxenaa09
+amartyaghoshgfg
+kashishkumar2
+animeshdey
+udayku73zf
+ishank0106
+agfro1cac
+sksusha8853
+shreyasnaphad
+Article Tags :
+Medlife
+Sorting
+Practice Tags :
+Medlife
+Sorting

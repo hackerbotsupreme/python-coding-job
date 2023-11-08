@@ -1,0 +1,233 @@
+ShellSort
+
+Difficulty Level : Medium
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+ 
+Shell sort is mainly a variation of Insertion Sort. In insertion sort, we move elements only one position ahead. When an element has to be moved far ahead, many movements are involved. The idea of ShellSort is to allow the exchange of far items. In Shell sort, we make the array h-sorted for a large value of h. We keep reducing the value of h until it becomes 1. An array is said to be h-sorted if all sublists of every h’th element are sorted.
+
+Algorithm:
+
+Step 1 − Start
+Step 2 − Initialize the value of gap size. Example: h
+Step 3 − Divide the list into smaller sub-part. Each must have equal intervals to h
+Step 4 − Sort these sub-lists using insertion sort
+Step 5 – Repeat this step 2 until the list is sorted.
+Step 6 – Print a sorted list.
+Step 7 – Stop.
+ 
+
+Pseudocode :
+
+
+PROCEDURE SHELL_SORT(ARRAY, N)  
+   WHILE GAP < LENGTH(ARRAY) /3 :
+                    GAP = ( INTERVAL * 3 ) + 1      
+   END WHILE LOOP
+   WHILE GAP > 0 :
+       FOR (OUTER = GAP; OUTER < LENGTH(ARRAY); OUTER++):
+             INSERTION_VALUE = ARRAY[OUTER]
+                    INNER = OUTER;
+             WHILE INNER > GAP-1 AND ARRAY[INNER – GAP] >= INSERTION_VALUE:
+                    ARRAY[INNER] = ARRAY[INNER – GAP]
+                    INNER = INNER – GAP
+              END WHILE LOOP
+                  ARRAY[INNER] = INSERTION_VALUE
+       END FOR LOOP
+       GAP = (GAP -1) /3;    
+   END WHILE LOOP
+END SHELL_SORT
+ 
+
+Following is the implementation of ShellSort.
+
+C++
+Java
+Python3
+# Python3 program for implementation of Shell Sort
+# Python3 program for implementation of Shell Sort
+  
+def shellSort(arr, n):
+    # code here
+    gap=n//2
+      
+      
+    while gap>0:
+        j=gap
+        # Check the array in from left to right
+        # Till the last possible index of j
+        while j<n:
+            i=j-gap # This will keep help in maintain gap value
+              
+            while i>=0:
+                # If value on right side is already greater than left side value
+                # We don't do swap else we swap
+                if arr[i+gap]>arr[i]:
+  
+                    break
+                else:
+                    arr[i+gap],arr[i]=arr[i],arr[i+gap]
+  
+                i=i-gap # To check left side also
+                            # If the element present is greater than current element 
+            j+=1
+        gap=gap//2
+  
+  
+  
+  
+  
+# driver to check the code
+arr2 = [12, 34, 54, 2, 3]
+print("input array:",arr2)
+  
+shellSort(arr2,len(arr2))
+print("sorted array",arr2)
+  
+# This code is contributed by Illion
+C#
+Javascript
+Output
+
+
+Array before sorting: 
+12 34 54 2 3 
+Array after sorting: 
+2 3 12 34 54 
+Time Complexity: Time complexity of the above implementation of Shell sort is O(n2). In the above implementation, the gap is reduced by half in every iteration. There are many other ways to reduce gaps which leads to better time complexity. See this for more details.
+
+Worst Case Complexity
+The worst-case complexity for shell sort is  O(n2)
+Best Case Complexity
+When the given array list is already sorted the total count of comparisons of each interval is equal to the size of the given array.
+So best case complexity is Ω(n log(n))
+Average Case Complexity
+
+The shell sort Average Case Complexity depends on the interval selected by the programmer. 
+θ(n log(n)2).
+
+THE Average Case Complexity: O(n*log n)~O(n1.25)
+Space Complexity
+The space complexity of the shell sort is O(1).
+
+Questions:
+1. Which is more efficient shell or heap sort?
+
+Ans. As per big-O notation, shell sort has O(n^{1.25}) average time complexity whereas, heap sort has O(N log N) time complexity. According to a strict mathematical interpretation of the big-O notation, heap sort surpasses shell sort in efficiency as we approach 2000 elements to be sorted.
+Note:- Big-O is a rounded approximation and analytical evaluation is not always 100% correct, it depends on the algorithms’ implementation which can affect actual run time.
+
+Shell Sort Applications
+
+1. Replacement for insertion sort, where it takes a long time to complete a given task.
+2. To call stack overhead we use shell sort.
+3. when recursion exceeds a particular limit we use shell sort.
+4. For medium to large-sized datasets.
+5. In insertion sort to reduce the number of operations.
+
+References: 
+http://en.wikipedia.org/wiki/Shellsort
+
+
+
+Snapshots: 
+ 
+
+scene00721
+
+ 
+
+scene00793
+
+ 
+
+scene00937
+
+ 
+
+scene01009
+
+ 
+
+scene01801
+
+ 
+
+scene02305
+
+ 
+
+Quiz on Shell Sort
+Other Sorting Algorithms on GeeksforGeeks/GeeksQuiz: 
+
+Selection Sort
+Bubble Sort
+Insertion Sort
+Merge Sort
+Heap Sort
+QuickSort
+Radix Sort
+Counting Sort
+Bucket Sort
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+76
+Previous
+Bucket Sort
+Next
+A Pancake Sorting Problem
+Related Articles
+1.
+C++ Program for ShellSort
+2.
+Java Program for ShellSort
+3.
+Sorting with Tapes : Balanced Merge
+4.
+Burst Sort Algorithm
+5.
+C++ Program to Merge Two Sorted Arrays
+6.
+C++ Program for Bubble Sort Algorithm
+7.
+Minimum operations required to Sort the Array using following operations
+8.
+C++ Program To Sort String of Characters
+9.
+Parallel Count Sort
+10.
+C++ Program For Selection Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+nitin mittal
+NikitaZakharov
+shubhamprashar
+unknown2108
+asdhamidi
+sweetyty
+illionlearn
+reshmapatil2772
+susobhanakhuli
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

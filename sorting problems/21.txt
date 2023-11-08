@@ -1,0 +1,141 @@
+Gnome Sort
+
+Difficulty Level : Basic
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+Gnome Sort also called Stupid sort is based on the concept of a Garden Gnome sorting his flower pots. A garden gnome sorts the flower pots by the following method-  
+
+He looks at the flower pot next to him and the previous one; if they are in the right order he steps one pot forward, otherwise he swaps them and steps one pot backwards.
+If there is no previous pot (he is at the starting of the pot line), he steps forwards; if there is no pot next to him (he is at the end of the pot line), he is done.
+Input –  
+
+Array- arr[]  
+Total elements – n
+
+How gnome sort works?
+Lets consider an example: arr[] = {34, 2, 10, -9}
+
+Underlined elements are the pair under consideration.
+“Red” colored are the pair which needs to be swapped.
+Result of the swapping is colored as “blue”
+ 
+
+
+
+Algorithm Steps:
+
+If you are at the start of the array then go to the right element (from arr[0] to arr[1]).
+If the current array element is larger or equal to the previous array element then go one step right
+ if (arr[i] >= arr[i-1])
+ i++;
+
+If the current array element is smaller than the previous array element then swap these two elements and go one step backwards
+ if (arr[i] < arr[i-1])
+{
+swap(arr[i], arr[i-1]);
+ i–;
+} 
+
+Repeat steps 2) and 3) till ‘i’ reaches the end of the array (i.e- ‘n-1’)
+If the end of the array is reached then stop and the array is sorted.
+Below is the implementation of the algorithm.
+
+C++
+Java
+Python
+# Python program to implement Gnome Sort
+  
+# A function to sort the given list using Gnome sort
+def gnomeSort( arr, n):
+    index = 0
+    while index < n:
+        if index == 0:
+            index = index + 1
+        if arr[index] >= arr[index - 1]:
+            index = index + 1
+        else:
+            arr[index], arr[index-1] = arr[index-1], arr[index]
+            index = index - 1
+  
+    return arr
+  
+# Driver Code
+arr = [ 34, 2, 10, -9]
+n = len(arr)
+  
+arr = gnomeSort(arr, n)
+print "Sorted sequence after applying Gnome Sort :",
+for i in arr:
+    print i,
+  
+# Contributed By Harshit Agrawal
+C#
+PHP
+Javascript
+Output
+Sorted sequence after Gnome sort: -9 2 10 34 
+Time Complexity: As there are no nested loop (only one while) it may seem that this is a linear O(N) time algorithm. But the time complexity is O(N^2).
+
+This is because: 
+
+The variable – ‘index’ in our program doesn’t always gets incremented, it gets decremented too. 
+However this sorting algorithm is adaptive and performs better if the array is already/partially sorted.
+Auxiliary Space: This is an in-place algorithm. So O(1) auxiliary space is needed.
+
+This article is contributed by Rachit Belwariar. If you like GeeksforGeeks and would like to contribute, you can also write an article and mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+Like
+Next
+Sleep Sort – The King of Laziness / Sorting while Sleeping
+Related Articles
+1.
+C++ Program for Gnome Sort
+2.
+Java Program for Gnome Sort
+3.
+Gnome Sort Visualizer using JavaScript
+4.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+5.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+6.
+Bucket Sort To Sort an Array with Negative Numbers
+7.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+8.
+Program to sort an array of strings using Selection Sort
+9.
+C/C++ Program for Odd-Even Sort / Brick Sort
+10.
+Java Program for Odd-Even Sort / Brick Sort
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Basic
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Sam007
+splevel62
+simmytarika5
+kashishkumar2
+Article Tags :
+Sorting
+Practice Tags :
+Sorting
+Report Issue

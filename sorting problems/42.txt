@@ -1,0 +1,203 @@
+Sort a linked list of 0s, 1s and 2s
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss(170+)
+Courses
+Practice
+Video
+Given a linked list of 0s, 1s and 2s, The task is to sort and print it.
+
+Examples: 
+
+Input: 1 -> 1 -> 2 -> 0 -> 2 -> 0 -> 1 -> NULL 
+Output: 0 -> 0 -> 1 -> 1 -> 1 -> 2 -> 2 -> NULL
+
+Input: 1 -> 1 -> 2 -> 1 -> 0 -> NULL 
+Output: 0 -> 1 -> 1 -> 1 -> 2 -> NULL 
+
+Source: Microsoft Interview | Set 1 
+
+Recommended: Please solve it on “PRACTICE” first, before moving on to the solution.
+Sort Linked List of 0s, 1s and 2s using frequency counting:
+Follow the below steps to implement the idea: 
+
+Traverse the list and count the number of 0s, 1s, and 2s. Let the counts be n1, n2, and n3 respectively.
+Traverse the list again, fill the first n1 nodes with 0, then n2 nodes with 1, and finally n3 nodes with 2.
+Below image is a dry run of the above approach:
+
+
+
+Sort a linked list of 0s, 1s and 2s
+
+Below is the implementation of the above approach.
+
+C++
+C
+Java
+Python3
+# Python program to sort a linked list of 0, 1 and 2
+class LinkedList(object):
+    def __init__(self):
+  
+         # head of list
+         self.head = None
+  
+    # Linked list Node
+    class Node(object):
+        def __init__(self, d):
+            self.data = d
+            self.next = None
+  
+    def sortList(self):
+  
+        # initialise count of 0 1 and 2 as 0
+        count = [0, 0, 0]
+  
+        ptr = self.head
+  
+        # count total number of '0', '1' and '2'
+        # * count[0] will store total number of '0's
+        # * count[1] will store total number of '1's
+        # * count[2] will store total number of '2's  
+        while ptr != None:
+            count[ptr.data]+=1
+            ptr = ptr.next
+  
+        i = 0
+        ptr = self.head
+  
+        # Let say count[0] = n1, count[1] = n2 and count[2] = n3
+        # * now start traversing list from head node,
+        # * 1) fill the list with 0, till n1 > 0
+        # * 2) fill the list with 1, till n2 > 0
+        # * 3) fill the list with 2, till n3 > 0  
+        while ptr != None:
+            if count[i] == 0:
+                i+=1
+            else:
+                ptr.data = i
+                count[i]-=1
+                ptr = ptr.next
+  
+  
+    # Utility functions
+    # Inserts a new Node at front of the list.
+    def push(self, new_data):
+  
+        # 1 & 2: Allocate the Node &
+        # Put in the data
+        new_node = self.Node(new_data)
+  
+        # 3. Make next of new Node as head
+        new_node.next = self.head
+  
+        # 4. Move the head to point to new Node
+        self.head = new_node
+  
+    # Function to print linked list
+    def printList(self):
+        temp = self.head
+        while temp != None:
+            print (str(temp.data),end=" ") 
+            temp = temp.next
+        print()
+  
+# Driver program to test above functions
+llist = LinkedList()
+llist.push(0)
+llist.push(1)
+llist.push(0)
+llist.push(2)
+llist.push(1)
+llist.push(1)
+llist.push(2)
+llist.push(1)
+llist.push(2)
+  
+print ("Linked List before sorting")
+llist.printList()
+  
+llist.sortList()
+  
+print ("Linked List after sorting")
+llist.printList()
+  
+# This code is contributed by BHAVYA JAIN
+C#
+Javascript
+Output
+Linked List before Sorting
+2 1 2 1 1 2 0 1 0 
+Linked List after Sorting
+0 0 1 1 1 1 2 2 2 
+Time Complexity: O(n) where n is the number of nodes in the linked list. 
+Auxiliary Space: O(1) 
+
+Sort a linked list of 0s, 1s and 2s by changing links
+
+
+
+
+
+Like
+79
+Previous
+Sort numbers stored on different machines
+Next
+A Pancake Sorting Problem
+Related Articles
+1.
+Sort a K sorted Doubly Linked List | Set 2 (Using Shell Sort)
+2.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+3.
+Why Quick Sort preferred for Arrays and Merge Sort for Linked Lists?
+4.
+Difference between Singly linked list and Doubly linked list
+5.
+XOR Linked List - A Memory Efficient Doubly Linked List | Set 1
+6.
+Convert Singly Linked List to XOR Linked List
+7.
+Create new linked list from two given linked list with greater element at each node
+8.
+Generate Linked List consisting of maximum difference of squares of pairs of nodes from given Linked List
+9.
+XOR Linked List: Remove last node of the Linked List
+10.
+XOR Linked List - Reverse a Linked List in groups of given size
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+29AjayKumar
+rathbhupendra
+nidhi_biet
+todaysgaurav
+amartyaghoshgfg
+hardikkoriintern
+asifsaba581
+aashutoshparoha
+sagar0719kumar
+Article Tags :
+Amazon
+Linked-List-Sorting
+MakeMyTrip
+Microsoft
+Linked List
+Sorting
+Practice Tags :
+Amazon
+MakeMyTrip
+Microsoft
+Linked List
+Sorting

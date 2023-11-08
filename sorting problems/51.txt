@@ -1,0 +1,169 @@
+Bucket Sort To Sort an Array with Negative Numbers
+
+Difficulty Level : Medium
+Last Updated : 10 Jun, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+We have discussed bucket sort in the main post on Bucket Sort . 
+Bucket sort is mainly useful when input is uniformly distributed over a range. For example, consider the problem of sorting a large set of floating point numbers which are in range from 0.0 to 1.0 and are uniformly distributed across the range. In the above post, we have discussed Bucket Sort to sort numbers which are greater than zero. 
+How to modify Bucket Sort to sort both positive and negative numbers? 
+Example: 
+ 
+
+Input : arr[] = { -0.897, 0.565, 0.656, -0.1234, 0, 0.3434 } 
+Output : -0.897 -0.1234  0 0.3434 0.565 0.656 
+ 
+
+Recommended: Please try your approach on {IDE} first, before moving on to the solution.
+Here we considering number is in range -1.0 to 1.0 (floating point number) 
+Algorithm : 
+ 
+
+sortMixed(arr[], n)
+1) Split array into two parts 
+   create two Empty vector Neg[], Pos[] 
+   (for negative and positive element respectively)
+   Store all negative element in Neg[] by converting
+   into positive (Neg[i] = -1 * Arr[i] )
+   Store all +ve in pos[]  (pos[i] =  Arr[i])
+2) Call function bucketSortPositive(Pos, pos.size())
+   Call function bucketSortPositive(Neg, Neg.size())
+
+bucketSortPositive(arr[], n)
+3) Create n empty buckets (Or lists).
+4) Do following for every array element arr[i]. 
+       a) Insert arr[i] into bucket[n*array[i]]
+5) Sort individual buckets using insertion sort.
+6) Concatenate all sorted buckets. 
+Below is implementation of above idea (for floating point number )
+ 
+
+CPP
+Java
+Python3
+# Python3 program to sort an array of positive
+# and negative numbers using bucket sort
+ 
+# Function to sort arr[] of size n using
+# bucket sort
+def bucketSort(arr, n):
+     
+    # 1) Create n empty buckets
+    b = []
+    for i in range(n):
+        b.append([])
+         
+    # 2) Put array elements in different
+    #    buckets
+    for i in range(n):
+        bi = int(n*arr[i])
+        b[bi].append(arr[i])
+     
+    # 3) Sort individual buckets
+    for i in range(n):
+        b[i].sort()
+         
+    # 4) Concatenate all buckets into arr[]
+    index = 0
+    arr.clear()
+    for i in range(n):
+        for j in range(len(b[i])):
+            arr.append(b[i][j])
+ 
+# This function mainly splits array into two
+# and then calls bucketSort() for two arrays.
+def sortMixed(arr, n):
+    Neg = []
+    Pos = []
+     
+    # traverse array elements
+    for i in range(n):
+        if(arr[i]<0):
+            # store -Ve elements by
+            # converting into +ve element
+            Neg.append(-1*arr[i])
+        else:
+            # store +ve elements
+            Pos.append(arr[i])
+             
+    bucketSort(Neg,len(Neg))
+    bucketSort(Pos,len(Pos))
+     
+    # First store elements of Neg[] array
+    # by converting into -ve
+    for i in range(len(Neg)):
+        arr[i]=-1*Neg[len(Neg)-1-i]
+         
+    # store +ve element
+    for i in range(len(Neg),n):
+        arr[i]= Pos[i-len(Neg)]
+ 
+# Driver program to test above function
+arr = [-0.897, 0.565, 0.656, -0.1234, 0, 0.3434]
+sortMixed(arr, len(arr))
+print("Sorted Array is")
+print(arr)
+ 
+# This code is contributed by Pushpesh raj
+C#
+Output: 
+ 
+
+Sorted array is 
+-0.897  -0.1234 0 0.3434 0.565 0.656 
+This article is contributed by Nishant Singh . If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+ 
+
+
+
+
+
+Like
+4
+Previous
+Hoare's vs Lomuto partition scheme in QuickSort
+Next
+Tag Sort (To get both sorted and original)
+Related Articles
+1.
+Radix Sort vs Bucket Sort
+2.
+Bucket Sort Visualization Using Javascript
+3.
+Bucket Sort
+4.
+Sort an array without changing position of negative numbers
+5.
+Rearrange Array in negative numbers, zero and then positive numbers order
+6.
+Rearrange positive and negative numbers using inbuilt sort function
+7.
+Sort all even numbers in ascending order and then sort all odd numbers in descending order
+8.
+Rearrange positive and negative numbers with constant extra space
+9.
+Maximum sum of pairwise product in an array with negative allowed
+10.
+Largest number having both positive and negative values present in the array
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Medium
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+Rajput-Ji
+kalrap615
+pushpeshrajdx01
+Article Tags :
+Sorting
+Practice Tags :
+Sorting

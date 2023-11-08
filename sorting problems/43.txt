@@ -1,0 +1,138 @@
+Sort n numbers in range from 0 to n^2 – 1 in linear time
+
+Difficulty Level : Medium
+Last Updated : 14 Dec, 2022
+Read
+Discuss
+Courses
+Practice
+Video
+Given an array of numbers of size n. It is also given that the array elements are in range from 0 to n2 – 1. Sort the given array in linear time.
+
+Examples: 
+
+Since there are 5 elements, the elements can be from 0 to 24.
+Input: arr[] = {0, 23, 14, 12, 9}
+Output: arr[] = {0, 9, 12, 14, 23}
+
+Since there are 3 elements, the elements can be from 0 to 8.
+Input: arr[] = {7, 0, 2}
+Output: arr[] = {0, 2, 7}
+Recommended Problem
+Efficiently sorting numbers in range from 0 to n^2 - 1
+Sorting
+Sqrt Decomposition
++1 more
+Solve Problem
+Submission count: 4.3K
+Solution: If we use Counting Sort, it would take O(n^2) time as the given range is of size n^2. Using any comparison based sorting like Merge Sort, Heap Sort, .. etc would take O(nLogn) time. 
+Now question arises how to do this in 0(n)? Firstly, is it possible? Can we use data given in question? n numbers in range from 0 to n2 – 1? 
+
+The idea is to use Radix Sort. Following is standard Radix Sort algorithm. 
+
+1) Do following for each digit i where i varies from least 
+   significant digit to the most significant digit.
+…………..a) Sort input array using counting sort (or any stable 
+         sort) according to the i’th digit
+Let there be d digits in input integers. Radix Sort takes O(d*(n+b)) time where b is the base for representing numbers, for example, for decimal system, b is 10. Since n2-1 is the maximum possible value, the value of d would be O(logb(n)). So overall time complexity is O((n+b)*O(logb(n)). Which looks more than the time complexity of comparison based sorting algorithms for a large k. The idea is to change base b. If we set b as n, the value of O(logb(n)) becomes O(1) and overall time complexity becomes O(n). 
+ 
+
+arr[] = {0, 10, 13, 12, 7}
+
+Let us consider the elements in base 5. For example 13 in
+base 5 is 23, and 7 in base 5 is 12.
+arr[] = {00(0), 20(10), 23(13), 22(12), 12(7)}
+
+After first iteration (Sorting according to the last digit in 
+base 5),  we get.
+arr[] = {00(0), 20(10), 12(7), 22(12), 23(13)}
+
+After second iteration, we get
+arr[] = {00(0), 12(7), 20(10), 22(12), 23(13)}
+Following is the implementation to sort an array of size n where elements are in range from 0 to n2 – 1. 
+ 
+
+C++
+Java
+Python3
+# Python3 the implementation to sort an
+# array of size n
+ 
+# A function to do counting sort of arr[]
+# according to the digit represented by exp.
+def countSort(arr, n, exp):
+    output = [0] * n # output array
+    count = [0] * n
+    for i in range(n):
+        count[i] = 0
+ 
+    # Store count of occurrences in count[]
+    for i in range(n):
+        count[ (arr[i] // exp) % n ] += 1
+ 
+    # Change count[i] so that count[i] now contains
+    # actual position of this digit in output[]
+    for i in range(1, n):
+        count[i] += count[i - 1]
+ 
+    # Build the output array
+    for i in range(n - 1, -1, -1):
+ 
+        output[count[ (arr[i] // exp) % n] - 1] = arr[i]
+        count[(arr[i] // exp) % n] -= 1
+ 
+    # Copy the output array to arr[], so that
+    # arr[] now contains sorted numbers according
+    # to current digit
+    for i in range(n):
+        arr[i] = output[i]
+ 
+# The main function to that sorts arr[] of
+# size n using Radix Sort
+def sort(arr, n) :
+     
+    # Do counting sort for first digit in base n.
+    # Note that instead of passing digit number,
+    # exp (n^0 = 1) is passed.
+    countSort(arr, n, 1)
+ 
+    # Do counting sort for second digit in base n.
+    # Note that instead of passing digit number,
+    # exp (n^1 = n) is passed.
+    countSort(arr, n, n)
+ 
+# Driver Code
+if __name__ =="__main__":
+     
+    # Since array size is 7, elements should
+    # be from 0 to 48
+    arr = [40, 12, 45, 32, 33, 1, 22]
+    n = len(arr)
+    print("Given array is")
+    print(*arr)
+     
+    sort(arr, n)
+     
+    print("Sorted array is")
+    print(*arr)
+ 
+# This code is contribute by
+# Shubham Singh(SHUBHAMSINGH10)
+C#
+Javascript
+Output
+
+
+Given array is
+40 12 45 32 33 1 22 
+Sorted array is
+1 12 22 32 33 40 45 
+How to sort if range is from 1 to n2? 
+If range is from 1 to  n2, the above process can not be directly applied, it must be changed. Consider n = 100 and range from 1 to 10000. Since the base is 100, a digit must be from 0 to 99 and there should be 2 digits in the numbers. But the number 10000 has more than 2 digits. So to sort numbers in a range from 1 to n2, we can use following process. 
+1) Subtract all numbers by 1. 
+2) Since the range is now 0 to n2, do counting sort twice as done in the above implementation. 
+3) After the elements are sorted, add 1 to all numbers to obtain the original numbers.
+
+How to sort if range is from 0 to n^3 -1? 
+Since there can be 3 digits in base n, we need to call counting sort 3 times. 
+This article is contributed by Bateesh. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above

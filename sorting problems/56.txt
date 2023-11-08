@@ -1,0 +1,251 @@
+Find Surpasser Count of each element in array
+
+Difficulty Level : Hard
+Last Updated : 18 Sep, 2022
+Read
+Discuss(20+)
+Courses
+Practice
+Video
+A surpasser of an element of an array is a greater element to its right, therefore x[j] is a surpasser of x[i] if i < j and x[i] < x[j]. The surpasser count of an element is the number of surpassers. Given an array of distinct integers, for each element of the array find its surpasser count i.e. count the number of elements to the right that are greater than that element.
+
+Examples : 
+
+Input:  [2, 7, 5, 3, 0, 8, 1]
+Output: [4, 1, 1, 1, 2, 0, 0]
+Recommended Problem
+Surpasser Count
+Arrays
+Data Structures
+Google
+Yahoo
+Solve Problem
+Submission count: 8.2K
+Method 1 (Naive): The naive solution would be to run two loops. For each element of the array, we count all elements greater than it to its right. The complexity of this solution is O(n2) 
+
+Implementation:
+
+C++
+Java
+Python3
+# Naive Python3 program to find
+# surpasser count of each element in array
+ 
+# Function to find surpasser count of
+# each element in array
+def findSurpasser(arr, n):
+ 
+    for i in range(0, n):
+     
+        # stores surpasser count for element
+        # arr[i]
+        count = 0;
+ 
+        for j in range (i + 1, n):
+            if (arr[j] > arr[i]):
+                count += 1
+ 
+        print(count, end = " ")
+ 
+ 
+# Function to print an array
+def printArray(arr, n):
+ 
+    for i in range(0, n):
+        print(arr[i], end = " ")
+     
+# Driver program to test above functions
+arr = [2, 7, 5, 3, 0, 8, 1 ]
+n = len(arr)
+ 
+print("Given array is")
+printArray(arr , n)
+ 
+print("\nSurpasser Count of array is");
+findSurpasser(arr , n)
+ 
+# This code is contributed by Smitha Dinesh Semwal
+C#
+PHP
+Javascript
+Output
+Given array is 
+2 7 5 3 0 8 1 
+Surpasser Count of array is 
+4 1 1 1 2 0 0 
+Time Complexity : O(n2)
+
+Auxiliary Space: O(1) because using constant space for variables
+
+Method 2 (Uses Merge Sort): For any element of the array, we can easily find out number of elements to the right that are greater than that element if we know number of elements to its right that are less than that element. The idea is to count the number of inversions for each element of the array using merge sort. So, surpasser count of an element at position i will be equal to “n – i – inversion-count” at that position where n is the size of the array. 
+
+We have already discussed how to find inversion count of complete array here. We have modified the discussed approach to find number of inversions for each element of the array instead of returning inversion count of whole array. Also, as all elements of the array are distinct, we maintain a map that stores inversion count for each element of the array.
+
+Below is C++ implementation of above idea
+
+C++
+Python3
+# Python program to find surpasser count of each element
+# in array
+ 
+#  Function to merge the two haves arr[l..m] and
+# arr[m+1..r] of array arr[]
+def merge(arr, l, m, r, hm):
+ 
+    n1 = m - l + 1
+    n2 = r - m
+ 
+    # create temp arrays
+    L= [0 for i in range(n1)]
+    R = [0 for i in range(n2)]
+ 
+    # Copy data to temp arrays L[] and R[]
+    for i in range(n1):
+        L[i] = arr[l + i]
+ 
+    for j in range(n2):
+        R[j] = arr[m + 1 + j]
+ 
+    #  Merge the temp arrays back into arr[l..r]
+    i,j,k,c = 0,0,l,0
+    while (i < n1 and j < n2):
+        if (L[i] <= R[j]):
+            # increment inversion count of L[i]
+            if(L[i] in hm):
+                hm[L[i]] += c
+            else :
+                hm[L[i]] = c
+            arr[k] = L[i]
+            k += 1
+            i += 1
+        else:
+            arr[k] = R[j]
+ 
+            # inversion found
+            c += 1
+            k += 1
+            j += 1
+ 
+    # Copy the remaining elements of L[], if
+    # there are any
+    while (i < n1):
+        if(L[i] in hm):
+            hm[L[i]] += c
+        else :
+            hm[L[i]] = c
+        arr[k] = L[i]
+        k += 1
+        i += 1
+ 
+    # Copy the remaining elements of R[], if
+    # there are any
+    while (j < n2):
+        arr[k] = R[j]
+        k += 1
+        j += 1
+ 
+# l is for left index and r is right index of
+# the sub-array of arr to be sorted
+def mergeSort(arr,l,r,hm):
+    if (l < r):
+        m = l + (r - l) // 2
+        mergeSort(arr, l, m, hm)
+        mergeSort(arr, m + 1, r, hm)
+        merge(arr, l, m, r, hm)
+ 
+#  Function to print an array
+def printArray(arr,n):
+ 
+    for i in range(n):
+        print(arr[i],end = " ")
+    print("")
+ 
+def findSurpasser(arr, n):
+    # To store inversion count for elements
+    hm = {}
+ 
+    # To store copy of array
+    dup = arr[:]
+ 
+    # Sort the copy and store inversion count
+    # for each element.
+    mergeSort(dup, 0, n - 1, hm)
+ 
+    print("Surpasser Count of array is ")
+    for i in range(n):
+        print((n - 1) - i - (hm[arr[i]] if arr[i] in hm else 0),end = " ")
+ 
+# Driver program to test above functions
+ 
+arr = [ 2, 7, 5, 3, 0, 8, 1 ]
+n = len(arr)
+ 
+print("Given array is ")
+printArray(arr, n)
+ 
+findSurpasser(arr, n)
+ 
+# This code is contributed by shinjanpatra
+Output
+Given array is 
+2 7 5 3 0 8 1 
+Surpasser Count of array is 
+4 1 1 1 2 0 0 
+Time Complexity: O(nlogn)
+Auxiliary Space: O(logn)
+
+This article is contributed by Aditya Goel. If you like GeeksforGeeks and would like to contribute, you can also write an article using write.geeksforgeeks.org or mail your article to review-team@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+
+
+Like
+Next
+Inversion count in Array using Merge Sort
+Related Articles
+1.
+Form an array of distinct elements with each element as sum of an element from each array
+2.
+Remaining array element after repeated removal of last element and subtraction of each element from next adjacent element
+3.
+Find Array formed by adding each element of given array with largest element in new array to its left
+4.
+Find mean of K adjacent elements on each sides for each Array element
+5.
+Sum of product of each element with each element after it
+6.
+Find the next non-zero Array element to the right of each array element
+7.
+Find just strictly greater element from first array for each element in second array
+8.
+Array formed from difference of each element from the largest element in the given array
+9.
+Generate longest possible array with product K such that each array element is divisible by its previous adjacent element
+10.
+Find the array to which each element in given queries belong along with count of elements
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Hard
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+vt_m
+splevel62
+shinjanpatra
+hardikkoriintern
+polymatir3j
+Article Tags :
+inversion
+Merge Sort
+Yahoo
+Arrays
+Sorting
+Practice Tags :
+Yahoo
+Arrays
+Merge Sort
+Sorting

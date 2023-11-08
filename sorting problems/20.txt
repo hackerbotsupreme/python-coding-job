@@ -1,0 +1,153 @@
+BogoSort or Permutation Sort
+
+Difficulty Level : Easy
+Last Updated : 10 Jan, 2023
+Read
+Discuss
+Courses
+Practice
+Video
+BogoSort also known as permutation sort, stupid sort, slow sort, shotgun sort or monkey sort is a particularly ineffective algorithm one person can ever imagine. It is based on generate and test paradigm. The algorithm successively generates permutations of its input until it finds one that is sorted.(Wiki) For example, if bogosort is used to sort a deck of cards, it would consist of checking if the deck were in order, and if it were not, one would throw the deck into the air, pick the cards up at random, and repeat the process until the deck is sorted.
+
+Algorithm:
+
+Bogo sort uses 2 steps to sort elements of the array.
+1. It throws the number randomly.
+2. Check whether the number is sorted or not.
+3. If sorted then return the sorted array.
+4. Otherwise it again generate another randomization of the numbers until the array is sorted.
+PseudoCode:
+
+while not Sorted(list) do
+    shuffle (list)
+done
+Example: Let us consider an example array ( 3 2 5 1 0 4 ) 4 5 0 3 2 1 (1st shuffling) 4 1 3 2 5 0 (2ndshuffling) 1 0 3 2 5 4 (3rd shuffling) 3 1 0 2 4 5 (4th shuffling) 1 4 5 0 3 2 (5th shuffling) . . . 0 1 2 3 4 5 (nth shuffling)—— Sorted Array Here, n is unknown because algorithm doesn’t know in which step the resultant permutation will come out to be sorted. 
+
+C++
+Java
+Python
+# Python program for implementation of Bogo Sort
+import random
+  
+# Sorts array a[0..n-1] using Bogo sort
+  
+  
+def bogoSort(a):
+    n = len(a)
+    while (is_sorted(a) == False):
+        shuffle(a)
+  
+# To check if array is sorted or not
+  
+  
+def is_sorted(a):
+    n = len(a)
+    for i in range(0, n-1):
+        if (a[i] > a[i+1]):
+            return False
+    return True
+  
+# To generate permutation of the array
+  
+  
+def shuffle(a):
+    n = len(a)
+    for i in range(0, n):
+        r = random.randint(0, n-1)
+        a[i], a[r] = a[r], a[i]
+  
+  
+# Driver code to test above
+a = [3, 2, 4, 1, 0, 5]
+bogoSort(a)
+print("Sorted array :")
+for i in range(len(a)):
+    print("%d" % a[i]),
+C#
+Javascript
+Output
+Sorted array :
+0 1 2 3 4 5 
+Time Complexity: 
+
+Worst Case : O(∞) (since this algorithm has no upper bound)
+Average Case: O(n*n!)
+Best Case : O(n)(when array given is already sorted)
+Auxiliary Space: O(1)
+
+
+
+Bozo Sort Algorithm:
+Bozo sort is a variation of Bogo sort and is little more efficient than Bogo sort.
+
+Check if the array is sorted or not.
+Unlike bogo sort, if the list/array is not sorted then it picks only two items at random and swap them.
+Then it checks if the array/list is sorted or not.
+But like bogo sort, there is chance that it faces the same pseudo-random problems and it may never terminate.
+It means it also has O(∞) worst time complexity but its average case complexity is better than Bogo sort.
+Question:
+1. Tell the other names of Bogo sort?
+
+Ans. Bogo sort has many other names like, permutation sort, slow sort, shotgun sort, stupid sort, bozo sort, blort sort, monkey sort, random sort or drunk man sort.
+
+2. Why Bogo sort is called stupid sort, bozo sort, blort sort, monkey sort, random sort or drunk man sort?
+
+Ans. Complexity of Bogo sort is O(∞) since this algorithm has no upper bound. So, you can imagine how much inefficient this sorting algorithm is. That’s why for its tremendous inefficiency, it is jokingly called stupid sort, bozo sort, blort sort, monkey sort, random sort or drunk man sort.
+
+This article is contributed by Rahul Agrawal. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks. Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+Recommended
+Solve DSA problems on GfG Practice.
+
+Solve Problems
+
+
+
+
+Like
+6
+Next
+Gnome Sort
+Related Articles
+1.
+C++ Program for BogoSort or Permutation Sort
+2.
+Java Program for BogoSort or Permutation Sort
+3.
+Check if permutation of one string can break permutation of another
+4.
+Minimum number of given operations required to convert a permutation into an identity permutation
+5.
+Minimum number of adjacent swaps required to convert a permutation to another permutation by given condition
+6.
+Comparison among Bubble Sort, Selection Sort and Insertion Sort
+7.
+Find a permutation that causes worst case of Merge Sort
+8.
+Sort decreasing permutation of N using triple swaps
+9.
+Sort a permutation of first N natural numbers by swapping elements at positions X and Y if N ≤ 2|X - Y|
+10.
+Sort a permutation of first N Natural Numbers by swapping pairs satisfying given conditions
+Article Contributed By :
+https://media.geeksforgeeks.org/auth/avatar.png
+GeeksforGeeks
+Vote for difficulty
+Current difficulty : Easy
+Easy
+Normal
+Medium
+Hard
+Expert
+Improved By :
+DrRoot_
+anikaseth98
+ManasChhabra2
+kaushtubhmishra2013
+susobhanakhuli
+Article Tags :
+permutation
+Sorting
+Practice Tags :
+permutation
+Sorting
