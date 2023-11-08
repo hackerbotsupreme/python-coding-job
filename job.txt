@@ -1,0 +1,27 @@
+                                # job openings 
+wordpress developer
+asp.net developer 
+python developer 
+frontend developer 
+php developer 
+intern 
+web intern 
+web app developer 
+
+                                # requirements
+wordpress ( practice )
+python(oops especially ) ( practice )
+c++ (practice )
+c sharp (baki )
+django( practice )
+flask ( practice )
+html
+css
+js( BAKI )
+powershell( baki )
+sql( practice )
+bootstrap( practice )
+php ( baki )
+api
+aws ( baki )
+
